@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FD0866D2-577A-4DB9-90F2-BA386BD946C0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MUDScreenEditor</RootNamespace>
+    <AssemblyName>MUDScreenEditor</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <ApplicationIcon>B_orange32x32.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\doc\XML Code Documentation\MUDScreenEditor.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MUDScreenEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>MUDScreenEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MUDScreenEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MUDScreenEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon3.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon4.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon5.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon6.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon7.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon8.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon9.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon10.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon11.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon12.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon13.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon14.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon15.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon16.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon17.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Screens\Screens.csproj">
+      <Project>{B8CD6B12-EB6C-4ABB-A115-144584FB812B}</Project>
+      <Name>Screens</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="B_orange32x32.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
