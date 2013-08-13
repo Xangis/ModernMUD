@@ -21,3 +21,8 @@ The engine itself uses .NET 2.0. There are three clients, one using Silverlight,
 WPF and .NET 3.5, and one using C++ and wxWidgets. None of them are fully feature-complete,
 but the WPF client is in the best shape of the three (and the Silverlight client worst).
 There is still work to be done on the ANSI color parsing in all of them.
+
+ModernMUD is in use for Basternae 3 MUD, which you can find here:
+
+http://basternae.org
+
