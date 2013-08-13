@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2E98D584-94B4-4528-9C52-8AE887B2D351}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZoneData</RootNamespace>
+    <AssemblyName>ZoneData</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\doc\XML Code Documentation\ZoneData.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="Affect.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AffectApplyType.cs" />
+    <Compile Include="Area.cs" />
+    <Compile Include="Properties\AssemblyInfoZoneData.cs" />
+    <Compile Include="AttackType.cs" />
+    <Compile Include="Bitvector.cs" />
+    <Compile Include="BitvectorFlagType.cs" />
+    <Compile Include="CharClass.cs" />
+    <Compile Include="CustomAction.cs" />
+    <Compile Include="Exit.cs" />
+    <Compile Include="ExtendedDescription.cs" />
+    <Compile Include="FileLocation.cs" />
+    <Compile Include="JusticeType.cs" />
+    <Compile Include="KickMessage.cs" />
+    <Compile Include="Limits.cs" />
+    <Compile Include="Liquid.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="MobSpecial.cs" />
+    <Compile Include="MobTemplate.cs" />
+    <Compile Include="ObjSpecial.cs" />
+    <Compile Include="ObjTemplate.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="QuestData.cs" />
+    <Compile Include="QuestItem.cs" />
+    <Compile Include="QuestTemplate.cs" />
+    <Compile Include="Race.cs" />
+    <Compile Include="RepopulationPoint.cs" />
+    <Compile Include="Reset.cs" />
+    <Compile Include="RoomTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="Shop.cs" />
+    <Compile Include="Skill.cs" />
+    <Compile Include="SkillEntry.cs" />
+    <Compile Include="SpellAbility.cs" />
+    <Compile Include="SpellEntry.cs" />
+    <Compile Include="TalkData.cs" />
+    <Compile Include="TerrainType.cs" />
+    <Compile Include="Trap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+</Project>
