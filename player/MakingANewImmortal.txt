@@ -1,0 +1,8 @@
+1. Create a level 1 character.  Camp and exit.
+2. Edit the character's file to set their level to 60-65 depending on the level immortal you're creating.
+3. Log the character in again.  This will create the immortal data for that character.
+4. If you have another overlord, you can now use imtlset on that player to grant skills.
+   Otherwise they will have to log out and you will need to edit the ImmortalSkills section
+   of their player file.  You can't do this in #2 because that section doesn't exist until
+   they're above mortal level.
+
