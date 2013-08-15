@@ -4,7 +4,7 @@
 #include "wxMudClientDlg.h"
 
 /*******************************************************************************
-// wxBasternaeApp Class
+// wxMudClientApp Class
 *******************************************************************************/
 
 class wxMudClientApp : public wxApp {
