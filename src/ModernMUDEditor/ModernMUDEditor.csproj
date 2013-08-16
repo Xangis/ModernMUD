@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DD33AFB8-65B4-4379-A770-15F73AA2CD46}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModernMUDEditor</RootNamespace>
+    <AssemblyName>ModernMUDEditor</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ApplicationIcon>B_32x32.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\doc\XML Code Documentation\BasternaeEditor.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="CheckBoxArray.cs" />
+    <Compile Include="EditAffect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditAffect.Designer.cs">
+      <DependentUpon>EditAffect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditCustomActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditCustomActions.Designer.cs">
+      <DependentUpon>EditCustomActions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditRepopPoints.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditRepopPoints.Designer.cs">
+      <DependentUpon>EditRepopPoints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditSpecial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditSpecial.Designer.cs">
+      <DependentUpon>EditSpecial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditAreaSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditAreaSettings.Designer.cs">
+      <DependentUpon>EditAreaSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditExit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditExit.Designer.cs">
+      <DependentUpon>EditExit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditMobs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditMobs.Designer.cs">
+      <DependentUpon>EditMobs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditObjects.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditObjects.Designer.cs">
+      <DependentUpon>EditObjects.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditQuestData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditQuestData.Designer.cs">
+      <DependentUpon>EditQuestData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditQuestItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditQuestItem.Designer.cs">
+      <DependentUpon>EditQuestItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditQuests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditQuests.Designer.cs">
+      <DependentUpon>EditQuests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditResets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditResets.Designer.cs">
+      <DependentUpon>EditResets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditRooms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditRooms.Designer.cs">
+      <DependentUpon>EditRooms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditShops.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditShops.Designer.cs">
+      <DependentUpon>EditShops.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditExtendedDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditExtendedDescription.Designer.cs">
+      <DependentUpon>EditExtendedDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditSpells.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditSpells.Designer.cs">
+      <DependentUpon>EditSpells.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditValues.Designer.cs">
+      <DependentUpon>EditValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorWindow.Designer.cs">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlagEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlagEditor.Designer.cs">
+      <DependentUpon>FlagEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemTypeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemTypeSelector.Designer.cs">
+      <DependentUpon>ItemTypeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MapBuilder.cs" />
+    <Compile Include="NumberInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NumberInput.Designer.cs">
+      <DependentUpon>NumberInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EditAffect.resx">
+      <DependentUpon>EditAffect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditCustomActions.resx">
+      <DependentUpon>EditCustomActions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRepopPoints.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditRepopPoints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditSpecial.resx">
+      <DependentUpon>EditSpecial.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditAreaSettings.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditAreaSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditExit.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditExit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditMobs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditMobs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditObjects.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditObjects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditQuestData.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditQuestData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditQuestItem.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditQuestItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditQuests.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditQuests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditResets.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditResets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRooms.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditRooms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditShops.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditShops.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditExtendedDescription.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditExtendedDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditSpells.resx">
+      <DependentUpon>EditSpells.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditValues.resx">
+      <DependentUpon>EditValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorWindow.resx">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlagEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FlagEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemTypeSelector.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ItemTypeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumberInput.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NumberInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RenumberDlg.resx">
+      <DependentUpon>RenumberDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectCommand.resx">
+      <DependentUpon>SelectCommand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectDirection.resx">
+      <DependentUpon>SelectDirection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectEquipmentSlot.resx">
+      <DependentUpon>SelectEquipmentSlot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectInstrumentType.resx">
+      <DependentUpon>SelectInstrumentType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectLanguage.resx">
+      <DependentUpon>SelectLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectLiquid.resx">
+      <DependentUpon>SelectLiquid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectMob.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectMob.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectObject.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectRoom.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectSpell.resx">
+      <DependentUpon>SelectSpell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectWeaponDamage.resx">
+      <DependentUpon>SelectWeaponDamage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectWeaponType.resx">
+      <DependentUpon>SelectWeaponType.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="editorhelp.chm" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RenumberDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenumberDlg.Designer.cs">
+      <DependentUpon>RenumberDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoomLocation.cs" />
+    <Compile Include="SelectCommand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectCommand.Designer.cs">
+      <DependentUpon>SelectCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectDirection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectDirection.Designer.cs">
+      <DependentUpon>SelectDirection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectEquipmentSlot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectEquipmentSlot.Designer.cs">
+      <DependentUpon>SelectEquipmentSlot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectInstrumentType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectInstrumentType.Designer.cs">
+      <DependentUpon>SelectInstrumentType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectLanguage.Designer.cs">
+      <DependentUpon>SelectLanguage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectLiquid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectLiquid.Designer.cs">
+      <DependentUpon>SelectLiquid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectMob.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectMob.Designer.cs">
+      <DependentUpon>SelectMob.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectObject.Designer.cs">
+      <DependentUpon>SelectObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectRoom.Designer.cs">
+      <DependentUpon>SelectRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectSpell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectSpell.Designer.cs">
+      <DependentUpon>SelectSpell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectWeaponDamage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectWeaponDamage.Designer.cs">
+      <DependentUpon>SelectWeaponDamage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectWeaponType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectWeaponType.Designer.cs">
+      <DependentUpon>SelectWeaponType.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Screens\Screens.csproj">
+      <Project>{B8CD6B12-EB6C-4ABB-A115-144584FB812B}</Project>
+      <Name>Screens</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZoneData\ZoneData.csproj">
+      <Project>{2E98D584-94B4-4528-9C52-8AE887B2D351}</Project>
+      <Name>ZoneData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mobile.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Object.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Quest.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Repop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Reset.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Room.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mobile.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Object.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Quest.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Repop.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Reset.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Room.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shop.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="B_16x16.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="B_32x32.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="B_16x16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="B_32x32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="down.bmp" />
+    <None Include="left.bmp" />
+    <None Include="godown.bmp" />
+    <None Include="goup.bmp" />
+    <Content Include="Notes.txt" />
+    <None Include="up.bmp" />
+    <None Include="right.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -492,6 +492,12 @@ namespace ModernMUD
         /// </summary>
         public void RebuildIndexes()
         {
+            _lowMobIndexNumber = 0;
+            _lowObjIndexNumber = 0;
+            _lowRoomIndexNumber = 0;
+            _highMobIndexNumber = 0;
+            _highObjIndexNumber = 0;
+            _highRoomIndexNumber = 0;
             int lowIndexNumber = 0;
             int highIndexNumber = 0;
             if (_rooms.Count > 0)
@@ -512,34 +518,40 @@ namespace ModernMUD
             }
             _lowRoomIndexNumber = lowIndexNumber;
             _highRoomIndexNumber = highIndexNumber;
-            lowIndexNumber = _rooms[0].IndexNumber;
-            highIndexNumber = _rooms[0].IndexNumber;
-            foreach (ObjTemplate obj in _objects)
+            if (_objects.Count > 0)
             {
-                if (obj.IndexNumber < lowIndexNumber)
+                lowIndexNumber = _objects[0].IndexNumber;
+                highIndexNumber = _objects[0].IndexNumber;
+                foreach (ObjTemplate obj in _objects)
                 {
-                    lowIndexNumber = obj.IndexNumber;
-                }
-                if (obj.IndexNumber > highIndexNumber)
-                {
-                    highIndexNumber = obj.IndexNumber;
+                    if (obj.IndexNumber < lowIndexNumber)
+                    {
+                        lowIndexNumber = obj.IndexNumber;
+                    }
+                    if (obj.IndexNumber > highIndexNumber)
+                    {
+                        highIndexNumber = obj.IndexNumber;
+                    }
                 }
             }
-            _lowObjIndexNumber = lowIndexNumber;
-            _highObjIndexNumber = highIndexNumber;
-            foreach(MobTemplate mob in _mobs)
+            if (_mobs.Count > 0)
             {
-                if (mob.IndexNumber < lowIndexNumber)
+                lowIndexNumber = _mobs[0].IndexNumber;
+                highIndexNumber = _mobs[0].IndexNumber;
+                foreach (MobTemplate mob in _mobs)
                 {
-                    lowIndexNumber = mob.IndexNumber;
+                    if (mob.IndexNumber < lowIndexNumber)
+                    {
+                        lowIndexNumber = mob.IndexNumber;
+                    }
+                    if (mob.IndexNumber > highIndexNumber)
+                    {
+                        highIndexNumber = mob.IndexNumber;
+                    }
                 }
-                if (mob.IndexNumber > highIndexNumber)
-                {
-                    highIndexNumber = mob.IndexNumber;
-                }
+                _lowMobIndexNumber = lowIndexNumber;
+                _highMobIndexNumber = highIndexNumber;
             }
-            _lowMobIndexNumber = lowIndexNumber;
-            _highMobIndexNumber = highIndexNumber;
         }
 
         /// <summary>

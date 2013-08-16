@@ -1,0 +1,15 @@
+﻿Still needed:
+
+* Allow command scrollback in walkthrough mode.
+* Add color to walkthrough mode.
+* Set shield spiked flag in object values.
+* Help file working under Windows 8 (does it work on other Windows machines?)
+
+Should do:
+* Sort race and class names on repop point dlg.
+* Add an "open with" link.
+* Make 'edit shop' button on mob page create new shop data if clicked when data doesn't exist.
+* Make 'edit quests' button on mob page create new quest data if clicked when data doesn't exist.
+* Fix special saving and loading -- since they can't be saved and loaded properly as pointers.  Zones will always
+  load with a blank special list on mobs and objects.
+* Create demo area with at least one of each item (including quest, resets, etc.)
