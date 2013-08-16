@@ -1,0 +1,27 @@
+# BasternaeClient makefile.  Requires wxWidgets.
+# by default, wx-config from the PATH is used
+WX_CONFIG := /usr/local/bin/wx-config --unicode=yes
+
+# Main executable file
+PROGRAM = wxMudClient.app/Contents/MacOS/wxMudClient
+
+# Directory containing library portions of code.
+INCLUDEDIR = ../../lib
+
+# Object files
+OBJECTS = colors.o EquipmentWindow.o StatusWindow.o HotkeyWindow.o StringEntry.o wxBasternaeApp.o wxTextOutputEvent.o wxBastSettings.o GroupWindow.o MapWindow.o wxBasternaeDlg.o HotkeyEditor.o wxOwnerDrawStaticBitmap.o
+
+CXX = $(shell $(WX_CONFIG) --cxx -R/usr/local/lib)
+
+.SUFFIXES:	.o .cpp
+
+.cpp.o :
+	$(CXX) -c -I$(INCLUDEDIR) -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5 `$(WX_CONFIG) --cxxflags` -o $@ $<
+
+all:    $(PROGRAM)
+
+$(PROGRAM):	$(OBJECTS)
+	$(CXX) -o $(PROGRAM) -I$(INCLUDEDIR) $(OBJECTS) `$(WX_CONFIG) --libs` -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5
+
+clean: 
+	rm -f *.o $(PROGRAM)
