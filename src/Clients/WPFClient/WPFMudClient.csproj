@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2CD30138-6190-447A-8F31-C02BB67A09FE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WPFMudClient</RootNamespace>
+    <AssemblyName>BasternaeClient</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\doc\XML Code Documentation\BasternaeClient.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>B_32x32.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Equipment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Group.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HotkeyEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Hotkeys.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Map.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Status.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HotkeyEditor.xaml.cs">
+      <DependentUpon>HotkeyEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Action.cs" />
+    <Compile Include="Alias.cs" />
+    <Compile Include="Equipment.xaml.cs">
+      <DependentUpon>Equipment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Group.xaml.cs">
+      <DependentUpon>Group.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkeys.xaml.cs">
+      <DependentUpon>Hotkeys.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Map.xaml.cs">
+      <DependentUpon>Map.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ProgramSettings.cs" />
+    <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SocketConnection.cs" />
+    <Compile Include="Status.xaml.cs">
+      <DependentUpon>Status.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="B_32x32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\life.bmp" />
+    <Resource Include="Images\mana.bmp" />
+    <Resource Include="Images\moves.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MapTiles\ash_cloud.png" />
+    <Resource Include="MapTiles\ash_tree.png" />
+    <Resource Include="MapTiles\black.png" />
+    <Resource Include="MapTiles\blank.png" />
+    <Resource Include="MapTiles\blue.bmp" />
+    <Resource Include="MapTiles\bridge.png" />
+    <Resource Include="MapTiles\brown.bmp" />
+    <Resource Include="MapTiles\brown.png" />
+    <Resource Include="MapTiles\bushes.png" />
+    <Resource Include="MapTiles\cactus.png" />
+    <Resource Include="MapTiles\castle.png" />
+    <Resource Include="MapTiles\cavefloor.png" />
+    <Resource Include="MapTiles\cave_entrance.png" />
+    <Resource Include="MapTiles\charred.png" />
+    <Resource Include="MapTiles\crater.png" />
+    <Resource Include="MapTiles\dark.bmp" />
+    <Resource Include="MapTiles\darkwater.bmp" />
+    <Resource Include="MapTiles\desert.bmp" />
+    <Resource Include="MapTiles\desert.png" />
+    <Resource Include="MapTiles\dragon.bmp" />
+    <Resource Include="MapTiles\dragon_shadow.png" />
+    <Resource Include="MapTiles\dust_cloud.png" />
+    <Resource Include="MapTiles\enslaver_city.png" />
+    <Resource Include="MapTiles\evil_city.png" />
+    <Resource Include="MapTiles\field_arid.png" />
+    <Resource Include="MapTiles\field_green.png" />
+    <Resource Include="MapTiles\fog.png" />
+    <Resource Include="MapTiles\forest.bmp" />
+    <Resource Include="MapTiles\fourlegged_shadow.png" />
+    <Resource Include="MapTiles\glacier.png" />
+    <Resource Include="MapTiles\good_city.png" />
+    <Resource Include="MapTiles\green.bmp" />
+    <Resource Include="MapTiles\green_grass.png" />
+    <Resource Include="MapTiles\grey.bmp" />
+    <Resource Include="MapTiles\hill.bmp" />
+    <Resource Include="MapTiles\hills_brown.png" />
+    <Resource Include="MapTiles\hills_brown_cave.png" />
+    <Resource Include="MapTiles\hills_green.png" />
+    <Resource Include="MapTiles\hills_green_cave.png" />
+    <Resource Include="MapTiles\hills_icysnow.png" />
+    <Resource Include="MapTiles\hills_icysnow_cave.png" />
+    <Resource Include="MapTiles\house.bmp" />
+    <Resource Include="MapTiles\humanoid_shadow_large.png" />
+    <Resource Include="MapTiles\humanoid_shadow_large_w.png" />
+    <Resource Include="MapTiles\humanoid_shadow_medium.png" />
+    <Resource Include="MapTiles\humanoid_shadow_medium_w.png" />
+    <Resource Include="MapTiles\humanoid_shadow_small.png" />
+    <Resource Include="MapTiles\humanoid_shadow_small_w.png" />
+    <Resource Include="MapTiles\humanoid_statue.png" />
+    <Resource Include="MapTiles\island.png" />
+    <Resource Include="MapTiles\jungle.bmp" />
+    <Resource Include="MapTiles\jungle_tree.png" />
+    <Resource Include="MapTiles\ladder_down.png" />
+    <Resource Include="MapTiles\ladder_up.png" />
+    <Resource Include="MapTiles\lava.bmp" />
+    <Resource Include="MapTiles\lava.png" />
+    <Resource Include="MapTiles\library.png" />
+    <Resource Include="MapTiles\mansion.png" />
+    <Resource Include="MapTiles\maple_tree.png" />
+    <Resource Include="MapTiles\mob.bmp" />
+    <Resource Include="MapTiles\mountain.bmp" />
+    <Resource Include="MapTiles\mountain.png" />
+    <Resource Include="MapTiles\mountain_cave.png" />
+    <Resource Include="MapTiles\mountain_snow.png" />
+    <Resource Include="MapTiles\mountain_snow_cave.png" />
+    <Resource Include="MapTiles\neutral_city.png" />
+    <Resource Include="MapTiles\oak_tree.png" />
+    <Resource Include="MapTiles\obelisk.png" />
+    <Resource Include="MapTiles\ocean.png" />
+    <Resource Include="MapTiles\otherplayer.bmp" />
+    <Resource Include="MapTiles\palm_tree.png" />
+    <Resource Include="MapTiles\permafrost.png" />
+    <Resource Include="MapTiles\pier.png" />
+    <Resource Include="MapTiles\pine_tree.png" />
+    <Resource Include="MapTiles\pit.png" />
+    <Resource Include="MapTiles\player.bmp" />
+    <Resource Include="MapTiles\poison_cloud.png" />
+    <Resource Include="MapTiles\pool.png" />
+    <Resource Include="MapTiles\primitive_hut.png" />
+    <Resource Include="MapTiles\primitive_village.png" />
+    <Resource Include="MapTiles\pyramid.png" />
+    <Resource Include="MapTiles\river.bmp" />
+    <Resource Include="MapTiles\river.png" />
+    <Resource Include="MapTiles\road_4way.png" />
+    <Resource Include="MapTiles\road_corner.png" />
+    <Resource Include="MapTiles\road_corner_ne.png" />
+    <Resource Include="MapTiles\road_corner_nw.png" />
+    <Resource Include="MapTiles\road_corner_se.png" />
+    <Resource Include="MapTiles\road_corner_sw.png" />
+    <Resource Include="MapTiles\road_ew.png" />
+    <Resource Include="MapTiles\road_ns.png" />
+    <Resource Include="MapTiles\road_tshape.png" />
+    <Resource Include="MapTiles\road_tshape_e.png" />
+    <Resource Include="MapTiles\road_tshape_n.png" />
+    <Resource Include="MapTiles\road_tshape_s.png" />
+    <Resource Include="MapTiles\road_tshape_w.png" />
+    <Resource Include="MapTiles\skeleton_fourlegged.png" />
+    <Resource Include="MapTiles\skeleton_human.png" />
+    <Resource Include="MapTiles\skull.png" />
+    <Resource Include="MapTiles\solidrock.png" />
+    <Resource Include="MapTiles\stalactite.png" />
+    <Resource Include="MapTiles\stalactite_icy.png" />
+    <Resource Include="MapTiles\stalagmite.png" />
+    <Resource Include="MapTiles\stalagmite_icy.png" />
+    <Resource Include="MapTiles\stones_circle.png" />
+    <Resource Include="MapTiles\stones_grey.png" />
+    <Resource Include="MapTiles\stones_mossy.png" />
+    <Resource Include="MapTiles\stones_sandy.png" />
+    <Resource Include="MapTiles\swamp.bmp" />
+    <Resource Include="MapTiles\swamp.png" />
+    <Resource Include="MapTiles\swamptree.png" />
+    <Resource Include="MapTiles\temple.png" />
+    <Resource Include="MapTiles\tombstone.png" />
+    <Resource Include="MapTiles\tower.png" />
+    <Resource Include="MapTiles\tundra.bmp" />
+    <Resource Include="MapTiles\tundra.png" />
+    <Resource Include="MapTiles\ud_mushrooms_small.png" />
+    <Resource Include="MapTiles\ud_mushroom_large.png" />
+    <Resource Include="MapTiles\volcano.png" />
+    <Resource Include="MapTiles\well.png" />
+    <Resource Include="MapTiles\whirlpool.png" />
+    <Resource Include="MapTiles\white.bmp" />
+    <Resource Include="MapTiles\white.png" />
+    <Resource Include="MapTiles\yellow_grass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Notes.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

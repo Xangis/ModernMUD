@@ -1,0 +1,11 @@
+﻿Remaining client tasks:
+
+Required:
+
+- Process remaining equipment slot data in eq window. See bottom of
+  Equipment.xaml.cs file for which slots still need to be parsed.
+- Fix ANSI rendering for text not enclosed in tags.
+
+Nice to have:
+
+- Color in text and map windows.

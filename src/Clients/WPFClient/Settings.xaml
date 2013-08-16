@@ -1,0 +1,34 @@
+﻿<Window x:Class="WPFMudClient.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Settings" Height="213" Width="336" FontFamily="Verdana" ResizeMode="NoResize">
+    <StackPanel Orientation="Vertical">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="130"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0">Address:</Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Width="160" Name="txtAddress"></TextBox>
+        <Label Grid.Row="1" Grid.Column="0">Port:</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Width="160" Name="txtPort"></TextBox>
+        <Label Grid.Row="2" Grid.Column="0">Show Hotkeys on Startup:</Label>
+        <CheckBox Grid.Row="2" Grid.Column="1" Name="chkShowHotkeys" VerticalAlignment="Center"></CheckBox>
+        <Label Grid.Row="3" Grid.Column="0">Show Equipment on Startup:</Label>
+        <CheckBox Grid.Row="3" Grid.Column="1" Name="chkShowEquipment" VerticalAlignment="Center"></CheckBox>
+        <Label Grid.Row="4" Grid.Column="0">Show Group on Startup:</Label>
+        <CheckBox Grid.Row="4" Grid.Column="1" Name="chkShowGroup" VerticalAlignment="Center"></CheckBox>
+        <Label Grid.Row="5" Grid.Column="0">Number of Hotkeys:</Label>
+        <TextBox Grid.Row="5" Grid.Column="1" Name="txtNumHotKeys" Width="60" HorizontalAlignment="Left"></TextBox>
+    </Grid>
+    <Button Name="btnOK" Width="80" Click="OK_Click" Margin="4">OK</Button>
+    </StackPanel>
+</Window>

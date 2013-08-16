@@ -1,0 +1,18 @@
+﻿<Window x:Class="WPFMudClient.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="About" Height="166" Width="476" FontFamily="Verdana" ResizeMode="NoResize">
+    <StackPanel>
+        <Label FontWeight="Bold" FontSize="16" Foreground="DarkBlue" Name="lblAppNameAndVersion">
+        </Label>
+        <Label FontSize="12" Foreground="DarkBlue" Name="lblCopyright">
+        </Label>
+        <Label FontSize="12" Foreground="DarkBlue">
+            Written by Jason Champion (Xangis).
+        </Label>
+        <Label FontSize="12" Foreground="DarkBlue">
+            <Hyperlink Click="Hyperlink_Click" NavigateUri="http://basternae.org">http://basternae.org</Hyperlink>
+        </Label>
+        <Button Name="btnClose" Click="Close_Click" Width="120">Close</Button>
+    </StackPanel>
+</Window>

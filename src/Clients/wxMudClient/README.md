@@ -11,6 +11,8 @@ box, and connect menu entry.
 
 ### Build Notes ###
 
+You can get wxWidgets here: http://wxwidgets.org/downloads/ 
+
 Windows: Open the Visual Studio project, configure your wxWidgets include and
 library directories, then build.
 

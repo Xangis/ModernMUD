@@ -1,0 +1,44 @@
+﻿<Window x:Class="WPFMudClient.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="ModernMUD WPF Mud Client" Height="710" Width="600" Background="Black" FontFamily="Verdana">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="24"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="0" Grid.Row="0" Height="24" Name="MainMenu">
+            <MenuItem Header="File">
+                <MenuItem Header="Connect" Click="Connect_Click" />
+                <MenuItem Header="Connect to Localhost" Click="ConnectLocal_Click" />
+                <MenuItem Header="Disconnect" Click="Disconnect_Click" />
+                <MenuItem Header="Load Settings" Click="Load_Click" />
+                <MenuItem Header="Save Settings" Click="Save_Click" />
+                <MenuItem Header="Exit" Click="Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="View" >
+                <MenuItem Header="Equipment" Click="Equipment_Click" />
+                <MenuItem Header="Group" Click="Group_Click" />
+                <MenuItem Header="Hotkeys" Click="Hotkeys_Click" />
+                <MenuItem Header="Map" Click="Map_Click" />
+                <MenuItem Header="Settings" Click="Settings_Click"  />
+                <MenuItem Header="Status" Click="Status_Click" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Click="About_Click" />
+            </MenuItem>
+        </Menu>
+        <RichTextBox Grid.Column="0" Grid.Row="1" Name="txtOutput" KeyboardNavigation.IsTabStop="False" FontFamily="Courier New, Courier" Background="Black" SpellCheck.IsEnabled="False" IsReadOnly="True" Foreground="White" VerticalScrollBarVisibility="Visible">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="LineHeight" Value="5"/>
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
+        <TextBox Grid.Column="0" Grid.Row="2" Name="txtInput" KeyboardNavigation.IsTabStop="True"  Height="24" TextChanged="Input_TextChanged" AcceptsReturn="True"></TextBox>
+    </Grid>        
+</Window>

@@ -1,0 +1,8 @@
+﻿<Window x:Class="WPFMudClient.Group"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Group" Height="160" Width="240" Background="Black" FontFamily="Verdana" ResizeMode="NoResize">
+    <Grid>
+        
+    </Grid>
+</Window>

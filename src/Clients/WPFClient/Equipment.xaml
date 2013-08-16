@@ -1,0 +1,91 @@
+﻿<Window x:Class="WPFMudClient.Equipment"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Equipment" Height="600" Width="250" Background="Black" FontFamily="Verdana" ResizeMode="NoResize">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Head:</Label>
+            <Label Foreground="White" Name="lblHead" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Eyes:</Label>
+            <Label Foreground="White" Name="lblEyes" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Left Ear:</Label>
+            <Label Foreground="White" Name="lblEar1" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Right Ear:</Label>
+            <Label Foreground="White" Name="lblEar2" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Face:</Label>
+            <Label Foreground="White" Name="lblFace" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Neck:</Label>
+            <Label Foreground="White" Name="lblNeck1" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Neck:</Label>
+            <Label Foreground="White" Name="lblNeck2" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">About Body:</Label>
+            <Label Foreground="White" Name="lblAboutBody" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Arms:</Label>
+            <Label Foreground="White" Name="lblArms" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Badge:</Label>
+            <Label Foreground="White" Name="lblBadge" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Body:</Label>
+            <Label Foreground="White" Name="lblBody" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Left Wrist:</Label>
+            <Label Foreground="White" Name="lblWrist1" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Right Wrist:</Label>
+            <Label Foreground="White" Name="lblWrist2" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Hands:</Label>
+            <Label Foreground="White" Name="lblHands" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Left Finger:</Label>
+            <Label Foreground="White" Name="lblFinger1" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Right Finger:</Label>
+            <Label Foreground="White" Name="lblFinger2" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Hand 1:</Label>
+            <Label Foreground="White" Name="lblHand1" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Hand 2:</Label>
+            <Label Foreground="White" Name="lblHand2" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Waist:</Label>
+            <Label Foreground="White" Name="lblWaist" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Legs:</Label>
+            <Label Foreground="White" Name="lblLegs" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" Width="72" FontSize="10" VerticalAlignment="Center">Feet:</Label>
+            <Label Foreground="White" Name="lblFeet" Width="150" FontSize="10" VerticalAlignment="Center"></Label>
+        </StackPanel>
+    </StackPanel>
+</Window>
