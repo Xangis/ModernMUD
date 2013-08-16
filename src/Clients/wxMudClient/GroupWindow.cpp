@@ -1,4 +1,5 @@
 #include "wx/wx.h"
+#include "wx/stdpaths.h"
 #include "GroupWindow.h"
 
 IMPLEMENT_DYNAMIC_CLASS( GroupWindow, wxDialog )
@@ -17,13 +18,13 @@ GroupWindow::GroupWindow(wxWindow* parent, wxWindowID id, const wxString& captio
 
 bool GroupWindow::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
 {
-    SetTransparent( 240 );
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-	wxDialog::Create( parent, id, caption, pos, size, style );
+    wxDialog::Create( parent, id, caption, pos, size, style );
     CreateControls();
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
+    SetTransparent(240);
     wxTopLevelWindow::SetTransparent(240);
     return true;
 }

@@ -1,4 +1,5 @@
 #include "wx/wx.h"
+#include "wx/stdpaths.h"
 #include "EquipmentWindow.h"
 #include "wxMudClientDlg.h"
 
@@ -244,7 +245,10 @@ bool EquipmentWindow::ShowToolTips()
 void EquipmentWindow::OnPaint(wxPaintEvent &)
 {
   wxPaintDC dc (this); // May want to use wxBufferedPaintDC if this is flicker-y
-  dc.DrawBitmap(*_background, 0, 0);
+  if(_background->IsOk())
+  {
+      dc.DrawBitmap(*_background, 0, 0);
+  }
   dc.SetTextForeground(*wxWHITE);
   dc.SetBackgroundMode(wxTRANSPARENT);
   int x = 0;
@@ -271,5 +275,8 @@ void EquipmentWindow::OnPaint(wxPaintEvent &)
 void EquipmentWindow::OnEraseBackground(wxEraseEvent &event)
 {
   wxDC* dc = event.GetDC();
-  dc->DrawBitmap(*_background, 0, 0);
+  if(_background->IsOk())
+  {
+      dc->DrawBitmap(*_background, 0, 0);
+  }
 }

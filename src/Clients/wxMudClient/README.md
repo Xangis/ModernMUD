@@ -2,13 +2,14 @@ wxMudClient
 -----------
 
 The wxMudClient requires wxWidgets 2.9 or newer in order to build. It relies on
-the wxRichTextCtrl that was not available before that version.
+the wxRichTextCtrl that was not available (or at least didn't work well enough)
+before that version.
 
 To customize the client for your MUD, edit MudSettings.h add set your MUD name,
 host name, port, and website address. These are used in the title window, about
 box, and connect menu entry.
 
-== Build Notes ==
+### Build Notes ###
 
 Windows: Open the Visual Studio project, configure your wxWidgets include and
 library directories, then build.
@@ -27,3 +28,8 @@ the OSX makefile is targeted to 10.5. I'm not an OSX developer (nor do I want
 to be one), so if you want to contribute improvements to the build process I'd
 be happy to accept pull requests. This might also be relevant:
 http://stackoverflow.com/questions/5378518/how-to-add-base-sdk-for-10-5-in-xcode-4
+Or you could just set it to user a newer SDK version.
+
+All platforms: wxRichTextControl can be disabled in the wxWidgets configuration
+properties, so if you're compiling wx from scratch, don't forget to add
+'--enable-richtext' to the ./configure line.

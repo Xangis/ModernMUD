@@ -24,12 +24,12 @@ bool HotkeyEditor::Create(HotkeyWindow* parent, int key, wxWindowID id, const wx
 {
     _hotkeyWindow = parent;
     _buttonNum = key;
-    SetTransparent( 240 );
 	wxDialog::Create( parent, id, caption, pos, size, style );
     CreateControls();
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
+    SetTransparent(240);
     wxTopLevelWindow::SetTransparent(240);
     return true;
 }
