@@ -20,8 +20,16 @@ Documentation is important. Not only should the code be written in a self-docume
 and there should be separate project documentation including both overview and how-to-use
 documentation.
 
+The majority of the "engine" should be game-agnostic, while the personality of each
+individual MUD should live in configuration and "load-time" files as much as possible.
+
+It should also be easy to distribute a fully-functional installable cross-platform
+client specific to your MUD.
+
 Non-Goals
 ---------
 
 - Using all of the latest .NET platform features. We want to maintain cross-platform support,
   so things that are not available in Mono should not be used.
+
+- Client support on mobile devices.
