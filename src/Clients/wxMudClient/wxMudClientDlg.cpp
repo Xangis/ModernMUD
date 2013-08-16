@@ -171,7 +171,7 @@ void wxMudClientDlg::OnHelpAbout(wxCommandEvent &)
 {
     wxAboutDialogInfo info;
     info.SetName(MUD_NAME + wxString(_(" Client")));
-    info.SetVersion(_("0.20"));
+    info.SetVersion(_("1.0"));
     info.SetCopyright(_("(c) 2005-2013 Zeta Centauri.\nhttp://zetacentauri.com"));
 	info.AddDeveloper(_("Code by Jason Champion"));
 	info.SetIcon(_icon);
