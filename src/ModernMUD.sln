@@ -23,8 +23,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Converter", "Converter\src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basternae", "Basternae\Basternae.csproj", "{15B90016-452C-4795-A851-A4C985BBFAF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasternaeMud", "BasternaeMud\BasternaeMud.csproj", "{503AD634-F750-4537-8A9E-0E08F165DCD2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapGenerator", "MapGenerator\MapGenerator.csproj", "{267812A7-F051-42C2-A0C0-78CFF8B72883}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpellEditor", "SpellEditor\SpellEditor.csproj", "{895BE565-8391-4328-9560-8EF41D327C6D}"
@@ -36,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicySocketServer", "Clients\PolicySocketServer\PolicySocketServer.csproj", "{11A1BB81-ED34-47A7-A1C6-6C5ADB464F24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernMUDEditor", "ModernMUDEditor\ModernMUDEditor.csproj", "{DD33AFB8-65B4-4379-A770-15F73AA2CD46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MUDEngine", "MUDEngine\MUDEngine.csproj", "{503AD634-F750-4537-8A9E-0E08F165DCD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,16 +115,6 @@ Global
 		{15B90016-452C-4795-A851-A4C985BBFAF7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{15B90016-452C-4795-A851-A4C985BBFAF7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{15B90016-452C-4795-A851-A4C985BBFAF7}.Release|Win32.ActiveCfg = Release|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Win32.ActiveCfg = Release|Any CPU
 		{267812A7-F051-42C2-A0C0-78CFF8B72883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{267812A7-F051-42C2-A0C0-78CFF8B72883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{267812A7-F051-42C2-A0C0-78CFF8B72883}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -185,6 +175,16 @@ Global
 		{DD33AFB8-65B4-4379-A770-15F73AA2CD46}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DD33AFB8-65B4-4379-A770-15F73AA2CD46}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DD33AFB8-65B4-4379-A770-15F73AA2CD46}.Release|Win32.ActiveCfg = Release|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{503AD634-F750-4537-8A9E-0E08F165DCD2}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
