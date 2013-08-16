@@ -314,7 +314,10 @@ namespace ModernMUD
         public static readonly Bitvector AFFECT_PROTECT_COLD = new Bitvector(1, Bitvector.BV06);
         public static readonly Bitvector AFFECT_PROTECT_LIGHTNING = new Bitvector(1, Bitvector.BV07);
         public static readonly Bitvector AFFECT_MINOR_PARA = new Bitvector(1, Bitvector.BV08);
-        public static readonly Bitvector AFFECT_HOLD = new Bitvector(1, Bitvector.BV09); // Major paralysis
+        /// <summary>
+        /// Major paralysis.
+        /// </summary>
+        public static readonly Bitvector AFFECT_HOLD = new Bitvector(1, Bitvector.BV09);
         public static readonly Bitvector AFFECT_SLOWNESS = new Bitvector(1, Bitvector.BV10);
         public static readonly Bitvector AFFECT_MAJOR_GLOBE = new Bitvector(1, Bitvector.BV11);
         public static readonly Bitvector AFFECT_PROTECT_GAS = new Bitvector(1, Bitvector.BV12);
