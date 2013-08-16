@@ -261,7 +261,7 @@ namespace MUDEngine
                             || ch._inRoom.Area.JusticeType == JusticeType.evil )
                     {
                         lbuf = String.Format( "Check_invader: {0} invading !good justice", ch._name );
-                        Immtalk.SendImmtalk( null, Immtalk.IMMTALK_SPAM, 0, lbuf );
+                        ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                         StartInvasion( ch );
                     }
                     return;
@@ -274,7 +274,7 @@ namespace MUDEngine
                             || ch._inRoom.Area.JusticeType == JusticeType.good )
                     {
                         lbuf = String.Format( "Check_invader: {0} invading !evil justice", ch._name );
-                        Immtalk.SendImmtalk( null, Immtalk.IMMTALK_SPAM, 0, lbuf );
+                        ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                         StartInvasion( ch );
                     }
                     return;
@@ -285,7 +285,7 @@ namespace MUDEngine
                             || ch._inRoom.Area.JusticeType == JusticeType.good_only)
                     {
                         lbuf = String.Format( "Check_invader: {0} invading !neutral justice", ch._name );
-                        Immtalk.SendImmtalk( null, Immtalk.IMMTALK_SPAM, 0, lbuf );
+                        ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                         StartInvasion( ch );
                     }
                     return;
@@ -309,7 +309,7 @@ namespace MUDEngine
             if( ch._inRoom.Area.DefenderTemplateNumber == 0 || ch._inRoom.Area.DefendersPerSquad == 0)
             {
                 lbuf = String.Format( "Start_invasion: no defender mobs" );
-                Immtalk.SendImmtalk( null, Immtalk.IMMTALK_SPAM, 0, lbuf );
+                ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                 return;
             }
 
@@ -319,7 +319,7 @@ namespace MUDEngine
                 //    if( ch.in_room.area.dispatched >= (ch.in_room.area.defender_num *
                 //        ch.in_room.area.squads )) {
                 lbuf = String.Format( "Start_invasion: dispatched all defender mobs, disregarding" );
-                Immtalk.SendImmtalk( null, Immtalk.IMMTALK_SPAM, 0, lbuf );
+                ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                 //      return;
             }
 

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using ModernMUD;
-using BasternaeMud;
+using MUDEngine;
 
 namespace SpellEditor
 {
@@ -21,7 +21,7 @@ namespace SpellEditor
         {
             // Set up controls.
             InitializeComponent();
-            Type types = typeof(BasternaeMud.Spell.AICategory);
+            Type types = typeof(Spell.AICategory);
             foreach (string s in Enum.GetNames(types))
             {
                 cbAIType.Items.Add(s);
@@ -66,11 +66,20 @@ namespace SpellEditor
             }
         }
 
+        /// <summary>
+        /// Show the about box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(BuildVersionString());
         }
 
+        /// <summary>
+        /// For the about box - gather info on build date and DLLs being used.
+        /// </summary>
+        /// <returns></returns>
         private string BuildVersionString()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -119,17 +128,30 @@ namespace SpellEditor
             return version;
         }
 
+        /// <summary>
+        /// Handle the exit command.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Handle the save command.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Spell.SaveSpells();
             MessageBox.Show("Spells saved.");
         }
 
+        /// <summary>
+        /// Update the window contents with the currently selected spell's info.
+        /// </summary>
         private void RefreshWindowContents()
         {
             if( _selectedIndex < 0 || _selectedIndex >= Spell.Count )
@@ -171,6 +193,11 @@ namespace SpellEditor
             cbStackType.Text = spell.StackingType.ToString();
         }
 
+        /// <summary>
+        /// Navigate to the previous spell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             if (_selectedIndex > 0 && Spell.SpellList.Count > 0)
@@ -181,6 +208,11 @@ namespace SpellEditor
             }
         }
 
+        /// <summary>
+        /// Navigate to the next spell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNext_Click(object sender, EventArgs e)
         {
             if( _selectedIndex < (Spell.SpellList.Count - 1))
@@ -191,6 +223,11 @@ namespace SpellEditor
             }
         }
 
+        /// <summary>
+        /// Display the different tokens that can be used in spell text.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void showTextTokensToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show( "$t\ttext argument 1.\n" +

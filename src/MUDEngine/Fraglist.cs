@@ -271,7 +271,7 @@ namespace MUDEngine
             victim.SendText( "&+WYou lose a frag!&n\r\n" );
 
             string buf = ch._name + " has fragged " + victim._name + " in room " + ch._inRoom.IndexNumber + ".";
-            Immtalk.SendImmtalk( ch, Immtalk.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, buf );
+            ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, buf );
             Log.Trace( buf );
 
             // Check to see if either person goes up or down on their particular lists.
