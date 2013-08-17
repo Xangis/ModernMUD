@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{503AD634-F750-4537-8A9E-0E08F165DCD2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MUDEngine</RootNamespace>
+    <AssemblyName>MUDEngine</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\doc\XML Code Documentation\BasternaeMud.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="AgiModifier.cs" />
+    <Compile Include="AliasData.cs" />
+    <Compile Include="Bounty.cs" />
+    <Compile Include="Combat.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="CommandType.cs" />
+    <Compile Include="ConModifier.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="Economy.cs" />
+    <Compile Include="Fraglist.cs" />
+    <Compile Include="ImmortalChat.cs" />
+    <Compile Include="IntModifier.cs" />
+    <Compile Include="Look.cs" />
+    <Compile Include="Macros.cs" />
+    <Compile Include="Magic.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="MonkSkill.cs" />
+    <Compile Include="MonkStance.cs" />
+    <Compile Include="Movement.cs" />
+    <Compile Include="NounType.cs" />
+    <Compile Include="Poison.cs" />
+    <Compile Include="Properties\AssemblyInfoBase.cs" />
+    <Compile Include="BanData.cs" />
+    <Compile Include="CastData.cs" />
+    <Compile Include="DrunkSpeech.cs" />
+    <Compile Include="ExtendedTerrain.cs" />
+    <Compile Include="CorpseData.cs" />
+    <Compile Include="ExperienceTable.cs" />
+    <Compile Include="Issue.cs" />
+    <Compile Include="IssueEntry.cs" />
+    <Compile Include="ItemStatus.cs" />
+    <Compile Include="Logging\GenericException.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="MemorizeData.cs" />
+    <Compile Include="RandomNumber.cs" />
+    <Compile Include="Socials.cs" />
+    <Compile Include="Songs.cs" />
+    <Compile Include="SpellFunction.cs" />
+    <Compile Include="Spells.cs" />
+    <Compile Include="StrengthModifier.cs" />
+    <Compile Include="StringLookup.cs" />
+    <Compile Include="SyllableType.cs" />
+    <Compile Include="SocketConnection.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="Crime.cs" />
+    <Compile Include="MUDMath.cs" />
+    <Compile Include="Track.cs" />
+    <Compile Include="Undead.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="PC.cs" />
+    <Compile Include="Social.cs" />
+    <Compile Include="Song.cs" />
+    <Compile Include="ObjFun.cs" />
+    <Compile Include="StaticMobs.cs" />
+    <Compile Include="StaticObjects.cs" />
+    <Compile Include="StaticRooms.cs" />
+    <Compile Include="StringConversion.cs" />
+    <Compile Include="MUDString.cs" />
+    <Compile Include="Sysdata.cs" />
+    <Compile Include="TraditionData.cs" />
+    <Compile Include="TrophyData.cs" />
+    <Compile Include="Vehicle.cs" />
+    <Compile Include="VerbType.cs" />
+    <Compile Include="Visibility.cs" />
+    <Compile Include="WearData.cs" />
+    <Compile Include="WearType.cs" />
+    <Compile Include="Weather.cs" />
+    <Compile Include="WisModifier.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AIML.xsd" />
+    <Compile Include="AIML.cs" />
+    <Compile Include="CharData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChatterBot.cs" />
+    <Compile Include="ChatterResponse.cs" />
+    <Compile Include="Guild.cs" />
+    <Compile Include="GuildMemberData.cs" />
+    <Compile Include="Coins.cs" />
+    <Compile Include="HistoryData.cs" />
+    <Compile Include="EnemyData.cs" />
+    <Compile Include="ImmortalData.cs" />
+    <Compile Include="InnateTimerData.cs" />
+    <Compile Include="MobFun.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NewsEntry.cs" />
+    <Compile Include="Object.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PracticeType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Spell.cs" />
+    <Compile Include="SpellDurationType.cs" />
+    <Compile Include="SunType.cs" />
+    <Compile Include="TalkChannel.cs" />
+    <Compile Include="Target.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TargetType.cs" />
+    <Compile Include="WarfareStructure.cs" />
+    <Compile Include="ZoneConnection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HelpData\HelpData.csproj">
+      <Project>{FCBBCD8A-3525-4C16-B469-8D80D24BF449}</Project>
+      <Name>HelpData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Screens\Screens.csproj">
+      <Project>{B8CD6B12-EB6C-4ABB-A115-144584FB812B}</Project>
+      <Name>Screens</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZoneData\ZoneData.csproj">
+      <Project>{2E98D584-94B4-4528-9C52-8AE887B2D351}</Project>
+      <Name>ZoneData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

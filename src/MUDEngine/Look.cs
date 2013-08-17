@@ -312,7 +312,7 @@ namespace MUDEngine
                     {
                         text += ((PC)victim).Title;
                     }
-                    if (victim.IsClan() && (ch.IsNPC()))
+                    if (victim.IsGuild() && (ch.IsNPC()))
                     {
                         text += " " + ((PC)victim).Clan.WhoName;
                     }
@@ -459,7 +459,7 @@ namespace MUDEngine
                 text += String.Format("&nRidden by {0}, ", victim._rider.ShowNameTo(ch, false));
             }
 
-            if (!victim.IsNPC() && victim.IsClan())
+            if (!victim.IsNPC() && victim.IsGuild())
             {
                 text += String.Format("&n{0} of {1}.\r\n", ((PC)victim).ClanRank.ToString().ToUpper(),
                           ((PC)victim).Clan.Name);

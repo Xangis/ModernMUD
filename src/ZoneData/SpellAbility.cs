@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZoneData
+namespace ModernMUD
 {
     /// <summary>
     /// Represents a spell ability.  Intended for use on objects
