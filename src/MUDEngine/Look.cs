@@ -733,7 +733,7 @@ namespace MUDEngine
                 }
             }
 
-            // Handles dark rooms. Jolle added ultracheck.
+            // Handles dark rooms. Added ultracheck.
             if (victim._inRoom.IsDark())
             {
                 if (ch.HasInnate(Race.RACE_ULTRAVISION) || ch.IsAffected(Affect.AFFECT_ULTRAVISION))
