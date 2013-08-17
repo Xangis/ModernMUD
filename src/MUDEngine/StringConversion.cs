@@ -951,61 +951,61 @@ namespace MUDEngine
         /// <returns></returns>
         public static string DamageTypeString( Race.DamageType vector )
         {
-            string buf = String.Empty;
+            string text = String.Empty;
 
             if( (vector & Race.DamageType.fire) != 0 )
-                buf += " fire";
+                text += " fire";
             if( (vector & Race.DamageType.cold) != 0 )
-                buf += " cold";
+                text += " cold";
             if( (vector & Race.DamageType.electricity) != 0 )
-                buf += " electricity";
+                text += " electricity";
             if( (vector & Race.DamageType.energy) != 0 )
-                buf += " energy";
+                text += " energy";
             if( (vector & Race.DamageType.acid) != 0 )
-                buf += " acid";
+                text += " acid";
             if( (vector & Race.DamageType.poison) != 0 )
-                buf += " poison";
+                text += " poison";
             if( (vector & Race.DamageType.charm) != 0 )
-                buf += " charm";
+                text += " charm";
             if( (vector & Race.DamageType.mental) != 0 )
-                buf += " mental";
+                text += " mental";
             if( (vector & Race.DamageType.whiteMana) != 0 )
-                buf += " white_mana";
+                text += " white_mana";
             if( (vector & Race.DamageType.blackMana) != 0 )
-                buf += " black_mana";
+                text += " black_mana";
             if( (vector & Race.DamageType.disease) != 0 )
-                buf += " disease";
+                text += " disease";
             if( (vector & Race.DamageType.drowning) != 0 )
-                buf += " drowning";
+                text += " drowning";
             if( (vector & Race.DamageType.light) != 0 )
-                buf += " light";
+                text += " light";
             if( (vector & Race.DamageType.sound) != 0 )
-                buf += " sound";
+                text += " sound";
             if( (vector & Race.DamageType.magic) != 0 )
-                buf += " magic";
+                text += " magic";
             if( (vector & Race.DamageType.nonmagic) != 0 )
-                buf += " nonmagic";
+                text += " nonmagic";
             if( (vector & Race.DamageType.silver) != 0 )
-                buf += " silver";
+                text += " silver";
             if( (vector & Race.DamageType.iron) != 0 )
-                buf += " iron";
+                text += " iron";
             if( (vector & Race.DamageType.wood) != 0 )
-                buf += " wood";
+                text += " wood";
             if( (vector & Race.DamageType.weapon) != 0 )
-                buf += " weapon";
+                text += " weapon";
             if( (vector & Race.DamageType.bash) != 0 )
-                buf += " bash";
+                text += " bash";
             if( (vector & Race.DamageType.pierce) != 0 )
-                buf += " pierce";
+                text += " pierce";
             if( (vector & Race.DamageType.slash) != 0 )
-                buf += " slash";
+                text += " slash";
 
-            if( buf.Length < 1 )
+            if( text.Length < 1 )
             {
                 return "none";
             }
-            buf.Remove( 0, 1 ); // Clear leading space.
-            return buf;
+            text.Remove( 0, 1 ); // Clear leading space.
+            return text;
         }
 
         /// <summary>
@@ -1090,24 +1090,24 @@ namespace MUDEngine
         public static string RaceAbilityString( int[] value )
         {
             int count;
-            string buf = String.Empty;
+            string text = String.Empty;
 
             for( count = 0; BitvectorFlagType.InnateFlags[ count ].BitvectorData; ++count )
             {
                 if( Macros.IsSet( value[ ( BitvectorFlagType.InnateFlags[ count ].BitvectorData.Group ) ], BitvectorFlagType.InnateFlags[ count ].BitvectorData.Vector ) )
                 {
-                    buf += " ";
-                    buf += BitvectorFlagType.InnateFlags[ count ].Name;
+                    text += " ";
+                    text += BitvectorFlagType.InnateFlags[ count ].Name;
                 }
             }
 
-            if( buf.Length < 1 )
+            if( text.Length < 1 )
             {
                 return "none";
             }
-            buf.Remove( 0, 1 );
+            text.Remove( 0, 1 );
 
-            return buf;
+            return text;
         }
 
         /// <summary>
@@ -1117,7 +1117,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static string CoinString( int cost )
         {
-            string buf = String.Empty;
+            string text = String.Empty;
 
             int coins = cost;
             int pla = coins / 1000;
@@ -1130,23 +1130,23 @@ namespace MUDEngine
 
             if( pla > 0 )
             {
-                buf += " " + pla + "&+W platinum&n";
+                text += " " + pla + "&+W platinum&n";
             }
             if( gol > 0 )
             {
-                buf += " " + gol + "&+Y gold&n";
+                text += " " + gol + "&+Y gold&n";
             }
             if( sil > 0 )
             {
-                buf += " " + sil + "&n&+w silver&n";
+                text += " " + sil + "&n&+w silver&n";
             }
             if( cop > 0 )
             {
-                buf += " " + cop + "&n&+y copper&n";
+                text += " " + cop + "&n&+y copper&n";
             }
-            if( buf.Length > 0 )
+            if( text.Length > 0 )
             {
-                return buf;
+                return text;
             }
             return " nothing";
         }
