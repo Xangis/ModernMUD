@@ -573,11 +573,11 @@ namespace MUDEngine
                     ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SECURE, ch.GetTrust(), logBuf);
                 }
 
-                if (ch._desc && ch._desc.SnoopBy)
+                if (ch._socket && ch._socket.SnoopBy)
                 {
-                    ch._desc.SnoopBy.WriteToBuffer("% ");
-                    ch._desc.SnoopBy.WriteToBuffer(logline);
-                    ch._desc.SnoopBy.WriteToBuffer("\r\n");
+                    ch._socket.SnoopBy.WriteToBuffer("% ");
+                    ch._socket.SnoopBy.WriteToBuffer(logline);
+                    ch._socket.SnoopBy.WriteToBuffer("\r\n");
                 }
 
                 // Break meditate

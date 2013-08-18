@@ -815,10 +815,10 @@ namespace MUDEngine
             {
                 string text;
 
-                if (ch.IsNPC() && ch._desc)
+                if (ch.IsNPC() && ch._socket)
                 {
                     text = String.Format("Damage: {0} from {1} by {2}: > 1276 points with {3} damage type!",
-                              dam, ch._name, ch._desc.Original._name, skill);
+                              dam, ch._name, ch._socket.Original._name, skill);
                 }
                 else
                 {
@@ -1579,10 +1579,10 @@ namespace MUDEngine
             {
                 string buf3;
 
-                if( ch.IsNPC() && ch._desc )
+                if( ch.IsNPC() && ch._socket )
                     buf3 = String.Format(
                               "Spell_Damage: {0} from {1} by {2}: > 1275 points with {3} spell!",
-                              dam, ch._name, ch._desc.Original._name, spell.Name );
+                              dam, ch._name, ch._socket.Original._name, spell.Name );
                 else
                     buf3 = String.Format(
                               "Spell_Damage: {0} from {1}: > 1275 points with {2} spell!",
@@ -3044,7 +3044,7 @@ namespace MUDEngine
             }
 
             // Put them in the correct body
-            if( victim._desc && victim._desc.Original )
+            if( victim._socket && victim._socket.Original )
             {
                 CommandType.Interpret(victim, "return");
             }
@@ -3055,11 +3055,11 @@ namespace MUDEngine
 
             // Remove from char list: handled by CharData.ExtractChar.
 
-            victim._desc.ShowScreen(ModernMUD.Screen.MainMenuScreen);
+            victim._socket.ShowScreen(ModernMUD.Screen.MainMenuScreen);
 
-            if( victim._desc != null )
+            if( victim._socket != null )
             {
-                victim._desc._connectionState = SocketConnection.ConnectionState.menu;
+                victim._socket._connectionState = SocketConnection.ConnectionState.menu;
             }
 
             // Just died flag used for safe time after re-login.

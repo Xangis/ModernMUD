@@ -43,7 +43,7 @@ namespace MUDEngine
         public static void StringAdd( CharData ch, string argument )
         {
             string buf = String.Empty;
-            int buflen = ch._desc._stringEditing.Length;
+            int buflen = ch._socket._stringEditing.Length;
             int arglen = argument.Length;
 
             if( argument[ 0 ] == '.' )
@@ -59,14 +59,14 @@ namespace MUDEngine
                 if( !StringsNotEqual( arg1, ".c" ) )
                 {
                     ch.SendText( "String cleared.\r\n" );
-                    ch._desc._stringEditing = String.Empty;
+                    ch._socket._stringEditing = String.Empty;
                     return;
                 }
 
                 if( !StringsNotEqual( arg1, ".s" ) )
                 {
                     ch.SendText( "String so far:\r\n" );
-                    ch.SendText( ch._desc._stringEditing );
+                    ch.SendText( ch._socket._stringEditing );
                     ch.SendText( String.Empty );
                     return;
                 }
@@ -79,7 +79,7 @@ namespace MUDEngine
                         return;
                     }
 
-                    ch._desc._stringEditing = ch._desc._stringEditing.Replace( arg2, arg3 );
+                    ch._socket._stringEditing = ch._socket._stringEditing.Replace( arg2, arg3 );
                     buf += "'" + arg2 + "' replaced with '" + arg3 + "'.\r\n";
                     ch.SendText( buf );
                     return;
@@ -102,7 +102,7 @@ namespace MUDEngine
 
             if( argument[ 0 ] == '@' )
             {
-                ch._desc._stringEditing = String.Empty;
+                ch._socket._stringEditing = String.Empty;
                 return;
             }
 
@@ -117,7 +117,7 @@ namespace MUDEngine
                 Log.Trace( buf1 );
 
                 // Force character out of editing mode.
-                ch._desc._stringEditing = String.Empty;
+                ch._socket._stringEditing = String.Empty;
                 return;
             }
             if( ch.IsImmortal() )
@@ -127,8 +127,8 @@ namespace MUDEngine
                 ch.SendText( message );
             }
 
-            buf += ch._desc._stringEditing + argument + "\r\n";
-            ch._desc._stringEditing = buf;
+            buf += ch._socket._stringEditing + argument + "\r\n";
+            ch._socket._stringEditing = buf;
             return;
         }
 

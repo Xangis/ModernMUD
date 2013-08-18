@@ -60,7 +60,7 @@ namespace MUDEngine
         public ChatterBot _chatterBot;
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public SocketConnection _desc;
+        public SocketConnection _socket;
         public List<Affect> _affected = new List<Affect>();
         public List<Object> _carrying = new List<Object>();
         [XmlIgnore]
@@ -1477,9 +1477,9 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetTrust()
         {
-            if( _desc && _desc.Original )
+            if( _socket && _socket.Original )
             {
-                return _desc.Original.GetTrust();
+                return _socket.Original.GetTrust();
             }
 
             if( _trustLevel != 0 )
@@ -2539,7 +2539,7 @@ namespace MUDEngine
             }
 
             //* Why have mobiles see the room? 
-            if( _desc != null )
+            if( _socket != null )
             {
                 CommandType.Interpret(this, "look auto");
             }
@@ -2657,7 +2657,7 @@ namespace MUDEngine
                 }
             }
 
-            if (!IsNPC() && _desc._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if (!IsNPC() && _socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 Command.Equipment(this, new string[] { "" });
             }
@@ -3035,7 +3035,7 @@ namespace MUDEngine
         {
             if( IsNPC() )
             {
-                return _desc.Original;
+                return _socket.Original;
             }
             return this;
         }
@@ -3919,7 +3919,7 @@ namespace MUDEngine
                     ((PC)ch).MaxLukMod = 0;
                 }
 
-                if (ch._desc && ch._desc.Original)
+                if (ch._socket && ch._socket.Original)
                 {
                     CommandType.Interpret(ch, "return");
                 }
@@ -3969,7 +3969,7 @@ namespace MUDEngine
         public void ShowGroup()
         {
             CharData groupChar;
-            bool bastTerm = (!IsNPC() && _desc._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED);
+            bool bastTerm = (!IsNPC() && _socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED);
 
             // No arguments, no leader, no chance.
             if( !CheckGroup() )
@@ -4529,7 +4529,7 @@ namespace MUDEngine
             for( aff = 0; aff < Limits.NUM_AFFECT_VECTORS; aff++ )
                 _affectedBy[ aff ] = _affectedBy[ aff ] | obj.AffectedBy[ aff ];
 
-            if (!IsNPC() && _desc._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if (!IsNPC() && _socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 Command.Equipment(this, new string[] { "" } );
             }
@@ -5904,7 +5904,7 @@ namespace MUDEngine
 
             string output = "!!SOUND(" + txt + ")\r\n";
 
-            _desc.WriteToBuffer(output);
+            _socket.WriteToBuffer(output);
 
             return;
         }
@@ -5928,7 +5928,7 @@ namespace MUDEngine
 
             string output = "!!MUSIC(" + txt + ")\r\n";
 
-            _desc.WriteToBuffer(output);
+            _socket.WriteToBuffer(output);
 
             return;
         }
@@ -5949,7 +5949,7 @@ namespace MUDEngine
             }
 
             // Not sending to descriptorless mobs.
-            if( _desc == null )
+            if( _socket == null )
                 return;
 
             for( point = 0; point < input.Length; point++ )
@@ -5999,12 +5999,12 @@ namespace MUDEngine
             // Saves process time.
             if (output.Length < 500 || !HasActBit(PC.PLAYER_PAGER))
             {
-                _desc.WriteToBuffer( output );
+                _socket.WriteToBuffer( output );
             }
             else
             {
                 // TODO: FIX THIS SO WE CAN USE THE PAGER AGAIN.
-                _desc.WriteToBuffer(output);
+                _socket.WriteToBuffer(output);
             }
 
             return;
@@ -6502,8 +6502,8 @@ namespace MUDEngine
             if (ch.IsNPC() || ch._level < 1)
                 return false;
 
-            if (ch._desc && ch._desc.Original)
-                ch = ch._desc.Original;
+            if (ch._socket && ch._socket.Original)
+                ch = ch._socket.Original;
 
             ch._charClassNum = (int)ch._charClass.ClassNumber;
             ch._saveTime = Database.SystemData.CurrentTime;
@@ -6772,7 +6772,7 @@ namespace MUDEngine
             if (socket)
             {
                 socket.Character = ch;
-                ch._desc = socket;
+                ch._socket = socket;
             }
             ch._castingTime = 0;
             ch._castingSpell = 0;

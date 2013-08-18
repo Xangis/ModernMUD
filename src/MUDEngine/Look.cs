@@ -183,7 +183,7 @@ namespace MUDEngine
         public static void ShowListToCharacter(List<Object> list, CharData ch, bool shortDisplay, bool showNothing)
         {
             // This is called every time someone looks at the room.  If there are no mobs, objects, etc. we skip out.
-            if (!ch || ch._desc == null)
+            if (!ch || ch._socket == null)
             {
                 return;
             }
@@ -644,7 +644,7 @@ namespace MUDEngine
 
             String roomOpen = String.Empty;
             String roomClose = String.Empty;
-            if( !ch.IsNPC() && ch._desc._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if( !ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 roomOpen = "<room>";
                 roomClose = "</room>";

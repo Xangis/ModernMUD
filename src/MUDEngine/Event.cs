@@ -1354,7 +1354,7 @@ namespace MUDEngine
                 }
 
                 // Find player with oldest save time.
-                if( ( !ch._desc || ch._desc._connectionState == SocketConnection.ConnectionState.playing )
+                if( ( !ch._socket || ch._socket._connectionState == SocketConnection.ConnectionState.playing )
                         && ch._level >= 2
                         && ch._saveTime < saveTime )
                 {
@@ -1362,7 +1362,7 @@ namespace MUDEngine
                     saveTime = ch._saveTime;
                 }
 
-                if( ( ch._level < Limits.LEVEL_AVATAR || ( !ch._desc && !ch.IsSwitched ) ) )
+                if( ( ch._level < Limits.LEVEL_AVATAR || ( !ch._socket && !ch.IsSwitched ) ) )
                 {
                     Object obj = Object.GetEquipmentOnCharacter( ch, ObjTemplate.WearLocation.hand_one );
 
