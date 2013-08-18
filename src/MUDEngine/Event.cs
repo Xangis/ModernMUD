@@ -1373,7 +1373,7 @@ namespace MUDEngine
                             --ch._inRoom.Light;
                             SocketConnection.Act( "$p&n goes out.", ch, obj, null, SocketConnection.MessageTarget.room );
                             SocketConnection.Act( "$p&n goes out.", ch, obj, null, SocketConnection.MessageTarget.character );
-                            obj.ExtractFromWorld();
+                            obj.RemoveFromWorld();
                         }
                     }
 
@@ -1847,7 +1847,7 @@ namespace MUDEngine
                                 cObj.AddToRoom(obj.InRoom);
                             }
                         }
-                        obj.ExtractFromWorld();
+                        obj.RemoveFromWorld();
                         continue;
                     }
                 }

@@ -2780,7 +2780,7 @@ namespace MUDEngine
                 if (obj.HasFlag(ObjTemplate.ITEM_INVENTORY))
                 {
                     Log.Trace("Removing inventory-item " + obj + " from character before creating corpse: " + corpse);
-                    obj.ExtractFromWorld();
+                    obj.RemoveFromWorld();
                 }
                 else
                 {
@@ -2788,7 +2788,7 @@ namespace MUDEngine
                             && obj.WearLocation == ObjTemplate.WearLocation.none)
                     {
                         obj.RemoveFromChar();
-                        obj.ExtractFromWorld();
+                        obj.RemoveFromWorld();
                     }
                     else
                     {
@@ -2802,7 +2802,7 @@ namespace MUDEngine
             if( !corpse.InRoom )
             {
                 Log.Error( "MakeCorpse: corpse " + corpse.ToString() + " sent to null room, deleting.", 0 );
-                corpse.ExtractFromWorld();
+                corpse.RemoveFromWorld();
             }
 
             return;
@@ -3906,7 +3906,6 @@ namespace MUDEngine
             Object cobj = null;
             int number = 0;
             int i;
-            int spell;
 
             foreach( Object obj in ch._carrying )
             {
@@ -3921,32 +3920,34 @@ namespace MUDEngine
                 }
             }
 
-            if( !cobj )
+            if (!cobj)
+            {
                 return;
+            }
 
-            /*
-            * Modified so mobs don't cause damage to themselves and
-            * don't aid players to help stop HEAVY player cheating
-            */
             switch( cobj.ItemType )
             {
                 case ObjTemplate.ObjectType.scroll:
-                    for( i = 1; i < 5; i++ )
+                    for (i = 1; i < 5; i++)
                     {
-                        spell = cobj.Values[ i ];
-
-                        if( spell <= 0 || spell >= Spell.Table.Length )
+                        String name = SpellNumberToTextMap.GetSpellNameFromNumber(cobj.Values[i]);
+                        // If the spell is not valid, just delete the object.
+                        if (String.IsNullOrEmpty(name))
                         {
-                            cobj.ExtractFromWorld();
-                            ;
+                            Log.Error("UseMagicalItem: No spell found for spell number " + cobj.Values[i] + " on object " + cobj.ObjIndexNumber + ". Make sure that spell exists in the SpellNumberToTextMap.");
+                            cobj.RemoveFromWorld();
                             return;
                         }
 
-                        if( Spell.Table[ spell ].ValidTargets == TargetType.singleCharacterDefensive )
+                        Spell spell = StringLookup.SpellLookup(name);
+                        if (!spell)
                         {
-                            SocketConnection.Act( "$n discards a $p.", ch, cobj, null, SocketConnection.MessageTarget.room );
-                            cobj.ExtractFromWorld();
-                            ;
+                            Log.Error("UseMagicalItem: Spell '" + name + "' not found for object " + cobj.ObjIndexNumber + ". Make sure that spell exists in the spell file.");
+                        }
+                        if (!spell || spell.ValidTargets == TargetType.singleCharacterDefensive)
+                        {
+                            SocketConnection.Act("$n discards a $p.", ch, cobj, null, SocketConnection.MessageTarget.room);
+                            cobj.RemoveFromWorld();
                             return;
                         }
                     }
@@ -3955,21 +3956,24 @@ namespace MUDEngine
                 case ObjTemplate.ObjectType.pill:
                     for( i = 1; i < 5; i++ )
                     {
-                        spell = cobj.Values[ i ];
-
-                        if( spell <= 0
-                                || spell >= Spell.Table.Length )
+                        String name = SpellNumberToTextMap.GetSpellNameFromNumber(cobj.Values[i]);
+                        // If the spell is not valid, just delete the object.
+                        if (String.IsNullOrEmpty(name))
                         {
-                            cobj.ExtractFromWorld();
-                            ;
+                            Log.Error("UseMagicalItem: No spell found for spell number " + cobj.Values[i] + " on object " + cobj.ObjIndexNumber + ". Make sure that spell exists in the SpellNumberToTextMap.");
+                            cobj.RemoveFromWorld();
                             return;
                         }
 
-                        if( Spell.Table[ spell ].ValidTargets == TargetType.singleCharacterOffensive )
+                        Spell spell = StringLookup.SpellLookup(name);
+                        if (!spell)
                         {
-                            SocketConnection.Act( "$n discards a $p.", ch, cobj, null, SocketConnection.MessageTarget.room );
-                            cobj.ExtractFromWorld();
-                            ;
+                            Log.Error("UseMagicalItem: Spell '" + name + "' not found for object " + cobj.ObjIndexNumber + ". Make sure that spell exists in the spell file.");
+                        }
+                        if (!spell || spell.ValidTargets == TargetType.singleCharacterOffensive)
+                        {
+                            SocketConnection.Act("$n discards a $p.", ch, cobj, null, SocketConnection.MessageTarget.room);
+                            cobj.RemoveFromWorld();
                             return;
                         }
                     }

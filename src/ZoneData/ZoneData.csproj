@@ -8,7 +8,7 @@
     <ProjectGuid>{2E98D584-94B4-4528-9C52-8AE887B2D351}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZoneData</RootNamespace>
+    <RootNamespace>ModernMUD</RootNamespace>
     <AssemblyName>ZoneData</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -89,6 +89,7 @@
     <Compile Include="SkillEntry.cs" />
     <Compile Include="SpellAbility.cs" />
     <Compile Include="SpellEntry.cs" />
+    <Compile Include="SpellNumberToTextMap.cs" />
     <Compile Include="TalkData.cs" />
     <Compile Include="TerrainType.cs" />
     <Compile Include="Trap.cs" />

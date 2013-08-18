@@ -1523,10 +1523,15 @@ namespace MUDEngine
                 return;
 
             int manaUsed = 0;
+            // TODO: Rather than hard-code psionicist as a mana class, let that be set in the class files.
             if (ch.IsClass(CharClass.Names.psionicist))
-                manaUsed = Macros.ManaCost( ch, spell );
+            {
+                manaUsed = Macros.ManaCost(ch, spell);
+            }
             else if (ch.IsClass(CharClass.Names.bard))
+            {
                 manaUsed = spell.MinimumMana;
+            }
 
             // Locate targets.
             if( ch.IsNPC() )

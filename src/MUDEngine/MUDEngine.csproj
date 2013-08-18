@@ -89,7 +89,6 @@
     <Compile Include="Socials.cs" />
     <Compile Include="Songs.cs" />
     <Compile Include="SpellFunction.cs" />
-    <Compile Include="Spells.cs" />
     <Compile Include="StrengthModifier.cs" />
     <Compile Include="StringLookup.cs" />
     <Compile Include="SyllableType.cs" />
@@ -171,6 +170,9 @@
       <Project>{2E98D584-94B4-4528-9C52-8AE887B2D351}</Project>
       <Name>ZoneData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Spells.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

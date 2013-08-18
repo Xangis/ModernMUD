@@ -221,7 +221,6 @@ namespace MUDEngine
             new CommandType( "throw", Command.Throw, Position.fighting, 0, LogType.normal, true, true, true, true ),
             new CommandType( "trip", Command.Trip, Position.fighting, 0, LogType.normal, true, true, true, true ),
             new CommandType( "whirlwind", Command.Whirlwind, Position.standing, 0, LogType.normal, true, true, true, true ),
-            new CommandType( "chill", Command.Chill, Position.fighting, Limits.LEVEL_AVATAR, LogType.normal, true, true, true, true ),
             // Configuration commands.
             //
             // Most of these should not break invis or hide, or meditate
@@ -729,6 +728,9 @@ namespace MUDEngine
         /// <summary>
         /// This function is used to compare an integer to the list of commands in DE
         /// to see if a teleport or switch trigger will work.
+        /// 
+        /// There are better ways this could be done. This exists for compatibility with
+        /// the legacy zone editor.
         /// </summary>
         /// <param name="argument"></param>
         /// <param name="number"></param>

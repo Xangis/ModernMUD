@@ -2080,7 +2080,7 @@ namespace MUDEngine
                     if( disbelief )
                     {
                         SocketConnection.Act(StringConversion.WallDecayString(StaticObjects.OBJECT_NUMBER_WALL_ILLUSION), this, wall, null, SocketConnection.MessageTarget.all);
-                        wall.ExtractFromWorld();
+                        wall.RemoveFromWorld();
                         inRoom.ExitData[ door ].RemoveFlag( Exit.ExitFlag.walled );
                     }
                     else if( !illusion )
@@ -3759,19 +3759,19 @@ namespace MUDEngine
 
                         if (obj3 != null)
                         {
-                            obj3.ExtractFromWorld();
+                            obj3.RemoveFromWorld();
                         }
 
                         /* Now kill obj2 if it exists no matter if on body or floor */
                         if (obj2)
                         {
-                            obj2.ExtractFromWorld();
+                            obj2.RemoveFromWorld();
                         }
                     }
 
                     for (int i = ch._carrying.Count - 1; i >= 0; --i)
                     {
-                        ch._carrying[i].ExtractFromWorld();
+                        ch._carrying[i].RemoveFromWorld();
                     }
                 }
 
@@ -5435,6 +5435,7 @@ namespace MUDEngine
             }
             return false;
         }
+
         /// <summary>
         /// Lets us use boolean operator to check for null.
         /// </summary>
@@ -6528,7 +6529,7 @@ namespace MUDEngine
                 80, 30, 25, 10
             };
 
-            string buf;
+            string text;
             Object obj = (Object)target;
             int freeSlots;
             int i;
@@ -6573,36 +6574,39 @@ namespace MUDEngine
 
             if (MUDMath.NumberPercent() > sucessRate[freeSlots - 1])
             {
-                buf = String.Format("The magic enchantment has failed: the {0} vanishes.\r\n",
+                text = String.Format("The magic enchantment has failed: the {0} vanishes.\r\n",
                           StringConversion.ItemTypeString(obj));
-                SendText(buf);
-                obj.ExtractFromWorld();
+                SendText(text);
+                obj.RemoveFromWorld();
                 ;
                 return;
             }
 
-
             obj.ShortDescription = String.Empty;
-            buf = String.Format("a {0} of ", StringConversion.ItemTypeString(obj));
+            text = String.Format("a {0} of ", StringConversion.ItemTypeString(obj));
             for (i = 1; i <= freeSlots; i++)
             {
                 if (obj.Values[i] != -1)
                 {
-                    buf += Spell.Table[obj.Values[i]].Name;
+                    text += SpellNumberToTextMap.GetSpellNameFromNumber(obj.Values[i]);
                     if (i != freeSlots)
-                        buf += ", ";
+                    {
+                        text += ", ";
+                    }
                     else
-                        buf += String.Empty;
+                    {
+                        text += String.Empty;
+                    }
                 }
             }
-            obj.ShortDescription = buf;
+            obj.ShortDescription = text;
 
-            buf = String.Format("{0} {1}", obj.Name, StringConversion.ItemTypeString(obj));
-            obj.Name = buf;
+            text = String.Format("{0} {1}", obj.Name, StringConversion.ItemTypeString(obj));
+            obj.Name = text;
 
-            buf = String.Format("You have imbued a new spell to the {0}.\r\n",
+            text = String.Format("You have imbued a new spell to the {0}.\r\n",
                       StringConversion.ItemTypeString(obj));
-            SendText(buf);
+            SendText(text);
 
             return;
         }
@@ -7068,68 +7072,78 @@ namespace MUDEngine
                 obj.Trap.Charges--;
             }
 
-            string buf = String.Format("{0} set off trap {1} in room {2}.", _name, obj.Name, obj.InRoom.IndexNumber);
-            Log.Trace(buf);
+            string text = String.Format("{0} set off trap {1} in room {2}.", _name, obj.Name, obj.InRoom.IndexNumber);
+            Log.Trace(text);
 
+            Spell spell = null;
             switch (obj.Trap.Damage)
             {
                 default:
-                    SendText("Lucky for you the trap malfunctioned!\r\n");
                     break;
                 case Trap.TrapType.sleep:
-                    SpellFun.TrapSleep(this, Spell.Table[Trap.TrpSleep], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-sleep");
                     break;
                 case Trap.TrapType.teleport:
-                    SpellFun.TrapTeleport(this, Spell.Table[Trap.TrpTeleport], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-teleport");
                     break;
                 case Trap.TrapType.fire:
-                    SpellFun.TrapFire(this, Spell.Table[Trap.TrpFire], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-fire");
                     break;
                 case Trap.TrapType.cold:
-                    SpellFun.TrapCold(this, Spell.Table[Trap.TrpCold], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-cold");
                     break;
                 case Trap.TrapType.acid:
-                    SpellFun.TrapAcid(this, Spell.Table[Trap.TrpAcid], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-acid");
                     break;
                 case Trap.TrapType.energy:
-                    SpellFun.TrapEnergy(this, Spell.Table[Trap.TrpEnergy], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-energy");
                     break;
                 case Trap.TrapType.blunt:
-                    SpellFun.TrapBash(this, Spell.Table[Trap.TrpBash], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-blunt");
                     break;
                 case Trap.TrapType.piercing:
-                    SpellFun.TrapPierce(this, Spell.Table[Trap.TrpPierce], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-piercing");
                     break;
                 case Trap.TrapType.slashing:
-                    SpellFun.TrapSlash(this, Spell.Table[Trap.TrpSlash], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-slashing");
                     break;
                 case Trap.TrapType.dispel:
-                    SpellFun.TrapDispel(this, Spell.Table[Trap.TrpDispel], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-dispel");
                     break;
                 case Trap.TrapType.gate:
-                    SpellFun.TrapGate(this, Spell.Table[Trap.TrpGate], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-gate");
                     break;
                 case Trap.TrapType.summon:
-                    SpellFun.TrapSummon(this, Spell.Table[Trap.TrpSummon], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-summon");
                     break;
                 case Trap.TrapType.wither:
-                    SpellFun.TrapWither(this, Spell.Table[Trap.TrpWither], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-wither");
                     break;
                 case Trap.TrapType.harm:
-                    SpellFun.TrapHarm(this, Spell.Table[Trap.TrpHarm], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-harm");
                     break;
                 case Trap.TrapType.poison:
-                    SpellFun.TrapPoison(this, Spell.Table[Trap.TrpPoison], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-poison");
                     break;
                 case Trap.TrapType.paralysis:
-                    SpellFun.TrapPara(this, Spell.Table[Trap.TrpPara], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-paralysis");
                     break;
                 case Trap.TrapType.stun:
-                    SpellFun.TrapStun(this, Spell.Table[Trap.TrpStun], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-stun");
                     break;
                 case Trap.TrapType.disease:
-                    SpellFun.TrapDisease(this, Spell.Table[Trap.TrpDisease], obj.Trap.Level, obj);
+                    spell = StringLookup.SpellLookup("trap-disease");
                     break;
+            }
+
+            if (!spell)
+            {
+                SendText("Lucky for you the trap malfunctioned!\r\n");
+                Log.Error("Trap type " + obj.Trap.Damage.ToString() + " not found. Check that it exists in the spells file.");
+            }
+            else
+            {
+                spell.Invoke(this, obj.Trap.Level, new Target(obj));
             }
 
             return;

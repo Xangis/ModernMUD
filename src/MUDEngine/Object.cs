@@ -632,7 +632,7 @@ namespace MUDEngine
                             _values[ 1 ] += obj2._values[ 1 ];
                             _values[ 2 ] += obj2._values[ 2 ];
                             _values[ 3 ] += obj2._values[ 3 ];
-                            obj2.ExtractFromWorld();
+                            obj2.RemoveFromWorld();
                             break;
                     }
                 }
@@ -1195,7 +1195,7 @@ namespace MUDEngine
                     ch.SendText(text);
                 }
 
-                obj.ExtractFromWorld();
+                obj.RemoveFromWorld();
             }
             else
             {
@@ -2732,7 +2732,7 @@ namespace MUDEngine
         /// <summary>
         /// Remove an object from the world and then delete it.
         /// </summary>
-        public void ExtractFromWorld()
+        public void RemoveFromWorld()
         {
             // Decrement global object count is handled by destructor.
 
@@ -2762,7 +2762,7 @@ namespace MUDEngine
             {
                 if (_contains[i] != null)
                 {
-                    _contains[i].ExtractFromWorld();
+                    _contains[i].RemoveFromWorld();
                 }
             }
 
