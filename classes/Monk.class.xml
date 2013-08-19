@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Monk</Name>
+<WholistName>&amp;+wMonk&amp;n</WholistName>
+<PrimeAttribute>agility</PrimeAttribute>
+<FirstWeapon>200</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>0</HitrollLevel47>
+<MinHpGain>10</MinHpGain>
+<MaxHpGain>17</MaxHpGain>
+<ClassNumber>monk</ClassNumber>
+<Filename>..\classes\Monk.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>berzerk</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dual wield</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>offense</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>kick</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>parry</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>rescue</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>second attack</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>third attack</Name>
+<Level>37</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>fourth attack</Name>
+<Level>41</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h whip</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h misc</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>unarmed damage</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+</Spells>
+</CharClass>

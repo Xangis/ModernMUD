@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>None</Name>
+<WholistName>None</WholistName>
+<PrimeAttribute>strength</PrimeAttribute>
+<FirstWeapon>243</FirstWeapon>
+<HitrollLevel0>180</HitrollLevel0>
+<HitrollLevel47>60</HitrollLevel47>
+<MinHpGain>5</MinHpGain>
+<MaxHpGain>8</MaxHpGain>
+<ClassNumber>none</ClassNumber>
+<Filename>..\classes\None.class.xml</Filename>
+<GainsMana>true</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+</Spells>
+</CharClass>

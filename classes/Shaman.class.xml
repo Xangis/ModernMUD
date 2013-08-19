@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Shaman</Name>
+<WholistName>&amp;+CShaman&amp;n      </WholistName>
+<PrimeAttribute>wisdom</PrimeAttribute>
+<FirstWeapon>254</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>9</HitrollLevel47>
+<MinHpGain>8</MinHpGain>
+<MaxHpGain>12</MaxHpGain>
+<ClassNumber>shaman</ClassNumber>
+<Filename>..\classes\Shaman.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Full</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>25</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>spirit armor</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>molevision</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mousestrength</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>purify spirit</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lesser mending</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mending</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater mending</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sustenance</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater sustenance</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>malison</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>spirit sight</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sense spirit</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater spirit sight</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>reveal true form</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>arieks shattering iceball</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ravenflight</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater ravenflight</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>bearstrength</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elephantstrength</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lionrage</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>hawkvision</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>shrewtameness</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wolfspeed</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>pantherspeed</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>snailspeed</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>reveal spirit essence</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>flameburst</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ice missile</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>scalding blast</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>molten spray</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>scorching touch</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>scathing wind</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>earthen rain</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>spirit anguish</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>soul disturbance</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater soul disturbance</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wellness</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>pythonsting</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater pythonsting</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>spirit ward</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater spirit ward</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fire ward</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cold ward</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>earthen grasp</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>greater earthen grasp</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>transfer wellness</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>spirit jump</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>etherportal</Name>
+<Circle>10</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>

@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Druid</Name>
+<WholistName>&amp;+gDruid&amp;n       </WholistName>
+<PrimeAttribute>wisdom</PrimeAttribute>
+<FirstWeapon>254</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>9</HitrollLevel47>
+<MinHpGain>8</MinHpGain>
+<MaxHpGain>12</MaxHpGain>
+<ClassNumber>druid</ClassNumber>
+<Filename>..\classes\Druid.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Full</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>25</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>fast healing</Name>
+<Level>29</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>bird of prey</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lightning curtain</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>barkskin</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>bless</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sunray</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sunburst</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>call lightning</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ravenous vines</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>twilight</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>create spring</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>purify</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>soothe wound</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lesser herbal remedy</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>herbal remedy</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>nourishment</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lesser nourishment</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>hex</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>analyze balance</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sense life</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>gleam of dawn</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>gleam of dusk</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel magic</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>faerie fire</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>faerie fog</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>negate veil</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>negate luster</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>illumination</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>firestorm</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>heal</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>touch of nightshade</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cyclone</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>creeping doom</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>poison</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>harbor of balance</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>adaptation</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>preserve</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>negate hex</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>entangle</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>plane shift</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>moonwell</Name>
+<Circle>10</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>

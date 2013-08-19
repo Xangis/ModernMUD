@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Ranger</Name>
+<WholistName>&amp;+GRanger&amp;n      </WholistName>
+<PrimeAttribute>strength</PrimeAttribute>
+<FirstWeapon>200</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>0</HitrollLevel47>
+<MinHpGain>9</MinHpGain>
+<MaxHpGain>15</MaxHpGain>
+<ClassNumber>ranger</ClassNumber>
+<Filename>..\classes\Ranger.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Lesser</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dual wield</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>offense</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>kick</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bash</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>springleap</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>parry</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>riposte</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>rescue</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>second attack</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scribe</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>track</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>whirlwind</Name>
+<Level>13</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>9</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h whip</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h misc</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>blindfighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>awareness</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>unarmed damage</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>haste</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dazzle</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>blur</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>barkskin</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>bless</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>call lightning</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>chill touch</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>create food</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>create water</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cure light</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect evil</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sense life</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel evil</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>faerie fog</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>firestorm</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>infravision</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>farsee</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lightning bolt</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>magic missile</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from evil</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize light</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize serious</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>concealment</Name>
+<Circle>6</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>

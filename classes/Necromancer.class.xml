@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Necromancer</Name>
+<WholistName>&amp;+LNecromancer&amp;n </WholistName>
+<PrimeAttribute>intelligence</PrimeAttribute>
+<FirstWeapon>264</FirstWeapon>
+<HitrollLevel0>180</HitrollLevel0>
+<HitrollLevel47>80</HitrollLevel47>
+<MinHpGain>5</MinHpGain>
+<MaxHpGain>8</MaxHpGain>
+<ClassNumber>necromancer</ClassNumber>
+<Filename>..\classes\Necromancer.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Full</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scribe</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>acid blast</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>enlarge</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>reduce</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>power word blind</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>burning hands</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>chill touch</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>color spray</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>prismatic spray</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>celestial sword</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect invis</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>comprehend languages</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel magic</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>faerie fire</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>reveal true name</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel invisible</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fireball</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>bigbys clenched fist</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>akiaurns power word</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fly</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>strength</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>slowness</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dexterity</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>infravision</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>invisibility</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>farsee</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lightning bolt</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cone of cold</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor creation</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>magic missile</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ice storm</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>melfs acid arrow</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>immolate</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>incendiary cloud</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mass invisibility</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor globe</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>shield</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>shocking grasp</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sleep</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor paralysis</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>teleport</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ventriloquate</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>weaken</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>feeblemind</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>levitation</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>meteor swarm</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>chain lightning</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wizard eye</Name>
+<Circle>12</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>relocate</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dimension door</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>power word stun</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fireshield</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>coldshield</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>concealment</Name>
+<Circle>3</Circle>
+</SpellEntry>
+  <SpellEntry>
+    <Name>heal undead</Name>
+    <Circle>6</Circle>
+  </SpellEntry>
+  <SpellEntry>
+    <Name>protect undead</Name>
+    <Circle>4</Circle>
+  </SpellEntry>
+  <SpellEntry>
+    <Name>cloak of fear</Name>
+    <Circle>3</Circle>
+  </SpellEntry>
+</Spells>
+</CharClass>

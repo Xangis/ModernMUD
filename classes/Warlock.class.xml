@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Warlock</Name>
+<WholistName>&amp;+mWar&amp;+Llock&amp;n         </WholistName>
+<PrimeAttribute>intelligence</PrimeAttribute>
+<FirstWeapon>210</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>3</HitrollLevel47>
+<MinHpGain>7</MinHpGain>
+<MaxHpGain>11</MaxHpGain>
+<ClassNumber>warlock</ClassNumber>
+<Filename>..\classes\Warlock.class.xml</Filename>
+<GainsMana>true</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>backstab</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>disarm</Name>
+<Level>33</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dual wield</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>hide</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>parry</Name>
+<Level>29</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>riposte</Name>
+<Level>37</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>rescue</Name>
+<Level>17</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>second attack</Name>
+<Level>9</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>sneak</Name>
+<Level>13</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>third attack</Name>
+<Level>41</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>21</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>fast healing</Name>
+<Level>25</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>track</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>5</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h whip</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>switch opponents</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>unarmed damage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>alcohol tolerance</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>singing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>drums</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>flute</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>pipes</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>lyre</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>harp</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>horn</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>fiddle</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mandolin</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dulcimer</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>climb</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>listen</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+</Spells>
+</CharClass>

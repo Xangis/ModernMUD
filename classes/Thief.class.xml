@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Thief</Name>
+<WholistName>&amp;+LThief&amp;n       </WholistName>
+<PrimeAttribute>dexterity</PrimeAttribute>
+<FirstWeapon>210</FirstWeapon>
+<HitrollLevel0>180</HitrollLevel0>
+<HitrollLevel47>30</HitrollLevel47>
+<MinHpGain>7</MinHpGain>
+<MaxHpGain>14</MaxHpGain>
+<ClassNumber>thief</ClassNumber>
+<Filename>..\classes\Thief.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>backstab</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>disarm</Name>
+<Level>25</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dual wield</Name>
+<Level>13</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>offense</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>hide</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>parry</Name>
+<Level>41</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>riposte</Name>
+<Level>45</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>peek</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>pick lock</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>poison weapon</Name>
+<Level>9</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>second attack</Name>
+<Level>9</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>sneak</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>steal</Name>
+<Level>29</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>untangle</Name>
+<Level>17</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>track</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dirt toss</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h whip</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>trip</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>blindfighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>switch opponents</Name>
+<Level>25</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>awareness</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>unarmed damage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>safe fall</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>climb</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>tumble</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>appraise</Name>
+<Level>21</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>pickpocket</Name>
+<Level>21</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+</Spells>
+</CharClass>

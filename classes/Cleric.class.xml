@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Cleric</Name>
+<WholistName>&amp;+cCleric&amp;n      </WholistName>
+<PrimeAttribute>wisdom</PrimeAttribute>
+<FirstWeapon>254</FirstWeapon>
+<HitrollLevel0>180</HitrollLevel0>
+<HitrollLevel47>60</HitrollLevel47>
+<MinHpGain>8</MinHpGain>
+<MaxHpGain>12</MaxHpGain>
+<ClassNumber>cleric</ClassNumber>
+<Filename>..\classes\Cleric.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Full</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>offense</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>second attack</Name>
+<Level>41</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>25</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>fast healing</Name>
+<Level>29</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>armor</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>darkness</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>bless</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>blindness</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fear</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>water breathing</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cause critical</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cause light</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cause serious</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>continual light</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>create food</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>create water</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cure blindness</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cure critical</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cure disease</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cure light</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>remove poison</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cure serious</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>curse</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect evil</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sense life</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>true seeing</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>comprehend languages</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel evil</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel magic</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>earthquake</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>flamestrike</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>harm</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>full harm</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>resurrect</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>heal</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>full heal</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vitality</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mass heal</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>group heal</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>silence</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from evil</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from good</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from acid</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from cold</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from fire</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from gas</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>protection from lightning</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>rejuvenate</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize light</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize serious</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize critical</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>preserve</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>remove curse</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>plane shift</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>turn undead</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>destroy undead</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>word of recall</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>group recall</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect good</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel good</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>holy word</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>unholy word</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>soulshield</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>slow poison</Name>
+<Circle>2</Circle>
+</SpellEntry>
+  <SpellEntry>
+    <Name>know alignment</Name>
+    <Circle>1</Circle>
+  </SpellEntry>
+  <SpellEntry>
+<Name>detect undead</Name>
+<Circle>3</Circle>
+</SpellEntry>
+  <SpellEntry>
+    <Name>detect poison</Name>
+    <Circle>1</Circle>
+  </SpellEntry>
+</Spells>
+</CharClass>

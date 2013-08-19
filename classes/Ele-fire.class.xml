@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Fire Elementalist</Name>
+<WholistName>&amp;+rElementalist&amp;n</WholistName>
+<PrimeAttribute>intelligence</PrimeAttribute>
+<FirstWeapon>264</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>6</HitrollLevel47>
+<MinHpGain>5</MinHpGain>
+<MaxHpGain>8</MaxHpGain>
+<ClassNumber>elementFire</ClassNumber>
+<Filename>..\classes\Fire Elementalist.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Full</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>33</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scribe</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>fiery starshell</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>stornogs spheres</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elemental form</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wall of force</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wall of fire</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wall of sparks</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mirror image</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>burning hands</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>color spray</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>prismatic spray</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elemental sight</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect invis</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel magic</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>reveal true name</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fireball</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fly</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>gate</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>slowness</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>identify</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>infravision</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>farsee</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elemental creation</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>molten spray</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>inferno</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>conflaguration</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor globe</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>major globe</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>group globe</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>deny fire</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sleep</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>group stoneskin</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>flashfire</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mass dispel magic</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>stoneskin</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>flickering flame</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>feeblemind</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>aura sight</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>disintegrate</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>relocate</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dimension door</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fireshield</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fireskin</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fire bolt</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor blending</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>spark</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fiery smith</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>azure flame</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>blending</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dismissal</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon elemental</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon fire serpent</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon greater elemental</Name>
+<Circle>11</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>

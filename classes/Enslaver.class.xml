@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Psionicist</Name>
+<WholistName>&amp;+bEnslaver    &amp;n</WholistName>
+<PrimeAttribute>power</PrimeAttribute>
+<FirstWeapon>239</FirstWeapon>
+<HitrollLevel0>180</HitrollLevel0>
+<HitrollLevel47>90</HitrollLevel47>
+<MinHpGain>4</MinHpGain>
+<MaxHpGain>10</MaxHpGain>
+<ClassNumber>enslaver</ClassNumber>
+<Filename>..\classes\Enslaver.class.xml</Filename>
+<GainsMana>true</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>chameleon power</Name>
+<Level>4</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>heighten senses</Name>
+<Level>21</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shadow form</Name>
+<Level>17</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>37</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>17</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>energy drain</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>flight</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>invisibility</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>teleport</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>adrenaline control</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>agitation</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>aura sight</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>awe</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ballistic attack</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>biofeedback</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>cell adjustment</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>combat mind</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>create sound</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>deathfield</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detonate</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>neural fragmentation</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>displacement</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>domination</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ectoplasmic form</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>ego whip</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>energy containment</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>enhance armor</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>enhanced strength</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>flesh armor</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>inertial barrier</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>inflict pain</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>intellect fortress</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lend health</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>levitation</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mental barrier</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mind thrust</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>project force</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>psionic blast</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mana drain</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>share strength</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>thought shield</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wormhole</Name>
+<Circle>10</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>

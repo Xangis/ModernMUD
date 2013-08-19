@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Earth Elementalist</Name>
+<WholistName>&amp;+yElementalist&amp;n</WholistName>
+<PrimeAttribute>intelligence</PrimeAttribute>
+<FirstWeapon>264</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>6</HitrollLevel47>
+<MinHpGain>5</MinHpGain>
+<MaxHpGain>8</MaxHpGain>
+<ClassNumber>elementEarth</ClassNumber>
+<Filename>..\classes\Earth Elementalist.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<MemType>Full</MemType>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>33</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scribe</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>earthen starshell</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>earthen tomb</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>stornogs spheres</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elemental form</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>miners intuition</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wall of iron</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wall of stone</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>wall of force</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mirror image</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>haste</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>color spray</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>prismatic spray</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elemental sight</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect invis</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dispel magic</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>earthquake</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>reveal true name</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fly</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>gate</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>strength</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>slowness</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>identify</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>farsee</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>elemental creation</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor globe</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>major globe</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>group globe</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>deny earth</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sleep</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>group stoneskin</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>battering stonestorm</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>bombard</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>mass dispel magic</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>stonestrength</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>stoneskin</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>feeblemind</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>aura sight</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>disintegrate</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>relocate</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dimension door</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dust blast</Name>
+<Circle>1</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>pebble</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>minor blending</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dirt cloud</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>earthen smith</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>hover</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>blending</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dismissal</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon elemental</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon pech</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>summon greater elemental</Name>
+<Circle>11</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>

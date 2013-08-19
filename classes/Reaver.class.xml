@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="_transform.xsl"?>
+<CharClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Name>Reaver</Name>
+<WholistName>&amp;+rRe&amp;+Rav&amp;n&amp;+rer&amp;n      </WholistName>
+<PrimeAttribute>strength</PrimeAttribute>
+<FirstWeapon>200</FirstWeapon>
+<HitrollLevel0>18</HitrollLevel0>
+<HitrollLevel47>0</HitrollLevel47>
+<MinHpGain>9</MinHpGain>
+<MaxHpGain>15</MaxHpGain>
+<ClassNumber>reaver</ClassNumber>
+<Filename>..\classes\Reaver.class.xml</Filename>
+<GainsMana>false</GainsMana>
+<ExperienceModifier>1</ExperienceModifier>
+<SaveModifiers>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+  <float>0</float>
+</SaveModifiers>
+<Skills>
+<SkillEntry>
+<Name>dodge</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>dual wield</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>offense</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>hide</Name>
+<Level>17</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>kick</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>springleap</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>parry</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>riposte</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>rescue</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scrolls</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>second attack</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>staves</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>wands</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>shield block</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>scribe</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>track</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>mount</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>swim</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>meditate</Name>
+<Level>9</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>barehanded fighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h slashing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h piercing</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h whip</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h misc</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>1h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>2h bludgeoning</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>carve</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial casting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>aerial combat</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bandage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>quick chant</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>blindfighting</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>awareness</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>unarmed damage</Name>
+<Level>1</Level>
+</SkillEntry>
+<SkillEntry>
+<Name>bladeflash</Name>
+<Level>25</Level>
+</SkillEntry>
+</Skills>
+<Spells>
+<SpellEntry>
+<Name>haste</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>dazzle</Name>
+<Circle>10</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>blur</Name>
+<Circle>11</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>prismatic orb</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>shadow magic</Name>
+<Circle>7</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>lesser nourishment</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>sense life</Name>
+<Circle>6</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>detect magic</Name>
+<Circle>4</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>fly</Name>
+<Circle>9</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>farsee</Name>
+<Circle>8</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>magic missile</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize light</Name>
+<Circle>3</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>vigorize serious</Name>
+<Circle>5</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>shadow shield</Name>
+<Circle>2</Circle>
+</SpellEntry>
+<SpellEntry>
+<Name>concealment</Name>
+<Circle>6</Circle>
+</SpellEntry>
+</Spells>
+</CharClass>
