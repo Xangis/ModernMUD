@@ -23,11 +23,23 @@ namespace MUDEngine
         private List<MemorizeData> _memorized = new List<MemorizeData>();
         public string Password { get; set; }
         public string NewPassword { get; set; }
+        /// <summary>
+        /// Title, displayed on the "who list".
+        /// </summary>
         public string Title { get; set; }
         public string Prompt { get; set; }
         public double Score { get; set; }
+        /// <summary>
+        /// Thirst level. 0 = dehydrating.
+        /// </summary>
         public int Thirst { get; set; }
+        /// <summary>
+        /// Hungry level. 0 = starving.
+        /// </summary>
         public int Hunger { get; set; }
+        /// <summary>
+        /// Drunk level, 0 = sober.
+        /// </summary>
         public int Drunk { get; set; }
         public int PageLength { get; set; }
         public ImmortalData ImmortalData { get; set; }
@@ -35,7 +47,13 @@ namespace MUDEngine
         public SerializableDictionary<String, Int32> SpellAptitude;
         public SerializableDictionary<String, Int32> SkillAptitude;
         public SerializableDictionary<String, Int32> SongAptitude;
+        /// <summary>
+        /// Ability levels with the different racial languages.
+        /// </summary>
         public int[] LanguageAptitude = new int[Race.MAX_LANG];
+        /// <summary>
+        /// Language currently being spoken.
+        /// </summary>
         public Race.Language Speaking { get; set; }
         private List<AliasData> _aliases = new List<AliasData>();
         public TrophyData[] TrophyData { get; set; }

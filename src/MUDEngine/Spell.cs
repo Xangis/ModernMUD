@@ -129,10 +129,19 @@ namespace MUDEngine
         public bool CanBeScribed { get; set; }
         public StackType StackingType { get; set; }
         public string Code { get; set; }
+        /// <summary>
+        /// Name of the file where the spell is stored.
+        /// </summary>
         [XmlIgnore]
         public string FileName { get; set; }
+        /// <summary>
+        /// Compiled, executable code for the spell.
+        /// </summary>
         [XmlIgnore]
         public Assembly CompiledCode { get; set; }
+        /// <summary>
+        /// Type of damage that the spell inflicts.
+        /// </summary>
         public AttackType.DamageType DamageInflicted { get; set; }
         /// <summary>
         /// Determines what happens if a victim makes a saving throw.

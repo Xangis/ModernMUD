@@ -1455,37 +1455,39 @@ namespace MUDEngine
                     {
                         for (int k = room.People.Count - 1; k >= 0; k--)
                         {
-                            CharData rch = room.People[k];
-                            if( ( !rch.IsNPC() && rch._level >= Limits.LEVEL_AVATAR )
-                                    || rch.IsAffected( Affect.AFFECT_DENY_FIRE )
-                                    || rch.GetRace() == Race.RACE_FIRE_ELE )
+                            CharData roomChar = room.People[k];
+                            if ((!roomChar.IsNPC() && roomChar._level >= Limits.LEVEL_AVATAR)
+                                    || roomChar.IsAffected(Affect.AFFECT_DENY_FIRE)
+                                    || roomChar.GetRace() == Race.RACE_FIRE_ELE)
+                            {
                                 continue;
-                            ris = rch.CheckRIS( AttackType.DamageType.fire );
+                            }
+                            ris = roomChar.CheckRIS( AttackType.DamageType.fire );
                             if (ris == Race.ResistanceType.vulnerable)
                             {
-                                rch._hitpoints -= 8;
+                                roomChar._hitpoints -= 8;
                             }
                             else if (ris == Race.ResistanceType.susceptible)
                             {
-                                rch._hitpoints -= 6;
+                                roomChar._hitpoints -= 6;
                             }
                             else if (ris == Race.ResistanceType.normal)
                             {
-                                rch._hitpoints -= 4;
+                                roomChar._hitpoints -= 4;
                             }
                             else if (ris == Race.ResistanceType.resistant)
                             {
-                                rch._hitpoints -= 2;
+                                roomChar._hitpoints -= 2;
                             }
                             else if (ris == Race.ResistanceType.immune)
                             {
                                 continue;
                             }
-                            rch.SendText( "&+rYou are burned by the heat of the room.\r\n" );
-                            rch.UpdatePosition();
-                            if( rch._position == Position.dead )
+                            roomChar.SendText( "&+rYou are burned by the heat of the room.\r\n" );
+                            roomChar.UpdatePosition();
+                            if( roomChar._position == Position.dead )
                             {
-                                Combat.KillingBlow( rch, rch );
+                                Combat.KillingBlow( roomChar, roomChar );
                             }
                         }
                     }
@@ -1572,11 +1574,17 @@ namespace MUDEngine
                             {
                                 CharData rch = room.People[l];
                                 if (rch._flyLevel == obj.FlyLevel)
+                                {
                                     SocketConnection.Act("$p&n falls away.", rch, obj, rch, SocketConnection.MessageTarget.character);
+                                }
                                 if (rch._flyLevel != 0 && rch._flyLevel < obj.FlyLevel)
+                                {
                                     SocketConnection.Act("$p&n falls past you from above.", rch, obj, rch, SocketConnection.MessageTarget.character);
+                                }
                                 if (rch._flyLevel == 0)
+                                {
                                     SocketConnection.Act("$p&n falls from above.", rch, obj, rch, SocketConnection.MessageTarget.character);
+                                }
                             }
                             obj.FlyLevel = 0;
                         }

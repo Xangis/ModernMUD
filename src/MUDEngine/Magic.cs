@@ -295,17 +295,17 @@ namespace MUDEngine
             string buf2 = "$n&n utters the words, '" + buf + "'.";
             buf = "$n&n utters the words, '" + spell.Name + "'.";
 
-            foreach( CharData rch in ch._inRoom.People )
+            foreach( CharData roomChar in ch._inRoom.People )
             {
-                if( rch._flyLevel != ch._flyLevel )
+                if( roomChar._flyLevel != ch._flyLevel )
                     continue;
-                if( rch != ch && ( ( rch._charClass == ch._charClass ) || ch.IsImmortal() || ch.IsAffected( Affect.AFFECT_COMP_LANG ) ) )
+                if( roomChar != ch && ( ( roomChar._charClass == ch._charClass ) || ch.IsImmortal() || ch.IsAffected( Affect.AFFECT_COMP_LANG ) ) )
                 {
-                    SocketConnection.Act( buf, ch, null, rch, SocketConnection.MessageTarget.victim );
+                    SocketConnection.Act( buf, ch, null, roomChar, SocketConnection.MessageTarget.victim );
                 }
-                else if( rch != ch )
+                else if( roomChar != ch )
                 {
-                    SocketConnection.Act( buf2, ch, null, rch, SocketConnection.MessageTarget.victim );
+                    SocketConnection.Act( buf2, ch, null, roomChar, SocketConnection.MessageTarget.victim );
                 }
             }
 

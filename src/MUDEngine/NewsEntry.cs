@@ -10,8 +10,17 @@ namespace MUDEngine
     [Serializable]
     public class NewsEntry
     {
+        /// <summary>
+        /// Date posted.
+        /// </summary>
         public string Date { get; set; }
+        /// <summary>
+        /// Details of the news entry.
+        /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// Poster.
+        /// </summary>
         public string Author { get; set; }
         public string ColorCode { get; set; }
     }

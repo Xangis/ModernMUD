@@ -7,6 +7,9 @@ using ModernMUD;
 
 namespace MUDEngine
 {
+    /// <summary>
+    /// Represents an in-game issue, such as a bug, typo, idea, or other.
+    /// </summary>
     public class Issue
     {
         public enum Priority
@@ -30,10 +33,19 @@ namespace MUDEngine
         public IssueEntry IssueDetail { get; set; }
         private List<IssueEntry> _updates;
         public IssueEntry Closure { get; set; }
+        /// <summary>
+        /// Room in which the issue was entered. May or may not be relevant.
+        /// </summary>
         public int RoomIndexNumber { get; set; }
+        /// <summary>
+        /// Did an immortal create the issue?
+        /// </summary>
         public bool OpenedByImmortal { get; set; }
         private Type _type;
         public Priority IssuePriority { get; set; }
+        /// <summary>
+        /// Has the issue been closed or resolved?
+        /// </summary>
         public bool Closed { get; set; }
         public int IssueNumber { get; set; }
         private static int _numIssues;
@@ -90,6 +102,10 @@ namespace MUDEngine
             set { _type = value; }
         }
 
+        /// <summary>
+        /// Loads all issues into the game engine.
+        /// </summary>
+        /// <returns></returns>
         public static bool Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.IssueFile;
@@ -109,6 +125,10 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Saves all of the issues to disk.
+        /// </summary>
+        /// <returns></returns>
         public static bool Save()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.IssueFile;

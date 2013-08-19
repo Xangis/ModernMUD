@@ -10,6 +10,9 @@ namespace MUDEngine
             PracticeModifier = prac;
         }
 
+        /// <summary>
+        /// Table of wisdom modifiers.
+        /// </summary>
         public static WisModifier[] Table = new[]		
         {
             new WisModifier( 0 ),	//  0
