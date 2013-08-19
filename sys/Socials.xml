@@ -1,0 +1,3233 @@
+<?xml version="1.0"?>
+<Socials xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<SocialData>
+<Social>
+<Name>accuse</Name>
+<CharSelf>You accuse yourself.</CharSelf>
+<CharFound>You look accusingly at $M.</CharFound>
+<CharNoArgument>Accuse whom?</CharNoArgument>
+<OthersSelf>$n seems to have a bad conscience.</OthersSelf>
+<OthersNoArgument>$n is in an accusing mood.</OthersNoArgument>
+<OthersFound>$n looks accusingly at $N.</OthersFound>
+<VictimFound>$n looks accusingly at you.</VictimFound>
+</Social>
+<Social>
+<Name>ack</Name>
+<CharSelf>You ACK at yourself.</CharSelf>
+<CharFound>You ACK at $M like Bill the Cat.</CharFound>
+<CharNoArgument>You ACK around like Bill the Cat.</CharNoArgument>
+<OthersSelf>$n ACKS at $mself like Bill the Cat.. where's the hairball?</OthersSelf>
+<OthersNoArgument>$n ACKS around like Bill the Cat.</OthersNoArgument>
+<OthersFound>$n ACKS at $N like Bill the Cat.</OthersFound>
+<VictimFound>$n ACKS at you like Bill the Cat.</VictimFound>
+</Social>
+<Social>
+<Name>afk</Name>
+<CharSelf>If you are afk, how can you let everyone know you are?</CharSelf>
+<CharFound>You let everyone know that $N is away from the keyboard.</CharFound>
+<CharNoArgument>You announce that you are going away from keyboard for a few moments.</CharNoArgument>
+<OthersSelf>$N is here in spirit, however $e is afk at the moment.</OthersSelf>
+<OthersNoArgument>$N is going away from keyboard for a few moments.</OthersNoArgument>
+<OthersFound>$n lets everyone know that $N is away from keyboard.</OthersFound>
+<VictimFound>$N lets everyone know that you are away from keyboard.</VictimFound>
+</Social>
+<Social>
+<Name>agree</Name>
+<CharSelf>Well I hope you would agree with yourself!</CharSelf>
+<CharFound>You agree with $M.</CharFound>
+<CharNoArgument>You seem to be in an agreeable mood.</CharNoArgument>
+<OthersSelf>$n agrees with $mself, of course.</OthersSelf>
+<OthersNoArgument>$n seems to agree.</OthersNoArgument>
+<OthersFound>$n agrees with $N.</OthersFound>
+<VictimFound>$n agrees with you.</VictimFound>
+</Social>
+<Social>
+<Name>amaze</Name>
+<CharSelf>You amaze yourself. Wow! You never knew how talented you were.</CharSelf>
+<CharFound>You do your best to amaze $M.</CharFound>
+<CharNoArgument>You can only hope to amaze SOMEBODY.</CharNoArgument>
+<OthersSelf>$n has amazed $mself with a fit of self-inspiration.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n does their best to amaze you, Nice try!</OthersFound>
+<VictimFound>$n does $m best to amaze you. Nice try.</VictimFound>
+</Social>
+<Social>
+<Name>apologize</Name>
+<CharSelf>You apologize to yourself.</CharSelf>
+<CharFound>You apologize to $M.</CharFound>
+<CharNoArgument>You apologize for your behavior.</CharNoArgument>
+<OthersSelf>$n apologizes to $mself.  Hmmmm.</OthersSelf>
+<OthersNoArgument>$n apologizes for $s rude behavior.</OthersNoArgument>
+<OthersFound>$n apologizes to $N.</OthersFound>
+<VictimFound>$n apologizes to you.</VictimFound>
+</Social>
+<Social>
+<Name>applaud</Name>
+<CharSelf>You applaud at yourself.  Boy, are we conceited!</CharSelf>
+<CharFound>You clap at $S actions.</CharFound>
+<CharNoArgument>Clap, clap, clap.</CharNoArgument>
+<OthersSelf>$n applauds at $mself.  Boy, are we conceited!</OthersSelf>
+<OthersNoArgument>$n gives a round of applause.</OthersNoArgument>
+<OthersFound>$n claps at $N's actions.</OthersFound>
+<VictimFound>$n gives you a round of applause.  You MUST'VE done something good!</VictimFound>
+</Social>
+<Social>
+<Name>arch</Name>
+<CharSelf>Sorry, no one here is that smart.</CharSelf>
+<CharFound>Sorry, no one here is that smart.</CharFound>
+<CharNoArgument>Sorry, no one here is that smart.</CharNoArgument>
+<OthersSelf>$n arches a witty saying at $mself, grounded in bizarre concepts.</OthersSelf>
+<OthersNoArgument>$n arches a witty saying, grounded in bizarre concepts.</OthersNoArgument>
+<OthersFound>$n arches a witty saying at $N, grounded in bizarre concepts.</OthersFound>
+<VictimFound>$n arches a witty saying at you, grounded in bizarre concepts.</VictimFound>
+</Social>
+<Social>
+<Name>ayt</Name>
+<CharSelf>You wonder if you are really here.</CharSelf>
+<CharFound>You wave your hands in $N's face, wondering if $E's really there.</CharFound>
+<CharNoArgument>Is WHO there?</CharNoArgument>
+<OthersSelf>$n's lights are on, but nobody's home.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n waves $s hands in $N's face, wondering if $E's really there.</OthersFound>
+<VictimFound>Hello, is anyone home? $n waves $m hands in front of your face.</VictimFound>
+</Social>
+<Social>
+<Name>bandaid</Name>
+<CharSelf>Your bandaid sticks together.</CharSelf>
+<CharFound>You band-aid $M, kiss $M, and make it feel all better.</CharFound>
+<CharNoArgument>You desperately try to bandage your wounds!</CharNoArgument>
+<OthersSelf>$n puts a Snoopy Bandaid on $s owie and makes $mself feel better.</OthersSelf>
+<OthersNoArgument>$n tries desperately to bandage $s wounds!</OthersNoArgument>
+<OthersFound>$n puts a bandaid on $N, making $M feel better.</OthersFound>
+<VictimFound>$n puts a Snoopy Bandaid on your booboo, kisses it, makes it feel all better.</VictimFound>
+</Social>
+<Social>
+<Name>bang</Name>
+<CharSelf>You shoot yourself in the head.</CharSelf>
+<CharFound>You bang $S head against the wall.</CharFound>
+<CharNoArgument>OUCH! A head like that should hurt.</CharNoArgument>
+<OthersSelf>$n shoots $sself in the head.</OthersSelf>
+<OthersNoArgument>$n bangs $s head against the wall.</OthersNoArgument>
+<OthersFound>$n bangs $N's head against the wall.</OthersFound>
+<VictimFound>$n bangs your head against the wall.  Ouch! Stop it!</VictimFound>
+</Social>
+<Social>
+<Name>banzai</Name>
+<CharSelf>You scream 'BANZAI!!!!' at yourself, and brandish your weapon for battle.</CharSelf>
+<CharFound>You scream 'BANZAI!!!!' and drag $M into the fray with you.</CharFound>
+<CharNoArgument>You scream 'BANZAI!!!!' and brandish your sword for battle.</CharNoArgument>
+<OthersSelf>$n screams 'BANZAI!!!!' at $mself, and charges into the fray.</OthersSelf>
+<OthersNoArgument>$n screams 'BANZAI!!!!' and charges into the fray.</OthersNoArgument>
+<OthersFound>$n screams 'BANZAI!!!!' and drags $N into the fray with $m!</OthersFound>
+<VictimFound>$n screams 'BANZAI!!!!, and drags you into the fray with $m!</VictimFound>
+</Social>
+<Social>
+<Name>bark</Name>
+<CharSelf>You bark at yourself.  Woof!  Woof!</CharSelf>
+<CharFound>You bark at $M.</CharFound>
+<CharNoArgument>Woof!  Woof!</CharNoArgument>
+<OthersSelf>$n barks at $mself.  Woof!  Woof!</OthersSelf>
+<OthersNoArgument>$n barks like a dog.</OthersNoArgument>
+<OthersFound>$n barks at $N.</OthersFound>
+<VictimFound>$n barks at you.</VictimFound>
+</Social>
+<Social>
+<Name>bath</Name>
+<CharSelf>You bathe yourself.</CharSelf>
+<CharFound>You give $M a bath.</CharFound>
+<CharNoArgument>You take a bath.</CharNoArgument>
+<OthersSelf>$n gives $mself a bath, $m hands all over her body.</OthersSelf>
+<OthersNoArgument>$n takes a bath.</OthersNoArgument>
+<OthersFound>$n gives $N a bath.</OthersFound>
+<VictimFound>$n gives you a bath, and $m hands are very intimate with your body.</VictimFound>
+</Social>
+<Social>
+<Name>bbl</Name>
+<CharSelf>You bearhug yourself.</CharSelf>
+<CharFound>You bearhug $M.</CharFound>
+<CharNoArgument>You hug a grizzly bear.</CharNoArgument>
+<OthersSelf>$n bearhugs $mself.</OthersSelf>
+<OthersNoArgument>$n hugs a flea-infested grizzly bear.</OthersNoArgument>
+<OthersFound>$n bearhugs $N.  Some ribs break.</OthersFound>
+<VictimFound>$n bearhugs you.  Wonder what's coming next?</VictimFound>
+</Social>
+<Social>
+<Name>beer</Name>
+<CharSelf>You draw yourself a beer.</CharSelf>
+<CharFound>You draw a cold, frosty beer for $N.</CharFound>
+<CharNoArgument>You pop open a cold, frosty beer and take a drink.</CharNoArgument>
+<OthersSelf>$n draws $mself a beer.</OthersSelf>
+<OthersNoArgument>$n pops open a cold, frosty beer and takes a drink.</OthersNoArgument>
+<OthersFound>$n draws a cold, frosty beer for $N.</OthersFound>
+<VictimFound>$n draws a cold, frosty beer for you.</VictimFound>
+</Social>
+<Social>
+<Name>beg</Name>
+<CharSelf>Begging yourself for money doesn't help.</CharSelf>
+<CharFound>You beg $N... Pretty pwease?!</CharFound>
+<CharNoArgument>You beg the gods for mercy.</CharNoArgument>
+<OthersSelf>$n begs $mself for money.</OthersSelf>
+<OthersNoArgument>The gods fall down laughing at $n's request for mercy.</OthersNoArgument>
+<OthersFound>$n begs $N... Pretty pwease?!</OthersFound>
+<VictimFound>Pretty pwease?!? $n begs you, looking desperate.</VictimFound>
+</Social>
+<Social>
+<Name>bid</Name>
+<CharSelf>Sheesh, give it to yourself already.</CharSelf>
+<CharFound>You bid on $N's offer.</CharFound>
+<CharNoArgument>You bid on the offer like a beggar.</CharNoArgument>
+<OthersSelf>$n bids on $m own offer eagerly.</OthersSelf>
+<OthersNoArgument>$n bids on the offer rather eagerly.</OthersNoArgument>
+<OthersFound>$n bids on $N's offer.</OthersFound>
+<VictimFound>$n bids eagerly on your offer.</VictimFound>
+</Social>
+<Social>
+<Name>bird</Name>
+<CharSelf>Birdie crashed</CharSelf>
+<CharFound>You flip $N off.</CharFound>
+<CharNoArgument>You give everyone the bird.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n flips everyone off.</OthersNoArgument>
+<OthersFound>$n flips $N off.</OthersFound>
+<VictimFound>CHIRP!  $n flips you off!</VictimFound>
+</Social>
+<Social>
+<Name>bite</Name>
+<CharSelf>You bite yourself on the leg.</CharSelf>
+<CharFound>You bite $M on the leg.</CharFound>
+<CharNoArgument>Who do you want to bite?</CharNoArgument>
+<OthersSelf>$n bites $mself on the leg.</OthersSelf>
+<OthersNoArgument>$n bares $s fangs, looking for something to bite.</OthersNoArgument>
+<OthersFound>$n bites $N on the leg.</OthersFound>
+<VictimFound>OUCH!! $n bites you on the leg!</VictimFound>
+</Social>
+<Social>
+<Name>bkiss</Name>
+<CharSelf>You blow a kiss to yourself.</CharSelf>
+<CharFound>You blow a kiss to $M.</CharFound>
+<CharNoArgument>Blow a kiss to whom?</CharNoArgument>
+<OthersSelf>$n blows a kiss to $mself.  Weird.</OthersSelf>
+<OthersNoArgument>$n blows at $s hand.</OthersNoArgument>
+<OthersFound>$n blows a kiss to $N.  Touching, ain't it?</OthersFound>
+<VictimFound>$n blows a kiss to you.  Not as good as a real one, huh?</VictimFound>
+</Social>
+<Social>
+<Name>bleed</Name>
+<CharSelf>You bleed all over yourself!</CharSelf>
+<CharFound>You bleed all over $M!</CharFound>
+<CharNoArgument>You bleed all over the room!</CharNoArgument>
+<OthersSelf>$n bleeds all over $mself.</OthersSelf>
+<OthersNoArgument>$n bleeds all over the room!  Get out of $s way!</OthersNoArgument>
+<OthersFound>$n bleeds all over $N.  Better leave, you may be next!</OthersFound>
+<VictimFound>$n bleeds all over you!  YUCK!</VictimFound>
+</Social>
+<Social>
+<Name>blindfold</Name>
+<CharSelf>You blindfold yourself, not wanting to see what happens next.</CharSelf>
+<CharFound>You a tie a blindfold securely about $S head.</CharFound>
+<CharNoArgument>You pull out a blindfold and grin evilly.</CharNoArgument>
+<OthersSelf>$n blindfolds $mself, not wanting to see what happens next.</OthersSelf>
+<OthersNoArgument>$n pulls out a blindfold and grins evilly.</OthersNoArgument>
+<OthersFound>$n ties a blindfold securely about $N's head. Must be dark in there.</OthersFound>
+<VictimFound>$n ties a blindfold securely about your head. You can't see a thing.</VictimFound>
+</Social>
+<Social>
+<Name>blink</Name>
+<CharSelf>You are sooooooooooooo confused</CharSelf>
+<CharFound>You blink at $M in disbelief.</CharFound>
+<CharNoArgument>You blink in utter disbelief.</CharNoArgument>
+<OthersSelf>$n blinks at $mself in complete confusion.</OthersSelf>
+<OthersNoArgument>$n blinks in utter disbelief.</OthersNoArgument>
+<OthersFound>$n blinks at $N.</OthersFound>
+<VictimFound>$n blinks at you, not believing.</VictimFound>
+</Social>
+<Social>
+<Name>blow</Name>
+<CharSelf>You feel the wind whistle between your ears.</CharSelf>
+<CharFound>You blow seductively in $S ear.</CharFound>
+<CharNoArgument>Blow in whose ear?</CharNoArgument>
+<OthersSelf>$n feels the wind whistle between $s ears.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n blows seductively into $N's ear.</OthersFound>
+<VictimFound>$n blows seductively into your ear.  Your whole body begins to tingle!</VictimFound>
+</Social>
+<Social>
+<Name>blush</Name>
+<CharSelf>You blush at your own folly.</CharSelf>
+<CharFound>You get all flustered at seeing $M, blushing bright red.</CharFound>
+<CharNoArgument>Your cheeks are burning.</CharNoArgument>
+<OthersSelf>$n blushes as $e notices $s boo-boo.</OthersSelf>
+<OthersNoArgument>$n blushes a fiery red.</OthersNoArgument>
+<OthersFound>$n blushes as $e sees $N here.</OthersFound>
+<VictimFound>$n blushes as $e sees you here.  Such an effect on people!</VictimFound>
+</Social>
+<Social>
+<Name>boggle</Name>
+<CharSelf>BOGGLE  Um.. let's see. therapy.. here it is.. 1-900-GET-HELP..</CharSelf>
+<CharFound>You boggle at $M, what the heck is $E talking about?</CharFound>
+<CharNoArgument>You boggle at that concept.</CharNoArgument>
+<OthersSelf>$n looks totally boggled about $mself.</OthersSelf>
+<OthersNoArgument>$n boggles at that concept.</OthersNoArgument>
+<OthersFound>$n boggles at $N, totally confounded.</OthersFound>
+<VictimFound>What?!  $n looks boggled.  What the heck do you mean?</VictimFound>
+</Social>
+<Social>
+<Name>bonk</Name>
+<CharSelf>Hey, look at all the little birdies!</CharSelf>
+<CharFound>Bonk! You bonk $M on the head.</CharFound>
+<CharNoArgument>BONK.</CharNoArgument>
+<OthersSelf>$n bonks $mself, sending birdies flying around $s head.</OthersSelf>
+<OthersNoArgument></OthersNoArgument>
+<OthersFound>Bonk! $n bonks $N on the head.</OthersFound>
+<VictimFound>Bonk! $n bonks you on the head. Ooh, look at all the pretty stars!</VictimFound>
+</Social>
+<Social>
+<Name>boogie</Name>
+<CharSelf>You boogie with yourself.  What a great dancer you are!</CharSelf>
+<CharFound>You grab $M and boogie down!</CharFound>
+<CharNoArgument>You boogie down!</CharNoArgument>
+<OthersSelf>$n boogies with $mself.  Guess no one will dance with $m.</OthersSelf>
+<OthersNoArgument>$n gets down and boogies!!</OthersNoArgument>
+<OthersFound>$n grabs $N and they boogie down!</OthersFound>
+<VictimFound>$n grabs you and boogies with you!</VictimFound>
+</Social>
+<Social>
+<Name>bored</Name>
+<CharSelf>You are soooooooooo bored...
+
+OthersAuto	$n is soooooooooooooo bored...</CharSelf>
+<CharFound>You let $N know just how much $E bores you.</CharFound>
+<CharNoArgument>You let everyone in the room know that you're bored.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n is bored and needs something to do!</OthersNoArgument>
+<OthersFound>$n lets $N know just how much $E bores $m.</OthersFound>
+<VictimFound>$n lets you know just how much you bore $m.</VictimFound>
+</Social>
+<Social>
+<Name>bottle</Name>
+<CharSelf>You open a cold bottle of brew for yourself.</CharSelf>
+<CharFound>You open up a cold bottle of brew for $M.</CharFound>
+<CharNoArgument>You open up a cold bottle of brew.</CharNoArgument>
+<OthersSelf>$n opens a cold bottle of brew for $mself.</OthersSelf>
+<OthersNoArgument>$n opens a cold bottle of brew.</OthersNoArgument>
+<OthersFound>$n opens a cold bottle of brew for $N.</OthersFound>
+<VictimFound>$n opens a cold bottle of brew for you.</VictimFound>
+</Social>
+<Social>
+<Name>bounce</Name>
+<CharSelf>You bounce your head like a basketball.</CharSelf>
+<CharFound>You bounce onto $S lap.</CharFound>
+<CharNoArgument>BOIINNNNNNGG!</CharNoArgument>
+<OthersSelf>$n plays basketball with $s head.</OthersSelf>
+<OthersNoArgument>$n bounces around.</OthersNoArgument>
+<OthersFound>$n bounces onto $N's lap.</OthersFound>
+<VictimFound>$n bounces onto your lap.</VictimFound>
+</Social>
+<Social>
+<Name>bow</Name>
+<CharSelf>You kiss your toes.</CharSelf>
+<CharFound>You bow before $M.</CharFound>
+<CharNoArgument>You bow deeply.</CharNoArgument>
+<OthersSelf>$n folds up like a jack knife and kisses $s own toes.</OthersSelf>
+<OthersNoArgument>$n bows deeply.</OthersNoArgument>
+<OthersFound>$n bows before $N.</OthersFound>
+<VictimFound>$n bows before you.</VictimFound>
+</Social>
+<Social>
+<Name>brb</Name>
+<CharSelf>You mumble to yourself, 'I'll be right back'</CharSelf>
+<CharFound>You announce to $M that you will be right back.</CharFound>
+<CharNoArgument>You announce that you will be right back.</CharNoArgument>
+<OthersSelf>$n mumbles to $mself, 'I'll be right back, won't I?'</OthersSelf>
+<OthersNoArgument>$n says in a stern voice, 'I'll be back!'</OthersNoArgument>
+<OthersFound>$n says to $N in a stern voice, 'I'll be back!'</OthersFound>
+<VictimFound>$n says to you in a stern voice, 'I'll be right back!'</VictimFound>
+</Social>
+<Social>
+<Name>brush</Name>
+<CharSelf>You brush out your hair.  There - much better.</CharSelf>
+<CharFound>You brush out $S hair for $M.  Very thoughtful.</CharFound>
+<CharNoArgument>Brush what? Who? Where?</CharNoArgument>
+<OthersSelf>$n brushes out $s hair.  Looks much better now.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n brushes $N's hair for $M.  Looks better now.</OthersFound>
+<VictimFound>$n brushes out your hair.  How nice of $m.</VictimFound>
+</Social>
+<Social>
+<Name>bungee</Name>
+<CharSelf>You tie a bungee cord to yourself and jump off the mud.</CharSelf>
+<CharFound>You tie a bungee cord to $N and throw $M off the mud.</CharFound>
+<CharNoArgument>You tie a bungee cord to the mud and jump into internet.</CharNoArgument>
+<OthersSelf>$n ties a bungee cord to $mself and jumps off the mud.</OthersSelf>
+<OthersNoArgument>$n ties a bungee cord to the mud and jumps into internet.</OthersNoArgument>
+<OthersFound>$n ties a bungee cord to $N and throws $M off the mud.</OthersFound>
+<VictimFound>$n ties a bungee cord to you and throws you off the mud.</VictimFound>
+</Social>
+<Social>
+<Name>burp</Name>
+<CharSelf>You burp at yourself.</CharSelf>
+<CharFound>You burp loudly to $M in response.</CharFound>
+<CharNoArgument>You burp loudly.</CharNoArgument>
+<OthersSelf>$n burps at $mself.  What a sick sight.</OthersSelf>
+<OthersNoArgument>$n burps loudly.</OthersNoArgument>
+<OthersFound>$n burps loudly in response to $N's remark.</OthersFound>
+<VictimFound>$n burps loudly in response to your remark.</VictimFound>
+</Social>
+<Social>
+<Name>bye</Name>
+<CharSelf>You say goodbye to yourself.  Contemplating suicide?</CharSelf>
+<CharFound>You say goodbye to $N.</CharFound>
+<CharNoArgument>You say goodbye to all in the room.</CharNoArgument>
+<OthersSelf>$n says goodbye to $mself.  Is $e contemplating suicide?</OthersSelf>
+<OthersNoArgument>$n says goodbye to everyone in the room.</OthersNoArgument>
+<OthersFound>$n says goodbye to $N.</OthersFound>
+<VictimFound>$n says goodbye to you.</VictimFound>
+</Social>
+<Social>
+<Name>cackle</Name>
+<CharSelf>You cackle at yourself.  Now, THAT'S strange!</CharSelf>
+<CharFound>You cackle gleefully at $N</CharFound>
+<CharNoArgument>You throw back your head and cackle with insane glee!</CharNoArgument>
+<OthersSelf>$n is really crazy now!  $e cackles at $mself.</OthersSelf>
+<OthersNoArgument>$n throws back $s head and cackles with insane glee!</OthersNoArgument>
+<OthersFound>$n cackles gleefully at $N.</OthersFound>
+<VictimFound>$n cackles gleefully at you.  Better keep your distance from $m.</VictimFound>
+</Social>
+<Social>
+<Name>calm</Name>
+<CharSelf>Your blood pressure drops a little.</CharSelf>
+<CharFound>You try to calm $M down.</CharFound>
+<CharNoArgument>Calm? CALM?? Calm WHO?!</CharNoArgument>
+<OthersSelf>$n tries to calm $mself down.</OthersSelf>
+<OthersNoArgument>$n looks around, then hollers for everyone to calm down!!</OthersNoArgument>
+<OthersFound>$n tries to calm $M down.</OthersFound>
+<VictimFound>$n tries to calm you down. You can feel your blood pressure dropping.</VictimFound>
+</Social>
+<Social>
+<Name>caress</Name>
+<CharSelf>You lightly caress yourself- wouldn't you rather do that in private?</CharSelf>
+<CharFound>You run your hands across $S body, caressing $M gently.</CharFound>
+<CharNoArgument>Who would you like to caress?</CharNoArgument>
+<OthersSelf>$n caresses $mself all over- and in public, no less!</OthersSelf>
+<OthersNoArgument>$n is looking for someone to caress with $s gentle touch.</OthersNoArgument>
+<OthersFound>$n runs $s hands across $N's body, caressing $M gently.</OthersFound>
+<VictimFound>$n runs $s hands across your body, caressing you gently.</VictimFound>
+</Social>
+<Social>
+<Name>catnap</Name>
+<CharSelf>You curl into a tiny ball and go to sleep.</CharSelf>
+<CharFound>You curl up in $S lap and go to sleep.</CharFound>
+<CharNoArgument>You curl into a tiny ball and go to sleep.</CharNoArgument>
+<OthersSelf>$n curls $mself into a tiny ball and goes to sleep.</OthersSelf>
+<OthersNoArgument>$n curls $mself into a tiny ball and goes to sleep.</OthersNoArgument>
+<OthersFound>$n curls up in $N's lap and goes to sleep.</OthersFound>
+<VictimFound>$n curls up in your lap and goes to sleep.</VictimFound>
+</Social>
+<Social>
+<Name>cheek</Name>
+<CharSelf>You bend over and slap a wet one on your behind.</CharSelf>
+<CharFound>You kiss $M lightly on the cheek.</CharFound>
+<CharNoArgument>Kiss who on the cheek?</CharNoArgument>
+<OthersSelf>$n bends over and kisses $s behind.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n kisses $N lightly on the cheek.</OthersFound>
+<VictimFound>$n kisses you lightly on the cheek.  How sweet!</VictimFound>
+</Social>
+<Social>
+<Name>cheer</Name>
+<CharSelf>You cheer wildly for yourself!</CharSelf>
+<CharFound>You cheer wildly for $N, Yay!</CharFound>
+<CharNoArgument>Hip! Hip! Hooray!</CharNoArgument>
+<OthersSelf>Yay! Yay $n!  $n cheers wildly for $mself.</OthersSelf>
+<OthersNoArgument>$n cheers wildly, Hip! Hip! Hooray!</OthersNoArgument>
+<OthersFound>Yay $N! $n cheers wildly for $N!</OthersFound>
+<VictimFound>Yay! $n cheers wildly for you! YAY!</VictimFound>
+</Social>
+<Social>
+<Name>cherish</Name>
+<CharSelf>You cherish yourself. Getting a bit narcissistic, are you?</CharSelf>
+<CharFound>You cherish $M with all your heart.</CharFound>
+<CharNoArgument>You cherish the moment.</CharNoArgument>
+<OthersSelf>$n cherishes $mself narcissistically.</OthersSelf>
+<OthersNoArgument>$n cherishes the moment.</OthersNoArgument>
+<OthersFound>$n cherishes $N with all $s heart.</OthersFound>
+<VictimFound>$n cherishes you with all $s heart.</VictimFound>
+</Social>
+<Social>
+<Name>choke</Name>
+<CharSelf>You grasp your throat and start to choke yourself.</CharSelf>
+<CharFound>You start choking $N, and $S eyeballs start bulging.</CharFound>
+<CharNoArgument>you start to choke, and you cough and gasp for air.</CharNoArgument>
+<OthersSelf>$n starts choking $mself, $s face slowly turning blue...</OthersSelf>
+<OthersNoArgument>$n starts choking,and $e coughs and gasps for air.</OthersNoArgument>
+<OthersFound>$n starts choking $N, making $S eyeballs bulge out of their sockets.</OthersFound>
+<VictimFound>$n starts choking you, and your brain starts losing precious oxygen....</VictimFound>
+</Social>
+<Social>
+<Name>chuckle</Name>
+<CharSelf>You chuckle at your own joke, since no one else would.</CharSelf>
+<CharFound>You chuckle at $N.</CharFound>
+<CharNoArgument>You chuckle politely.</CharNoArgument>
+<OthersSelf>$n chuckles at $s own joke, since none of you would.</OthersSelf>
+<OthersNoArgument>$n chuckles politely.</OthersNoArgument>
+<OthersFound>$n chuckles at $N.</OthersFound>
+<VictimFound>$n chuckles at you.</VictimFound>
+</Social>
+<Social>
+<Name>clap</Name>
+<CharSelf>You clap at your own performance.</CharSelf>
+<CharFound>You clap in approval for $N.</CharFound>
+<CharNoArgument>You clap your hands together.</CharNoArgument>
+<OthersSelf>$n claps at $s own performance.</OthersSelf>
+<OthersNoArgument>$n shows $s approval by clapping $s hands together.</OthersNoArgument>
+<OthersFound>$n claps in approval for $N.</OthersFound>
+<VictimFound>$n claps in approval for you.</VictimFound>
+</Social>
+<Social>
+<Name>clueless</Name>
+<CharSelf>You chastise yourself for being clueless.  What a dweeb you are!</CharSelf>
+<CharFound>You chastise $M for being clueless.</CharFound>
+<CharNoArgument>You chastise everyone in the room for being clueless.</CharNoArgument>
+<OthersSelf>$n chastises $mself for being clueless.  What a dweeb!</OthersSelf>
+<OthersNoArgument>$n chastises everyone for being clueless.</OthersNoArgument>
+<OthersFound>$n chastises $N for being clueless.</OthersFound>
+<VictimFound>$n chastises you for being clueless.</VictimFound>
+</Social>
+<Social>
+<Name>coffee</Name>
+<CharSelf>You quaff a hot cup of strong coffee. You are WIRED.</CharSelf>
+<CharFound>You offer $M a hot cup of strong coffee.</CharFound>
+<CharNoArgument>You sip from a hot cup of coffee.</CharNoArgument>
+<OthersSelf>$n quaffs a hot cup of strong coffee, getting WIRED.</OthersSelf>
+<OthersNoArgument>$n sips from a hot cup of coffee.</OthersNoArgument>
+<OthersFound>$n offers $N a hot cup of strong coffee.</OthersFound>
+<VictimFound>$n offers you a hot cup of strong coffee.</VictimFound>
+</Social>
+<Social>
+<Name>comb</Name>
+<CharSelf>You make a vain attempt to comfort yourself.</CharSelf>
+<CharFound>You comfort $M.</CharFound>
+<CharNoArgument>Do you feel uncomfortable?</CharNoArgument>
+<OthersSelf>$n has no one to comfort $m but $mself.</OthersSelf>
+<OthersNoArgument>$n combs $s hair, what a dashing specimen!</OthersNoArgument>
+<OthersFound>$n comforts $N.</OthersFound>
+<VictimFound>$n comforts you.</VictimFound>
+</Social>
+<Social>
+<Name>comfort</Name>
+<CharSelf>You make a vain attempt to comfort yourself.</CharSelf>
+<CharFound>You comfort $M.</CharFound>
+<CharNoArgument>Do you feel uncomfortable?</CharNoArgument>
+<OthersSelf>$n has no one to comfort $m but $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n comforts $N.</OthersFound>
+<VictimFound>$n comforts you.</VictimFound>
+</Social>
+<Social>
+<Name>congratulate</Name>
+<CharSelf>Congratulations!  You've done a fine job!</CharSelf>
+<CharFound>You clap $M over the shoulder and congratulate $M.</CharFound>
+<CharNoArgument>Congratulate who?</CharNoArgument>
+<OthersSelf>Congratulations $n!! $n congratulates $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n congratulate $N!</OthersFound>
+<VictimFound>Congratulations!  $n is proud of you!</VictimFound>
+</Social>
+<Social>
+<Name>cough</Name>
+<CharSelf>You cough at yourself.</CharSelf>
+<CharFound>You cough in $N's face.</CharFound>
+<CharNoArgument>Yuck, try to cover your mouth next time!</CharNoArgument>
+<OthersSelf>$n coughs at $mself.</OthersSelf>
+<OthersNoArgument>$n coughs loudly.</OthersNoArgument>
+<OthersFound>$n coughs loudly, and glares at $N, like it is $S fault.</OthersFound>
+<VictimFound>$n coughs in your face, where are their manners?</VictimFound>
+</Social>
+<Social>
+<Name>cower</Name>
+<CharSelf>You cower in the corner at the thought of yourself.  You scaredy cat!</CharSelf>
+<CharFound>You cower in the corner at the sight of $M.</CharFound>
+<CharNoArgument>What are you afraid of?</CharNoArgument>
+<OthersSelf>$n cowers in the corner.  What is wrong with $m now?</OthersSelf>
+<OthersNoArgument>$n cowers in the corner in abject terror.</OthersNoArgument>
+<OthersFound>$n cowers in the corner at the sight of $N.</OthersFound>
+<VictimFound>$n cowers in the corner at the sight of you.</VictimFound>
+</Social>
+<Social>
+<Name>cringe</Name>
+<CharSelf>I beg your pardon?</CharSelf>
+<CharFound>You cringe away from $M.</CharFound>
+<CharNoArgument>You cringe in terror. Eeek!</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n cringes in terror, their face white as a sheet!</OthersNoArgument>
+<OthersFound>$n cringes away from $N in mortal terror.</OthersFound>
+<VictimFound>$n cringes away from you.</VictimFound>
+</Social>
+<Social>
+<Name>cry</Name>
+<CharSelf>You cry to yourself.</CharSelf>
+<CharFound>You cry on $S shoulder.</CharFound>
+<CharNoArgument>Waaaaah ...</CharNoArgument>
+<OthersSelf>$n sobs quietly to $mself.</OthersSelf>
+<OthersNoArgument>$n bursts into tears.</OthersNoArgument>
+<OthersFound>$n cries on $N's shoulder.</OthersFound>
+<VictimFound>$n cries on your shoulder.</VictimFound>
+</Social>
+<Social>
+<Name>cuddle</Name>
+<CharSelf>You must feel very cuddly indeed ... :)</CharSelf>
+<CharFound>You cuddle $M.</CharFound>
+<CharNoArgument>Whom do you feel like cuddling today?</CharNoArgument>
+<OthersSelf>$n cuddles up to $s shadow.  What a sorry sight.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n cuddles $N.</OthersFound>
+<VictimFound>$n cuddles you.</VictimFound>
+</Social>
+<Social>
+<Name>curious</Name>
+<CharSelf>Share a little of yourself with yourself!</CharSelf>
+<CharFound>You look at $N curiously.</CharFound>
+<CharNoArgument>You are so curious!</CharNoArgument>
+<OthersSelf>A curious look comes over $N's face as $e thinks about $mself.</OthersSelf>
+<OthersNoArgument>a curious look comes over $n's face.</OthersNoArgument>
+<OthersFound>$n looks at $N curiously.</OthersFound>
+<VictimFound>$n gives you a curious look, do tell!</VictimFound>
+</Social>
+<Social>
+<Name>curse</Name>
+<CharSelf>You swear at your own mistakes.</CharSelf>
+<CharFound>You swear at $M.</CharFound>
+<CharNoArgument>You swear loudly for a long time.</CharNoArgument>
+<OthersSelf>$n starts swearing at $mself.  Why don't you help?</OthersSelf>
+<OthersNoArgument>$n swears: @*&amp;^%@*&amp;!</OthersNoArgument>
+<OthersFound>$n swears at $N.</OthersFound>
+<VictimFound>$n swears at you!  Where are $s manners?</VictimFound>
+</Social>
+<Social>
+<Name>curtsey</Name>
+<CharSelf>You curtsey to your audience (yourself).</CharSelf>
+<CharFound>You curtsey to $M.</CharFound>
+<CharNoArgument>You curtsey to your audience.</CharNoArgument>
+<OthersSelf>$n curtseys to $mself, since no one is paying attention to $m.</OthersSelf>
+<OthersNoArgument>$n curtseys gracefully.</OthersNoArgument>
+<OthersFound>$n curtseys gracefully to $N.</OthersFound>
+<VictimFound>$n curtseys gracefully for you.</VictimFound>
+</Social>
+<Social>
+<Name>dance</Name>
+<CharSelf>You skip and dance around by yourself.</CharSelf>
+<CharFound>You sweep $M into a romantic waltz.</CharFound>
+<CharNoArgument>Feels silly, doesn't it?</CharNoArgument>
+<OthersSelf>$n dances a pas-de-une.</OthersSelf>
+<OthersNoArgument>$n tries to break dance, but nearly breaks $s neck!</OthersNoArgument>
+<OthersFound>$n sweeps $N into a romantic waltz.</OthersFound>
+<VictimFound>$n sweeps you into a romantic waltz.</VictimFound>
+</Social>
+<Social>
+<Name>disgust</Name>
+<CharSelf>You mutter under your breath about yourself, throwing your hands up in disgust.</CharSelf>
+<CharFound>You mutter under your breath about $N, throwing your hands up in disgust.</CharFound>
+<CharNoArgument>You throw your hands up in disgust.</CharNoArgument>
+<OthersSelf>$n mutters under $s breath about $mself, throwing $s hands up in disgust.</OthersSelf>
+<OthersNoArgument>$n throws $s hands up in disgust.</OthersNoArgument>
+<OthersFound>$n mutters under $s breath about $N, throwing $s hands up in disgust.</OthersFound>
+<VictimFound>$n mutters under $s breath about you, throwing $s hands up in disgust.</VictimFound>
+</Social>
+<Social>
+<Name>dive</Name>
+<CharSelf>You take a dive.</CharSelf>
+<CharFound>You dive behind $M and hide.</CharFound>
+<CharNoArgument>You dive into the ocean.</CharNoArgument>
+<OthersSelf>$n takes a dive.</OthersSelf>
+<OthersNoArgument>$n dives into the ocean.</OthersNoArgument>
+<OthersFound>$n dives behind $N and hides.</OthersFound>
+<VictimFound>$n dives behind you and hides.</VictimFound>
+</Social>
+<Social>
+<Name>dizzy</Name>
+<CharSelf>You are dizzy from lack of air.  Don't talk so much!</CharSelf>
+<CharFound>You are dizzy from all of $N's chatter.</CharFound>
+<CharNoArgument>You are so dizzy from all this chatter.</CharNoArgument>
+<OthersSelf>$n spins twice and falls to the ground from lack of air.</OthersSelf>
+<OthersNoArgument>$n spins twice and hits the ground, dizzy from all this chatter.</OthersNoArgument>
+<OthersFound>$n spins twice and hits the ground, dizzy from all $N's chatter.</OthersFound>
+<VictimFound>$n spins twice and hits the ground, dizzy from all your chatter.</VictimFound>
+</Social>
+<Social>
+<Name>doc</Name>
+<CharSelf>You nibble on a carrot and say to yourself, 'Eh, what's up $n?'</CharSelf>
+<CharFound>You nibble on a carrot and say to $M, 'Eh, what's up Doc?'</CharFound>
+<CharNoArgument>You nibble on a carrot and say 'Eh, what's up Doc?'</CharNoArgument>
+<OthersSelf>$n nibbles on a carrot and says 'Eh, what's up Doc?'</OthersSelf>
+<OthersNoArgument>$n nibbles on a carrot and says 'Eh, what's up Doc?'</OthersNoArgument>
+<OthersFound>$n nibbles on a carrot and says to $N, 'Eh, what's up Doc?'</OthersFound>
+<VictimFound>$n nibbles on a carrot and says to you, 'Eh, what's up Doc?'</VictimFound>
+</Social>
+<Social>
+<Name>doh</Name>
+<CharSelf>You hit yourself in the forehead and say, 'Doh!!!'</CharSelf>
+<CharFound>You say, 'Doh!!' and hit your forehead.  What an idiot you are!</CharFound>
+<CharNoArgument>You say, 'Doh!!' and hit your forehead.  What an idiot you are!</CharNoArgument>
+<OthersSelf>$n hits $mself in the forehead and says, 'Doh!!!'</OthersSelf>
+<OthersNoArgument>$n hits $mself in the forehead and says, 'Doh!!!'</OthersNoArgument>
+<OthersFound>$n hits $mself in the forehead and says, 'Doh!!!'</OthersFound>
+<VictimFound>$n hits $mself in the forehead and says, 'Doh!!!'</VictimFound>
+</Social>
+<Social>
+<Name>dream</Name>
+<CharSelf>You dream about yourself!</CharSelf>
+<CharFound>You stare off into open space, dreaming about $M.</CharFound>
+<CharNoArgument>You dream of better times.</CharNoArgument>
+<OthersSelf>$n dreams about $mself!</OthersSelf>
+<OthersNoArgument>$n looks absent-minded, $s eyes staring into space.</OthersNoArgument>
+<OthersFound>$n dreams about $N.!
+
+VictFound	$n stares into space, dreaming about you.</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>drool</Name>
+<CharSelf>You drool on yourself.</CharSelf>
+<CharFound>You drool all over $N.</CharFound>
+<CharNoArgument>You drool on yourself.</CharNoArgument>
+<OthersSelf>$n drools on $mself.</OthersSelf>
+<OthersNoArgument>$n drools on $mself.</OthersNoArgument>
+<OthersFound>$n drools all over $N, what an appetizing dish!</OthersFound>
+<VictimFound>$n drools all over you.</VictimFound>
+</Social>
+<Social>
+<Name>dropkick</Name>
+<CharSelf>You dropkick yourself, enjoying all those bruises.</CharSelf>
+<CharFound>You dropkick $M across the room.</CharFound>
+<CharNoArgument>Nothing to hit....</CharNoArgument>
+<OthersSelf>$n sends $mself flying across the room screaming in terror.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n sends $N flying across the room screaming in terror.</OthersFound>
+<VictimFound>OUCH! $n dropkicks you, sending you flying across the room!</VictimFound>
+</Social>
+<Social>
+<Name>duck</Name>
+<CharSelf>Quack! Quack!</CharSelf>
+<CharFound>You duck behind $M.  Whew!  That was close!</CharFound>
+<CharNoArgument>Whew!  That was close!</CharNoArgument>
+<OthersSelf>Quack! $n polymorphs into a duck.</OthersSelf>
+<OthersNoArgument>$n ducks.</OthersNoArgument>
+<OthersFound>$n ducks behind $N to avoid the fray.</OthersFound>
+<VictimFound>$n ducks behind you to avoid the fray.</VictimFound>
+</Social>
+<Social>
+<Name>duh</Name>
+<CharSelf>Duh! You feeling stupid?</CharSelf>
+<CharFound>You look at $M stupidly and say 'Duh!'</CharFound>
+<CharNoArgument>Duh!</CharNoArgument>
+<OthersSelf>Duh!  $n looks stupidly at $mself.</OthersSelf>
+<OthersNoArgument>A stupid look comes over $n's face and $e says 'DUH!'</OthersNoArgument>
+<OthersFound>$n looks stupidly at $N and says 'Duh!'</OthersFound>
+<VictimFound>Duh! $n looks stupidly at you. You figure that one out all by yourself?</VictimFound>
+</Social>
+<Social>
+<Name>embrace</Name>
+<CharSelf>You hold yourself in a warm and loving embrace.  Feels silly doesn't it?</CharSelf>
+<CharFound>You hold $M in a warm and loving embrace.</CharFound>
+<CharNoArgument>Who do you want to hold?</CharNoArgument>
+<OthersSelf>$n holds $mself in a warm and loving embrace.  $e looks pretty silly.</OthersSelf>
+<OthersNoArgument>$n looks around for someone to hold close to $m.</OthersNoArgument>
+<OthersFound>$n holds $N in a warm and loving embrace.</OthersFound>
+<VictimFound>$n holds you in a warm and loving embrace.</VictimFound>
+</Social>
+<Social>
+<Name>envy</Name>
+<CharSelf>Wow!  You're so great you are jealous of yourself!</CharSelf>
+<CharFound>You leer at $N enviously.</CharFound>
+<CharNoArgument>You feel a green color glow from your eyes.</CharNoArgument>
+<OthersSelf>$n is jealous of $mself.</OthersSelf>
+<OthersNoArgument>$n turns green with envy.</OthersNoArgument>
+<OthersFound>$n leers enviously at $N.</OthersFound>
+<VictimFound>$n leers enviously at you.  Hah! You got some and $e doesn't!</VictimFound>
+</Social>
+<Social>
+<Name>eskimo</Name>
+<CharSelf>You ponder the difficulties involved in rubbing noses with yourself.</CharSelf>
+<CharFound>You rub noses with $M.</CharFound>
+<CharNoArgument>Who do you want to eskimo kiss with?</CharNoArgument>
+<OthersSelf>$n ponders the difficulties involved in rubbing noses with $mself.</OthersSelf>
+<OthersNoArgument>$n is looking for someone to rub noses with.  Any volunteers?</OthersNoArgument>
+<OthersFound>$n rubs noses with $N.  You didn't know they were eskimos!</OthersFound>
+<VictimFound>$n rubs noses with you.</VictimFound>
+</Social>
+<Social>
+<Name>eyebrow</Name>
+<CharSelf>You raise an eyebrow at yourself.  That hurt!</CharSelf>
+<CharFound>You raise an eyebrow at $M.</CharFound>
+<CharNoArgument>You raise your eyebrow.  Hmmm...</CharNoArgument>
+<OthersSelf>$n furrows $s eyebrows.</OthersSelf>
+<OthersNoArgument>$n raises an eyebrow.</OthersNoArgument>
+<OthersFound>$n raises an eyebrow at $N.</OthersFound>
+<VictimFound>$n raises an eyebrow at you.</VictimFound>
+</Social>
+<Social>
+<Name>faint</Name>
+<CharSelf>You look down at your condition and faint.</CharSelf>
+<CharFound>You faint into $S arms.</CharFound>
+<CharNoArgument>You feel dizzy and hit the ground like a board.</CharNoArgument>
+<OthersSelf>$n looks down at $s condition and faints dead away.</OthersSelf>
+<OthersNoArgument>$n's eyes roll back in $s head and $e crumples to the ground.</OthersNoArgument>
+<OthersFound>$n faints into $N's arms.</OthersFound>
+<VictimFound>$n faints into your arms.  How romantic.</VictimFound>
+</Social>
+<Social>
+<Name>faith</Name>
+<CharSelf>You believe in yourself, how faithful.. </CharSelf>
+<CharFound>You have faith in $N.</CharFound>
+<CharNoArgument>Keep the faith!</CharNoArgument>
+<OthersSelf>$n has faith in $mself and so should you!</OthersSelf>
+<OthersNoArgument>$n will do this as an act of faith.</OthersNoArgument>
+<OthersFound>$n has faith in $N.</OthersFound>
+<VictimFound>$n has faith in you! You can do it!</VictimFound>
+</Social>
+<Social>
+<Name>fart</Name>
+<CharSelf>You fart at yourself.  You deserve it.</CharSelf>
+<CharFound>You fart at $M.  Boy, you are sick.</CharFound>
+<CharNoArgument>Where are your manners?</CharNoArgument>
+<OthersSelf>$n farts at $mself.  Better $m than you.</OthersSelf>
+<OthersNoArgument>$n lets off a real rip-roarer ... a greenish cloud envelops $n!</OthersNoArgument>
+<OthersFound>$n farts in $N's direction.  Better flee before $e turns to you!</OthersFound>
+<VictimFound>$n farts in your direction.  You gasp for air.</VictimFound>
+</Social>
+<Social>
+<Name>fidget</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>You fidget restlessly.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n fidgets restlessly.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>flame</Name>
+<CharSelf>You burn yourself up in flames.</CharSelf>
+<CharFound>You turn the flamethrower on $M.</CharFound>
+<CharNoArgument>You sizzle in flames.</CharNoArgument>
+<OthersSelf>$n burns $mself up in flames.</OthersSelf>
+<OthersNoArgument>$n sizzles in flames.</OthersNoArgument>
+<OthersFound>$n throws flames at $N, who only gets singed.</OthersFound>
+<VictimFound>$n throws flames at you, you are undamaged except for your feelings.</VictimFound>
+</Social>
+<Social>
+<Name>flash</Name>
+<CharSelf>You flash your naked body at yourself.  How strange.</CharSelf>
+<CharFound>You flash your naked body at $M.</CharFound>
+<CharNoArgument>You flash your naked body at the gawking crowd.</CharNoArgument>
+<OthersSelf>$n is looking down $s shirt and grinning.  Very wierd!</OthersSelf>
+<OthersNoArgument>$n flashes $s naked body at everyone.  Gasp!</OthersNoArgument>
+<OthersFound>$n flashes $s naked body at $N.  Aren't you jealous?</OthersFound>
+<VictimFound>$n flashes $s naked body at you.  Everyone else is jealous.</VictimFound>
+</Social>
+<Social>
+<Name>flex</Name>
+<CharSelf>You flex your muscles at yourself.  Wow, you are HUGE!</CharSelf>
+<CharFound>You flex your bulging muscles at $M.</CharFound>
+<CharNoArgument>You up those bulging muscles, ooo impressive!</CharNoArgument>
+<OthersSelf>$n flexes $s muscles at $mself.  How narcissistic!</OthersSelf>
+<OthersNoArgument>$n flexes $s muscles and puts yours to shame!</OthersNoArgument>
+<OthersFound>$n flexes $s muscles at $N.</OthersFound>
+<VictimFound>$n flexes $s muscles at you.  $n must be trying to impress you.</VictimFound>
+</Social>
+<Social>
+<Name>flip</Name>
+<CharSelf>You flip head over heels over yourself, landing head over heels.  Ouch!.</CharSelf>
+<CharFound>You flip $M up in the air with ease.</CharFound>
+<CharNoArgument>You flip head over heels.</CharNoArgument>
+<OthersSelf>$n flips head over heels over $mself, landing on $s head. .</OthersSelf>
+<OthersNoArgument>$n flips head over heels.</OthersNoArgument>
+<OthersFound>$n flips $N up in the air with ease.</OthersFound>
+<VictimFound>$n flips you up into the air with ease.  Hmmmm.</VictimFound>
+</Social>
+<Social>
+<Name>flirt</Name>
+<CharSelf>You flirt with yourself.</CharSelf>
+<CharFound>You flirt outrageously with $M.</CharFound>
+<CharNoArgument>Wink wink!</CharNoArgument>
+<OthersSelf>$n flirts with $mself.  Hoo boy.</OthersSelf>
+<OthersNoArgument>$n flirts -- Anyone or anything interested?</OthersNoArgument>
+<OthersFound>$n flirts with $N.</OthersFound>
+<VictimFound>$n starts flirting outrageously with you! Isn't $e cute?</VictimFound>
+</Social>
+<Social>
+<Name>flower</Name>
+<CharSelf>You put a beautifull {g---,--'--{{{r@{x in your hair.</CharSelf>
+<CharFound>You give $M a beautifull {g---,--'--{{{r@{x</CharFound>
+<CharNoArgument>You admire a beautifull {g---,--'--{{{r@{x on a nearby bush.</CharNoArgument>
+<OthersSelf>$n puts a beautifull {g---,--'--{{{r@{x in his hair.</OthersSelf>
+<OthersNoArgument>$n admires a beautifull {g---,--'--{{{r@{x on a nearby bush.</OthersNoArgument>
+<OthersFound>$n gives $N a beautifull {g---,--'--{{{r@{x</OthersFound>
+<VictimFound>$n gives you a beautifull {g---,--'--{{{r@{x</VictimFound>
+</Social>
+<Social>
+<Name>flutter</Name>
+<CharSelf>You flutter your eyelashes at the thought of yourself.</CharSelf>
+<CharFound>You flutter your eyelashes at $M, trying to look attractive.</CharFound>
+<CharNoArgument>You flutter your eyelashes demurely.</CharNoArgument>
+<OthersSelf>$n flutters $s eyelashes at no one in particular.</OthersSelf>
+<OthersNoArgument>$n flutters $s eyelashes demurely.</OthersNoArgument>
+<OthersFound>$n flutters $s eyelashes in $N's direction.</OthersFound>
+<VictimFound>$n looks at you and flutters $s eyelashes, trying to look attractive.</VictimFound>
+</Social>
+<Social>
+<Name>fondle</Name>
+<CharSelf>You fondly fondle yourself, feels funny doesn't it ?</CharSelf>
+<CharFound>You fondly fondle $M.</CharFound>
+<CharNoArgument>Who needs to be fondled?</CharNoArgument>
+<OthersSelf>$n fondly fondles $mself - this is going too far !!</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n fondly fondles $N.</OthersFound>
+<VictimFound>$n fondly fondles you.</VictimFound>
+</Social>
+<Social>
+<Name>fool</Name>
+<CharSelf>You feel foolish.</CharSelf>
+<CharFound>You brand $M as a fool.</CharFound>
+<CharNoArgument>You are fooled by yourself... Not hard is it?</CharNoArgument>
+<OthersSelf>$n stamps the word 'FOOL' across $s own forehead.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n stamps the word 'FOOL' on $N's forehead in flashing neon letters.</OthersFound>
+<VictimFound>You are branded as a fool by $n.</VictimFound>
+</Social>
+<Social>
+<Name>french</Name>
+<CharSelf>You gather yourself in your arms and try to kiss yourself.</CharSelf>
+<CharFound>You give $N a long and passionate kiss.</CharFound>
+<CharNoArgument>Kiss whom?</CharNoArgument>
+<OthersSelf>$n makes an attempt at kissing $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n kisses $N passionately.</OthersFound>
+<VictimFound>$n gives you a long and passionate kiss.</VictimFound>
+</Social>
+<Social>
+<Name>frown</Name>
+<CharSelf>You frown at yourself.  Poor baby.</CharSelf>
+<CharFound>You frown at what $E did.</CharFound>
+<CharNoArgument>What's bothering you ?</CharNoArgument>
+<OthersSelf>$n frowns at $mself.  Poor baby.</OthersSelf>
+<OthersNoArgument>$n frowns.</OthersNoArgument>
+<OthersFound>$n frowns at what $N did.</OthersFound>
+<VictimFound>$n frowns at what you did.</VictimFound>
+</Social>
+<Social>
+<Name>full</Name>
+<CharSelf>You try to give yourself something but you can't!</CharSelf>
+<CharFound>You let $N know $S hands are full!</CharFound>
+<CharNoArgument>You let everyone know your hands are full and you can't carry any more!</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n's hands are full, $e can't carry anymore!</OthersNoArgument>
+<OthersFound>$n lets $N know $S hands are full!</OthersFound>
+<VictimFound>Sheesh!! You carry too much crap! $n lets you know your hands are full.</VictimFound>
+</Social>
+<Social>
+<Name>fume</Name>
+<CharSelf>That's right - hate yourself!</CharSelf>
+<CharFound>You stare at $M, fuming.</CharFound>
+<CharNoArgument>You grit your teeth and fume with rage.</CharNoArgument>
+<OthersSelf>$n clenches $s fists and stomps $s feet, fuming with anger.</OthersSelf>
+<OthersNoArgument>$n grits $s teeth and fumes with rage.</OthersNoArgument>
+<OthersFound>$n stares at $N, fuming with rage.</OthersFound>
+<VictimFound>$n stares at you, fuming with rage!</VictimFound>
+</Social>
+<Social>
+<Name>fuzzy</Name>
+<CharSelf>Warm fuzzy things stick all over you!</CharSelf>
+<CharFound>You get a warm fuzzy feeling from $N.</CharFound>
+<CharNoArgument>A warm fuzzy feeling overtakes you!</CharNoArgument>
+<OthersSelf>WArm fuzzy fluff sticks all over $n.</OthersSelf>
+<OthersNoArgument>$n gets a warm fuzzy feeling all over and turns into a big teddy bear.</OthersNoArgument>
+<OthersFound>$n gets a warm fuzzy feeling from $N.</OthersFound>
+<VictimFound>$n lets you know that you give $m a warm fuzzy feeling!</VictimFound>
+</Social>
+<Social>
+<Name>gag</Name>
+<CharSelf>You gag yourself with a sock before you say something you might regret.</CharSelf>
+<CharFound>You stuff a sock in $s mouth, gagging $M. Ahhhhhhh...sweet silence!</CharFound>
+<CharNoArgument>You gag in disgust.</CharNoArgument>
+<OthersSelf>$n gags $mself with a sock before $e says something $e might regret.</OthersSelf>
+<OthersNoArgument>$n gags in disgust.</OthersNoArgument>
+<OthersFound>$n stuffs a sock in $N's mouth, gagging $M. Ahhhhhhh...sweet silence!</OthersFound>
+<VictimFound>$n gags your mouth with a sock. Everyone enjoys a moment of silence.</VictimFound>
+</Social>
+<Social>
+<Name>gape</Name>
+<CharSelf>You gape at yourself... wow... </CharSelf>
+<CharFound>Your jaw goes slack at $N.</CharFound>
+<CharNoArgument>Your mouth drops open and hits the floor as you reel in shock.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n gapes and $s mouth drops open, hitting the floor.</OthersNoArgument>
+<OthersFound>$n gapes at $N, $s jaw dropping to the floor.</OthersFound>
+<VictimFound>$n gapes at you, not comprehending anything at all.</VictimFound>
+</Social>
+<Social>
+<Name>gasp</Name>
+<CharSelf>You look at yourself and gasp!</CharSelf>
+<CharFound>You gasp in astonishment at $M, and nearly faint.</CharFound>
+<CharNoArgument>You gasp in astonishment.</CharNoArgument>
+<OthersSelf>$n takes one look at $mself and gasps in astonishment!</OthersSelf>
+<OthersNoArgument>$n gasps in astonishment.</OthersNoArgument>
+<OthersFound>$n gasps in astonishment at $N.</OthersFound>
+<VictimFound>$n gasps in astonishment at you!  Eeeek!</VictimFound>
+</Social>
+<Social>
+<Name>gawk</Name>
+<CharSelf>You gawk as you think what you must look like to others.</CharSelf>
+<CharFound>You gawk at $M.</CharFound>
+<CharNoArgument>You gawk at everyone around you.</CharNoArgument>
+<OthersSelf>$n is gawking again.  What is on $s mind?</OthersSelf>
+<OthersNoArgument>$n gawks at everyone in the room.</OthersNoArgument>
+<OthersFound>$n gawks at $N.</OthersFound>
+<VictimFound>$n gawks at you.</VictimFound>
+</Social>
+<Social>
+<Name>german</Name>
+<CharSelf>You speak your best German in hopes of getting a beer.</CharSelf>
+<CharFound>You speak your best German to $M in hopes of getting a beer.</CharFound>
+<CharNoArgument>You speak your best German in hopes of getting a beer.</CharNoArgument>
+<OthersSelf>$n says 'Du bist ein luder!'  What the hell?</OthersSelf>
+<OthersNoArgument>$n says 'Du bist ein luder!'  What the hell?</OthersNoArgument>
+<OthersFound>$n says to $N, 'Du bist ein luder!'  What the hell?</OthersFound>
+<VictimFound>$n says to you, 'Du bist ein luder!'  What the hell?</VictimFound>
+</Social>
+<Social>
+<Name>ghug</Name>
+<CharSelf>GROUP HUG!  GROUP HUG!</CharSelf>
+<CharFound>GROUP HUG!  GROUP HUG!</CharFound>
+<CharNoArgument>GROUP HUG!  GROUP HUG!</CharNoArgument>
+<OthersSelf>$n hugs you all in a big group hug.  How sweet!</OthersSelf>
+<OthersNoArgument>$n hugs you all in a big group hug.  How sweet!</OthersNoArgument>
+<OthersFound>$n hugs you all in a big group hug.  How sweet!</OthersFound>
+<VictimFound>$n hugs you all in a big group hug.  How sweet!</VictimFound>
+</Social>
+<Social>
+<Name>giggle</Name>
+<CharSelf>You giggle at yourself.  You must be nervous or something.</CharSelf>
+<CharFound>You giggle at $N.</CharFound>
+<CharNoArgument>You giggle.</CharNoArgument>
+<OthersSelf>$n giggles at $mself.  $e must be up to something.</OthersSelf>
+<OthersNoArgument>$n giggles.</OthersNoArgument>
+<OthersFound>$n giggles at $N.</OthersFound>
+<VictimFound>$n giggles at you.</VictimFound>
+</Social>
+<Social>
+<Name>glare</Name>
+<CharSelf>You glare icily at your feet, they are suddenly very cold.</CharSelf>
+<CharFound>You glare icily at $M.</CharFound>
+<CharNoArgument>You glare at nothing in particular.</CharNoArgument>
+<OthersSelf>$n glares at $s feet, what is bothering $m?</OthersSelf>
+<OthersNoArgument>$n glares around $m.</OthersNoArgument>
+<OthersFound>$n glares at $N.</OthersFound>
+<VictimFound>$n glares icily at you, you feel cold to your bones.</VictimFound>
+</Social>
+<Social>
+<Name>goose</Name>
+<CharSelf>The goose feathers flutter down to your feet.</CharSelf>
+<CharFound>You goose $S luscious bottom.</CharFound>
+<CharNoArgument>You honk like a goose.</CharNoArgument>
+<OthersSelf>$n gooses $mself.  Yuck.</OthersSelf>
+<OthersNoArgument>$n honks like a goose.</OthersNoArgument>
+<OthersFound>$n gooses $N's soft behind.</OthersFound>
+<VictimFound>$n squeezes your tush.  Oh my!</VictimFound>
+</Social>
+<Social>
+<Name>grimace</Name>
+<CharSelf>You grimace at yourself in disgust.</CharSelf>
+<CharFound>You grimace in disgust at $M.</CharFound>
+<CharNoArgument>You contort your face in disgust.</CharNoArgument>
+<OthersSelf>$n grimaces at $mself in disgust.</OthersSelf>
+<OthersNoArgument>$n grimaces in disgust.</OthersNoArgument>
+<OthersFound>$n grimaces in disgust at $N.</OthersFound>
+<VictimFound>$n grimaces in disgust at you.</VictimFound>
+</Social>
+<Social>
+<Name>grin</Name>
+<CharSelf>You grin at yourself.  You must be getting very bad thoughts.</CharSelf>
+<CharFound>You grin wickedly at $M.</CharFound>
+<CharNoArgument>You grin wickedly.</CharNoArgument>
+<OthersSelf>$n grins at $mself.  You must wonder what's in $s mind.</OthersSelf>
+<OthersNoArgument>$n grins wickedly.</OthersNoArgument>
+<OthersFound>$n grins wickedly at $N.</OthersFound>
+<VictimFound>$n grins wickedly at you.  Hmmm.</VictimFound>
+</Social>
+<Social>
+<Name>groan</Name>
+<CharSelf>You groan as you realize what you have done.</CharSelf>
+<CharFound>You groan loudly at $M.</CharFound>
+<CharNoArgument>You groan loudly.</CharNoArgument>
+<OthersSelf>$n groans loudly at $mself.</OthersSelf>
+<OthersNoArgument>$n groans loudly.</OthersNoArgument>
+<OthersFound>$n groans loudly at $N.</OthersFound>
+<VictimFound>$n groans loudly at you.</VictimFound>
+</Social>
+<Social>
+<Name>grope</Name>
+<CharSelf>You grope yoursef - YUCK.</CharSelf>
+<CharFound>Well, what sort of noise do you expect here?</CharFound>
+<CharNoArgument>Whom do you wish to grope?</CharNoArgument>
+<OthersSelf>$n gropes $mself - YUCK.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n gropes $N.</OthersFound>
+<VictimFound>$n gropes you.</VictimFound>
+</Social>
+<Social>
+<Name>grovel</Name>
+<CharSelf>That seems a little silly to me.</CharSelf>
+<CharFound>You grovel before $M.</CharFound>
+<CharNoArgument>You grovel in the dirt.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n grovels in the dirt.</OthersNoArgument>
+<OthersFound>$n grovels in the dirt before $N.</OthersFound>
+<VictimFound>$n grovels in the dirt before you.</VictimFound>
+</Social>
+<Social>
+<Name>growl</Name>
+<CharSelf>You growl at yourself.  Boy, do you feel bitter!</CharSelf>
+<CharFound>Grrrrrrrrrr ... take that, $N!</CharFound>
+<CharNoArgument>Grrrrrrrrrr ...</CharNoArgument>
+<OthersSelf>$n growls at $mself.  This could get interesting...</OthersSelf>
+<OthersNoArgument>$n growls menacingly.</OthersNoArgument>
+<OthersFound>$n growls menacingly at $N.</OthersFound>
+<VictimFound>$n growls ferociously at you.  Hey, two can play it that way!</VictimFound>
+</Social>
+<Social>
+<Name>grumble</Name>
+<CharSelf>You grumble incoherently under your breath.</CharSelf>
+<CharFound>You grumble under your breath about $M.</CharFound>
+<CharNoArgument>You grumble.</CharNoArgument>
+<OthersSelf>$n grumbles incoherently about something or other.</OthersSelf>
+<OthersNoArgument>$n grumbles incoherently about something or other..</OthersNoArgument>
+<OthersFound>$n grumbles something snide about $N.</OthersFound>
+<VictimFound>$n grumbles something snide about your ancestry..</VictimFound>
+</Social>
+<Social>
+<Name>grunt</Name>
+<CharSelf>GRNNNHTTTT.</CharSelf>
+<CharFound>You grunt at $N.</CharFound>
+<CharNoArgument>You grunt like a wild animal.</CharNoArgument>
+<OthersSelf>$n grunts to $mself.  What a pig!</OthersSelf>
+<OthersNoArgument>$n grunts loudly.</OthersNoArgument>
+<OthersFound>$n grunts to $N.  What a pig!</OthersFound>
+<VictimFound>$n grunts to you.  What a pig!</VictimFound>
+</Social>
+<Social>
+<Name>gulp</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>Yikes! You can't think of anything to say!</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n gulps, at a loss for words.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>halo</Name>
+<CharSelf>An aura of heavenly light appears above your head.</CharSelf>
+<CharFound>You project an aura of heavenly light above $S head.</CharFound>
+<CharNoArgument>An aura of heavenly light appears above your head.</CharNoArgument>
+<OthersSelf>An aura of heavenly light appears above $n's head.</OthersSelf>
+<OthersNoArgument>An aura of heavenly light appears above $n's head.</OthersNoArgument>
+<OthersFound>$n projects an aura of heavenly light above $N's head.</OthersFound>
+<VictimFound>$n projects an aura of heavenly light above your head.</VictimFound>
+</Social>
+<Social>
+<Name>hand</Name>
+<CharSelf>You kiss your own hand.</CharSelf>
+<CharFound>You kiss $S hand.</CharFound>
+<CharNoArgument>Kiss whose hand?</CharNoArgument>
+<OthersSelf>$n kisses $s own hand.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n kisses $N's hand.  How sweet!</OthersFound>
+<VictimFound>$n kisses your hand.  How sweet!</VictimFound>
+</Social>
+<Social>
+<Name>handcuff</Name>
+<CharSelf>You handcuff yourself. Too bad you can't seem to find the key.</CharSelf>
+<CharFound>You handcuff $M, putting $M completely at your mercy.</CharFound>
+<CharNoArgument>You pull out a pair of handcuffs.</CharNoArgument>
+<OthersSelf>$n handcuffs $mself. Too bad $e can't seem to find the key.</OthersSelf>
+<OthersNoArgument>$n pulls out a pair of handcuffs.</OthersNoArgument>
+<OthersFound>$n handcuffs $N, pretty kinky, huh?</OthersFound>
+<VictimFound>$n handcuffs you. This could get interesting.</VictimFound>
+</Social>
+<Social>
+<Name>hangover</Name>
+<CharSelf>You shush yourself.  Be quiet!  You have a hangover!</CharSelf>
+<CharFound>Won't $N be quiet?  Your head is gonna split in two if $E keeps talking!</CharFound>
+<CharNoArgument>You pop a few aspirin and put on your sunglasses.  Ow, your head hurts!</CharNoArgument>
+<OthersSelf>$n shushes $mself.  Wow, what a hangover that must be!</OthersSelf>
+<OthersNoArgument>$n holds $s head and says 'Quit breathing so loud!'</OthersNoArgument>
+<OthersFound>$n complains to $N 'Be quiet!  I have a hangover!</OthersFound>
+<VictimFound>$n complains to you 'Be quiet!  I have a hangover!</VictimFound>
+</Social>
+<Social>
+<Name>happy</Name>
+<CharSelf>You smile inwardly at yourself.</CharSelf>
+<CharFound>You smile wide at $M.</CharFound>
+<CharNoArgument>You smile happily.</CharNoArgument>
+<OthersSelf>$n smiles inwardly at a job well done.</OthersSelf>
+<OthersNoArgument>$n smiles happily.</OthersNoArgument>
+<OthersFound>$n beams a smile at $N.</OthersFound>
+<VictimFound>$n is as happy as can be about you.</VictimFound>
+</Social>
+<Social>
+<Name>hello</Name>
+<CharSelf>You greet yourself enthusiastically.</CharSelf>
+<CharFound>You tell $M how truly glad you are to see $M.</CharFound>
+<CharNoArgument>You say hello to everyone in the room.</CharNoArgument>
+<OthersSelf>$n greets $mself enthusiastically.  How odd.</OthersSelf>
+<OthersNoArgument>$n says hello to everyone in the room.</OthersNoArgument>
+<OthersFound>$n tells $N 'Hi!'</OthersFound>
+<VictimFound>$n tells you how truly glad $e is that you are here.</VictimFound>
+</Social>
+<Social>
+<Name>hero</Name>
+<CharSelf>You try to look heroic.</CharSelf>
+<CharFound>You say to $M, '$N, YOU'RE MY HERO!'</CharFound>
+<CharNoArgument>You heroically risk life and limb to save the day.</CharNoArgument>
+<OthersSelf>$n does $s best impression of a hero.</OthersSelf>
+<OthersNoArgument>$n heroically risks life and limb to save the day.</OthersNoArgument>
+<OthersFound>$n says to $N, '$N, YOU'RE MY HERO!'</OthersFound>
+<VictimFound>$n says to you, '$N, YOU'RE MY HERO!'</VictimFound>
+</Social>
+<Social>
+<Name>hi5</Name>
+<CharSelf>You jump in the air and congratulate yourself!</CharSelf>
+<CharFound>You jump in the air and give $M a big highfive!</CharFound>
+<CharNoArgument>You jump in the air...oops, better get someone else to join you.</CharNoArgument>
+<OthersSelf>$n jumps in the air and gives $mself a big highfive!  Wonder what $e did?</OthersSelf>
+<OthersNoArgument>$n jumps in the air by $mself.  Is $e a cheerleader, or just daft?</OthersNoArgument>
+<OthersFound>$n jumps in the air and gives $N a big highfive!</OthersFound>
+<VictimFound>$n jumps in the air and gives you a big highfive!</VictimFound>
+</Social>
+<Social>
+<Name>hiccup</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>You hiccup.  *HIC*</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n hiccups.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>hickey</Name>
+<CharSelf>You practice safe hickey by using a straw.</CharSelf>
+<CharFound>You suck a bright red hickey on $N's neck.</CharFound>
+<CharNoArgument>Whom to you wish to suck on?</CharNoArgument>
+<OthersSelf>$n uses a straw and leaves a bright red suck mark on $s neck.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n sucks on $N's neck, giving $M a bright red hickey.</OthersFound>
+<VictimFound>Oooo, $n starts sucking on your neck!! Wonder if $e left a mark?</VictimFound>
+</Social>
+<Social>
+<Name>hiss</Name>
+<CharSelf>Pffft.. hiss where?</CharSelf>
+<CharFound>You hiss loudly at $M.</CharFound>
+<CharNoArgument>You hiss loudly, extending your claws.</CharNoArgument>
+<OthersSelf>$n hisses loudly at $mself.</OthersSelf>
+<OthersNoArgument>$n hisses loudly, claws extended.</OthersNoArgument>
+<OthersFound>$n hisses loudly at $N.</OthersFound>
+<VictimFound>$n hisses loudly at you.</VictimFound>
+</Social>
+<Social>
+<Name>hmm</Name>
+<CharSelf>You Hmmmm out loud.</CharSelf>
+<CharFound>You gaze thoughtfully at $M and say 'Hmmm.'</CharFound>
+<CharNoArgument>You Hmmmm out loud.</CharNoArgument>
+<OthersSelf>$n thinks, 'Hmmmm.'</OthersSelf>
+<OthersNoArgument>$n thinks, 'Hmmmm.'</OthersNoArgument>
+<OthersFound>$n gazes thoughtfully at $N and says 'Hmmm.'</OthersFound>
+<VictimFound>$n gazes thoughtfully at you and says 'Hmmm.'</VictimFound>
+</Social>
+<Social>
+<Name>holdon</Name>
+<CharSelf>You hold yourself together.</CharSelf>
+<CharFound>You hug $M, holding $M closely.</CharFound>
+<CharNoArgument>Who do you want to hold onto?</CharNoArgument>
+<OthersSelf>$n holds $mself together... $e's falling apart at the seams!</OthersSelf>
+<OthersNoArgument>$n pauses for a moment, somewhat hesitant.</OthersNoArgument>
+<OthersFound>$n hugs $N, holding $M closely.</OthersFound>
+<VictimFound>$n hugs you and holds you tightly, $e won't let go!</VictimFound>
+</Social>
+<Social>
+<Name>hop</Name>
+<CharSelf>You hop up and down like a giant bunny rabbit.</CharSelf>
+<CharFound>$n hops around $N.</CharFound>
+<CharNoArgument>You hop around on one foot.</CharNoArgument>
+<OthersSelf>$n hops up and down, like a giant bunny rabbit.</OthersSelf>
+<OthersNoArgument>$n hops around on one foot.</OthersNoArgument>
+<OthersFound>$n hops around $N.</OthersFound>
+<VictimFound>$n hops around you.</VictimFound>
+</Social>
+<Social>
+<Name>hose</Name>
+<CharSelf>You spew water at nobody in particular.</CharSelf>
+<CharFound>You hose $M down, $E's been coming on a bit too strong!</CharFound>
+<CharNoArgument>you are now a hoser!</CharNoArgument>
+<OthersSelf>$n hoses $mself down with cold water.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n hoses $N down with cold water.</OthersFound>
+<VictimFound>$n hoses you down with cold water.  Coming on a bit too strong?</VictimFound>
+</Social>
+<Social>
+<Name>howl</Name>
+<CharSelf>You howl at yourself.</CharSelf>
+<CharFound>You howl at $M.</CharFound>
+<CharNoArgument>AROOOOOOOOOOOOooooo!!  You howl at the full moon.</CharNoArgument>
+<OthersSelf>$n howls at $mself.  Where's the wolfbane?</OthersSelf>
+<OthersNoArgument>AROOOOOOOOOOOOooooo!!  $n howls at the full moon.</OthersNoArgument>
+<OthersFound>$n howls at $N.  Someone's gonna die!</OthersFound>
+<VictimFound>$n howls at you.  You must be good looking.</VictimFound>
+</Social>
+<Social>
+<Name>hug</Name>
+<CharSelf>You hug yourself.</CharSelf>
+<CharFound>You hug $M.</CharFound>
+<CharNoArgument>Hug whom?</CharNoArgument>
+<OthersSelf>$n hugs $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n hugs $N.</OthersFound>
+<VictimFound>$n hugs you.</VictimFound>
+</Social>
+<Social>
+<Name>hum</Name>
+<CharSelf>Hmm Hmm Hmmmmmmm.</CharSelf>
+<CharFound>You hum a little ditty for $M.  Hmm Hmm Hmm Hmmmmmm.</CharFound>
+<CharNoArgument>You hum a little melody to yourself.</CharNoArgument>
+<OthersSelf>$n hums like a bee with a chest cold.</OthersSelf>
+<OthersNoArgument>$n hums a little melody to $mself.</OthersNoArgument>
+<OthersFound>$n hums a little ditty for $N.  Hmm Hmm Hmm Hmmmmmm.</OthersFound>
+<VictimFound>$n hums a little ditty for you.  Hmm Hmm Hmm Hmmmmmm.</VictimFound>
+</Social>
+<Social>
+<Name>hunger</Name>
+<CharSelf>Breaking your diet again, eh?</CharSelf>
+<CharFound>You beg $N for some food, salivating heavily.</CharFound>
+<CharNoArgument>Your stomach starts rumbling again.</CharNoArgument>
+<OthersSelf>$n lets $mself have some food after starving.</OthersSelf>
+<OthersNoArgument>$n holds a sign that says: "Will work for food." Somebody feed $m.</OthersNoArgument>
+<OthersFound>$n begs $n for some food, drooling uncontrollably.</OthersFound>
+<VictimFound>$n begs you for some food, drooling all over $mself.</VictimFound>
+</Social>
+<Social>
+<Name>icecube</Name>
+<CharSelf>You stick an ice cube down your shirt. Brrr!</CharSelf>
+<CharFound>You stuff an ice cube down $S shirt. You laugh as $E hops around.</CharFound>
+<CharNoArgument>You wonder who would like an ice cube down their shirt.</CharNoArgument>
+<OthersSelf>$n sticks an icecube down $s shirt, trying to cool off.</OthersSelf>
+<OthersNoArgument>With a devious look on $s face, $n hides something behind $s back.</OthersNoArgument>
+<OthersFound>$n stuffs an ice cube down $N's shirt, better hope that was $s last ice cube.</OthersFound>
+<VictimFound>$n stuffs an ice cube down your shirt. Brrr! $n laughs as you struggle to get it out.</VictimFound>
+</Social>
+<Social>
+<Name>imitate</Name>
+<CharSelf>You do a stunning imitation of yourself.</CharSelf>
+<CharFound>You do a stunning imitation of $N.</CharFound>
+<CharNoArgument>Whom do you wish to imitate?</CharNoArgument>
+<OthersSelf>$n re-enacts $s moments of courage and valor.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n does a stunning imitation of $N.</OthersFound>
+<VictimFound>$n does an imitation of you! Is that flattery or insult?</VictimFound>
+</Social>
+<Social>
+<Name>impale</Name>
+<CharSelf>You impale yourself on a long spike, relishing the pain.</CharSelf>
+<CharFound>You impale $M on a long spike and watch $M writhe in agony.</CharFound>
+<CharNoArgument>And who do you wish to slay?</CharNoArgument>
+<OthersSelf>$n impales $mself on a long spike, relishing the pain.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n impales $N with a long spike, and watches $M writhe in agony.</OthersFound>
+<VictimFound>$n impales you on a long spike. OUCH!</VictimFound>
+</Social>
+<Social>
+<Name>innocent</Name>
+<CharSelf>You whistle innocently.</CharSelf>
+<CharFound>You whistle innocently, avoiding $S question.</CharFound>
+<CharNoArgument>You whistle innocently, trying to hide your guilt.</CharNoArgument>
+<OthersSelf>$n whistles innocently, trying to hide $s guilt.</OthersSelf>
+<OthersNoArgument>$n whistles innocently.</OthersNoArgument>
+<OthersFound>$n whistles innocently, a sure sign of guilt.</OthersFound>
+<VictimFound>$n whistles innocently at your question...hmmmmm.</VictimFound>
+</Social>
+<Social>
+<Name>introduce</Name>
+<CharSelf>You introduce yourself to all your other personalities.</CharSelf>
+<CharFound>You introduce yourself to $N.</CharFound>
+<CharNoArgument>You introduce yourself to everyone.</CharNoArgument>
+<OthersSelf>$n introduces $mself to all $s other personalities.</OthersSelf>
+<OthersNoArgument>Hi! $n introduces $mself to everyone.</OthersNoArgument>
+<OthersFound>$n introduces $mself to $N.</OthersFound>
+<VictimFound>Hi! It's nice to meet you! $n introduces $mself to you.</VictimFound>
+</Social>
+<Social>
+<Name>invite</Name>
+<CharSelf>You speak your best French in hopes of getting lucky, with yourself???</CharSelf>
+<CharFound>You speak your best French to $M in hopes of getting lucky.</CharFound>
+<CharNoArgument>You speak your best French in hopes of getting lucky.</CharNoArgument>
+<OthersSelf>$n says to $mself, 'Voulez-vous couche avec moi ce soir?'</OthersSelf>
+<OthersNoArgument>$n tells you, 'Voulez-vous couche avec moi ce soir?'</OthersNoArgument>
+<OthersFound>$n tells $N, 'Voulez-vous couche avec moi ce soir?'</OthersFound>
+<VictimFound>$n tells you, 'Voulez-vous couche avec moi ce soir?'</VictimFound>
+</Social>
+<Social>
+<Name>jk</Name>
+<CharSelf>You tease yourself with silly thoughts.</CharSelf>
+<CharFound>you let $N know you were 'just kidding!'.</CharFound>
+<CharNoArgument>Hah! Just kidding!</CharNoArgument>
+<OthersSelf>$n lets $s other personality know $e was 'Just Kidding'.</OthersSelf>
+<OthersNoArgument>$n was just kidding, calm down.</OthersNoArgument>
+<OthersFound>$n lets $N know that $e was just kidding.</OthersFound>
+<VictimFound>$n lets you know $e was 'Just Kidding', Go ahead and kick $m.</VictimFound>
+</Social>
+<Social>
+<Name>jump</Name>
+<CharSelf>CRUNCH! You jump high in the air and do a bellyflop on the ground!</CharSelf>
+<CharFound>You jump high in the air and land on $M!</CharFound>
+<CharNoArgument>You jump high in the air.</CharNoArgument>
+<OthersSelf>CRUNCH! $n jumps high in the air and does a bellyflop on the ground!</OthersSelf>
+<OthersNoArgument>$n jumps high in the air.</OthersNoArgument>
+<OthersFound>$n jumps high in the air and lands on top of $N!</OthersFound>
+<VictimFound>$n jumps high in the air and lands on top of you!</VictimFound>
+</Social>
+<Social>
+<Name>lag</Name>
+<CharSelf>You complain about the lag, your hitpoints...</CharSelf>
+<CharFound>You complain to $N about the lag.</CharFound>
+<CharNoArgument>It creeps up on you, sucking you into the eternal plane of nothingness...</CharNoArgument>
+<OthersSelf>$n seems to have lost $s link because of the lag.</OthersSelf>
+<OthersNoArgument>Lag sucks $n into the eternal plane of nothingness..</OthersNoArgument>
+<OthersFound>$n complains to $N about the lag.</OthersFound>
+<VictimFound>$n complains to you about the lag.</VictimFound>
+</Social>
+<Social>
+<Name>laugh</Name>
+<CharSelf>You look in the mirror and laugh.</CharSelf>
+<CharFound>You fall down laughing at $N.</CharFound>
+<CharNoArgument>You fall down laughing.</CharNoArgument>
+<OthersSelf>$n laughs at $mself. Looks like $e has just gone over the edge.</OthersSelf>
+<OthersNoArgument>$n falls down laughing.</OthersNoArgument>
+<OthersFound>$n falls down laughing at $N.</OthersFound>
+<VictimFound>$n falls down laughing at you.</VictimFound>
+</Social>
+<Social>
+<Name>lean</Name>
+<CharSelf>You lean over and fall to the ground.. THUMP!</CharSelf>
+<CharFound>You lean over $S shoulder.</CharFound>
+<CharNoArgument>you lean back, taking some weight off your legs.</CharNoArgument>
+<OthersSelf>$n leans over so far $e tips over.</OthersSelf>
+<OthersNoArgument>$n leans back, taking some weight off $s legs.</OthersNoArgument>
+<OthersFound>$n leans over $N's shoulder.</OthersFound>
+<VictimFound>$n leans over your shoulder.</VictimFound>
+</Social>
+<Social>
+<Name>lick</Name>
+<CharSelf>You lick yourself.</CharSelf>
+<CharFound>You lick $M.</CharFound>
+<CharNoArgument>You lick your lips and smile.</CharNoArgument>
+<OthersSelf>$n licks $mself - YUCK.</OthersSelf>
+<OthersNoArgument>$n licks $s lips and smiles.</OthersNoArgument>
+<OthersFound>$n licks $N.</OthersFound>
+<VictimFound>$n licks you.</VictimFound>
+</Social>
+<Social>
+<Name>lost</Name>
+<CharSelf>You lose yourself and everyone else.</CharSelf>
+<CharFound>You really think $N is lost.</CharFound>
+<CharNoArgument>You are totally and utterly lost! Next time bring a compass!</CharNoArgument>
+<OthersSelf>$n is so lost! Somebody help $m.</OthersSelf>
+<OthersNoArgument>$n is totally and utterly lost and has no clue where we are!</OthersNoArgument>
+<OthersFound>$n thinks $N is totally lost and has no clue where we are.</OthersFound>
+<VictimFound>$n thinks you are lost! Give it up!</VictimFound>
+</Social>
+<Social>
+<Name>love</Name>
+<CharSelf>Well, we already know you love yourself (lucky someone does!)</CharSelf>
+<CharFound>You tell your true feelings to $N.</CharFound>
+<CharNoArgument>You love the whole world.</CharNoArgument>
+<OthersSelf>$n loves $mself, can you believe it ?</OthersSelf>
+<OthersNoArgument>$n loves everybody in the world.</OthersNoArgument>
+<OthersFound>$n whispers softly to $N.</OthersFound>
+<VictimFound>$n whispers to you sweet words of love.</VictimFound>
+</Social>
+<Social>
+<Name>lucky</Name>
+<CharSelf>Tymora blows a kiss of good luck in your direction.</CharSelf>
+<CharFound>You wish $N all the luck in the world!</CharFound>
+<CharNoArgument>You wish yourself good luck!</CharNoArgument>
+<OthersSelf>Tymora blows a kiss of good luck at $n.</OthersSelf>
+<OthersNoArgument>$n takes a deep breath and courageously steps forward.</OthersNoArgument>
+<OthersFound>$n wishes $N good luck!</OthersFound>
+<VictimFound>Good Luck! $n wishes you all the good luck in the world!</VictimFound>
+</Social>
+<Social>
+<Name>maim</Name>
+<CharSelf>You maim yourself with your dull fingernails.</CharSelf>
+<CharFound>You maim $M with your dull fingernails.</CharFound>
+<CharNoArgument>Who do you want to maim?</CharNoArgument>
+<OthersSelf>$n raises $s hand and maims $mself to pieces.</OthersSelf>
+<OthersNoArgument>$n is looking for someone to maim.</OthersNoArgument>
+<OthersFound>$n raises $s hand and tries to maim $N to pieces.</OthersFound>
+<VictimFound>$n raises $s hand and paws at you.  You've been maimed!</VictimFound>
+</Social>
+<Social>
+<Name>marvelous</Name>
+<CharSelf>You say 'Ah dahling, I look MAHVELLOUS!'</CharSelf>
+<CharFound>You say to $M, 'Ah dahling, you look MAHVELLOUS!'</CharFound>
+<CharNoArgument>You say 'Ah dahling, you look MAHVELLOUS!'</CharNoArgument>
+<OthersSelf>$n says 'Ah dahling, I look MAHVELLOUS!'</OthersSelf>
+<OthersNoArgument>$n says 'Ah dahling, you look MAHVELLOUS!'</OthersNoArgument>
+<OthersFound>$n says to $N, 'Ah dahling, you look MAHVELLOUS!'</OthersFound>
+<VictimFound>$n says to you, 'Ah dahling, you look MAHVELLOUS!'</VictimFound>
+</Social>
+<Social>
+<Name>massage</Name>
+<CharSelf>You practice yoga as you try to massage yourself.</CharSelf>
+<CharFound>You gently massage $N's shoulders.</CharFound>
+<CharNoArgument>Massage what?  Thin air?</CharNoArgument>
+<OthersSelf>$n gives a show on yoga positions, trying to massage $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n massages $N's shoulders.</OthersFound>
+<VictimFound>$n gently massages your shoulders.  Ahhhhhhhhhh ...</VictimFound>
+</Social>
+<Social>
+<Name>melt</Name>
+<CharSelf>You melt into a puddle of emotional slush.</CharSelf>
+<CharFound>You melt into $S arms.</CharFound>
+<CharNoArgument>You melt into a puddle of emotional slush.</CharNoArgument>
+<OthersSelf>$n melts into a greasy puddle... ICK!</OthersSelf>
+<OthersNoArgument>$n melts.</OthersNoArgument>
+<OthersFound>$n melts into $N's arms.</OthersFound>
+<VictimFound>$n melts into your arms.</VictimFound>
+</Social>
+<Social>
+<Name>meow</Name>
+<CharSelf>You meow like a kitty cat.</CharSelf>
+<CharFound>You meow at $M, hoping $E will give you some milk.</CharFound>
+<CharNoArgument>MEOW.</CharNoArgument>
+<OthersSelf>$n meows like a kitty cat.</OthersSelf>
+<OthersNoArgument>$n meows.  What's $e going to do next, wash $mself with $s tongue?</OthersNoArgument>
+<OthersFound>$n meows at $N, hoping $e will get some milk. </OthersFound>
+<VictimFound>$n meows at you.  Maybe $e wants some milk.</VictimFound>
+</Social>
+<Social>
+<Name>mmm</Name>
+<CharSelf>You think of yourself, and go mmMMmmMMmmMMmm.</CharSelf>
+<CharFound>You go mmMMmmMMmmMMmm.</CharFound>
+<CharNoArgument>You go mmMMmmMMmmMMmm.</CharNoArgument>
+<OthersSelf>$n thinks of $mself and says, 'mmMMmmMMmmMMmm.'</OthersSelf>
+<OthersNoArgument>$n says, 'mmMMmmMMmmMMmm.'</OthersNoArgument>
+<OthersFound>$n says, 'mmMMmmMMmmMMmm.'and looks at $N.</OthersFound>
+<VictimFound>$n thinks of you and says, 'mmMMmmMMmmMMmm.'</VictimFound>
+</Social>
+<Social>
+<Name>mnm</Name>
+<CharSelf>awwwwww have another one!</CharSelf>
+<CharFound>You throw M&amp;M's at $N from across the room!</CharFound>
+<CharNoArgument>You look for that elusive green M&amp;M.</CharNoArgument>
+<OthersSelf>$n eats M&amp;Ms by $mself in the corner.</OthersSelf>
+<OthersNoArgument>$n looks for the elusive green M&amp;M.</OthersNoArgument>
+<OthersFound>$n flings M&amp;M's at $N from across the room.</OthersFound>
+<VictimFound>Caught one! You catch an M&amp;M that $n threw at you.</VictimFound>
+</Social>
+<Social>
+<Name>moan</Name>
+<CharSelf>You moan at yourself.</CharSelf>
+<CharFound>You moan softly at $N.</CharFound>
+<CharNoArgument>You start to moan.</CharNoArgument>
+<OthersSelf>$n makes $mself moan.</OthersSelf>
+<OthersNoArgument>$n starts moaning.</OthersNoArgument>
+<OthersFound>$n moans softly at $N.</OthersFound>
+<VictimFound>$n moans at you, trying to show that $e is sexually deprived.</VictimFound>
+</Social>
+<Social>
+<Name>mooch</Name>
+<CharSelf>You beg for money, weapons, coins.</CharSelf>
+<CharFound>You beg $N for money, weapons, coins.</CharFound>
+<CharNoArgument>You beg for money, weapons, coins.</CharNoArgument>
+<OthersSelf>$n says 'Spare change?'</OthersSelf>
+<OthersNoArgument>$n says 'Spare change?'</OthersNoArgument>
+<OthersFound>$n begs $N for favors of the insidious type...</OthersFound>
+<VictimFound>$n begs you for favors of the insidious type...</VictimFound>
+</Social>
+<Social>
+<Name>moocow</Name>
+<CharSelf>You make cow noises.  Mooooooooooooooooooo!</CharSelf>
+<CharFound>You make cow noises at $M.  Mooooooooooooooooooo!</CharFound>
+<CharNoArgument>You make cow noises.  Mooooooooooooooooooo!</CharNoArgument>
+<OthersSelf>$n Mooooooooooooooooooooooooos like a cow.</OthersSelf>
+<OthersNoArgument>$n Mooooooooooooooooooooooooos like a cow.</OthersNoArgument>
+<OthersFound>$n Mooooooooooooooooooooooooos like a cow at $N.</OthersFound>
+<VictimFound>$n looks at you and Mooooooooooooooooooooooooos like a cow.</VictimFound>
+</Social>
+<Social>
+<Name>moon</Name>
+<CharSelf>You moon yourself.</CharSelf>
+<CharFound>You pull down your pants and show $m your bottom.</CharFound>
+<CharNoArgument>Gee your butt is big.</CharNoArgument>
+<OthersSelf>$n moons $mself.  Ugliest butt you ever saw.</OthersSelf>
+<OthersNoArgument>$n moons the entire room.</OthersNoArgument>
+<OthersFound>$n shows $s bottom to $N.  Find a paddle, quick!</OthersFound>
+<VictimFound>$n pulls down $s pants and shows you her bottom. Ain't it cute?</VictimFound>
+</Social>
+<Social>
+<Name>mosh</Name>
+<CharSelf>You MOSH yourself.  Ah the blood!</CharSelf>
+<CharFound>You MOSH $M into a pile of Jello pudding.  Ewww!</CharFound>
+<CharNoArgument>You MOSH insanely about the room.</CharNoArgument>
+<OthersSelf>$n MOSHES and MOSHES and MOSHES and MOSHES...</OthersSelf>
+<OthersNoArgument>$n MOSHES insanely about the room.</OthersNoArgument>
+<OthersFound>$n MOSHES $N into Jello pudding.  Ah, the blood!</OthersFound>
+<VictimFound>$n MOSHES you into the ground.</VictimFound>
+</Social>
+<Social>
+<Name>mourn</Name>
+<CharSelf>You break out in tears, going into full mourning.</CharSelf>
+<CharFound>You mourn at the loss of $N's life.</CharFound>
+<CharNoArgument>You mourn the loss of the dead.</CharNoArgument>
+<OthersSelf>$n breaks out in tears, in full mourning.</OthersSelf>
+<OthersNoArgument>$n mourns the loss of the dead.</OthersNoArgument>
+<OthersFound>$n mourns at the loss of $N's life.</OthersFound>
+<VictimFound>$n mourns at the loss of your life.</VictimFound>
+</Social>
+<Social>
+<Name>muhaha</Name>
+<CharSelf>Muhaha at yourself??  Wierd.</CharSelf>
+<CharFound>You laugh at $M diabolically.  MUHAHAHAHAHAHA!</CharFound>
+<CharNoArgument>You laugh diabolically.  MUHAHAHAHAHAHA!</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n laughs diabolically.  MUHAHAHAHAHAHA!</OthersNoArgument>
+<OthersFound>$n laughs at $N diabolically.  MUHAHAHAHAHAHA!</OthersFound>
+<VictimFound>$n laughs at you diabolically.  MUHAHAHAHAHAHA!</VictimFound>
+</Social>
+<Social>
+<Name>mutter</Name>
+<CharSelf>Gee, it really sucks to be you.. really!</CharSelf>
+<CharFound>You mutter something under your breath about $N.</CharFound>
+<CharNoArgument>You mutter something intelligable.</CharNoArgument>
+<OthersSelf>$n mutters something about $mself under $s breath.</OthersSelf>
+<OthersNoArgument>$n mutters something under $s breath.</OthersNoArgument>
+<OthersFound>$n mutters something about $N under $s breath.</OthersFound>
+<VictimFound>$n mutters something about you under $s breath!</VictimFound>
+</Social>
+<Social>
+<Name>nail</Name>
+<CharSelf>You nibble nervously on your nails.</CharSelf>
+<CharFound>You nibble nervously on $Ns nails.</CharFound>
+<CharNoArgument>You nibble nervously on your nails.</CharNoArgument>
+<OthersSelf>$n nibbles nervously on $s fingernails.</OthersSelf>
+<OthersNoArgument>$n nibbles nervously on $s fingernails.</OthersNoArgument>
+<OthersFound>$n nibbles nervously on $Ns fingernails.</OthersFound>
+<VictimFound>$n nibbles nervously on your fingernails.  Yuck!</VictimFound>
+</Social>
+<Social>
+<Name>nap</Name>
+<CharSelf>You think you ought to hit the sack.</CharSelf>
+<CharFound>You think $N should get some sleep!</CharFound>
+<CharNoArgument>Time for a nap!!</CharNoArgument>
+<OthersSelf>$n thinks $e needs to get some sleep.</OthersSelf>
+<OthersNoArgument>$n settles down for a nap.</OthersNoArgument>
+<OthersFound>$n thinks $N should get some sleep.</OthersFound>
+<VictimFound>GO TO BED! $n thinks you need the sleep.</VictimFound>
+</Social>
+<Social>
+<Name>nasty</Name>
+<CharSelf>You do the nasty with yourself.</CharSelf>
+<CharFound>You do the nasty with $M.</CharFound>
+<CharNoArgument>You do the best imitation of the nasty you can.</CharNoArgument>
+<OthersSelf>$n does the nasty with $mself.  Hoo boy.</OthersSelf>
+<OthersNoArgument>$n does the nasty solo? -- wow.</OthersNoArgument>
+<OthersFound>$n does the nasty with $N.  Find a firehose quick!</OthersFound>
+<VictimFound>$n does the nasty with you.  How do you like it?</VictimFound>
+</Social>
+<Social>
+<Name>ni</Name>
+<CharSelf>You exclaim proudly, 'I am a knight that goes NI!'</CharSelf>
+<CharFound>You exclaim proudly to $M, 'I am a knight that goes NI!'</CharFound>
+<CharNoArgument>You exclaim proudly, 'I am a knight that goes NI!'</CharNoArgument>
+<OthersSelf>$n exclaims proudly, 'I am a knight that goes NI!'</OthersSelf>
+<OthersNoArgument>$n exclaims proudly, 'I am a knight that goes NI!'</OthersNoArgument>
+<OthersFound>$n exclaims proudly to $N, 'I am a knight that goes NI!'</OthersFound>
+<VictimFound>$n proudly exclaims to you, 'I am a knight that goes NI!'</VictimFound>
+</Social>
+<Social>
+<Name>nibble</Name>
+<CharSelf>You nibble on your OWN ear.</CharSelf>
+<CharFound>You nibble on $N's ear, exciting, isn't it?</CharFound>
+<CharNoArgument>Nibble on whom?</CharNoArgument>
+<OthersSelf>$n nibbles on $s OWN ear.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n nibbles on $N's ear.</OthersFound>
+<VictimFound>$n nibbles on your ear, feel that blood pressure RISE!</VictimFound>
+</Social>
+<Social>
+<Name>nod</Name>
+<CharSelf>You nod at yourself. You're okay.</CharSelf>
+<CharFound>You nod at $M.</CharFound>
+<CharNoArgument>You nod.</CharNoArgument>
+<OthersSelf>$n nods at $mself, reassuring $mself that $e's ok.</OthersSelf>
+<OthersNoArgument>$n nods.</OthersNoArgument>
+<OthersFound>$n nods at $N.</OthersFound>
+<VictimFound>$n nods at you.</VictimFound>
+</Social>
+<Social>
+<Name>nog</Name>
+<CharSelf>You nog at yourself.</CharSelf>
+<CharFound>You nog at $N.</CharFound>
+<CharNoArgument>You nog.</CharNoArgument>
+<OthersSelf>$n nogs at $mself.</OthersSelf>
+<OthersNoArgument>$n nogs.</OthersNoArgument>
+<OthersFound>$n nogs at $N.</OthersFound>
+<VictimFound>$n nogs at you.</VictimFound>
+</Social>
+<Social>
+<Name>noogie</Name>
+<CharSelf>You give yourself a noogie. What a goof!</CharSelf>
+<CharFound>You put $M in a headlock and give $M a severe noogie.</CharFound>
+<CharNoArgument>You look around, wondering who would like to get a noogie.</CharNoArgument>
+<OthersSelf>$n gives $mself a noogie. What a goof!</OthersSelf>
+<OthersNoArgument>$n looks around, wondering who would like to get a noogie.</OthersNoArgument>
+<OthersFound>$n puts $N in a headlock and gives $M a noogie.</OthersFound>
+<VictimFound>$n puts you in a headlock and gives you a severe noogie.</VictimFound>
+</Social>
+<Social>
+<Name>nose</Name>
+<CharSelf>You wiggle your nose.</CharSelf>
+<CharFound>You tweak $S nose.</CharFound>
+<CharNoArgument>You pick your nose. YUM!</CharNoArgument>
+<OthersSelf>$n wiggles $s nose.</OthersSelf>
+<OthersNoArgument>$n pulls something green and slimy from $s nose and slurps it down.</OthersNoArgument>
+<OthersFound>$n poke $N in the nose.</OthersFound>
+<VictimFound>$n pokes you in the nose.  Ow!</VictimFound>
+</Social>
+<Social>
+<Name>nudge</Name>
+<CharSelf>You nudge yourself, for some strange reason.</CharSelf>
+<CharFound>You nudge $M.</CharFound>
+<CharNoArgument>Nudge whom?</CharNoArgument>
+<OthersSelf>$n nudges $mself, to keep $mself awake.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n nudges $N.</OthersFound>
+<VictimFound>$n nudges you.</VictimFound>
+</Social>
+<Social>
+<Name>nuke</Name>
+<CharSelf>You nuke yourself.</CharSelf>
+<CharFound>You envelope $M in a mushroom cloud.</CharFound>
+<CharNoArgument>Who do you want to nuke?</CharNoArgument>
+<OthersSelf>$n puts $mself in the microwave.</OthersSelf>
+<OthersNoArgument>$n tries to put something in the microwave.</OthersNoArgument>
+<OthersFound>$n detonates a nuclear warhead at $N.  Uh oh!</OthersFound>
+<VictimFound>$n envelopes you in a mushroom cloud.</VictimFound>
+</Social>
+<Social>
+<Name>nuzzle</Name>
+<CharSelf>I'm sorry, friend, but that's impossible.</CharSelf>
+<CharFound>You nuzzle $S neck softly.</CharFound>
+<CharNoArgument>Nuzzle whom?</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n softly nuzzles $N's neck.</OthersFound>
+<VictimFound>$n softly nuzzles your neck.</VictimFound>
+</Social>
+<Social>
+<Name>ogle</Name>
+<CharSelf>You ogle yourself.  You may just be too wierd for this mud.</CharSelf>
+<CharFound>You ogle $M like $E was a piece of meat.</CharFound>
+<CharNoArgument>Whom do you want to ogle?</CharNoArgument>
+<OthersSelf>$n ogles $mself.  Better hope that $e stops there.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n ogles $N.  Maybe you should leave them alone for awhile?</OthersFound>
+<VictimFound>$n ogles you.  Guess what $e is thinking about?</VictimFound>
+</Social>
+<Social>
+<Name>ohno</Name>
+<CharSelf>You exclaim to yourself, 'Oh no!  I did it again!'</CharSelf>
+<CharFound>You exclaim to $M, 'Oh no!  I did it again!'</CharFound>
+<CharNoArgument>Oh no!  You did it again!</CharNoArgument>
+<OthersSelf>$n exclaims to $mself, 'Oh no!  I did it again!'</OthersSelf>
+<OthersNoArgument>Oh no!  $n did it again!</OthersNoArgument>
+<OthersFound>$n exclaims to $N, 'Oh no!  I did it again!'</OthersFound>
+<VictimFound>$n exclaims to you, 'Oh no!  I did it again!'</VictimFound>
+</Social>
+<Social>
+<Name>oink</Name>
+<CharSelf>You make pig noises.  OINK!</CharSelf>
+<CharFound>You make pig noises at $M.  OINK!</CharFound>
+<CharNoArgument>You make pig noises.  OINK!</CharNoArgument>
+<OthersSelf>$n oinks 'OINK OINK OINK!'</OthersSelf>
+<OthersNoArgument>$n oinks 'OINK OINK OINK!'</OthersNoArgument>
+<OthersFound>$n oinks at $N: 'OINK OINK OINK!'</OthersFound>
+<VictimFound>$n oinks at you: 'OINK OINK OINK!'</VictimFound>
+</Social>
+<Social>
+<Name>ooo</Name>
+<CharSelf>You go ooOOooOOooOOoo.</CharSelf>
+<CharFound>You go ooOOooOOooOOoo.</CharFound>
+<CharNoArgument>You go ooOOooOOooOOoo.</CharNoArgument>
+<OthersSelf>$n says, 'ooOOooOOooOOoo.'</OthersSelf>
+<OthersNoArgument>$n says, 'ooOOooOOooOOoo.'</OthersNoArgument>
+<OthersFound>$n says, 'ooOOooOOooOOoo.'</OthersFound>
+<VictimFound>$n thinks of you and says, 'ooOOooOOooOOoo.'</VictimFound>
+</Social>
+<Social>
+<Name>pace</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>Don't wear a hole in the rug....</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n paces restlessly back and forth.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>panic</Name>
+<CharSelf>Dang! And you thought you had a life!</CharSelf>
+<CharFound>You panic around $M.</CharFound>
+<CharNoArgument>AAAYYYYYEEEEAaaaaaaaaaaaaaahhhhhhhhhhhhh!</CharNoArgument>
+<OthersSelf>$n panics wildly about $mself!</OthersSelf>
+<OthersNoArgument>$n panics, screams and runs around in little circles, waving $s hands in the air.</OthersNoArgument>
+<OthersFound>$n panics around $N.</OthersFound>
+<VictimFound>$n panics wildly around you!! Are you okay?!</VictimFound>
+</Social>
+<Social>
+<Name>pant</Name>
+<CharSelf>Maybe you should start dating a bit more?</CharSelf>
+<CharFound>You pant at $M.  Wow, $E sure takes your breath away!</CharFound>
+<CharNoArgument>You start panting with your tongue hanging out, looking like a dog.</CharNoArgument>
+<OthersSelf>$n starts panting at $mself..now there is one sick puppy!</OthersSelf>
+<OthersNoArgument>$n starts panting with $s tongue hanging out, looking like a dog.</OthersNoArgument>
+<OthersFound>$n pants at $N, because $e finds $M breathtaking!</OthersFound>
+<VictimFound>$n pants at you, because $e finds you breathtaking!</VictimFound>
+</Social>
+<Social>
+<Name>pat</Name>
+<CharSelf>You pat yourself on your head.  Aren't you proud?</CharSelf>
+<CharFound>You pat $N on $S head.</CharFound>
+<CharNoArgument>Pat whom?</CharNoArgument>
+<OthersSelf>$n pats $mself on the head.  $e is proud of $mself!</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n pats $N on $S head.</OthersFound>
+<VictimFound>$n pats you on your head.</VictimFound>
+</Social>
+<Social>
+<Name>peck</Name>
+<CharSelf>You kiss your own pectoral muscles.</CharSelf>
+<CharFound>You give $M a little peck on the cheek.</CharFound>
+<CharNoArgument>You peck for seeds on the ground.</CharNoArgument>
+<OthersSelf>$n pecks $mself on $s pectoral muscles.</OthersSelf>
+<OthersNoArgument>$n pecks for seeds on the ground.</OthersNoArgument>
+<OthersFound>$n gives $N a small peck on the cheek.</OthersFound>
+<VictimFound>$n gives you a sweet peck on the cheek.</VictimFound>
+</Social>
+<Social>
+<Name>peer</Name>
+<CharSelf>You peer intently about your surroundings.</CharSelf>
+<CharFound>You peer at $M quizzically.</CharFound>
+<CharNoArgument>You peer intently about your surroundings.</CharNoArgument>
+<OthersSelf>$n peers intently about the area.</OthersSelf>
+<OthersNoArgument>$n peers intently about the area.</OthersNoArgument>
+<OthersFound>$n peers at $N quizzically.</OthersFound>
+<VictimFound>$n peers at you quizzically.</VictimFound>
+</Social>
+<Social>
+<Name>pet</Name>
+<CharSelf>You pet yourself.</CharSelf>
+<CharFound>You pet $N lovingly.</CharFound>
+<CharNoArgument>Who do you want to pet?</CharNoArgument>
+<OthersSelf>$n pets $mself, feeling lonely.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n pets $N lovingly.</OthersFound>
+<VictimFound>$n pets you lovingly.</VictimFound>
+</Social>
+<Social>
+<Name>pillow</Name>
+<CharSelf>you stuff feathers down your throat and choke.</CharSelf>
+<CharFound>You pull a pillow out of thin air and throws it at $M.</CharFound>
+<CharNoArgument>You pull a pillow out of thin air and get comfy.</CharNoArgument>
+<OthersSelf>$n pulls a pillow out of thin air and stuffs it down $s throat.</OthersSelf>
+<OthersNoArgument>$n pulls a pillow out of thin air and gets comfy.</OthersNoArgument>
+<OthersFound>$n throws a pillow at $N, sending feathers flying.</OthersFound>
+<VictimFound>$n pulls a pillow out of thin air and throws it at you! Pillow fight!</VictimFound>
+</Social>
+<Social>
+<Name>pinch</Name>
+<CharSelf>You need a pinch of salt.</CharSelf>
+<CharFound>You pinch $S rosy cheeks.</CharFound>
+<CharNoArgument>You toss a pinch of salt over your shoulder.</CharNoArgument>
+<OthersSelf>$n needs a pinch of salt.</OthersSelf>
+<OthersNoArgument>$n tosses a pinch of salt over $s shoulder.</OthersNoArgument>
+<OthersFound>$n pinches $N's rosy cheeks.</OthersFound>
+<VictimFound>$n pinches your chubby cheeks.</VictimFound>
+</Social>
+<Social>
+<Name>ping</Name>
+<CharSelf>You ping yourself. Ooof!</CharSelf>
+<CharFound>You ping $N.  $N is unreachable.</CharFound>
+<CharNoArgument>Ping who?</CharNoArgument>
+<OthersSelf>$n pings $mself. Ooof!</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n pings $N.  $N is unreachable.</OthersFound>
+<VictimFound>$n pings you.  Is your server dead or alive?</VictimFound>
+</Social>
+<Social>
+<Name>plonk</Name>
+<CharSelf>You plonk yourself on top of yourself?? OUCH!</CharSelf>
+<CharFound>You plonk yourself on top of $N.</CharFound>
+<CharNoArgument>Plonk! Wow.. how fascinating!</CharNoArgument>
+<OthersSelf>Plonk!  $n contorts wildly on the floor.</OthersSelf>
+<OthersNoArgument>$n plonks down on the floor in wonderment.</OthersNoArgument>
+<OthersFound>$n plonks $mself on top of $N.  Hmmm.. should they be left alone?</OthersFound>
+<VictimFound>$n plonks $mself on top of you!</VictimFound>
+</Social>
+<Social>
+<Name>plot</Name>
+<CharSelf>You deviously plot something.
+
+OthersAuto  $n suddenly looks devious as $e plots something.</CharSelf>
+<CharFound>You rub your hands together, plotting $N's demise.</CharFound>
+<CharNoArgument>You rub your hands together as you plot deviously.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n rubs $s hands together as $e plots deviously.</OthersNoArgument>
+<OthersFound>$n rubs $s hands together, plotting $N's demise.</OthersFound>
+<VictimFound>$n rubs $s hands together, plotting your demise.</VictimFound>
+</Social>
+<Social>
+<Name>point</Name>
+<CharSelf>You indicate yourself.</CharSelf>
+<CharFound>You point your finger at $M.</CharFound>
+<CharNoArgument>You cover your eyes and point randomly into space.</CharNoArgument>
+<OthersSelf>$n indicates $mself.</OthersSelf>
+<OthersNoArgument>$n points randomly into space.</OthersNoArgument>
+<OthersFound>$n points $s finger at $N....</OthersFound>
+<VictimFound>$n points $s finger at you .</VictimFound>
+</Social>
+<Social>
+<Name>poke</Name>
+<CharSelf>You poke yourself in the ribs, feeling very silly.</CharSelf>
+<CharFound>You poke $M in the ribs.</CharFound>
+<CharNoArgument>Poke whom?</CharNoArgument>
+<OthersSelf>$n pokes $mself in the ribs, looking very sheepish.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n pokes $N in the ribs.</OthersFound>
+<VictimFound>$n pokes you in the ribs.</VictimFound>
+</Social>
+<Social>
+<Name>ponder</Name>
+<CharSelf>You rub your chin and ponder about yourself.</CharSelf>
+<CharFound>You rub your chin and ponder about $N.</CharFound>
+<CharNoArgument>You detach from reality a moment, pondering.</CharNoArgument>
+<OthersSelf>$n rubs $s chin and ponders about $mself.</OthersSelf>
+<OthersNoArgument>$n begins to ponder on something.</OthersNoArgument>
+<OthersFound>$n rubs $s chin and stares at $N, pondering about $M.</OthersFound>
+<VictimFound>$n rubs $s chin and stares at you, pondering about you.</VictimFound>
+</Social>
+<Social>
+<Name>possum</Name>
+<CharSelf>You do your best imitation of a corpse.</CharSelf>
+<CharFound>You do your best imitation of a corpse.</CharFound>
+<CharNoArgument>You do your best imitation of a corpse.</CharNoArgument>
+<OthersSelf>$n hits the ground... DEAD.</OthersSelf>
+<OthersNoArgument>$n hits the ground... DEAD.</OthersNoArgument>
+<OthersFound>$n hits the ground... DEAD.</OthersFound>
+<VictimFound>$n hits the ground... DEAD.</VictimFound>
+</Social>
+<Social>
+<Name>potato</Name>
+<CharSelf>You juggle a hot potato in your hands.</CharSelf>
+<CharFound>You juggle a hot potato and pass it onto $M.</CharFound>
+<CharNoArgument>You juggle a hot potato in your hands.</CharNoArgument>
+<OthersSelf>$n juggles a hot potato in $s hands.</OthersSelf>
+<OthersNoArgument>$n juggles a hot potato in $s hands.</OthersNoArgument>
+<OthersFound>$n juggles a hot potato and gives it to $N!</OthersFound>
+<VictimFound>$n juggles a hot potato and gives it to YOU!</VictimFound>
+</Social>
+<Social>
+<Name>pounce</Name>
+<CharSelf>Pounce!</CharSelf>
+<CharFound>You pounce on $N, pinning $M to the ground.</CharFound>
+<CharNoArgument>You pounce on the ground like a playful kitten.</CharNoArgument>
+<OthersSelf>$n stumbles over $mself, trying to pin something down.</OthersSelf>
+<OthersNoArgument>$n pounces on the ground, playing with something.</OthersNoArgument>
+<OthersFound>$n pounces on $N, pinning $M to the ground.</OthersFound>
+<VictimFound>$n pounces on top of you, pinning you to the ground.</VictimFound>
+</Social>
+<Social>
+<Name>poupon</Name>
+<CharSelf>You say 'Pardon me, do you have any Grey Poupon?'.</CharSelf>
+<CharFound>You say to $M, 'Pardon me, do you have any Grey Poupon?'.</CharFound>
+<CharNoArgument>You say 'Pardon me, do you have any Grey Poupon?'.</CharNoArgument>
+<OthersSelf>$n says 'Pardon me, do you have any Grey Poupon?'</OthersSelf>
+<OthersNoArgument>$n says 'Pardon me, do you have any Grey Poupon?'</OthersNoArgument>
+<OthersFound>$n says to $N, 'Pardon me, do you have any Grey Poupon?'</OthersFound>
+<VictimFound>$n says to you, 'Pardon me, do you have any Grey Poupon?'</VictimFound>
+</Social>
+<Social>
+<Name>pout</Name>
+<CharSelf>Ah, don't take it so hard.</CharSelf>
+<CharFound>Ah, don't take it so hard.</CharFound>
+<CharNoArgument>Ah, don't take it so hard.</CharNoArgument>
+<OthersSelf>$n pouts at herself.</OthersSelf>
+<OthersNoArgument>$n pouts.</OthersNoArgument>
+<OthersFound>$n pouts at $N.  What did $N do?</OthersFound>
+<VictimFound>$n pouts at you.  What did you do to $m?</VictimFound>
+</Social>
+<Social>
+<Name>propose</Name>
+<CharSelf>Even you wouldn't marry yourself.</CharSelf>
+<CharFound>You propose marriage to $M.</CharFound>
+<CharNoArgument>You propose a contract game of bridge.</CharNoArgument>
+<OthersSelf>$n refuses the proposal made by $mself.</OthersSelf>
+<OthersNoArgument>$n proposes a contract game of bridge.</OthersNoArgument>
+<OthersFound>$n gets down on one knee and proposes to $N.</OthersFound>
+<VictimFound>$n says quietly 'Will you marry me?'</VictimFound>
+</Social>
+<Social>
+<Name>protect</Name>
+<CharSelf>You beg someone to protect you.</CharSelf>
+<CharFound>You stand protectively in front of $N.</CharFound>
+<CharNoArgument>Whom do you wish to protect?</CharNoArgument>
+<OthersSelf>Help! $n begs someone to protect $m.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n protects $N.</OthersFound>
+<VictimFound>$n stands protectively in front of you.</VictimFound>
+</Social>
+<Social>
+<Name>pucker</Name>
+<CharSelf>You pucker your lips up and they fall off.</CharSelf>
+<CharFound>You pucker your lips up at $N, waiting for a kiss.</CharFound>
+<CharNoArgument>You pucker up.  Is someone supposed to kiss you now?</CharNoArgument>
+<OthersSelf>$n puckers up to $mself.</OthersSelf>
+<OthersNoArgument>$n puckers up.. either $e sucked a lemon or $e wants a kiss!</OthersNoArgument>
+<OthersFound>$n puckers $s lips up waiting for $N to kiss $m.</OthersFound>
+<VictimFound>$n puckers $s lips up at you! Go ahead! Kiss $m already!</VictimFound>
+</Social>
+<Social>
+<Name>puke</Name>
+<CharSelf>You puke on yourself.</CharSelf>
+<CharFound>You puke on $M.</CharFound>
+<CharNoArgument>You puke ... chunks everywhere!</CharNoArgument>
+<OthersSelf>$n pukes on $s clothes.</OthersSelf>
+<OthersNoArgument>$n pukes.</OthersNoArgument>
+<OthersFound>$n pukes on $N.</OthersFound>
+<VictimFound>$n spews vomit and pukes all over your clothing!</VictimFound>
+</Social>
+<Social>
+<Name>pull</Name>
+<CharSelf>You're already bald!</CharSelf>
+<CharFound>You pull $S hair, Grow up!</CharFound>
+<CharNoArgument>Pull what?</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n pulls $s hair out in frustration.</OthersNoArgument>
+<OthersFound>$n pulls $N's hair.</OthersFound>
+<VictimFound>$n pulls your hair.  Owie! Isn't that immature?</VictimFound>
+</Social>
+<Social>
+<Name>punch</Name>
+<CharSelf>You punch yourself.  You deserve it.</CharSelf>
+<CharFound>You punch $M playfully.</CharFound>
+<CharNoArgument>Punch whom?</CharNoArgument>
+<OthersSelf>$n punches $mself.  Why don't you join in?</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n punches $N playfully.</OthersFound>
+<VictimFound>$n punches you playfully.  OUCH!</VictimFound>
+</Social>
+<Social>
+<Name>purr</Name>
+<CharSelf>You purr at yourself.</CharSelf>
+<CharFound>You purr contentedly in $N's lap.</CharFound>
+<CharNoArgument>You purr contentedly.</CharNoArgument>
+<OthersSelf>$n purrs at $mself.  Must be a cat thing.</OthersSelf>
+<OthersNoArgument>$n purrs contentedly.</OthersNoArgument>
+<OthersFound>$n purrs contentedly in $N's lap.</OthersFound>
+<VictimFound>$n purrs contentedly in your lap.</VictimFound>
+</Social>
+<Social>
+<Name>push</Name>
+<CharSelf>You push yourself up against the wall.</CharSelf>
+<CharFound>You push $M away rudely away from you.  Hey buddy, take it outside!.</CharFound>
+<CharNoArgument>Push what?</CharNoArgument>
+<OthersSelf>$n pushes $mself up against the wall arguing with $mself.</OthersSelf>
+<OthersNoArgument>$n pushes against the wall.</OthersNoArgument>
+<OthersFound>$n pushes $N away in disgust.</OthersFound>
+<VictimFound>$n pushes you away from $m, how rude!</VictimFound>
+</Social>
+<Social>
+<Name>puzzle</Name>
+<CharSelf>Puzzle away.. you'll never figure yourself out!!</CharSelf>
+<CharFound>You puzzle over what $E meant.</CharFound>
+<CharNoArgument>Puzzling, isn't it?</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n looks puzzled.</OthersNoArgument>
+<OthersFound>$n is quite puzzled over $N.</OthersFound>
+<VictimFound>$n is puzzled over what you mean.</VictimFound>
+</Social>
+<Social>
+<Name>raise</Name>
+<CharSelf>You raise your hand in response.</CharSelf>
+<CharFound>You raise your hand in response to $N.</CharFound>
+<CharNoArgument>You raise your hand.</CharNoArgument>
+<OthersSelf>$n raises up on $s toes, calling out, 'Me! Me! Me!'.</OthersSelf>
+<OthersNoArgument>$n raises $s hand.</OthersNoArgument>
+<OthersFound>$n raises $s hand in response to $N.</OthersFound>
+<VictimFound>$n raises $s hand to you in response.</VictimFound>
+</Social>
+<Social>
+<Name>ready</Name>
+<CharSelf>You let yourself know that you are ready to go!</CharSelf>
+<CharFound>You let $N that you are ready to go.</CharFound>
+<CharNoArgument>You let everyone know that you're ready to go!</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n is ready to go!</OthersNoArgument>
+<OthersFound>$n lets $N know that $e is ready to go.</OthersFound>
+<VictimFound>$n lets you know that $e is ready to go.</VictimFound>
+</Social>
+<Social>
+<Name>reassure</Name>
+<CharSelf>You try to reassure yourself that everything will be ok.</CharSelf>
+<CharFound>You hug $M reassuringly.</CharFound>
+<CharNoArgument>You reassure everyone that everything will be ok.</CharNoArgument>
+<OthersSelf>$n tries to reassure $mself that everything will be ok.</OthersSelf>
+<OthersNoArgument>$n reassures everyone that everything will be ok.</OthersNoArgument>
+<OthersFound>$n hugs $N reassuringly.</OthersFound>
+<VictimFound>$n hugs you reassuringly.</VictimFound>
+</Social>
+<Social>
+<Name>roar</Name>
+<CharSelf>You ROAR loudly at yourself.</CharSelf>
+<CharFound>You roar loudly at $M.</CharFound>
+<CharNoArgument>ROARRRRRRRRRRRRRRRRRRRRR!</CharNoArgument>
+<OthersSelf>$n roars loudly at $mself!</OthersSelf>
+<OthersNoArgument>$n lets out a huge thunderous roar! ROARRRRRRRRRRRRR!</OthersNoArgument>
+<OthersFound>$n roars loudly at $N.</OthersFound>
+<VictimFound>ROARRRRR! $n roars loudly at you!</VictimFound>
+</Social>
+<Social>
+<Name>rofl</Name>
+<CharSelf>You lose yourself in hysterical laughter.</CharSelf>
+<CharFound>You roll on the floor laughing at $N.</CharFound>
+<CharNoArgument>You roll on the floor laughing.</CharNoArgument>
+<OthersSelf>$n rolls on the floor laughing, tears streaming from $s eyes..</OthersSelf>
+<OthersNoArgument>$n rolls on the floor laughing.</OthersNoArgument>
+<OthersFound>$n rolls on the floor laughing at $N.</OthersFound>
+<VictimFound>$n rolls on the floor laughing at you, $e must think you are funny.</VictimFound>
+</Social>
+<Social>
+<Name>roll</Name>
+<CharSelf>You roll your eyes back into your head.</CharSelf>
+<CharFound>You roll your eyes at $M.</CharFound>
+<CharNoArgument>You roll your eyes in disgust.</CharNoArgument>
+<OthersSelf>$n rolls $s eyes back into $s back into $s head and they fall in.</OthersSelf>
+<OthersNoArgument>$n rolls $s eyes.</OthersNoArgument>
+<OthersFound>$n rolls $s eyes at $N.</OthersFound>
+<VictimFound>$n rolls $s eyes at you.</VictimFound>
+</Social>
+<Social>
+<Name>rose</Name>
+<CharSelf>You give yourself a rose.</CharSelf>
+<CharFound>You give $N a red rose.</CharFound>
+<CharNoArgument>You pull a rose out of thin air.</CharNoArgument>
+<OthersSelf>Feeling lonely, $n gives $mself a rose.</OthersSelf>
+<OthersNoArgument>$n pulls a long-stemmed red rose out of thin air.</OthersNoArgument>
+<OthersFound>$n gives $N a long-stemmed red rose.</OthersFound>
+<VictimFound>$n gives you a long-stemmed red rose. What a sweetie!</VictimFound>
+</Social>
+<Social>
+<Name>rub</Name>
+<CharSelf>You rub your eyes.  How long have you been at this?</CharSelf>
+<CharFound>You rub your eyes.  Has $N been playing as long as you have?</CharFound>
+<CharNoArgument>You rub your eyes.  How long have you been at this?</CharNoArgument>
+<OthersSelf>$n rubs $s eyes.  $n must have been playing all day.</OthersSelf>
+<OthersNoArgument>$n rubs $s eyes.  $n must have been playing all day.</OthersNoArgument>
+<OthersFound>$n rubs $s eyes.  $n must have been playing all day.</OthersFound>
+<VictimFound>$n rubs $s eyes.  Have you been playing as long as $m?</VictimFound>
+</Social>
+<Social>
+<Name>ruffle</Name>
+<CharSelf>You ruffle your hair.</CharSelf>
+<CharFound>You ruffle $N's hair playfully.</CharFound>
+<CharNoArgument>You've got to ruffle SOMEONE.</CharNoArgument>
+<OthersSelf>$n ruffles $s hair.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n ruffles $N's hair playfully.</OthersFound>
+<VictimFound>$n ruffles your hair playfully.</VictimFound>
+</Social>
+<Social>
+<Name>russian</Name>
+<CharSelf>You speak Russian.  Yeah, right.  Dream on.</CharSelf>
+<CharFound>You speak Russian to $M.  Yeah, right.  Dream on.</CharFound>
+<CharNoArgument>You speak Russian.  Yeah, right.  Dream on.</CharNoArgument>
+<OthersSelf>$n says 'Ya horosho stari malenky koshka.'  Huh?</OthersSelf>
+<OthersNoArgument>$n says 'Ya horosho stari malenky koshka.'  Huh?</OthersNoArgument>
+<OthersFound>$n says to $N 'Ya horosho stari malenky koshka.'  Huh?</OthersFound>
+<VictimFound>$n says to you 'Ya horosho stari malenky koshka.'  Huh?</VictimFound>
+</Social>
+<Social>
+<Name>sad</Name>
+<CharSelf>You bow your head and twist your toe in the dirt glumly.</CharSelf>
+<CharFound>You give $M your best glum expression.</CharFound>
+<CharNoArgument>You put on a glum expression.</CharNoArgument>
+<OthersSelf>$n bows $s head and twists $s toe in the dirt glumly.</OthersSelf>
+<OthersNoArgument>$n looks particularly glum today.  *sniff*</OthersNoArgument>
+<OthersFound>$n looks at $N glumly.  *sniff*  Poor $n.</OthersFound>
+<VictimFound>$n looks at you glumly.  *sniff*   Poor $n.</VictimFound>
+</Social>
+<Social>
+<Name>salute</Name>
+<CharSelf>Huh?</CharSelf>
+<CharFound>You salute $M.</CharFound>
+<CharNoArgument>You salute smartly.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n salutes smartly.</OthersNoArgument>
+<OthersFound>$n salutes $N.</OthersFound>
+<VictimFound>$n salutes you.</VictimFound>
+</Social>
+<Social>
+<Name>scare</Name>
+<CharSelf>You scare yourself, What did you do.. look in the mirror?</CharSelf>
+<CharFound>You scare $N, making $s hair stand straight up in the air.</CharFound>
+<CharNoArgument>Who do you want to scare?</CharNoArgument>
+<OthersSelf>$n scares $mself. Hmm, $e must have looked in the mirror.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>BOO! $n scares $N, and $s's hair stands straight up.</OthersFound>
+<VictimFound>BOO! $n scares the pants off you! Your hair stands straight up.</VictimFound>
+</Social>
+<Social>
+<Name>scold</Name>
+<CharSelf>You scold yourself for being so naughty!</CharSelf>
+<CharFound>You scold $M for being so naughty!</CharFound>
+<CharNoArgument>You scold everyone for being so naughty!</CharNoArgument>
+<OthersSelf>$n scolds $mself for being so naughty!</OthersSelf>
+<OthersNoArgument>$n scolds everyone for being so naughty!</OthersNoArgument>
+<OthersFound>$n scolds $N for being so naughty!</OthersFound>
+<VictimFound>$n scolds you for being so naughty!</VictimFound>
+</Social>
+<Social>
+<Name>scratch</Name>
+<CharSelf>Poor thing, confused and dandruff too?</CharSelf>
+<CharFound>You scratch $m back.</CharFound>
+<CharNoArgument>You scratch an itch.</CharNoArgument>
+<OthersSelf>$n looks confused and scratches $s head.</OthersSelf>
+<OthersNoArgument>$n scratches an itch.</OthersNoArgument>
+<OthersFound>$n scratches $N's back.</OthersFound>
+<VictimFound>$n scratches your back.. Mmmmmmm feels good!</VictimFound>
+</Social>
+<Social>
+<Name>scream</Name>
+<CharSelf>You scream at yourself.  Yes, that's ONE way of relieving tension!</CharSelf>
+<CharFound>ARRRRRRRRRRGH!!!!!  Yes, it MUST have been $S fault!!!</CharFound>
+<CharNoArgument>ARRRRRRRRRRGH!!!!!</CharNoArgument>
+<OthersSelf>$n screams loudly at $mself!  Is there a full moon up?</OthersSelf>
+<OthersNoArgument>$n screams loudly!</OthersNoArgument>
+<OthersFound>$n screams loudly at $N.  Better leave before $e blames you too!!!</OthersFound>
+<VictimFound>$n screams at you!  That's not nice!  *sniff*</VictimFound>
+</Social>
+<Social>
+<Name>seduce</Name>
+<CharSelf>Well, don't feel guilty about it!</CharSelf>
+<CharFound>You disrobe and stand naked before $N, trembling with desire.</CharFound>
+<CharNoArgument>Seduction takes two... WHO?</CharNoArgument>
+<OthersSelf>$n disrobes and stands naked, trembling with desire for $mself.</OthersSelf>
+<OthersNoArgument>$n quickly freshens up and now appears so much more attractive.</OthersNoArgument>
+<OthersFound>$n disrobes and stands naked before $N, trembling with desire.</OthersFound>
+<VictimFound>$n disrobes and stands naked before you, trembling with desire.</VictimFound>
+</Social>
+<Social>
+<Name>shake</Name>
+<CharSelf>You are shaken by yourself.</CharSelf>
+<CharFound>You shake $S hand.</CharFound>
+<CharNoArgument>You shake your head.</CharNoArgument>
+<OthersSelf>$n shakes and quivers like a bowl full of jelly.</OthersSelf>
+<OthersNoArgument>$n shakes $s head.</OthersNoArgument>
+<OthersFound>$n shakes $N's hand.</OthersFound>
+<VictimFound>$n shakes your hand.</VictimFound>
+</Social>
+<Social>
+<Name>shiver</Name>
+<CharSelf>You shiver to yourself?</CharSelf>
+<CharFound>You shiver uncomfortably at $M.</CharFound>
+<CharNoArgument>Brrrrrrrrr.</CharNoArgument>
+<OthersSelf>$n shivers uncomfortably to $mself.</OthersSelf>
+<OthersNoArgument>$n shivers uncomfortably.</OthersNoArgument>
+<OthersFound>$n shivers uncomfortably at $N.</OthersFound>
+<VictimFound>$n shivers uncomfortably at you.</VictimFound>
+</Social>
+<Social>
+<Name>shove</Name>
+<CharSelf>Shoving that person would be difficult indeed!</CharSelf>
+<CharFound>You shove $N, sending $m flying so that $e lands face first.</CharFound>
+<CharNoArgument>Who would you like to shove around?</CharNoArgument>
+<OthersSelf>$n shoves $mself around.. how kooky.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n shoves $N, sending $N flying so that $e lands face first.</OthersFound>
+<VictimFound>$n shoves you, and you land face first on the floor.</VictimFound>
+</Social>
+<Social>
+<Name>shrug</Name>
+<CharSelf>You shrug to yourself.</CharSelf>
+<CharFound>You shrug helplessly at $N.</CharFound>
+<CharNoArgument>You shrug helplessly.</CharNoArgument>
+<OthersSelf>$n shrugs to $mself.  What a strange person.</OthersSelf>
+<OthersNoArgument>$n shrugs helplessly.</OthersNoArgument>
+<OthersFound>$n shrugs helplessly at $N.</OthersFound>
+<VictimFound>$n shrugs helplessly at you.</VictimFound>
+</Social>
+<Social>
+<Name>shudder</Name>
+<CharSelf>You shudder to yourself, and wrap your hands around your body.</CharSelf>
+<CharFound>You shudder at $M.</CharFound>
+<CharNoArgument>You shudder.</CharNoArgument>
+<OthersSelf>$n shudders to $mself, and wraps $s hands around $s body.</OthersSelf>
+<OthersNoArgument>$n shudders.</OthersNoArgument>
+<OthersFound>$n shudders at $N.</OthersFound>
+<VictimFound>$n shudders at you.</VictimFound>
+</Social>
+<Social>
+<Name>shush</Name>
+<CharSelf>You zip your lips.</CharSelf>
+<CharFound>You lean over to $M, place your finger on your mouth and say "Shhhh!"</CharFound>
+<CharNoArgument>You place your finger on your mouth and say "Shhhh!"</CharNoArgument>
+<OthersSelf>$n zips $s lips.</OthersSelf>
+<OthersNoArgument>Shhh! $n wants everyone to be quiet!</OthersNoArgument>
+<OthersFound>Shhhh! $n wants $N to be quiet!</OthersFound>
+<VictimFound>Shhhh! $n wants you to be quiet!</VictimFound>
+</Social>
+<Social>
+<Name>sigh</Name>
+<CharSelf>You heave your chest and give yourself a deep long sigh.</CharSelf>
+<CharFound>You give $N a deep long sigh.</CharFound>
+<CharNoArgument>You sigh.</CharNoArgument>
+<OthersSelf>$n heaves $e chest and gives $mself a deep long sigh.</OthersSelf>
+<OthersNoArgument>$n sighs loudly.</OthersNoArgument>
+<OthersFound>$n sighs at the sight of $N.</OthersFound>
+<VictimFound>$n gives you a deep long sigh.</VictimFound>
+</Social>
+<Social>
+<Name>sing</Name>
+<CharSelf>You sing a little ditty to yourself.</CharSelf>
+<CharFound>You sing a ballad to $M.</CharFound>
+<CharNoArgument>You raise your clear voice towards the sky.</CharNoArgument>
+<OthersSelf>$n sings a little ditty to $mself.</OthersSelf>
+<OthersNoArgument>$n has begun to sing.</OthersNoArgument>
+<OthersFound>$n sings a ballad to $N.</OthersFound>
+<VictimFound>$n sings a ballad to you!  How sweet!</VictimFound>
+</Social>
+<Social>
+<Name>skip</Name>
+<CharSelf>Skip.. skip.. skip..</CharSelf>
+<CharFound>You skip all around $N.</CharFound>
+<CharNoArgument>You skip around the room like a little kid.</CharNoArgument>
+<OthersSelf>$n skips a beat.</OthersSelf>
+<OthersNoArgument>$n skips around the room, driving you nuts.</OthersNoArgument>
+<OthersFound>$n skips around $N.</OthersFound>
+<VictimFound>$n skips around you.</VictimFound>
+</Social>
+<Social>
+<Name>slap</Name>
+<CharSelf>You slap yourself, silly you!</CharSelf>
+<CharFound>You give $N a stinging slap across the face.</CharFound>
+<CharNoArgument>Normally you slap SOMEBODY!</CharNoArgument>
+<OthersSelf>$n slaps $mself, leaving a bright red hand-print on $s face.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>Smack! $n slaps $N.</OthersFound>
+<VictimFound>You are slapped by $n. OUCH! Your face stings!</VictimFound>
+</Social>
+<Social>
+<Name>slobber</Name>
+<CharSelf>You slobber all over yourself, drenching yourself with your saliva.</CharSelf>
+<CharFound>You slobber all over $M, drenching $M with your saliva.</CharFound>
+<CharNoArgument>A puddle forms at your feet as you slobber.</CharNoArgument>
+<OthersSelf>$n slobbers all over $mself, drenching $mself with saliva.</OthersSelf>
+<OthersNoArgument>$n slobbers and a puddle slowly forms at $s feet.</OthersNoArgument>
+<OthersFound>$n slobbers all over $N, drenching $M with $s saliva.</OthersFound>
+<VictimFound>$n slobbers all over you, drenching you with $s saliva.</VictimFound>
+</Social>
+<Social>
+<Name>smell</Name>
+<CharSelf>You smell yourself under the armpits and nearly pass out.</CharSelf>
+<CharFound>You smell $M and nearly pass out from the odor.</CharFound>
+<CharNoArgument>You take a deep breath, smelling the fresh clean air.</CharNoArgument>
+<OthersSelf>$n smells $mself under the armpits and nearly passes out.</OthersSelf>
+<OthersNoArgument>$n takes a deep breath and smells the fresh clean air.</OthersNoArgument>
+<OthersFound>$n smells $N and nearly passes out from the odor.</OthersFound>
+<VictimFound>$n smells you and $e nearly passes out from the odor.</VictimFound>
+</Social>
+<Social>
+<Name>smile</Name>
+<CharSelf>You smile at yourself.</CharSelf>
+<CharFound>You smile at $M.</CharFound>
+<CharNoArgument>You smile happily.</CharNoArgument>
+<OthersSelf>$n smiles, pleased with $mself.</OthersSelf>
+<OthersNoArgument>$n smiles happily.</OthersNoArgument>
+<OthersFound>$n beams a smile at $N.</OthersFound>
+<VictimFound>$n smiles at you.</VictimFound>
+</Social>
+<Social>
+<Name>smirk</Name>
+<CharSelf>You smirk at yourself.  Okay ...</CharSelf>
+<CharFound>You smirk at $N, teasing $M.</CharFound>
+<CharNoArgument>You smirk.</CharNoArgument>
+<OthersSelf>$n smirks at $s own 'wisdom'.</OthersSelf>
+<OthersNoArgument>$n smirks teasingly.</OthersNoArgument>
+<OthersFound>$n smirks at $N teasingly.</OthersFound>
+<VictimFound>$n smirks at you teasingly.</VictimFound>
+</Social>
+<Social>
+<Name>smoke</Name>
+<CharSelf>You call down lightning and SMOKE yourself.</CharSelf>
+<CharFound>You blow smoke into $S eyes.</CharFound>
+<CharNoArgument>You calmly light a cigarette and take a puff.</CharNoArgument>
+<OthersSelf>$n calls down lightning and SMOKES $mself.</OthersSelf>
+<OthersNoArgument>$n calmly lights a cigarette and take a puff.</OthersNoArgument>
+<OthersFound>$n blows smoke into $N's eyes.</OthersFound>
+<VictimFound>$n blows smoke rings into your eyes.</VictimFound>
+</Social>
+<Social>
+<Name>smooch</Name>
+<CharSelf>You smooch yourself.</CharSelf>
+<CharFound>You give $M a nice, wet smooch.</CharFound>
+<CharNoArgument>You are searching for someone to smooch.</CharNoArgument>
+<OthersSelf>$n smooches $mself.  Yuck.</OthersSelf>
+<OthersNoArgument>$n is looking for someone to smooch.</OthersNoArgument>
+<OthersFound>$n and $N are smooching in the corner.</OthersFound>
+<VictimFound>$n smooches you passionately on the lips.</VictimFound>
+</Social>
+<Social>
+<Name>snap</Name>
+<CharSelf>You snap yourself to attention.</CharSelf>
+<CharFound>You snap your fingers at $M.</CharFound>
+<CharNoArgument>PRONTO ! You snap your fingers.</CharNoArgument>
+<OthersSelf>$n snaps $mself to attention.</OthersSelf>
+<OthersNoArgument>$n snaps $s fingers.</OthersNoArgument>
+<OthersFound>$n snaps $s fingers at $N.</OthersFound>
+<VictimFound>$n snaps at you!</VictimFound>
+</Social>
+<Social>
+<Name>snarl</Name>
+<CharSelf>You snarl at yourself.</CharSelf>
+<CharFound>You snarl at $M.</CharFound>
+<CharNoArgument>You grizzle your teeth and look mean.</CharNoArgument>
+<OthersSelf>$n snarls at $mself.</OthersSelf>
+<OthersNoArgument>$n snarls angrily.</OthersNoArgument>
+<OthersFound>$n snarls at $N.</OthersFound>
+<VictimFound>$n snarls at you for some reason.</VictimFound>
+</Social>
+<Social>
+<Name>sneer</Name>
+<CharSelf>You sneer in contempt of yourself.</CharSelf>
+<CharFound>You sneer in contempt of $M.</CharFound>
+<CharNoArgument>You put a sneer on your face.</CharNoArgument>
+<OthersSelf>$n sneers in contempt of $mself.</OthersSelf>
+<OthersNoArgument>$n sneers in contempt.</OthersNoArgument>
+<OthersFound>$n sneers in contempt of $N.</OthersFound>
+<VictimFound>$n sneers in contempt of you.  What's $s problem I wonder?</VictimFound>
+</Social>
+<Social>
+<Name>sneeze</Name>
+<CharSelf>$n sneezes.</CharSelf>
+<CharFound>$n sneezes.</CharFound>
+<CharNoArgument>Gesundheit!</CharNoArgument>
+<OthersSelf>$n sneezes.</OthersSelf>
+<OthersNoArgument>$n sneezes.</OthersNoArgument>
+<OthersFound>$n sneezes.</OthersFound>
+<VictimFound>$n sneezes.</VictimFound>
+</Social>
+<Social>
+<Name>snicker</Name>
+<CharSelf>You snicker at your own evil thoughts.</CharSelf>
+<CharFound>You snicker softly at $N.</CharFound>
+<CharNoArgument>You snicker softly.</CharNoArgument>
+<OthersSelf>$n snickers at $s own evil thoughts.</OthersSelf>
+<OthersNoArgument>$n snickers softly.</OthersNoArgument>
+<OthersFound>$n snickers softly at $N.</OthersFound>
+<VictimFound>$n snickers softly with you.</VictimFound>
+</Social>
+<Social>
+<Name>sniff</Name>
+<CharSelf>You sniff sadly at your lost opportunities.</CharSelf>
+<CharFound>You sniff sadly at $N.</CharFound>
+<CharNoArgument>You sniff sadly. *SNIFF*</CharNoArgument>
+<OthersSelf>$n sniffs sadly at $mself.  Something MUST be bothering $m.</OthersSelf>
+<OthersNoArgument>$n sniffs sadly.</OthersNoArgument>
+<OthersFound>$n sniffs sadly at $N.</OthersFound>
+<VictimFound>$n sniffs sadly at you.</VictimFound>
+</Social>
+<Social>
+<Name>snoogie</Name>
+<CharSelf>You give yourself a war, fuzzy snoogie! Now you can face the day!</CharSelf>
+<CharFound>You give $N a warm, fuzzy snoogie.. you shiny, happy person you!</CharFound>
+<CharNoArgument>Snoogie whom?</CharNoArgument>
+<OthersSelf>$n gives $mself a war, fuzzy snoogie! What a shiny happy person!</OthersSelf>
+<OthersNoArgument>$n desperately searches teh room for someone in need of a snoogie.</OthersNoArgument>
+<OthersFound>$n gives $N a warm, fuzzy-looking snoogie.</OthersFound>
+<VictimFound>$n gives you a warm, fuzzy snoogie!  You feel much loved.</VictimFound>
+</Social>
+<Social>
+<Name>snore</Name>
+<CharSelf>$n snores loudly at yourself...tired?</CharSelf>
+<CharFound>$n snores loudly at $N.</CharFound>
+<CharNoArgument>Zzzzzzzzzzzzzzzzz.</CharNoArgument>
+<OthersSelf>$n snores loudly at $mself.</OthersSelf>
+<OthersNoArgument>$n snores loudly.</OthersNoArgument>
+<OthersFound>$n snores loudly at $N.</OthersFound>
+<VictimFound>$n snores loudly at you.</VictimFound>
+</Social>
+<Social>
+<Name>snort</Name>
+<CharSelf>No can do.</CharSelf>
+<CharFound>You snort derisively at $N.</CharFound>
+<CharNoArgument>You snort.</CharNoArgument>
+<OthersSelf>$n snorts at $mself.</OthersSelf>
+<OthersNoArgument>$n snorts lewdly.</OthersNoArgument>
+<OthersFound>$n snorts derisively at $N.</OthersFound>
+<VictimFound>$n snorts derisively at you.</VictimFound>
+</Social>
+<Social>
+<Name>snowball</Name>
+<CharSelf>You throw a snowball at yourself.</CharSelf>
+<CharFound>You throw a snowball in $N's face.</CharFound>
+<CharNoArgument>Whom do you want to throw a snowball at?</CharNoArgument>
+<OthersSelf>$n throws a snowball at $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n throws a snowball at $N.</OthersFound>
+<VictimFound>$n throws a snowball at you.</VictimFound>
+</Social>
+<Social>
+<Name>snuggle</Name>
+<CharSelf>You snuggle up, getting ready to sleep.</CharSelf>
+<CharFound>You snuggle $N warmly.</CharFound>
+<CharNoArgument>Snuggle victim not found!</CharNoArgument>
+<OthersSelf>$n snuggles up, getting ready to sleep.</OthersSelf>
+<OthersNoArgument>$n looks around for someone to snuggle!</OthersNoArgument>
+<OthersFound>$n snuggles warmly with $N.</OthersFound>
+<VictimFound>$n snuggles warmly with you.</VictimFound>
+</Social>
+<Social>
+<Name>spam</Name>
+<CharSelf>You mutter 'SPAM' in the corner quietly.</CharSelf>
+<CharFound>You spam $N sending $m head reeling.</CharFound>
+<CharNoArgument>Arrrrrrrgh! The world is flying by too fast.</CharNoArgument>
+<OthersSelf>$n mutters 'SPAM SPAM SPAM SPAM'.  Join in!</OthersSelf>
+<OthersNoArgument>$n sings 'SPAM SPAM SPAM SPAM SPAM SPAM....'</OthersNoArgument>
+<OthersFound>$n hurls a can of SPAM at $N.</OthersFound>
+<VictimFound>$n SPAMS you viciously.</VictimFound>
+</Social>
+<Social>
+<Name>spanish</Name>
+<CharSelf>You speak Spanish or at least you think you do.</CharSelf>
+<CharFound>You speak Spanish or at least you think you do.</CharFound>
+<CharNoArgument>You speak Spanish or at least you think you do.</CharNoArgument>
+<OthersSelf>$n says to $mself 'Naces pendejo, mueres pendejo.'  Uh oh.</OthersSelf>
+<OthersNoArgument>$n says 'Naces pendejo, mueres pendejo.'  Uh oh.</OthersNoArgument>
+<OthersFound>$n says 'Naces pendejo, mueres pendejo.'  Uh oh.</OthersFound>
+<VictimFound>$n says 'Naces pendejo, mueres pendejo.'  Uh oh.</VictimFound>
+</Social>
+<Social>
+<Name>spank</Name>
+<CharSelf>You spank yourself.  Kinky!</CharSelf>
+<CharFound>You spank $M playfully.</CharFound>
+<CharNoArgument>Interesting thought, but it needs to be directed somewhere.</CharNoArgument>
+<OthersSelf>$n spanks $mself.  Kinky!</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n spanks $N playfully.</OthersFound>
+<VictimFound>$n spanks you playfully.  OUCH!</VictimFound>
+</Social>
+<Social>
+<Name>spin</Name>
+<CharSelf>You spin yourself around and around and around....</CharSelf>
+<CharFound>You spin $M around in circles until $E is dizzy.</CharFound>
+<CharNoArgument>You spin around in circles.</CharNoArgument>
+<OthersSelf>$n spins $mself around and around and around...</OthersSelf>
+<OthersNoArgument>$n spins around in circles, making you dizzy.</OthersNoArgument>
+<OthersFound>$n spins $N around in circles until $E is dizzy.</OthersFound>
+<VictimFound>$n spins you around in circles making you dizzy.</VictimFound>
+</Social>
+<Social>
+<Name>spit</Name>
+<CharSelf>You drool down your front.</CharSelf>
+<CharFound>You spit in $S face.</CharFound>
+<CharNoArgument>You spit over your left shoulder.</CharNoArgument>
+<OthersSelf>$n drools down $s front.</OthersSelf>
+<OthersNoArgument>$n spits over $s left shoulder.</OthersNoArgument>
+<OthersFound>$n spits in $N's face.</OthersFound>
+<VictimFound>$n spits in your face, YUCK!</VictimFound>
+</Social>
+<Social>
+<Name>squeal</Name>
+<CharSelf>You squeal at yourself.</CharSelf>
+<CharFound>You squeal at $M.</CharFound>
+<CharNoArgument>You squeal with delight.</CharNoArgument>
+<OthersSelf>$n squeals at $mself.</OthersSelf>
+<OthersNoArgument>$n squeals with delight.</OthersNoArgument>
+<OthersFound>$n squeals at $N.  Wonder why?</OthersFound>
+<VictimFound>$n squeals at you.  You must be doing something good.</VictimFound>
+</Social>
+<Social>
+<Name>squeeze</Name>
+<CharSelf>You squeeze yourself - try to relax a little!</CharSelf>
+<CharFound>You squeeze $M fondly.</CharFound>
+<CharNoArgument>Where, what, how, whom?</CharNoArgument>
+<OthersSelf>$n squeezes $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n squeezes $N fondly.</OthersFound>
+<VictimFound>$n squeezes you fondly.</VictimFound>
+</Social>
+<Social>
+<Name>squirm</Name>
+<CharSelf>You squirm and squirm and squirm....</CharSelf>
+<CharFound>You squirm in front of $M.</CharFound>
+<CharNoArgument>You squirm.</CharNoArgument>
+<OthersSelf>$n squirms and squirms and squirm.....</OthersSelf>
+<OthersNoArgument>$n squirms.</OthersNoArgument>
+<OthersFound>$n squirms in front of $N.</OthersFound>
+<VictimFound>$n squirms in front of you.</VictimFound>
+</Social>
+<Social>
+<Name>squish</Name>
+<CharSelf>You squish yourself.</CharSelf>
+<CharFound>You squish $M between your legs.</CharFound>
+<CharNoArgument>You squish your toes into the sand.</CharNoArgument>
+<OthersSelf>$n squishes $mself.  OUCH.</OthersSelf>
+<OthersNoArgument>$n squishes $s toes into the sand.</OthersNoArgument>
+<OthersFound>$n squishes $N between $s legs.</OthersFound>
+<VictimFound>$n squishes you between $s legs.</VictimFound>
+</Social>
+<Social>
+<Name>stare</Name>
+<CharSelf>You stare dreamily at yourself - enough narcissism for now.</CharSelf>
+<CharFound>You stare dreamily at $N, completely lost in $S eyes..</CharFound>
+<CharNoArgument>You stare at the sky.</CharNoArgument>
+<OthersSelf>$n stares dreamily at $mself - NARCISSIST!</OthersSelf>
+<OthersNoArgument>$n stares at the sky.</OthersNoArgument>
+<OthersFound>$n stares dreamily at $N.</OthersFound>
+<VictimFound>$n stares dreamily at you, completely lost in your eyes.</VictimFound>
+</Social>
+<Social>
+<Name>steam</Name>
+<CharSelf>You're enveloped by your own fog.</CharSelf>
+<CharFound>You start steaming at $M, with smoke billowing from your ears and mouth.</CharFound>
+<CharNoArgument>You start steaming, with smoke billowing from your ears and nose.</CharNoArgument>
+<OthersSelf>$n starts steaming at $mself, and envelopes $mself in $s own fog.</OthersSelf>
+<OthersNoArgument>$n starts teaming, with smoke billowing from $s ears and nose.</OthersNoArgument>
+<OthersFound>$n starts teaming at $N, with smoke billowing from $s ears and nose.</OthersFound>
+<VictimFound>$n steams wildly at you, with smoke billowing from $s ears and nose.</VictimFound>
+</Social>
+<Social>
+<Name>stickup</Name>
+<CharSelf>You extort money from yourself.</CharSelf>
+<CharFound>You don a mask and ask for $S gold.</CharFound>
+<CharNoArgument>You don a mask and ask for everyone's gold.</CharNoArgument>
+<OthersSelf>$n holds $s weapon to $s throat and says 'Ok, me, give me all my money!'</OthersSelf>
+<OthersNoArgument>$n says 'This is a stickup.  Gimme yer gold, NOW!'</OthersNoArgument>
+<OthersFound>$n says to $N, 'This is a stickup.  Gimme yer gold, NOW!'</OthersFound>
+<VictimFound>$n says to you, 'This is a stickup.  Gimme yer gold, NOW!'</VictimFound>
+</Social>
+<Social>
+<Name>stomp</Name>
+<CharSelf>You stomp on your own toes! Ouch!</CharSelf>
+<CharFound>You stomp on $S toes! Meanie! </CharFound>
+<CharNoArgument>You stomp around the room.</CharNoArgument>
+<OthersSelf>$n stomps on $s own toes!</OthersSelf>
+<OthersNoArgument>Stomp!  $n stomps around the room!</OthersNoArgument>
+<OthersFound>$N's toes explode as $n stomps on them!</OthersFound>
+<VictimFound>Your toes explode as $n stomps on them.</VictimFound>
+</Social>
+<Social>
+<Name>strangle</Name>
+<CharSelf>You start strangling yourself, squeezing the last breath out of yourself.</CharSelf>
+<CharFound>You start strangling $N, squeezing the life out of $M.</CharFound>
+<CharNoArgument>Who would you like to strangle?</CharNoArgument>
+<OthersSelf>$n starts strangling $mself, squeezing the last breath out of $mself.</OthersSelf>
+<OthersNoArgument>$n looks around, hands clenching as though $e wants to strangle someone!</OthersNoArgument>
+<OthersFound>$n starts strangling $N, squeezing the life out of $M.</OthersFound>
+<VictimFound>$n starts strangling you, squeezing the the life out of you! Gasp!</VictimFound>
+</Social>
+<Social>
+<Name>stretch</Name>
+<CharSelf>You stretch and relax your sore muscles.</CharSelf>
+<CharFound>You stretch and relax your sore muscles.</CharFound>
+<CharNoArgument>You stretch and relax your sore muscles.</CharNoArgument>
+<OthersSelf>$n stretches luxuriously.  Make you want to, doesn't it.</OthersSelf>
+<OthersNoArgument>$n stretches luxuriously in an attempt to relax $s body.</OthersNoArgument>
+<OthersFound>$n stretches luxuriously.  Make you want to, doesn't it.</OthersFound>
+<VictimFound>$n stretches luxuriously.  Make you want to, doesn't it.</VictimFound>
+</Social>
+<Social>
+<Name>strip</Name>
+<CharSelf>You show some of your shoulder as you begin your performance.</CharSelf>
+<CharFound>You show some of your shoulder as you begin your performance.</CharFound>
+<CharNoArgument>You show some of your shoulder as you begin your performance.</CharNoArgument>
+<OthersSelf>$n shows $s bare shoulder and glances seductively around the room.</OthersSelf>
+<OthersNoArgument>$n shows $s bare shoulder and glances seductively around the room.</OthersNoArgument>
+<OthersFound>$n shows $s bare shoulder and glances seductively at $N.</OthersFound>
+<VictimFound>$n shows $s bare shoulder and glances seductively at you.</VictimFound>
+</Social>
+<Social>
+<Name>strut</Name>
+<CharSelf>You strut to yourself, lost in your own world.</CharSelf>
+<CharFound>You strut your stuff proudly in front of $N, your head held high.</CharFound>
+<CharNoArgument>You strut your little tush on the catwalk...</CharNoArgument>
+<OthersSelf>$n struts to $mself, lost in $s own world.</OthersSelf>
+<OthersNoArgument>$n struts $s little tush on the catwalk...</OthersNoArgument>
+<OthersFound>$n struts  $s stuff proudly in front of $N.</OthersFound>
+<VictimFound>$n struts $s stuff in front of you.</VictimFound>
+</Social>
+<Social>
+<Name>suffer</Name>
+<CharSelf>No xp again?  You suffer at the hands of fate.</CharSelf>
+<CharFound>You tell $M how you suffer whenever you're away from $M.</CharFound>
+<CharNoArgument>No xp again?  You suffer at the hands of fate.</CharNoArgument>
+<OthersSelf>$n is suffering.  Looks like $e can't seem to level.</OthersSelf>
+<OthersNoArgument>$n is suffering.  Looks like $e can't seem to level.</OthersNoArgument>
+<OthersFound>$n tells $N that $e suffers whenever they're apart.</OthersFound>
+<VictimFound>$n tells you that $e suffers whenever you're apart.</VictimFound>
+</Social>
+<Social>
+<Name>sulk</Name>
+<CharSelf>$n sulks in the corner.</CharSelf>
+<CharFound>You sulk in the corner.</CharFound>
+<CharNoArgument>You sulk, looking for a corner to hide in.</CharNoArgument>
+<OthersSelf>$n sulks in the corner.</OthersSelf>
+<OthersNoArgument>$n sulks, looking for a corner to hide in.</OthersNoArgument>
+<OthersFound>$n sulks at $N, looking for a corner to hide in.</OthersFound>
+<VictimFound>$n sulks at you.</VictimFound>
+</Social>
+<Social>
+<Name>swat</Name>
+<CharSelf>You swat yourself like a fly.</CharSelf>
+<CharFound>You swat $N.</CharFound>
+<CharNoArgument>You swat at the air frantically.</CharNoArgument>
+<OthersSelf>$n swats $mself like an annoying insect.</OthersSelf>
+<OthersNoArgument>$n swats at the air frantically.</OthersNoArgument>
+<OthersFound>$n swats $N like a fly.</OthersFound>
+<VictimFound>$n swats at you like a fly! You must be bugging $m.</VictimFound>
+</Social>
+<Social>
+<Name>sweat</Name>
+<CharSelf>You sweat buckets.</CharSelf>
+<CharFound>You drip sweat all over $N.&amp;n</CharFound>
+<CharNoArgument>Sweat drips down your whole body!  Phew!</CharNoArgument>
+<OthersSelf>$n&amp;n is sweating so hard you are in danger of drowning.</OthersSelf>
+<OthersNoArgument>Sweat drops off $n's body, $e's losing it!</OthersNoArgument>
+<OthersFound>$n&amp;n sweats all over $N&amp;n.  Now they both need a shower!</OthersFound>
+<VictimFound>$n&amp;n drips sweat all over you.  Ewwww!</VictimFound>
+</Social>
+<Social>
+<Name>sweep</Name>
+<CharSelf>You swirl around in happiness.</CharSelf>
+<CharFound>You sweep $M up off $S feet and swirl $M around in happiness.</CharFound>
+<CharNoArgument>You grab a broom and sweep up the mess you made.</CharNoArgument>
+<OthersSelf>$n swirls $mself around.  Pretty silly, huh?</OthersSelf>
+<OthersNoArgument>$n grabs a broom and sweeps up the mess $e made.</OthersNoArgument>
+<OthersFound>$n sweeps $N up off $S feet and swirls $M around in happiness.</OthersFound>
+<VictimFound>$n sweeps you off your feet and swirls you around in happiness.</VictimFound>
+</Social>
+<Social>
+<Name>swoon</Name>
+<CharSelf>You swoon in ecstacy.</CharSelf>
+<CharFound>You swoon in ecstacy at the thought of $M.</CharFound>
+<CharNoArgument>You swoon in ecstacy.</CharNoArgument>
+<OthersSelf>$n swoons in ecstacy.</OthersSelf>
+<OthersNoArgument>$n swoons in ecstacy.</OthersNoArgument>
+<OthersFound>$n swoons in ecstacy at the thought of $N.</OthersFound>
+<VictimFound>$n swoons in ecstacy as $e thinks of you.</VictimFound>
+</Social>
+<Social>
+<Name>tackle</Name>
+<CharSelf>You wrap your arms around yourself, and throw yourself to the ground.</CharSelf>
+<CharFound>You run over to $N and bring $M down!</CharFound>
+<CharNoArgument>You can't tackle the AIR!</CharNoArgument>
+<OthersSelf>$n wraps $s arms around $mself and brings $mself down!?</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n makes a flying leap at $N and tackles $M to the ground!</OthersFound>
+<VictimFound>$n makes a flying leap at you, and tackles you to the ground.</VictimFound>
+</Social>
+<Social>
+<Name>tap</Name>
+<CharSelf>Wow, funny how your head echoes, isn't it?</CharSelf>
+<CharFound>You tap $M on the shoulder.  Excuse me?</CharFound>
+<CharNoArgument>You tap your foot impatiently.</CharNoArgument>
+<OthersSelf>$n taps $mself on the head, marvelling at the echo.</OthersSelf>
+<OthersNoArgument>$n taps $s foot impatiently.</OthersNoArgument>
+<OthersFound>$n taps $N on the shoulder.</OthersFound>
+<VictimFound>$n taps you on the shoulder. Excuse me?</VictimFound>
+</Social>
+<Social>
+<Name>tarzan</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>You beat your chest and yell like the primitive beast you are.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n beats $s chest and yells like a primitive beast.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>taunt</Name>
+<CharSelf>You tread on your self-esteem.</CharSelf>
+<CharFound>You taunt $M.</CharFound>
+<CharNoArgument>Taunting requires someone to taunt.</CharNoArgument>
+<OthersSelf>$n taunts $mself.  Guess $e finally cracked!</OthersSelf>
+<OthersNoArgument></OthersNoArgument>
+<OthersFound>$n taunts $N, 'Nah-nah! Nah-nah!'</OthersFound>
+<VictimFound>$n taunts you, 'Nah-nah! Nah-nah!'</VictimFound>
+</Social>
+<Social>
+<Name>tease</Name>
+<CharSelf>You tease yourself.  You need to get out and meet some people, buddy!</CharSelf>
+<CharFound>You tease $N, trying to provoke more emotion.</CharFound>
+<CharNoArgument>Who do you want to tease?</CharNoArgument>
+<OthersSelf>$n teases $mself.  Sheesh, $e needs to get a life!</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n teases $N, trying to provoke more emotion.</OthersFound>
+<VictimFound>$n teases you, trying to provoke more emotion.</VictimFound>
+</Social>
+<Social>
+<Name>teeth</Name>
+<CharSelf>It's not Halloween, put away the costume!</CharSelf>
+<CharFound>You bare your teeth menacingly at $N.</CharFound>
+<CharNoArgument>Hey, nice teeth ya got there..</CharNoArgument>
+<OthersSelf>$n bares $s teeth at $mself and gets scared.</OthersSelf>
+<OthersNoArgument>$n bares $s teeth menacingly.</OthersNoArgument>
+<OthersFound>$n bares $s teeth menacingly at $N.</OthersFound>
+<VictimFound>$n bares $s teeth menacingly at you.  Brrrrrr!</VictimFound>
+</Social>
+<Social>
+<Name>tender</Name>
+<CharSelf>You'd better not, people may start to talk!</CharSelf>
+<CharFound>You give $M a soft, tender kiss.</CharFound>
+<CharNoArgument>You will enjoy it more if you choose someone to kiss.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n gives $N a soft, tender kiss.</OthersFound>
+<VictimFound>$n gives you a soft, tender kiss.</VictimFound>
+</Social>
+<Social>
+<Name>thank</Name>
+<CharSelf>You thank yourself since nobody else wants to !</CharSelf>
+<CharFound>You thank $N heartily.</CharFound>
+<CharNoArgument>Thank you too.</CharNoArgument>
+<OthersSelf>$n thanks $mself since you won't.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n thanks $N heartily.</OthersFound>
+<VictimFound>$n thanks you heartily.</VictimFound>
+</Social>
+<Social>
+<Name>think</Name>
+<CharSelf>You think about times past and friends forgotten.</CharSelf>
+<CharFound>You think long and hard about $m.</CharFound>
+<CharNoArgument>You pull out your unused thinking cap and begin to think.</CharNoArgument>
+<OthersSelf>$n thinks deeply and is lost in thought.</OthersSelf>
+<OthersNoArgument>$n thinks deeply and is lost in thought.</OthersNoArgument>
+<OthersFound>$n pulls out $s unused thinking cap and begins to think.</OthersFound>
+<VictimFound>$n thinks long and hard about you.</VictimFound>
+</Social>
+<Social>
+<Name>thirst</Name>
+<CharSelf>You search frantically for something to drink!!</CharSelf>
+<CharFound>You stare longingly at $N's drink.</CharFound>
+<CharNoArgument>A dry feeling in your throat makes you thirsty.</CharNoArgument>
+<OthersSelf>$n looks thirsty because $e can't find anything to drink!</OthersSelf>
+<OthersNoArgument>$n looks parched and dehydrated, panting: "Agua.. agua.."</OthersNoArgument>
+<OthersFound>$n looks pleadingly at $N, wishing for a cool drink.</OthersFound>
+<VictimFound>$n look pitifully parched as $e stares longingly at your drink.</VictimFound>
+</Social>
+<Social>
+<Name>throttle</Name>
+<CharSelf>That might hurt!  Better not do it!</CharSelf>
+<CharFound>You throttle $M till $E is blue in the face.</CharFound>
+<CharNoArgument>Whom do you want to throttle?</CharNoArgument>
+<OthersSelf>$n is getting a crazy look in $s eye again.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n throttles $N about the neck, until $E passes out.  THUNK!</OthersFound>
+<VictimFound>$n throttles you about the neck until you pass out.  THUNK!</VictimFound>
+</Social>
+<Social>
+<Name>tickle</Name>
+<CharSelf>You tickle yourself, how funny!</CharSelf>
+<CharFound>You tickle $N.</CharFound>
+<CharNoArgument>Whom do you want to tickle?</CharNoArgument>
+<OthersSelf>$n tickles $mself.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n tickles $N.</OthersFound>
+<VictimFound>$n tickles you - hee hee hee.</VictimFound>
+</Social>
+<Social>
+<Name>tip</Name>
+<CharSelf>You tip your hat at yourself.</CharSelf>
+<CharFound>You tip your hat to $N.</CharFound>
+<CharNoArgument>You tip your hat at nobody in particular.</CharNoArgument>
+<OthersSelf>$n's hat falls down over $s eyes.</OthersSelf>
+<OthersNoArgument>$n tips $s hat.</OthersNoArgument>
+<OthersFound>$n tips $s hat toward $N.</OthersFound>
+<VictimFound>$n tips $s hat at you!</VictimFound>
+</Social>
+<Social>
+<Name>tiptoe</Name>
+<CharSelf>You tiptoe as quietly as possible, hoping that you might become invisible.</CharSelf>
+<CharFound>You tiptoe away from $N, trying to sneak away from $M.</CharFound>
+<CharNoArgument>You tiptoe quietly through the room.</CharNoArgument>
+<OthersSelf>$n tiptoes as quietly as possibly, hoping that $e might become invisible.</OthersSelf>
+<OthersNoArgument>$n tiptoes quietly through the room.</OthersNoArgument>
+<OthersFound>$n tiptoes away from $N, trying to sneak away from $M.</OthersFound>
+<VictimFound>$n tiptoes away from you, trying to sneak away from you.</VictimFound>
+</Social>
+<Social>
+<Name>tongue</Name>
+<CharSelf>You stick out your tongue and touch your nose.</CharSelf>
+<CharFound>You stick your tongue out at $M.</CharFound>
+<CharNoArgument>You stick out your tongue.</CharNoArgument>
+<OthersSelf>$n sticks out $s tongue and touches $s nose.</OthersSelf>
+<OthersNoArgument>$n sticks out $s tongue.</OthersNoArgument>
+<OthersFound>$n sticks $s tongue out at $N.</OthersFound>
+<VictimFound>$n sticks $s tongue out at you.</VictimFound>
+</Social>
+<Social>
+<Name>torture</Name>
+<CharSelf>You torture yourself with rusty weapons.  Was it good for you?</CharSelf>
+<CharFound>You torture $M with rusty weapons, Mwaahhhhh!!</CharFound>
+<CharNoArgument>You have to torture someone!</CharNoArgument>
+<OthersSelf>$n tortures $mself with rusty weapons.  Looks like $e enjoys it!?</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n tortures $N with rusty weapons, $E must have been REAL bad!</OthersFound>
+<VictimFound>$n tortures you with rusty weapons!  What did you DO!?!</VictimFound>
+</Social>
+<Social>
+<Name>toss</Name>
+<CharSelf>You do some sort of leap and land on your back.</CharSelf>
+<CharFound>You toss $M up in the air and catch $M.</CharFound>
+<CharNoArgument>You toss a coin in the air!</CharNoArgument>
+<OthersSelf>$n tosses $mself up in the air and lands on $s back.</OthersSelf>
+<OthersNoArgument>$n tosses a coin up into the air.  Annoying isn't it?</OthersNoArgument>
+<OthersFound>$n tosses $N up in the air and catches $M.</OthersFound>
+<VictimFound>$n tosses you up in the air.  Wheeeeeee!!!</VictimFound>
+</Social>
+<Social>
+<Name>touch</Name>
+<CharSelf>You touch yourself.  Eeeewww feels gross doesn't it?</CharSelf>
+<CharFound>You touch $M.</CharFound>
+<CharNoArgument>Touch is a sense which requires an object to be touched.</CharNoArgument>
+<OthersSelf>$n touches $mself.  Very interesting.</OthersSelf>
+<OthersNoArgument></OthersNoArgument>
+<OthersFound>$n touches $N.  Interesting.</OthersFound>
+<VictimFound>$n touches you.</VictimFound>
+</Social>
+<Social>
+<Name>trip</Name>
+<CharSelf>You trip and fall flat on your face!</CharSelf>
+<CharFound>You trip over $M, and down $e goes!</CharFound>
+<CharNoArgument>What a trip, dood....</CharNoArgument>
+<OthersSelf>$n trips over $mself and falls flat on $s face.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$N trips over $n and falls face first into the dirt.</OthersFound>
+<VictimFound>You stumble over $n and fall face first into the dirt.</VictimFound>
+</Social>
+<Social>
+<Name>tug</Name>
+<CharSelf>You tug on your own sleeves and feel uncomfortable.</CharSelf>
+<CharFound>You tug on $S sleeve, hoping for $S attention.</CharFound>
+<CharNoArgument>Tug on whose sleeve?</CharNoArgument>
+<OthersSelf>$n puts $mself into a straitjacket.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n tugs on $N's sleeves.</OthersFound>
+<VictimFound>$n tugs on your sleeve.  Hey! Pay Attention!</VictimFound>
+</Social>
+<Social>
+<Name>tummy</Name>
+<CharSelf>You rub your tummy and wish you'd bought a pie at the bakery.</CharSelf>
+<CharFound>You rub your tummy and ask $M for some food.</CharFound>
+<CharNoArgument>You rub your tummy and wish you'd bought a pie at the bakery.</CharNoArgument>
+<OthersSelf>$n rubs $s tummy and wishes $e'd bought a pie at the bakery.</OthersSelf>
+<OthersNoArgument>$n rubs $s tummy and wishes $e'd bought a pie at the bakery.</OthersNoArgument>
+<OthersFound>$n rubs $s tummy and asks $N for some food.</OthersFound>
+<VictimFound>$n rubs $s tummy and asks you for some food.  Please?</VictimFound>
+</Social>
+<Social>
+<Name>tweak</Name>
+<CharSelf>You tweak your own nose.  HONK!</CharSelf>
+<CharFound>You tweak $S nose.</CharFound>
+<CharNoArgument>Whose nose do you want to tweak?</CharNoArgument>
+<OthersSelf>$n tweaks $s own nose.  HONK!</OthersSelf>
+<OthersNoArgument></OthersNoArgument>
+<OthersFound>$n tweaks $N's nose.</OthersFound>
+<VictimFound>$n tweaks your nose.</VictimFound>
+</Social>
+<Social>
+<Name>twibble</Name>
+<CharSelf>Once upon a time, there lived a bug named Twibble. Every spring he....</CharSelf>
+<CharFound>You twibble around $N, aimlessly.</CharFound>
+<CharNoArgument>You twibble around aimlessly.</CharNoArgument>
+<OthersSelf>$n twibbles aimlessly about $mself, not getting anywhere.</OthersSelf>
+<OthersNoArgument>$n twibbles around aimlessly.</OthersNoArgument>
+<OthersFound>$n twibbles aimlessly around $N in little circles.</OthersFound>
+<VictimFound>$n twibbles aimlessly around you in little circles.</VictimFound>
+</Social>
+<Social>
+<Name>twiddle</Name>
+<CharSelf>You twiddle your ears like Dumbo.</CharSelf>
+<CharFound>You twiddle $S ears.</CharFound>
+<CharNoArgument>You patiently twiddle your thumbs.</CharNoArgument>
+<OthersSelf>$n twiddles $s own ears like Dumbo.</OthersSelf>
+<OthersNoArgument>$n patiently twiddles $s thumbs.</OthersNoArgument>
+<OthersFound>$n twiddles $N's ears.</OthersFound>
+<VictimFound>$n twiddles your ears.</VictimFound>
+</Social>
+<Social>
+<Name>twirl</Name>
+<CharSelf>You twirl around in circles until you stagger and fall flat on your face.</CharSelf>
+<CharFound>You twirl $M around gracefully.</CharFound>
+<CharNoArgument>You twirl around gracefully.</CharNoArgument>
+<OthersSelf>$n twirls around in circles until $e staggers and falls flat on $s face.</OthersSelf>
+<OthersNoArgument>$n twirls around gracefully.</OthersNoArgument>
+<OthersFound>$n twirls $N around gracefully.</OthersFound>
+<VictimFound>$n twirls you around gracefully.</VictimFound>
+</Social>
+<Social>
+<Name>type</Name>
+<CharSelf>You throw up yor handz in dizgust at yur losy typing skils.</CharSelf>
+<CharFound>You throw up yor handz in dizgust at yur losy typing skils.</CharFound>
+<CharNoArgument>You throw up yor handz in dizgust at yur losy typing skils.</CharNoArgument>
+<OthersSelf>$n couldn't type a period if there was only one key on the keyboard.</OthersSelf>
+<OthersNoArgument>$n couldn't type a period if there was only one key on the keyboard.</OthersNoArgument>
+<OthersFound>$n couldn't type a period if there was only one key on the keyboard.</OthersFound>
+<VictimFound>$n couldn't type a period if there was only one key on the keyboard.</VictimFound>
+</Social>
+<Social>
+<Name>undress</Name>
+<CharSelf>You undress yourself, as slowly as possible, to stimulate your audience.</CharSelf>
+<CharFound>You stare lustily at $N, undressing $M with your eyes.</CharFound>
+<CharNoArgument>You undress, removing all your clothes until you stand naked.</CharNoArgument>
+<OthersSelf>$n undresses $mself, as slowly as possible, to stimulate $s audience.</OthersSelf>
+<OthersNoArgument>$n undresses, removing all $s clothes until $e stands naked.</OthersNoArgument>
+<OthersFound>$n stares lustily at $N, undressing $M wiht $s eyes.</OthersFound>
+<VictimFound>$n stares lustily at you, undressing you with $s eyes.</VictimFound>
+</Social>
+<Social>
+<Name>veto</Name>
+<CharSelf>You veto yourself.</CharSelf>
+<CharFound>You veto $N's idea. Heh.</CharFound>
+<CharNoArgument>You veto that idea.</CharNoArgument>
+<OthersSelf>$n vetoes $s own idea.  Forget $e mentioned it.</OthersSelf>
+<OthersNoArgument>$n vetoes that idea.</OthersNoArgument>
+<OthersFound>$n vetoes $N's idea, that is out of the question!</OthersFound>
+<VictimFound>$n vetoes you! That is out of the question!</VictimFound>
+</Social>
+<Social>
+<Name>wait</Name>
+<CharSelf>You hold up your hand, indicating that you are waiting.</CharSelf>
+<CharFound>You hold up your hand, indicating that $N should wait.</CharFound>
+<CharNoArgument>You hold up your hand, indicating that everyone should wait a second.</CharNoArgument>
+<OthersSelf>$n holds up $s hand, indicating that $e is waiting.</OthersSelf>
+<OthersNoArgument>$n holds up $s hand, indicating that you should wait.</OthersNoArgument>
+<OthersFound>$n holds up $s hand, indicating that $N should wait.</OthersFound>
+<VictimFound>$n holds up $s hand, indicating that you should wait.</VictimFound>
+</Social>
+<Social>
+<Name>wave</Name>
+<CharSelf>Are you going on adventures as well?</CharSelf>
+<CharFound>You wave goodbye to $N.</CharFound>
+<CharNoArgument>You wave.</CharNoArgument>
+<OthersSelf>$n waves goodbye to $mself.</OthersSelf>
+<OthersNoArgument>$n waves happily.</OthersNoArgument>
+<OthersFound>$n waves goodbye to $N.</OthersFound>
+<VictimFound>$n waves goodbye to you.  Have a good journey.</VictimFound>
+</Social>
+<Social>
+<Name>wedgie</Name>
+<CharSelf>You delight in pinning your underwear to the sky.</CharSelf>
+<CharFound>You wedgie $M.  Must be fun! </CharFound>
+<CharNoArgument>You look around for someone to wedgie.</CharNoArgument>
+<OthersSelf>$n wedgies $mself and cackles with glee.</OthersSelf>
+<OthersNoArgument>$n is looking around for someone to wedgie!  Run!</OthersNoArgument>
+<OthersFound>$n wedgies $N to the heavens.</OthersFound>
+<VictimFound>$n wedgies you!  Ouch!</VictimFound>
+</Social>
+<Social>
+<Name>welcome</Name>
+<CharSelf>You welcome yourself here since nobody else will</CharSelf>
+<CharFound>You welcome $N warmly, introducing $M to everyone.</CharFound>
+<CharNoArgument>Welcome who?</CharNoArgument>
+<OthersSelf>$n welcomes $mself here, since nobody else will!</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n welcomes $N warmly, introducing $M to you.</OthersFound>
+<VictimFound>Hi! $n welcomes you warmly, introducing you to everyone.</VictimFound>
+</Social>
+<Social>
+<Name>wet</Name>
+<CharSelf>You splash yourself in the face with cold water.</CharSelf>
+<CharFound>You splash $N with a bucket of ice-cold water!</CharFound>
+<CharNoArgument>You feel something wet and warm running down your legs.</CharNoArgument>
+<OthersSelf>$n splashes cold water all over $mself.</OthersSelf>
+<OthersNoArgument>$n wets $s pants.</OthersNoArgument>
+<OthersFound>Splash!  $n throws a bucket of cold water on $N.</OthersFound>
+<VictimFound>$n dumps a bucket of ice-cold water on you! BRRR!</VictimFound>
+</Social>
+<Social>
+<Name>whap</Name>
+<CharSelf>You whap yourself in the head, sheesh you must feel silly!</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>What? Where? Why? How?
+
+CharFound	You whap $M upside the head.  WHAP!</CharNoArgument>
+<OthersSelf>$n whaps $mself in the head repeatedly.</OthersSelf>
+<OthersNoArgument>(null)</OthersNoArgument>
+<OthersFound>$n whaps $N upside the head!</OthersFound>
+<VictimFound>$n whaps you upside the head!  OUCH!</VictimFound>
+</Social>
+<Social>
+<Name>whatever</Name>
+<CharSelf>You are so fed up with yourself! Sheesh!</CharSelf>
+<CharFound>You get fed up with $N and mutter.</CharFound>
+<CharNoArgument>You mutter 'Whatever!'.</CharNoArgument>
+<OthersSelf>$n mutters 'Whatever!' to $mself.</OthersSelf>
+<OthersNoArgument>$n looks fed up and mutters 'Whatever!'.</OthersNoArgument>
+<OthersFound>$n is fed up with $N.</OthersFound>
+<VictimFound>Whatever! $n is fed up with you! Forget it!</VictimFound>
+</Social>
+<Social>
+<Name>wheeze</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>You wheeze heavily.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$n wheezes heavily.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+<Social>
+<Name>whimper</Name>
+<CharSelf>You can't whimper loud enough...</CharSelf>
+<CharFound>You whimper softly at $N.</CharFound>
+<CharNoArgument>You whimper softly.</CharNoArgument>
+<OthersSelf>$n whimpers softly to $mself.</OthersSelf>
+<OthersNoArgument>$n whimpers softly.</OthersNoArgument>
+<OthersFound>$n whimpers softly at $N.</OthersFound>
+<VictimFound>$n whimpers softly at you.</VictimFound>
+</Social>
+<Social>
+<Name>whine</Name>
+<CharSelf>You whine at yourself, which really does not accomplish anything...</CharSelf>
+<CharFound>You whine at $m.  Come on, $e's gotta change $m mind, eventually!</CharFound>
+<CharNoArgument>Pleeeeeease? Come on! Let's go! Pleeeease?</CharNoArgument>
+<OthersSelf>$n whines at $mself.  Talk about desperate futility!</OthersSelf>
+<OthersNoArgument>$n makes a high-pitched pleading sound.</OthersNoArgument>
+<OthersFound>$n whines to $N.  Come on, $e's gotta change $m mind eventually!</OthersFound>
+<VictimFound>$n whines at you.  This person is starting to get on your nerves!</VictimFound>
+</Social>
+<Social>
+<Name>whistle</Name>
+<CharSelf>Try 'flirt self' instead.</CharSelf>
+<CharFound>You whistle appreciatively at $M.</CharFound>
+<CharNoArgument>You whistle innocently.</CharNoArgument>
+<OthersSelf>$n whistles a little tune to $mself.</OthersSelf>
+<OthersNoArgument>$n whistles innocently.</OthersNoArgument>
+<OthersFound>$n whistles appreciatively at $N.</OthersFound>
+<VictimFound>$n whistles at the sight of you.  Oooo $e must think you're sexy!</VictimFound>
+</Social>
+<Social>
+<Name>wiggle</Name>
+<CharSelf>You wiggle your bottom, and your pants fall down around your ankles.</CharSelf>
+<CharFound>You wiggle your bottom towards $M.</CharFound>
+<CharNoArgument>You wiggle your bottom.</CharNoArgument>
+<OthersSelf>$n wiggles $s bottom and $s pants fall down around $s ankles.</OthersSelf>
+<OthersNoArgument>$n wiggles $s bottom.</OthersNoArgument>
+<OthersFound>$n wiggles $s bottom towards $N.</OthersFound>
+<VictimFound>$n wiggles $s bottom towards you.</VictimFound>
+</Social>
+<Social>
+<Name>wince</Name>
+<CharSelf>You wince at yourself.</CharSelf>
+<CharFound>You wince at $M.</CharFound>
+<CharNoArgument>You wince.</CharNoArgument>
+<OthersSelf>$n winces at $mself.</OthersSelf>
+<OthersNoArgument>$n winces in pain.</OthersNoArgument>
+<OthersFound>$n winces at $N.</OthersFound>
+<VictimFound>$n winces at you.</VictimFound>
+</Social>
+<Social>
+<Name>wink</Name>
+<CharSelf>You wink at yourself ?? - what are you up to ?</CharSelf>
+<CharFound>You wink suggestively at $N.</CharFound>
+<CharNoArgument>You wink suggestively.</CharNoArgument>
+<OthersSelf>$n winks at $mself - something strange is going on...</OthersSelf>
+<OthersNoArgument>$n winks suggestively.</OthersNoArgument>
+<OthersFound>$n winks at $N.</OthersFound>
+<VictimFound>$n winks suggestively at you.</VictimFound>
+</Social>
+<Social>
+<Name>wish</Name>
+<CharSelf>You wish for more attention.</CharSelf>
+<CharFound>You wish to be loved by $M.</CharFound>
+<CharNoArgument>You make a wish upon a star for a dream you have.</CharNoArgument>
+<OthersSelf>$n wishes for more attention.</OthersSelf>
+<OthersNoArgument>$n sighs... and makes a wish upon a shooting star.</OthersNoArgument>
+<OthersFound>$n wishes to be loved by $N.</OthersFound>
+<VictimFound>$n wishes to be loved by you.</VictimFound>
+</Social>
+<Social>
+<Name>worship</Name>
+<CharSelf>You worship yourself.</CharSelf>
+<CharFound>You worship $N and crawl at $m feet.</CharFound>
+<CharNoArgument>You make a few signs and pledge your allegiance to the gods.</CharNoArgument>
+<OthersSelf>$n worships $mself - ah, the conceitedness of it all.</OthersSelf>
+<OthersNoArgument>$n appears to have been struck by awe for the gods.</OthersNoArgument>
+<OthersFound>$n prostrates $mself before $N.</OthersFound>
+<VictimFound>$n worships you and crawls at your feet.</VictimFound>
+</Social>
+<Social>
+<Name>wrap</Name>
+<CharSelf>You wrap yourself with some paper.</CharSelf>
+<CharFound>You wrap your legs around $M.</CharFound>
+<CharNoArgument>You wrap a present for your love.</CharNoArgument>
+<OthersSelf>$n wraps $mself with some wrapping paper.  Is it Christmas?</OthersSelf>
+<OthersNoArgument>$n wraps a present for someone special.</OthersNoArgument>
+<OthersFound>$n wraps $s legs around $N.</OthersFound>
+<VictimFound>$n wraps $s legs around you.  Wonder what's coming next?</VictimFound>
+</Social>
+<Social>
+<Name>yawn</Name>
+<CharSelf>You must be tired.</CharSelf>
+<CharFound>You yawn widely at $N.</CharFound>
+<CharNoArgument>You must be tired.</CharNoArgument>
+<OthersSelf>$n yawns and looks for a pillow.</OthersSelf>
+<OthersNoArgument>$n yawns.</OthersNoArgument>
+<OthersFound>$n yawns at $N.  Maybe you should let them go to bed?</OthersFound>
+<VictimFound>$n yawns at you.  Maybe $e needs to go to bed?</VictimFound>
+</Social>
+<Social>
+<Name>yeehaw</Name>
+<CharSelf>You mount your white pony (?) and shout 'YEEEEEEEEEEHAW!'</CharSelf>
+<CharFound>You mount your white pony (?) and shout 'YEEEEEEEEEEHAW!'</CharFound>
+<CharNoArgument>You mount your white pony (?) and shout 'YEEEEEEEEEEHAW!'</CharNoArgument>
+<OthersSelf>$n mounts $s white pony (?) and shouts 'YEEEEHHHAAAAAAWWWW!'</OthersSelf>
+<OthersNoArgument>$n mounts $s white pony (?) and shouts 'YEEEEHHHAAAAAAWWWW!'</OthersNoArgument>
+<OthersFound>$n mounts $s white pony (?) and shouts 'YEEEEHHHAAAAAAWWWW!'</OthersFound>
+<VictimFound>$n mounts $s white pony (?) and shouts 'YEEEEHHHAAAAAAWWWW!'</VictimFound>
+</Social>
+<Social>
+<Name>yodel</Name>
+<CharSelf>YODEL AYE EE WHOOO!  An avalanche lands on you.</CharSelf>
+<CharFound>YODEL AYE EE WHOOO!  You start an avalanche that lands on $N.</CharFound>
+<CharNoArgument>YODEL AYE EE WHOOO!  You yodel.</CharNoArgument>
+<OthersSelf>YODEL AYE EE WHOOO!  Rn avalanches $mself.</OthersSelf>
+<OthersNoArgument>YODEL AYE EE WHOOO!  $n yodels.</OthersNoArgument>
+<OthersFound>YODEL AYE EE WHOOO!  $n starts an avalanche that lands on $N.</OthersFound>
+<VictimFound>YODEL AYE EE WHOOO!  $n starts an avalanche that lands on you!</VictimFound>
+</Social>
+<Social>
+<Name>zone</Name>
+<CharSelf>(null)</CharSelf>
+<CharFound>(null)</CharFound>
+<CharNoArgument>You zone out and ignore the world for a few moments.</CharNoArgument>
+<OthersSelf>(null)</OthersSelf>
+<OthersNoArgument>$nzones out and ignores the world for a few moments.</OthersNoArgument>
+<OthersFound>(null)</OthersFound>
+<VictimFound>(null)</VictimFound>
+</Social>
+</SocialData>
+</Socials>
