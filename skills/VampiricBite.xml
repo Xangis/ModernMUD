@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Skill xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>vampiric bite</Name>
+  <Delay>0</Delay>
+  <DamageText>vampiric bite</DamageText>
+  <WearOffMessage>You feel well fed.</WearOffMessage>
+  <AiChance>30</AiChance>
+  <AiPower>50</AiPower>
+  <Code />
+</Skill>
