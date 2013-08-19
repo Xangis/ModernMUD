@@ -110,3 +110,9 @@ UpgradeLog*.XML
 
 # ModernMUD-specific files.
 Playercounts.csv
+sys/Ban.xml
+sys/Bounties.xml
+sys/Corpses.xml
+sys/Crimes.xml
+sys/Fraglist.xml
+sys/Chatterbots.xml
