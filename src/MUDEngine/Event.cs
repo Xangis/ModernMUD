@@ -1869,15 +1869,15 @@ namespace MUDEngine
         static void AggressionUpdate()
         {
             CharData ch = null;
-            SocketConnection d = null;
+            SocketConnection socket = null;
 
             // Let's not worry about link dead characters.
             for( int k = (Database.SocketList.Count - 1); k >= 0; k-- )
             {
-                d = Database.SocketList[k];
-                ch = d.Character;
+                socket = Database.SocketList[k];
+                ch = socket.Character;
 
-                if (d.Character == null || d._connectionState != SocketConnection.ConnectionState.playing
+                if (socket.Character == null || socket._connectionState != SocketConnection.ConnectionState.playing
                         || (ch._level >= Limits.LEVEL_HERO && ch.HasActBit(PC.PLAYER_FOG)) || !ch._inRoom)
                 {
                     continue;

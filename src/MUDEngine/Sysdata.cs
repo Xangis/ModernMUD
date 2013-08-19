@@ -728,23 +728,29 @@ namespace MUDEngine
 
             if( text.Length > 0 )
             {
-                foreach( SocketConnection d in Database.SocketList )
+                foreach( SocketConnection socket in Database.SocketList )
                 {
-                    if( d._connectionState == SocketConnection.ConnectionState.playing
-                            && d.Character.IsOutside()
-                            && !d.Character.IsUnderground()
-                            && d.Character.IsAwake()
-                            && !d.Character._inRoom.HasFlag( RoomTemplate.ROOM_NO_PRECIP ) )
-                        d.Character.SendText( text );
+                    if (socket._connectionState == SocketConnection.ConnectionState.playing
+                            && socket.Character.IsOutside()
+                            && !socket.Character.IsUnderground()
+                            && socket.Character.IsAwake()
+                            && !socket.Character._inRoom.HasFlag(RoomTemplate.ROOM_NO_PRECIP))
+                    {
+                        socket.Character.SendText(text);
+                    }
                 }
             }
 
-            foreach( SocketConnection d in Database.SocketList )
+            foreach( SocketConnection playerSocket in Database.SocketList )
             {
-                if( ( d._connectionState == SocketConnection.ConnectionState.playing ) &&
-                        !d.Character.IsNPC() )
-                    if( ( (PC)d.Character ).FirstaidTimer > 0 )
-                        ( (PC)d.Character ).FirstaidTimer -= 1;
+                if ((playerSocket._connectionState == SocketConnection.ConnectionState.playing) &&
+                        !playerSocket.Character.IsNPC())
+                {
+                    if (((PC)playerSocket.Character).FirstaidTimer > 0)
+                    {
+                        ((PC)playerSocket.Character).FirstaidTimer -= 1;
+                    }
+                }
             }
 
             return;

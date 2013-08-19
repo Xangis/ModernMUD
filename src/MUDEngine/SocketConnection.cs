@@ -246,12 +246,14 @@ namespace MUDEngine
         /// <summary>
         /// Exists for C++ style compatibility.
         /// </summary>
-        /// <param name="d"></param>
+        /// <param name="socket"></param>
         /// <returns></returns>
-        public static bool operator !( SocketConnection d )
+        public static bool operator !( SocketConnection socket )
         {
-            if( d == null )
+            if (socket == null)
+            {
                 return true;
+            }
             return false;
         }
 
@@ -261,8 +263,10 @@ namespace MUDEngine
         /// <returns></returns>
         public bool HasColor()
         {
-            if( _terminalType == TerminalType.TERMINAL_ASCII )
+            if (_terminalType == TerminalType.TERMINAL_ASCII)
+            {
                 return false;
+            }
             return true;
         }
 
@@ -517,30 +521,30 @@ namespace MUDEngine
                 throw new Exception( "Exception: " + "AcceptSocket: accept returned null" );
             }
 
-            SocketConnection dnew = new SocketConnection();
-            dnew._socket = socket;
-            dnew._host = socket.RemoteEndPoint.ToString();
-            String logStr = String.Format( "New connection: {0} ({1})", dnew._host, text );
+            SocketConnection newSocket = new SocketConnection();
+            newSocket._socket = socket;
+            newSocket._host = socket.RemoteEndPoint.ToString();
+            String logStr = String.Format( "New connection: {0} ({1})", newSocket._host, text );
             ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_LOGINS, Limits.LEVEL_OVERLORD, logStr );
             Log.Info(logStr);
 
             // Site ban list, for those bastards who just don't know how to behave.
             foreach( BanData ban in Database.BanList )
             {
-                if( !MUDString.IsSuffixOf( ban.Name, dnew._host ) )
+                if( !MUDString.IsSuffixOf( ban.Name, newSocket._host ) )
                 {
-                    dnew.WriteToSocket( "Your site has been banned from this Mud.\r\n",false);
+                    newSocket.WriteToSocket( "Your site has been banned from this Mud.\r\n",false);
                     socket.Close();
                     return;
                 }
             }
 
             // Add to our socket list.
-            Database.SocketList.Add( dnew );
+            Database.SocketList.Add( newSocket );
 
             // Hidden option #5 is "enhanced terminal". This is automatically sent by the wxMudClient and
             // WPFMUDClient.
-            dnew.WriteToBuffer( "Enter your terminal type (0 for ASCII, 1 for ANSI): " );
+            newSocket.WriteToBuffer( "Enter your terminal type (0 for ASCII, 1 for ANSI): " );
 
             // Keep track of number of players and maximum number of players.
             if( ++Database.SystemData.NumPlayers > Database.SystemData.MaxPlayers )
@@ -1473,11 +1477,11 @@ namespace MUDEngine
         /// Allows the checking whether a socket is null using the not operator.
         /// Exists for C++ style compatibility.
         /// </summary>
-        /// <param name="d"></param>
+        /// <param name="socket"></param>
         /// <returns></returns>
-        public static implicit operator bool( SocketConnection d )
+        public static implicit operator bool( SocketConnection socket )
         {
-            if (d == null)
+            if (socket == null)
             {
                 return false;
             }

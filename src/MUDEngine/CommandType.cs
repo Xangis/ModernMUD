@@ -398,7 +398,7 @@ namespace MUDEngine
             new CommandType( "echo", Command.Echo, Position.dead, Limits.LEVEL_LESSER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "memory", Command.Memory, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
             new CommandType( "peace", Command.Peace, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
-            new CommandType( "recho", Command.Recho, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
+            new CommandType( "recho", Command.RoomEcho, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "return", Command.Return, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
             new CommandType( "sober", Command.Sober, Position.dead, Limits.LEVEL_LESSER_GOD, LogType.normal, true, false, false, false ),
             new CommandType( "snoop", Command.Snoop, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),

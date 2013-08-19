@@ -329,7 +329,7 @@ namespace MUDEngine
         /// <param name="ch"></param>
         static void StartInvasion( CharData ch )
         {
-            SocketConnection d;
+            SocketConnection socket;
             int count;
             CharData mob;
             string lbuf;
@@ -355,11 +355,11 @@ namespace MUDEngine
             // warn of invasion
             foreach( SocketConnection it in Database.SocketList )
             {
-                d = it;
-                if( d._connectionState == SocketConnection.ConnectionState.playing
-                        && d.Character._inRoom.Area == ch._inRoom.Area )
+                socket = it;
+                if( socket._connectionState == SocketConnection.ConnectionState.playing
+                        && socket.Character._inRoom.Area == ch._inRoom.Area )
                 {
-                    d.Character.SendText( "&+RYou hear the guards sound the invasion alarm!\r\n" );
+                    socket.Character.SendText( "&+RYou hear the guards sound the invasion alarm!\r\n" );
                 }
             }
 
