@@ -104,7 +104,7 @@ namespace MUDEngine
         private double[] _raceFaction = new double[Limits.MAX_RACE];
         public ItemStatus Created { get; set; }
         public ItemStatus Destroyed { get; set; }
-        public List<Message> Pnote { get; set; }
+        public List<Message> PlayerNotes { get; set; }
 
         // Action bits for players.  Used primarily for configuration, terminal settings,
         // and player-specific state data.  Not used for affects and such.

@@ -144,10 +144,21 @@ namespace MUDEngine
         public static bool Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.BountyFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.BountyFile;
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Bounty>));
-                Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                FileStream stream = null;
+                try
+                {
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Bounty file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
                 _bounties = (List<Bounty>)serializer.Deserialize(stream);
                 stream.Close();
                 return true;

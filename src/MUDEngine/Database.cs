@@ -327,28 +327,38 @@ namespace MUDEngine
         public static void LoadBans()
         {
             BanData ban;
-            string strsave = FileLocation.SystemDirectory + FileLocation.BanFile;
+            string fileLocation = FileLocation.SystemDirectory + FileLocation.BanFile;
+            string blankFileLocation = FileLocation.BlankSystemFileDirectory + FileLocation.BanFile;
 
             try
             {
-                FileStream fp = File.OpenRead( strsave );
-                StreamReader sr = new StreamReader( fp );
-
-                while( !sr.EndOfStream )
+                FileStream fp = null;
+                try
+                {
+                    fp = File.OpenRead(fileLocation);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Ban file not found, using blank file.");
+                    File.Copy(blankFileLocation, fileLocation);
+                    fp = File.OpenRead(fileLocation);
+                }
+                StreamReader sr = new StreamReader(fp);
+                while (!sr.EndOfStream)
                 {
                     string name = sr.ReadLine();
 
-                    if( name[ 0 ] == '$' )
+                    if (name[0] == '$')
                         break;
 
                     ban = new BanData();
                     ban.Name = name;
-                    BanList.Add( ban );
+                    BanList.Add(ban);
                 }
             }
-            catch( Exception ex )
+            catch (Exception ex)
             {
-                Log.Error( "Exception in Database.LoadBans(): " + ex );
+                Log.Error("Exception in Database.LoadBans(): " + ex);
             }
         }
 

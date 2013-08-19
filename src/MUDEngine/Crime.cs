@@ -94,18 +94,22 @@ namespace MUDEngine
             // NPC's are cool of course
             // Hitting yourself is cool too (bleeding).
             // Hitting immortals are fine.
-            if( ch.IsNPC()
-                    || ch == victim
-                    || victim._level > Limits.LEVEL_HERO )
+            if (ch.IsNPC() || ch == victim || victim._level > Limits.LEVEL_HERO)
+            {
                 return;
+            }
 
             // Vampires and the living dead are fair game.
-            if( victim.IsUndead() )
+            if (victim.IsUndead())
+            {
                 return;
+            }
 
             // Defending yourself once you're already attacked is okay.
-            if( victim._fighting != null && victim._fighting == ch )
+            if (victim._fighting != null && victim._fighting == ch)
+            {
                 return;
+            }
 
             foreach( CharData wch in ch._inRoom.People )
             {
@@ -116,7 +120,7 @@ namespace MUDEngine
                     Save();
                     return;
                 }
-                // crime witnessed by player, give them the chance to report it
+                // Crime witnessed by player, give them the chance to report it
                 return;
             }
 
@@ -133,30 +137,36 @@ namespace MUDEngine
         /// <param name="victim"></param>
         public static void CheckThief( CharData ch, CharData victim )
         {
-            /*
-            * Check for justice
-            */
-            if( ch == null || victim == null )
+            // Check for justice
+            if (ch == null || victim == null)
+            {
                 return;
-            
-            if( ch._inRoom.Area.JusticeType == 0 )
+            }
+
+            if (ch._inRoom.Area.JusticeType == 0)
+            {
                 return;
+            }
 
             // NPC's are fair game.
-            if( victim.IsNPC() )
+            if (victim.IsNPC())
+            {
                 return;
+            }
 
             // NPC's are cool of course
             // Hitting yourself is cool too (bleeding).
             // Hitting immortals are fine.
-            if( ch.IsNPC()
-                    || ch == victim
-                    || victim._level > Limits.LEVEL_HERO )
+            if (ch.IsNPC() || ch == victim || victim._level > Limits.LEVEL_HERO)
+            {
                 return;
+            }
 
             // Vampires and the living dead are fair game.
-            if( victim.IsUndead() )
+            if (victim.IsUndead())
+            {
                 return;
+            }
 
             foreach( CharData wch in ch._inRoom.People )
             {
@@ -198,6 +208,10 @@ namespace MUDEngine
             return crime;
         }
 
+        /// <summary>
+        /// Saves the crime database.
+        /// </summary>
+        /// <returns></returns>
         public static bool Save()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.CrimeFile;
@@ -216,13 +230,28 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Loads the crime database.
+        /// </summary>
+        /// <returns></returns>
         public static bool Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.CrimeFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.CrimeFile;
             try
             {
-                XmlSerializer serializer = new XmlSerializer( typeof( List<Crime> ) );
-                Stream stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Crime>));
+                FileStream stream = null;
+                try
+                {
+                    stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Crime file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                }
                 Database.CrimeList = (List<Crime>)serializer.Deserialize( stream );
                 stream.Close();
                 return true;

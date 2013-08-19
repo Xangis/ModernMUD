@@ -11,52 +11,57 @@ namespace ModernMUD
         /// Player files.
         /// </summary>
         public static string PlayerDirectory = ".." + Path.DirectorySeparatorChar + "player" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// Player accounts.
         /// </summary>
         public static string AccountDirectory = ".." + Path.DirectorySeparatorChar + "player" +
-            Path.DirectorySeparatorChar + "accounts" + Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar + "accounts" + Path.DirectorySeparatorChar;
         /// <summary>
         /// Backup copies of player files.
         /// </summary>
         public static string BackupDirectory = ".." + Path.DirectorySeparatorChar + "backup" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// System files directory. Contains core system data files.
         /// </summary>
         public static string SystemDirectory = ".." + Path.DirectorySeparatorChar + "sys" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
+        /// <summary>
+        /// Contains blank system data files, used if there are none in the system file directory.
+        /// </summary>
+        public static string BlankSystemFileDirectory = ".." + Path.DirectorySeparatorChar + "sys" +
+            Path.DirectorySeparatorChar + "EmptyFiles" + Path.DirectorySeparatorChar;
         /// <summary>
         /// Character class definition files.
         /// </summary>
         public static string ClassDirectory = ".." + Path.DirectorySeparatorChar + "classes" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// Zone file directory.
         /// </summary>
         public static string AreaDirectory = ".." + Path.DirectorySeparatorChar + "area" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// Guild files.
         /// </summary>
         public static string GuildDirectory = ".." + Path.DirectorySeparatorChar + "clans" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// Race definition files. Includes both player and monster races.
         /// </summary>
         public static string RaceDirectory = ".." + Path.DirectorySeparatorChar + "races" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// Spell files.
         /// </summary>
         public static string SpellDirectory = ".." + Path.DirectorySeparatorChar + "spells" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
         /// <summary>
         /// Skill files.
         /// </summary>
         public static string SkillDirectory = ".." + Path.DirectorySeparatorChar + "skills" +
-            Path.DirectorySeparatorChar + "";
+            Path.DirectorySeparatorChar;
 
         /// <summary>
         /// List of areas to load.

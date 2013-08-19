@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml.Serialization;
 using ModernMUD;
 
-// TODO: Modify the _fraglist such that changing the classes and races available to PCs will not break what's
+// TODO: Modify the fraglist such that changing the classes and races available to PCs will not break what's
 // already been saved.
 namespace MUDEngine
 {
@@ -28,7 +28,7 @@ namespace MUDEngine
 
     // Guild frags will be stored separately with each guild's data.
     // This is a huge struct, and updating and referencing it should be
-    // a huge chore - Xangis
+    // a huge chore
     [XmlRoot( "Fraglist" )]
     [Serializable]
     public class FraglistData
@@ -307,13 +307,27 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Load the fraglist.
+        /// </summary>
         public void Load()
         {
+            string filename = FileLocation.SystemDirectory + FileLocation.FragFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.FragFile;
             try
             {
-                XmlSerializer serializer = new XmlSerializer( GetType() );
-                Stream stream = new FileStream(FileLocation.SystemDirectory + FileLocation.FragFile, FileMode.Open,
-                    FileAccess.Read, FileShare.None );
+                XmlSerializer serializer = new XmlSerializer(GetType());
+                FileStream stream = null;
+                try
+                {
+                    stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Fraglist file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                }
                 _fraglist = (FraglistData)serializer.Deserialize( stream );
                 stream.Close();
                 InitializeData();
@@ -415,6 +429,5 @@ namespace MUDEngine
                 Log.Error( "Exception saving fraglist: " + ex );
             }
         }
-    };
-
+    }
 }

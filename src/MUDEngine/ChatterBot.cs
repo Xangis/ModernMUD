@@ -63,10 +63,21 @@ namespace MUDEngine
         public static bool Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.ChatterbotFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.ChatterbotFile;
             try
             {
-                XmlSerializer serializer = new XmlSerializer( typeof( List<ChatterBot> ) );
-                Stream stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                XmlSerializer serializer = new XmlSerializer(typeof(List<ChatterBot>));
+                FileStream stream = null;
+                try
+                {
+                    stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Chatterbot file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                }
                 Database.ChatterBotList = (List<ChatterBot>)serializer.Deserialize( stream );
                 stream.Close();
                 return true;
