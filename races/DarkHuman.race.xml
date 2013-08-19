@@ -1,0 +1,42 @@
+<?xml version="1.0"?><Race xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Name>Dark Human</Name>
+<Number>81</Number>
+<ColorName>&amp;+cDark Human&amp;n</ColorName>
+    <DecayedName>humanoid</DecayedName>
+<Key>HD</Key>
+<Height>70</Height>
+<Weight>155</Weight>
+<StrModifier>100</StrModifier>
+<IntModifier>100</IntModifier>
+<WisModifier>100</WisModifier>
+<DexModifier>100</DexModifier>
+<ConModifier>100</ConModifier>
+<AgiModifier>100</AgiModifier>
+<ChaModifier>100</ChaModifier>
+<PowModifier>100</PowModifier>
+<LukModifier>100</LukModifier>
+<StrModifier>100</StrModifier>
+<BaseAge>17</BaseAge>
+<MaxAge>90</MaxAge>
+<BaseAlignment>50</BaseAlignment>
+<HpGain>1</HpGain>
+<ManaGain>1</ManaGain>
+<MoveGain>1</MoveGain>
+    <ThirstModifier>-1</ThirstModifier>
+    <HungerModifier>-1</HungerModifier>
+<MagicResistance>0</MagicResistance>
+<Size>medium</Size>
+<BodyParts>skull arms legs heart brains guts hands feet fingers ears eyes scalp</BodyParts>
+<Resistant>none</Resistant>
+<Immune>none</Immune>
+<Susceptible>none</Susceptible>
+<Vulnerable>none</Vulnerable>
+<Language>common</Language>
+<RacewarSide>evil</RacewarSide>
+    <InnateAbilities>
+        <int>69697</int>
+        <int>0</int>
+    </InnateAbilities>
+<Coins>true</Coins>
+<DamageMessage>punch</DamageMessage>
+<WalkMessage>walks</WalkMessage>
+</Race>

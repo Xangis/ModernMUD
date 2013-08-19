@@ -24,10 +24,6 @@ namespace ModernMUD
         /// </summary>
         public const int MAX_RACE = 82;
         /// <summary>
-        /// Last race on the race list to carry coins.
-        /// </summary>
-        public const int MAX_COIN_RACE = 40;
-        /// <summary>
         /// Number of player races available.
         /// </summary>
         public const int MAX_PC_RACE = 21;

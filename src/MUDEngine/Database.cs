@@ -675,7 +675,7 @@ namespace MUDEngine
             mob._susceptible = mobTemplate.Susceptible;
             mob._vulnerable = mobTemplate.Vulnerable;
             mob._maxMana = mob._level * 10;
-            if( mob.GetOrigRace() < Limits.MAX_COIN_RACE )
+            if( Race.RaceList[mobTemplate.Race].Coins )
             {
                 int level = mobTemplate.Level;
                 mob.ReceiveCopper( MUDMath.Dice( 12, level ) / 32 );
