@@ -14,6 +14,6 @@ some point things should be more dynamic and not tied to hard-coded definitions,
 but we're not there yet.
 
 There is also a file called "_transform.xsl". This lets you view the race files
-in a web browser. This works with Opera, Chrome/Chromium, and Internet Explorer,
-but Firefox has buggy handling of XSL stylesheets and didn't work with it when
-tested.
+in a web browser in a player-friendly manner. This works with Opera, Chrome/Chromium,
+and Internet Explorer, but Firefox has buggy handling of XSL stylesheets and didn't
+work with it when tested.
