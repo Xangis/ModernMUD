@@ -699,7 +699,7 @@ namespace MUDEngine
         /// Retrieve character's current luck.
         /// </summary>
         /// <returns></returns>
-        public int GetCurrLuk()
+        public int GetCurrLuck()
         {
             int mod = Race.RaceList[ _race ].LukModifier;
             int plus = _modifiedLuck;
@@ -3230,7 +3230,7 @@ namespace MUDEngine
 
             if( !ch.IsNPC() && ( (PC)ch ).LostHp != 0 )
             {
-                if( MUDMath.NumberPercent() < ( ch.GetCurrLuk() + ch.GetCurrCon() ) / 3 )
+                if( MUDMath.NumberPercent() < ( ch.GetCurrLuck() + ch.GetCurrCon() ) / 3 )
                     addHp = ( (PC)ch ).LostHp;
                 else
                     addHp = ( (PC)ch ).LostHp - 1;

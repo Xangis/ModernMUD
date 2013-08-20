@@ -393,7 +393,7 @@ namespace MUDEngine
             new CommandType( "where", Command.Where, Position.dead, Limits.LEVEL_AVATAR, LogType.always, true, false, false, false ),
             new CommandType( "wizify", Command.Wizify, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "wizlock", Command.Wizlock, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
-            new CommandType( "makeclan", Command.MakeClan, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
+            new CommandType( "makeclan", Command.MakeGuild, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
             new CommandType( "killclan", Command.Killclan, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "echo", Command.Echo, Position.dead, Limits.LEVEL_LESSER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "memory", Command.Memory, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),

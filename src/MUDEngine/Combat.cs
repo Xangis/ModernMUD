@@ -635,12 +635,12 @@ namespace MUDEngine
             int diceroll = MUDMath.NumberRange( 0, 199 );
 
             // Give them a small bonus if they can make a successful luck check.
-            if( MUDMath.NumberPercent() <= ch.GetCurrLuk() )
+            if( MUDMath.NumberPercent() <= ch.GetCurrLuck() )
                 diceroll += 5;
 
             /* Made really lucky chars get saved by the godz. */
             if( diceroll == 0 || ( diceroll <= 196 && diceroll < hitroll - victimAC )
-                     || ( MUDMath.NumberPercent() < victim.GetCurrLuk() / 40 ) )
+                     || ( MUDMath.NumberPercent() < victim.GetCurrLuck() / 40 ) )
             {
                 /* Miss. */
                 return InflictDamage(ch, victim, 0, skill, weapon, damType);
@@ -913,7 +913,7 @@ namespace MUDEngine
                 // Critical hits for double damage
                 // Average of 5% for those that have average luck
                 // Gnomes could concievably have 10%
-                if( MUDMath.NumberPercent() < ( 2 + ( ch.GetCurrLuk() / 18 ) ) && dam > 0 )
+                if( MUDMath.NumberPercent() < ( 2 + ( ch.GetCurrLuck() / 18 ) ) && dam > 0 )
                 {
                     ch.SendText( "&+WYou score a CRITICAL HIT!&n\r\n" );
                     dam *= 2;
@@ -4143,9 +4143,9 @@ namespace MUDEngine
                     numAttacks = 4;
                 else
                     numAttacks = 9;
-                if( MUDMath.NumberPercent() < ch.GetCurrLuk() )
+                if( MUDMath.NumberPercent() < ch.GetCurrLuck() )
                     numAttacks++;
-                if( MUDMath.NumberPercent() < victim.GetCurrLuk() )
+                if( MUDMath.NumberPercent() < victim.GetCurrLuck() )
                     numAttacks--;
 
                 /* 9716 is the index number for the dagger of the wind. */
