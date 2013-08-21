@@ -2686,7 +2686,7 @@ namespace MUDEngine
                 Log.Error("Invalid call to Object.StripAffect! Must pass non-null value!", 0);
                 return;
             }
-            foreach (Affect aff in obj._affected.ToArray())
+            foreach (Affect aff in obj._affected)
             {
                 if( aff.Type == type && aff.Value == value )
                 {

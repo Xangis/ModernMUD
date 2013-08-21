@@ -219,7 +219,7 @@ namespace MUDEngine
             //
             // We need the ToArray() method in order to avoid seeing the following error:
             // "Collection was modified; enumeration operation may not execute."
-            foreach( Event it in Database.EventList.ToArray() )
+            foreach( Event it in Database.EventList )
             {
                 eventdata = it;
                 // We use nexteventdata so we can remove eventdatas from the list without losting our place
