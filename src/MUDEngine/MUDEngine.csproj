@@ -96,7 +96,9 @@
     <Compile Include="Event.cs" />
     <Compile Include="Crime.cs" />
     <Compile Include="MUDMath.cs" />
-    <Compile Include="Track.cs" />
+    <Compile Include="Track.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Undead.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="PC.cs" />
