@@ -1741,7 +1741,7 @@ namespace MUDEngine
             if (!obj)
                 return 0;
 
-            if (!(shop = keeper._mobIndexData.ShopData))
+            if (!(shop = keeper._mobTemplate.ShopData))
             {
                 cost = obj._cost;
             }
@@ -2597,7 +2597,7 @@ namespace MUDEngine
 
             CharData mob = new CharData();
 
-            mob._mobIndexData = pMobIndex;
+            mob._mobTemplate = pMobIndex;
             mob._name = obj._name;
             mob._shortDescription = obj._shortDescription;
             mob._fullDescription = obj._fullDescription;

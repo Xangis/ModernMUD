@@ -2590,11 +2590,11 @@ namespace MUDEngine
                 foreach( CharData it in Database.CharList )
                 {
                     i = it;
-                    if( !i._mobIndexData )
+                    if( !i._mobTemplate )
                         continue;
-                    if( i.IsNPC() && ( ( i._mobIndexData.IndexNumber == 20524 ) ||
-                                      ( i._mobIndexData.IndexNumber == 20525 ) ||
-                                      ( i._mobIndexData.IndexNumber == 20526 ) )
+                    if( i.IsNPC() && ( ( i._mobTemplate.IndexNumber == 20524 ) ||
+                                      ( i._mobTemplate.IndexNumber == 20525 ) ||
+                                      ( i._mobTemplate.IndexNumber == 20526 ) )
                             && i._inRoom && i._inRoom.Area == ch._inRoom.Area )
                     {
                         SocketConnection.Act( "$n shivers.", i, null, null, SocketConnection.MessageTarget.room );
@@ -2606,8 +2606,8 @@ namespace MUDEngine
                 foreach( CharData it in Database.CharList )
                 {
                     i = it;
-                    if( i.IsNPC() && ( ( i._mobIndexData.IndexNumber == 20528 ) ||
-                                      ( i._mobIndexData.IndexNumber == 20529 ) ) &&
+                    if( i.IsNPC() && ( ( i._mobTemplate.IndexNumber == 20528 ) ||
+                                      ( i._mobTemplate.IndexNumber == 20529 ) ) &&
                             i._inRoom && i._inRoom.Area == ch._inRoom.Area )
                     {
                         SocketConnection.Act( "$n shivers.", i, null, null, SocketConnection.MessageTarget.room );
@@ -2639,7 +2639,7 @@ namespace MUDEngine
                 vch = it;
                 if( !vch._inRoom )
                     continue;
-                if( !vch._mobIndexData )
+                if( !vch._mobTemplate )
                     continue;
                 if( !vch.IsNPC() || vch._inRoom.Area != ch._inRoom.Area )
                     continue;
@@ -2647,7 +2647,7 @@ namespace MUDEngine
                 int i;
                 for( i = 0; helpers[ i ] > 0; i++ )
                 {
-                    if( vch._mobIndexData.IndexNumber == helpers[ i ] )
+                    if( vch._mobTemplate.IndexNumber == helpers[ i ] )
                         isHelper = true;
                 }
                 if( !isHelper )
@@ -2843,7 +2843,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act( "The corpse of $n&n &+Wglows&n with a strange light.",
                      ch, null, null, SocketConnection.MessageTarget.room );
-                newCh = Database.CreateMobile( Database.GetMobTemplate( ch._mobIndexData.IndexNumber ) );
+                newCh = Database.CreateMobile( Database.GetMobTemplate( ch._mobTemplate.IndexNumber ) );
                 newCh.AddToRoom( ch._inRoom );
                 newCh._actionFlags = ch._actionFlags;
                 newCh.RemoveActBit(PC.PLAYER_WIZINVIS);

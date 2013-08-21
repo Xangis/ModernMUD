@@ -699,7 +699,7 @@ namespace MUDEngine
                             Log.Trace( text );
                         } //end if artifact
 
-                        if( lastMob._mobIndexData.ShopData )   /* Shop-keeper? */
+                        if( lastMob._mobTemplate.ShopData )   /* Shop-keeper? */
                         {
                             int olevel;
 

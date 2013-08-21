@@ -869,7 +869,7 @@ namespace MUDEngine
 
                 // Mobs bashed or knocked down will try to get back up...
                 if( ch._position < Position.fighting && ch._position > Position.sleeping
-                        && ( ch._position != ch._mobIndexData.DefaultPosition || ch._fighting ) )
+                        && ( ch._position != ch._mobTemplate.DefaultPosition || ch._fighting ) )
                 {
                     CommandType.Interpret( ch, "stand" );
                     continue;
@@ -1334,7 +1334,7 @@ namespace MUDEngine
                 ch.UpdatePosition();
 
                 // Refresh stoneskin on perm stone mobs.
-                if( ch.IsNPC() && Macros.IsSet( ch._mobIndexData.AffectedBy[ Affect.AFFECT_STONESKIN.Group ], Affect.AFFECT_STONESKIN.Vector ) &&
+                if( ch.IsNPC() && Macros.IsSet( ch._mobTemplate.AffectedBy[ Affect.AFFECT_STONESKIN.Group ], Affect.AFFECT_STONESKIN.Vector ) &&
                         !ch.IsAffected( Affect.AFFECT_STONESKIN ) )
                 {
                     ch.SetAffBit( Affect.AFFECT_STONESKIN );
@@ -2090,7 +2090,7 @@ namespace MUDEngine
                     continue;
                 }
 
-                if (ch.IsAffected(Affect.AFFECT_BLIND) || (ch.IsNPC() && ch._mobIndexData.ShopData))
+                if (ch.IsAffected(Affect.AFFECT_BLIND) || (ch.IsNPC() && ch._mobTemplate.ShopData))
                 {
                     continue;
                 }

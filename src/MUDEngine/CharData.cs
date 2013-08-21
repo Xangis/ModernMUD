@@ -54,7 +54,7 @@ namespace MUDEngine
         public MobSpecial _deathFun;
         public string _deathFunName;
         // TODO: Save this as an index number so we can reconnect at load.
-        public MobTemplate _mobIndexData;
+        public MobTemplate _mobTemplate;
         // Not saved, handled at runtime.
         [XmlIgnore]
         public ChatterBot _chatterBot;
@@ -3218,7 +3218,7 @@ namespace MUDEngine
             string buf;
             int addHp;
 
-            ch.SendText( "&+WYou raise a level!&n\r\n" );
+            ch.SendText( "&+WYou gain a level!&n\r\n" );
 
             /* Knock down a level of exp so they don't spamlevel. */
             ch._experiencePoints -= ExperienceTable.Table[ ch._level ].LevelExperience;
@@ -3878,7 +3878,7 @@ namespace MUDEngine
                 // Clear modifiers.
                 if (ch.IsNPC())
                 {
-                    --ch._mobIndexData.NumActive;
+                    --ch._mobTemplate.NumActive;
                 }
                 else
                 {
@@ -6624,7 +6624,7 @@ namespace MUDEngine
 
             foreach (CharData ikeeper in _inRoom.People)
             {
-                if (ikeeper.IsNPC() && (pShop = ikeeper._mobIndexData.ShopData)
+                if (ikeeper.IsNPC() && (pShop = ikeeper._mobTemplate.ShopData)
                         && (String.IsNullOrEmpty(argument) || MUDString.NameContainedIn(argument, ikeeper._name)))
                 {
                     keeper = ikeeper;
@@ -6858,7 +6858,7 @@ namespace MUDEngine
             foreach (QuestTemplate it in QuestTemplate.QuestList)
             {
                 quest = it;
-                if (quest.IndexNumber == victim._mobIndexData.IndexNumber)
+                if (quest.IndexNumber == victim._mobTemplate.IndexNumber)
                 {
                     string buf = String.Format("{0}&n has quest data.", victim._shortDescription);
                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);

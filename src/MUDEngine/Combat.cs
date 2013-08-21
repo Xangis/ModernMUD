@@ -75,7 +75,7 @@ namespace MUDEngine
             {
                 /* If ch is more than 2 sizes smaller it's too small. */
                 if ((ch._size - 2) > victim._size && victim._position >= Position.stunned
-                        && !(ch.IsNPC() && ch._mobIndexData.IndexNumber == 10165))
+                        && !(ch.IsNPC() && ch._mobTemplate.IndexNumber == 10165))
                 {
                     ch.SendText("Such tiny beings evade your skills.\r\n");
                     return false;
@@ -266,8 +266,8 @@ namespace MUDEngine
             }
 
             // HORRIBLE HORRIBLE! We've got index numbers hard-coded.  TODO: FIXME: BUG: Get rid of this!
-            if( ch.IsNPC() && ch._mobIndexData != null && ( ch._mobIndexData.IndexNumber == 9316 ||
-                   ch._mobIndexData.IndexNumber == 9748 ) && MUDMath.NumberPercent() < 20 )
+            if( ch.IsNPC() && ch._mobTemplate != null && ( ch._mobTemplate.IndexNumber == 9316 ||
+                   ch._mobTemplate.IndexNumber == 9748 ) && MUDMath.NumberPercent() < 20 )
             {
                 CheckShout( ch, victim );
             }
@@ -2784,7 +2784,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if (ch.IsNPC() && ch._mobIndexData.ShopData
+                    if (ch.IsNPC() && ch._mobTemplate.ShopData
                             && obj.WearLocation == ObjTemplate.WearLocation.none)
                     {
                         obj.RemoveFromChar();
@@ -2931,9 +2931,9 @@ namespace MUDEngine
             }
             if( ch != victim )
             {
-                if( victim.IsNPC() && victim._mobIndexData.DeathFun.Count > 0 )
+                if( victim.IsNPC() && victim._mobTemplate.DeathFun.Count > 0 )
                 {
-                    victim._mobIndexData.DeathFun[0].SpecFunction( victim, MobFun.PROC_NORMAL );
+                    victim._mobTemplate.DeathFun[0].SpecFunction( victim, MobFun.PROC_NORMAL );
                 }
                 //        prog_death_trigger( victim );
             }
@@ -2993,7 +2993,7 @@ namespace MUDEngine
 
             if( victim.IsNPC() )
             {
-                victim._mobIndexData.NumberKilled++;
+                victim._mobTemplate.NumberKilled++;
                 // This may invalidate the char list.
                 CharData.ExtractChar( victim, true );
                 return;
@@ -3369,7 +3369,7 @@ namespace MUDEngine
                 }
 
                 // 50% penalty for killing shopkeepers
-                if( victim._mobIndexData.ShopData != null )
+                if( victim._mobTemplate.ShopData != null )
                     percent = percent / 2;
 
                 // No bonus for special function #1 because they get that by having a class.
@@ -4038,7 +4038,7 @@ namespace MUDEngine
                 maxlev = Limits.MAX_LEVEL;
             }
 
-            int indexNumber = victim._mobIndexData.IndexNumber;
+            int indexNumber = victim._mobTemplate.IndexNumber;
             if( indexNumber == 0 )
             {
                 Log.Error( "Mobile without index number in CheckTrophy!", 0 );
@@ -4460,10 +4460,10 @@ namespace MUDEngine
             string buf;
             CharData minion;
 
-            if( !ch.IsNPC() || victim.IsNPC() || !ch._mobIndexData )
+            if( !ch.IsNPC() || victim.IsNPC() || !ch._mobTemplate )
                 return false;
 
-            switch( ch._mobIndexData.IndexNumber )
+            switch( ch._mobTemplate.IndexNumber )
             {
                 case 9316:
                     buf = String.Format( "Denizens of the Fire Plane, come slay {0}!",
@@ -4486,7 +4486,7 @@ namespace MUDEngine
                 /* Minion must be a NPC from the right plane and on that plane */
                 if( !minion.IsNPC()
                         || minion._inRoom.Area != ch._inRoom.Area
-                        || minion._mobIndexData.Area != ch._inRoom.Area )
+                        || minion._mobTemplate.Area != ch._inRoom.Area )
                     continue;
 
                 /* This is a ranged call to start_grudge */
@@ -4506,7 +4506,7 @@ namespace MUDEngine
                 return false;
             for( i = 0; list[ i ] > 0; i++ )
             {
-                if( list[ i ] == ch._mobIndexData.IndexNumber )
+                if( list[ i ] == ch._mobTemplate.IndexNumber )
                     return true;
             }
             return false;

@@ -632,7 +632,7 @@ namespace MUDEngine
 
             CharData mob = new CharData();
 
-            mob._mobIndexData = mobTemplate;
+            mob._mobTemplate = mobTemplate;
             mob._followers = null;
             mob._name = mobTemplate.PlayerName;
             mob._shortDescription = mobTemplate.ShortDescription;

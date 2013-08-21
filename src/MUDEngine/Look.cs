@@ -292,8 +292,8 @@ namespace MUDEngine
 
             // Show the player's description.
             if (((!ch.IsNPC() && victim._position == Position.standing)
-                    || (victim.IsNPC() && victim._mobIndexData != null
-                        && victim._position == victim._mobIndexData.DefaultPosition))
+                    || (victim.IsNPC() && victim._mobTemplate != null
+                        && victim._position == victim._mobTemplate.DefaultPosition))
                     && (!String.IsNullOrEmpty(victim._fullDescription)) && !victim._riding)
             {
                 // Added long description does not have \r\n removed.  We may want to.

@@ -367,8 +367,8 @@ namespace MUDEngine
                     if( channel == TalkChannel.shout || channel == TalkChannel.yell )
                     {
                         // TODO: BUG: FIXME: Get rid of this hard-coded mob index number crap!
-                        if( ( ch.IsNPC() && ( ch._mobIndexData.IndexNumber == 9316
-                                  || ch._mobIndexData.IndexNumber == 9748 ) ) || (!targetChar.IsNPC() && targetChar.HasActBit(PC.PLAYER_SHOUT)))
+                        if( ( ch.IsNPC() && ( ch._mobTemplate.IndexNumber == 9316
+                                  || ch._mobTemplate.IndexNumber == 9748 ) ) || (!targetChar.IsNPC() && targetChar.HasActBit(PC.PLAYER_SHOUT)))
                         {
                             // Add foreign language filter
                             if( !ch.IsNPC() )
@@ -669,7 +669,7 @@ namespace MUDEngine
                 }
                 if( numRead == 0 )
                 {
-                    Log.Trace( "EOF encountered on read." );
+                    Log.Trace( "EOF found on read." );
                     return false;
                 }
                 Log.Error("Unknown error in SocketConnection.ReadFromSocket(): ");

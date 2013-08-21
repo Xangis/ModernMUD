@@ -378,7 +378,7 @@ namespace MUDEngine
                     mob.SetActBit( MobTemplate.ACT_HUNTER );
                 if (mob.HasActBit(MobTemplate.ACT_SENTINEL))
                     mob.RemoveActBit(MobTemplate.ACT_SENTINEL);
-                mob._mobIndexData.AddSpecFun( "spec_justice_guard" );
+                mob._mobTemplate.AddSpecFun( "spec_justice_guard" );
                 Combat.StartGrudge( mob, ch, false );
                 ch._inRoom.Area.NumDefendersDispatched++;
             }
@@ -399,7 +399,7 @@ namespace MUDEngine
                 if (mob.HasActBit(MobTemplate.ACT_SENTINEL))
                     mob.RemoveActBit(MobTemplate.ACT_SENTINEL);
             mob.SetAffBit( Affect.AFFECT_JUSTICE_TRACKER );
-            mob._mobIndexData.AddSpecFun( "spec_justice_guard" );
+            mob._mobTemplate.AddSpecFun( "spec_justice_guard" );
             Combat.StartGrudge( mob, ch, false );
 
             return;

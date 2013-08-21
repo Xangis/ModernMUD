@@ -3633,7 +3633,7 @@ namespace MUDEngine
 
             foreach (CharData ikeeper in ch._inRoom.People)
             {
-                if (ikeeper.IsNPC() && (ikeeper._mobIndexData.ShopData))
+                if (ikeeper.IsNPC() && (ikeeper._mobTemplate.ShopData))
                 {
                     keeper = ikeeper;
                     break;
@@ -3647,28 +3647,28 @@ namespace MUDEngine
             }
 
             string text = String.Format("Keeper: {0}.  Name: {1}&n\r\n",
-                                       keeper._mobIndexData.IndexNumber,
+                                       keeper._mobTemplate.IndexNumber,
                                        keeper._shortDescription);
 
             string buf1 = String.Format("Profit Buy: {0}.  Profit Sell: {1}.\r\n",
-                                        keeper._mobIndexData.ShopData.PercentBuy,
-                                        keeper._mobIndexData.ShopData.PercentSell);
+                                        keeper._mobTemplate.ShopData.PercentBuy,
+                                        keeper._mobTemplate.ShopData.PercentSell);
             text += buf1;
 
             buf1 = String.Format("Open Hour: {0}.   Close Hour: {1}.\r\n",
-                      keeper._mobIndexData.ShopData.OpenHour,
-                      keeper._mobIndexData.ShopData.CloseHour);
+                      keeper._mobTemplate.ShopData.OpenHour,
+                      keeper._mobTemplate.ShopData.CloseHour);
             text += buf1;
 
             text += "Types of item shop buys: ";
-            foreach (int buytype in keeper._mobIndexData.ShopData.BuyTypes)
+            foreach (int buytype in keeper._mobTemplate.ShopData.BuyTypes)
             {
                 text += String.Format(" {0}", buytype);
             }
             text += ".\r\n";
 
             text += "Permanent items shop sells: \r\n";
-            foreach (int itemforsale in keeper._mobIndexData.ShopData.ItemsForSale)
+            foreach (int itemforsale in keeper._mobTemplate.ShopData.ItemsForSale)
             {
                 text += String.Format(" {0}.\r\n", itemforsale);
             }
@@ -3787,7 +3787,7 @@ namespace MUDEngine
                 foreach (CharData it in Database.CharList)
                 {
                     victim = it;
-                    if (victim._mobIndexData == pMobIndex)
+                    if (victim._mobTemplate == pMobIndex)
                     {
                         break;
                     }
@@ -3811,7 +3811,7 @@ namespace MUDEngine
             buf1 += text;
 
             text = String.Format("IndexNumber: {0}.  Sex: {1}.  Room: {2}.  Load room: {3}.\r\n",
-                      victim.IsNPC() ? victim._mobIndexData.IndexNumber : 0,
+                      victim.IsNPC() ? victim._mobTemplate.IndexNumber : 0,
                       victim._sex,
                       !victim._inRoom ? 0 : victim._inRoom.IndexNumber,
                       victim._loadRoomIndexNumber);
@@ -4009,8 +4009,8 @@ namespace MUDEngine
             else
             {
                 text = String.Format("Start Position: {0} ({1}).\r\n",
-                          Position.PositionString(victim._mobIndexData.DefaultPosition),
-                          victim._mobIndexData.DefaultPosition);
+                          Position.PositionString(victim._mobTemplate.DefaultPosition),
+                          victim._mobTemplate.DefaultPosition);
             }
             buf1 += text;
 
@@ -4024,9 +4024,9 @@ namespace MUDEngine
                 text = String.Format("Mobile has special function {0}.\r\n", StringConversion.MobSpecialString(victim._specFun));
                 buf1 += text;
             }
-            if (victim.IsNPC() && victim._mobIndexData.DeathFun != null && victim._mobIndexData.DeathFun.Count > 0)
+            if (victim.IsNPC() && victim._mobTemplate.DeathFun != null && victim._mobTemplate.DeathFun.Count > 0)
             {
-                text = String.Format("Mobile has death function {0}.\r\n", StringConversion.MobSpecialString(victim._mobIndexData.DeathFun));
+                text = String.Format("Mobile has death function {0}.\r\n", StringConversion.MobSpecialString(victim._mobTemplate.DeathFun));
                 buf1 += text;
             }
 
@@ -4466,13 +4466,13 @@ namespace MUDEngine
                 if (victim.IsNPC()
                         && victim._inRoom
                         && (MUDString.NameContainedIn(str[0], victim._name)
-                             || indexNumber == victim._mobIndexData.IndexNumber))
+                             || indexNumber == victim._mobTemplate.IndexNumber))
                 {
                     ++count;
                     if (count < 150)
                     {
                         text = String.Format("[{0}] {1} [{2}] {3}\r\n",
-                                  MUDString.PadInt(victim._mobIndexData.IndexNumber, 5),
+                                  MUDString.PadInt(victim._mobTemplate.IndexNumber, 5),
                                   MUDString.PadStr(victim._shortDescription, 28),
                                   MUDString.PadInt(victim._inRoom.IndexNumber, 5),
                                   victim._inRoom.Title);
@@ -4832,7 +4832,7 @@ namespace MUDEngine
                     return;
                 }
 
-                CharData clone = Database.CreateMobile(mob._mobIndexData);
+                CharData clone = Database.CreateMobile(mob._mobTemplate);
                 Database.CloneMobile(mob, clone);
 
                 foreach (Object obj2 in mob._carrying)
@@ -5383,7 +5383,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                ch.SendText("Noemote whom?\r\n");
+                ch.SendText("NoEmote whom?\r\n");
                 return;
             }
 
@@ -5409,12 +5409,12 @@ namespace MUDEngine
             {
                 victim.RemoveActBit(PC.PLAYER_NO_EMOTE);
                 ch.SendText("NO_EMOTE removed.\r\n");
-                victim.SendText("You can emote again.\r\n");
+                victim.SendText("You are now allowed to emote.\r\n");
             }
             else
             {
                 victim.SetActBit(PC.PLAYER_NO_EMOTE);
-                victim.SendText("You can't emote!\r\n");
+                victim.SendText("You are no longer allowed to emote!\r\n");
                 ch.SendText("NO_EMOTE set.\r\n");
             }
 
@@ -6755,7 +6755,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._mobIndexData.AddSpecFun(spec[0]);
+                victim._mobTemplate.AddSpecFun(spec[0]);
 
                 ch.SendText("Ok.\r\n");
                 return;
@@ -6769,7 +6769,7 @@ namespace MUDEngine
                     return;
                 }
 
-                if ((victim._mobIndexData.DeathFun = MobSpecial.SpecMobLookup(str[2])) == null)
+                if ((victim._mobTemplate.DeathFun = MobSpecial.SpecMobLookup(str[2])) == null)
                 {
                     ch.SendText("No such death fun.\r\n");
                     return;
@@ -7290,7 +7290,7 @@ namespace MUDEngine
             {
                 if (!person.IsNPC() && person != ch && person._level >= ch._level && MUDString.StringsNotEqual(ch._name, "Xangis"))
                 {
-                    ch.SendText("Your superior is in this room, no rsetting now.\r\n");
+                    ch.SendText("Your superior is in this room, no setting the room now.\r\n");
                     return;
                 }
             }
@@ -7361,10 +7361,8 @@ namespace MUDEngine
                 return;
             }
 
-            /*
-            * Generate usage message.
-            */
-            CommandType.Interpret(ch, "rset");
+            // Generate usage message.
+            CommandType.Interpret(ch, "set room");
             return;
         }
 
@@ -13358,7 +13356,7 @@ namespace MUDEngine
                 }
 
                 ch.SpendCash(((100 * pet._level) * pet._level));
-                pet = Database.CreateMobile(pet._mobIndexData);
+                pet = Database.CreateMobile(pet._mobTemplate);
                 pet.SetActBit(MobTemplate.ACT_PET);
                 pet.SetActBit(MobTemplate.ACT_NOEXP);
                 pet.SetAffBit(Affect.AFFECT_CHARM);
@@ -13406,9 +13404,9 @@ namespace MUDEngine
                 }
             }
 
-            if (keeper._mobIndexData.ShopData.ItemsForSale.Count != 0)
+            if (keeper._mobTemplate.ShopData.ItemsForSale.Count != 0)
             {
-                foreach (int item in keeper._mobIndexData.ShopData.ItemsForSale)
+                foreach (int item in keeper._mobTemplate.ShopData.ItemsForSale)
                 {
                     pObj = Database.GetObjTemplate(item);
                     if (!pObj)
@@ -13441,7 +13439,7 @@ namespace MUDEngine
             if (cost < obj.Cost)
             {
                 Log.Error("Shopkeeper with index number {0} sells for less than 100 percent of value.\r\n",
-                          keeper._mobIndexData.IndexNumber);
+                          keeper._mobTemplate.IndexNumber);
                 cost = obj.Cost;
             }
 
@@ -13611,8 +13609,8 @@ namespace MUDEngine
                 if (ch.IsImmortal())
                 {
                     buf1 = String.Format("Shop sell profit: {0} percent    Shop buy profit: {1} percent\r\n",
-                              keeper._mobIndexData.ShopData.PercentSell,
-                              keeper._mobIndexData.ShopData.PercentBuy);
+                              keeper._mobTemplate.ShopData.PercentSell,
+                              keeper._mobTemplate.ShopData.PercentBuy);
                 }
 
                 bool found = false;
@@ -13640,11 +13638,11 @@ namespace MUDEngine
                     }
                 }
 
-                if (keeper._mobIndexData.ShopData.ItemsForSale.Count != 0)
+                if (keeper._mobTemplate.ShopData.ItemsForSale.Count != 0)
                 {
                     bool fListed = false;
                     int count = 0;
-                    foreach (int item in keeper._mobIndexData.ShopData.ItemsForSale)
+                    foreach (int item in keeper._mobTemplate.ShopData.ItemsForSale)
                     {
                         pObj = Database.GetObjTemplate(item);
                         if (!pObj)
@@ -13749,7 +13747,7 @@ namespace MUDEngine
             if (cost > obj.Cost)
             {
                 Log.Error("Shopkeeper with index number {0} buys for more than 100 percent of value.\r\n",
-                     keeper._mobIndexData.IndexNumber);
+                     keeper._mobTemplate.IndexNumber);
                 cost = obj.Cost;
             }
 
@@ -16633,7 +16631,7 @@ namespace MUDEngine
             foreach (QuestTemplate it in QuestTemplate.QuestList)
             {
                 quest = it;
-                if (quest.Messages == null || (quest.IndexNumber != victim._mobIndexData.IndexNumber))
+                if (quest.Messages == null || (quest.IndexNumber != victim._mobTemplate.IndexNumber))
                     continue;
                 foreach (TalkData message in quest.Messages)
                 {
@@ -17218,7 +17216,7 @@ namespace MUDEngine
             {
                 bool isquest = (ch.IsImmortal() && !MUDString.StringsNotEqual(text, "quest")) ? true : false;
 
-                if (it.Messages == null || (it.IndexNumber != victim._mobIndexData.IndexNumber))
+                if (it.Messages == null || (it.IndexNumber != victim._mobTemplate.IndexNumber))
                     continue;
                 foreach (TalkData message in it.Messages)
                 {
@@ -20523,113 +20521,118 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            Exit pexit;
+            Exit exit;
             int door;
 
-            bool fAuto = (str.Length != 0 && !MUDString.StringsNotEqual(str[0], "auto"));
+            bool auto = (str.Length != 0 && !MUDString.StringsNotEqual(str[0], "auto"));
 
             if (ch.IsBlind() || !ch._inRoom)
-                return;
-
-            string buf;
-            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED && fAuto)
             {
-                buf = "<exits>";
+                return;
+            }
+
+            string text;
+            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED && auto)
+            {
+                text = "<exits>";
             }
             else
             {
-                buf = fAuto ? "&+cExits: &n" : "&+cObvious exits:&n\r\n";
+                text = auto ? "&+cExits: &n" : "&+cVisible exits:&n\r\n";
             }
 
             bool found = false;
 
-            // Xangis - made it show the direction with an asterisk if it
+            // Show the direction with an asterisk if it
             // has a closed door, and in exits command it shows up as a
-            // closed <whatever>.  It was silly not to show that a room had
-            // doors and such.
+            // closed <whatever>.
             for (door = 0; door < Limits.MAX_DIRECTION; ++door)
             {
-                pexit = ch._inRoom.ExitData[door];
-                if (pexit && pexit.TargetRoom)
+                exit = ch._inRoom.ExitData[door];
+                if (exit && exit.TargetRoom)
                 {
-                    if (pexit.HasFlag(Exit.ExitFlag.secret))
+                    if (exit.HasFlag(Exit.ExitFlag.secret))
                     {
                         /* Mortals do not see secret exits. */
                         if (ch._level < Limits.LEVEL_AVATAR)
                             continue;
                         /* Mark secret exits for immortals. */
-                        buf += "&+LS&n&+c";
+                        text += "&+LS&n&+c";
                     }
-                    if (pexit.HasFlag(Exit.ExitFlag.blocked))
+                    if (exit.HasFlag(Exit.ExitFlag.blocked))
                     {
                         /* Mortals do not see secret exits. */
                         if (ch._level < Limits.LEVEL_AVATAR)
                             continue;
                         /* Mark secret exits for immortals. */
-                        buf += "&+yB&n&+c";
+                        text += "&+yB&n&+c";
                     }
                     found = true;
-                    if (fAuto)
+                    if (auto)
                     {
-                        if (pexit.HasFlag(Exit.ExitFlag.walled) && pexit.HasFlag(Exit.ExitFlag.illusion))
+                        if (exit.HasFlag(Exit.ExitFlag.walled) && exit.HasFlag(Exit.ExitFlag.illusion))
                             continue;
-                        if (pexit.HasFlag(Exit.ExitFlag.closed))
-                            buf += "&n&+y#&n&+c";
-                        // Don't show exits to impassable rooms - Xangis
-                        // show a yellow exclamation point to those with holylight on though
-                        if (pexit.TargetRoom && pexit.TargetRoom.TerrainType == TerrainType.underground_impassable)
+                        if (exit.HasFlag(Exit.ExitFlag.closed))
+                            text += "&n&+y#&n&+c";
+                        // Don't show exits to impassable rooms.
+                        // Show a yellow exclamation point to those with holylight on though.
+                        if (exit.TargetRoom && exit.TargetRoom.TerrainType == TerrainType.underground_impassable)
                         {
                             if (!ch.HasActBit(PC.PLAYER_GODMODE))
+                            {
                                 continue;
-                            buf += "&+Y!&n";
+                            }
+                            text += "&+Y!&n";
                         }
-                        buf += Exit.DirectionName[door];
-                        buf += " ";
+                        text += Exit.DirectionName[door];
+                        text += " ";
                     }
                     else
                     {
-                        if (pexit.HasFlag(Exit.ExitFlag.walled))
+                        if (exit.HasFlag(Exit.ExitFlag.walled))
                         {
-                            buf += String.Format("&n{0} - (Walled)&n\r\n",
+                            text += String.Format("&n{0} - (Walled)&n\r\n",
                                 MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5));
                         }
-                        else if (!pexit.HasFlag(Exit.ExitFlag.closed))
+                        else if (!exit.HasFlag(Exit.ExitFlag.closed))
                         {
                             // gods with holylight on can go to useless exits.
-                            if (pexit.TargetRoom && pexit.TargetRoom.TerrainType == TerrainType.underground_impassable)
+                            if (exit.TargetRoom && exit.TargetRoom.TerrainType == TerrainType.underground_impassable)
                             {
                                 if (!ch.HasActBit(PC.PLAYER_GODMODE))
+                                {
                                     continue;
-                                buf += "&+Y!&n";
+                                }
+                                text += "&+Y!&n";
                             }
-                            buf += String.Format("&n {0} - {1}&n\r\n",
-                                      MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5),
-                                      (!ch.HasInnate(Race.RACE_ULTRAVISION)
-                                        && Room.GetRoom(pexit.IndexNumber).IsDark())
-                                      ? "&nToo dark to tell" : pexit.TargetRoom.Title);
+                            text += String.Format("&n {0} - {1}&n\r\n", MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5),
+                                    (!ch.HasInnate(Race.RACE_ULTRAVISION) && Room.GetRoom(exit.IndexNumber).IsDark())
+                                      ? "&nToo dark to tell" : exit.TargetRoom.Title);
                         }
                         else
                         {
-                            buf += String.Format("&+y#&n{0} - Closed {1}\r\n",
-                                MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5), pexit.Keyword);
+                            text += String.Format("&+y#&n{0} - Closed {1}\r\n",
+                                MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5), exit.Keyword);
                         }
                     }
                 }
             }
 
             if (!found)
-                buf += fAuto ? " none" : "&nNone.\r\n";
-
-            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED && fAuto)
             {
-                buf += "&n</exits>";
-            }
-            else if (fAuto)
-            {
-                buf += "&n\r\n";
+                text += auto ? " none" : "&nNone.\r\n";
             }
 
-            ch.SendText(buf);
+            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED && auto)
+            {
+                text += "&n</exits>";
+            }
+            else if (auto)
+            {
+                text += "&n\r\n";
+            }
+
+            ch.SendText(text);
             return;
         }
 
@@ -21001,7 +21004,7 @@ namespace MUDEngine
             string text = String.Format(
                 "&nIt is {0} o'clock {1}, Day of {2}, {3}{4} the Month of {5}.\r\n&nThe game year is {6}.\r\n",
                 (Database.SystemData.GameHour % 12 == 0) ? 12 : Database.SystemData.GameHour % 12,
-                Database.SystemData.GameHour >= 12 ? "pm" : "am",
+                Database.SystemData.GameHour >= 12 ? "PM" : "AM",
                 Database.SystemData.DayName[day % Limits.DAYS_PER_WEEK],
                 day, suf,
                 Database.SystemData.MonthName[Database.SystemData.GameMonth],
@@ -23618,9 +23621,9 @@ namespace MUDEngine
                 gch = it;
                 if (gch._master == ch
                         && gch.IsNPC()
-                        && (gch._mobIndexData != null)
-                        && ((gch._mobIndexData.IndexNumber == 264 && isAnti)
-                             || (gch._mobIndexData.IndexNumber == 265 && !isAnti)))
+                        && (gch._mobTemplate != null)
+                        && ((gch._mobTemplate.IndexNumber == 264 && isAnti)
+                             || (gch._mobTemplate.IndexNumber == 265 && !isAnti)))
                 {
                     ch.SendText("You already have a mount!\r\n");
                     return;
