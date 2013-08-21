@@ -2899,11 +2899,11 @@ namespace MUDEngine
             Room wasInRoom = ch._inRoom;
             for( door = 0; door < Limits.MAX_DIRECTION; door++ )
             {
-                Exit pexit;
+                Exit exit;
 
-                if( ( pexit = wasInRoom.ExitData[ door ] ) && pexit.TargetRoom && pexit.TargetRoom != wasInRoom )
+                if( ( exit = wasInRoom.ExitData[ door ] ) && exit.TargetRoom && exit.TargetRoom != wasInRoom )
                 {
-                    ch._inRoom = Room.GetRoom(pexit.IndexNumber);
+                    ch._inRoom = Room.GetRoom(exit.IndexNumber);
                     SocketConnection.Act( msg, ch, null, null, SocketConnection.MessageTarget.room );
                 }
             }
@@ -4707,7 +4707,7 @@ namespace MUDEngine
                         }
                     }
                 } //end if
-            } //end paf loop
+            }
             if( isSpell )
             {
                 //normal poison from the spell

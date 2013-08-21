@@ -1053,31 +1053,31 @@ namespace MUDEngine
         /// <summary>
         /// Translate area range values to ranges.
         /// </summary>
-        /// <param name="pArea"></param>
+        /// <param name="area"></param>
         /// <returns></returns>
-        public static string RangeString( Area pArea )
+        public static string RangeString( Area area )
         {
             string text;
 
-            if (pArea == null)
+            if (area == null)
             {
                 return "none";
             }
 
-            if (pArea.MinRecommendedLevel == 0 && pArea.MaxRecommendedLevel == Limits.MAX_LEVEL)
+            if (area.MinRecommendedLevel == 0 && area.MaxRecommendedLevel == Limits.MAX_LEVEL)
             {
                 text = " All ";
             }
             else
             {
-                if (pArea.MinRecommendedLevel == 0 && pArea.MaxRecommendedLevel == 0)
+                if (area.MinRecommendedLevel == 0 && area.MaxRecommendedLevel == 0)
                 {
                     text = "None ";
                 }
                 else
                 {
-                    text = String.Format("{0} {1}", MUDString.PadInt(pArea.MinRecommendedLevel, 2),
-                        MUDString.PadInt(pArea.MaxRecommendedLevel, 2));
+                    text = String.Format("{0} {1}", MUDString.PadInt(area.MinRecommendedLevel, 2),
+                        MUDString.PadInt(area.MaxRecommendedLevel, 2));
                 }
             }
             return text;

@@ -1132,34 +1132,34 @@ namespace MUDEngine
                 if( !ch.IsNPC() )
                     ch.UpdateInnateTimers();
 
-                Affect paf;
+                Affect affect;
                 for( int j = (ch._affected.Count - 1); j >= 0; j-- )
                 {
-                    paf = ch._affected[j];
-                    if( paf.Duration > 0 )
-                        paf.Duration--;
-                    else if( paf.Duration < 0 )
+                    affect = ch._affected[j];
+                    if( affect.Duration > 0 )
+                        affect.Duration--;
+                    else if( affect.Duration < 0 )
                     {
                         // Permanent affect, not on a timer.
                     }
                     else
                     {
-                        if( paf.Type == Affect.AffectType.skill && Skill.SkillList[ paf.Value ].WearOffMessage.Length > 0 )
+                        if( affect.Type == Affect.AffectType.skill && Skill.SkillList[ affect.Value ].WearOffMessage.Length > 0 )
                         {
-                            ch.SendText(Skill.SkillList[paf.Value].WearOffMessage);
+                            ch.SendText(Skill.SkillList[affect.Value].WearOffMessage);
                             ch.SendText( "\r\n" );
 
-                            if( paf.Value == "vampiric bite" )
+                            if( affect.Value == "vampiric bite" )
                                 ch.SetPermRace( Race.RACE_VAMPIRE );
                         }
-                        else if (paf.Type == Affect.AffectType.spell && Spell.SpellList[paf.Value].MessageWearOff.Length > 0)
+                        else if (affect.Type == Affect.AffectType.spell && Spell.SpellList[affect.Value].MessageWearOff.Length > 0)
                         {
-                            ch.SendText( Spell.SpellList[ paf.Value ].MessageWearOff );
+                            ch.SendText( Spell.SpellList[ affect.Value ].MessageWearOff );
                             ch.SendText( "\r\n" );
                         }
-                        else if( paf.Type == Affect.AffectType.song && Database.SongList[ paf.Value ]._messageWearOff.Length > 0 )
+                        else if( affect.Type == Affect.AffectType.song && Database.SongList[ affect.Value ]._messageWearOff.Length > 0 )
                         {
-                            ch.SendText( Database.SongList[ paf.Value ]._messageWearOff );
+                            ch.SendText( Database.SongList[ affect.Value ]._messageWearOff );
                             ch.SendText( "\r\n" );
                         }
 
@@ -1656,20 +1656,20 @@ namespace MUDEngine
         /// <summary>
         /// Check for falling. Called from room update and movement.
         /// </summary>
-        /// <param name="pRoomIndex"></param>
+        /// <param name="room"></param>
         /// <param name="target"></param>
         /// <param name="ch"></param>
-        public static void CheckFall( Room pRoomIndex, Room target, CharData ch )
+        public static void CheckFall( Room room, Room target, CharData ch )
         {
             int chance;
 
-            if( !pRoomIndex || !target || !ch )
+            if( !room || !target || !ch )
                 return;
-            if( pRoomIndex.TerrainType != TerrainType.air &&
-                    pRoomIndex.TerrainType != TerrainType.plane_of_air &&
-                    pRoomIndex.TerrainType != TerrainType.underground_no_ground )
+            if( room.TerrainType != TerrainType.air &&
+                    room.TerrainType != TerrainType.plane_of_air &&
+                    room.TerrainType != TerrainType.underground_no_ground )
             {
-                if( MUDMath.NumberPercent() > pRoomIndex.FallChance )
+                if( MUDMath.NumberPercent() > room.FallChance )
                     return;
             }
 

@@ -740,9 +740,9 @@ namespace MUDEngine
         {
             int mod = 0;
 
-            foreach (Affect paf in _affected)
+            foreach (Affect affect in _affected)
             {
-                foreach (AffectApplyType apply in paf.Modifiers)
+                foreach (AffectApplyType apply in affect.Modifiers)
                 {
                     if (apply.Location == Affect.Apply.race)
                     {
@@ -783,16 +783,17 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetRace()
         {
-            if( !IsAffected( Affect.AFFECT_CHANGE_SELF )
-                    && !IsAffected( Affect.AFFECT_POLYMORPH ) )
+            if (!IsAffected(Affect.AFFECT_CHANGE_SELF) && !IsAffected(Affect.AFFECT_POLYMORPH))
+            {
                 return _race;
+            }
 
             // Check for change self
-            foreach (Affect paf in _affected)
+            foreach (Affect affect in _affected)
             {
-                if (paf.HasBitvector(Affect.AFFECT_CHANGE_SELF) || paf.HasBitvector(Affect.AFFECT_POLYMORPH))
+                if (affect.HasBitvector(Affect.AFFECT_CHANGE_SELF) || affect.HasBitvector(Affect.AFFECT_POLYMORPH))
                 {
-                    foreach (AffectApplyType apply in paf.Modifiers)
+                    foreach (AffectApplyType apply in affect.Modifiers)
                     {
                         return _race - apply.Amount;
                     }
@@ -1717,7 +1718,7 @@ namespace MUDEngine
         {
             if( targetRoom == null )
             {
-                Log.Error( "AddToRoom(): null pRoomIndex.", 0 );
+                Log.Error( "AddToRoom(): null target room.", 0 );
                 return;
             }
 
@@ -2631,16 +2632,20 @@ namespace MUDEngine
             obj.WearLocation = ObjTemplate.WearLocation.none;
             _carryNumber++;
 
-            foreach( Affect paf in obj.ObjIndexData.Affected )
-                ApplyAffectModifiers( paf, false );
-            foreach (Affect paf in obj.Affected)
-                ApplyAffectModifiers( paf, false );
+            foreach (Affect affect in obj.ObjIndexData.Affected)
+            {
+                ApplyAffectModifiers(affect, false);
+            }
+            foreach (Affect affect in obj.Affected)
+            {
+                ApplyAffectModifiers(affect, false);
+            }
 
-            if( obj.ItemType == ObjTemplate.ObjectType.light
-                    && obj.Values[ 2 ] != 0
-                    && _inRoom
-                    && _inRoom.Light > 0 )
+            if (obj.ItemType == ObjTemplate.ObjectType.light
+                    && obj.Values[2] != 0 && _inRoom && _inRoom.Light > 0)
+            {
                 --_inRoom.Light;
+            }
 
             for( aff = 0; aff < Limits.NUM_AFFECT_VECTORS; aff++ )
             {
@@ -4516,15 +4521,20 @@ namespace MUDEngine
             obj.WearLocation = iWear;
             _carryNumber--;
 
-            foreach( Affect paf in obj.ObjIndexData.Affected )
-                ApplyAffectModifiers( paf, true );
-            foreach (Affect paf in obj.Affected)
-                ApplyAffectModifiers( paf, true );
+            foreach (Affect affect in obj.ObjIndexData.Affected)
+            {
+                ApplyAffectModifiers(affect, true);
+            }
+            foreach (Affect affect in obj.Affected)
+            {
+                ApplyAffectModifiers(affect, true);
+            }
 
-            if( obj.ItemType == ObjTemplate.ObjectType.light
-                    && obj.Values[ 2 ] != 0
-                    && _inRoom )
+            if (obj.ItemType == ObjTemplate.ObjectType.light
+                    && obj.Values[2] != 0 && _inRoom)
+            {
                 ++_inRoom.Light;
+            }
 
             for( aff = 0; aff < Limits.NUM_AFFECT_VECTORS; aff++ )
                 _affectedBy[ aff ] = _affectedBy[ aff ] | obj.AffectedBy[ aff ];
@@ -4675,37 +4685,37 @@ namespace MUDEngine
                 }
                 if (obj.ObjIndexData)
                 {
-                    foreach (Affect paf in obj.ObjIndexData.Affected)
+                    foreach (Affect affect in obj.ObjIndexData.Affected)
                     {
                         for (count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count)
                         {
-                            Macros.SetBit(ref _affectedBy[count], paf.BitVectors[count]);
+                            Macros.SetBit(ref _affectedBy[count], affect.BitVectors[count]);
                         }
-                        ApplyAffectModifiers(paf);
+                        ApplyAffectModifiers(affect);
                     }
                 }
                 else
                 {
                     Log.Trace("Object " + obj.Name + " has no index data.  Origin zone may not be loaded.");
                 }
-                foreach (Affect paf in obj.Affected)
+                foreach (Affect affect in obj.Affected)
                 {
                     for (count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count)
                     {
-                        Macros.SetBit(ref _affectedBy[count], paf.BitVectors[count]);
+                        Macros.SetBit(ref _affectedBy[count], affect.BitVectors[count]);
                     }
-                    ApplyAffectModifiers(paf);
+                    ApplyAffectModifiers(affect);
                 }
             }
-            foreach (Affect paf in _affected)
+            foreach (Affect affect in _affected)
             {
-                ApplyAffectModifiers(paf);
+                ApplyAffectModifiers(affect);
             } //end for
         }
 
-        public void ApplyAffectModifiers(Affect paf)
+        public void ApplyAffectModifiers(Affect affect)
         {
-            foreach (AffectApplyType apply in paf.Modifiers)
+            foreach (AffectApplyType apply in affect.Modifiers)
             {
                 int mod = apply.Amount;
                 switch (apply.Location)
@@ -5143,9 +5153,9 @@ namespace MUDEngine
             {
                 return true;
             }
-            foreach (Affect paf in _affected)
+            foreach (Affect affect in _affected)
             {
-                if (paf.HasBitvector(bvect))
+                if (affect.HasBitvector(bvect))
                 {
                     return true;
                 }

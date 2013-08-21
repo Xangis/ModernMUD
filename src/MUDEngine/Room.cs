@@ -449,9 +449,9 @@ namespace MUDEngine
             // Added for debugging.
             string text = String.Empty;
 
-            foreach( Reset pReset in Area.Resets )
+            foreach( Reset reset in Area.Resets )
             {
-                if (!pReset.IsRoomReset(this))
+                if (!reset.IsRoomReset(this))
                 {
                     continue;
                 }
@@ -461,23 +461,23 @@ namespace MUDEngine
                 ObjTemplate objTemplate;
                 Room room;
 
-                switch( pReset.Command )
+                switch( reset.Command )
                 {
                     default:
-                        Log.Error( "RoomIndex.Reset(): bad command %c.", pReset.Command );
+                        Log.Error( "RoomIndex.Reset(): bad command %c.", reset.Command );
                         break;
                     case 'M':
-                        mobIndex = Database.GetMobTemplate( pReset.Arg1 );
+                        mobIndex = Database.GetMobTemplate( reset.Arg1 );
                         if( !mobIndex )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'M': bad mob index number {0} for arg1.", pReset.Arg1 );
+                            Log.Error( "RoomIndex.Reset(): 'M': bad mob index number {0} for arg1.", reset.Arg1 );
                             continue;
                         }
 
-                        room = GetRoom( pReset.Arg3 );
+                        room = GetRoom( reset.Arg3 );
                         if( !room )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'R': bad room index number {0} for arg3.", pReset.Arg3 );
+                            Log.Error( "RoomIndex.Reset(): 'R': bad room index number {0} for arg3.", reset.Arg3 );
                             continue;
                         }
 
@@ -491,7 +491,7 @@ namespace MUDEngine
 
                         level = Macros.Range( 0, mobIndex.Level - 2, Limits.LEVEL_HERO );
 
-                        if( mobIndex.NumActive >= pReset.Arg2 )
+                        if( mobIndex.NumActive >= reset.Arg2 )
                         {
                             last = false;
                             break;
@@ -514,7 +514,7 @@ namespace MUDEngine
                         mobile._loadRoomIndexNumber = room.IndexNumber;
 
                         // This code makes mounts make their mounters mount them.
-                        if( pReset.Arg0 == -1 && lastMob )
+                        if( reset.Arg0 == -1 && lastMob )
                         {
                             // If set to be mounted.
                             String[] keywords = mobile._name.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
@@ -528,17 +528,17 @@ namespace MUDEngine
                         break;
 
                     case 'F':
-                        mobIndex = Database.GetMobTemplate( pReset.Arg1 );
+                        mobIndex = Database.GetMobTemplate( reset.Arg1 );
                         if( !mobIndex )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'F': bad mob index number {0} for arg1.", pReset.Arg1 );
+                            Log.Error( "RoomIndex.Reset(): 'F': bad mob index number {0} for arg1.", reset.Arg1 );
                             continue;
                         }
 
-                        room = GetRoom( pReset.Arg3 );
+                        room = GetRoom( reset.Arg3 );
                         if( !room )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'F': bad room index number {0} for arg3.", pReset.Arg3 );
+                            Log.Error( "RoomIndex.Reset(): 'F': bad room index number {0} for arg3.", reset.Arg3 );
                             continue;
                         }
 
@@ -551,7 +551,7 @@ namespace MUDEngine
 
                         level = Macros.Range( 0, mobIndex.Level - 2, Limits.LEVEL_HERO );
 
-                        if( mobIndex.NumActive >= pReset.Arg2 )
+                        if( mobIndex.NumActive >= reset.Arg2 )
                         {
                             last = false;
                             break;
@@ -586,17 +586,17 @@ namespace MUDEngine
                             last = false;
                             continue;
                         }
-                        objTemplate = Database.GetObjTemplate( pReset.Arg1 );
+                        objTemplate = Database.GetObjTemplate( reset.Arg1 );
                         if( !objTemplate )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'O': bad obj index number {0} for arg1.", pReset.Arg1 );
+                            Log.Error( "RoomIndex.Reset(): 'O': bad obj index number {0} for arg1.", reset.Arg1 );
                             continue;
                         }
 
-                        room = GetRoom( pReset.Arg3 );
+                        room = GetRoom( reset.Arg3 );
                         if( !room )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'O': bad room index number {0} for arg3.", pReset.Arg3 );
+                            Log.Error( "RoomIndex.Reset(): 'O': bad room index number {0} for arg3.", reset.Arg3 );
                             continue;
                         }
 
@@ -621,7 +621,7 @@ namespace MUDEngine
                         }
                         else
                         {
-                            Log.Error( "RoomIndex.Reset(): Unable to Database.CreateObject {0}", pReset.Arg3 );
+                            Log.Error( "RoomIndex.Reset(): Unable to Database.CreateObject {0}", reset.Arg3 );
                         }
                         break;
 
@@ -631,17 +631,17 @@ namespace MUDEngine
                             last = false;
                             continue;
                         }
-                        objTemplate = Database.GetObjTemplate( pReset.Arg1 );
+                        objTemplate = Database.GetObjTemplate( reset.Arg1 );
                         if( !objTemplate )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'P': bad obj index number {0} for arg3.", pReset.Arg1 );
+                            Log.Error( "RoomIndex.Reset(): 'P': bad obj index number {0} for arg3.", reset.Arg1 );
                             continue;
                         }
 
-                        ObjTemplate targetObjTemplate = Database.GetObjTemplate( pReset.Arg3 );
+                        ObjTemplate targetObjTemplate = Database.GetObjTemplate( reset.Arg3 );
                         if( !targetObjTemplate )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'P': bad obj index number {0} for arg3.", pReset.Arg3 );
+                            Log.Error( "RoomIndex.Reset(): 'P': bad obj index number {0} for arg3.", reset.Arg3 );
                             continue;
                         }
 
@@ -676,10 +676,10 @@ namespace MUDEngine
                             last = false;
                             continue;
                         }
-                        objTemplate = Database.GetObjTemplate( pReset.Arg1 );
+                        objTemplate = Database.GetObjTemplate( reset.Arg1 );
                         if( !objTemplate )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'E' or 'G': bad obj index number {0} for arg1.", pReset.Arg1 );
+                            Log.Error( "RoomIndex.Reset(): 'E' or 'G': bad obj index number {0} for arg1.", reset.Arg1 );
                             continue;
                         }
 
@@ -688,7 +688,7 @@ namespace MUDEngine
 
                         if( !lastMob )
                         {
-                            Log.Error( "RoomIndex.Reset(): 'E' or 'G': null mob for index number {0} for arg1.", pReset.Arg1 );
+                            Log.Error( "RoomIndex.Reset(): 'E' or 'G': null mob for index number {0} for arg1.", reset.Arg1 );
                             last = false;
                             break;
                         }
@@ -733,7 +733,7 @@ namespace MUDEngine
                                     olevel = MUDMath.NumberRange( 5, 15 );
                                     break;
                                 case ObjTemplate.ObjectType.weapon:
-                                    if( pReset.Command == 'G' )
+                                    if( reset.Command == 'G' )
                                         olevel = MUDMath.NumberRange( 5, 15 );
                                     else
                                         olevel = MUDMath.FuzzyNumber( level );
@@ -741,7 +741,7 @@ namespace MUDEngine
                             }
 
                             obj = Database.CreateObject( objTemplate, olevel );
-                            if( pReset.Command == 'G' )
+                            if( reset.Command == 'G' )
                             {
                                 obj.AddFlag( ObjTemplate.ITEM_INVENTORY );
                             }
@@ -751,24 +751,24 @@ namespace MUDEngine
                             obj = Database.CreateObject( objTemplate, MUDMath.FuzzyNumber( level ) );
                         }
                         obj.ObjToChar( lastMob );
-                        if( pReset.Command == 'E' )
+                        if( reset.Command == 'E' )
                         {
-                            lastMob.EquipObject( ref obj, (ObjTemplate.WearLocation)pReset.Arg3 );
+                            lastMob.EquipObject( ref obj, (ObjTemplate.WearLocation)reset.Arg3 );
                         }
                         last = true;
                         break;
 
                     case 'D':
-                        if( pReset.Arg2 < 0 || pReset.Arg2 >= Limits.MAX_DIRECTION || !( exit = ExitData[ pReset.Arg2 ] )
+                        if( reset.Arg2 < 0 || reset.Arg2 >= Limits.MAX_DIRECTION || !( exit = ExitData[ reset.Arg2 ] )
                                 || !exit.HasFlag(Exit.ExitFlag.is_door))
                         {
-                            Log.Error( "RoomIndex.Reset(): 'D': exit {0} not door for arg2.", pReset.Arg2 );
+                            Log.Error( "RoomIndex.Reset(): 'D': exit {0} not door for arg2.", reset.Arg2 );
                         }
 
-                        switch( pReset.Arg3 )
+                        switch( reset.Arg3 )
                         {
                             default:
-                                Log.Error( "RoomIndex.Reset(): 'D': bad 'locks': {0} for arg3.", pReset.Arg3 );
+                                Log.Error( "RoomIndex.Reset(): 'D': bad 'locks': {0} for arg3.", reset.Arg3 );
                                 break;
                             case 0:
                                 break;

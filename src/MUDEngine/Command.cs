@@ -3477,13 +3477,13 @@ namespace MUDEngine
             // Nothing found or numeric supplied, look for index number.
             if (!obj)
             {
-                ObjTemplate pObjIndex;
-                if (!(pObjIndex = Database.GetObjTemplate(value)))
+                ObjTemplate objTemplate;
+                if (!(objTemplate = Database.GetObjTemplate(value)))
                 {
                     ch.SendText("Invalid object index number.\r\n");
                     return;
                 }
-                if (!(obj = Object.GetFirstObjectOfTemplateType(pObjIndex)))
+                if (!(obj = Object.GetFirstObjectOfTemplateType(objTemplate)))
                 {
                     ch.SendText("None of those in game.\r\n");
                     return;
@@ -3778,8 +3778,8 @@ namespace MUDEngine
             // If numeric or name not found, check as a index number.
             if (!victim)
             {
-                MobTemplate pMobIndex;
-                if (!(pMobIndex = Database.GetMobTemplate(value)))
+                MobTemplate mobTemplate;
+                if (!(mobTemplate = Database.GetMobTemplate(value)))
                 {
                     ch.SendText("No mobile has that index number.\r\n");
                     return;
@@ -3787,7 +3787,7 @@ namespace MUDEngine
                 foreach (CharData it in Database.CharList)
                 {
                     victim = it;
-                    if (victim._mobTemplate == pMobIndex)
+                    if (victim._mobTemplate == mobTemplate)
                     {
                         break;
                     }
@@ -4171,7 +4171,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            ObjTemplate pObjIndex;
+            ObjTemplate objTemplate;
             string text;
             int indexNumber, bottom, top;
             ObjTemplate.ObjectType type = 0;
@@ -4202,10 +4202,10 @@ namespace MUDEngine
                 return;
             }
 
-            bool fAll = !MUDString.StringsNotEqual(str[1], "all");
+            bool all = !MUDString.StringsNotEqual(str[1], "all");
             bool found = false;
             Area area = ch._inRoom.Area;
-            bool fBit = !MUDString.StringsNotEqual(str[0], "bit");
+            bool bit = !MUDString.StringsNotEqual(str[0], "bit");
             bool fType = !MUDString.StringsNotEqual(str[0], "type");
             bool fArea = !MUDString.StringsNotEqual(str[0], "area");
             bool fArea2 = (str.Length > 2 && !MUDString.StringsNotEqual(str[2], "area"));
@@ -4300,7 +4300,7 @@ namespace MUDEngine
                 }
             }
 
-            if (fBit)
+            if (bit)
             {
                 int count;
                 for (count = 0; BitvectorFlagType.ItemFlags[count].BitvectorData; ++count)
@@ -4352,59 +4352,59 @@ namespace MUDEngine
                     break;
                 }
 
-                if (!(pObjIndex = Database.GetObjTemplate(indexNumber)))
+                if (!(objTemplate = Database.GetObjTemplate(indexNumber)))
                 {
                     continue;
                 }
 
-                if (fArea && area != pObjIndex.Area)
+                if (fArea && area != objTemplate.Area)
                 {
                     continue;
                 }
 
 
-                if (fBit)
+                if (bit)
                 {
-                    if (Macros.IsSet(pObjIndex.ExtraFlags[bvect.Group], bvect.Vector))
+                    if (Macros.IsSet(objTemplate.ExtraFlags[bvect.Group], bvect.Vector))
                     {
                         found = true;
                         text = String.Format("[{0}]:{1} of {2}: {3} &n({4}&+yc&n)\r\n",
-                                 MUDString.PadInt(pObjIndex.IndexNumber, 5),
-                                 MUDString.PadInt(pObjIndex.QuantityLoaded, 5),
-                                 MUDString.PadInt(pObjIndex.MaxNumber, 5),
-                                 pObjIndex.ShortDescription.ToUpper(),
-                                 pObjIndex.Cost);
+                                 MUDString.PadInt(objTemplate.IndexNumber, 5),
+                                 MUDString.PadInt(objTemplate.QuantityLoaded, 5),
+                                 MUDString.PadInt(objTemplate.MaxNumber, 5),
+                                 objTemplate.ShortDescription.ToUpper(),
+                                 objTemplate.Cost);
                         ch.SendText(text);
                         total++;
                     }
                 }
                 else if (fType)
                 {
-                    if (pObjIndex.ItemType == type)
+                    if (objTemplate.ItemType == type)
                     {
                         found = true;
                         text = String.Format("[{0}]:{1} of {2}: {3} &n({4}&+yc&n)\r\n",
-                                 MUDString.PadInt(pObjIndex.IndexNumber, 5),
-                                 MUDString.PadInt(pObjIndex.QuantityLoaded, 5),
-                                 MUDString.PadInt(pObjIndex.MaxNumber, 5),
-                                 pObjIndex.ShortDescription.ToUpper(),
-                                 pObjIndex.Cost);
+                                 MUDString.PadInt(objTemplate.IndexNumber, 5),
+                                 MUDString.PadInt(objTemplate.QuantityLoaded, 5),
+                                 MUDString.PadInt(objTemplate.MaxNumber, 5),
+                                 objTemplate.ShortDescription.ToUpper(),
+                                 objTemplate.Cost);
                         ch.SendText(text);
                         total++;
                     }
                 }
                 else if (fStat)
                 {
-                    foreach (Affect paf in pObjIndex.Affected)
+                    foreach (Affect affect in objTemplate.Affected)
                     {
-                        foreach (AffectApplyType apply in paf.Modifiers)
+                        foreach (AffectApplyType apply in affect.Modifiers)
                         {
                             if (apply.Location == stat)
                             {
                                 found = true;
                                 text = String.Format("[{0}] {1}&n (modifier {2})\r\n",
-                                    MUDString.PadInt(pObjIndex.IndexNumber, 5),
-                                    pObjIndex.ShortDescription.ToUpper(),
+                                    MUDString.PadInt(objTemplate.IndexNumber, 5),
+                                    objTemplate.ShortDescription.ToUpper(),
                                     apply.Amount);
                                 ch.SendText(text);
                                 total++;
@@ -4415,15 +4415,15 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if (fAll || MUDString.NameContainedIn(str[1], pObjIndex.Name))
+                    if (all || MUDString.NameContainedIn(str[1], objTemplate.Name))
                     {
                         found = true;
                         text = String.Format("[{0}]:{1} of {2}: {3} &n({4}&+yc&n)\r\n",
-                                 MUDString.PadInt(pObjIndex.IndexNumber, 5),
-                                 MUDString.PadInt(pObjIndex.QuantityLoaded, 5),
-                                 MUDString.PadInt(pObjIndex.MaxNumber, 5),
-                                 pObjIndex.ShortDescription.ToUpper(),
-                                 pObjIndex.Cost);
+                                 MUDString.PadInt(objTemplate.IndexNumber, 5),
+                                 MUDString.PadInt(objTemplate.QuantityLoaded, 5),
+                                 MUDString.PadInt(objTemplate.MaxNumber, 5),
+                                 objTemplate.ShortDescription.ToUpper(),
+                                 objTemplate.Cost);
                         ch.SendText(text);
                         total++;
                     }
@@ -4862,7 +4862,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            MobTemplate pMobIndex;
+            MobTemplate mobTemplate;
             CharData realChar = ch.GetChar();
 
             if (str.Length == 0 || !MUDString.IsNumber(str[0]))
@@ -4873,13 +4873,13 @@ namespace MUDEngine
 
             int indexNumber;
             Int32.TryParse(str[0], out indexNumber);
-            if (!(pMobIndex = Database.GetMobTemplate(indexNumber)))
+            if (!(mobTemplate = Database.GetMobTemplate(indexNumber)))
             {
                 ch.SendText("No mob has that index number.\r\n");
                 return;
             }
 
-            CharData victim = Database.CreateMobile(pMobIndex);
+            CharData victim = Database.CreateMobile(mobTemplate);
             victim.AddToRoom(ch._inRoom);
             ch.SendText("Done.\r\n");
             SocketConnection.Act("$n has created $N!", ch, null, victim, SocketConnection.MessageTarget.room);
@@ -13321,8 +13321,8 @@ namespace MUDEngine
                 if (ch.IsNPC())
                     return;
 
-                Room pRoomIndexNext = Room.GetRoom(ch._inRoom.IndexNumber + 1);
-                if (pRoomIndexNext == null)
+                Room nextRoom = Room.GetRoom(ch._inRoom.IndexNumber + 1);
+                if (nextRoom == null)
                 {
                     Log.Error("Buy: bad pet shop at index number {0}.", ch._inRoom.IndexNumber);
                     ch.SendText("Sorry, you can't buy that here.\r\n");
@@ -13330,7 +13330,7 @@ namespace MUDEngine
                 }
 
                 Room inRoom = ch._inRoom;
-                ch._inRoom = pRoomIndexNext;
+                ch._inRoom = nextRoom;
                 CharData pet = ch.GetCharRoom(str[0]);
                 ch._inRoom = inRoom;
 
@@ -13376,7 +13376,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n just purchased $N&n.", ch, null, pet, SocketConnection.MessageTarget.room);
                 return;
             }
-            ObjTemplate pObj;
+            ObjTemplate objTemplate;
             Object obj = null;
             CharData keeper;
             int itemCount = 1; /* buy only one by default */
@@ -13408,14 +13408,14 @@ namespace MUDEngine
             {
                 foreach (int item in keeper._mobTemplate.ShopData.ItemsForSale)
                 {
-                    pObj = Database.GetObjTemplate(item);
-                    if (!pObj)
+                    objTemplate = Database.GetObjTemplate(item);
+                    if (!objTemplate)
                     {
                         continue;
                     }
-                    if (MUDString.NameContainedIn(str[0], pObj.Name))
+                    if (MUDString.NameContainedIn(str[0], objTemplate.Name))
                     {
-                        obj = Database.CreateObject(pObj, pObj.Level);
+                        obj = Database.CreateObject(objTemplate, objTemplate.Level);
                         fPerm = true;
                         break;
                     }
@@ -13556,8 +13556,8 @@ namespace MUDEngine
                     return;
                 }
 
-                Room pRoomIndexNext = Room.GetRoom(ch._inRoom.IndexNumber + 1);
-                if (!pRoomIndexNext)
+                Room nextRoom = Room.GetRoom(ch._inRoom.IndexNumber + 1);
+                if (!nextRoom)
                 {
                     Log.Error("ListCommand: bad pet shop at index number {0}.", ch._inRoom.IndexNumber);
                     ch.SendText("You can't do that here.\r\n");
@@ -13565,7 +13565,7 @@ namespace MUDEngine
                 }
 
                 bool found = false;
-                foreach (CharData pet in pRoomIndexNext.People)
+                foreach (CharData pet in nextRoom.People)
                 {
                     if (pet.HasActBit(MobTemplate.ACT_PET))
                     {
@@ -13596,7 +13596,7 @@ namespace MUDEngine
             }
             else
             {
-                ObjTemplate pObj;
+                ObjTemplate objTemplate;
                 CharData keeper;
                 string arg2 = String.Empty;
                 int cost;
@@ -13644,15 +13644,15 @@ namespace MUDEngine
                     int count = 0;
                     foreach (int item in keeper._mobTemplate.ShopData.ItemsForSale)
                     {
-                        pObj = Database.GetObjTemplate(item);
-                        if (!pObj)
+                        objTemplate = Database.GetObjTemplate(item);
+                        if (!objTemplate)
                         {
                             continue;
                         }
                         ++count;
                         foreach (Object obj2 in keeper._carrying)
                         {
-                            if (obj2.ObjIndexData == pObj && obj2.WearLocation == ObjTemplate.WearLocation.none)
+                            if (obj2.ObjIndexData == objTemplate && obj2.WearLocation == ObjTemplate.WearLocation.none)
                             {
                                 fListed = true;
                                 break;
@@ -13660,8 +13660,8 @@ namespace MUDEngine
                         }
                         if (fListed)
                             continue;
-                        cost = pObj.Cost;
-                        text = String.Format("{0}&n for {1}.\r\n", pObj.ShortDescription, StringConversion.CoinString(cost));
+                        cost = objTemplate.Cost;
+                        text = String.Format("{0}&n for {1}.\r\n", objTemplate.ShortDescription, StringConversion.CoinString(cost));
                         buf1 += text;
                     }
                 }
@@ -14667,16 +14667,16 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            Area pArea;
-            string buf = String.Empty;
+            Area area;
+            string text = String.Empty;
 
             if (String.IsNullOrEmpty(str[0]))
             {
-                pArea = ch._inRoom.Area;
-                Database.ResetArea(pArea);
+                area = ch._inRoom.Area;
+                Database.ResetArea(area);
                 ch.SendText("This zone has been &+Wreset&n.\r\n");
-                buf += "&+WZone&n " + pArea.Filename + " &+Wreset&n by " + ch._name + ".";
-                ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, buf);
+                text += "&+WZone&n " + area.Filename + " &+Wreset&n by " + ch._name + ".";
+                ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, text);
                 return;
             }
             Room location = Room.FindLocation(ch, str[0]);
@@ -14686,10 +14686,10 @@ namespace MUDEngine
                 return;
             }
             Database.ResetArea(location.Area);
-            buf += "&+WZone&n " + location.Area.Filename + " &+Wreset.&n\r\n";
-            ch.SendText(buf);
-            buf += " by " + ch._name + ".";
-            ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, buf);
+            text += "&+WZone&n " + location.Area.Filename + " &+Wreset.&n\r\n";
+            ch.SendText(text);
+            text += " by " + ch._name + ".";
+            ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, text);
 
             return;
         }
@@ -15071,7 +15071,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            ObjTemplate pObjIndex;
+            ObjTemplate objTemplate;
             Object obj;
             int indexNumber;
 
@@ -15080,15 +15080,15 @@ namespace MUDEngine
 
             for (indexNumber = 100; indexNumber < 100000; indexNumber++)
             {
-                pObjIndex = Database.GetObjTemplate(indexNumber);
-                if (!pObjIndex)
+                objTemplate = Database.GetObjTemplate(indexNumber);
+                if (!objTemplate)
                     continue;
 
-                obj = Database.CreateObject(pObjIndex, 0);
+                obj = Database.CreateObject(objTemplate, 0);
 
                 string buf = String.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
-                                            pObjIndex.IndexNumber, pObjIndex.ShortDescription,
-                                            pObjIndex.ItemType, obj.Cost,
+                                            objTemplate.IndexNumber, objTemplate.ShortDescription,
+                                            objTemplate.ItemType, obj.Cost,
                                             obj.Values[0],
                                             obj.Values[1],
                                             obj.Values[2],
@@ -15430,7 +15430,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            MobTemplate pMobIndex;
+            MobTemplate mobTemplate;
             int indexNumber;
             int bottom;
             int top;
@@ -15458,15 +15458,15 @@ namespace MUDEngine
                 return;
             }
 
-            bool fAll = !MUDString.StringsNotEqual(str[1], "all");
+            bool all = !MUDString.StringsNotEqual(str[1], "all");
             bool found = false;
             Area area = ch._inRoom.Area;
-            bool fWorld = !MUDString.StringsNotEqual(str[0], "world");
+            bool world = !MUDString.StringsNotEqual(str[0], "world");
             if (!MUDString.StringsNotEqual(str[0], "race"))
             {
                 int value;
                 fRace = true;
-                fWorld = true;
+                world = true;
                 bool result = Int32.TryParse(str[1], out value);
                 if (result != false)
                 {
@@ -15483,7 +15483,7 @@ namespace MUDEngine
                     charclass = CharClass.ClassLookup(str[2]);
                 }
             }
-            if (fWorld)
+            if (world)
             {
                 bottom = 0;
                 top = Database.HighestMobIndexNumber;
@@ -15499,24 +15499,24 @@ namespace MUDEngine
             */
             for (indexNumber = bottom; indexNumber < top; indexNumber++)
             {
-                pMobIndex = Database.GetMobTemplate(indexNumber);
-                if (!pMobIndex)
+                mobTemplate = Database.GetMobTemplate(indexNumber);
+                if (!mobTemplate)
                     continue;
 
-                if (!fWorld && area != pMobIndex.Area)
+                if (!world && area != mobTemplate.Area)
                     continue;
 
-                if (fAll || MUDString.NameContainedIn(str[1], pMobIndex.PlayerName))
+                if (all || MUDString.NameContainedIn(str[1], mobTemplate.PlayerName))
                 {
-                    if (fAll || MUDString.NameContainedIn(str[1], pMobIndex.PlayerName)
-                            || (fRace && pMobIndex.Race == race) ||
-                            (fClass && pMobIndex.CharacterClass.ClassNumber == charclass))
+                    if (all || MUDString.NameContainedIn(str[1], mobTemplate.PlayerName)
+                            || (fRace && mobTemplate.Race == race) ||
+                            (fClass && mobTemplate.CharacterClass.ClassNumber == charclass))
                     {
-                        if (fTeacher && !pMobIndex.HasActBit(MobTemplate.ACT_TEACHER))
+                        if (fTeacher && !mobTemplate.HasActBit(MobTemplate.ACT_TEACHER))
                             continue;
 
                         found = true;
-                        string buf = String.Format("[{0}] {1}&n\r\n", MUDString.PadInt(pMobIndex.IndexNumber, 5), pMobIndex.ShortDescription.ToUpper());
+                        string buf = String.Format("[{0}] {1}&n\r\n", MUDString.PadInt(mobTemplate.IndexNumber, 5), mobTemplate.ShortDescription.ToUpper());
                         ch.SendText(buf);
                     }
                 }
@@ -17771,7 +17771,7 @@ namespace MUDEngine
                 && ch._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)))
             {
                 /* 'open door' */
-                Exit pexitRev;
+                Exit reverseExit;
                 Room toRoom;
 
                 if (ch._flyLevel > 0)
@@ -17784,32 +17784,32 @@ namespace MUDEngine
                     ch.SendText("Stop fighting first!\r\n");
                     return;
                 }
-                Exit pexit = ch._inRoom.ExitData[door];
-                if (!pexit.HasFlag(Exit.ExitFlag.closed))
+                Exit exit = ch._inRoom.ExitData[door];
+                if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's already open.\r\n");
                     return;
                 }
-                if (pexit.HasFlag(Exit.ExitFlag.locked))
+                if (exit.HasFlag(Exit.ExitFlag.locked))
                 {
                     ch.SendText("It's locked.\r\n");
                     return;
                 }
 
-                pexit.RemoveFlag(Exit.ExitFlag.closed);
-                SocketConnection.Act("$n&n opens the $d.", ch, null, pexit.Keyword, SocketConnection.MessageTarget.room);
+                exit.RemoveFlag(Exit.ExitFlag.closed);
+                SocketConnection.Act("$n&n opens the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
                 ch.SendText("Done.\r\n");
 
                 /* open the other side */
-                if ((toRoom = Room.GetRoom(pexit.IndexNumber))
-                        && (pexitRev = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && pexitRev.TargetRoom == ch._inRoom)
+                if ((toRoom = Room.GetRoom(exit.IndexNumber))
+                        && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                        && reverseExit.TargetRoom == ch._inRoom)
                 {
-                    pexitRev.RemoveFlag(Exit.ExitFlag.closed);
-                    pexitRev.RemoveFlag(Exit.ExitFlag.secret);
+                    reverseExit.RemoveFlag(Exit.ExitFlag.closed);
+                    reverseExit.RemoveFlag(Exit.ExitFlag.secret);
                     foreach (CharData roomChar in ch._inRoom.People)
                     {
-                        SocketConnection.Act("The $d opens.", roomChar, null, pexitRev.Keyword, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act("The $d opens.", roomChar, null, reverseExit.Keyword, SocketConnection.MessageTarget.character);
                     }
                 }
 
@@ -17906,7 +17906,7 @@ namespace MUDEngine
             if (door >= 0)
             {
                 /* 'close door' */
-                Exit pexitRev;
+                Exit reverseExit;
                 Room toRoom;
 
                 if (ch._flyLevel > 0)
@@ -17920,32 +17920,32 @@ namespace MUDEngine
                     return;
                 }
 
-                Exit pexit = ch._inRoom.ExitData[door];
-                if (pexit.HasFlag(Exit.ExitFlag.closed))
+                Exit exit = ch._inRoom.ExitData[door];
+                if (exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's already closed.\r\n");
                     return;
                 }
 
-                if (pexit.HasFlag(Exit.ExitFlag.bashed))
+                if (exit.HasFlag(Exit.ExitFlag.bashed))
                 {
                     SocketConnection.Act("The $d has been bashed open and cannot be closed.",
-                         ch, null, pexit.Keyword, SocketConnection.MessageTarget.character);
+                         ch, null, exit.Keyword, SocketConnection.MessageTarget.character);
                     return;
                 }
 
-                pexit.AddFlag(Exit.ExitFlag.closed);
-                SocketConnection.Act("$n&n closes the $d.", ch, null, pexit.Keyword, SocketConnection.MessageTarget.room);
+                exit.AddFlag(Exit.ExitFlag.closed);
+                SocketConnection.Act("$n&n closes the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
                 ch.SendText("Done.\r\n");
 
                 /* close the other side */
-                if ((toRoom = Room.GetRoom(pexit.IndexNumber)) && (pexitRev = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && pexitRev.TargetRoom == ch._inRoom)
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                        && reverseExit.TargetRoom == ch._inRoom)
                 {
-                    pexitRev.AddFlag(Exit.ExitFlag.closed);
+                    reverseExit.AddFlag(Exit.ExitFlag.closed);
                     foreach (CharData roomChar in ch._inRoom.People)
                     {
-                        SocketConnection.Act("The $d closes.", roomChar, null, pexitRev.Keyword, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act("The $d closes.", roomChar, null, reverseExit.Keyword, SocketConnection.MessageTarget.character);
                     }
                 }
 
@@ -18018,34 +18018,34 @@ namespace MUDEngine
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit pexit = ch._inRoom.ExitData[door];
-                if (!pexit.HasFlag(Exit.ExitFlag.closed))
+                Exit exit = ch._inRoom.ExitData[door];
+                if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
                     return;
                 }
-                if (pexit.Key < 0 && !ch.IsImmortal())
+                if (exit.Key < 0 && !ch.IsImmortal())
                 {
                     ch.SendText("It can't be locked.\r\n");
                     return;
                 }
-                if (!ch.GetKey(pexit.Key) && !ch.IsImmortal())
+                if (!ch.GetKey(exit.Key) && !ch.IsImmortal())
                 {
                     ch.SendText("You lack the key.\r\n");
                     return;
                 }
-                if (pexit.HasFlag(Exit.ExitFlag.locked))
+                if (exit.HasFlag(Exit.ExitFlag.locked))
                 {
                     ch.SendText("It's already locked.\r\n");
                     return;
                 }
 
-                pexit.AddFlag(Exit.ExitFlag.locked);
+                exit.AddFlag(Exit.ExitFlag.locked);
                 ch.SendText("*Click*\r\n");
-                SocketConnection.Act("$n&n locks the $d.", ch, null, pexit.Keyword, SocketConnection.MessageTarget.room);
+                SocketConnection.Act("$n&n locks the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
 
                 /* lock the other side */
-                if ((toRoom = Room.GetRoom(pexit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
                         && reverseExit.TargetRoom == ch._inRoom)
                 {
                     reverseExit.AddFlag(Exit.ExitFlag.locked);
@@ -18145,48 +18145,48 @@ namespace MUDEngine
                                  && ch._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)))
             {
                 /* 'unlock door' */
-                Exit pexitRev;
+                Exit reverseExit;
                 Room toRoom;
 
-                Exit pexit = ch._inRoom.ExitData[door];
-                if (!pexit.HasFlag(Exit.ExitFlag.closed))
+                Exit exit = ch._inRoom.ExitData[door];
+                if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
                     return;
                 }
-                if (pexit.Key < 0)
+                if (exit.Key < 0)
                 {
                     ch.SendText("It can't be unlocked.\r\n");
                     return;
                 }
-                if (!ch.GetKey(pexit.Key) && !ch.IsImmortal())
+                if (!ch.GetKey(exit.Key) && !ch.IsImmortal())
                 {
                     ch.SendText("You lack the key.\r\n");
                     return;
                 }
-                if (!pexit.HasFlag(Exit.ExitFlag.locked))
+                if (!exit.HasFlag(Exit.ExitFlag.locked))
                 {
                     ch.SendText("It's already unlocked.\r\n");
                     return;
                 }
 
-                pexit.RemoveFlag(Exit.ExitFlag.locked);
+                exit.RemoveFlag(Exit.ExitFlag.locked);
                 ch.SendText("*Click*\r\n");
-                SocketConnection.Act("$n&n unlocks the $d.", ch, null, pexit.Keyword, SocketConnection.MessageTarget.room);
+                SocketConnection.Act("$n&n unlocks the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
 
-                if (pexit.HasFlag(Exit.ExitFlag.destroys_key))
+                if (exit.HasFlag(Exit.ExitFlag.destroys_key))
                 {
-                    (ch.GetKey(pexit.Key)).RemoveFromWorld();
-                    SocketConnection.Act("The $d eats the key!", ch, null, pexit.Keyword, SocketConnection.MessageTarget.character);
-                    SocketConnection.Act("The $d eats the key!", ch, null, pexit.Keyword, SocketConnection.MessageTarget.room);
+                    (ch.GetKey(exit.Key)).RemoveFromWorld();
+                    SocketConnection.Act("The $d eats the key!", ch, null, exit.Keyword, SocketConnection.MessageTarget.character);
+                    SocketConnection.Act("The $d eats the key!", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
                 }
 
                 /* unlock the other side */
-                if ((toRoom = Room.GetRoom(pexit.IndexNumber))
-                        && (pexitRev = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && pexitRev.TargetRoom == ch._inRoom)
+                if ((toRoom = Room.GetRoom(exit.IndexNumber))
+                        && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                        && reverseExit.TargetRoom == ch._inRoom)
                 {
-                    pexitRev.RemoveFlag(Exit.ExitFlag.locked);
+                    reverseExit.RemoveFlag(Exit.ExitFlag.locked);
                 }
 
                 return;
@@ -18303,7 +18303,7 @@ namespace MUDEngine
             if ((door = Movement.FindDoor(ch, str[0])) >= 0)
             {
                 /* 'pick door' */
-                Exit pexitRev;
+                Exit reverseExit;
                 Room toRoom;
 
                 Exit exit = ch._inRoom.ExitData[door];
@@ -18333,10 +18333,10 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n picks the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
 
                 /* pick the other side */
-                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (pexitRev = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && pexitRev.TargetRoom == ch._inRoom)
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                        && reverseExit.TargetRoom == ch._inRoom)
                 {
-                    pexitRev.RemoveFlag(Exit.ExitFlag.locked);
+                    reverseExit.RemoveFlag(Exit.ExitFlag.locked);
                 }
 
                 return;
@@ -19090,7 +19090,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            Exit pexit;
+            Exit exit;
             Room room;
             string text = String.Empty;
             int dir;
@@ -19109,20 +19109,20 @@ namespace MUDEngine
                 int distance;
                 for (distance = 1; distance <= 3; distance++)
                 {
-                    pexit = room.ExitData[dir];
-                    if (!pexit || !pexit.TargetRoom || pexit.HasFlag(Exit.ExitFlag.closed)
-                        || ((pexit.HasFlag(Exit.ExitFlag.secret) || pexit.HasFlag(Exit.ExitFlag.blocked)
-                        || pexit.HasFlag(Exit.ExitFlag.walled)) && !ch.IsImmortal()))
+                    exit = room.ExitData[dir];
+                    if (!exit || !exit.TargetRoom || exit.HasFlag(Exit.ExitFlag.closed)
+                        || ((exit.HasFlag(Exit.ExitFlag.secret) || exit.HasFlag(Exit.ExitFlag.blocked)
+                        || exit.HasFlag(Exit.ExitFlag.walled)) && !ch.IsImmortal()))
                     {
                         break;
                     }
 
-                    if (Movement.ScanRoom(ch, Room.GetRoom(pexit.IndexNumber), ref text, distance, dir) != 0)
+                    if (Movement.ScanRoom(ch, Room.GetRoom(exit.IndexNumber), ref text, distance, dir) != 0)
                     {
                         ch.SendText(text);
                     }
 
-                    room = Room.GetRoom(pexit.IndexNumber);
+                    room = Room.GetRoom(exit.IndexNumber);
                 }
             }
             foreach (CharData.FlyLevel flyLevel in Enum.GetValues(typeof(CharData.FlyLevel)))
@@ -20741,7 +20741,7 @@ namespace MUDEngine
             {
                 bool printed = false;
                 prev = null;
-                foreach (Affect paf in ch._affected)
+                foreach (Affect affect in ch._affected)
                 {
                     if (!printed)
                     {
@@ -20750,29 +20750,29 @@ namespace MUDEngine
                     }
 
                     /* Show only new affects to mortals. */
-                    if (prev != null && prev.Value == paf.Value
-                            && prev.Type == paf.Type && !ch.IsImmortal())
+                    if (prev != null && prev.Value == affect.Value
+                            && prev.Type == affect.Type && !ch.IsImmortal())
                     {
-                        prev = paf;
+                        prev = affect;
                         continue;
                     }
-                    prev = paf;
+                    prev = affect;
 
-                    if (paf.Type == Affect.AffectType.skill && !String.IsNullOrEmpty(paf.Value) && ch.IsImmortal())
+                    if (affect.Type == Affect.AffectType.skill && !String.IsNullOrEmpty(affect.Value) && ch.IsImmortal())
                     {
-                        text += MUDString.CapitalizeANSIString( Skill.SkillList[paf.Value].Name );
+                        text += MUDString.CapitalizeANSIString( Skill.SkillList[affect.Value].Name );
                     }
-                    else if (paf.Type == Affect.AffectType.skill && !String.IsNullOrEmpty(paf.Value))
+                    else if (affect.Type == Affect.AffectType.skill && !String.IsNullOrEmpty(affect.Value))
                     {
                         continue;
                     }
-                    else if (paf.Type == Affect.AffectType.spell && !String.IsNullOrEmpty(paf.Value))
+                    else if (affect.Type == Affect.AffectType.spell && !String.IsNullOrEmpty(affect.Value))
                     {
-                        text += MUDString.CapitalizeANSIString(Spell.SpellList[paf.Value].Name);
+                        text += MUDString.CapitalizeANSIString(Spell.SpellList[affect.Value].Name);
                     }
-                    else if (paf.Type == Affect.AffectType.song && !String.IsNullOrEmpty(paf.Value))
+                    else if (affect.Type == Affect.AffectType.song && !String.IsNullOrEmpty(affect.Value))
                     {
-                        text += MUDString.CapitalizeANSIString(paf.Value);
+                        text += MUDString.CapitalizeANSIString(affect.Value);
                     }
                     else
                     {
@@ -20781,19 +20781,19 @@ namespace MUDEngine
 
                     if (ch.IsImmortal())
                     {
-                        foreach (AffectApplyType apply in paf.Modifiers)
+                        foreach (AffectApplyType apply in affect.Modifiers)
                         {
                             text += " modifies " + StringConversion.AffectApplyString(apply.Location) + " by " + apply.Amount;
                         }
-                        text += " for " + paf.Duration + " hours with bits " + paf.AffectString(false) + ".\r\n";
+                        text += " for " + affect.Duration + " hours with bits " + affect.AffectString(false) + ".\r\n";
                     }
                     else
                     {
-                        if (paf.Duration == 0 && ch.IsAffected( Affect.AFFECT_DETECT_MAGIC))
+                        if (affect.Duration == 0 && ch.IsAffected( Affect.AFFECT_DETECT_MAGIC))
                         {
                             text += " (fading rapidly)\r\n";
                         }
-                        else if (paf.Duration == 1 && ch.IsAffected( Affect.AFFECT_DETECT_MAGIC))
+                        else if (affect.Duration == 1 && ch.IsAffected( Affect.AFFECT_DETECT_MAGIC))
                         {
                             text += " (fading)\r\n";
                         }
@@ -23358,8 +23358,8 @@ namespace MUDEngine
             if( ch == null ) return;
 
             Room toRoom;
-            Exit pexitRev;
-            Exit pexit = null;
+            Exit reverseExit;
+            Exit exit = null;
             Object obj;
             bool isArg;
             int door;
@@ -23451,8 +23451,8 @@ namespace MUDEngine
                     break;
                 }
                 /* If there's a secret exit that leads to a room. */
-                pexit = ch._inRoom.ExitData[door];
-                if (pexit && pexit.HasFlag(Exit.ExitFlag.secret) && pexit.TargetRoom)
+                exit = ch._inRoom.ExitData[door];
+                if (exit && exit.HasFlag(Exit.ExitFlag.secret) && exit.TargetRoom)
                     break;
             }
 
@@ -23462,12 +23462,12 @@ namespace MUDEngine
             }
             if (door < Limits.MAX_DIRECTION)
             {
-                if (pexit == null)
+                if (exit == null)
                 {
                     Log.Error("Commandsearch: null exit found", 0);
                     return;
                 }
-                if (pexit.TargetRoom == null)
+                if (exit.TargetRoom == null)
                 {
                     Log.Error("Commandsearch: exit to null room found", 0);
                     return;
@@ -23483,12 +23483,12 @@ namespace MUDEngine
                     SocketConnection.Act("$n&n points out a secret exit!", ch, null, null, SocketConnection.MessageTarget.room);
 
                     /* Search out one side. */
-                    pexit.RemoveFlag(Exit.ExitFlag.secret);
+                    exit.RemoveFlag(Exit.ExitFlag.secret);
                     /* And the other side, if it exists. */
-                    toRoom = Room.GetRoom(pexit.IndexNumber);
-                    if (toRoom && (pexitRev = toRoom.ExitData[Exit.ReverseDirection[door]]) && (pexitRev.TargetRoom == ch._inRoom))
+                    toRoom = Room.GetRoom(exit.IndexNumber);
+                    if (toRoom && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]]) && (reverseExit.TargetRoom == ch._inRoom))
                     {
-                        pexitRev.RemoveFlag(Exit.ExitFlag.secret);
+                        reverseExit.RemoveFlag(Exit.ExitFlag.secret);
                     }
                     return;
                 }
@@ -23596,7 +23596,7 @@ namespace MUDEngine
         {
             CharData gch;
             bool isAnti;
-            MobTemplate pMobIndex;
+            MobTemplate mobTemplate;
             Affect af = new Affect();
 
             if (ch.IsClass(CharClass.Names.antipaladin))
@@ -23631,18 +23631,23 @@ namespace MUDEngine
             }
 
             // If not let them summon one. :)
+            // TODO: FIXME: BUG: Do not hard-code item numbers.
             if (isAnti)
-                pMobIndex = Database.GetMobTemplate(264);
-            else
-                pMobIndex = Database.GetMobTemplate(265);
-
-            if (pMobIndex == null)
             {
-                Log.Error("Commandsummon_mount: phukt pMobIndex!", 0);
+                mobTemplate = Database.GetMobTemplate(264);
+            }
+            else
+            {
+                mobTemplate = Database.GetMobTemplate(265);
+            }
+
+            if (mobTemplate == null)
+            {
+                Log.Error("SummonMount: Invalid MobTemplate!", 0);
                 return;
             }
 
-            CharData mount = Database.CreateMobile(pMobIndex);
+            CharData mount = Database.CreateMobile(mobTemplate);
 
             /* Must simulate the poor horse running across the world.
             * They arrive with between 303 and 126 moves out of 294-310.
@@ -23936,15 +23941,15 @@ namespace MUDEngine
             }
             }
             */
-            ObjTemplate pObjIndex = Database.GetObjTemplate(indexNumber);
+            ObjTemplate objTemplate = Database.GetObjTemplate(indexNumber);
             // Foraging found an object that doesn't exist -- log an error and fail gracefully.
-            if (pObjIndex == null)
+            if (objTemplate == null)
             {
                 Log.Error("Forage: invalid object index number " + indexNumber + " in terrain type " + sector + ".");
                 ch.SendText("The area appears to have been picked clean.\r\n");
                 return;
             }
-            obj = Database.CreateObject(pObjIndex, 1);
+            obj = Database.CreateObject(objTemplate, 1);
             obj.AddToRoom(ch._inRoom);
             obj.FlyLevel = 0;
             if (indexNumber == StaticObjects.OBJECT_NUMBER_SPRING) // give spring a timer;
@@ -26144,7 +26149,7 @@ namespace MUDEngine
             if( ch == null ) return;
 
             Object newobj;
-            Exit pexit;
+            Exit exit;
             Room toRoom;
             string msg;
             string arg1 = String.Empty; // Target.
@@ -26274,8 +26279,8 @@ namespace MUDEngine
                       obj.ShortDescription, Exit.DirectionName[dir]);
             SocketConnection.Act(buf, ch, null, null, SocketConnection.MessageTarget.room);
 
-            ObjTemplate pObjIndex = Database.GetObjTemplate(obj.Values[5]);
-            if (!pObjIndex)
+            ObjTemplate objTemplate = Database.GetObjTemplate(obj.Values[5]);
+            if (!objTemplate)
             {
                 Log.Error("Ranged weapon (index number {0}) has invalid ammunition.", 0);
                 return;
@@ -26312,15 +26317,15 @@ namespace MUDEngine
                 newobj.AddToRoom(ch._inRoom);
                 return;
             }
-            newobj = Database.CreateObject(pObjIndex, 0);
+            newobj = Database.CreateObject(objTemplate, 0);
             if (!newobj)
                 Log.Error("Commandshoot: Missile not created! (2)", 0);
             obj.Values[4]--;
 
-            for (n = 1, pexit = ch._inRoom.ExitData[dir]; pexit && n <= (range + 1); n++)
+            for (n = 1, exit = ch._inRoom.ExitData[dir]; exit && n <= (range + 1); n++)
             {
-                if (pexit.HasFlag(Exit.ExitFlag.closed)
-                        || pexit.HasFlag(Exit.ExitFlag.jammed))
+                if (exit.HasFlag(Exit.ExitFlag.closed)
+                        || exit.HasFlag(Exit.ExitFlag.jammed))
                 {
                     switch (obj.Values[3])
                     {
@@ -26340,18 +26345,18 @@ namespace MUDEngine
 
                     buf = String.Format(msg, newobj.ShortDescription);
 
-                    if (Room.GetRoom(pexit.IndexNumber) && Room.GetRoom(pexit.IndexNumber).People.Count > 0)
+                    if (Room.GetRoom(exit.IndexNumber) && Room.GetRoom(exit.IndexNumber).People.Count > 0)
                     {
-                        SocketConnection.Act(buf, Room.GetRoom(pexit.IndexNumber).People[0], null, null, SocketConnection.MessageTarget.room);
-                        SocketConnection.Act(buf, Room.GetRoom(pexit.IndexNumber).People[0], null, null, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act(buf, Room.GetRoom(exit.IndexNumber).People[0], null, null, SocketConnection.MessageTarget.room);
+                        SocketConnection.Act(buf, Room.GetRoom(exit.IndexNumber).People[0], null, null, SocketConnection.MessageTarget.character);
                     }
 
-                    newobj.AddToRoom(Room.GetRoom(pexit.IndexNumber));
+                    newobj.AddToRoom(Room.GetRoom(exit.IndexNumber));
                     SocketConnection.Act(buf, ch, null, null, SocketConnection.MessageTarget.room);
                     continue;
                 }
 
-                toRoom = Room.GetRoom(pexit.IndexNumber);
+                toRoom = Room.GetRoom(exit.IndexNumber);
 
                 if (toRoom.People.Count > 0)
                 {
@@ -26429,7 +26434,7 @@ namespace MUDEngine
                     }
                 }
 
-                pexit = toRoom.ExitData[dir];
+                exit = toRoom.ExitData[dir];
             }
 
             return;

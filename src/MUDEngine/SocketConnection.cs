@@ -2558,9 +2558,9 @@ namespace MUDEngine
             // Block naming yourself after a mob in the game.
             foreach( Area area in Database.AreaList )
             {
-                foreach( MobTemplate pMobIndex in area.Mobs )
+                foreach( MobTemplate mobTemplate in area.Mobs )
                 {
-                    if (MUDString.NameContainedIn(name, pMobIndex.PlayerName))
+                    if (MUDString.NameContainedIn(name, mobTemplate.PlayerName))
                     {
                         return false;
                     }

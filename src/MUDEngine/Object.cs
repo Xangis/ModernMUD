@@ -607,7 +607,7 @@ namespace MUDEngine
         {
             if( room == null )
             {
-                Log.Error( "Object.AddToRoom(): null pRoomIndex", 0 );
+                Log.Error( "Object.AddToRoom(): null room.", 0 );
                 return false;
             }
             if( _objIndexData == null )
@@ -2554,42 +2554,47 @@ namespace MUDEngine
         /// <summary>
         /// Gives an affect to an object.  Doesn't set any bits on the object.
         /// </summary>
-        /// <param name="paf"></param>
-        public void AddAffect( Affect paf )
+        /// <param name="affect"></param>
+        public void AddAffect( Affect affect )
         {
             int i;
 
-            Affect pafNew = new Affect();
-            pafNew.Type = paf.Type;
-            pafNew.Value = paf.Value;
-            pafNew.Modifiers = paf.Modifiers;
-            pafNew.Level = paf.Level;
-            pafNew.Duration = paf.Duration;
+            Affect newAffect = new Affect();
+            newAffect.Type = affect.Type;
+            newAffect.Value = affect.Value;
+            newAffect.Modifiers = affect.Modifiers;
+            newAffect.Level = affect.Level;
+            newAffect.Duration = affect.Duration;
             for( i = 0; i < Limits.NUM_AFFECT_VECTORS; i++ )
             {
-                pafNew.BitVectors[ i ] = paf.BitVectors[ i ];
+                newAffect.BitVectors[ i ] = affect.BitVectors[ i ];
             }
-            _affected.Add(pafNew);
+            _affected.Add(newAffect);
 
             return;
         }
 
         public bool HasAffect( Affect.AffectType type, string value )
         {
-            foreach (Affect paf in _affected)
+            foreach (Affect affect in _affected)
             {
-                if( paf.Type == type && paf.Value == value )
+                if( affect.Type == type && affect.Value == value )
                     return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Creates a character based on an object. Used for animate-object-type spells.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public CharData CreateCharacterFromObject( ref Object obj )
         {
             int count;
 
-            MobTemplate pMobIndex = Database.GetMobTemplate( StaticMobs.MOB_NUMBER_OBJECT );
-            if( !pMobIndex )
+            MobTemplate mobTemplate = Database.GetMobTemplate( StaticMobs.MOB_NUMBER_OBJECT );
+            if( !mobTemplate )
             {
                 Log.Error( "CreateCharacterFromObject: null object template.", 0 );
                 return null;
@@ -2597,22 +2602,22 @@ namespace MUDEngine
 
             CharData mob = new CharData();
 
-            mob._mobTemplate = pMobIndex;
+            mob._mobTemplate = mobTemplate;
             mob._name = obj._name;
             mob._shortDescription = obj._shortDescription;
             mob._fullDescription = obj._fullDescription;
             mob._description = obj._fullDescription;
-            mob._charClass = pMobIndex.CharacterClass;
+            mob._charClass = mobTemplate.CharacterClass;
             mob._level = Math.Max( obj._level, 1 );
-            mob._actionFlags = pMobIndex.ActionFlags;
-            mob._position = pMobIndex.DefaultPosition;
+            mob._actionFlags = mobTemplate.ActionFlags;
+            mob._position = mobTemplate.DefaultPosition;
             for( count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count )
             {
-                mob._affectedBy[ count ] = pMobIndex.AffectedBy[ count ];
+                mob._affectedBy[ count ] = mobTemplate.AffectedBy[ count ];
             }
-            mob._alignment = pMobIndex.Alignment;
-            mob._sex = pMobIndex.Gender;
-            mob.SetPermRace( pMobIndex.Race );
+            mob._alignment = mobTemplate.Alignment;
+            mob._sex = mobTemplate.Gender;
+            mob.SetPermRace( mobTemplate.Race );
             mob._size = Race.RaceList[ mob.GetRace() ].DefaultSize;
             if (mob.HasActBit(MobTemplate.ACT_SIZEMINUS))
                 mob._size--;
@@ -2639,10 +2644,10 @@ namespace MUDEngine
             mob._modifiedCharisma = 0;
             mob._modifiedPower = 0;
             mob._modifiedLuck = 0;
-            mob._resistant = pMobIndex.Resistant;
-            mob._immune = pMobIndex.Immune;
-            mob._susceptible = pMobIndex.Susceptible;
-            mob._vulnerable = pMobIndex.Vulnerable;
+            mob._resistant = mobTemplate.Resistant;
+            mob._immune = mobTemplate.Immune;
+            mob._susceptible = mobTemplate.Susceptible;
+            mob._vulnerable = mobTemplate.Vulnerable;
             mob.SetCoins( 0, 0, 0, 0 );
             mob._armorPoints = MUDMath.Interpolate( mob._level, 100, -100 );
 
@@ -2663,7 +2668,7 @@ namespace MUDEngine
             */
             Database.CharList.Add( mob );
             // Increment in-game count of mob.
-            pMobIndex.NumActive++;
+            mobTemplate.NumActive++;
             mob.AddToRoom( obj._inRoom );
             return mob;
         }

@@ -626,7 +626,7 @@ namespace MUDEngine
 
             if( !mobTemplate )
             {
-                Log.Error("Create_mobile: null pMobIndex.", 0);
+                Log.Error("CreateMobile: null MobTemplate.", 0);
                 throw new NullReferenceException();
             }
 
@@ -831,9 +831,9 @@ namespace MUDEngine
             }
 
             // Now add the affects.
-            foreach (Affect paf in parent._affected)
+            foreach (Affect affect in parent._affected)
             {
-                clone.AddAffect(paf);
+                clone.AddAffect(affect);
             }
         }
 
@@ -852,7 +852,7 @@ namespace MUDEngine
 
             if( !objTempalte )
             {
-                Log.Error("Create_object: null pObjIndex.", 0);
+                Log.Error("CreateObject: null ObjTemplate.", 0);
                 return null;
             }
 
@@ -1053,8 +1053,8 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool IsArtifact( int indexNumber )
         {
-            ObjTemplate pObj = GetObjTemplate( indexNumber );
-            if (pObj != null && Macros.IsSet(pObj.ExtraFlags[ObjTemplate.ITEM_ARTIFACT.Group], ObjTemplate.ITEM_ARTIFACT.Vector))
+            ObjTemplate obj = GetObjTemplate( indexNumber );
+            if (obj != null && Macros.IsSet(obj.ExtraFlags[ObjTemplate.ITEM_ARTIFACT.Group], ObjTemplate.ITEM_ARTIFACT.Vector))
             {
                 return true;
             }

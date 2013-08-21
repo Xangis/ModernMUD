@@ -2117,7 +2117,7 @@ namespace MUDEngine
         static bool SpecRepairman( System.Object mob, int cmd )
         {
             if (mob == null) return false;
-            Exit pexitRev;
+            Exit reverseExit;
             Room toRoom;
 
             if( cmd == PROC_DEATH )
@@ -2133,26 +2133,26 @@ namespace MUDEngine
             *   too boring.  Instead, just check one direction at a time.  There's
             *   a 51% chance they'll find the door within 4 tries anyway.
             */
-            Exit pexit = ch._inRoom.ExitData[ door ];
-            if( !pexit )
+            Exit exit = ch._inRoom.ExitData[ door ];
+            if( !exit )
             {
                 return false;
             }
 
-            if (pexit.HasFlag(Exit.ExitFlag.bashed))
+            if (exit.HasFlag(Exit.ExitFlag.bashed))
             {
-                pexit.RemoveFlag(Exit.ExitFlag.bashed);
-                SocketConnection.Act( "You repair the $d.", ch, null, pexit.Keyword, SocketConnection.MessageTarget.character );
-                SocketConnection.Act( "$n&n repairs the $d.", ch, null, pexit.Keyword, SocketConnection.MessageTarget.room );
+                exit.RemoveFlag(Exit.ExitFlag.bashed);
+                SocketConnection.Act( "You repair the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.character );
+                SocketConnection.Act( "$n&n repairs the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room );
 
                 /* Don't forget the other side! */
-                if ((toRoom = Room.GetRoom(pexit.IndexNumber)) && (pexitRev = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && pexitRev.TargetRoom == ch._inRoom )
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                        && reverseExit.TargetRoom == ch._inRoom )
                 {
-                    pexitRev.RemoveFlag(Exit.ExitFlag.bashed);
+                    reverseExit.RemoveFlag(Exit.ExitFlag.bashed);
 
                     foreach( CharData rch in toRoom.People )
-                        SocketConnection.Act( "The $d is set back on its hinges.", rch, null, pexitRev.Keyword, SocketConnection.MessageTarget.character );
+                        SocketConnection.Act( "The $d is set back on its hinges.", rch, null, reverseExit.Keyword, SocketConnection.MessageTarget.character );
                 }
 
                 return true;

@@ -628,76 +628,76 @@ namespace ModernMUD
         /// <param name="cClass"></param>
         public void AddSpecClass( int cClass )
         {
-            MobTemplate pMobIndex = this;
+            MobTemplate mobTemplate = this;
             switch( cClass )
             {
                 default:
                     break;
                 case (int)CharClass.Names.shaman:
-                    pMobIndex.AddSpecFun( "spec_cast_shaman" );
+                    mobTemplate.AddSpecFun( "spec_cast_shaman" );
                     break;
                 case (int)CharClass.Names.elementAir:
-                    pMobIndex.AddSpecFun( "spec_cast_air_ele" );
+                    mobTemplate.AddSpecFun( "spec_cast_air_ele" );
                     break;
                 case (int)CharClass.Names.elementEarth:
-                    pMobIndex.AddSpecFun( "spec_cast_earth_ele" );
+                    mobTemplate.AddSpecFun( "spec_cast_earth_ele" );
                     break;
                 case (int)CharClass.Names.elementFire:
-                    pMobIndex.AddSpecFun( "spec_cast_fire_ele" );
+                    mobTemplate.AddSpecFun( "spec_cast_fire_ele" );
                     break;
                 case (int)CharClass.Names.elementWater:
-                    pMobIndex.AddSpecFun( "spec_cast_water_ele" );
+                    mobTemplate.AddSpecFun( "spec_cast_water_ele" );
                     break;
                 case (int)CharClass.Names.druid:
-                    pMobIndex.AddSpecFun( "spec_cast_druid" );
+                    mobTemplate.AddSpecFun( "spec_cast_druid" );
                     break;
                 case (int)CharClass.Names.ranger:
-                    pMobIndex.AddSpecFun( "spec_cast_ranger" );
+                    mobTemplate.AddSpecFun( "spec_cast_ranger" );
                     break;
                 case (int)CharClass.Names.hunter:
-                    pMobIndex.AddSpecFun( "spec_cast_hunter" );
+                    mobTemplate.AddSpecFun( "spec_cast_hunter" );
                     break;
                 case (int)CharClass.Names.warrior:
-                    pMobIndex.AddSpecFun( "spec_warrior" );
+                    mobTemplate.AddSpecFun( "spec_warrior" );
                     break;
                 case (int)CharClass.Names.monk:
-                    pMobIndex.AddSpecFun( "spec_monk" );
+                    mobTemplate.AddSpecFun( "spec_monk" );
                     break;
                 case (int)CharClass.Names.bard:
-                    pMobIndex.AddSpecFun( "spec_bard" );
+                    mobTemplate.AddSpecFun( "spec_bard" );
                     break;
                 case (int)CharClass.Names.illusionist:
-                    pMobIndex.AddSpecFun( "spec_cast_illusionist" );
+                    mobTemplate.AddSpecFun( "spec_cast_illusionist" );
                     break;
                 case (int)CharClass.Names.paladin:
-                    pMobIndex.AddSpecFun( "spec_cast_paladin" );
+                    mobTemplate.AddSpecFun( "spec_cast_paladin" );
                     break;
                 case (int)CharClass.Names.antipaladin:
-                    pMobIndex.AddSpecFun( "spec_cast_antipaladin" );
+                    mobTemplate.AddSpecFun( "spec_cast_antipaladin" );
                     break;
                 case (int)CharClass.Names.thief:
-                    pMobIndex.AddSpecFun( "spec_thief" );
+                    mobTemplate.AddSpecFun( "spec_thief" );
                     break;
                 case (int)CharClass.Names.mercenary:
-                    pMobIndex.AddSpecFun( "spec_mercenary" );
+                    mobTemplate.AddSpecFun( "spec_mercenary" );
                     break;
                 case (int)CharClass.Names.assassin:
-                    pMobIndex.AddSpecFun( "spec_assassin" );
+                    mobTemplate.AddSpecFun( "spec_assassin" );
                     break;
                 case (int)CharClass.Names.cleric:
-                    pMobIndex.AddSpecFun( "spec_cast_cleric" );
+                    mobTemplate.AddSpecFun( "spec_cast_cleric" );
                     break;
                 case (int)CharClass.Names.sorcerer:
-                    pMobIndex.AddSpecFun( "spec_cast_sorcerer" );
+                    mobTemplate.AddSpecFun( "spec_cast_sorcerer" );
                     break;
                 case (int)CharClass.Names.psionicist:
-                    pMobIndex.AddSpecFun( "spec_cast_psionicist" );
+                    mobTemplate.AddSpecFun( "spec_cast_psionicist" );
                     break;
                 case (int)CharClass.Names.necromancer:
-                    pMobIndex.AddSpecFun( "spec_cast_necromancer" );
+                    mobTemplate.AddSpecFun( "spec_cast_necromancer" );
                     break;
                 case (int)CharClass.Names.chronomancer:
-                    pMobIndex.AddSpecFun( "spec_cast_chronomancer" );
+                    mobTemplate.AddSpecFun( "spec_cast_chronomancer" );
                     break;
             }
             return;

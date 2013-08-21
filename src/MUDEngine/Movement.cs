@@ -203,21 +203,21 @@ namespace MUDEngine
         /// <returns></returns>
         public static Room GetRandomRoom()
         {
-            Room pRoomIndex;
+            Room room;
 
             for( ; ; )
             {
-                pRoomIndex = Room.GetRoom( MUDMath.NumberRange( 0, 65535 ) );
-                if (pRoomIndex)
+                room = Room.GetRoom( MUDMath.NumberRange( 0, 65535 ) );
+                if (room)
                 {
-                    if (!pRoomIndex.HasFlag(RoomTemplate.ROOM_PRIVATE) && !pRoomIndex.HasFlag(RoomTemplate.ROOM_SOLITARY))
+                    if (!room.HasFlag(RoomTemplate.ROOM_PRIVATE) && !room.HasFlag(RoomTemplate.ROOM_SOLITARY))
                     {
                         break;
                     }
                 }
             }
 
-            return pRoomIndex;
+            return room;
         }
 
         /// <summary>
@@ -263,25 +263,25 @@ namespace MUDEngine
             }
 
             int target = MUDMath.NumberRange(0, (map.Rooms.Count - 1));
-            Room pRoomIndex = Room.GetRoom( target );
-            if (!pRoomIndex ||
-                    pRoomIndex.WorldmapTerrainType == 92 ||
-                    pRoomIndex.WorldmapTerrainType == 101 ||
-                    pRoomIndex.WorldmapTerrainType == 102 ||
-                    pRoomIndex.WorldmapTerrainType == 116 ||
-                    pRoomIndex.WorldmapTerrainType == 130 ||
-                    pRoomIndex.WorldmapTerrainType == 131 ||
-                    pRoomIndex.WorldmapTerrainType == 132 ||
-                    pRoomIndex.WorldmapTerrainType == 136 ||
-                    pRoomIndex.WorldmapTerrainType == 137 ||
-                    pRoomIndex.HasFlag(RoomTemplate.ROOM_PRIVATE) ||
-                    pRoomIndex.HasFlag(RoomTemplate.ROOM_SOLITARY) ||
-                    pRoomIndex.HasFlag(RoomTemplate.ROOM_NO_TELEPORT) ||
-                    pRoomIndex.TerrainType == TerrainType.underground_impassable)
+            Room room = Room.GetRoom( target );
+            if (!room ||
+                    room.WorldmapTerrainType == 92 ||
+                    room.WorldmapTerrainType == 101 ||
+                    room.WorldmapTerrainType == 102 ||
+                    room.WorldmapTerrainType == 116 ||
+                    room.WorldmapTerrainType == 130 ||
+                    room.WorldmapTerrainType == 131 ||
+                    room.WorldmapTerrainType == 132 ||
+                    room.WorldmapTerrainType == 136 ||
+                    room.WorldmapTerrainType == 137 ||
+                    room.HasFlag(RoomTemplate.ROOM_PRIVATE) ||
+                    room.HasFlag(RoomTemplate.ROOM_SOLITARY) ||
+                    room.HasFlag(RoomTemplate.ROOM_NO_TELEPORT) ||
+                    room.TerrainType == TerrainType.underground_impassable)
             {
-                pRoomIndex = GetRandomMapRoom(map);
+                room = GetRandomMapRoom(map);
             }
-            return pRoomIndex;
+            return room;
         }
 
         public static int ScanThisRoom( CharData ch, Room room, string buf, CharData.FlyLevel flyLevel )
