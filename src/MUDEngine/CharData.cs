@@ -2550,15 +2550,17 @@ namespace MUDEngine
             // Handle following.
             for( int i = _inRoom.People.Count -1; i >= 0; i--)
             {
-                CharData fch = _inRoom.People[i];
-                if (fch._master == this && fch._position == Position.standing && fch._wait == 0
-                        && fch._flyLevel == _flyLevel && CanSee(fch, this))
+                CharData followChar = _inRoom.People[i];
+                if (followChar._master == this && followChar._position == Position.standing && followChar._wait == 0
+                        && followChar._flyLevel == _flyLevel && CanSee(followChar, this))
                 {
-                    SocketConnection.Act("You follow $N&n.", fch, null, this, SocketConnection.MessageTarget.character);
-                    fch.Move(door);
+                    SocketConnection.Act("You follow $N&n.", followChar, null, this, SocketConnection.MessageTarget.character);
+                    followChar.Move(door);
                 }
-                else if (fch == _rider)
-                    fch.Move(door);
+                else if (followChar == _rider)
+                {
+                    followChar.Move(door);
+                }
             }
 
             RemoveActBit(moved);
@@ -3475,35 +3477,37 @@ namespace MUDEngine
         /// <summary>
         /// Checks whether two characters are in the same group.
         /// </summary>
-        /// <param name="bch"></param>
+        /// <param name="ch"></param>
         /// <returns></returns>
-        public bool IsSameGroup( CharData bch )
+        public bool IsSameGroup( CharData ch )
         {
-            CharData ach = this;
-
-            if( ach == bch )
+            if (this == ch)
+            {
                 return true;
+            }
 
-            if( ach._groupLeader == null || bch._groupLeader == null )
+            if (_groupLeader == null || ch._groupLeader == null)
+            {
                 return false;
+            }
 
-            if( ach._groupLeader )
-                ach = ach._groupLeader;
-            if( bch._groupLeader )
-                bch = bch._groupLeader;
-            return ach == bch;
+            if (ch._groupLeader)
+            {
+                ch = ch._groupLeader;
+            }
+            return _groupLeader == ch;
         }
 
         /// <summary>
         /// Checks whether two characters are in the same guild.
         /// </summary>
-        /// <param name="bch"></param>
+        /// <param name="ch"></param>
         /// <returns></returns>
-        public bool IsSameGuild( CharData bch )
+        public bool IsSameGuild( CharData ch )
         {
-            if (IsGuild() && bch.IsGuild())
+            if (IsGuild() && ch.IsGuild())
             {
-                return ((PC)this).Clan == ((PC)bch).Clan;
+                return ((PC)this).Clan == ((PC)ch).Clan;
             }
             return false;
         }

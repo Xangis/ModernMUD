@@ -506,12 +506,22 @@ namespace MUDEngine
             return MUDMath.NumberPercent() < save;
         }
 
-        static bool IsValidAreaTarget( CharData ch, CharData tch )
+        /// <summary>
+        /// Checks whether someone is a valid target for an area-effect spell.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        static bool IsValidAreaTarget( CharData ch, CharData target )
         {
-            if( tch.IsSameGroup( ch ) || ch == tch )
+            if (target.IsSameGroup(ch) || ch == target)
+            {
                 return false;
-            if( tch._flyLevel != ch._flyLevel )
+            }
+            if (target._flyLevel != ch._flyLevel)
+            {
                 return false;
+            }
             return true;
         }
 
@@ -521,46 +531,56 @@ namespace MUDEngine
             int temp = 0;
             int firstTarget;
 
-            foreach( CharData tch in ch._inRoom.People )
+            foreach( CharData targetChar in ch._inRoom.People )
             {
-                if( IsValidAreaTarget( ch, tch ) )
+                if( IsValidAreaTarget( ch, targetChar ) )
                     numInRoom++;
             }
             if( numTargets < numInRoom )
                 firstTarget = MUDMath.Dice( 1, numInRoom - numTargets );
             else
                 firstTarget = MUDMath.Dice( 1, numInRoom );
-            foreach( CharData tch in ch._inRoom.People )
+            foreach( CharData targetChar in ch._inRoom.People )
             {
-                if( IsValidAreaTarget( ch, tch ) )
+                if( IsValidAreaTarget( ch, targetChar ) )
                 {
                     temp++;
                     if (temp == firstTarget)
                     {
-                        return tch;
+                        return targetChar;
                     }
                 }
             }
             return null;
         }
 
+        /// <summary>
+        /// Inflict the damage from an area-effect spell.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="spell"></param>
+        /// <param name="numTargets"></param>
+        /// <param name="damage"></param>
+        /// <param name="damtype"></param>
         public static void AreaSpellDamage( CharData ch, Spell spell, int numTargets, int damage, AttackType.DamageType damtype )
         {
             int count = 0;
 
             // TODO: Start with either a random or a targeted character instead of picking the first.
-            foreach( CharData tch in ch._inRoom.People )
+            foreach( CharData targetChar in ch._inRoom.People )
             {
                 if (++count > numTargets)
                     break;
 
-                if( !ch.IsSameGroup( tch ) && ch != tch && ch._flyLevel == tch._flyLevel )
+                if( !ch.IsSameGroup( targetChar ) && ch != targetChar && ch._flyLevel == targetChar._flyLevel )
                 {
                     int tmpDam = damage;
                     /* handle special damage types (chain lightning, quake, etc) here */
-                    /* by modifying tmp_dam, or setting stuff on chars */
-                    if( tmpDam > 0 )
-                        Combat.InflictSpellDamage( ch, tch, damage, spell, damtype );
+                    /* by modifying tmpDam, or setting stuff on chars */
+                    if (tmpDam > 0)
+                    {
+                        Combat.InflictSpellDamage(ch, targetChar, damage, spell, damtype);
+                    }
                 } //end if
             }
         }

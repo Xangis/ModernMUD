@@ -1646,17 +1646,17 @@ namespace MUDEngine
 
             if( ch._position >= Position.fighting )
             {
-                // Allow    a vampire to gaze in addition to its other abilities.
+                // Allow a vampire to gaze in addition to its other abilities.
                 if( MUDMath.NumberPercent() < 40 )
                 {
                     SocketConnection.Act( "$n&n  turns $s gaze upon you.", ch, null, victim, SocketConnection.MessageTarget.victim );
                     Combat.StopFighting( ch, false );
-                    foreach( CharData gch in ch._inRoom.People )
+                    foreach( CharData groupChar in ch._inRoom.People )
                     {
-                        if( ch.IsSameGroup( gch ) && gch != ch )
+                        if( ch.IsSameGroup( groupChar ) && groupChar != ch )
                         {
                             SocketConnection.Act( "$n&n switches targets.", victim, null, null, SocketConnection.MessageTarget.room );
-                            Combat.SetFighting( ch, gch );
+                            Combat.SetFighting( ch, groupChar );
                             break;
                         }
                     }
@@ -1719,27 +1719,37 @@ namespace MUDEngine
             return false;
         }
 
-        // recoded so mobs will only assist own race, and will do so 90% of the time
-        // when _function is checked -- Xangis
+        /// <summary>
+        /// Guard special proc - rescue/assist allies in distress.
+        /// </summary>
+        /// <param name="mob"></param>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
         static bool SpecGuard( System.Object mob, int cmd )
         {
             if (mob == null) return false;
-            CharData ech = null;
+            CharData target = null;
 
-            if( cmd == PROC_DEATH )
+            if (cmd == PROC_DEATH)
+            {
                 return false;
+            }
             CharData ch = (CharData)mob;
-            if( !ch.IsAwake() || ch._fighting )
+            if (!ch.IsAwake() || ch._fighting)
+            {
                 return false;
+            }
 
             foreach( CharData victim in ch._inRoom.People )
             {
-                if( victim.IsNPC() && victim.GetRace() == ch.GetRace() )
+                if (victim.IsNPC() && victim.GetRace() == ch.GetRace())
+                {
                     continue;
+                }
 
                 if( victim._fighting && ( victim._fighting != ch ) && ( victim._fighting.GetRace() == ch.GetRace() ) && ( MUDMath.NumberPercent() < 90 ) )
                 {
-                    ech = victim;
+                    target = victim;
                     continue;
                 }
             }
@@ -1755,11 +1765,11 @@ namespace MUDEngine
             return true;
             }*/
 
-            if( ech != null )
+            if( target != null )
             {
                 SocketConnection.Act( "$n&n screams 'PROTECT THE INNOCENT!!  BANZAI!!",
                      ch, null, null, SocketConnection.MessageTarget.room );
-                ch.AttackCharacter( ech );
+                ch.AttackCharacter( target );
                 return true;
             }
 
@@ -2151,8 +2161,10 @@ namespace MUDEngine
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.bashed);
 
-                    foreach( CharData rch in toRoom.People )
-                        SocketConnection.Act( "The $d is set back on its hinges.", rch, null, reverseExit.Keyword, SocketConnection.MessageTarget.character );
+                    foreach (CharData roomChar in toRoom.People)
+                    {
+                        SocketConnection.Act("The $d is set back on its hinges.", roomChar, null, reverseExit.Keyword, SocketConnection.MessageTarget.character);
+                    }
                 }
 
                 return true;
@@ -2776,11 +2788,10 @@ namespace MUDEngine
             return;
         }
 
-        static CharData TransformMob( CharData pch, int indexNumber, string msg )
+        static CharData TransformMob( CharData ch, int indexNumber, string msg )
         {
             CharData wasFighting = null;
 
-            CharData ch = pch;
             if( ch._fighting )
             {
                 wasFighting = ch._fighting;

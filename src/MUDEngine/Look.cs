@@ -595,36 +595,36 @@ namespace MUDEngine
                 return;
             }
 
-            foreach (CharData rch in list)
+            foreach (CharData listChar in list)
             {
-                if (rch == ch)
+                if (listChar == ch)
                     continue;
-                if (rch._flyLevel != ch._flyLevel)
-                    continue;
-
-                if (!rch.IsNPC() && rch.HasActBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < rch.GetTrust())
+                if (listChar._flyLevel != ch._flyLevel)
                     continue;
 
-                Visibility sight = HowSee(ch, rch);
+                if (!listChar.IsNPC() && listChar.HasActBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < listChar.GetTrust())
+                    continue;
+
+                Visibility sight = HowSee(ch, listChar);
 
                 if (sight == Visibility.visible)
                 {
-                    ShowCharacterToCharacterAbbreviated(rch, ch);
+                    ShowCharacterToCharacterAbbreviated(listChar, ch);
                 }
                 else if (sight == Visibility.sense_infravision)
                 {
-                    ch.SendText(String.Format("&+rYou see the red shape of a {0} living being here.&n\r\n", Race.SizeString(rch._size)));
+                    ch.SendText(String.Format("&+rYou see the red shape of a {0} living being here.&n\r\n", Race.SizeString(listChar._size)));
                 }
                 else if (sight == Visibility.sense_hidden)
                 {
                     ch.SendText("&+LYou sense a lifeform nearby.&n\r\n");
                 }
-                else if (sight == Visibility.invisible && (rch._riding)
-                    && HowSee(ch, rch._riding) != Visibility.invisible)
+                else if (sight == Visibility.invisible && (listChar._riding)
+                    && HowSee(ch, listChar._riding) != Visibility.invisible)
                 {
-                    rch._riding._rider = null;
-                    ShowCharacterToCharacterAbbreviated(rch._riding, ch);
-                    rch._riding._rider = rch._riding;
+                    listChar._riding._rider = null;
+                    ShowCharacterToCharacterAbbreviated(listChar._riding, ch);
+                    listChar._riding._rider = listChar._riding;
                 }
 
             }

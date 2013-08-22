@@ -1162,36 +1162,40 @@ namespace MUDEngine
             * damage is ok to avoid like mortally wounded damage 
             */
             if (!String.IsNullOrEmpty(skill))
+            {
                 SendDamageMessage(ch, victim, dam, skill, weapon, immune);
+            }
 
             victim._hitpoints -= dam;
 
             /* Check for HOLY_SACRFICE and BATTLE_ECSTASY */
             if( dam > 0 && victim != ch )
             {
-                CharData gch;
+                CharData groupChar;
                 if (victim.IsAffected( Affect.AFFECT_HOLY_SACRIFICE) && victim._groupLeader)
                 {
-                    for( gch = victim._groupLeader; gch; gch = gch._nextInGroup )
+                    for( groupChar = victim._groupLeader; groupChar; groupChar = groupChar._nextInGroup )
                     {
-                        if( gch == victim || gch._inRoom != ch._inRoom )
+                        if( groupChar == victim || groupChar._inRoom != ch._inRoom )
                             continue;
-                        gch._hitpoints += dam / 5;
-                        if( gch._hitpoints > gch.GetMaxHit() + 50 + gch._level * 5 )
-                            gch._hitpoints = gch.GetMaxHit() + 50 + gch._level * 5;
+                        groupChar._hitpoints += dam / 5;
+                        if (groupChar._hitpoints > groupChar.GetMaxHit() + 50 + groupChar._level * 5)
+                        {
+                            groupChar._hitpoints = groupChar.GetMaxHit() + 50 + groupChar._level * 5;
+                        }
                     } //end for loop
                 } //end if holy sac
                 if( ch._groupLeader != null )
                 {
-                    for( gch = ch._groupLeader; gch != null; gch = gch._nextInGroup )
+                    for( groupChar = ch._groupLeader; groupChar != null; groupChar = groupChar._nextInGroup )
                     {
-                        if( gch == victim || gch._inRoom != ch._inRoom )
+                        if( groupChar == victim || groupChar._inRoom != ch._inRoom )
                             continue;
-                        if( gch.IsAffected( Affect.AFFECT_BATTLE_ECSTASY ) )
+                        if( groupChar.IsAffected( Affect.AFFECT_BATTLE_ECSTASY ) )
                         {
-                            gch._hitpoints += dam / 20;
-                            if( gch._hitpoints > gch.GetMaxHit() + 50 + gch._level * 5 )
-                                gch._hitpoints = gch.GetMaxHit() + 50 + gch._level * 5;
+                            groupChar._hitpoints += dam / 20;
+                            if( groupChar._hitpoints > groupChar.GetMaxHit() + 50 + groupChar._level * 5 )
+                                groupChar._hitpoints = groupChar.GetMaxHit() + 50 + groupChar._level * 5;
                         } // end if battle ecstasy
                     } //end for loop
                 } //end if grouped
@@ -2668,33 +2672,33 @@ namespace MUDEngine
         /// <param name="ch"></param>
         public static void StopFighting( CharData ch, bool stopBoth )
         {
-            CharData fch;
-
-            
             /* If this is true, something is _bad_. */
             if( ch == null )
             {
-                Log.Error( "Command.stop_fighting: null character as argument!", 0 );
+                Log.Error( "Command.StopFighting: null character as argument!", 0 );
                 return;
             }
 
             /* Always stop the character from fighting. */
             ch._fighting = null;
-            if( ch._position == Position.fighting )
+            if (ch._position == Position.fighting)
+            {
                 ch._position = Position.standing;
+            }
 
             /* Taking this out of the for loop is MUCH faster. */
             if( stopBoth )
             {
-                foreach( CharData it in Database.CharList )
+                foreach( CharData fighter in Database.CharList )
                 {
-                    fch = it;
-                    if( fch._fighting == ch )
+                    if( fighter._fighting == ch )
                     {
-                        fch._fighting = null;
-                        if( fch._position == Position.fighting )
-                            fch._position = Position.standing;
-                        fch.UpdatePosition();
+                        fighter._fighting = null;
+                        if (fighter._position == Position.fighting)
+                        {
+                            fighter._position = Position.standing;
+                        }
+                        fighter.UpdatePosition();
                     }
                 }
             }
@@ -3082,17 +3086,21 @@ namespace MUDEngine
             int members = 0;
 
             // Check for highest level group member and number of members in room
-            foreach( CharData gch in ch._inRoom.People )
+            foreach( CharData groupChar in ch._inRoom.People )
             {
-                if( gch.IsSameGroup( ch ) )
+                if (groupChar.IsSameGroup(ch))
+                {
                     members++;
-                if( gch._level > highest )
-                    highest = gch._level;
+                }
+                if (groupChar._level > highest)
+                {
+                    highest = groupChar._level;
+                }
             }
 
             if( members == 0 )
             {
-                Log.Error( "Group_gain: {0} members.", members );
+                Log.Error( "GroupExperienceGain: {0} members.", members );
                 members = 1;
             }
 
@@ -3107,11 +3115,11 @@ namespace MUDEngine
                 AdjustFaction(ch, victim);
             }
 
-            foreach( CharData gch in ch._inRoom.People )
+            foreach( CharData groupChar in ch._inRoom.People )
             {
                 int factor;
 
-                if( !gch.IsSameGroup( ch ) || gch.IsNPC() )
+                if( !groupChar.IsSameGroup( ch ) || groupChar.IsNPC() )
                     continue;
 
                 // Previously factor was set to be 110% - 10% per group member.  This caused people in groups
@@ -3172,18 +3180,28 @@ namespace MUDEngine
                 // The overall increases are:
                 // 2 = 20.4% 3 = 35.9% 4 = 29.0% 5 = 33.3% 6 = 16.7% 7 = 18.2%
 
-                if( members < 4 )
-                    factor = ( 70 + ( members * 30 ) ) / members;
-                else if( members < 6 )
-                    factor = ( 80 + ( members * 20 ) ) / members;
-                else if( members < 8 )
-                    factor = ( 80 + ( members * 15 ) ) / members;
-                else if( members < 10 )
-                    factor = ( 90 + ( members * 10 ) ) / members;
+                if (members < 4)
+                {
+                    factor = (70 + (members * 30)) / members;
+                }
+                else if (members < 6)
+                {
+                    factor = (80 + (members * 20)) / members;
+                }
+                else if (members < 8)
+                {
+                    factor = (80 + (members * 15)) / members;
+                }
+                else if (members < 10)
+                {
+                    factor = (90 + (members * 10)) / members;
+                }
                 else
-                    factor = ( 94 + ( members * 6 ) ) / members;
+                {
+                    factor = (94 + (members * 6)) / members;
+                }
 
-                int xp = ComputeExperience( gch, victim ) * factor / 100;
+                int xp = ComputeExperience( groupChar, victim ) * factor / 100;
 
                 // Prevent total cheese leveling with unbalanced groups.  Well, not
                 // prevent, but reduce.  A level 10 grouped with a 30 will end up
@@ -3199,44 +3217,48 @@ namespace MUDEngine
                 // Only check Trophy for NPC as victim, killer over level 5,
                 // and victim less than 20 levels lower than killer.
 
-                if( victim.IsNPC() && !gch.IsNPC() && ( gch._level > 4 ) && ( ( ch._level - victim._level ) < 20 ) )
-                    xp = ( xp * CheckTrophy( gch, victim, members ) ) / 100;
+                if (victim.IsNPC() && !groupChar.IsNPC() && (groupChar._level > 4) && ((ch._level - victim._level) < 20))
+                {
+                    xp = (xp * CheckTrophy(groupChar, victim, members)) / 100;
+                }
 
                 if( xp == 0 )
                     continue;
 
-                if( ( ch.IsRacewar( victim ) )
-                        && ( !ch.IsNPC() && !gch.IsNPC() ) )
+                if( ( ch.IsRacewar( victim ) ) && ( !ch.IsNPC() && !groupChar.IsNPC() ) )
                 {
                     ch.SendText( "You lost half of the experience by grouping with scum.\r\n" );
                     xp /= 2;
                 }
 
                 string buf;
-                if( xp > 0 )
+                if (xp > 0)
+                {
                     buf = "You receive your portion of the experience.\r\n";
+                }
                 else
+                {
                     buf = "You lose your portion of the experience.\r\n";
-                gch.SendText( buf );
-                if( !gch.IsNPC() )
-                    gch.GainExperience( xp );
+                }
+                groupChar.SendText( buf );
+                if (!groupChar.IsNPC())
+                {
+                    groupChar.GainExperience(xp);
+                }
 
-                foreach( Object obj in gch._carrying )
+                foreach( Object obj in groupChar._carrying )
                 {
                     if( obj.WearLocation == ObjTemplate.WearLocation.none )
                         continue;
 
-                    if( ( obj.HasFlag( ObjTemplate.ITEM_ANTI_EVIL )
-                             && gch.IsEvil() )
-                            || ( obj.HasFlag( ObjTemplate.ITEM_ANTI_GOOD )
-                                 && gch.IsGood() )
-                            || ( obj.HasFlag( ObjTemplate.ITEM_ANTI_NEUTRAL )
-                                 && gch.IsNeutral() ) )
+                    if( ( obj.HasFlag( ObjTemplate.ITEM_ANTI_EVIL ) && groupChar.IsEvil() )
+                          || ( obj.HasFlag( ObjTemplate.ITEM_ANTI_GOOD ) && groupChar.IsGood() )
+                          || ( obj.HasFlag( ObjTemplate.ITEM_ANTI_NEUTRAL ) && groupChar.IsNeutral() ) )
                     {
-                        SocketConnection.Act( "&+LYou are wracked with &n&+rp&+Ra&n&+ri&+Rn&+L by&n $p&+L.&n", gch, obj, null, SocketConnection.MessageTarget.character );
-                        SocketConnection.Act( "$n&+L convulses in &+Cp&n&+ca&+Ci&n&+cn&+L from&n $p&+L.&n", gch, obj, null, SocketConnection.MessageTarget.room );
+                        SocketConnection.Act( "&+LYou are wracked with &n&+rp&+Ra&n&+ri&+Rn&+L by&n $p&+L.&n", groupChar, obj, null, SocketConnection.MessageTarget.character );
+                        SocketConnection.Act( "$n&+L convulses in &+Cp&n&+ca&+Ci&n&+cn&+L from&n $p&+L.&n", groupChar, obj, null, SocketConnection.MessageTarget.room );
                         obj.RemoveFromChar();
-                        obj.AddToRoom( gch._inRoom );
+                        obj.AddToRoom( groupChar._inRoom );
                     }
                 }
             }
@@ -3249,7 +3271,7 @@ namespace MUDEngine
         * Also adjust alignment of killer.
         * Edit this function to change xp computations.
         */
-        static int ComputeExperience( CharData gch, CharData victim )
+        static int ComputeExperience( CharData killer, CharData victim )
         {
             int percent = 100;
             int sign;
@@ -3261,17 +3283,17 @@ namespace MUDEngine
             // for the first 9 levels, and then another 1% for the next 9 levels.
             // It actually counts down starting at 91%.
             /* If victim is lower level */
-            if( victim._level < gch._level )
+            if( victim._level < killer._level )
             {
                 /* If victim is less than 10 levels below */
-                if( gch._level - victim._level < 10 )
+                if( killer._level - victim._level < 10 )
                 {
-                    percent = 101 - ( ( gch._level - victim._level ) * 10 );
+                    percent = 101 - ( ( killer._level - victim._level ) * 10 );
                 }
                 /* If victim is less than 20 levels below */
-                else if( gch._level - victim._level < 20 )
+                else if( killer._level - victim._level < 20 )
                 {
-                    percent = 20 - ( gch._level - victim._level );
+                    percent = 20 - ( killer._level - victim._level );
                 }
                 else
                 {
@@ -3279,19 +3301,19 @@ namespace MUDEngine
                 }
             }
             /* If victim is over 10 levels over */
-            else if( victim._level > ( gch._level + 10 ) && gch._level <= 20 )
+            else if( victim._level > ( killer._level + 10 ) && killer._level <= 20 )
             {
                 // Experience penalty for killing stuff way higher than you, 33 level difference and you
                 // get about nothing.
                 // Tweaked this slightly, 96 % at 10 levels above, 96% at 10 levels, etc
-                percent = 129 - ( ( victim._level - gch._level ) * 4 );
+                percent = 129 - ( ( victim._level - killer._level ) * 4 );
                 if( percent < 2 )
                     percent = 2;
             }
             else
-                percent += ( victim._level - gch._level );
+                percent += ( victim._level - killer._level );
 
-            if( gch._alignment > 0 )
+            if( killer._alignment > 0 )
                 sign = 1;
             else
                 sign = -1;
@@ -3299,25 +3321,25 @@ namespace MUDEngine
                 alignDir = -1;
             else
                 alignDir = 1;
-            int chance = Math.Abs( gch._alignment - victim._alignment ) - sign * gch._alignment;
+            int chance = Math.Abs( killer._alignment - victim._alignment ) - sign * killer._alignment;
             chance /= 10;
             if( chance < 0 )
                 chance *= -1;
-            if( gch._level > victim._level )
-                chance -= ( gch._level - victim._level );
+            if( killer._level > victim._level )
+                chance -= ( killer._level - victim._level );
             chance = Macros.Range( 0, chance, 100 );
 
             string lbuf = String.Format( "ComputeExperience: {0} has a {1} chance of gaining {2} align.",
-                                         gch._name, chance, alignDir );
+                                         killer._name, chance, alignDir );
             ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
-            if( MUDMath.NumberPercent() < chance && gch._alignment != -1000 )
+            if( MUDMath.NumberPercent() < chance && killer._alignment != -1000 )
             {
-                gch._alignment += alignDir;
-                if( gch._alignment <= -1000 )
-                    gch.SendText( "&+RThe d&+rarkside t&+lakes over...&n\r\n" );
+                killer._alignment += alignDir;
+                if( killer._alignment <= -1000 )
+                    killer.SendText( "&+RThe d&+rarkside t&+lakes over...&n\r\n" );
             }
 
-            gch._alignment = Macros.Range( -1000, gch._alignment, 1000 );
+            killer._alignment = Macros.Range( -1000, killer._alignment, 1000 );
 
             // 25% bonus for sanctuary
             if (victim.IsAffected(Affect.AFFECT_SANCTUARY))
@@ -3346,13 +3368,13 @@ namespace MUDEngine
             }
 
             // 10% bonus for racially hated mobs
-            if( MUDString.NameContainedIn( Race.RaceList[ victim.GetRace() ].Name, Race.RaceList[ gch.GetOrigRace() ].Hate ) )
+            if( MUDString.NameContainedIn( Race.RaceList[ victim.GetRace() ].Name, Race.RaceList[ killer.GetOrigRace() ].Hate ) )
             {
                 percent = ( percent * 11 ) / 10;
             }
 
             // 10% penalty for killing same race
-            if( victim.GetRace() == gch.GetOrigRace() )
+            if( victim.GetRace() == killer.GetOrigRace() )
             {
                 percent = ( percent * 9 ) / 10;
             }
@@ -3387,7 +3409,7 @@ namespace MUDEngine
                 // Those 11-20 are worth one fifth experience.
                 if( victim._level < 6 )
                 {
-                    gch.SendText( "You killed a newbie!  You feel like a twink!\r\n" );
+                    killer.SendText( "You killed a newbie!  You feel like a twink!\r\n" );
                     return (victim._level - 6);
                 }
                 if( victim._level < 11 )
@@ -3403,28 +3425,26 @@ namespace MUDEngine
                     percent *= 2;
                 }
 
-                if( !gch.IsRacewar( victim ) )
+                if( !killer.IsRacewar( victim ) )
                 {
-                    if( !gch.HasActBit( PC.PLAYER_BOTTING ))
+                    if( !killer.HasActBit( PC.PLAYER_BOTTING ))
                     {
-                        gch.SendText("You gain no experience for killing your own side.\r\n");
+                        killer.SendText("You gain no experience for killing your own side.\r\n");
                         return 0;
                     }
                     // Same-side bot kills are worth normal experience.
-                    gch.SendText("You gain experience for vanquishing an automaton.\r\n");
+                    killer.SendText("You gain experience for vanquishing an automaton.\r\n");
                 }
-                else if( gch.HasActBit( PC.PLAYER_BOTTING ))
+                else if( killer.HasActBit( PC.PLAYER_BOTTING ))
                 {
                     // Racewar bot kills.  50% bonus exp.
-                    gch.SendText("You gain bonus experience for killing an automaton.\r\n");
+                    killer.SendText("You gain bonus experience for killing an automaton.\r\n");
                     percent = percent * 3/2;
                 }
             }
 
             int xp = ( percent * ExperienceTable.Table[ victim._level ].MobExperience ) / 100;
-
             xp = Math.Max( 0, xp );
-
             return xp;
         }
 

@@ -451,9 +451,9 @@ namespace MUDEngine
                             if( room.HasFlag( RoomTemplate.ROOM_MAGICDARK ) )
                             {
                                 room.RemoveFlag( RoomTemplate.ROOM_MAGICDARK );
-                                foreach( CharData dch in room.People )
+                                foreach( CharData charData in room.People )
                                 {
-                                    dch.SendText( "&+LThe darkness&n seems to lift a _bitvector.\r\n" );
+                                    charData.SendText( "&+LThe darkness&n seems to lift a bit.\r\n" );
                                 }
                             }
                             Database.EventList.Remove( it );
@@ -473,17 +473,17 @@ namespace MUDEngine
                                 room.RemoveFlag( RoomTemplate.ROOM_AIRY_STARSHELL );
                                 room.RemoveFlag( RoomTemplate.ROOM_FIERY_STARSHELL );
                                 room.RemoveFlag( RoomTemplate.ROOM_WATERY_STARSHELL );
-                                foreach( CharData sch in room.People )
+                                foreach( CharData roomChar in room.People )
                                 {
-                                    sch.SendText( "The &+Ystarshell&n shatters and fades away.\r\n" );
+                                    roomChar.SendText( "The &+Ystarshell&n shatters and fades away.\r\n" );
                                 }
                             }
                             if( room.HasFlag( RoomTemplate.ROOM_HYPNOTIC_PATTERN ) )
                             {
                                 room.RemoveFlag( RoomTemplate.ROOM_HYPNOTIC_PATTERN );
-                                foreach( CharData pch in room.People )
+                                foreach( CharData roomChar in room.People )
                                 {
-                                    pch.SendText( "&+CThe pa&+cttern &+Bfades a&+bway.&n\r\n" );
+                                    roomChar.SendText( "&+CThe pa&+cttern &+Bfades a&+bway.&n\r\n" );
                                 }
                             }
                             break;
@@ -878,9 +878,9 @@ namespace MUDEngine
                 if (ch._position == Position.sleeping && !ch.IsAffected( Affect.AFFECT_SLEEP ))
                 {
                     // If there is a fight going on have a chance to waken
-                    foreach( CharData pch in ch._inRoom.People )
+                    foreach( CharData roomChar in ch._inRoom.People )
                     {
-                        if (pch._fighting && MUDMath.NumberBits(3) == 0 && !ch.IsAffected(Affect.AFFECT_SLEEP))
+                        if (roomChar._fighting && MUDMath.NumberBits(3) == 0 && !ch.IsAffected(Affect.AFFECT_SLEEP))
                         {
                             SocketConnection.Act( "$n awakens from $s slumber.", ch, null, null, SocketConnection.MessageTarget.room );
                             ch._position = Position.reclining;
@@ -1572,18 +1572,18 @@ namespace MUDEngine
                                 continue;
                             for (int l = room.People.Count - 1; l >= 0; l--)
                             {
-                                CharData rch = room.People[l];
-                                if (rch._flyLevel == obj.FlyLevel)
+                                CharData roomChar = room.People[l];
+                                if (roomChar._flyLevel == obj.FlyLevel)
                                 {
-                                    SocketConnection.Act("$p&n falls away.", rch, obj, rch, SocketConnection.MessageTarget.character);
+                                    SocketConnection.Act("$p&n falls away.", roomChar, obj, roomChar, SocketConnection.MessageTarget.character);
                                 }
-                                if (rch._flyLevel != 0 && rch._flyLevel < obj.FlyLevel)
+                                if (roomChar._flyLevel != 0 && roomChar._flyLevel < obj.FlyLevel)
                                 {
-                                    SocketConnection.Act("$p&n falls past you from above.", rch, obj, rch, SocketConnection.MessageTarget.character);
+                                    SocketConnection.Act("$p&n falls past you from above.", roomChar, obj, roomChar, SocketConnection.MessageTarget.character);
                                 }
-                                if (rch._flyLevel == 0)
+                                if (roomChar._flyLevel == 0)
                                 {
-                                    SocketConnection.Act("$p&n falls from above.", rch, obj, rch, SocketConnection.MessageTarget.character);
+                                    SocketConnection.Act("$p&n falls from above.", roomChar, obj, roomChar, SocketConnection.MessageTarget.character);
                                 }
                             }
                             obj.FlyLevel = 0;

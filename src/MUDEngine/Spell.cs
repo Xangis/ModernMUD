@@ -904,14 +904,11 @@ namespace MUDEngine
         /// <param name="indexNumber"></param>
         public static void SummonElem(CharData ch, Spell spell, int level, int indexNumber)
         {
-            CharData pch;
-
             int numpets = 0;
-            foreach (CharData it in Database.CharList)
+            foreach (CharData petChar in Database.CharList)
             {
-                pch = it;
-                if (pch != ch && pch._master == ch &&
-                        pch.IsNPC() && pch.HasActBit(MobTemplate.ACT_PET))
+                if (petChar != ch && petChar._master == ch &&
+                        petChar.IsNPC() && petChar.HasActBit(MobTemplate.ACT_PET))
                     numpets++;
             }
 
@@ -919,8 +916,8 @@ namespace MUDEngine
             int maxpets = ch._level / 20 + ch.GetCurrCha() / 35;
             if (ch._level >= Limits.LEVEL_AVATAR)
             {
-                string buf = String.Format("You can summon at most {0} pets.\r\n", maxpets);
-                ch.SendText(buf);
+                string text = String.Format("You can summon at most {0} pets.\r\n", maxpets);
+                ch.SendText(text);
             }
             if (numpets >= maxpets)
             {
@@ -970,9 +967,7 @@ namespace MUDEngine
             elemental.AddAffect(af);
             // Set the MobIndex.ACT_PET bit as well
             elemental.SetActBit(MobTemplate.ACT_PET);
-
             elemental._flyLevel = ch._flyLevel;
-
             if (ch._fighting)
             {
                 Combat.SetFighting(elemental, ch._fighting);

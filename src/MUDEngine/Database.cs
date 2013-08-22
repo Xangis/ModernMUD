@@ -480,10 +480,12 @@ namespace MUDEngine
             int numPlayers = 0;
             foreach( Area area in AreaList )
             {
-                CharData pch;
+                CharData roomChar;
 
-                if( area.NumDefendersDispatched > 0 )
+                if (area.NumDefendersDispatched > 0)
+                {
                     area.NumDefendersDispatched--;
+                }
 
                 // Increment the area's age in seconds.
                 area.AgeInSeconds += Event.TICK_AREA;
@@ -494,9 +496,9 @@ namespace MUDEngine
                 // Reset area only when empty of players
                 if (area.AreaResetMode == Area.ResetMode.empty_of_players && area.NumPlayers > 0)
                 {
-                    String buf = String.Format("{0} not being Reset, {1} players are present.", area.Filename, area.NumPlayers);
-                    ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, buf);
-                    Log.Trace(buf);
+                    String text = String.Format("{0} not being Reset, {1} players are present.", area.Filename, area.NumPlayers);
+                    ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, text);
+                    Log.Trace(text);
                     continue;
                 }
                 // Reset area only when no objects are still in the area.
@@ -558,8 +560,8 @@ namespace MUDEngine
 
                 foreach( CharData cd in CharList )
                 {
-                    pch = cd;
-                    if( !pch.IsNPC() && pch._inRoom != null && pch._inRoom.Area == area )
+                    roomChar = cd;
+                    if( !roomChar.IsNPC() && roomChar._inRoom != null && roomChar._inRoom.Area == area )
                         numPlayers++;
                 }
 
@@ -568,12 +570,12 @@ namespace MUDEngine
                 {
                     foreach( CharData chd in CharList )
                     {
-                        pch = chd;
-                        if( !pch.IsNPC() && pch.IsAwake() && pch._inRoom
-                                && pch._inRoom.Area == area &&
+                        roomChar = chd;
+                        if( !roomChar.IsNPC() && roomChar.IsAwake() && roomChar._inRoom
+                                && roomChar._inRoom.Area == area &&
                                 !String.IsNullOrEmpty(area.ResetMessage))
                         {
-                            pch.SendText( String.Format( "{0}\r\n", area.ResetMessage ) );
+                            roomChar.SendText( String.Format( "{0}\r\n", area.ResetMessage ) );
                         }
                     }
                 }

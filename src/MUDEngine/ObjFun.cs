@@ -734,29 +734,29 @@ namespace MUDEngine
                         keeper, (Object)obj, vict, SocketConnection.MessageTarget.character);
                     SocketConnection.Act( "$n's $p blasts the ground with a &+yshockwave&N!",
                         keeper, (Object)obj, null, SocketConnection.MessageTarget.room);
-                    foreach( CharData tch in keeper._inRoom.People )
+                    foreach( CharData targetChar in keeper._inRoom.People )
                     {
-                        if( ( tch == keeper ) || tch.IsImmortal() )
+                        if( ( targetChar == keeper ) || targetChar.IsImmortal() )
                             continue;
-                        if( keeper.IsSameGroup( tch ) )
+                        if( keeper.IsSameGroup( targetChar ) )
                             continue;
-                        if( tch.IsAffected( Affect.AFFECT_FLYING ) )
+                        if( targetChar.IsAffected( Affect.AFFECT_FLYING ) )
                             continue;
-                        if( keeper.IsNPC() && tch.IsNPC() && !vict.IsSameGroup( tch ) )
+                        if( keeper.IsNPC() && targetChar.IsNPC() && !vict.IsSameGroup( targetChar ) )
                             continue;
-                        if( Magic.SpellSavingThrow( 60, tch, AttackType.DamageType.earth ) )
+                        if( Magic.SpellSavingThrow( 60, targetChar, AttackType.DamageType.earth ) )
                         {
                             SocketConnection.Act( "You wobble precipitously, but keep your feet.",
-                                keeper, null, tch, SocketConnection.MessageTarget.victim );
-                            SocketConnection.Act( "$n&n stumbles slightly but keeps $s balance.", tch, null, null, SocketConnection.MessageTarget.room );
+                                keeper, null, targetChar, SocketConnection.MessageTarget.victim );
+                            SocketConnection.Act( "$n&n stumbles slightly but keeps $s balance.", targetChar, null, null, SocketConnection.MessageTarget.room );
                         }
                         else
                         {
                             SocketConnection.Act( "You are knocked to the ground!",
-                                keeper, null, tch, SocketConnection.MessageTarget.victim );
-                            SocketConnection.Act( "$n&n is knocked to the ground!", tch, null, null, SocketConnection.MessageTarget.room );
-                            tch._position = Position.kneeling;
-                            tch.WaitState( Event.TICK_COMBAT );
+                                keeper, null, targetChar, SocketConnection.MessageTarget.victim );
+                            SocketConnection.Act( "$n&n is knocked to the ground!", targetChar, null, null, SocketConnection.MessageTarget.room );
+                            targetChar._position = Position.kneeling;
+                            targetChar.WaitState( Event.TICK_COMBAT );
                         }
                     } // end for
                     retval = true;

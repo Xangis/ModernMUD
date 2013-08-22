@@ -581,13 +581,13 @@ namespace MUDEngine
                     room = Room.GetRoom((indexNumber + ((x * ch._inRoom.Area.Width) + y)));
                     if (room && room.People.Count > 0)
                     {
-                        foreach (CharData pch in room.People)
+                        foreach (CharData roomChar in room.People)
                         {
-                            if ((pch._flyLevel == ch._flyLevel || ch._flyLevel == pch._flyLevel + 1) && CharData.CanSee(ch, pch))
+                            if ((roomChar._flyLevel == ch._flyLevel || ch._flyLevel == roomChar._flyLevel + 1) && CharData.CanSee(ch, roomChar))
                             {
-                                if (pch.IsNPC())
+                                if (roomChar.IsNPC())
                                 {
-                                    if (pch._flyLevel == ch._flyLevel)
+                                    if (roomChar._flyLevel == ch._flyLevel)
                                     {
                                         hasM = true;
                                     }
@@ -598,7 +598,7 @@ namespace MUDEngine
                                 }
                                 else
                                 {
-                                    if (pch._flyLevel == ch._flyLevel)
+                                    if (roomChar._flyLevel == ch._flyLevel)
                                     {
                                         hasP = true;
                                     }
@@ -2739,7 +2739,7 @@ namespace MUDEngine
             else if (!MUDString.IsPrefixOf(str[0], "monk"))
                 Monkstat(ch,  arguments );
             else if (!MUDString.IsPrefixOf(str[0], "group"))
-                Gstat(ch,  arguments );
+                GroupStat(ch,  arguments );
             else if (!MUDString.IsPrefixOf(str[0], "race"))
                 StatRace(ch,  arguments );
             else
@@ -3687,12 +3687,12 @@ namespace MUDEngine
             ch.SendText(text);
         }
 
-        public static void Gstat(CharData ch, string[] str)
+        public static void GroupStat(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
             CharData victim;
-            CharData gch;
+            CharData groupChar;
             CharData leader;
             string text;
             string arg = String.Empty;
@@ -3719,9 +3719,9 @@ namespace MUDEngine
                 }
                 leader = victim._groupLeader;
                 buf1 = String.Format("&+G{0}'s group:&n\r\n", leader._name);
-                for (gch = leader; gch; gch = gch._nextInGroup)
+                for (groupChar = leader; groupChar; groupChar = groupChar._nextInGroup)
                 {
-                    text = String.Format("     &+G{0}&n\r\n", gch._name);
+                    text = String.Format("     &+G{0}&n\r\n", groupChar._name);
                     buf1 += text;
                 }
                 realChar.SendText(buf1);
@@ -3738,9 +3738,9 @@ namespace MUDEngine
                 leader = victim._groupLeader;
                 text = String.Format("&+G{0}'s group:&n\r\n", leader._name);
                 buf1 += text;
-                for (gch = leader; gch; gch = gch._nextInGroup)
+                for (groupChar = leader; groupChar; groupChar = groupChar._nextInGroup)
                 {
-                    text = String.Format("     &+G{0}&n\r\n", gch._name);
+                    text = String.Format("     &+G{0}&n\r\n", groupChar._name);
                     buf1 += text;
                 }
             }
@@ -5488,22 +5488,22 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            CharData ich = ch.GetChar();
+            ch = ch.GetChar();
 
-            if (!ich.Authorized("peace"))
+            if (!ch.Authorized("peace"))
             {
                 return;
             }
 
-            foreach (CharData rch in ch._inRoom.People)
+            foreach (CharData roomChar in ch._inRoom.People)
             {
-                if (rch._fighting)
+                if (roomChar._fighting)
                 {
-                    Combat.StopFighting(rch, true);
+                    Combat.StopFighting(roomChar, true);
                 }
-                rch.StopHatingAll();
-                Combat.StopHunting(rch);
-                Combat.StopFearing(rch);
+                roomChar.StopHatingAll();
+                Combat.StopHunting(roomChar);
+                Combat.StopFearing(roomChar);
             }
 
             ch.SendText("Done.\r\n");
@@ -9040,21 +9040,21 @@ namespace MUDEngine
             ch.WaitState(Skill.SkillList["rescue"].Delay);
 
             int count = 0;
-            CharData fch = null;
+            CharData fighter = null;
             foreach (CharData ifch in ch._inRoom.People)
             {
                 if (ifch._fighting == victim)
                 {
                     if (MUDMath.NumberRange(0, count) == 0)
                     {
-                        fch = ifch;
+                        fighter = ifch;
                         break;
                     }
                     ++count;
                 }
             }
 
-            if (!fch || !ch.CheckSkill("rescue"))
+            if (!fighter || !ch.CheckSkill("rescue"))
             {
                 SocketConnection.Act("$n&n fails miserably in $s attempt to rescue $N&n.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
                 SocketConnection.Act("$n&n fails miserably in $s attempt to rescue you.", ch, null, victim, SocketConnection.MessageTarget.victim);
@@ -9066,13 +9066,13 @@ namespace MUDEngine
             SocketConnection.Act("&+W$n&+W rescues you!", ch, null, victim, SocketConnection.MessageTarget.victim);
             SocketConnection.Act("&+w$n&+w leaps in front of $N&+w taking his place in battle!&n", ch, null, victim, SocketConnection.MessageTarget.room_vict);
 
-            Combat.StopFighting(fch, false);
+            Combat.StopFighting(fighter, false);
             Combat.StopFighting(victim, false);
 
-            Combat.SetFighting(fch, ch);
+            Combat.SetFighting(fighter, ch);
             if (!ch._fighting)
             {
-                Combat.SetFighting(ch, fch);
+                Combat.SetFighting(ch, fighter);
             }
             return;
         }
@@ -10577,15 +10577,15 @@ namespace MUDEngine
             SocketConnection.Act("$n&n holds $p&n firmly, and starts spinning round...", ch, wield, null, SocketConnection.MessageTarget.room);
             SocketConnection.Act("You hold $p&n firmly, and start spinning round...", ch, wield, null, SocketConnection.MessageTarget.character);
 
-            foreach (CharData pChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch._inRoom.People)
             {
-                if ((pChar.IsNPC() || (ch.IsRacewar(pChar) && !pChar.IsImmortal()))
-                        && CharData.CanSee(pChar, ch))
+                if ((roomChar.IsNPC() || (ch.IsRacewar(roomChar) && !roomChar.IsImmortal()))
+                        && CharData.CanSee(roomChar, ch))
                 {
                     found = true;
-                    SocketConnection.Act("$n&n turns towards YOU!", ch, null, pChar, SocketConnection.MessageTarget.victim);
-                    Combat.SingleAttack(ch, pChar, "whirlwind", ObjTemplate.WearLocation.hand_one);
-                    // Added small amount of lag per _targetType hit
+                    SocketConnection.Act("$n&n turns towards YOU!", ch, null, roomChar, SocketConnection.MessageTarget.victim);
+                    Combat.SingleAttack(ch, roomChar, "whirlwind", ObjTemplate.WearLocation.hand_one);
+                    // Added small amount of lag per target hit
                     ch.WaitState(3);
                 }
             }
@@ -10614,6 +10614,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Knock the weapon from an opponent's hand.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Disarm(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -14845,27 +14850,30 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Command to kill the MUD process. If that's not dangerous, I don't know what is.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void KillProcess(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
-            //CharData rch;
+            ch = ch.GetChar();
 
-            //rch = ch.GetChar();
+            if( ch.GetTrust() < Limits.LEVEL_OVERLORD )
+                return;
 
-            //if( rch.GetTrust() < 60 )
-            //    return;
+            Log.Info("MUD Process terminated with KillProcess command by " + ch._name);
 
-            //if( !ch.IsNPC() )
-            //{
-            //    system( "kill -9 `ps aux | grep magma | grep 4502 | cut -c 10-14`" );
-            //    ch.SendText( "Mud Terminated with extreme prejudice!\r\n" );
-            //}
-            Log.Error("Killproc command has been disabled.");
-            return;
-
+            Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Generates a random sentence.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void RandomSentence(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -16376,20 +16384,20 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            CharData gch;
-            CharData gchNext;
+            CharData groupChar;
+            CharData nextGroupChar;
 
             if (ch != ch._groupLeader)
             {
                 ch.SendText("You must be group leader to disband!\r\n");
                 return;
             }
-            for (gch = ch; gch; gch = gchNext)
+            for (groupChar = ch; groupChar; groupChar = nextGroupChar)
             {
-                gchNext = gch._nextInGroup;
-                gch.SendText("&+GYour group has been disbanded.&n\r\n");
-                gch._groupLeader = null;
-                gch._nextInGroup = null;
+                nextGroupChar = groupChar._nextInGroup;
+                groupChar.SendText("&+GYour group has been disbanded.&n\r\n");
+                groupChar._groupLeader = null;
+                groupChar._nextInGroup = null;
             }
             return;
         }
@@ -16504,24 +16512,24 @@ namespace MUDEngine
             SocketConnection.Act("You sign '&n$T&n'", ch, null, text, SocketConnection.MessageTarget.character);
 
             text = DrunkSpeech.MakeDrunk(text, ch);
-            foreach (CharData och in ch._inRoom.People)
+            foreach (CharData roomChar in ch._inRoom.People)
             {
-                if (och == ch || och.IsNPC())
+                if (roomChar == ch || roomChar.IsNPC())
                     continue;
 
                 string text2;
-                if (och.IsImmortal() || och.GetOrigRace() == Race.RACE_DROW)
+                if (roomChar.IsImmortal() || roomChar.GetOrigRace() == Race.RACE_DROW)
                 {
-                    text2 = String.Format("{0} signs '&n$T&n'", ch.ShowNameTo(och, true));
+                    text2 = String.Format("{0} signs '&n$T&n'", ch.ShowNameTo(roomChar, true));
                 }
                 else
                 {
-                    text2 = String.Format("{0} wiggles {1} fingers around.", ch.ShowNameTo(och, true),
+                    text2 = String.Format("{0} wiggles {1} fingers around.", ch.ShowNameTo(roomChar, true),
                               ch._sex == MobTemplate.Sex.male ? "his" :
                               ch._sex == MobTemplate.Sex.female ? "her" : "its");
                 }
 
-                SocketConnection.Act(text, och, null, text2, SocketConnection.MessageTarget.character);
+                SocketConnection.Act(text, roomChar, null, text2, SocketConnection.MessageTarget.character);
             }
 
             //    ch.door_trigger( argument );
@@ -16563,21 +16571,21 @@ namespace MUDEngine
             text = DrunkSpeech.MakeDrunk(text, ch);
             string random = NounType.RandomSentence();
 
-            foreach (CharData och in ch._inRoom.People)
+            foreach (CharData roomChar in ch._inRoom.People)
             {
-                if (och == ch || och.IsNPC())
+                if (roomChar == ch || roomChar.IsNPC())
                     continue;
 
-                if (och.IsImmortal() || och.IsClass(CharClass.Names.thief))
+                if (roomChar.IsImmortal() || roomChar.IsClass(CharClass.Names.thief))
                 {
-                    buf = String.Format("{0} cants '&n$T&n'", ch.ShowNameTo(och, true));
+                    buf = String.Format("{0} cants '&n$T&n'", ch.ShowNameTo(roomChar, true));
                 }
                 else
                 {
-                    buf = String.Format("{0} says, '{1}'\r\n", ch.ShowNameTo(och, true), random);
+                    buf = String.Format("{0} says, '{1}'\r\n", ch.ShowNameTo(roomChar, true), random);
                 }
 
-                SocketConnection.Act(buf, och, null, SocketConnection.TranslateText(text, ch, och), SocketConnection.MessageTarget.character);
+                SocketConnection.Act(buf, roomChar, null, SocketConnection.TranslateText(text, ch, roomChar), SocketConnection.MessageTarget.character);
             }
 
             return;
@@ -17051,29 +17059,29 @@ namespace MUDEngine
 
             if (ch._inRoom != null)
             {
-                foreach (CharData och in ch._inRoom.People)
+                foreach (CharData roomChar in ch._inRoom.People)
                 {
-                    if (och == ch || och.IsNPC())
+                    if (roomChar == ch || roomChar.IsNPC())
                         continue;
 
-                    string buf;
+                    string output;
                     if (ch.IsNPC() || (!ch.IsNPC() && (((PC)ch).Speaking == Race.Language.god ||
                         ((PC)ch).Speaking == Race.Language.unknown)))
                     {
-                        buf = String.Format("{0} says '&n$T&n'", ch.ShowNameTo(och, true));
+                        output = String.Format("{0} says '&n$T&n'", ch.ShowNameTo(roomChar, true));
                     }
                     else
                     {
-                        buf = String.Format("{0} says in {1} '&n$T&n'", ch.ShowNameTo(och, true),
+                        output = String.Format("{0} says in {1} '&n$T&n'", ch.ShowNameTo(roomChar, true),
                                   ch.IsNPC() ? Race.LanguageTable[(int)Race.RaceList[ch.GetOrigRace()].PrimaryLanguage]
                                   : Race.LanguageTable[(int)((PC)ch).Speaking]);
                     }
                     // Add foreign language filter.
-                    SocketConnection.Act(buf, och, null, SocketConnection.TranslateText(text, ch, och), SocketConnection.MessageTarget.character);
+                    SocketConnection.Act(output, roomChar, null, SocketConnection.TranslateText(text, ch, roomChar), SocketConnection.MessageTarget.character);
                     // Chatterbot code.  May want to restrict chatterbots to tells, asks, and whispers.
-                    if (och._chatterBot != null)
+                    if (roomChar._chatterBot != null)
                     {
-                        och._chatterBot.CheckConversation(och, ch, text);
+                        roomChar._chatterBot.CheckConversation(roomChar, ch, text);
                     }
                 }
             }
@@ -17121,7 +17129,7 @@ namespace MUDEngine
 
             if (victim == ch)
             {
-                ch.SendText("You listen to your own thoughts.  *cricket*  *cricket*\r\n");
+                ch.SendText("You listen to your own thoughts. *cricket* *cricket*\r\n");
                 return;
             }
 
@@ -17237,6 +17245,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Reply to the last 'tell' that you received.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Reply(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -17307,6 +17320,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Emote - act like you've just performed an action.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Emote(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -17334,12 +17352,12 @@ namespace MUDEngine
                 text += ".";
             }
 
-            foreach (CharData och in ch._inRoom.People)
+            foreach (CharData roomChar in ch._inRoom.People)
             {
-                if (och == ch)
+                if (roomChar == ch)
                     continue;
 
-                SocketConnection.Act("$n $t", ch, SocketConnection.TranslateText(text, ch, och), och, SocketConnection.MessageTarget.victim);
+                SocketConnection.Act("$n $t", ch, SocketConnection.TranslateText(text, ch, roomChar), roomChar, SocketConnection.MessageTarget.victim);
             }
             //    MOBtrigger = false;
             SocketConnection.Act("$n $T", ch, null, text, SocketConnection.MessageTarget.character);
@@ -17468,6 +17486,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Report a typo, which is logged by the issue system.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Typo(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -17559,9 +17582,10 @@ namespace MUDEngine
             }
 
             ch.RemoveFromRoom();
-            ;
             if (room)
+            {
                 ch._inRoom = room;
+            }
 
             // Put them in the correct body
             if (ch._socket && ch._socket.Original)
@@ -17607,7 +17631,7 @@ namespace MUDEngine
         // player duplicates, weird dangling pointers, etc., so we have to
         // be especially careful.  If anyone happens upon this and has a
         // suggestion for how to handle anything better than I have it will
-        // be greatly appreciated. - Xangis
+        // be greatly appreciated.
         public static void Quit(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -17654,6 +17678,11 @@ namespace MUDEngine
             SocketConnection.Quit(ch);
         }
 
+        /// <summary>
+        /// Travel north.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void North(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17663,6 +17692,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel northeast.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void NorthEast(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17672,6 +17706,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel northwest.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void NorthWest(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17681,6 +17720,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel east.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void East(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17690,6 +17734,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel south.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void South(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17699,6 +17748,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel southeast.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void SouthEast(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17708,6 +17762,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel southwest.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void SouthWest(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17717,6 +17776,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel west.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void West(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17726,6 +17790,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel up.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Up(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17735,6 +17804,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Travel down.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Down(CharData ch, string[] str)
         {
             if (ch == null)
@@ -17762,9 +17836,13 @@ namespace MUDEngine
             }
 
             if (!MUDString.StringsNotEqual(str[0], "door") && str.Length > 1 && str[1].Length > 0)
+            {
                 door = Movement.FindDoor(ch, str[1]);
+            }
             else
+            {
                 door = Movement.FindDoor(ch, str[0]);
+            }
 
             if (door >= 0 && !(ch._level < Limits.LEVEL_AVATAR
                 && ch._inRoom.ExitData[door] && ch._inRoom.ExitData[door].ExitFlags != 0
@@ -17882,6 +17960,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Close something, like a door or a container.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Close(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -18001,6 +18084,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Lock something, like a door or a container.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Lock(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -18123,6 +18211,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Unlock something, like a door or a container.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Unlock(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -18136,9 +18229,13 @@ namespace MUDEngine
             }
 
             if (!MUDString.StringsNotEqual(str[0], "door") && arg1.Length != 0)
+            {
                 door = Movement.FindDoor(ch, arg1);
+            }
             else
+            {
                 door = Movement.FindDoor(ch, str[0]);
+            }
 
             if (door >= 0 && !(ch._level < Limits.LEVEL_AVATAR
                                  && ch._inRoom.ExitData[door] && ch._inRoom.ExitData[door].ExitFlags != 0
@@ -18261,6 +18358,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Pick a lock.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Pick(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -18281,12 +18383,12 @@ namespace MUDEngine
 
             ch.WaitState(Skill.SkillList["pick lock"].Delay);
 
-            // Look for guards.
-            foreach (CharData gch in ch._inRoom.People)
+            // Look for guards or other mobs who could be "in the way".
+            foreach (CharData charData in ch._inRoom.People)
             {
-                if (gch.IsNPC() && gch.IsAwake() && ch._level + 5 < gch._level)
+                if (charData.IsNPC() && charData.IsAwake() && ch._level + 5 < charData._level)
                 {
-                    SocketConnection.Act("$N&n is standing too close to the lock.", ch, null, gch, SocketConnection.MessageTarget.character);
+                    SocketConnection.Act("$N&n is standing too close to the lock.", ch, null, charData, SocketConnection.MessageTarget.character);
                     return;
                 }
             }
@@ -18740,6 +18842,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Move silently.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Sneak(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -18782,6 +18889,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Hide yourself or an object.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Hide(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -18804,11 +18916,15 @@ namespace MUDEngine
             }
 
             if (ch._position <= Position.sleeping)
+            {
                 return;
+            }
             ch.SendText("You attempt to hide.\r\n");
 
             if (ch.IsAffected(Affect.AFFECT_HIDE))
+            {
                 ch.RemoveAffect(Affect.AFFECT_HIDE);
+            }
 
             if (ch.CheckSkill("hide"))
             {
@@ -19007,7 +19123,7 @@ namespace MUDEngine
                 ch.SendText(buf);
                 return;
             }
-            //now we process arg string again and train the skills
+            // Now we process arg string again and train the skills.
             MonkSkill skill = StringLookup.MonkSkillLookup(str[0]);
             if (skill == null )
             {
@@ -19181,7 +19297,7 @@ namespace MUDEngine
             if (!ch.IsNPC()
                     && !ch.HasSkill("shadow form"))
             {
-                ch.SendText("You don't know how to take shadwo form.\r\n");
+                ch.SendText("You don't know how to take shadow form.\r\n");
                 return;
             }
 
@@ -19250,7 +19366,12 @@ namespace MUDEngine
             ch.WaitState(14);
         }
 
-        public static void Doorbash(CharData ch, string[] str)
+        /// <summary>
+        /// Knock a door from its hinges with brute force.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
+        public static void DoorBash(CharData ch, string[] str)
         {
             if( ch == null ) return;
             int door;
@@ -19289,17 +19410,24 @@ namespace MUDEngine
                 ch.WaitState(Skill.SkillList["doorbash"].Delay);
 
                 if (ch.IsNPC())
+                {
                     chance = 0;
+                }
                 else if (!ch.HasSkill("doorbash"))
+                {
                     chance = 20;
+                }
                 else
+                {
                     chance = ((PC)ch).SkillAptitude["doorbash"] / 2;
+                }
 
                 if (exit.HasFlag(Exit.ExitFlag.locked))
+                {
                     chance /= 2;
+                }
 
-                if (exit.HasFlag(Exit.ExitFlag.bashproof)
-                        && !ch.IsImmortal())
+                if (exit.HasFlag(Exit.ExitFlag.bashproof) && !ch.IsImmortal())
                 {
                     SocketConnection.Act("WHAAAAM!!!  You bash against the $d, but it doesn't budge.",
                          ch, null, exit.Keyword, SocketConnection.MessageTarget.character);
@@ -19326,15 +19454,15 @@ namespace MUDEngine
                     Combat.InflictDamage(ch, ch, (ch.GetMaxHit() / 5), "doorbash", ObjTemplate.WearLocation.none, AttackType.DamageType.pierce);
                 }
 
-                if ((ch.GetCurrStr() >= 20)
-                        && MUDMath.NumberPercent() <
-                        (chance + 4 * (ch.GetCurrStr() - 20)))
+                if ((ch.GetCurrStr() >= 20) && MUDMath.NumberPercent() < (chance + 4 * (ch.GetCurrStr() - 20)))
                 {
                     /* Success */
 
                     exit.RemoveFlag(Exit.ExitFlag.closed);
                     if (exit.HasFlag(Exit.ExitFlag.locked))
+                    {
                         exit.RemoveFlag(Exit.ExitFlag.locked);
+                    }
 
                     exit.AddFlag(Exit.ExitFlag.bashed);
 
@@ -19363,15 +19491,15 @@ namespace MUDEngine
                                  irch, null, reverseExit.Keyword, SocketConnection.MessageTarget.character);
                         }
 
-                        // Have any aggro mobs on the other side come after the player -- Xangis
-                        foreach (CharData gch in toRoom.People)
+                        // Have any aggro mobs on the other side come after the player.
+                        foreach (CharData charData in toRoom.People)
                         {
-                            if (gch != ch && (gch.IsNPC() && !gch.IsAffected( Affect.AFFECT_CHARM))
-                                && gch.IsAggressive(ch) && gch.IsAwake() && CharData.CanSee(gch, ch)
-                                && !gch._fighting)
+                            if (charData != ch && (charData.IsNPC() && !charData.IsAffected( Affect.AFFECT_CHARM))
+                                && charData.IsAggressive(ch) && charData.IsAwake() && CharData.CanSee(charData, ch)
+                                && !charData._fighting)
                             {
-                                Combat.StartHating(gch, ch);
-                                Combat.StartHunting(gch, ch);
+                                Combat.StartHating(charData, ch);
+                                Combat.StartHunting(charData, ch);
                             }
                         }
 
@@ -19380,7 +19508,6 @@ namespace MUDEngine
                 else
                 {
                     /* Failure */
-
                     SocketConnection.Act("OW!  You bash against the $d, but it doesn't budge.",
                          ch, null, exit.Keyword, SocketConnection.MessageTarget.character);
                     SocketConnection.Act("$n&n bashes against the $d, but it holds strong.",
@@ -19401,25 +19528,24 @@ namespace MUDEngine
 
             ch.PracticeSkill("doorbash");
 
-            foreach (CharData gch in ch._inRoom.People)
+            foreach (CharData guardChar in ch._inRoom.People)
             {
-                if (gch != ch
-                        && gch.HasActBit(MobTemplate.ACT_PROTECTOR)
-                        && (gch.IsNPC() && !gch.IsAffected( Affect.AFFECT_CHARM))
-                        && gch.IsAwake()
-                        && CharData.CanSee(gch, ch)
-                        && !gch._fighting
-                        && MUDMath.NumberBits(2) == 0)
+                if (guardChar != ch && guardChar.HasActBit(MobTemplate.ACT_PROTECTOR) && (guardChar.IsNPC() && 
+                    !guardChar.IsAffected( Affect.AFFECT_CHARM)) && guardChar.IsAwake() && CharData.CanSee(guardChar, ch) &&
+                    !guardChar._fighting && MUDMath.NumberBits(2) == 0)
                 {
-                    SocketConnection.Act("$n&n is very unhappy about you trying to destroy the door.", gch, null, ch, SocketConnection.MessageTarget.victim);
-                    gch.AttackCharacter(ch);
+                    SocketConnection.Act("$n&n is very unhappy about you trying to destroy the door.", guardChar, null, ch, SocketConnection.MessageTarget.victim);
+                    guardChar.AttackCharacter(ch);
                 }
             }
-
             return;
-
         }
 
+        /// <summary>
+        /// Capture command - restrain another character.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Capture(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -19457,7 +19583,9 @@ namespace MUDEngine
                 return;
             }
             if (!ch.IsImmortal())
+            {
                 ch.WaitState(Skill.SkillList["capture"].Delay);
+            }
 
             Object rope = Object.GetEquipmentOnCharacter(ch, ObjTemplate.WearLocation.hand_one);
             if (!rope || rope.ItemType != ObjTemplate.ObjectType.rope)
@@ -19575,6 +19703,11 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Enter a portal.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Enter(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -19739,22 +19872,22 @@ namespace MUDEngine
                 }
             }
 
-            foreach (CharData fch in original.People)
+            foreach (CharData follower in original.People)
             {
-                if (!fch.IsAffected(Affect.AFFECT_CHARM) || fch._master != ch)
+                if (!follower.IsAffected(Affect.AFFECT_CHARM) || follower._master != ch)
                 {
                     continue;
                 }
 
-                if (fch._position < Position.standing)
+                if (follower._position < Position.standing)
                 {
                     CommandType.Interpret(ch, "stand");
                 }
 
-                if (fch._position == Position.standing && fch._wait == 0)
+                if (follower._position == Position.standing && follower._wait == 0)
                 {
-                    SocketConnection.Act("You follow $N&n.", fch, null, ch, SocketConnection.MessageTarget.character);
-                    Enter(fch, str);
+                    SocketConnection.Act("You follow $N&n.", follower, null, ch, SocketConnection.MessageTarget.character);
+                    Enter(follower, str);
                 }
             }
 
@@ -19845,6 +19978,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Get down from a mount.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Dismount(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -19889,6 +20027,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Throw off someone who is riding you (for mounts).
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Buck(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -19909,6 +20052,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// A basic bandage self command, usable once per day.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void FirstAid(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -20037,8 +20185,7 @@ namespace MUDEngine
                             break;
                     }
                 }
-                if (!ch.HasActBit(PC.PLAYER_GODMODE)
-                        && ch._inRoom.IsDark()
+                if (!ch.HasActBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
                         && !ch.HasInnate(Race.RACE_ULTRAVISION)
                         && !ch.IsAffected( Affect.AFFECT_ULTRAVISION))
                 {
@@ -23040,16 +23187,22 @@ namespace MUDEngine
                 // TODO: Fix format of float value.
                 string buf;
                 if (Database.GetMobTemplate(((PC)rch).TrophyData[count].MobIndexNumber) != null)
+                {
                     buf = String.Format("   &n&+b(&+y{0:0000.00}&+b)&n {1}&n\r\n",
                               ((float)((PC)rch).TrophyData[count].NumberKilled / (float)100),
                               (Database.GetMobTemplate(((PC)rch).TrophyData[count].MobIndexNumber)).ShortDescription);
+                }
                 else if (((PC)rch).TrophyData[count].MobIndexNumber != 0)
+                {
                     buf = String.Format("   &n&+b(&+y{0:0000.00}&+b)&n ({1}) \r\n",
                               ((float)((PC)rch).TrophyData[count].NumberKilled / (float)100),
                               ((PC)rch).TrophyData[count].MobIndexNumber);
+                }
                 else
+                {
                     buf = String.Format("   &n&+b(&+y{0:0000.00}&+b)&n (null) \r\n",
                               ((float)((PC)rch).TrophyData[count].NumberKilled / (float)100));
+                }
                 ch.SendText(buf);
             }
             ch.SendText("\r\n");
@@ -23594,7 +23747,6 @@ namespace MUDEngine
         /// <param name="str"></param>
         public static void SummonMount(CharData ch, string[] str)
         {
-            CharData gch;
             bool isAnti;
             MobTemplate mobTemplate;
             Affect af = new Affect();
@@ -23614,16 +23766,13 @@ namespace MUDEngine
                 return;
             }
 
-
             // Look to see if they already have a mount.
-            foreach (CharData it in Database.CharList)
+            foreach (CharData previousMount in Database.CharList)
             {
-                gch = it;
-                if (gch._master == ch
-                        && gch.IsNPC()
-                        && (gch._mobTemplate != null)
-                        && ((gch._mobTemplate.IndexNumber == 264 && isAnti)
-                             || (gch._mobTemplate.IndexNumber == 265 && !isAnti)))
+                // TODO: FIXME: BUG: Don't hard-code index numbers.
+                if (previousMount._master == ch && previousMount.IsNPC() && (previousMount._mobTemplate != null)
+                        && ((previousMount._mobTemplate.IndexNumber == 264 && isAnti)
+                             || (previousMount._mobTemplate.IndexNumber == 265 && !isAnti)))
                 {
                     ch.SendText("You already have a mount!\r\n");
                     return;
@@ -23631,7 +23780,7 @@ namespace MUDEngine
             }
 
             // If not let them summon one. :)
-            // TODO: FIXME: BUG: Do not hard-code item numbers.
+            // TODO: FIXME: BUG: Do not hard-code mob numbers.
             if (isAnti)
             {
                 mobTemplate = Database.GetMobTemplate(264);
@@ -23674,6 +23823,7 @@ namespace MUDEngine
             return;
         }
 
+        // TODO: Move this somewhere else, doesn't belong here. Maybe in StringLookup/StringConversion?
         public static Race.Language IntLanguage(CharData ch, string lang)
         {
             if( ch == null ) return 0;
@@ -25129,21 +25279,21 @@ namespace MUDEngine
                     SocketConnection.Act("$n&n flies in from below.", ch, null, null, SocketConnection.MessageTarget.room);
                     ch.SendText("You fly up.\r\n");
                     CommandType.Interpret(ch, "look auto");
-                    foreach (CharData fch in ch._inRoom.People)
+                    foreach (CharData follower in ch._inRoom.People)
                     {
-                        if (fch == ch)
-                            continue;
-                        if (fch._master == ch && fch.CanFly()
-                                && fch._flyLevel == (ch._flyLevel - 1)
-                                && fch._position == Position.standing
-                                && fch.CanMove())
+                        if (follower == ch)
                         {
-                            if (fch._flyLevel < CharData.FlyLevel.high)
+                            continue;
+                        }
+                        if (follower._master == ch && follower.CanFly() && follower._flyLevel == (ch._flyLevel - 1)
+                            && follower._position == Position.standing && follower.CanMove())
+                        {
+                            if (follower._flyLevel < CharData.FlyLevel.high)
                             {
-                                SocketConnection.Act("$n&n flies up.", fch, null, null, SocketConnection.MessageTarget.room);
-                                fch._flyLevel++;
-                                fch.SendText("You fly up.\r\n");
-                                SocketConnection.Act("$n&n flies in from below.", fch, null, null, SocketConnection.MessageTarget.room);
+                                SocketConnection.Act("$n&n flies up.", follower, null, null, SocketConnection.MessageTarget.room);
+                                follower._flyLevel++;
+                                follower.SendText("You fly up.\r\n");
+                                SocketConnection.Act("$n&n flies in from below.", follower, null, null, SocketConnection.MessageTarget.room);
                             }
                         }
                     }
@@ -25179,7 +25329,6 @@ namespace MUDEngine
                                     SocketConnection.Act("$n&n flies up higher.", ch, null, null, SocketConnection.MessageTarget.room);
                                     ch.RemoveFromRoom();
                                     ch.AddToRoom(Room.GetRoom(texit.IndexNumber));
-
                                     ch._flyLevel = CharData.FlyLevel.low;
                                     CommandType.Interpret(ch, "look auto");
                                     return;
@@ -25199,20 +25348,26 @@ namespace MUDEngine
                     ch._flyLevel--;
                     SocketConnection.Act("$n&n flies in from above.", ch, null, null, SocketConnection.MessageTarget.room);
                     if (ch._flyLevel == 0)
-                        ch.SendText("You fly down to the ground.\r\n");
-                    else
-                        ch.SendText("You fly down.\r\n");
-                    CommandType.Interpret(ch, "look auto");
-                    foreach (CharData fch in ch._inRoom.People)
                     {
-                        if (fch == ch)
-                            continue;
-                        if (fch._master == ch && fch.CanFly() && fch._position == Position.standing && fch.CanMove())
+                        ch.SendText("You fly down to the ground.\r\n");
+                    }
+                    else
+                    {
+                        ch.SendText("You fly down.\r\n");
+                    }
+                    CommandType.Interpret(ch, "look auto");
+                    foreach (CharData follower in ch._inRoom.People)
+                    {
+                        if (follower == ch)
                         {
-                            SocketConnection.Act("$n&n flies down.", fch, null, null, SocketConnection.MessageTarget.room);
-                            fch._flyLevel--;
-                            fch.SendText("You fly down.\r\n");
-                            SocketConnection.Act("$n&n flies in from above.", fch, null, null, SocketConnection.MessageTarget.room);
+                            continue;
+                        }
+                        if (follower._master == ch && follower.CanFly() && follower._position == Position.standing && follower.CanMove())
+                        {
+                            SocketConnection.Act("$n&n flies down.", follower, null, null, SocketConnection.MessageTarget.room);
+                            follower._flyLevel--;
+                            follower.SendText("You fly down.\r\n");
+                            SocketConnection.Act("$n&n flies in from above.", follower, null, null, SocketConnection.MessageTarget.room);
                         }
                     }
                 }
@@ -25234,22 +25389,24 @@ namespace MUDEngine
                     SocketConnection.Act("$n&n flies in from above.", ch, null, null, SocketConnection.MessageTarget.room);
                     ch.SendText("You fly down to the ground.\r\n");
                     CommandType.Interpret(ch, "look auto");
-                    foreach (CharData fch in ch._inRoom.People)
+                    foreach (CharData follower in ch._inRoom.People)
                     {
-                        if (fch == ch)
-                            continue;
-                        if (fch._master == ch && fch.CanFly()
-                                && fch._flyLevel == (ch._flyLevel + 1)
-                                && fch._position == Position.standing
-                                && fch.CanMove())
+                        if (follower == ch)
                         {
-                            for (; fch._flyLevel > 0; fch._flyLevel--)
+                            continue;
+                        }
+                        if (follower._master == ch && follower.CanFly()
+                                && follower._flyLevel == (ch._flyLevel + 1)
+                                && follower._position == Position.standing
+                                && follower.CanMove())
+                        {
+                            for (; follower._flyLevel > 0; follower._flyLevel--)
                             {
-                                SocketConnection.Act("$n&n flies down lower.", fch, null, null, SocketConnection.MessageTarget.room);
+                                SocketConnection.Act("$n&n flies down lower.", follower, null, null, SocketConnection.MessageTarget.room);
                             }
-                            fch._flyLevel = 0;
-                            fch.SendText("You fly down to the ground.\r\n");
-                            SocketConnection.Act("$n&n flies in from above.", fch, null, null, SocketConnection.MessageTarget.room);
+                            follower._flyLevel = 0;
+                            follower.SendText("You fly down to the ground.\r\n");
+                            SocketConnection.Act("$n&n flies in from above.", follower, null, null, SocketConnection.MessageTarget.room);
                         }
                     }
                 }
@@ -25825,26 +25982,33 @@ namespace MUDEngine
             }
 
             bool found = false;
-            foreach (CharData och in ch._inRoom.People)
+            foreach (CharData roomChar in ch._inRoom.People)
             {
-                if (och.IsAffected(Affect.AFFECT_CHARM)
-                        && och._master == ch
-                        && (all || och == victim))
+                if (roomChar.IsAffected(Affect.AFFECT_CHARM) && roomChar._master == ch
+                    && (all || roomChar == victim))
                 {
                     found = true;
                     string text = String.Join(" ", str, 1, (str.Length - 1));
-                    SocketConnection.Act("$n&n orders you to '$t'.", ch, text, och, SocketConnection.MessageTarget.victim);
-                    if (och._wait > 0)
-                        SocketConnection.Act("$N&n seems to be busy at the moment.", ch, null, och, SocketConnection.MessageTarget.character);
+                    SocketConnection.Act("$n&n orders you to '$t'.", ch, text, roomChar, SocketConnection.MessageTarget.victim);
+                    if (roomChar._wait > 0)
+                    {
+                        SocketConnection.Act("$N&n seems to be busy at the moment.", ch, null, roomChar, SocketConnection.MessageTarget.character);
+                    }
                     else
-                        CommandType.Interpret(och, text);
+                    {
+                        CommandType.Interpret(roomChar, text);
+                    }
                 }
             }
 
             if (found)
+            {
                 ch.SendText("Done.\r\n");
+            }
             else
+            {
                 ch.SendText("You have no followers here.\r\n");
+            }
             return;
         }
 
@@ -25884,10 +26048,12 @@ namespace MUDEngine
                 ch.SendText("Try sharing some actual coins!\r\n");
                 return;
             }
-            foreach (CharData gch in ch._inRoom.People)
+            foreach (CharData groupChar in ch._inRoom.People)
             {
-                if (gch.IsSameGroup(ch))
+                if (groupChar.IsSameGroup(ch))
+                {
                     members++;
+                }
             }
 
             if (members < 2)
@@ -25918,15 +26084,15 @@ namespace MUDEngine
                             ch.SendText(buf);
                             buf = String.Format("$n splits some &+ycopper&n.  Your share is {0} coins.",
                                       share);
-                            foreach (CharData gch in ch._inRoom.People)
+                            foreach (CharData groupChar in ch._inRoom.People)
                             {
-                                if (gch != ch && gch.IsSameGroup(ch))
+                                if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
-                                    SocketConnection.Act(buf, ch, null, gch, SocketConnection.MessageTarget.victim);
-                                    gch.ReceiveCopper(share);
+                                    SocketConnection.Act(buf, ch, null, groupChar, SocketConnection.MessageTarget.victim);
+                                    groupChar.ReceiveCopper(share);
                                 }
-                                else if (gch == ch)
-                                    gch.ReceiveCopper(share + extra);
+                                else if (groupChar == ch)
+                                    groupChar.ReceiveCopper(share + extra);
                             }
                             success = true;
                             continue;
@@ -25948,16 +26114,16 @@ namespace MUDEngine
                             ch.SendText(buf);
                             buf = String.Format("$n splits some &+wsilver&n.  Your share is {0} coins.",
                                       share);
-                            foreach (CharData gch in ch._inRoom.People)
+                            foreach (CharData groupChar in ch._inRoom.People)
                             {
-                                if (gch != ch && gch.IsSameGroup(ch))
+                                if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
-                                    SocketConnection.Act(buf, ch, null, gch, SocketConnection.MessageTarget.victim);
-                                    gch.ReceiveSilver(share);
+                                    SocketConnection.Act(buf, ch, null, groupChar, SocketConnection.MessageTarget.victim);
+                                    groupChar.ReceiveSilver(share);
                                 }
-                                else if (gch == ch)
+                                else if (groupChar == ch)
                                 {
-                                    gch.ReceiveSilver(share + extra);
+                                    groupChar.ReceiveSilver(share + extra);
                                 }
                             }
                             success = true;
@@ -25976,28 +26142,28 @@ namespace MUDEngine
                             if (share == 0)
                                 continue;
                             ch.SpendGold(coin.Gold);
-                            buf = String.Format(
-                                      "You split {0} &+Ygold&n.  Your share is {1} coins.\r\n", coin.Gold, share + extra);
+                            buf = String.Format("You split {0} &+Ygold&n.  Your share is {1} coins.\r\n", coin.Gold, share + extra);
                             ch.SendText(buf);
-                            buf = String.Format("$n splits some &+Ygold&n.  Your share is {0} coins.",
-                                      share);
-                            foreach (CharData gch in ch._inRoom.People)
+                            buf = String.Format("$n splits some &+Ygold&n.  Your share is {0} coins.", share);
+                            foreach (CharData groupChar in ch._inRoom.People)
                             {
-                                if (gch != ch && gch.IsSameGroup(ch))
+                                if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
-                                    SocketConnection.Act(buf, ch, null, gch, SocketConnection.MessageTarget.victim);
-                                    gch.ReceiveGold(share);
+                                    SocketConnection.Act(buf, ch, null, groupChar, SocketConnection.MessageTarget.victim);
+                                    groupChar.ReceiveGold(share);
                                 }
-                                else if (gch == ch)
+                                else if (groupChar == ch)
                                 {
-                                    gch.ReceiveGold(share + extra);
+                                    groupChar.ReceiveGold(share + extra);
                                 }
                             }
                             success = true;
                             continue;
                         }
                         else
+                        {
                             ch.SendText("You don't have that much &+Ygold&n coin!\r\n");
+                        }
                         break;
                     case 3: //platinum
                         if (coin.Platinum <= 0)
@@ -26009,20 +26175,20 @@ namespace MUDEngine
                             if (share == 0)
                                 continue;
                             ch.SpendPlatinum(coin.Platinum);
-                            buf = String.Format(
-                                      "You split {0} &+Wplatinum&n.  Your share is {1} coins.\r\n", coin.Platinum, share + extra);
+                            buf = String.Format("You split {0} &+Wplatinum&n.  Your share is {1} coins.\r\n", coin.Platinum, share + extra);
                             ch.SendText(buf);
-                            buf = String.Format("$n splits some &+Wplatinum&n.  Your share is {0} coins.",
-                                      share);
-                            foreach (CharData gch in ch._inRoom.People)
+                            buf = String.Format("$n splits some &+Wplatinum&n.  Your share is {0} coins.", share);
+                            foreach (CharData groupChar in ch._inRoom.People)
                             {
-                                if (gch != ch && gch.IsSameGroup(ch))
+                                if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
-                                    SocketConnection.Act(buf, ch, null, gch, SocketConnection.MessageTarget.victim);
-                                    gch.ReceivePlatinum(share);
+                                    SocketConnection.Act(buf, ch, null, groupChar, SocketConnection.MessageTarget.victim);
+                                    groupChar.ReceivePlatinum(share);
                                 }
-                                else if (gch == ch)
-                                    gch.ReceivePlatinum(share + extra);
+                                else if (groupChar == ch)
+                                {
+                                    groupChar.ReceivePlatinum(share + extra);
+                                }
                             }
                             success = true;
                             continue;
@@ -26038,11 +26204,14 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Say something to the members of your group.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void GroupChat(CharData ch, string[] str)
         {
             if( ch == null ) return;
-
-            CharData gch;
 
             // No arguments, no leader, no chance.
             if (!ch._groupLeader)
@@ -26065,28 +26234,24 @@ namespace MUDEngine
             String text = String.Join(" ", str, 1, (str.Length - 1));
             text = DrunkSpeech.MakeDrunk(text, ch);
 
-            /*
-            * Note use of Descriptor.send_to_char, so gtell works on sleepers.
-            */
-            foreach (CharData it in Database.CharList)
+            foreach (CharData groupChar in Database.CharList)
             {
-                gch = it;
                 string buf;
-                if (gch == ch)
+                if (groupChar == ch)
                 {
                     buf = String.Format("&+GYou tell the group '&n&+G{0}&+G'.&n\r\n", text);
                     ch.SendText(buf);
                     continue;
                 }
-                if (gch.IsSameGroup(ch)
-                        && !gch._inRoom.HasFlag(RoomTemplate.ROOM_SILENT)
-                        && !gch.HasInnate(Race.RACE_MUTE)
-                        && !gch.IsAffected(Affect.AFFECT_MUTE)
-                        && gch.IsAwake())
+                if (groupChar.IsSameGroup(ch)
+                        && !groupChar._inRoom.HasFlag(RoomTemplate.ROOM_SILENT)
+                        && !groupChar.HasInnate(Race.RACE_MUTE)
+                        && !groupChar.IsAffected(Affect.AFFECT_MUTE)
+                        && groupChar.IsAwake())
                 {
                     buf = String.Format("&+G{0}&n&+G tells the group '&n&+G{1}&+G'.&n\r\n",
-                              ch.ShowNameTo(gch, true), SocketConnection.TranslateText(text, ch, gch));
-                    gch.SendText(buf);
+                              ch.ShowNameTo(groupChar, true), SocketConnection.TranslateText(text, ch, groupChar));
+                    groupChar.SendText(buf);
                 }
             }
 

@@ -308,7 +308,7 @@ namespace MUDEngine
             new CommandType( "chameleon power",Command.Chameleon, Position.standing, 0, LogType.normal, true, false, false, true ),
             new CommandType( "dice", Command.Dice, Position.resting, 0, LogType.normal, true, false, true, true ),
             new CommandType( "disembark", Command.Disembark, Position.standing, 0, LogType.normal, true, false, true, true ),
-            new CommandType( "doorbash", Command.Doorbash, Position.standing, 0, LogType.normal, true, true, true, true ),
+            new CommandType( "doorbash", Command.DoorBash, Position.standing, 0, LogType.normal, true, true, true, true ),
             new CommandType( "disband", Command.Disband, Position.resting, 0, LogType.normal, true, false, false, true ),
             new CommandType( "enter", Command.Enter, Position.standing, 0, LogType.normal, true, false, true, true ),
             new CommandType( "firstaid", Command.FirstAid, Position.resting, 0, LogType.normal, true, false, true, true ),
