@@ -1,0 +1,10 @@
+{
+	"title": "Telnet",
+	"type": "pdk",
+	"main": "Telnet",
+        "icon": "images/Telnet2.png",
+	"id": "com.zetacentauri.telnet",
+	"version": "1.0.5",
+	"vendor": "Zeta Centauri",
+        "requiredMemory": 64
+}
