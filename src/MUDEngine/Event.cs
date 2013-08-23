@@ -1495,37 +1495,39 @@ namespace MUDEngine
                     {
                         for (int k = room.People.Count - 1; k >= 0; k-- )
                         {
-                            CharData ich = room.People[k];
-                            if ((!ich.IsNPC() && ich._level >= Limits.LEVEL_AVATAR)
-                                    || ich.IsAffected(Affect.AFFECT_DENY_AIR) || ich.GetRace() == Race.RACE_AIR_ELE
-                                    || Combat.CheckShrug(ich, ich))
+                            CharData roomChar = room.People[k];
+                            if ((!roomChar.IsNPC() && roomChar._level >= Limits.LEVEL_AVATAR)
+                                    || roomChar.IsAffected(Affect.AFFECT_DENY_AIR) || roomChar.GetRace() == Race.RACE_AIR_ELE
+                                    || Combat.CheckShrug(roomChar, roomChar))
+                            {
                                 continue;
-                            ris = ich.CheckRIS(AttackType.DamageType.wind);
+                            }
+                            ris = roomChar.CheckRIS(AttackType.DamageType.wind);
                             if (ris == Race.ResistanceType.vulnerable)
                             {
-                                ich._hitpoints -= 8;
+                                roomChar._hitpoints -= 8;
                             }
                             else if (ris == Race.ResistanceType.susceptible)
                             {
-                                ich._hitpoints -= 6;
+                                roomChar._hitpoints -= 6;
                             }
                             else if (ris == Race.ResistanceType.normal)
                             {
-                                ich._hitpoints -= 4;
+                                roomChar._hitpoints -= 4;
                             }
                             else if (ris == Race.ResistanceType.resistant)
                             {
-                                ich._hitpoints -= 2;
+                                roomChar._hitpoints -= 2;
                             }
                             else if (ris == Race.ResistanceType.immune)
                             {
                                 continue;
                             }
-                            ich.SendText("&+CYou're hit by a bolt of lightning!\r\n");
-                            ich.UpdatePosition();
-                            if (ich._position == Position.dead)
+                            roomChar.SendText("&+CYou're hit by a bolt of lightning!\r\n");
+                            roomChar.UpdatePosition();
+                            if (roomChar._position == Position.dead)
                             {
-                                Combat.KillingBlow(ich, ich);
+                                Combat.KillingBlow(roomChar, roomChar);
                             }
                         }
                     }
@@ -1535,30 +1537,30 @@ namespace MUDEngine
                     {
                         for (int k = room.People.Count - 1; k >= 0; k-- )
                         {
-                            CharData ich = room.People[k];
-                            if (ich._flyLevel == 0)
+                            CharData roomChar = room.People[k];
+                            if (roomChar._flyLevel == 0)
                                 continue;
-                            if (ich._flyLevel < 0)
+                            if (roomChar._flyLevel < 0)
                             {
                                 Log.Error("Mob has a fly_level less than 0", 0);
-                                ich._flyLevel = 0;
+                                roomChar._flyLevel = 0;
                                 continue;
                             }
-                            if (ich.CanFly() || ich.IsAffected(Affect.AFFECT_LEVITATE)
-                                    || (!ich.IsNPC() && ich._level >= Limits.LEVEL_AVATAR))
+                            if (roomChar.CanFly() || roomChar.IsAffected(Affect.AFFECT_LEVITATE)
+                                    || (!roomChar.IsNPC() && roomChar._level >= Limits.LEVEL_AVATAR))
                                 continue;
                             // ouch, gonna fall!
-                            if (!ich.IsNPC())
-                                ich.SendText("You fall tumbling down!\r\n");
-                            SocketConnection.Act("$n&n falls away.", ich, null, ich, SocketConnection.MessageTarget.room);
-                            ich._position = Position.sitting;
+                            if (!roomChar.IsNPC())
+                                roomChar.SendText("You fall tumbling down!\r\n");
+                            SocketConnection.Act("$n&n falls away.", roomChar, null, roomChar, SocketConnection.MessageTarget.room);
+                            roomChar._position = Position.sitting;
                             // Command.damage(ich, ich, MUDMath.Dice(ich.fly_level, 10), null, AttackType.DamageType.magic_other);
-                            for (ich._flyLevel--; ich._flyLevel > 0; ich._flyLevel--)
+                            for (roomChar._flyLevel--; roomChar._flyLevel > 0; roomChar._flyLevel--)
                             {
-                                SocketConnection.Act("$n&n falls past from above.", ich, null, null, SocketConnection.MessageTarget.room);
+                                SocketConnection.Act("$n&n falls past from above.", roomChar, null, null, SocketConnection.MessageTarget.room);
                             }
-                            ich._flyLevel = 0;
-                            SocketConnection.Act("$n&n falls from above.", ich, null, ich, SocketConnection.MessageTarget.room);
+                            roomChar._flyLevel = 0;
+                            SocketConnection.Act("$n&n falls from above.", roomChar, null, roomChar, SocketConnection.MessageTarget.room);
                         } //end of people falling from fly
 
                         for (int k = room.Contents.Count - 1; k >= 0; k-- )
@@ -1589,23 +1591,22 @@ namespace MUDEngine
                             obj.FlyLevel = 0;
                         }
                     }
-                    //end of fall from fly_level
 
-                    // do track update here
+                    // Do track update here.
                     for (int k = room.People.Count - 1; k >= 0; k-- )
                     {
-                        CharData ich = room.People[k];
-                        if (ich._hunting && ich._wait <= 0)
+                        CharData roomChar = room.People[k];
+                        if (roomChar._hunting && roomChar._wait <= 0)
                         {
-                            if (ich.IsNPC())
+                            if (roomChar.IsNPC())
                             {
-                                ich.WaitState(2 * TICK_COMBAT);
+                                roomChar.WaitState(2 * TICK_COMBAT);
                             }
-                            Track.HuntVictim(ich);
+                            Track.HuntVictim(roomChar);
                         }
                     }
 
-                    //now check for falling from room
+                    // Now check for falling from room.
                     Room newRoom;
                     if( !room.ExitData[ 5 ] || !( newRoom = Room.GetRoom(room.ExitData[ 5 ].IndexNumber) ) )
                         continue;
@@ -2098,7 +2099,7 @@ namespace MUDEngine
                 // Ok. So ch is not fighting anyone. Is there a fight going on?
 
                 // Check for assist.
-                CharData rch = null;
+                CharData roomChar = null;
                 CharData irch;
                 for( int j = (ch._inRoom.People.Count - 1); j >= 0; j-- )
                 {
@@ -2138,7 +2139,7 @@ namespace MUDEngine
                         if (CharData.CanSee(ch, victim) && MUDMath.NumberPercent() < ((ch._level * 3 / 2) + 25))
                         {
                             SocketConnection.Act("$n&n assists $N&n...", ch, null, irch, SocketConnection.MessageTarget.room);
-                            rch = irch;
+                            roomChar = irch;
                             if (Combat.SingleAttack(ch, victim, String.Empty, ObjTemplate.WearLocation.hand_one))
                             {
                                 continue;
@@ -2148,7 +2149,7 @@ namespace MUDEngine
                 }
                 // End of assist code
 
-                if (victim == null || rch == null)
+                if (victim == null || roomChar == null)
                 {
                     continue;
                 }

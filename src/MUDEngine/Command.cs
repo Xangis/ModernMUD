@@ -1053,7 +1053,6 @@ namespace MUDEngine
             if( ch == null ) return;
 
             SocketConnection victimSocket;
-            CharData wch;
             bool loggedIn = false;
 
             if (str.Length == 0)
@@ -1071,16 +1070,15 @@ namespace MUDEngine
             Guild clan = ((PC)ch).Clan;
 
             CharData victim = null;
-            foreach (CharData it in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                wch = it;
-                if (wch.IsNPC())
+                if (worldChar.IsNPC())
                 {
                     continue;
                 }
-                if (MUDString.NameContainedIn(str[0], wch._name))
+                if (MUDString.NameContainedIn(str[0], worldChar._name))
                 {
-                    victim = wch;
+                    victim = worldChar;
                     loggedIn = true;
                     break;
                 }
@@ -1156,7 +1154,6 @@ namespace MUDEngine
             if( ch == null ) return;
 
             SocketConnection victimSocket;
-            CharData wch;
             int count;
             bool loggedIn = false;
 
@@ -1180,16 +1177,15 @@ namespace MUDEngine
             Guild clan = ((PC)ch).Clan;
 
             CharData victim = null;
-            foreach (CharData it in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                wch = it;
-                if (wch.IsNPC())
+                if (worldChar.IsNPC())
                 {
                     continue;
                 }
-                if (MUDString.NameContainedIn(str[0], wch._name))
+                if (MUDString.NameContainedIn(str[0], worldChar._name))
                 {
-                    victim = wch;
+                    victim = worldChar;
                     loggedIn = true;
                     break;
                 }
@@ -1283,7 +1279,6 @@ namespace MUDEngine
             if( ch == null ) return;
 
             SocketConnection victimSocket;
-            CharData wch;
             int count;
             bool loggedIn = false;
 
@@ -1302,16 +1297,15 @@ namespace MUDEngine
             Guild clan = ((PC)ch).Clan;
 
             CharData victim = null;
-            foreach (CharData it in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                wch = it;
-                if (wch.IsNPC())
+                if (worldChar.IsNPC())
                 {
                     continue;
                 }
-                if (MUDString.NameContainedIn(str[0], wch._name))
+                if (MUDString.NameContainedIn(str[0], worldChar._name))
                 {
-                    victim = wch;
+                    victim = worldChar;
                     loggedIn = true;
                     break;
                 }
@@ -11579,6 +11573,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Put coins into a bank account.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Deposit(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -11825,8 +11824,11 @@ namespace MUDEngine
             return;
         }
 
-        // Rewritten by Xangis 5-30-00
-        // now calls equip_hand to resolve eq placement
+        /// <summary>
+        /// Place an object in your hand.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Hold(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -12247,6 +12249,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Remove a piece of equipment.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Remove(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -13038,6 +13045,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Steal an object or some coins from a victim.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Steal(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -13305,7 +13317,12 @@ namespace MUDEngine
             }
             return;
         }
-
+        
+        /// <summary>
+        /// Purchase something in a shop.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Buy(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -13546,6 +13563,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Shows the items that a shop has for sale.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void ListCommand(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -16738,11 +16760,16 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Give a player consent to do things, such as group you, portal you, etc.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Consent(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
-            CharData wch;
+            CharData worldChar;
 
             if (ch.IsNPC())
             {
@@ -16774,12 +16801,12 @@ namespace MUDEngine
                 }
                 foreach (CharData it in Database.CharList)
                 {
-                    wch = it;
-                    if (wch.IsNPC())
+                    worldChar = it;
+                    if (worldChar.IsNPC())
                         continue;
-                    if (wch.IsConsenting(ch))
+                    if (worldChar.IsConsenting(ch))
                     {
-                        SocketConnection.Act("$N&n is consenting you.", ch, null, wch, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act("$N&n is consenting you.", ch, null, worldChar, SocketConnection.MessageTarget.character);
                     }
                 }
                 return;
@@ -16905,10 +16932,15 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Guard someone - try to prevent them from becoming the target of attacks.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Guard(CharData ch, string[] str)
         {
             if( ch == null ) return;
-            CharData wch;
+            CharData worldChar;
 
             if (ch.IsNPC())
                 return;
@@ -16947,14 +16979,14 @@ namespace MUDEngine
                 }
                 foreach (CharData it in Database.CharList)
                 {
-                    wch = it;
-                    if (wch.IsNPC())
+                    worldChar = it;
+                    if (worldChar.IsNPC())
                     {
                         continue;
                     }
-                    if (((PC)wch).Guarding && ((PC)wch).Guarding == ch)
+                    if (((PC)worldChar).Guarding && ((PC)worldChar).Guarding == ch)
                     {
-                        SocketConnection.Act("$N&n is guarding you.", ch, null, wch, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act("$N&n is guarding you.", ch, null, worldChar, SocketConnection.MessageTarget.character);
                     }
                 }
                 return;
@@ -17519,14 +17551,11 @@ namespace MUDEngine
             return;
         }
 
-        // This code is basically a hack, and I'm adding a boatload of log
-        // messages until I am satisfied that this code works and is stable.
-        // When messing with code like this, it is easy to have players that
-        // don't enter or leave the game completely, causing ghost images,
-        // player duplicates, weird dangling pointers, etc., so we have to
-        // be especially careful.  If anyone happens upon this and has a
-        // suggestion for how to handle anything better than I have it will
-        // be greatly appreciated.
+        /// <summary>
+        /// Leave the game at an inn.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Rent(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -20975,13 +21004,13 @@ namespace MUDEngine
 
             if (ch.IsImmortal() && str.Length != 0)
             {
-                CharData wch = ch.GetCharWorld(str[0]);
-                if (!wch)
+                CharData worldChar = ch.GetCharWorld(str[0]);
+                if (!worldChar)
                 {
                     ch.SendText("No such person.\r\n");
                     return;
                 }
-                if (wch.IsNPC())
+                if (worldChar.IsNPC())
                 {
                     ch.SendText("NPCs don't have skills!\r\n");
                     return;
@@ -23147,29 +23176,29 @@ namespace MUDEngine
             if( ch == null ) return;
 
             int count;
-            CharData rch;
+            CharData targetChar;
 
             if (str.Length == 0 || !ch.IsImmortal())
             {
-                rch = ch;
+                targetChar = ch;
             }
             else
             {
-                rch = ch.GetCharWorld(str[0]);
-                if (!rch)
+                targetChar = ch.GetCharWorld(str[0]);
+                if (!targetChar)
                 {
                     ch.SendText("No such person.\r\n");
                     return;
                 }
             }
 
-            if (rch.IsNPC())
+            if (targetChar.IsNPC())
             {
                 ch.SendText("Mobs don't have Trophy.\r\n");
                 return;
             }
 
-            if (rch._level < 5)
+            if (targetChar._level < 5)
             {
                 ch.SendText("You don't need to worry about trophy yet.\r\n");
                 return;
@@ -23178,30 +23207,30 @@ namespace MUDEngine
             ch.SendText("&+BTrophy data:\r\n");
             for (count = 0; count < Limits.MAX_LEVEL; ++count)
             {
-                if (((PC)rch).TrophyData[count].MobIndexNumber == 0)
+                if (((PC)targetChar).TrophyData[count].MobIndexNumber == 0)
                     continue;
-                if (((PC)rch).TrophyData[count].NumberKilled == 0)
+                if (((PC)targetChar).TrophyData[count].NumberKilled == 0)
                     continue;
                 /* Added else for mobs which are removed from game. (Earlier, Trophy would
                 crash the mud on no-longer existant mobs.) */
                 // TODO: Fix format of float value.
                 string buf;
-                if (Database.GetMobTemplate(((PC)rch).TrophyData[count].MobIndexNumber) != null)
+                if (Database.GetMobTemplate(((PC)targetChar).TrophyData[count].MobIndexNumber) != null)
                 {
                     buf = String.Format("   &n&+b(&+y{0:0000.00}&+b)&n {1}&n\r\n",
-                              ((float)((PC)rch).TrophyData[count].NumberKilled / (float)100),
-                              (Database.GetMobTemplate(((PC)rch).TrophyData[count].MobIndexNumber)).ShortDescription);
+                              ((float)((PC)targetChar).TrophyData[count].NumberKilled / (float)100),
+                              (Database.GetMobTemplate(((PC)targetChar).TrophyData[count].MobIndexNumber)).ShortDescription);
                 }
-                else if (((PC)rch).TrophyData[count].MobIndexNumber != 0)
+                else if (((PC)targetChar).TrophyData[count].MobIndexNumber != 0)
                 {
                     buf = String.Format("   &n&+b(&+y{0:0000.00}&+b)&n ({1}) \r\n",
-                              ((float)((PC)rch).TrophyData[count].NumberKilled / (float)100),
-                              ((PC)rch).TrophyData[count].MobIndexNumber);
+                              ((float)((PC)targetChar).TrophyData[count].NumberKilled / (float)100),
+                              ((PC)targetChar).TrophyData[count].MobIndexNumber);
                 }
                 else
                 {
                     buf = String.Format("   &n&+b(&+y{0:0000.00}&+b)&n (null) \r\n",
-                              ((float)((PC)rch).TrophyData[count].NumberKilled / (float)100));
+                              ((float)((PC)targetChar).TrophyData[count].NumberKilled / (float)100));
                 }
                 ch.SendText(buf);
             }
@@ -24864,31 +24893,29 @@ namespace MUDEngine
                 return;
             }
 
-            CharData wch;
             Coins player = new Coins();
             Coins mob = new Coins();
             Coins bank = new Coins();
 
-            foreach (CharData it in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                wch = it;
-                if (wch.IsNPC())
+                if (worldChar.IsNPC())
                 {
-                    mob.Copper += wch.GetCopper();
-                    mob.Silver += wch.GetSilver();
-                    mob.Gold += wch.GetGold();
-                    mob.Platinum += wch.GetPlatinum();
+                    mob.Copper += worldChar.GetCopper();
+                    mob.Silver += worldChar.GetSilver();
+                    mob.Gold += worldChar.GetGold();
+                    mob.Platinum += worldChar.GetPlatinum();
                 }
                 else
                 {
-                    player.Copper += wch.GetCopper();
-                    player.Silver += wch.GetSilver();
-                    player.Gold += wch.GetGold();
-                    player.Platinum += wch.GetPlatinum();
-                    bank.Copper += ((PC)wch).Bank.Copper;
-                    bank.Silver += ((PC)wch).Bank.Silver;
-                    bank.Gold += ((PC)wch).Bank.Gold;
-                    bank.Platinum += ((PC)wch).Bank.Platinum;
+                    player.Copper += worldChar.GetCopper();
+                    player.Silver += worldChar.GetSilver();
+                    player.Gold += worldChar.GetGold();
+                    player.Platinum += worldChar.GetPlatinum();
+                    bank.Copper += ((PC)worldChar).Bank.Copper;
+                    bank.Silver += ((PC)worldChar).Bank.Silver;
+                    bank.Gold += ((PC)worldChar).Bank.Gold;
+                    bank.Platinum += ((PC)worldChar).Bank.Platinum;
                 }
             }
 

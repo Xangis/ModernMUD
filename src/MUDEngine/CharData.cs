@@ -5288,15 +5288,15 @@ namespace MUDEngine
                     return worldChar;
             }
 
-            //now loop for all the NPCs
-            foreach (CharData wch in Database.CharList)
+            // Now loop for all the NPCs.
+            foreach (CharData worldChar in Database.CharList)
             {
-                if (!wch.IsNPC())
+                if (!worldChar.IsNPC())
                     continue;
-                if (!CanSee(this, wch))
+                if (!CanSee(this, worldChar))
                     continue;
-                if (MUDString.NameContainedIn(arg, wch._name))
-                    return wch;
+                if (MUDString.NameContainedIn(arg, worldChar._name))
+                    return worldChar;
             }
 
             return null;

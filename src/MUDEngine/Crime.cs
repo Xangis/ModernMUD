@@ -111,9 +111,9 @@ namespace MUDEngine
                 return;
             }
 
-            foreach( CharData wch in ch._inRoom.People )
+            foreach( CharData roomChar in ch._inRoom.People )
             {
-                if( wch.IsNPC() && wch.HasActBit( MobTemplate.ACT_WITNESS ) )
+                if( roomChar.IsNPC() && roomChar.HasActBit( MobTemplate.ACT_WITNESS ) )
                 {
                     // Crime committed and witnessed by a mob, add a crime data
                     CreateCrime( ch, victim, CRIME_ATT_MURDER );
@@ -168,9 +168,9 @@ namespace MUDEngine
                 return;
             }
 
-            foreach( CharData wch in ch._inRoom.People )
+            foreach( CharData roomChar in ch._inRoom.People )
             {
-                if( wch.IsNPC() && wch.HasActBit(MobTemplate.ACT_WITNESS ) )
+                if( roomChar.IsNPC() && roomChar.HasActBit(MobTemplate.ACT_WITNESS ) )
                 {
                     // Crime committed and witnessed by an NPC, add a crime data
                     CreateCrime( ch, victim, CRIME_THEFT );
