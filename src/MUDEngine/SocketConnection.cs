@@ -133,7 +133,7 @@ namespace MUDEngine
         {
             none = 0,
             description,
-            clan_description,
+            guild_description,
             note,
             other
         }
@@ -3171,7 +3171,7 @@ namespace MUDEngine
         {
             Object obj1 = (Object)arg1;
             Object obj2 = (Object)arg2;
-            CharData vch = (CharData)arg2;
+            CharData victimChar = (CharData)arg2;
             string[] himHer = new[] { "it", "him", "her" };
             string[] hisHer = new[] { "its", "his", "her" };
             string str;
@@ -3190,20 +3190,20 @@ namespace MUDEngine
             // To prevent crashes
             if( !actor._inRoom )
             {
-                Log.Error( "Act: actor CharData (" + actor._name + ") is not in a room!" );
+                Log.Error( "Act: Actor CharData (" + actor._name + ") is not in a room!" );
                 return;
             }
 
             List<CharData> to = actor._inRoom.People;
             if( type == MessageTarget.victim || type == MessageTarget.room_vict )
             {
-                if( !vch )
+                if( !victimChar )
                 {
                     Log.Error( "Act: null victim with Descriptor.MessageTarget.victim.", 0 );
-                    Log.Error(String.Format("Bad act string:  {0}", format));
+                    Log.Error(String.Format("Bad act string: {0}", format));
                     return;
                 }
-                to = vch._inRoom.People;
+                to = victimChar._inRoom.People;
             }
 
             string outputBuffer;
@@ -3212,19 +3212,19 @@ namespace MUDEngine
             {
                 if( !roomChar._socket && roomChar.IsNPC() || !roomChar.IsAwake() )
                     continue;
-                if( type == MessageTarget.room_vict && vch._flyLevel != roomChar._flyLevel )
+                if( type == MessageTarget.room_vict && victimChar._flyLevel != roomChar._flyLevel )
                     continue;
                 if( ( type == MessageTarget.room_vict || type == MessageTarget.room || type == MessageTarget.everyone_but_victim ) && actor._flyLevel != roomChar._flyLevel )
                     continue;
-                if( type == MessageTarget.room_vict && ( roomChar == actor || roomChar == vch ) )
+                if( type == MessageTarget.room_vict && ( roomChar == actor || roomChar == victimChar ) )
                     continue;
                 if( type == MessageTarget.character && roomChar != actor )
                     continue;
-                if( type == MessageTarget.victim && ( roomChar != vch || roomChar == actor ) )
+                if( type == MessageTarget.victim && ( roomChar != victimChar || roomChar == actor ) )
                     continue;
                 if( type == MessageTarget.room && roomChar == actor )
                     continue;
-                if( type == MessageTarget.everyone_but_victim && ( roomChar == vch ) )
+                if( type == MessageTarget.everyone_but_victim && ( roomChar == victimChar ) )
                     continue;
                 if( type == MessageTarget.room_above && ( roomChar._flyLevel <= actor._flyLevel ) )
                     continue;
@@ -3239,20 +3239,20 @@ namespace MUDEngine
                     str = str.Replace("$T", (String)arg2);
                 if (str.Contains("$n") && actor != null)
                     str = str.Replace("$n", actor.ShowNameTo(roomChar, false));
-                if (str.Contains("$N") && vch != null)
-                    str = str.Replace("$N", vch.ShowNameTo(roomChar, false));
+                if (str.Contains("$N") && victimChar != null)
+                    str = str.Replace("$N", victimChar.ShowNameTo(roomChar, false));
                 if (str.Contains("$e") && actor != null)
                     str = str.Replace("$e", actor.GetSexPronoun());
-                if (str.Contains("$E") && vch != null)
-                    str = str.Replace("$E", vch.GetSexPronoun());
+                if (str.Contains("$E") && victimChar != null)
+                    str = str.Replace("$E", victimChar.GetSexPronoun());
                 if (str.Contains("$m") && actor != null)
                     str = str.Replace("$m", himHer[Macros.Range(0, (int)actor._sex, 2)]);
-                if (str.Contains("$M") && vch != null)
-                    str = str.Replace("$M", himHer[Macros.Range(0, (int)vch._sex, 2)]);
+                if (str.Contains("$M") && victimChar != null)
+                    str = str.Replace("$M", himHer[Macros.Range(0, (int)victimChar._sex, 2)]);
                 if (str.Contains("$s") && actor != null)
                     str = str.Replace("$s", hisHer[Macros.Range(0, (int)actor._sex, 2)]);
-                if (str.Contains("$S") && vch != null)
-                    str = str.Replace("$S", hisHer[Macros.Range(0, (int)vch._sex, 2)]);
+                if (str.Contains("$S") && victimChar != null)
+                    str = str.Replace("$S", hisHer[Macros.Range(0, (int)victimChar._sex, 2)]);
                 if (str.Contains("$p") && obj1 != null)
                     str = str.Replace("$p", CharData.CanSeeObj(roomChar, obj1) ? obj1.ShortDescription : "something");
                 if (str.Contains("$P") && obj1 != null)
@@ -3646,7 +3646,7 @@ namespace MUDEngine
             Character._currentMoves = Character._maxMoves;
             Character._size = Race.RaceList[ Character.GetOrigRace() ].DefaultSize;
             Character._alignment = Race.RaceList[ Character.GetOrigRace() ].BaseAlignment;
-            ((PC)Character).ClanRank = Guild.Rank.normal;
+            ((PC)Character).GuildRank = Guild.Rank.normal;
             if( Character.IsClass( CharClass.Names.paladin ) )
             {
                 Character._alignment = 1000;

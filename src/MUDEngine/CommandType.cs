@@ -393,8 +393,8 @@ namespace MUDEngine
             new CommandType( "where", Command.Where, Position.dead, Limits.LEVEL_AVATAR, LogType.always, true, false, false, false ),
             new CommandType( "wizify", Command.Wizify, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "wizlock", Command.Wizlock, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
-            new CommandType( "makeclan", Command.MakeGuild, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
-            new CommandType( "killclan", Command.Killclan, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
+            new CommandType( "makeguild", Command.MakeGuild, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
+            new CommandType( "deleteguild", Command.DeleteGuild, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "echo", Command.Echo, Position.dead, Limits.LEVEL_LESSER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "memory", Command.Memory, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
             new CommandType( "peace", Command.Peace, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.normal, true, false, false, false ),
@@ -413,10 +413,11 @@ namespace MUDEngine
             new CommandType( "clone", Command.Clone, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             new CommandType( "zreset", Command.ZoneReset, Position.dead, Limits.LEVEL_GREATER_GOD, LogType.always, true, false, false, false ),
             // Guild commands.
-            new CommandType( "guilds", Command.Clans, Position.dead, 0, LogType.normal, true, false, false, false ),
-            new CommandType( "orders", Command.Clans, Position.dead, 0, LogType.normal, true, false, false, false ),
-            new CommandType( "clans", Command.Clans, Position.dead, 0, LogType.normal, true, false, false, false ),
-            new CommandType( "gcc", Command.ClanChat, Position.sleeping, 0, LogType.normal, true, false, false, false )
+            new CommandType( "guilds", Command.Guilds, Position.dead, 0, LogType.normal, true, false, false, false ),
+            new CommandType( "orders", Command.Guilds, Position.dead, 0, LogType.normal, true, false, false, false ),
+            new CommandType( "clans", Command.Guilds, Position.dead, 0, LogType.normal, true, false, false, false ),
+            new CommandType( "gcc", Command.GuildChat, Position.sleeping, 0, LogType.normal, true, false, false, false ),
+            new CommandType( "guildinfo", Command.GuildInfo, Position.sleeping, 0, LogType.normal, true, false, false, false )
         };
 
         /// <summary>

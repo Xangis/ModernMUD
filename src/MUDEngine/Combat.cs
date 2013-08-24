@@ -1384,8 +1384,8 @@ namespace MUDEngine
                         ( (PC)victim ).MobDeaths++;
                         if( victim.IsGuild() )
                         {
-                            ( (PC)victim ).Clan.MonsterDeaths++;
-                            ( (PC)victim ).Clan.Score += CalculateDeathScore( ch, victim );
+                            ( (PC)victim ).GuildMembership.MonsterDeaths++;
+                            ( (PC)victim ).GuildMembership.Score += CalculateDeathScore( ch, victim );
                         }
                         ( (PC)victim ).Score += CalculateDeathScore( ch, victim );
 
@@ -1400,12 +1400,12 @@ namespace MUDEngine
 
                         if( ch.IsGuild()
                                 && victim.IsGuild()
-                                && ( (PC)ch ).Clan != ( (PC)victim ).Clan )
+                                && ( (PC)ch ).GuildMembership != ( (PC)victim ).GuildMembership )
                         {
-                            ( (PC)ch ).Clan.PlayerKills++;
-                            ( (PC)victim ).Clan.PlayerDeaths++;
-                            ( (PC)ch ).Clan.Score += CalculateKillScore( ch, victim );
-                            ( (PC)victim ).Clan.Score += CalculateDeathScore( ch, victim );
+                            ( (PC)ch ).GuildMembership.PlayerKills++;
+                            ( (PC)victim ).GuildMembership.PlayerDeaths++;
+                            ( (PC)ch ).GuildMembership.Score += CalculateKillScore( ch, victim );
+                            ( (PC)victim ).GuildMembership.Score += CalculateDeathScore( ch, victim );
                         }
                     }
 
@@ -1435,8 +1435,8 @@ namespace MUDEngine
                         ( (PC)ch ).MobKills++;
                         if( ch.IsGuild() )
                         {
-                            ( (PC)ch ).Clan.MonsterKills++;
-                            ( (PC)ch ).Clan.Score += CalculateKillScore( ch, victim );
+                            ( (PC)ch ).GuildMembership.MonsterKills++;
+                            ( (PC)ch ).GuildMembership.Score += CalculateKillScore( ch, victim );
                         }
                         ( (PC)ch ).Score += CalculateKillScore( ch, victim );
                     }
@@ -1935,8 +1935,8 @@ namespace MUDEngine
                         ( (PC)victim ).MobDeaths++;
                         if( victim.IsGuild() )
                         {
-                            ( (PC)victim ).Clan.MonsterDeaths++;
-                            ( (PC)victim ).Clan.Score += CalculateDeathScore( ch, victim );
+                            ( (PC)victim ).GuildMembership.MonsterDeaths++;
+                            ( (PC)victim ).GuildMembership.Score += CalculateDeathScore( ch, victim );
                         }
                         ( (PC)victim ).Score += CalculateDeathScore( ch, victim );
                     }
@@ -1950,12 +1950,12 @@ namespace MUDEngine
 
                         if( ch.IsGuild()
                                 && victim.IsGuild()
-                                && ( (PC)ch ).Clan != ( (PC)victim ).Clan )
+                                && ( (PC)ch ).GuildMembership != ( (PC)victim ).GuildMembership )
                         {
-                            ( (PC)ch ).Clan.PlayerKills++;
-                            ( (PC)victim ).Clan.PlayerDeaths++;
-                            ( (PC)ch ).Clan.Score += CalculateKillScore( ch, victim );
-                            ( (PC)victim ).Clan.Score += CalculateDeathScore( ch, victim );
+                            ( (PC)ch ).GuildMembership.PlayerKills++;
+                            ( (PC)victim ).GuildMembership.PlayerDeaths++;
+                            ( (PC)ch ).GuildMembership.Score += CalculateKillScore( ch, victim );
+                            ( (PC)victim ).GuildMembership.Score += CalculateDeathScore( ch, victim );
                         }
                     }
 
@@ -1983,8 +1983,8 @@ namespace MUDEngine
                         ( (PC)ch ).MobKills++;
                         if( ch.IsGuild() )
                         {
-                            ( (PC)ch ).Clan.MonsterKills++;
-                            ( (PC)ch ).Clan.Score += CalculateKillScore( ch, victim );
+                            ( (PC)ch ).GuildMembership.MonsterKills++;
+                            ( (PC)ch ).GuildMembership.Score += CalculateKillScore( ch, victim );
                         }
                         ( (PC)ch ).Score += CalculateKillScore( ch, victim );
                     }
@@ -1998,9 +1998,9 @@ namespace MUDEngine
 
                 if( ch.IsGuild()
                         && victim.IsGuild()
-                        && ( (PC)ch ).Clan != ( (PC)victim ).Clan )
+                        && ( (PC)ch ).GuildMembership != ( (PC)victim ).GuildMembership )
                 {
-                    ( (PC)ch ).Clan.Score += 20;
+                    ( (PC)ch ).GuildMembership.Score += 20;
                 }
 
                 return true;
@@ -4829,12 +4829,12 @@ namespace MUDEngine
             }
 
             // Now we do guild faction at 1/10 the strength.
-            if (pc.Clan != null)
+            if (pc.GuildMembership != null)
             {
-                pc.Clan.RaceFactionStandings[race] -= 0.1;
-                if (pc.Clan.RaceFactionStandings[race] < Limits.MIN_FACTION)
+                pc.GuildMembership.RaceFactionStandings[race] -= 0.1;
+                if (pc.GuildMembership.RaceFactionStandings[race] < Limits.MIN_FACTION)
                 {
-                    pc.Clan.RaceFactionStandings[race] = Limits.MIN_FACTION;
+                    pc.GuildMembership.RaceFactionStandings[race] = Limits.MIN_FACTION;
                 }
             }
 
@@ -4868,18 +4868,18 @@ namespace MUDEngine
                     pc.RaceFaction[racenum] = Limits.MAX_FACTION;
                 }
 
-                // Adjust the race faction rankings of the player's clan.
-                if (pc.Clan != null)
+                // Adjust the race faction rankings of the player's guild.
+                if (pc.GuildMembership != null)
                 {
-                    // Clan takes 1/10 the adjustment.
-                    pc.Clan.RaceFactionStandings[racenum] -= (adjustment / 10.0);
-                    if (pc.Clan.RaceFactionStandings[racenum] < Limits.MIN_FACTION)
+                    // Guild takes 1/10 the adjustment.
+                    pc.GuildMembership.RaceFactionStandings[racenum] -= (adjustment / 10.0);
+                    if (pc.GuildMembership.RaceFactionStandings[racenum] < Limits.MIN_FACTION)
                     {
-                        pc.Clan.RaceFactionStandings[racenum] = Limits.MIN_FACTION;
+                        pc.GuildMembership.RaceFactionStandings[racenum] = Limits.MIN_FACTION;
                     }
-                    else if (pc.Clan.RaceFactionStandings[racenum] > Limits.MAX_FACTION)
+                    else if (pc.GuildMembership.RaceFactionStandings[racenum] > Limits.MAX_FACTION)
                     {
-                        pc.Clan.RaceFactionStandings[racenum] = Limits.MAX_FACTION;
+                        pc.GuildMembership.RaceFactionStandings[racenum] = Limits.MAX_FACTION;
                     }
                 }
 

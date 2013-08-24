@@ -32,13 +32,13 @@ namespace MUDEngine
             UpkeepCost = 1;
             Location = null;
             SideOwnedBy = Race.RacewarSide.neutral;
-            ClanOwnedBy = null;
+            GuildOwnedBy = null;
             StructureType = Type.Lookout;
         }
 
         public Type StructureType { get; set; }
 
-        public Guild ClanOwnedBy { get; set; }
+        public Guild GuildOwnedBy { get; set; }
 
         public Race.RacewarSide SideOwnedBy { get; set; }
 

@@ -251,8 +251,8 @@ namespace MUDEngine
                 _fraglist._totalFragsBySide[ (int)ch.GetRacewarSide() ]++;
             }
 
-            if( ( (PC)ch ).Clan != null )
-                ( (PC)ch ).Clan.Frags++;
+            if( ( (PC)ch ).GuildMembership != null )
+                ( (PC)ch ).GuildMembership.Frags++;
 
             // Take frag from victim.
             ( (PC)victim ).Frags--;
@@ -264,8 +264,8 @@ namespace MUDEngine
                 _fraglist._totalFragsBySide[ (int)victim.GetRacewarSide() ]--;
             }
 
-            if( ( (PC)victim ).Clan != null )
-                ( (PC)victim ).Clan.Frags--;
+            if( ( (PC)victim ).GuildMembership != null )
+                ( (PC)victim ).GuildMembership.Frags--;
 
             ch.SendText( "&+WYou gain a frag!&n\r\n" );
             victim.SendText( "&+WYou lose a frag!&n\r\n" );

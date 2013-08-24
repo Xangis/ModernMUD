@@ -137,9 +137,9 @@ namespace MUDEngine
                                         MobTemplate.Count, ObjTemplate.Count, Room.Count, Shop.Count, Help.Count, Reset.Count, QuestData.Count );
             Log.Trace( buf );
 
-            Log.Trace( "Loading clans." );
+            Log.Trace( "Loading guilds." );
             Guild.LoadGuilds();
-            Log.Trace( "Loaded " + Guild.Count + " clans." );
+            Log.Trace( "Loaded " + Guild.Count + " guilds." );
 
             Log.Trace( "Loading corpses." );
             CorpseList = CorpseData.Load();

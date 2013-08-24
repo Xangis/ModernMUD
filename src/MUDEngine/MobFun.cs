@@ -2633,44 +2633,58 @@ namespace MUDEngine
             return false;
         }
 
+        /// <summary>
+        /// Shout for one's minions to come and attack the victim.
+        /// </summary>
+        /// <param name="mob"></param>
+        /// <param name="victim"></param>
+        /// <param name="msg"></param>
+        /// <param name="helpers"></param>
+        /// <returns></returns>
         static bool ShoutAndHunt( System.Object mob, CharData victim, string msg, int[] helpers )
         {
             if (mob == null) return false;
             int count = 0;
-            CharData vch;
             CharData ch = (CharData)mob;
-            //send the shout message
+            // Send the shout message
             string buf = String.Format( msg, victim._name );
             CommandType.Interpret(ch, "shout " + buf);
 
-            if( helpers[0] == 0 )
-                return false;
-            //loop through all chars
-            foreach( CharData it in Database.CharList )
+            if (helpers[0] == 0)
             {
-                vch = it;
-                if( !vch._inRoom )
+                return false;
+            }
+            // Loop through all chars
+            foreach (CharData worldChar in Database.CharList)
+            {
+                if( !worldChar._inRoom )
                     continue;
-                if( !vch._mobTemplate )
+                if( !worldChar._mobTemplate )
                     continue;
-                if( !vch.IsNPC() || vch._inRoom.Area != ch._inRoom.Area )
+                if( !worldChar.IsNPC() || worldChar._inRoom.Area != ch._inRoom.Area )
                     continue;
                 bool isHelper = false;
                 int i;
                 for( i = 0; helpers[ i ] > 0; i++ )
                 {
-                    if( vch._mobTemplate.IndexNumber == helpers[ i ] )
+                    if (worldChar._mobTemplate.IndexNumber == helpers[i])
+                    {
                         isHelper = true;
+                    }
                 }
-                if( !isHelper )
+                if (!isHelper)
+                {
                     continue;
+                }
 
-                Combat.StartGrudge( vch, victim, true );
+                Combat.StartGrudge( worldChar, victim, true );
                 
                 ++count;
             }
-            if( count > 0 )
+            if (count > 0)
+            {
                 return true;
+            }
             return false;
         }
 

@@ -58,9 +58,9 @@ namespace MUDEngine
         private List<AliasData> _aliases = new List<AliasData>();
         public TrophyData[] TrophyData { get; set; }
         public int Security { get; set; }
-        public Guild Clan { get; set; }
+        public Guild GuildMembership { get; set; }
         public int HitpointModifier { get; set; }
-        public Guild.Rank ClanRank { get; set; }
+        public Guild.Rank GuildRank { get; set; }
         public int Train { get; set; }
         public int Frags { get; set; }
         public int PlayerKills { get; set; }
@@ -176,7 +176,7 @@ namespace MUDEngine
                 PLAYER_PROMPT.Vector | PLAYER_COMBINE.Vector | PLAYER_MAP.Vector |
                 PLAYER_PAGER.Vector | PLAYER_AUTOWRAP.Vector | PLAYER_COLOR.Vector | PLAYER_VICIOUS.Vector;
             HitpointModifier = 0;
-            ClanRank = 0;
+            GuildRank = 0;
             Train = 0;
             Frags = 0;
             PlayerKills = 0;
@@ -468,7 +468,7 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Gets the player's faction standing with the victim.  Uses race, clan, and player standings in calculation.
+        /// Gets the player's faction standing with the victim.  Uses race, guild, and player standings in calculation.
         /// </summary>
         /// <param name="victim"></param>
         /// <returns></returns>
@@ -479,15 +479,15 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Gets the player's faction standing with the victim.  Uses race, clan, and player standings in calculation.
+        /// Gets the player's faction standing with the victim.  Uses race, guild, and player standings in calculation.
         /// </summary>
         /// <param name="race"></param>
         /// <returns></returns>
         public override double GetFaction( int race )
         {
-            if (Clan != null)
+            if (GuildMembership != null)
             {
-                return ((_raceFaction[race] * 3) + (Clan.RaceFactionStandings[race] * 2) + Race.RaceList[GetOrigRace()].RaceFaction[race]) / 6.0;
+                return ((_raceFaction[race] * 3) + (GuildMembership.RaceFactionStandings[race] * 2) + Race.RaceList[GetOrigRace()].RaceFaction[race]) / 6.0;
             }
             return ((_raceFaction[race] * 3) + Race.RaceList[GetOrigRace()].RaceFaction[race]) / 4.0;
         }

@@ -44,9 +44,9 @@ namespace ModernMUD
         /// </summary>
         public const int MAX_HISTORY = 10;
         /// <summary>
-        /// Maximum members per clan/guild.
+        /// Maximum members per guild.
         /// </summary>
-        public const int MAX_CLAN_MEMBERS = 30;
+        public const int MAX_GUILD_MEMBERS = 30;
         /// <summary>
         /// Highest map visibility distance.
         /// </summary>

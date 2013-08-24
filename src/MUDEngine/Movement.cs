@@ -181,7 +181,7 @@ namespace MUDEngine
         {
             // TODO: Verify that this works correctly since it was rewritten.
             
-            int index = ch._name.IndexOf( "clan_" );
+            int index = ch._name.IndexOf( "guild_" );
             if (index == -1)
             {
                 return -1;

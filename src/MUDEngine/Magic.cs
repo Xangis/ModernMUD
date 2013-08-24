@@ -674,9 +674,9 @@ namespace MUDEngine
             if( spell.ValidTargets == TargetType.singleCharacterOffensive
                     && victim._master != ch && ch != victim )
             {
-                foreach( CharData vch in ch._inRoom.People )
+                foreach( CharData roomChar in ch._inRoom.People )
                 {
-                    if( victim == vch && !victim._fighting )
+                    if( victim == roomChar && !victim._fighting )
                     {
                         victim.AttackCharacter( ch );
                         break;
@@ -1448,22 +1448,24 @@ namespace MUDEngine
                 }
                 else
                 {
-                    // range spell presumably, since different rooms
+                    // Range spell presumably, since different rooms
                     Combat.StartGrudge( victim, ch, true );
-                    foreach( CharData vch in ch._inRoom.People )
+                    foreach( CharData roomChar in ch._inRoom.People )
                     {
-                        if( vch == victim )
+                        if( roomChar == victim )
                             continue;
-                        if( vch._flyLevel != ch._flyLevel )
+                        if( roomChar._flyLevel != ch._flyLevel )
                             continue;
                         //protectors will be aggro'd
-                        if (vch.HasActBit(MobTemplate.ACT_PROTECTOR) && (vch.GetRace() == victim.GetRace()))
+                        if (roomChar.HasActBit(MobTemplate.ACT_PROTECTOR) && (roomChar.GetRace() == victim.GetRace()))
                         {
-                            Combat.StartGrudge( vch, ch, true );
+                            Combat.StartGrudge( roomChar, ch, true );
                         }
                         // all aggro mobs will hunt down caster
-                        if (vch.HasActBit(MobTemplate.ACT_AGGRESSIVE))
-                            Combat.StartGrudge( vch, ch, true );
+                        if (roomChar.HasActBit(MobTemplate.ACT_AGGRESSIVE))
+                        {
+                            Combat.StartGrudge(roomChar, ch, true);
+                        }
                     }
                 }
             }
@@ -1935,9 +1937,9 @@ namespace MUDEngine
                 if( spell.ValidTargets == TargetType.singleCharacterOffensive
                         && victim && victim._master != ch && victim != ch && victim.IsAwake() )
                 {
-                    foreach( CharData vch in ch._inRoom.People )
+                    foreach( CharData roomChar in ch._inRoom.People )
                     {
-                        if( victim == vch && !victim._fighting )
+                        if( victim == roomChar && !victim._fighting )
                         {
                             victim.AttackCharacter( ch );
                             break;

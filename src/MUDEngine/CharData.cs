@@ -2442,15 +2442,15 @@ namespace MUDEngine
                 {
                     if( !roomCharacter.IsNPC() && !MUDString.NameContainedIn( "_guildgolem_", roomCharacter._name ) )
                         continue;
-                    int id = Guild.GolemClanID( roomCharacter );
+                    int id = Guild.GolemGuildID( roomCharacter );
                     int dir = Movement.GolemGuardDirection( roomCharacter );
                     if( id > 0 && dir > -1 )
                     {
                         // We have a golem guarding an exit
-                        if (!IsNPC() && ((PC)this).Clan != null)
+                        if (!IsNPC() && ((PC)this).GuildMembership != null)
                         {
-                            chId = ((PC)this).Clan.ID;
-                            chRank = ((PC)this).ClanRank;
+                            chId = ((PC)this).GuildMembership.ID;
+                            chRank = ((PC)this).GuildRank;
                         }
                         if( dir == door && ( id != chId || chRank < Guild.Rank.parole ) && _position > Position.reclining )
                         {
@@ -2459,7 +2459,7 @@ namespace MUDEngine
                             _position = Position.reclining;
                             return;
                         }
-                        if (dir == door && ((PC)this).ClanRank >= Guild.Rank.officer)
+                        if (dir == door && ((PC)this).GuildRank >= Guild.Rank.officer)
                         {
                             SocketConnection.Act("$N&n salutes smartly as you pass.", this, null, roomCharacter, SocketConnection.MessageTarget.character);
                             SocketConnection.Act("$N&n salutes at $n&n.", this, null, roomCharacter, SocketConnection.MessageTarget.room);
@@ -3170,10 +3170,14 @@ namespace MUDEngine
             return ris;
         }
 
+        /// <summary>
+        /// Checks whether the player is a member of a guild.
+        /// </summary>
+        /// <returns></returns>
         public bool IsGuild()
         {
             
-            if( !IsNPC() && ( ( (PC)this ).Clan != null ) && ( ( (PC)this ).ClanRank > Guild.Rank.exiled ) )
+            if( !IsNPC() && ( ( (PC)this ).GuildMembership != null ) && ( ( (PC)this ).GuildRank > Guild.Rank.exiled ) )
             {
                 return true;
             }
@@ -3181,7 +3185,10 @@ namespace MUDEngine
             return false;
         }
 
-        public void RemoveFromClan()
+        /// <summary>
+        /// Remove the character from their current guild, if any.
+        /// </summary>
+        public void RemoveFromGuild()
         {
             int icount;
 
@@ -3190,26 +3197,26 @@ namespace MUDEngine
                 return;
             }
 
-            Guild clan = ( (PC)this ).Clan;
+            Guild guild = ( (PC)this ).GuildMembership;
 
-            for( icount = 0; icount < Limits.MAX_CLAN_MEMBERS; ++icount )
+            for( icount = 0; icount < Limits.MAX_GUILD_MEMBERS; ++icount )
             {
-                if( !MUDString.StringsNotEqual( clan.Members[ icount ].Name, _name ) )
+                if( !MUDString.StringsNotEqual( guild.Members[ icount ].Name, _name ) )
                 {
-                    clan.Members[ icount ].Filled = false;
+                    guild.Members[ icount ].Filled = false;
                 }
             }
 
-            switch( ( (PC)this ).ClanRank )
+            switch( ( (PC)this ).GuildRank )
             {
                 default:
                     break;
                 case Guild.Rank.leader:
-                    clan.Overlord = String.Empty;
+                    guild.Overlord = String.Empty;
                     break;
             }
 
-            clan.NumMembers--;
+            guild.NumMembers--;
             Command.SetTitle( this, "&n" );
 
             return;
@@ -3507,7 +3514,7 @@ namespace MUDEngine
         {
             if (IsGuild() && ch.IsGuild())
             {
-                return ((PC)this).Clan == ((PC)ch).Clan;
+                return ((PC)this).GuildMembership == ((PC)ch).GuildMembership;
             }
             return false;
         }
@@ -6366,7 +6373,7 @@ namespace MUDEngine
         public bool IsAggressive(CharData victim)
         {
             CharData ch = this;
-            Guild clan = null;
+            Guild guild = null;
 
             if (victim == null)
             {
@@ -6383,13 +6390,13 @@ namespace MUDEngine
             {
                 foreach (Guild it in Database.GuildList)
                 {
-                    clan = it;
-                    if (clan.ID == Guild.GolemClanID(ch))
+                    guild = it;
+                    if (guild.ID == Guild.GolemGuildID(ch))
                         break;
                 }
-                if (clan != null && clan.Ostracized.Length != 0)
+                if (guild != null && guild.Ostracized.Length != 0)
                 {
-                    if (MUDString.NameContainedIn(victim._name, clan.Ostracized))
+                    if (MUDString.NameContainedIn(victim._name, guild.Ostracized))
                         return true;
                 }
             }

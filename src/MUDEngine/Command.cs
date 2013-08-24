@@ -858,20 +858,20 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank < Guild.Rank.officer)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank < Guild.Rank.officer)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             if (victim == ch)
             {
                 return;
             }
 
-            if (clan.Applicant != victim)
+            if (guild.Applicant != victim)
             {
                 ch.SendText("They have not applied for membership to your guild.\r\n");
                 return;
@@ -883,15 +883,15 @@ namespace MUDEngine
                 return;
             }
 
-            if (clan.NumMembers >= 30)
+            if (guild.NumMembers >= 30)
             {
                 ch.SendText("Your guild is full.\r\n");
                 return;
             }
 
-            for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+            for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                if (clan.Members[count].Filled == false)
+                if (guild.Members[count].Filled == false)
                 {
                     found = true;
                     break;
@@ -915,40 +915,40 @@ namespace MUDEngine
 
             if (victim._level < 25)
             {
-                if (clan.TypeOfGuild == Guild.GuildType.clan && ch._level >= 15)
+                if (guild.TypeOfGuild == Guild.GuildType.clan && ch._level >= 15)
                 {
                 }
-                else if (clan.TypeOfGuild == Guild.GuildType.guild && ch._level >= 20)
+                else if (guild.TypeOfGuild == Guild.GuildType.guild && ch._level >= 20)
                 {
                 }
                 else
                 {
                     SocketConnection.Act("$N&n is too low level to be initiated.", ch, null, victim, SocketConnection.MessageTarget.character);
-                    SocketConnection.Act("You are too weak to  be initiated to $t!", ch, clan.WhoName, victim, SocketConnection.MessageTarget.victim);
+                    SocketConnection.Act("You are too weak to  be initiated to $t!", ch, guild.WhoName, victim, SocketConnection.MessageTarget.victim);
                     return;
                 }
             }
 
-            if (clan.TypeOfGuild == Guild.GuildType.guild && clan.ClassRestriction != victim._charClass)
+            if (guild.TypeOfGuild == Guild.GuildType.guild && guild.ClassRestriction != victim._charClass)
                 ch.SendText("You may only initiate those of your class into a guild.\r\n");
 
-            ((PC)victim).Clan = clan;
-            ((PC)victim).ClanRank = Guild.Rank.normal;
-            clan.NumMembers++;
+            ((PC)victim).GuildMembership = guild;
+            ((PC)victim).GuildRank = Guild.Rank.normal;
+            guild.NumMembers++;
 
-            SetTitle(victim, clan.RankNames[(int)((PC)victim).ClanRank]);
+            SetTitle(victim, guild.RankNames[(int)((PC)victim).GuildRank]);
 
-            clan.Members[count].Name = victim._name;
-            clan.Members[count].Rank = ((PC)victim).ClanRank;
-            clan.Members[count].JoinTime = Database.SystemData.CurrentTime;
-            clan.Members[count].Filled = true;
+            guild.Members[count].Name = victim._name;
+            guild.Members[count].Rank = ((PC)victim).GuildRank;
+            guild.Members[count].JoinTime = Database.SystemData.CurrentTime;
+            guild.Members[count].Filled = true;
 
             // Reset so others can apply
-            clan.Applicant = null;
+            guild.Applicant = null;
 
-            if (Database.GetObjTemplate(clan.GuildRingIndexNumber))
+            if (Database.GetObjTemplate(guild.GuildRingIndexNumber))
             {
-                ring = Database.CreateObject(Database.GetObjTemplate(clan.GuildRingIndexNumber), victim._level);
+                ring = Database.CreateObject(Database.GetObjTemplate(guild.GuildRingIndexNumber), victim._level);
 
                 if (ring)
                 {
@@ -956,29 +956,29 @@ namespace MUDEngine
                 }
             }
 
-            string buf = String.Format("Log {0}: initiated {1} to {2}", ch._name, victim._name, clan.Name);
+            string buf = String.Format("Log {0}: initiated {1} to {2}", ch._name, victim._name, guild.Name);
             Database.LogGuild(buf);
 
             buf = String.Format("'I {0} {1}, hereby declare you {2} a member of {3}!'\r\n" +
                       "Forever remember our motto: \"{4}\"\r\n",
-                      ((PC)ch).ClanRank,
+                      ((PC)ch).GuildRank,
                       ch._name,
                       victim._name,
-                      clan.WhoName,
-                      clan.Motto);
+                      guild.WhoName,
+                      guild.Motto);
 
             victim.SendText(buf);
 
-            SocketConnection.Act("$N&n has been initiated to $t!", ch, clan.WhoName, victim, SocketConnection.MessageTarget.room);
-            SocketConnection.Act("You have initiated $N&n to $t!", ch, clan.WhoName, victim, SocketConnection.MessageTarget.character);
+            SocketConnection.Act("$N&n has been initiated to $t!", ch, guild.WhoName, victim, SocketConnection.MessageTarget.room);
+            SocketConnection.Act("You have initiated $N&n to $t!", ch, guild.WhoName, victim, SocketConnection.MessageTarget.character);
             CharData.SavePlayer(victim);
-            clan.Save();
+            guild.Save();
 
             return;
         }
 
         /// <summary>
-        /// Exile a player from a clan.
+        /// Exile a player from a guild.
         /// </summary>
         /// <param name="ch"></param>
         /// <param name="str"></param>
@@ -993,13 +993,13 @@ namespace MUDEngine
             }
 
             if (!ch.IsGuild()
-                    || ((PC)ch).ClanRank != Guild.Rank.leader)
+                    || ((PC)ch).GuildRank != Guild.Rank.leader)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             CharData victim = ch.GetCharWorld(str[0]);
             if (!victim)
@@ -1013,16 +1013,16 @@ namespace MUDEngine
 
             if (!ch.IsSameGuild(victim))
             {
-                SocketConnection.Act("$N isn't even from $t.", ch, clan.WhoName, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("$N isn't even from $t.", ch, guild.WhoName, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
-            string text = String.Format("Log {0}: exiling {1} from {2}", ch._name, victim._name, ((PC)ch).Clan.Name);
+            string text = String.Format("Log {0}: exiling {1} from {2}", ch._name, victim._name, ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             // This function handles resetting member data
-            victim.RemoveFromClan();
-            ((PC)victim).ClanRank = Guild.Rank.exiled;
+            victim.RemoveFromGuild();
+            ((PC)victim).GuildRank = Guild.Rank.exiled;
 
             text = String.Format(
                       "The grand Overlord of {0} {1} says:\r\n\r\n" +
@@ -1030,21 +1030,21 @@ namespace MUDEngine
                       "You hear a thundering sound...\r\n\r\n" +
                       "A booming voice says: 'You have been exiled. Only the gods can allow you\r\n" +
                       "to join another clan, order or guild!'\r\n",
-                      clan.WhoName,
-                      clan.Overlord,
+                      guild.WhoName,
+                      guild.Overlord,
                       victim._name,
-                      clan.WhoName);
+                      guild.WhoName);
 
             victim.SendText(text);
 
-            SocketConnection.Act("You have exiled $N&n from $t!", ch, clan.WhoName, victim, SocketConnection.MessageTarget.character);
+            SocketConnection.Act("You have exiled $N&n from $t!", ch, guild.WhoName, victim, SocketConnection.MessageTarget.character);
             CharData.SavePlayer(victim);
-            clan.Save();
+            guild.Save();
             return;
         }
 
         /// <summary>
-        /// Kick a character out of a clan.
+        /// Kick a character out of a guild.
         /// </summary>
         /// <param name="ch"></param>
         /// <param name="str"></param>
@@ -1061,13 +1061,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank < Guild.Rank.officer)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank < Guild.Rank.officer)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             CharData victim = null;
             foreach (CharData worldChar in Database.CharList)
@@ -1108,22 +1108,22 @@ namespace MUDEngine
 
             if (!ch.IsSameGuild(victim))
             {
-                SocketConnection.Act("$N&n isn't even from $t.", ch, clan.WhoName, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("$N&n isn't even from $t.", ch, guild.WhoName, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
-            if (((PC)ch).ClanRank <= ((PC)victim).ClanRank)
+            if (((PC)ch).GuildRank <= ((PC)victim).GuildRank)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
             }
 
-            string text = String.Format("Log {0}: kicking {1} from {2}", ch._name, victim._name, ((PC)ch).Clan.Name);
+            string text = String.Format("Log {0}: kicking {1} from {2}", ch._name, victim._name, ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             // this _function _resets member data
-            victim.RemoveFromClan();
-            ((PC)victim).ClanRank = Guild.Rank.normal;
+            victim.RemoveFromGuild();
+            ((PC)victim).GuildRank = Guild.Rank.normal;
 
             if (loggedIn)
             {
@@ -1133,7 +1133,7 @@ namespace MUDEngine
             ch.SendText("You have kicked them out of the guild.\r\n");
 
             CharData.SavePlayer(victim);
-            clan.Save();
+            guild.Save();
 
             /* Close rented chars pfile. */
             if (!loggedIn)
@@ -1168,13 +1168,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank != Guild.Rank.leader)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank != Guild.Rank.leader)
             {
                 ch.SendText("You don't have the power to do this.  Only a leader may promote someone.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             CharData victim = null;
             foreach (CharData worldChar in Database.CharList)
@@ -1209,12 +1209,12 @@ namespace MUDEngine
 
             if (!ch.IsSameGuild(victim))
             {
-                SocketConnection.Act("$N&n isn't even from $t.", ch, clan.WhoName, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("$N&n isn't even from $t.", ch, guild.WhoName, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
             // This is technically where we would give them their guild badges.
-            switch (((PC)victim).ClanRank)
+            switch (((PC)victim).GuildRank)
             {
                 default:
                     return;
@@ -1228,13 +1228,13 @@ namespace MUDEngine
                     return;
             }
 
-            ((PC)victim).ClanRank++;
-            Guild.Rank newrank = ((PC)victim).ClanRank;
+            ((PC)victim).GuildRank++;
+            Guild.Rank newrank = ((PC)victim).GuildRank;
 
-            SetTitle(victim, clan.RankNames[(int)((PC)victim).ClanRank]);
+            SetTitle(victim, guild.RankNames[(int)((PC)victim).GuildRank]);
 
-            string text = String.Format("Log {0}: promoting {1} to {2} in clan {3}",
-                                       ch._name, victim._name, newrank, ((PC)ch).Clan.Name);
+            string text = String.Format("Log {0}: promoting {1} to {2} in guild {3}",
+                                       ch._name, victim._name, newrank, ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             text = String.Format(
@@ -1249,16 +1249,16 @@ namespace MUDEngine
             SocketConnection.Act("You have promoted $N&n to $t.",
                  ch, newrank.ToString(), victim, SocketConnection.MessageTarget.character);
 
-            for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+            for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                if (!MUDString.StringsNotEqual(clan.Members[count].Name, victim._name))
+                if (!MUDString.StringsNotEqual(guild.Members[count].Name, victim._name))
                 {
-                    clan.Members[count].Rank = ((PC)victim).ClanRank;
+                    guild.Members[count].Rank = ((PC)victim).GuildRank;
                 }
             }
 
             CharData.SavePlayer(victim);
-            clan.Save();
+            guild.Save();
 
             /* Close rented chars pfile. */
             if (!loggedIn)
@@ -1270,7 +1270,7 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Demote: Decrease the rank of a clan member.
+        /// Demote: Decrease the rank of a guild member.
         /// </summary>
         /// <param name="ch"></param>
         /// <param name="str"></param>
@@ -1288,13 +1288,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank != Guild.Rank.leader)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank != Guild.Rank.leader)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             CharData victim = null;
             foreach (CharData worldChar in Database.CharList)
@@ -1330,11 +1330,11 @@ namespace MUDEngine
 
             if (!ch.IsSameGuild(victim))
             {
-                SocketConnection.Act("$N&n isn't even from $t.", ch, clan.WhoName, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("$N&n isn't even from $t.", ch, guild.WhoName, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
-            switch (((PC)victim).ClanRank)
+            switch (((PC)victim).GuildRank)
             {
                 default:
                     ch.SendText("You can't demote this person.\r\n");
@@ -1355,15 +1355,15 @@ namespace MUDEngine
                     break;
             }
 
-            ((PC)victim).ClanRank--;
-            Guild.Rank newrank = ((PC)victim).ClanRank;
+            ((PC)victim).GuildRank--;
+            Guild.Rank newrank = ((PC)victim).GuildRank;
 
-            SetTitle(victim, clan.RankNames[(int)((PC)victim).ClanRank]);
+            SetTitle(victim, guild.RankNames[(int)((PC)victim).GuildRank]);
 
             string text = String.Format("Log {0}: demoting {1} to {2}",
                                        ch._name,
                                        victim._name,
-                                       ((PC)ch).Clan.Name);
+                                       ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             text = String.Format(
@@ -1380,16 +1380,16 @@ namespace MUDEngine
             SocketConnection.Act("You have demoted $N to $t.",
                  ch, newrank.ToString(), victim, SocketConnection.MessageTarget.character);
 
-            for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+            for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                if (!MUDString.StringsNotEqual(clan.Members[count].Name, victim._name))
+                if (!MUDString.StringsNotEqual(guild.Members[count].Name, victim._name))
                 {
-                    clan.Members[count].Rank = ((PC)victim).ClanRank;
+                    guild.Members[count].Rank = ((PC)victim).GuildRank;
                 }
             }
 
             CharData.SavePlayer(victim);
-            clan.Save();
+            guild.Save();
 
             /* Close rented chars pfile. */
             if (!loggedIn)
@@ -1412,7 +1412,7 @@ namespace MUDEngine
                 return;
             }
 
-            Guild guild = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
             if (guild == null)
             {
                 ch.SendText("You're not in a guild!\r\n");
@@ -1508,7 +1508,7 @@ namespace MUDEngine
             {
                 int value = coin.Copper + 10 * coin.Silver + 100 * coin.Gold + 1000 * coin.Platinum;
                 int count;
-                for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+                for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
                 {
                     if (!MUDString.StringsNotEqual(guild.Members[count].Name, ch._name))
                     {
@@ -1550,60 +1550,70 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Terminate your guild membership.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Leave(CharData ch, string[] str)
         {
             if( ch == null ) return;
             if (!ch.IsGuild())
             {
-                ch.SendText("You aren't a clansman.\r\n");
+                ch.SendText("You aren't a guildmember.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
-            if (((PC)ch).ClanRank == Guild.Rank.leader)
+            if (((PC)ch).GuildRank == Guild.Rank.leader)
             {
-                ch.SendText("Huh? An Overlord shouldn't leave his clan!  Get demoted first!\r\n");
+                ch.SendText("Huh? An Overlord shouldn't leave his guild! Get demoted first!\r\n");
                 return;
             }
 
-            ch.RemoveFromClan();
-            ((PC)ch).ClanRank = Guild.Rank.normal;
+            ch.RemoveFromGuild();
+            ((PC)ch).GuildRank = Guild.Rank.normal;
 
-            SocketConnection.Act("You have left clan $t.", ch, clan.WhoName, ch, SocketConnection.MessageTarget.character);
+            SocketConnection.Act("You have left guild $t.", ch, guild.WhoName, ch, SocketConnection.MessageTarget.character);
             CharData.SavePlayer(ch);
-            clan.Save();
+            guild.Save();
 
             return;
         }
 
-        public static void Clans(CharData ch, string[] str)
+        /// <summary>
+        /// Show the list of guilds.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
+        public static void Guilds(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
             int found = 0;
 
-            string text = String.Format("&+BClan            Members Pkills   Pdeaths  Mkills   Mdeaths  Frags&n\r\n");
+            string text = String.Format("&+BGuild           Members Pkills   Pdeaths  Mkills   Mdeaths  Frags&n\r\n");
             string buf1 = text;
 
-            foreach (Guild clan in Database.GuildList)
+            foreach (Guild guild in Database.GuildList)
             {
                 text = String.Format("{0} {1}    {2}    {3}    {4}    {5}    &+W{6}&n\r\n",
-                          clan.Name,
-                          clan.NumMembers,
-                          clan.PlayerKills,
-                          clan.PlayerDeaths,
-                          clan.MonsterKills,
-                          clan.MonsterDeaths,
-                          clan.Frags);
+                          guild.Name,
+                          guild.NumMembers,
+                          guild.PlayerKills,
+                          guild.PlayerDeaths,
+                          guild.MonsterKills,
+                          guild.MonsterDeaths,
+                          guild.Frags);
                 buf1 += text;
                 found++;
             }
 
             if (found == 0)
-                text = String.Format("There are no Guilds currently formed.\r\n");
+                text = String.Format("There are no guilds currently formed.\r\n");
             else
-                text = String.Format("You see {0} clan{1} in the game.\r\n",
+                text = String.Format("You see {0} guild{1} in the game.\r\n",
                           found,
                           found == 1 ? String.Empty : "s");
 
@@ -1612,7 +1622,12 @@ namespace MUDEngine
             return;
         }
 
-        public static void ClanInfo(CharData ch, string[] str)
+        /// <summary>
+        /// Shows details about a guild.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
+        public static void GuildInfo(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
@@ -1621,74 +1636,74 @@ namespace MUDEngine
 
             if (!ch.IsGuild())
             {
-                ch.SendText("You aren't a clansman.\r\n");
+                ch.SendText("You aren't a guildmember.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             string buf1 = String.Empty;
 
-            string text = String.Format("{0}\r\n", clan.Name);
+            string text = String.Format("{0}\r\n", guild.Name);
             buf1 += text;
 
-            text = String.Format("Motto: \"{0}\"\r\n", clan.Motto);
+            text = String.Format("Motto: \"{0}\"\r\n", guild.Motto);
             buf1 += text;
 
             buf1 += "-----------------------------------------------------------------------------\r\n";
 
-            text = String.Format("{0}\r\n", clan.Description);
+            text = String.Format("{0}\r\n", guild.Description);
             buf1 += text;
 
-            text = String.Format("Leader:  {0}\r\n", clan.Overlord);
+            text = String.Format("Leader:  {0}\r\n", guild.Overlord);
             buf1 += text;
 
-            text = String.Format("Members:   {0}\r\nFrags: &+W{1}&n\r\n", clan.NumMembers, clan.Frags);
+            text = String.Format("Members:   {0}\r\nFrags: &+W{1}&n\r\n", guild.NumMembers, guild.Frags);
             buf1 += text;
 
             text = String.Format("Vault:     {0} &+Wplatinum&n, {1} &+Ygold&n, {2} silver, {3} &+ycopper&n\r\n",
-                      clan.GuildBankAccount.Platinum, clan.GuildBankAccount.Gold, clan.GuildBankAccount.Silver,
-                      clan.GuildBankAccount.Copper);
+                      guild.GuildBankAccount.Platinum, guild.GuildBankAccount.Gold, guild.GuildBankAccount.Silver,
+                      guild.GuildBankAccount.Copper);
             buf1 += text;
 
-            text = String.Format("Current Applicant: {0}\r\n", clan.Applicant ? clan.Applicant._name : "(none)");
+            text = String.Format("Current Applicant: {0}\r\n", guild.Applicant ? guild.Applicant._name : "(none)");
             buf1 += text;
 
-            if (((PC)ch).ClanRank == Guild.Rank.leader)
+            if (((PC)ch).GuildRank == Guild.Rank.leader)
             {
                 text = String.Format("\r\n&+cRank Titles:&n\r\n  Exile: {0}\r\n  Parole: {1}\r\n  Normal: {2}\r\n  Senior: {3}\r\n" +
                           "  Officer: {4}\r\n  Deputy: {5}\r\n  Leader: {6}\r\n",
-                          clan.RankNames[(int)Guild.Rank.exiled],
-                          clan.RankNames[(int)Guild.Rank.parole],
-                          clan.RankNames[(int)Guild.Rank.normal],
-                          clan.RankNames[(int)Guild.Rank.senior],
-                          clan.RankNames[(int)Guild.Rank.officer],
-                          clan.RankNames[(int)Guild.Rank.deputy],
-                          clan.RankNames[(int)Guild.Rank.leader]);
+                          guild.RankNames[(int)Guild.Rank.exiled],
+                          guild.RankNames[(int)Guild.Rank.parole],
+                          guild.RankNames[(int)Guild.Rank.normal],
+                          guild.RankNames[(int)Guild.Rank.senior],
+                          guild.RankNames[(int)Guild.Rank.officer],
+                          guild.RankNames[(int)Guild.Rank.deputy],
+                          guild.RankNames[(int)Guild.Rank.leader]);
                 buf1 += text;
             }
 
             text = String.Format("\r\nMember            Rank  Fine:\r\n");
             buf1 += text;
 
-            for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+            for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                if (clan.Members[count].Filled)
+                if (guild.Members[count].Filled)
                 {
                     members++;
                     text = String.Format("{0}) &+r{1}&n{2} {3} {4}&+yc&n\r\n",
                               members,
-                              (ch.GetCharWorld(clan.Members[count].Name) ? 'o' : ' '),
-                              MUDString.PadStr(clan.Members[count].Name, 15),
-                              clan.RankNames[(int)clan.Members[count].Rank],
-                              MUDString.PadInt(clan.Members[count].Fine, 8));
+                              (ch.GetCharWorld(guild.Members[count].Name) ? 'o' : ' '),
+                              MUDString.PadStr(guild.Members[count].Name, 15),
+                              guild.RankNames[(int)guild.Members[count].Rank],
+                              MUDString.PadInt(guild.Members[count].Fine, 8));
                     buf1 += text;
                 }
             }
 
-            if (clan.Ostracized.Length > 0)
+            if (guild.Ostracized.Length > 0)
             {
-                text = String.Format("Ostracized: {0}\r\n", clan.Ostracized);
+                text = String.Format("Ostracized: {0}\r\n", guild.Ostracized);
                 buf1 += text;
             }
 
@@ -1702,10 +1717,10 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                ch.SendText("Syntax: setclan <clan> <sedit>                     \r\n");
-                ch.SendText("or:     setclan <clan> <field>            <value>  \r\n");
-                ch.SendText("or:     setclan <clan> <string>           <value>  \r\n");
-                ch.SendText("or:     setclan <clan> overlord <player>           \r\n");
+                ch.SendText("Syntax: set guild <guild> <sedit>                  \r\n");
+                ch.SendText("or:     set guild <guild> <field>         <value>  \r\n");
+                ch.SendText("or:     set guild <guild> <string>        <value>  \r\n");
+                ch.SendText("or:     set guild <guild> overlord <player>        \r\n");
                 ch.SendText("\r\nField being one of:                            \r\n");
                 ch.SendText(" mkills mdeaths pkills pdeaths illegalpk type      \r\n");
                 ch.SendText(" members                                           \r\n");
@@ -1718,10 +1733,10 @@ namespace MUDEngine
                 return;
             }
 
-            Guild guild = Guild.GetClan(str[0]);
+            Guild guild = Guild.GetGuild(str[0]);
             if (guild == null)
             {
-                ch.SendText("No such clan.\r\n");
+                ch.SendText("No such guild.\r\n");
                 return;
             }
 
@@ -1895,7 +1910,7 @@ namespace MUDEngine
             }
             if (!MUDString.StringsNotEqual(str[1], "desc"))
             {
-                ((PC)ch).Editing = SocketConnection.EditState.clan_description;
+                ((PC)ch).Editing = SocketConnection.EditState.guild_description;
                 MUDString.StringAppend(ch, ref guild.Description);
                 guild.Save();
                 return;
@@ -1908,23 +1923,23 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            Guild clan;
+            Guild guild;
 
             if (str.Length == 0)
             {
                 int found = 0;
                 string text;
 
-                ch.SendText("Syntax: stat clan <clan>\r\n\r\n");
-                string buf1 = String.Format("Clan           Overlord          Keyword\r\n");
+                ch.SendText("Syntax: stat guild <guild>\r\n\r\n");
+                string buf1 = String.Format("Guild          Overlord          Keyword\r\n");
 
                 foreach (Guild it in Database.GuildList)
                 {
-                    clan = it;
+                    guild = it;
                     text = String.Format("{0}  {1}  {2}\r\n",
-                              clan.WhoName,
-                              clan.Overlord,
-                              clan.Name);
+                              guild.WhoName,
+                              guild.Overlord,
+                              guild.Name);
                     buf1 += text;
                     found++;
                 }
@@ -1935,7 +1950,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    text = String.Format("You see {0} clan{1} in the game.\r\n",
+                    text = String.Format("You see {0} guild{1} in the game.\r\n",
                               found,
                               found == 1 ? String.Empty : "s");
                 }
@@ -1944,50 +1959,55 @@ namespace MUDEngine
                 return;
             }
 
-            clan = Guild.GetClan(str[0]);
-            if (clan == null)
+            guild = Guild.GetGuild(str[0]);
+            if (guild == null)
             {
                 ch.SendText("No such guild.\r\n");
                 return;
             }
 
             ch.SendText(String.Format("&+cWhoName :&n {0}.\r\n",
-                            clan.WhoName));
+                            guild.WhoName));
             ch.SendText(String.Format("&+cName    :&n {0}.\r\n",
-                            clan.Name));
+                            guild.Name));
             ch.SendText(String.Format("&+cType    :&n {0}.\r\n",
-                            clan.TypeOfGuild));
+                            guild.TypeOfGuild));
             ch.SendText(String.Format("&+cFilename:&n {0}\r\n&+cMotto   :&n \"{1}\".\r\n",
-                            clan.Filename,
-                            clan.Motto));
-            ch.SendText(String.Format("&+cId      :&n {0}.\r\n", clan.ID));
+                            guild.Filename,
+                            guild.Motto));
+            ch.SendText(String.Format("&+cId      :&n {0}.\r\n", guild.ID));
             ch.SendText(String.Format("&+cDescription:&n \r\n{0}\r\n&+cOverlord :&n {1}.\r\n",
-                            clan.Description,
-                            clan.Overlord));
+                            guild.Description,
+                            guild.Overlord));
             ch.SendText(String.Format("&+cMembers:  &n {0}  &+cClass:   &n {1}\r\n",
-                            MUDString.PadInt(clan.NumMembers, 5),
-                            MUDString.PadInt((int)clan.ClassRestriction.ClassNumber, 5)));
+                            MUDString.PadInt(guild.NumMembers, 5),
+                            MUDString.PadInt((int)guild.ClassRestriction.ClassNumber, 5)));
             ch.SendText(String.Format("&+cMKills:   &n {0}  &+cMDeaths: &n {1}\r\n",
-                            MUDString.PadInt(clan.MonsterKills, 5),
-                            MUDString.PadInt(clan.MonsterDeaths, 5)));
+                            MUDString.PadInt(guild.MonsterKills, 5),
+                            MUDString.PadInt(guild.MonsterDeaths, 5)));
             ch.SendText(String.Format("&+cPKills:   &n {0}  &+cPDeaths: &n {1}\r\n",
-                            MUDString.PadInt(clan.PlayerKills, 5),
-                            MUDString.PadInt(clan.PlayerDeaths, 5)));
+                            MUDString.PadInt(guild.PlayerKills, 5),
+                            MUDString.PadInt(guild.PlayerDeaths, 5)));
             ch.SendText(String.Format("&+cFrags:    &n {0}  &+cScore:   &n {1}\r\n",
-                            MUDString.PadInt(clan.Frags, 5),
-                            clan.Score));
+                            MUDString.PadInt(guild.Frags, 5),
+                            guild.Score));
             ch.SendText(String.Format("&+cObj1:     &n {0}  &+cObj2:    &n {1}  &+cObj3:&n {2}\r\n",
-                            MUDString.PadInt(clan.GuildRingIndexNumber, 5),
-                            MUDString.PadInt(clan.GuildShieldIndexNumber, 5),
-                            MUDString.PadInt(clan.GuildWeaponIndexNumber, 5)));
+                            MUDString.PadInt(guild.GuildRingIndexNumber, 5),
+                            MUDString.PadInt(guild.GuildShieldIndexNumber, 5),
+                            MUDString.PadInt(guild.GuildWeaponIndexNumber, 5)));
             ch.SendText(String.Format("&+cRecall:   &n {0}  &+cDonation:&n% {1}n\r",
-                            MUDString.PadInt(clan.RecallRoom, 5), MUDString.PadInt(clan.GuildChest, 5)));
+                            MUDString.PadInt(guild.RecallRoom, 5), MUDString.PadInt(guild.GuildChest, 5)));
             ch.SendText(String.Format("&+cBank Account: &n{0} &+Wplatinum&n, {1} &+Ygold&n, {2} silver, {3} &+ycopper&n\r\n",
-                            clan.GuildBankAccount.Platinum, clan.GuildBankAccount.Gold,
-                            clan.GuildBankAccount.Silver, clan.GuildBankAccount.Copper));
+                            guild.GuildBankAccount.Platinum, guild.GuildBankAccount.Gold,
+                            guild.GuildBankAccount.Silver, guild.GuildBankAccount.Copper));
             return;
         }
 
+        /// <summary>
+        /// Create a new guild.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void MakeGuild(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -1996,14 +2016,14 @@ namespace MUDEngine
             string whoName = String.Empty;
             int count;
 
-            if (!realChar.Authorized("makeclan"))
+            if (!realChar.Authorized("makeguild"))
             {
                 return;
             }
 
             if (str.Length == 0)
             {
-                ch.SendText("Syntax: makeclan <clan _name>\r\n");
+                ch.SendText("Syntax: makeguild <guild name>\r\n");
                 return;
             }
 
@@ -2012,71 +2032,76 @@ namespace MUDEngine
                 whoName = whoName.Substring(0, 13);
             }
 
-            string filename = String.Format("{0}.clan", whoName);
+            string filename = String.Format("{0}.guild", whoName);
 
-            Guild clan = new Guild();
-            Database.GuildList.Add(clan);
+            Guild guild = new Guild();
+            Database.GuildList.Add(guild);
 
-            clan.Filename = filename;
-            clan.WhoName = whoName;
-            clan.Name = str[0];
-            clan.Motto = String.Empty;
-            clan.Description = String.Empty;
-            clan.Overlord = String.Empty;
-            clan.NumMembers = 0;
-            clan.RecallRoom = 3001;
-            clan.GuildChest = 0;
-            clan.ClassRestriction = CharClass.ClassList[0];
-            clan.MonsterKills = 0;
-            clan.MonsterDeaths = 0;
-            clan.PlayerKills = 0;
-            clan.PlayerDeaths = 0;
-            clan.IllegalJusticeKills = 0;
-            clan.Score = 0.0;
-            clan.TypeOfGuild = Guild.GuildType.clan; // Defaults at clan
-            clan.GuildRingIndexNumber = 0;
-            clan.GuildShieldIndexNumber = 0;
-            clan.GuildWeaponIndexNumber = 0;
-            clan.RankNames[(int)Guild.Rank.exiled] = "Exile of";
-            clan.RankNames[(int)Guild.Rank.parole] = "Parole of ";
-            clan.RankNames[(int)Guild.Rank.normal] = "Member of ";
-            clan.RankNames[(int)Guild.Rank.senior] = "Senior of";
-            clan.RankNames[(int)Guild.Rank.officer] = "Officer of";
-            clan.RankNames[(int)Guild.Rank.deputy] = "Deputy of";
-            clan.RankNames[(int)Guild.Rank.leader] = "Leader of";
-            clan.ID = Guild.NextGuildID;
+            guild.Filename = filename;
+            guild.WhoName = whoName;
+            guild.Name = str[0];
+            guild.Motto = String.Empty;
+            guild.Description = String.Empty;
+            guild.Overlord = String.Empty;
+            guild.NumMembers = 0;
+            guild.RecallRoom = 3001;
+            guild.GuildChest = 0;
+            guild.ClassRestriction = CharClass.ClassList[0];
+            guild.MonsterKills = 0;
+            guild.MonsterDeaths = 0;
+            guild.PlayerKills = 0;
+            guild.PlayerDeaths = 0;
+            guild.IllegalJusticeKills = 0;
+            guild.Score = 0.0;
+            guild.TypeOfGuild = Guild.GuildType.clan; // Defaults at clan
+            guild.GuildRingIndexNumber = 0;
+            guild.GuildShieldIndexNumber = 0;
+            guild.GuildWeaponIndexNumber = 0;
+            guild.RankNames[(int)Guild.Rank.exiled] = "Exile of";
+            guild.RankNames[(int)Guild.Rank.parole] = "Parole of ";
+            guild.RankNames[(int)Guild.Rank.normal] = "Member of ";
+            guild.RankNames[(int)Guild.Rank.senior] = "Senior of";
+            guild.RankNames[(int)Guild.Rank.officer] = "Officer of";
+            guild.RankNames[(int)Guild.Rank.deputy] = "Deputy of";
+            guild.RankNames[(int)Guild.Rank.leader] = "Leader of";
+            guild.ID = Guild.NextGuildID;
             Guild.NextGuildID++;
 
-            for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
-                clan.Members[count] = new GuildMemberData();
-            for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+            for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
+                guild.Members[count] = new GuildMemberData();
+            for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                clan.Members[count].Name = String.Empty;
-                clan.Members[count].Rank = 0;
-                clan.Members[count].Fine = 0;
-                clan.Members[count].JoinTime = new DateTime();
-                clan.Members[count].Filled = false;
+                guild.Members[count].Name = String.Empty;
+                guild.Members[count].Rank = 0;
+                guild.Members[count].Fine = 0;
+                guild.Members[count].JoinTime = new DateTime();
+                guild.Members[count].Filled = false;
             }
 
-            ch.SendText("Creation successful.  Now use the command\r\nset clan <clan_name> <variable> <value>\r\n" +
+            ch.SendText("Creation successful.  Now use the command\r\nset guild <guild_name> <variable> <value>\r\n" +
                           "to set values for the organization.\r\n\r\nParticularly, you will " +
                           "need to set:\r\nwhoname\r\nmotto\r\ndesc\r\noverlord\r\n" +
-                          "\r\nAfter that, to set the leader, you must use:\r\nset_namename> clan <c_namename>\r\n" +
-                          "and\r\nset m_nameme> rank <6>\r\n");
+                          "\r\nAfter that, to set the leader, you must use:\r\nset guild <player> <guild_name>\r\n" +
+                          "and\r\nset <player> rank 6\r\n");
 
-            clan.Save();
+            guild.Save();
             Guild.SaveGuildList();
 
             return;
         }
 
+        /// <summary>
+        /// Guild commands.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Society(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
             if (str.Length == 0)
             {
-                CommandType.Interpret(ch, "claninfo");
+                CommandType.Interpret(ch, "guildinfo");
                 return;
             }
 
@@ -2309,7 +2334,7 @@ namespace MUDEngine
 
             if (!victim._socket)
             {
-                SocketConnection.Act("$N doesn't have a descriptor.", ch, null, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("$N doesn't have a socket.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
@@ -2325,8 +2350,8 @@ namespace MUDEngine
                 }
             }
 
-            Log.Error("Disconnect: desc not found.", 0);
-            ch.SendText("Descriptor not found!\r\n");
+            Log.Error("Disconnect: Socket not found.", 0);
+            ch.SendText("Socket not found!\r\n");
             return;
         }
 
@@ -2400,6 +2425,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Echo some text to the current room.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void RoomEcho(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -2672,7 +2702,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                ch.SendText("Try statting a MOBILE, OBJECT, ROOM, SKILL, SPELL, AREA, CLAN,\r\n");
+                ch.SendText("Try statting a MOBILE, OBJECT, ROOM, SKILL, SPELL, AREA, GUILD,\r\n");
                 ch.SendText("CLASS, MEMDATA, SHOP, QUEST, CASTLIST, TRAPS, HUNT, HATE,\r\n");
                 ch.SendText("CRIME, VEHICLE, MONK, RACE, SCREENS, or FEAR\r\n");
                 return;
@@ -2701,7 +2731,7 @@ namespace MUDEngine
                 StatArea(ch,  arguments );
             else if (!MUDString.IsPrefixOf(str[0], "zone"))
                 StatArea(ch,  arguments );
-            else if (!MUDString.IsPrefixOf(str[0], "clan"))
+            else if (!MUDString.IsPrefixOf(str[0], "guild"))
                 StatGuild(ch,  arguments );
             else if (!MUDString.IsPrefixOf(str[0], "class"))
                 StatClass(ch,  arguments );
@@ -2738,7 +2768,7 @@ namespace MUDEngine
                 StatRace(ch,  arguments );
             else
             {
-                ch.SendText("Try statting a MOBILE, OBJECT, ROOM, SKILL, SPELL, AREA, CLAN,\r\n");
+                ch.SendText("Try statting a MOBILE, OBJECT, ROOM, SKILL, SPELL, AREA, GUILD,\r\n");
                 ch.SendText("CLASS, MEMDATA, SHOP, QUEST, CASTLIST, TRAPS, HUNT, HATE,\r\n");
                 ch.SendText("CRIME, VEHICLE, MONK, RACE, SCREENS, or FEAR\r\n");
             }
@@ -2983,7 +3013,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                ch.SendText("&+cTry setting an OBJECT, MOBILE, ROOM, SKILL, SPELL, MONKSKILL, RACE, CLASS, or CLAN.\r\n");
+                ch.SendText("&+cTry setting an OBJECT, MOBILE, ROOM, SKILL, SPELL, MONKSKILL, RACE, CLASS, or GUILD.\r\n");
                 return;
             }
 
@@ -3018,7 +3048,7 @@ namespace MUDEngine
             else if (!MUDString.IsPrefixOf(str[0], "clan") || !MUDString.IsPrefixOf(str[0], "guild"))
                 SetGuildVariable(ch, cmd);
             else
-                ch.SendText("Try setting an OBJECT, MOBILE, ROOM, SKILL, LANGUAGE, SPELL, MONKSKILL, RACE, CLASS, or CLAN.\r\n");
+                ch.SendText("Try setting an OBJECT, MOBILE, ROOM, SKILL, LANGUAGE, SPELL, MONKSKILL, RACE, CLASS, or GUILD.\r\n");
 
             return;
         }
@@ -3088,9 +3118,9 @@ namespace MUDEngine
             text = String.Format("File:     {0}.\r\n", area.Filename);
             ch.SendText(text);
 
-            if (area.ClanId > 0)
+            if (area.GuildId > 0)
             {
-                text = String.Format("Clan Id:  {0}.\r\n", area.ClanId);
+                text = String.Format("Guild Id:  {0}.\r\n", area.GuildId);
                 ch.SendText(text);
             }
 
@@ -3927,9 +3957,9 @@ namespace MUDEngine
                 if (victim.IsGuild())
                 {
                     text = String.Format(
-                              "Clan: {0}.  Rank: {1}.\r\n",
-                              ((PC)victim).Clan.Name,
-                              ((PC)victim).ClanRank.ToString());
+                              "Guild: {0}.  Rank: {1}.\r\n",
+                              ((PC)victim).GuildMembership.Name,
+                              ((PC)victim).GuildRank.ToString());
                     buf1 += text;
                 }
             }
@@ -6000,7 +6030,7 @@ namespace MUDEngine
                 ch.SendText("  copper silver gold platinum position exp faction\r\n");
                 ch.SendText("  resistant immune susceptible vulnerable\r\n");
                 ch.SendText("String being one of:\r\n");
-                ch.SendText("  name short long title spec clan rank\r\n");
+                ch.SendText("  name short long title spec guild rank\r\n");
                 return;
             }
 
@@ -6619,10 +6649,10 @@ namespace MUDEngine
                 return;
             }
 
-            if (!MUDString.StringsNotEqual(str[1], "clan"))
+            if (!MUDString.StringsNotEqual(str[1], "guild"))
             {
-                Guild clan;
-                Guild clanold;
+                Guild guild;
+                Guild oldGuild;
                 int count;
                 bool found = false;
 
@@ -6632,17 +6662,17 @@ namespace MUDEngine
                     return;
                 }
 
-                if ((clan = Guild.GetClan(str[2])) == null)
+                if ((guild = Guild.GetGuild(str[2])) == null)
                 {
-                    ch.SendText("That clan doesn't exist.\r\n");
+                    ch.SendText("That guild doesn't exist.\r\n");
                     return;
                 }
 
                 // remember the number of the available slot in the count
                 // variable so we can fill that slot at the end of this code
-                for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+                for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
                 {
-                    if (clan.Members[count].Filled == false)
+                    if (guild.Members[count].Filled == false)
                     {
                         found = true;
                         break;
@@ -6651,43 +6681,43 @@ namespace MUDEngine
 
                 if (!found)
                 {
-                    ch.SendText("That clan is full.\r\n");
+                    ch.SendText("That guild is full.\r\n");
                     return;
                 }
 
-                if (((PC)victim).Clan != null)
+                if (((PC)victim).GuildMembership != null)
                 {
-                    clanold = ((PC)victim).Clan;
-                    clanold.NumMembers--;
+                    oldGuild = ((PC)victim).GuildMembership;
+                    oldGuild.NumMembers--;
 
                     int count2;
-                    for (count2 = 0; count2 < Limits.MAX_CLAN_MEMBERS; count2++)
+                    for (count2 = 0; count2 < Limits.MAX_GUILD_MEMBERS; count2++)
                     {
-                        if (clanold.Members[count2].Name.Length == 0 || !MUDString.StringsNotEqual(clanold.Members[count2].Name, victim._name))
+                        if (oldGuild.Members[count2].Name.Length == 0 || !MUDString.StringsNotEqual(oldGuild.Members[count2].Name, victim._name))
                         {
-                            clanold.Members[count2].Filled = false;
+                            oldGuild.Members[count2].Filled = false;
                         }
                     }
 
-                    clanold.Save();
+                    oldGuild.Save();
                 }
 
-                ((PC)victim).Clan = clan;
-                ((PC)victim).Clan.Name = clan.Name;
-                ((PC)victim).Clan.NumMembers++;
+                ((PC)victim).GuildMembership = guild;
+                ((PC)victim).GuildMembership.Name = guild.Name;
+                ((PC)victim).GuildMembership.NumMembers++;
 
-                if (((PC)victim).ClanRank == 0)
-                    ((PC)victim).ClanRank = Guild.Rank.normal;
+                if (((PC)victim).GuildRank == 0)
+                    ((PC)victim).GuildRank = Guild.Rank.normal;
 
-                clan.Members[count].Name = victim._name;
-                clan.Members[count].Rank = ((PC)victim).ClanRank;
-                clan.Members[count].Fine = 0;
-                clan.Members[count].JoinTime = Database.SystemData.CurrentTime;
-                clan.Members[count].Filled = true;
+                guild.Members[count].Name = victim._name;
+                guild.Members[count].Rank = ((PC)victim).GuildRank;
+                guild.Members[count].Fine = 0;
+                guild.Members[count].JoinTime = Database.SystemData.CurrentTime;
+                guild.Members[count].Filled = true;
 
-                ch.SendText("Clan initiation successful.  Be sure to set rank.\r\n");
+                ch.SendText("Guild initiation successful.  Be sure to set rank.\r\n");
 
-                clan.Save();
+                guild.Save();
 
                 ch.SendText("Ok.\r\n");
                 return;
@@ -6792,7 +6822,7 @@ namespace MUDEngine
                     return;
                 }
 
-                ((PC)victim).ClanRank = rank;
+                ((PC)victim).GuildRank = rank;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -14643,9 +14673,9 @@ namespace MUDEngine
                                        (!victim.IsNPC() && ((PC)victim).Title.Length != 0)
                                            ? ((PC)victim).Title : "(none)");
             ch.SendText(buf);
-            buf = String.Format("Clan: {0}&n. Level: {1}&n.\r\n",
-                    (!victim.IsNPC() && ((PC)victim).Clan != null)
-                    ? ((PC)victim).Clan.Name : "(none)",
+            buf = String.Format("Guild: {0}&n. Level: {1}&n.\r\n",
+                    (!victim.IsNPC() && ((PC)victim).GuildMembership != null)
+                    ? ((PC)victim).GuildMembership.Name : "(none)",
                     victim._level);
             ch.SendText(buf);
             buf = String.Format("Class: {0}&n. Room: {1}&n.  Race: {2}&n.\r\n",
@@ -15826,19 +15856,19 @@ namespace MUDEngine
                 return;
             }
 
-            if (leader.IsNPC() || leader.Clan == null)
+            if (leader.IsNPC() || leader.GuildMembership == null)
             {
                 ch.SendText("Apply to whom?!\r\n");
                 return;
             }
 
-            if (leader.Clan.Applicant != null)
+            if (leader.GuildMembership.Applicant != null)
             {
                 ch.SendText("That guild is currently reviewing another applicant.  Try again later.\r\n");
                 return;
             }
 
-            leader.Clan.Applicant = ch;
+            leader.GuildMembership.Applicant = ch;
 
             SocketConnection.Act("$n&n submits an application to join your guild.", ch, null, leader, SocketConnection.MessageTarget.victim);
             ch.SendText("You turn in your application.\r\n");
@@ -15850,34 +15880,38 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (ch.IsNPC() || ((PC)ch).Clan == null || ((PC)ch).ClanRank < Guild.Rank.officer)
+            if (ch.IsNPC() || ((PC)ch).GuildMembership == null || ((PC)ch).GuildRank < Guild.Rank.officer)
             {
                 ch.SendText("You do not have the power to initiate anyone into a guild.\r\n");
                 return;
             }
 
-            if (!((PC)ch).Clan.Applicant)
+            if (!((PC)ch).GuildMembership.Applicant)
             {
                 ch.SendText("Nobody wants to join your silly little guild.\r\n");
                 return;
             }
 
-            if (((PC)ch).Clan.Applicant.IsNPC())
+            if (((PC)ch).GuildMembership.Applicant.IsNPC())
             {
                 ch.SendText("How in the heck did a mob apply to your guild!?\r\n");
-                ((PC)ch).Clan.Applicant = null;
+                ((PC)ch).GuildMembership.Applicant = null;
                 return;
             }
 
-            ((PC)ch).Clan.Applicant.SendText("&+RYour guild application has been declined.&n\r\n");
+            ((PC)ch).GuildMembership.Applicant.SendText("&+RYour guild application has been declined.&n\r\n");
             ch.SendText("You decline the current guild applicant.\r\n");
 
-            ((PC)ch).Clan.Applicant = null;
+            ((PC)ch).GuildMembership.Applicant = null;
 
             return;
         }
 
-        // cloned from withdraw code
+        /// <summary>
+        /// Take money from your guild bank account.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void GuildWithdraw(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -15887,14 +15921,14 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            Guild clan = ((PC)ch).Clan;
-            if (clan == null)
+            Guild guild = ((PC)ch).GuildMembership;
+            if (guild == null)
             {
                 ch.SendText("You're not in a guild!\r\n");
                 return;
             }
 
-            if (((PC)ch).ClanRank < Guild.Rank.deputy)
+            if (((PC)ch).GuildRank < Guild.Rank.deputy)
             {
                 ch.SendText("You'll have to be promoted before you can withdraw from the guild.\r\n");
                 return;
@@ -15920,43 +15954,43 @@ namespace MUDEngine
 
                 if ("copper".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (clan.GuildBankAccount.Copper < amount)
+                    if (guild.GuildBankAccount.Copper < amount)
                     {
                         ch.SendText("The guild doesen't have that many &n&+ycopper&n coins.\r\n");
                         return;
                     }
                     ch.ReceiveCopper(amount);
-                    clan.GuildBankAccount.Copper -= amount;
+                    guild.GuildBankAccount.Copper -= amount;
                 }
                 else if ("silver".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (clan.GuildBankAccount.Silver < amount)
+                    if (guild.GuildBankAccount.Silver < amount)
                     {
                         ch.SendText("The guild doesen't have that many &n&+wsilver&n coins.\r\n");
                         return;
                     }
                     ch.ReceiveSilver(amount);
-                    clan.GuildBankAccount.Silver -= amount;
+                    guild.GuildBankAccount.Silver -= amount;
                 }
                 else if ("gold".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (clan.GuildBankAccount.Gold < amount)
+                    if (guild.GuildBankAccount.Gold < amount)
                     {
                         ch.SendText("The guild doesen't have that many &+Ygold&n coins.\r\n");
                         return;
                     }
                     ch.ReceiveGold(amount);
-                    clan.GuildBankAccount.Gold -= amount;
+                    guild.GuildBankAccount.Gold -= amount;
                 }
                 else if ("platinum".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (clan.GuildBankAccount.Platinum < amount)
+                    if (guild.GuildBankAccount.Platinum < amount)
                     {
                         ch.SendText("The guild doesen't have that many &+Wplatinum&n coins.\r\n");
                         return;
                     }
                     ch.ReceivePlatinum(amount);
-                    clan.GuildBankAccount.Platinum -= amount;
+                    guild.GuildBankAccount.Platinum -= amount;
                 }
                 else
                 {
@@ -15964,7 +15998,7 @@ namespace MUDEngine
                     return;
                 }
 
-                clan.Save();
+                guild.Save();
                 CharData.SavePlayer(ch);
 
                 ch.SendText("You make a withdrawal.\r\n");
@@ -15991,13 +16025,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank < Guild.Rank.deputy)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank < Guild.Rank.deputy)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
             Int32.TryParse(str[0], out amount);
 
@@ -16009,26 +16043,26 @@ namespace MUDEngine
 
             if (!MUDString.StringsNotEqual(arg, "all"))
             {
-                for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+                for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
                 {
-                    if (clan.Members[count].Filled == true &&
-                            clan.Members[count].Rank < ((PC)ch).ClanRank)
+                    if (guild.Members[count].Filled == true &&
+                            guild.Members[count].Rank < ((PC)ch).GuildRank)
                     {
-                        clan.Members[count].Fine += amount;
+                        guild.Members[count].Fine += amount;
                     }
                 }
             }
             else
             {
                 bool found = false;
-                for (count = 0; count < Limits.MAX_CLAN_MEMBERS; ++count)
+                for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
                 {
-                    if (MUDString.StringsNotEqual(clan.Members[count].Name, arg))
+                    if (MUDString.StringsNotEqual(guild.Members[count].Name, arg))
                         continue;
-                    if (clan.Members[count].Filled == true &&
-                            clan.Members[count].Rank < ((PC)ch).ClanRank)
+                    if (guild.Members[count].Filled == true &&
+                            guild.Members[count].Rank < ((PC)ch).GuildRank)
                     {
-                        clan.Members[count].Fine += amount;
+                        guild.Members[count].Fine += amount;
                         found = true;
                     }
                 }
@@ -16041,7 +16075,7 @@ namespace MUDEngine
 
             ch.SendText("Done.\r\n");
 
-            clan.Save();
+            guild.Save();
 
             return;
         }
@@ -16053,7 +16087,7 @@ namespace MUDEngine
             string arg = String.Empty;
             Guild.Rank rank;
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank < Guild.Rank.leader)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank < Guild.Rank.leader)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
@@ -16065,7 +16099,7 @@ namespace MUDEngine
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guils = ((PC)ch).GuildMembership;
 
             try
             {
@@ -16083,11 +16117,11 @@ namespace MUDEngine
                 return;
             }
 
-            clan.RankNames[(int)rank] = str[0];
+            guils.RankNames[(int)rank] = str[0];
 
             ch.SendText("Done.\r\n");
 
-            clan.Save();
+            guils.Save();
 
             return;
         }
@@ -16098,7 +16132,7 @@ namespace MUDEngine
 
             string arg = String.Empty;
 
-            if (!ch.IsGuild() || ((PC)ch).ClanRank < Guild.Rank.deputy)
+            if (!ch.IsGuild() || ((PC)ch).GuildRank < Guild.Rank.deputy)
             {
                 ch.SendText("You don't have the power to do this.\r\n");
                 return;
@@ -16110,26 +16144,26 @@ namespace MUDEngine
                 return;
             }
 
-            Guild clan = ((PC)ch).Clan;
+            Guild guild = ((PC)ch).GuildMembership;
 
-            if (MUDString.NameContainedIn(arg, clan.Ostracized))
+            if (MUDString.NameContainedIn(arg, guild.Ostracized))
             {
                 ch.SendText("They've already been ostracized.\r\n");
                 return;
             }
 
-            string buf = String.Format("{0} {1}", clan.Ostracized, arg);
+            string buf = String.Format("{0} {1}", guild.Ostracized, arg);
 
             if (!MUDString.StringsNotEqual(arg, "clear"))
             {
                 buf = String.Empty;
             }
 
-            clan.Ostracized = buf;
+            guild.Ostracized = buf;
 
             ch.SendText("Done.\r\n");
 
-            clan.Save();
+            guild.Save();
 
             return;
         }
@@ -16198,67 +16232,80 @@ namespace MUDEngine
             return;
         }
 
-        public static void Killclan(CharData ch, string[] str)
+        /// <summary>
+        /// Disbands a guild.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
+        public static void DeleteGuild(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
-            CharData vch;
-            //    int i;
-            string arg1 = String.Empty;
-            string arg2 = String.Empty;
-
-            // get clan pointer
-            Guild clan = Guild.GetClan(arg1);
-            if (clan == null)
+            if (str.Length < 1)
             {
-                ch.SendText("That clan doesn't exist!\r\n");
+                ch.SendText("Type 'deleteguild guildname confirm' to disband a guild.\r\n");
                 return;
             }
-            // check if they really mean it
-            if (MUDString.StringsNotEqual(arg2, "confirm"))
+
+            // Get guild pointer.
+            Guild guild = Guild.GetGuild(str[0]);
+            if (guild == null)
             {
-                ch.SendText("Type 'killclan clanname confirm' to disband a clan.\r\n");
+                ch.SendText("That guild doesn't exist!\r\n");
                 return;
             }
-            string buf = String.Format("You want to kill clan {0}.\r\n", clan.WhoName);
-            ch.SendText(buf);
-
-            //warn existing clan members
-            foreach (CharData it in Database.CharList)
+            // Check if they really mean it.
+            if (str.Length < 2 || MUDString.StringsNotEqual(str[1], "confirm"))
             {
-                vch = it;
-                if (vch.IsNPC())
+                ch.SendText("Type 'deleteguild guildname confirm' to disband a guild.\r\n");
+                return;
+            }
+            string text = String.Format("You want to delete guild {0}.\r\n", guild.WhoName);
+            ch.SendText(text);
+
+            // Notify existing guild members.
+            foreach (CharData worldChar in Database.CharList)
+            {
+                if (worldChar.IsNPC())
+                {
                     continue;
-                if (((PC)vch).Clan != null && ((PC)vch).Clan == clan)
+                }
+                if (((PC)worldChar).GuildMembership != null && ((PC)worldChar).GuildMembership == guild)
                 {
-                    vch.SendText("&+RYour clan has been disbanded!&n\r\n");
-                    ((PC)vch).Clan = null;
-                    if (((PC)vch).Title.Length != 0)
-                        ((PC)vch).Title = String.Empty;
+                    worldChar.SendText("&+RYour guild has been disbanded!&n\r\n");
+                    ((PC)worldChar).GuildMembership = null;
+                    if (((PC)worldChar).Title.Length != 0)
+                    {
+                        ((PC)worldChar).Title = String.Empty;
+                    }
                 }
             }
 
-            ch.SendText("Checking clan list.\r\n");
-            foreach (Guild cit in Database.GuildList)
+            ch.SendText("Checking guild list.\r\n");
+            foreach (Guild git in Database.GuildList)
             {
-                Guild vclan = cit;
-                if (vclan == clan)
+                if (git == guild)
                 {
-                    ch.SendText("Clan found on list.\r\n");
-                    Database.GuildList.Remove(cit);
+                    ch.SendText("Guild found on list.\r\n");
+                    Database.GuildList.Remove(git);
                 }
             }
-            ch.SendText("Clan removed from list.\r\n");
+            ch.SendText("Guild removed from list.\r\n");
 
-            if (clan.Members != null)
+            if (guild.Members != null)
             {
-                clan.Members = null;
+                guild.Members = null;
             }
 
             Guild.SaveGuildList();
             return;
         }
 
+        /// <summary>
+        /// Shows the list of songs available to the player, if any.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Songs(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -17054,21 +17101,31 @@ namespace MUDEngine
             return;
         }
 
-        public static void ClanChat(CharData ch, string[] str)
+        /// <summary>
+        /// Say something on the guild chat channel.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
+        public static void GuildChat(CharData ch, string[] str)
         {
             if( ch == null ) return;
             CharData realChar = ch.GetChar();
 
             if (realChar.IsNPC() || !realChar.IsGuild())
             {
-                ch.SendText("You aren't a &+Lclansman&n!\r\n");
+                ch.SendText("You aren't a guildmember!\r\n");
                 return;
             }
 
-            SocketConnection.SendToChannel(ch, String.Join(" ", str), TalkChannel.guild, "clantalk");
+            SocketConnection.SendToChannel(ch, String.Join(" ", str), TalkChannel.guild, "guild");
             return;
         }
 
+        /// <summary>
+        /// Say something out loud.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Say(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -21577,7 +21634,7 @@ namespace MUDEngine
                                                     wch.IsAffected(Affect.AFFECT_INVISIBLE) ? "*" : String.Empty,
                                                     wch._name,
                                                     ((PC)wch).Title,
-                                                    !wch.IsGuild() ? String.Empty : ((PC)wch).Clan.WhoName,
+                                                    !wch.IsGuild() ? String.Empty : ((PC)wch).GuildMembership.WhoName,
                                                     Race.RaceList[wch.GetRace()].ColorName);
                         text = String.Format("&+L[&n{0} {1}&+L]&n {2}\r\n",
                                   MUDString.PadInt(wch._level, 2),
@@ -21592,7 +21649,7 @@ namespace MUDEngine
                                                      wch.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
                                                      wch._name,
                                                      ((PC)wch).Title);
-                        string buf2 = String.Format(" {0}", !wch.IsGuild() ? String.Empty : ((PC)wch).Clan.WhoName);
+                        string buf2 = String.Format(" {0}", !wch.IsGuild() ? String.Empty : ((PC)wch).GuildMembership.WhoName);
                         text = String.Format("&+L[&n{0}&+L]&n {1}{2}\r\n",
                                   MUDString.PadStr(cclass, 15),
                                   buf1,
@@ -22200,14 +22257,14 @@ namespace MUDEngine
             if (ch.IsSameGuild(victim) && !ch.IsImmortal())
             {
                 /* Officers and deputies can title themselves. */
-                if (ch == victim && ((PC)ch).ClanRank < Guild.Rank.officer)
+                if (ch == victim && ((PC)ch).GuildRank < Guild.Rank.officer)
                 {
                     ch.SendText("&nThey might not appreciate that.\r\n");
                     return;
                 }
 
                 /* Leaders can title others. */
-                if (ch != victim && ((PC)ch).ClanRank < Guild.Rank.leader)
+                if (ch != victim && ((PC)ch).GuildRank < Guild.Rank.leader)
                 {
                     ch.SendText("You can't do that to another at your rank.\r\n");
                     return;
@@ -22278,9 +22335,9 @@ namespace MUDEngine
             ch.SendText("Description editing is disabled for now.\r\n");
             return;
 
-            ((PC)ch).Editing = SocketConnection.EditState.description;
-            MUDString.StringAppend(ch, ref ch._description);
-            return;
+            //((PC)ch).Editing = SocketConnection.EditState.description;
+            //MUDString.StringAppend(ch, ref ch._description);
+            //return;
         }
 
         /// <summary>
@@ -22465,8 +22522,8 @@ namespace MUDEngine
                 if (ch.IsGuild())
                 {
                     ch.SendText(ch.IsListening(TalkChannel.guild)
-                                  ? " +CLANTALK"
-                                  : " -clantalk");
+                                  ? " +guild"
+                                  : " -guild");
                 }
 
                 if (ch.IsHero())
@@ -22496,7 +22553,7 @@ namespace MUDEngine
                 string tmparg = String.Format("{0}", str[0]);
                 if (!MUDString.StringsNotEqual(tmparg + 1, "immtalk"))
                     bit = TalkChannel.immortal;
-                else if (!MUDString.StringsNotEqual(tmparg + 1, "clantalk"))
+                else if (!MUDString.StringsNotEqual(tmparg + 1, "guild"))
                     bit = TalkChannel.guild;
                 else if (!MUDString.StringsNotEqual(tmparg + 1, "shout"))
                     bit = TalkChannel.shout;
@@ -23680,22 +23737,22 @@ namespace MUDEngine
             if (!isArg)
             {
                 // Chance of finding people hiding in the room
-                foreach (CharData vch in ch._inRoom.People)
+                foreach (CharData roomChar in ch._inRoom.People)
                 {
-                    if (!vch.IsAffected(Affect.AFFECT_HIDE) || vch._flyLevel != ch._flyLevel)
+                    if (!roomChar.IsAffected(Affect.AFFECT_HIDE) || roomChar._flyLevel != ch._flyLevel)
                         continue;
                     if (MUDMath.NumberPercent() < chance)
                     {
-                        vch.RemoveAffect(Affect.AFFECT_HIDE);
+                        roomChar.RemoveAffect(Affect.AFFECT_HIDE);
                         /* People without DI can't search out invis hiding pplz. */
-                        if (CharData.CanSee(ch, vch))
+                        if (CharData.CanSee(ch, roomChar))
                         {
-                            SocketConnection.Act("$n&n points out $N&n lurking here!", ch, null, vch, SocketConnection.MessageTarget.room);
-                            SocketConnection.Act("You point out $N&n lurking here!", ch, null, vch, SocketConnection.MessageTarget.character);
-                            SocketConnection.Act("$n&n reveals your hiding spot!", ch, null, vch, SocketConnection.MessageTarget.victim);
+                            SocketConnection.Act("$n&n points out $N&n lurking here!", ch, null, roomChar, SocketConnection.MessageTarget.room);
+                            SocketConnection.Act("You point out $N&n lurking here!", ch, null, roomChar, SocketConnection.MessageTarget.character);
+                            SocketConnection.Act("$n&n reveals your hiding spot!", ch, null, roomChar, SocketConnection.MessageTarget.victim);
                             return;
                         }
-                        vch.SetAffBit(Affect.AFFECT_HIDE);
+                        roomChar.SetAffBit(Affect.AFFECT_HIDE);
                     }
                 }
             }
@@ -26848,7 +26905,7 @@ namespace MUDEngine
             }
             // find an object to throw
 
-            if (str.Length == 0)
+            /*if (str.Length == 0)
             {
                 ch.SendText("Throw what exactly?\r\n");
                 return;
@@ -26937,6 +26994,7 @@ namespace MUDEngine
                 return;
             }
             return;
+             */
         }
 
         public static void Aware(CharData ch, string[] str)

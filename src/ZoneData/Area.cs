@@ -40,7 +40,7 @@ namespace ModernMUD
         private int _timesReset;
         private ResetMode _resetMode;
         private int _minutesBetweenResets;
-        private int _clanId;
+        private int _guildId;
         private int _recall;
         private int _jailRoom;
         private int _defenderSquads;
@@ -145,7 +145,7 @@ namespace ModernMUD
             _timesReset = 0;
             _resetMode = ResetMode.normal;
             _minutesBetweenResets = 15;
-            _clanId = 0;
+            _guildId = 0;
             _name = "New Area";
             _builders = "None";
             _author = "None";
@@ -239,12 +239,12 @@ namespace ModernMUD
         }
 
         /// <summary>
-        /// The clan ID associated with this zone, used for guild halls.
+        /// The guild ID associated with this zone, used for guild halls.
         /// </summary>
-        public int ClanId
+        public int GuildId
         {
-            get { return _clanId; }
-            set { _clanId = value; }
+            get { return _guildId; }
+            set { _guildId = value; }
         }
 
         /// <summary>

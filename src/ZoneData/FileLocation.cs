@@ -45,7 +45,7 @@ namespace ModernMUD
         /// <summary>
         /// Guild files.
         /// </summary>
-        public static string GuildDirectory = ".." + Path.DirectorySeparatorChar + "clans" +
+        public static string GuildDirectory = ".." + Path.DirectorySeparatorChar + "guilds" +
             Path.DirectorySeparatorChar;
         /// <summary>
         /// Race definition files. Includes both player and monster races.
@@ -72,9 +72,9 @@ namespace ModernMUD
         /// </summary>
         public static string ClassLoadList = "Class.list";
         /// <summary>
-        /// List of clans to load.
+        /// List of guilds to load.
         /// </summary>
-        public static string GuildLoadList = "Clans.list";
+        public static string GuildLoadList = "Guilds.list";
         /// <summary>
         /// List of races to load.
         /// </summary>

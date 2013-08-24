@@ -42,7 +42,7 @@ namespace MUDEngine
         /// <summary>
         /// Rank, join date, fines, other member data.
         /// </summary>
-        public GuildMemberData[] Members = new GuildMemberData[ Limits.MAX_CLAN_MEMBERS ];
+        public GuildMemberData[] Members = new GuildMemberData[ Limits.MAX_GUILD_MEMBERS ];
         /// <summary>
         /// Titles for each guild rank.
         /// </summary>
@@ -72,11 +72,11 @@ namespace MUDEngine
         /// </summary>
         public int PlayerDeaths;
         /// <summary>
-        /// Number of monsters killed by clan members.
+        /// Number of monsters killed by guild members.
         /// </summary>
         public int MonsterKills;
         /// <summary>
-        /// Number of times clan members have been killed by monsters.
+        /// Number of times guild members have been killed by monsters.
         /// </summary>
         public int MonsterDeaths;
         /// <summary>
@@ -96,27 +96,27 @@ namespace MUDEngine
         /// </summary>
         public int NumMembers;
         /// <summary>
-        /// Index number of the clan ring object.
+        /// Index number of the guild ring object.
         /// </summary>
         public int GuildRingIndexNumber;
         /// <summary>
-        /// Index number of the clan shield object.
+        /// Index number of the guild shield object.
         /// </summary>
         public int GuildShieldIndexNumber;
         /// <summary>
-        /// Index number of the clan weapon.
+        /// Index number of the guild weapon.
         /// </summary>
         public int GuildWeaponIndexNumber;
         /// <summary>
-        /// Index number of the clan badge.
+        /// Index number of the guild badge.
         /// </summary>
         public int GuildBadgeIndexNumber;
         /// <summary>
-        /// Index number of the clan respawn point.
+        /// Index number of the guild respawn point.
         /// </summary>
         public int RecallRoom;
         /// <summary>
-        /// Index number of the clan's guild chest.
+        /// Index number of the guild's guild chest.
         /// </summary>
         public int GuildChest;
         /// <summary>
@@ -193,17 +193,17 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Looks up a clan by _name and returns it.  Uses a prefix match.
+        /// Looks up a guild by name and returns it.  Uses a prefix match.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Guild GetClan(string name)
+        public static Guild GetGuild(string name)
         {
-            foreach (Guild clan in Database.GuildList)
+            foreach (Guild guild in Database.GuildList)
             {
-                if (clan.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase))
+                if (guild.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    return clan;
+                    return guild;
                 }
             }
 
@@ -211,7 +211,7 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// New code for loading a single clan from a file.
+        /// New code for loading a single guild from a file.
         /// </summary>
         /// <param name="filename">The full pathname of the file to load.</param>
         public static Guild Load( String filename )
@@ -219,9 +219,9 @@ namespace MUDEngine
             XmlSerializer serializer = new XmlSerializer( typeof(Guild) );
             // Filename should have already been built using the FileLocation.GuildDirectory path.
             Stream stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
-            Guild clan = (Guild)serializer.Deserialize( stream );
+            Guild guild = (Guild)serializer.Deserialize( stream );
             stream.Close();
-            return clan;
+            return guild;
         }
 
         /// <summary>
@@ -254,10 +254,10 @@ namespace MUDEngine
                         break;
                     }
 
-                    Guild clan = Load(FileLocation.GuildDirectory + filename);
-                    if( clan != null )
+                    Guild guild = Load(FileLocation.GuildDirectory + filename);
+                    if( guild != null )
                     {
-                        Database.GuildList.Add( clan );
+                        Database.GuildList.Add( guild );
                     }
                 }
                 sw.Close();
@@ -274,16 +274,16 @@ namespace MUDEngine
         /// </summary>
         public static void SaveGuildList()
         {
-            string clanslist = String.Format("{0}{1}", FileLocation.GuildDirectory, FileLocation.GuildLoadList);
+            string guildslist = String.Format("{0}{1}", FileLocation.GuildDirectory, FileLocation.GuildLoadList);
 
-            FileStream fp = File.OpenWrite( clanslist );
+            FileStream fp = File.OpenWrite( guildslist );
             StreamWriter sw = new StreamWriter( fp );
 
             sw.WriteLine( NextGuildID.ToString() );
             
-            foreach( Guild clan in Database.GuildList )
+            foreach( Guild guild in Database.GuildList )
             {
-                sw.WriteLine( clan.Filename );
+                sw.WriteLine( guild.Filename );
             }
 
             sw.WriteLine( "$" );
@@ -320,9 +320,9 @@ namespace MUDEngine
         /// </summary>
         /// <param name="ch"></param>
         /// <returns></returns>
-        public static int GolemClanID( CharData ch )
+        public static int GolemGuildID( CharData ch )
         {
-            int pos = ch._name.IndexOf( "clan_" );
+            int pos = ch._name.IndexOf( "guild_" );
             if( pos == -1 )
             {
                 return 0;

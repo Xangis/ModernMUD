@@ -314,7 +314,7 @@ namespace MUDEngine
                     }
                     if (victim.IsGuild() && (ch.IsNPC()))
                     {
-                        text += " " + ((PC)victim).Clan.WhoName;
+                        text += " " + ((PC)victim).GuildMembership.WhoName;
                     }
 
                     if (!ch.IsRacewar(victim) || victim.IsImmortal() || ch.IsImmortal())
@@ -461,8 +461,8 @@ namespace MUDEngine
 
             if (!victim.IsNPC() && victim.IsGuild())
             {
-                text += String.Format("&n{0} of {1}.\r\n", ((PC)victim).ClanRank.ToString().ToUpper(),
-                          ((PC)victim).Clan.Name);
+                text += String.Format("&n{0} of {1}.\r\n", ((PC)victim).GuildRank.ToString().ToUpper(),
+                          ((PC)victim).GuildMembership.Name);
             }
 
             SocketConnection.Act(text, ch, null, victim, SocketConnection.MessageTarget.character);
