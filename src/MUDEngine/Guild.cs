@@ -46,7 +46,7 @@ namespace MUDEngine
         /// <summary>
         /// Titles for each guild rank.
         /// </summary>
-        public string[] RankNames = new string[ MAX_RANK ];
+        public string[] RankNames = new string[ Enum.GetValues(typeof(Rank)).Length ];
         /// <summary>
         /// Faction standings with individual races.  This is a "how they feel about us" value.
         /// </summary>
@@ -150,8 +150,7 @@ namespace MUDEngine
             officer,
             deputy,
             leader
-        };
-        public static readonly int MAX_RANK = Enum.GetValues(typeof(Rank)).Length;
+        }
 
         /// <summary>
         /// Defines the different types of guild.
@@ -163,6 +162,7 @@ namespace MUDEngine
             guild,
             order
         }
+
         private static int _numGuilds;
 
         /// <summary>
