@@ -284,7 +284,15 @@ namespace MUDEngine
             return room;
         }
 
-        public static int ScanThisRoom( CharData ch, Room room, string buf, CharData.FlyLevel flyLevel )
+        /// <summary>
+        /// Gets the scan info for the provided room.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="room"></param>
+        /// <param name="buffer"></param>
+        /// <param name="flyLevel"></param>
+        /// <returns></returns>
+        public static int ScanThisRoom( CharData ch, Room room, string buffer, CharData.FlyLevel flyLevel )
         {
             int numberFound = 0;
             string levelMsg;
@@ -328,15 +336,15 @@ namespace MUDEngine
                         default:
                             break;
                         case Visibility.visible:
-                            buf += ( target.ShowNameTo( ch, true ));
-                            buf += levelMsg;
-                            buf += "&n\r\n";
+                            buffer += ( target.ShowNameTo( ch, true ));
+                            buffer += levelMsg;
+                            buffer += "&n\r\n";
                             numberFound++;
                             break;
                         case Visibility.sense_infravision:
-                            buf += "&+rYou sense a being within the darkness";
-                            buf += levelMsg;
-                            buf += "&n\r\n";
+                            buffer += "&+rYou sense a being within the darkness";
+                            buffer += levelMsg;
+                            buffer += "&n\r\n";
                             numberFound++;
                             break;
                     }

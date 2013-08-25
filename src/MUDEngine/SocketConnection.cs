@@ -747,8 +747,8 @@ namespace MUDEngine
                 if( command != null )
                 {
                     _incomm = command.Command;
-                    string buf = _incomm + "\r\n";
-                    WriteToSocket(buf, MccpEnabled);
+                    string text = _incomm + "\r\n";
+                    WriteToSocket(text, MccpEnabled);
                 }
             }
 
@@ -3292,7 +3292,7 @@ namespace MUDEngine
         /// <param name="ch"></param>
         private void SendAbilityScores(CharData ch)
         {
-            string buf = String.Format( "\r\n\r\nStr: {0}    Int: {1}\r\nDex: {2}    Wis: {3}\r\nAgi: {4}    Cha: {5}\r\nCon: {6}\r\nPow: {7}\r\n\r\n",
+            string text = String.Format( "\r\n\r\nStr: {0}    Int: {1}\r\nDex: {2}    Wis: {3}\r\nAgi: {4}    Cha: {5}\r\nCon: {6}\r\nPow: {7}\r\n\r\n",
                     MUDString.PadStr( StringConversion.AbilityScoreString( ch.GetCurrStr() ), 17 ),
                     MUDString.PadStr( StringConversion.AbilityScoreString( ch.GetCurrInt() ), 17 ),
                     MUDString.PadStr( StringConversion.AbilityScoreString( ch.GetCurrDex() ), 17 ),
@@ -3302,7 +3302,7 @@ namespace MUDEngine
                     MUDString.PadStr( StringConversion.AbilityScoreString( ch.GetCurrCon() ), 17 ),
                     MUDString.PadStr( StringConversion.AbilityScoreString( ch.GetCurrPow() ), 17 ) );
 
-            WriteToBuffer( buf );
+            WriteToBuffer( text );
         }
 
         /// <summary>

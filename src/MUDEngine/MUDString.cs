@@ -42,7 +42,7 @@ namespace MUDEngine
         /// <param name="argument"></param>
         public static void StringAdd( CharData ch, string argument )
         {
-            string buf = String.Empty;
+            string text = String.Empty;
             int buflen = ch._socket._stringEditing.Length;
             int arglen = argument.Length;
 
@@ -80,8 +80,8 @@ namespace MUDEngine
                     }
 
                     ch._socket._stringEditing = ch._socket._stringEditing.Replace( arg2, arg3 );
-                    buf += "'" + arg2 + "' replaced with '" + arg3 + "'.\r\n";
-                    ch.SendText( buf );
+                    text += "'" + arg2 + "' replaced with '" + arg3 + "'.\r\n";
+                    ch.SendText( text );
                     return;
                 }
 
@@ -127,8 +127,8 @@ namespace MUDEngine
                 ch.SendText( message );
             }
 
-            buf += ch._socket._stringEditing + argument + "\r\n";
-            ch._socket._stringEditing = buf;
+            text += ch._socket._stringEditing + argument + "\r\n";
+            ch._socket._stringEditing = text;
             return;
         }
 

@@ -461,27 +461,36 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Removes a flag from an item.
+        /// </summary>
+        /// <param name="bvect"></param>
         public void RemoveFlag( Bitvector bvect )
         {
             Macros.RemoveBit( ref _extraFlags[ bvect.Group ], bvect.Vector );
             return;
         }
 
+        /// <summary>
+        /// Gets the text representation for all of the flags on an item.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static string ItemString(Object obj)
         {
-            string buf = String.Empty;
+            string text = String.Empty;
             int count;
 
             for (count = 0; count < BitvectorFlagType.ItemFlags.Length; count++)
             {
                 if (obj.HasFlag(BitvectorFlagType.ItemFlags[count].BitvectorData))
                 {
-                    buf += " ";
-                    buf += BitvectorFlagType.ItemFlags[count].Name;
+                    text += " ";
+                    text += BitvectorFlagType.ItemFlags[count].Name;
                 }
             }
 
-            return (!String.IsNullOrEmpty(buf)) ? buf.Substring(1) : "none";
+            return (!String.IsNullOrEmpty(text)) ? text.Substring(1) : "none";
         }
 
         /// <summary>
@@ -491,36 +500,36 @@ namespace MUDEngine
         /// <returns></returns>
         public static string UseFlagString(Object obj)
         {
-            string buf = String.Empty;
+            string text = String.Empty;
             int count;
 
             for (count = 0; count < BitvectorFlagType.UseFlags.Length; count++)
             {
                 if (obj.HasAntiFlag(BitvectorFlagType.UseFlags[count].BitvectorData))
                 {
-                    buf += " ";
-                    buf += BitvectorFlagType.UseFlags[count].Name;
+                    text += " ";
+                    text += BitvectorFlagType.UseFlags[count].Name;
                 }
             }
 
-            return (!String.IsNullOrEmpty(buf)) ? buf.Substring(1) : "none";
+            return (!String.IsNullOrEmpty(text)) ? text.Substring(1) : "none";
         }
 
         public static string WearString(Object obj)
         {
-            string buf = String.Empty;
+            string text = String.Empty;
             int count;
 
             for (count = 0; BitvectorFlagType.WearFlags[count].BitvectorData; count++)
             {
                 if (obj.HasWearFlag(BitvectorFlagType.WearFlags[count].BitvectorData))
                 {
-                    buf += " ";
-                    buf += BitvectorFlagType.WearFlags[count].Name;
+                    text += " ";
+                    text += BitvectorFlagType.WearFlags[count].Name;
                 }
             }
 
-            return (!String.IsNullOrEmpty(buf)) ? buf + 1 : "none";
+            return (!String.IsNullOrEmpty(text)) ? text + 1 : "none";
         }
 
         public static implicit operator bool( Object o )
@@ -1658,7 +1667,7 @@ namespace MUDEngine
             if (obj.HasWearFlag(ObjTemplate.WEARABLE_ATTACH_BELT))
             {
                 Object obj2;
-                string buf;
+                string text;
 
                 if (!(obj2 = GetEquipmentOnCharacter(ch, ObjTemplate.WearLocation.waist)))
                 {
@@ -1674,20 +1683,20 @@ namespace MUDEngine
 
                 if (!GetEquipmentOnCharacter(ch, ObjTemplate.WearLocation.belt_attach_one))
                 {
-                    buf = String.Format("You attach $p&n to {0}&n.", obj2._shortDescription);
-                    SocketConnection.Act(buf, ch, obj, null, SocketConnection.MessageTarget.character);
-                    buf = String.Format("$n&n attaches $p&n to {0}&n.", obj2._shortDescription);
-                    SocketConnection.Act(buf, ch, obj, null, SocketConnection.MessageTarget.room);
+                    text = String.Format("You attach $p&n to {0}&n.", obj2._shortDescription);
+                    SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
+                    text = String.Format("$n&n attaches $p&n to {0}&n.", obj2._shortDescription);
+                    SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.room);
                     ch.EquipObject(ref obj, ObjTemplate.WearLocation.belt_attach_one);
                     return;
                 }
 
                 if (!GetEquipmentOnCharacter(ch, ObjTemplate.WearLocation.belt_attach_two))
                 {
-                    buf = String.Format("You attach $p&n to {0}&n.", obj2._shortDescription);
-                    SocketConnection.Act(buf, ch, obj, null, SocketConnection.MessageTarget.character);
-                    buf = String.Format("$n&n attaches $p&n to {0}&n.", obj2._shortDescription);
-                    SocketConnection.Act(buf, ch, obj, null, SocketConnection.MessageTarget.room);
+                    text = String.Format("You attach $p&n to {0}&n.", obj2._shortDescription);
+                    SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
+                    text = String.Format("$n&n attaches $p&n to {0}&n.", obj2._shortDescription);
+                    SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.room);
                     ch.EquipObject(ref obj, ObjTemplate.WearLocation.belt_attach_two);
                     return;
                 }

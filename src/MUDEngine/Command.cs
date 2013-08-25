@@ -2600,10 +2600,9 @@ namespace MUDEngine
             * See if 'ch' still exists before continuing!
             * Handles 'at XXXX quit' case.
             */
-            foreach (CharData it in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                CharData wch = it;
-                if (wch == ch)
+                if (worldChar == ch)
                 {
                     ch.RemoveFromRoom();
                     ch.AddToRoom(original);
@@ -2794,10 +2793,10 @@ namespace MUDEngine
                 return;
             }
             int count = 0;
-            foreach (CharData wch in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
                 ++count;
-                string text = String.Format("{0}: {1}\r\n", count, wch._name);
+                string text = String.Format("{0}: {1}\r\n", count, worldChar._name);
                 ch.SendText(text);
             }
 
@@ -2815,9 +2814,9 @@ namespace MUDEngine
             string buf1 = String.Empty;
             int count = 0;
 
-            foreach (CharData wch in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                if (!wch.IsNPC() || !wch._hunting)
+                if (!worldChar.IsNPC() || !worldChar._hunting)
                 {
                     continue;
                 }
@@ -2825,7 +2824,7 @@ namespace MUDEngine
                 if (count < 100)
                 {
                     text = String.Format("{0}: {1}&n is hunting {2}&n.\r\n", count,
-                              wch.ShowNameTo(ch, true), ch.ShowNameTo(wch, false));
+                              worldChar.ShowNameTo(ch, true), ch.ShowNameTo(worldChar, false));
                     buf1 += text;
                 }
             }
@@ -2843,13 +2842,13 @@ namespace MUDEngine
             string buf1 = String.Empty;
             int count = 0;
 
-            foreach (CharData wch in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                if (!wch.IsNPC() || wch._hating.Count == 0)
+                if (!worldChar.IsNPC() || worldChar._hating.Count == 0)
                 {
                     continue;
                 }
-                foreach (EnemyData hhf in wch._hating)
+                foreach (EnemyData hhf in worldChar._hating)
                 {
                     if (count >= 100)
                     {
@@ -2857,7 +2856,7 @@ namespace MUDEngine
                     }
                     ++count;
                     text = String.Format("{0}: {1}&n is hating {2}&n.\r\n", count,
-                              wch.ShowNameTo(ch, true), hhf.Who.ShowNameTo(wch, false));
+                              worldChar.ShowNameTo(ch, true), hhf.Who.ShowNameTo(worldChar, false));
                     buf1 += text;
                 }
             }
@@ -2875,9 +2874,9 @@ namespace MUDEngine
             string buf1 = String.Empty;
             int count = 0;
 
-            foreach (CharData wch in Database.CharList)
+            foreach (CharData worldChar in Database.CharList)
             {
-                if (!wch.IsNPC() || !wch._fearing)
+                if (!worldChar.IsNPC() || !worldChar._fearing)
                 {
                     continue;
                 }
@@ -2885,7 +2884,7 @@ namespace MUDEngine
                 if (count < 100)
                 {
                     text = String.Format("{0}: {1}&n is fearing {2}&n.\r\n", count,
-                              wch.ShowNameTo(ch, true), ch.ShowNameTo(wch, false));
+                              worldChar.ShowNameTo(ch, true), ch.ShowNameTo(worldChar, false));
                     buf1 += text;
                 }
             }
@@ -5207,13 +5206,13 @@ namespace MUDEngine
 
             if (str.Length == 0 || !MUDString.StringsNotEqual(str[0], "room"))
             {
-                foreach (CharData vch in ch._inRoom.People)
+                foreach (CharData roomChar in ch._inRoom.People)
                 {
-                    if (vch.IsNPC())
+                    if (roomChar.IsNPC())
                     {
                         continue;
                     }
-                    ch.Restore(vch);
+                    ch.Restore(roomChar);
                 }
                 text = String.Format("{0} has restored room {1}.", realChar._name, ch._inRoom.IndexNumber);
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_RESTORE, realChar.GetTrust(), text);
@@ -7495,16 +7494,12 @@ namespace MUDEngine
 
             if (!MUDString.StringsNotEqual(str[0], "all"))
             {
-                CharData vch;
-
-                foreach (CharData it in Database.CharList)
+                foreach (CharData worldChar in Database.CharList)
                 {
-                    vch = it;
-
-                    if (!vch.IsNPC() && vch.GetTrust() < ch.GetTrust())
+                    if (!worldChar.IsNPC() && worldChar.GetTrust() < ch.GetTrust())
                     {
-                        SocketConnection.Act("$n forces you to '$t'.", ch, action, vch, SocketConnection.MessageTarget.victim);
-                        CommandType.Interpret(vch, action);
+                        SocketConnection.Act("$n forces you to '$t'.", ch, action, worldChar, SocketConnection.MessageTarget.victim);
+                        CommandType.Interpret(worldChar, action);
                     }
                 }
             }
@@ -17617,7 +17612,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
             Room room = null;
-            CharData wch;
+            CharData worldChar;
 
             if (ch.IsNPC())
                 return;
@@ -17681,10 +17676,10 @@ namespace MUDEngine
 
             foreach (CharData it in Database.CharList)
             {
-                wch = it;
-                if (wch._replyTo == ch)
+                worldChar = it;
+                if (worldChar._replyTo == ch)
                 {
-                    wch._replyTo = null;
+                    worldChar._replyTo = null;
                 }
             }
 
@@ -21462,9 +21457,13 @@ namespace MUDEngine
             int iClass;
             int iRace;
             for (iClass = 0; iClass < CharClass.ClassList.Length; ++iClass)
+            {
                 rgfClass[iClass] = false;
+            }
             for (iRace = 0; iRace < Limits.MAX_PC_RACE; ++iRace)
+            {
                 rgfRace[iRace] = false;
+            }
 
             // Handle command arguments.
             int iLevelLower = 0;
@@ -21501,45 +21500,46 @@ namespace MUDEngine
                     {
                         immortalOnly = true;
                     }
+                    else if (!MUDString.IsPrefixOf(str[i], "sort"))
+                    {
+                        sorted = true;
+                    }
+                    else if (ch.IsImmortal() && !MUDString.IsPrefixOf(str[i], "good"))
+                    {
+                        rws = Race.RacewarSide.good;
+                    }
+                    else if (ch.IsImmortal() && !MUDString.IsPrefixOf(str[i], "evil"))
+                    {
+                        rws = Race.RacewarSide.evil;
+                    }
                     else
-                        if (!MUDString.IsPrefixOf(str[i], "sort"))
+                    {
+                        int iClass2;
+                        for (iClass2 = 0; iClass2 < CharClass.ClassList.Length; ++iClass2)
                         {
-                            sorted = true;
-                        }
-                        else if (ch.IsImmortal() && !MUDString.IsPrefixOf(str[i], "good"))
-                        {
-                            rws = Race.RacewarSide.good;
-                        }
-                        else if (ch.IsImmortal() && !MUDString.IsPrefixOf(str[i], "evil"))
-                        {
-                            rws = Race.RacewarSide.evil;
-                        }
-                        else
-                        {
-                            int iClass2;
-                            for (iClass2 = 0; iClass2 < CharClass.ClassList.Length; ++iClass2)
+                            if (!MUDString.IsPrefixOf(str[i], CharClass.ClassList[iClass2].Name))
                             {
-                                if (!MUDString.IsPrefixOf(str[i], CharClass.ClassList[iClass2].Name))
-                                {
-                                    rgfClass[iClass2] = true;
-                                    fClassRestrict = true;
-                                    break;
-                                }
+                                rgfClass[iClass2] = true;
+                                fClassRestrict = true;
+                                break;
                             }
-
-                            for (iRace = 0; iRace < Limits.MAX_PC_RACE; ++iRace)
-                            {
-                                if (!MUDString.IsPrefixOf(str[i], Race.RaceList[iRace].Name))
-                                {
-                                    rgfRace[iRace] = true;
-                                    fRaceRestrict = true;
-                                    break;
-                                }
-                            }
-
-                            if (iClass2 == CharClass.ClassList.Length && iRace == Limits.MAX_PC_RACE)
-                                name = str[i];
                         }
+
+                        for (iRace = 0; iRace < Limits.MAX_PC_RACE; ++iRace)
+                        {
+                            if (!MUDString.IsPrefixOf(str[i], Race.RaceList[iRace].Name))
+                            {
+                                rgfRace[iRace] = true;
+                                fRaceRestrict = true;
+                                break;
+                            }
+                        }
+
+                        if (iClass2 == CharClass.ClassList.Length && iRace == Limits.MAX_PC_RACE)
+                        {
+                            name = str[i];
+                        }
+                    }
                 }
             }
 
@@ -21552,38 +21552,40 @@ namespace MUDEngine
             int temp;
             int numPlayers = 0;
             for (temp = 0; temp <= Limits.MAX_LEVEL; ++temp)
-            { /* for sorted list */
+            { 
+                /* for sorted list */
                 foreach (SocketConnection socket in Database.SocketList)
                 {
                     string cclass;
-
-                    CharData wch = (socket.Original != null) ? socket.Original : socket.Character;
+                    CharData workingChar = (socket.Original != null) ? socket.Original : socket.Character;
 
                     /*
                     * Check for match against restrictions.
                     * Don't use trust as that exposes trusted mortals.
                     */
-                    if (socket._connectionState != SocketConnection.ConnectionState.playing || !CharData.CanSee(ch, wch))
+                    if (socket._connectionState != SocketConnection.ConnectionState.playing || !CharData.CanSee(ch, workingChar))
+                    {
                         continue;
+                    }
 
                     if (name.Length == 0)
                     {
                         /* Outside level/class restrictions. */
-                        if ((wch._level < iLevelLower) || (wch._level > iLevelUpper)
-                                || (fClassRestrict && !rgfClass[(int)wch._charClass.ClassNumber])
-                                || (fRaceRestrict && !rgfRace[wch.GetRace()]))
+                        if ((workingChar._level < iLevelLower) || (workingChar._level > iLevelUpper)
+                                || (fClassRestrict && !rgfClass[(int)workingChar._charClass.ClassNumber])
+                                || (fRaceRestrict && !rgfRace[workingChar.GetRace()]))
                             continue;
-                        if (sorted != false && (wch._level != temp))
+                        if (sorted != false && (workingChar._level != temp))
                             continue;
                         /* Imm only . skip non-immortals. */
-                        if (immortalOnly && !wch.IsImmortal())
+                        if (immortalOnly && !workingChar.IsImmortal())
                             continue;
                     }
-                    else if (!MUDString.NameContainedIn(wch._name, name) || (wch._level != temp && sorted != false))
+                    else if (!MUDString.NameContainedIn(workingChar._name, name) || (workingChar._level != temp && sorted != false))
                         continue;
 
                     /* Opposite racewar sides, and both chars are mortals. */
-                    if (wch.GetRacewarSide() != rws && rws != Race.RacewarSide.neutral && !wch.IsImmortal())
+                    if (workingChar.GetRacewarSide() != rws && rws != Race.RacewarSide.neutral && !workingChar.IsImmortal())
                         continue;
 
                     nMatch++;
@@ -21591,9 +21593,9 @@ namespace MUDEngine
                     /*
                     * Figure out what to print for class.
                     */
-                    if (wch._level >= Limits.LEVEL_HERO)
+                    if (workingChar._level >= Limits.LEVEL_HERO)
                     {
-                        switch (wch._level)
+                        switch (workingChar._level)
                         {
                             default:
                                 cclass = "&+yUnknown    &n";
@@ -21620,43 +21622,37 @@ namespace MUDEngine
                     }
                     else
                     {
-                        cclass = wch._charClass.WholistName;
+                        cclass = workingChar._charClass.WholistName;
                     }
 
                     /*
                     * Format it up.
                     */
-                    if (!wch.IsImmortal())
+                    if (!workingChar.IsImmortal())
                     {
                         string buf5 = String.Format("{0}{1}{2}{3}{4} {5} ({6})",
-                                                    wch.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
-                                                    wch.HasActBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
-                                                    wch.IsAffected(Affect.AFFECT_INVISIBLE) ? "*" : String.Empty,
-                                                    wch._name,
-                                                    ((PC)wch).Title,
-                                                    !wch.IsGuild() ? String.Empty : ((PC)wch).GuildMembership.WhoName,
-                                                    Race.RaceList[wch.GetRace()].ColorName);
-                        text = String.Format("&+L[&n{0} {1}&+L]&n {2}\r\n",
-                                  MUDString.PadInt(wch._level, 2),
-                                  MUDString.PadStr(cclass, 13),
-                                  buf5);
+                                                    workingChar.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
+                                                    workingChar.HasActBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
+                                                    workingChar.IsAffected(Affect.AFFECT_INVISIBLE) ? "*" : String.Empty,
+                                                    workingChar._name,
+                                                    ((PC)workingChar).Title,
+                                                    !workingChar.IsGuild() ? String.Empty : ((PC)workingChar).GuildMembership.WhoName,
+                                                    Race.RaceList[workingChar.GetRace()].ColorName);
+                        text = String.Format("&+L[&n{0} {1}&+L]&n {2}\r\n", MUDString.PadInt(workingChar._level, 2), MUDString.PadStr(cclass, 13), buf5);
                     }
                     else
                     {
                         string buf1 = String.Format("{0}{1}{2}{3}{4}",
-                                                     wch.HasActBit(PC.PLAYER_WIZINVIS) ? "(WIZINVIS) " : String.Empty,
-                                                     wch.HasActBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
-                                                     wch.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
-                                                     wch._name,
-                                                     ((PC)wch).Title);
-                        string buf2 = String.Format(" {0}", !wch.IsGuild() ? String.Empty : ((PC)wch).GuildMembership.WhoName);
-                        text = String.Format("&+L[&n{0}&+L]&n {1}{2}\r\n",
-                                  MUDString.PadStr(cclass, 15),
-                                  buf1,
-                                  buf2);
+                                                     workingChar.HasActBit(PC.PLAYER_WIZINVIS) ? "(WIZINVIS) " : String.Empty,
+                                                     workingChar.HasActBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
+                                                     workingChar.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
+                                                     workingChar._name,
+                                                     ((PC)workingChar).Title);
+                        string buf2 = String.Format(" {0}", !workingChar.IsGuild() ? String.Empty : ((PC)workingChar).GuildMembership.WhoName);
+                        text = String.Format("&+L[&n{0}&+L]&n {1}{2}\r\n", MUDString.PadStr(cclass, 15), buf1, buf2);
                     }
 
-                    if (!wch.IsImmortal())
+                    if (!workingChar.IsImmortal())
                     {
                         mortals.Add(text);
                     }
@@ -21666,14 +21662,17 @@ namespace MUDEngine
                     }
                 }
                 if (sorted == false)
-                    break;  /* only do loop once for !sorted */
+                {
+                    break;
+                }
             }
-            // Xangis - made immortals show up above mortals because immortals
-            // are more important.
+            // Immortals show up above mortals because immortals are more important.
             ch.SendText("\r\n");
 
             if (immortals.Count > 0)
+            {
                 ch.SendText("&+b-----------------------------------[ &+BIMMORTALS&+b ]-----------------------------&n\r\n");
+            }
 
             foreach( String who in immortals )
             {
@@ -21681,7 +21680,9 @@ namespace MUDEngine
             }
 
             if (mortals.Count > 0)
+            {
                 ch.SendText("&n&+b------------------------------------[ &+BMORTALS&n&+b ]------------------------------&n\r\n");
+            }
 
             foreach (String who in mortals)
             {
@@ -21693,11 +21694,13 @@ namespace MUDEngine
             foreach (SocketConnection socket in Database.SocketList)
             {
                 if (socket._connectionState == SocketConnection.ConnectionState.playing)
+                {
                     numPlayers++;
+                }
             }
 
-            text = String.Format("&nYou see {0} of {1} player{2} in the game.\r\n",
-                      nMatch, numPlayers, numPlayers == 1 ? String.Empty : "s");
+            text = String.Format("&nYou see {0} of {1} player{2} in the game.\r\n", nMatch, numPlayers,
+                   numPlayers == 1 ? String.Empty : "s");
             ch.SendText(text);
             return;
         }
@@ -22828,99 +22831,94 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            string buf;
-            int level;
-
             if (ch.IsNPC())
             {
                 ch.SendText("&nYou do not need any stinking skills!\r\n");
                 return;
             }
 
-            CharData wch = ch;
+            CharData charData = ch;
 
             if (ch.IsImmortal() && str.Length != 0)
             {
-                wch = ch.GetCharWorld(str[0]);
-                if (!wch)
+                charData = ch.GetCharWorld(str[0]);
+                if (!charData)
                 {
                     ch.SendText("No such person.\r\n");
                     return;
                 }
-                if (wch.IsNPC())
+                if (charData.IsNPC())
                 {
                     ch.SendText("NPCs don't have skills!\r\n");
                     return;
                 }
             }
 
-            string buf1 = "&n&+rALL Abilities available for your class.&n\r\n";
-            buf1 += "&n&+RLv      Abilities&n\r\n";
+            string text;
+            string output = "&n&+rALL Abilities available for your class.&n\r\n";
+            output += "&n&+RLv      Abilities&n\r\n";
 
-            for (level = 1; level <= Limits.LEVEL_HERO; level++)
+            for (int level = 1; level <= Limits.LEVEL_HERO; level++)
             {
-                bool pSpell = true;
+                bool skill = true;
 
                 foreach (KeyValuePair<String, Skill> kvp in Skill.SkillList)
                 {
-                    if (kvp.Value.ClassAvailability[(int)wch._charClass.ClassNumber] != level)
+                    if (kvp.Value.ClassAvailability[(int)charData._charClass.ClassNumber] != level)
                         continue;
 
-                    if (pSpell)
+                    if (skill)
                     {
-                        buf = String.Format("&+Y{0}&+y:&n", MUDString.PadInt(level, 2));
-                        buf1 += buf;
-                        pSpell = false;
+                        text = String.Format("&+Y{0}&+y:&n", MUDString.PadInt(level, 2));
+                        output += text;
+                        skill = false;
                     }
                     else
-                        buf1 += "   ";
+                    {
+                        output += "   ";
+                    }
 
-                    buf1 += "     ";
+                    output += "     ";
 
                     // Show skills as words rather than numbers for non-immortals
-                    if (((PC)wch).SkillAptitude.ContainsKey(kvp.Key))
+                    if (((PC)charData).SkillAptitude.ContainsKey(kvp.Key))
                     {
                         if (!ch.IsImmortal())
                         {
-                            buf = String.Format("&n&+c{0}  &+Y{1}&n",
-                                MUDString.PadStr(kvp.Key, 20),
-                                       StringConversion.SkillString(((PC)wch).SkillAptitude[kvp.Key]));
+                            text = String.Format("&n&+c{0}  &+Y{1}&n", MUDString.PadStr(kvp.Key, 20),
+                                   StringConversion.SkillString(((PC)charData).SkillAptitude[kvp.Key]));
                         }
                         else
                         {
-                            buf = String.Format("&n&+c{0}  &+Y{1}&n",
-                                MUDString.PadStr(kvp.Key, 20), ((PC)wch).SkillAptitude[kvp.Key]);
+                            text = String.Format("&n&+c{0}  &+Y{1}&n", MUDString.PadStr(kvp.Key, 20), 
+                                   ((PC)charData).SkillAptitude[kvp.Key]);
                         }
-                        buf1 += buf;
+                        output += text;
                     }
                     else
                     {
-                        buf = String.Format("&n&+c{0}  &+YAvailable at level {1}.&n",
-                            MUDString.PadStr(kvp.Key, 20), level);
+                        text = String.Format("&n&+c{0}  &+YAvailable at level {1}.&n", MUDString.PadStr(kvp.Key, 20), level);
                     }
-
-                    buf1 += "\r\n";
-
+                    output += "\r\n";
                 }
             }
 
-            if ((wch.IsClass(CharClass.Names.monk) || wch.IsClass(CharClass.Names.mystic)))
+            if ((charData.IsClass(CharClass.Names.monk) || charData.IsClass(CharClass.Names.mystic)))
             {
-                buf1 += "\r\n&+WMonk Skills:&n\r\n";
+                output += "\r\n&+WMonk Skills:&n\r\n";
                 foreach (KeyValuePair<String, MonkSkill> kvp in Database.MonkSkillList)
                 {                
-                    if (((PC)wch).SkillAptitude[kvp.Key] != 0)
+                    if (((PC)charData).SkillAptitude[kvp.Key] != 0)
                     {
-                        buf = String.Format("        &n&+c{0}  &+Y{1}&n\r\n",
-                            MUDString.PadStr(kvp.Key, 20),
-                            StringConversion.SkillString(((PC)wch).SkillAptitude[kvp.Key]));
-                        buf1 += buf;
-                    } //end if learned
-                } // end for
-                buf1 += "\r\n";
-            } //end if monk
+                        text = String.Format("        &n&+c{0}  &+Y{1}&n\r\n", MUDString.PadStr(kvp.Key, 20),
+                              StringConversion.SkillString(((PC)charData).SkillAptitude[kvp.Key]));
+                        output += text;
+                    }
+                }
+                output += "\r\n";
+            }
 
-            ch.SendText(buf1);
+            ch.SendText(output);
             return;
         }
 

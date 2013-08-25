@@ -428,11 +428,6 @@ namespace MUDEngine
         /// <param name="argument"></param>
         public static void Interpret(CharData ch, string argument)
         {
-            string command;
-            Object obj;
-            Room room;
-            int cmd;
-
             // Get rid of leading and trailing spaces.
             argument = argument.Trim();
 
@@ -458,6 +453,10 @@ namespace MUDEngine
 
             // Grab the command word.  Special parsing so ' can be a command,
             // also no spaces needed after punctuation.
+            string command;
+            Object obj;
+            Room room;
+            int cmd;
             string logline = argument;
             int argptr = 0;
             if (!Char.IsLetter(argument[0]) && !Char.IsDigit(argument[0]))
@@ -498,8 +497,8 @@ namespace MUDEngine
                         if (room)
                         {
                             SocketConnection.Act("$n&n vanishes suddenly.", ch, null, null, SocketConnection.MessageTarget.room);
-                            string buf = String.Format("You {0} $p&n.\r\n", command);
-                            SocketConnection.Act(buf, ch, obj, null, SocketConnection.MessageTarget.character);
+                            string text = String.Format("You {0} $p&n.\r\n", command);
+                            SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
                             Log.Trace(String.Format("{0} activated keyword and was teleported by object.", ch._name));
                             ch.RemoveFromRoom();
                             ch.AddToRoom(room);

@@ -592,19 +592,19 @@ namespace ModernMUD
         /// <returns></returns>
         public static string AreaString(Area area)
         {
-            string buf = String.Empty;
+            string text = String.Empty;
             int count;
 
             for (count = 0; count < AreaFlags.Length; count++)
             {
                 if (area.HasFlag(AreaFlags[count]._bitvector))
                 {
-                    buf += " ";
-                    buf += AreaFlags[count]._name;
+                    text += " ";
+                    text += AreaFlags[count]._name;
                 }
             }
 
-            return (!String.IsNullOrEmpty(buf)) ? buf.Substring(1) : "none";
+            return (!String.IsNullOrEmpty(text)) ? text.Substring(1) : "none";
         }
 
         /// <summary>
@@ -615,7 +615,7 @@ namespace ModernMUD
         /// <returns></returns>
         public static string AffectString(int[] vector, bool mortal)
         {
-            string buf = String.Empty;
+            string text = String.Empty;
 
             foreach(BitvectorFlagType bvt in BitvectorFlagType.AffectFlags )
             {
@@ -623,12 +623,12 @@ namespace ModernMUD
                 {
                     if (mortal && bvt.VisibleToMortals == false)
                         continue;
-                    buf += " ";
-                    buf += bvt.Name;
+                    text += " ";
+                    text += bvt.Name;
                 }
             }
 
-            return (!String.IsNullOrEmpty(buf)) ? buf.Substring(1) : "none";
+            return (!String.IsNullOrEmpty(text)) ? text.Substring(1) : "none";
         }
 
     };

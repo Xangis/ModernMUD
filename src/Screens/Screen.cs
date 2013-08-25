@@ -189,19 +189,18 @@ namespace ModernMUD
         /// </summary>
         static public string GetStatus()
         {
-            string buf = String.Empty;
-            buf += "-- Screens In Game --\r\n";
+            string text = "-- Screens In Game --\r\n";
             foreach( Screen screen in ScreenList )
             {
-                buf += String.Format( "Screen type: {0}.  Screen Name: '{1}'.\r\n", screen._type, screen._name );
+                text += String.Format( "Screen type: {0}.  Screen Name: '{1}'.\r\n", screen._type, screen._name );
             }
-            buf += "-- Screens In Use --\r\n";
-            buf += String.Format( "Current Intro (Color): {0}\r\n", _introScreenColor._name );
-            buf += String.Format( "Current Intro (B/W): {0}\r\n", _introScreenMonochrome._name );
-            buf += String.Format( "Current Race List (Color): {0}\r\n", _raceSelectionScreenColor._name );
-            buf += String.Format( "Current Race List (B/W): {0}\r\n", _raceSelectionScreenMonochrome._name );
-            buf += String.Format( "Current Menu: {0}\r\n", _mainMenuScreen._name );
-            return buf;
+            text += "-- Screens In Use --\r\n";
+            text += String.Format( "Current Intro (Color): {0}\r\n", _introScreenColor._name );
+            text += String.Format( "Current Intro (B/W): {0}\r\n", _introScreenMonochrome._name );
+            text += String.Format( "Current Race List (Color): {0}\r\n", _raceSelectionScreenColor._name );
+            text += String.Format( "Current Race List (B/W): {0}\r\n", _raceSelectionScreenMonochrome._name );
+            text += String.Format( "Current Menu: {0}\r\n", _mainMenuScreen._name );
+            return text;
         }
 
         /// <summary>

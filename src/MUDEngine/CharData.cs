@@ -237,66 +237,66 @@ namespace MUDEngine
             try
             {
                 // Remove all pointers to ch in CharList.
-                CharData wch;
+                CharData worldChar;
                 for (int i = (Database.CharList.Count - 1); i >= 0; i--)
                 {
-                    wch = Database.CharList[i];
+                    worldChar = Database.CharList[i];
                     // Many of these will already have been checked and Reset before this point.
                     // We're doing this to be sure that nobody is pointing to us that shouldn't
                     // be.  It doesn't hurt to check things again, and this is our last line of
                     // defense.
-                    if (wch._replyTo == this)
+                    if (worldChar._replyTo == this)
                     {
-                        wch._replyTo = null;
+                        worldChar._replyTo = null;
                     }
-                    if (wch._fighting == this)
+                    if (worldChar._fighting == this)
                     {
-                        wch._fighting = null;
+                        worldChar._fighting = null;
                     }
-                    if (wch._rider == this)
+                    if (worldChar._rider == this)
                     {
-                        wch._rider = null;
+                        worldChar._rider = null;
                     }
-                    if (wch._riding == this)
+                    if (worldChar._riding == this)
                     {
-                        wch._riding = null;
+                        worldChar._riding = null;
                     }
-                    if (wch._hunting && wch._hunting.Who == this)
+                    if (worldChar._hunting && worldChar._hunting.Who == this)
                     {
-                        wch._hunting.Name = String.Empty;
+                        worldChar._hunting.Name = String.Empty;
                     }
-                    if (wch._fearing && wch._fearing.Who == this)
+                    if (worldChar._fearing && worldChar._fearing.Who == this)
                     {
-                        wch._fearing.Who = null;
-                        wch._fearing.Name = String.Empty;
+                        worldChar._fearing.Who = null;
+                        worldChar._fearing.Name = String.Empty;
                     }
-                    foreach (EnemyData hhf in wch._hating)
+                    foreach (EnemyData hhf in worldChar._hating)
                     {
                         if (hhf.Who == this)
                         {
-                            wch._hating.Remove(hhf);
+                            worldChar._hating.Remove(hhf);
                         }
                     }
-                    if (wch._master == this)
+                    if (worldChar._master == this)
                     {
-                        wch._master = null;
+                        worldChar._master = null;
                     }
-                    if (wch._nextInGroup == this)
+                    if (worldChar._nextInGroup == this)
                     {
-                        wch._nextInGroup = _nextInGroup;
+                        worldChar._nextInGroup = _nextInGroup;
                     }
-                    if (wch._groupLeader == this)
+                    if (worldChar._groupLeader == this)
                     {
-                        wch._groupLeader = null;
+                        worldChar._groupLeader = null;
                     }
-                    if (wch._followers != null)
+                    if (worldChar._followers != null)
                     {
-                        wch._followers.Clear();
+                        worldChar._followers.Clear();
                     }
                     // If it's us, it's time to leave the CharList.
-                    if (wch == this)
+                    if (worldChar == this)
                     {
-                        Database.CharList.Remove(wch);
+                        Database.CharList.Remove(worldChar);
                     }
                 }
 
@@ -3791,35 +3791,35 @@ namespace MUDEngine
                     }
                 }
 
-                CharData wch;
+                CharData worldChar;
                 for (int xx = Database.CharList.Count - 1; xx >= 0; xx--)
                 {
-                    wch = Database.CharList[xx];
-                    if (wch._replyTo == ch)
+                    worldChar = Database.CharList[xx];
+                    if (worldChar._replyTo == ch)
                     {
-                        wch._replyTo = null;
+                        worldChar._replyTo = null;
                     }
-                    if (wch.IsConsenting(ch))
+                    if (worldChar.IsConsenting(ch))
                     {
-                        wch.StopConsenting(ch);
-                        SocketConnection.Act("You stop consenting $N&n.", wch, null, ch, SocketConnection.MessageTarget.character);
+                        worldChar.StopConsenting(ch);
+                        SocketConnection.Act("You stop consenting $N&n.", worldChar, null, ch, SocketConnection.MessageTarget.character);
                     }
-                    if (wch.IsIgnoring(ch))
+                    if (worldChar.IsIgnoring(ch))
                     {
-                        wch.StopIgnoring(ch);
-                        SocketConnection.Act("You stop ignoring $N&n.", wch, null, ch, SocketConnection.MessageTarget.character);
+                        worldChar.StopIgnoring(ch);
+                        SocketConnection.Act("You stop ignoring $N&n.", worldChar, null, ch, SocketConnection.MessageTarget.character);
                     }
-                    if (!wch.IsNPC() && ((PC)wch).Guarding == ch)
+                    if (!worldChar.IsNPC() && ((PC)worldChar).Guarding == ch)
                     {
-                        ((PC)wch).Guarding = null;
-                        SocketConnection.Act("You stop guarding $N&n.", wch, null, ch, SocketConnection.MessageTarget.character);
+                        ((PC)worldChar).Guarding = null;
+                        SocketConnection.Act("You stop guarding $N&n.", worldChar, null, ch, SocketConnection.MessageTarget.character);
                     }
-                    if (wch.IsHating(ch))
-                        wch.StopHating(ch);
-                    if (wch._hunting && wch._hunting.Who == ch)
-                        Combat.StopHunting(wch);
-                    if (wch._fearing && wch._fearing.Who == ch)
-                        Combat.StopFearing(wch);
+                    if (worldChar.IsHating(ch))
+                        worldChar.StopHating(ch);
+                    if (worldChar._hunting && worldChar._hunting.Who == ch)
+                        Combat.StopHunting(worldChar);
+                    if (worldChar._fearing && worldChar._fearing.Who == ch)
+                        Combat.StopFearing(worldChar);
                     // Remove from the active character list.
                     // BUG: TODO: FIXME: This invalidates the list for anyone iterating through
                     // a list that may kill characters, such as violence_update.

@@ -407,10 +407,15 @@ namespace MUDEngine
             return -1;
         }
 
+        /// <summary>
+        /// Tracking mob has found the person its after. Attack or react accordingly.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="victim"></param>
         public static void FoundPrey( CharData ch, CharData victim )
         {
             string victname = String.Empty;
-            string buf = String.Empty;
+            string text = String.Empty;
             string lbuf = String.Empty;
 
             if (!victim)
@@ -421,7 +426,7 @@ namespace MUDEngine
 
             if (!victim._inRoom)
             {
-                Log.Error("FoundPrey: null victim.in_room", 0);
+                Log.Error("FoundPrey: null victim._inRoom", 0);
                 return;
             }
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, string.Format("{0}&n has found {1}.", ch._shortDescription, victim._name));
@@ -489,17 +494,17 @@ namespace MUDEngine
                 switch (MUDMath.NumberBits(5))
                 {
                     case 0:
-                        buf = String.Format("You can't hide forever, {0}!", victname);
-                        Command.Say(ch, new string[]{buf});
+                        text = String.Format("You can't hide forever, {0}!", victname);
+                        Command.Say(ch, new string[]{text});
                         break;
                     case 1:
                         SocketConnection.Act("$n&n sniffs around the room.", ch, null, victim, SocketConnection.MessageTarget.room);
-                        buf = "I can smell your blood!";
-                        Command.Say(ch, new string[]{buf});
+                        text = "I can smell your blood!";
+                        Command.Say(ch, new string[]{text});
                         break;
                     case 2:
-                        buf = String.Format("I'm going to tear {0} apart!", victname);
-                        Command.Yell(ch, new string[]{buf});
+                        text = String.Format("I'm going to tear {0} apart!", victname);
+                        Command.Yell(ch, new string[]{text});
                         break;
                     case 3:
                         Command.Say(ch, new string[]{"Just wait until I find you..."});
@@ -513,8 +518,8 @@ namespace MUDEngine
 
             if (ch._inRoom.HasFlag(RoomTemplate.ROOM_SAFE) && ch.IsNPC())
             {
-                buf = String.Format("Hunting mob {0} found a safe room {1}.", ch._mobTemplate.IndexNumber, ch._inRoom.IndexNumber);
-                Log.Trace(buf);
+                text = String.Format("Hunting mob {0} found a safe room {1}.", ch._mobTemplate.IndexNumber, ch._inRoom.IndexNumber);
+                Log.Trace(text);
                 return;
             }
 
@@ -524,16 +529,16 @@ namespace MUDEngine
                 switch (MUDMath.NumberBits(5))
                 {
                     case 0:
-                        buf = String.Format("I will eat your heart, {0}!", victname);
-                        Command.Say(ch, new string[]{buf});
+                        text = String.Format("I will eat your heart, {0}!", victname);
+                        Command.Say(ch, new string[]{text});
                         break;
                     case 1:
-                        buf = String.Format("You want a piece of me, {0}?", victname);
-                        Command.Say(ch, new string[]{buf});
+                        text = String.Format("You want a piece of me, {0}?", victname);
+                        Command.Say(ch, new string[]{text});
                         break;
                     case 2:
-                        buf = String.Format("How does your flesh taste {0}, like chicken?", victname);
-                        Command.Say(ch, new string[]{buf});
+                        text = String.Format("How does your flesh taste {0}, like chicken?", victname);
+                        Command.Say(ch, new string[]{text});
                         break;
                     case 3:
                         SocketConnection.Act("$n&n howls gleefully and lunges at $N&n!", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
@@ -675,13 +680,13 @@ namespace MUDEngine
                 {
                     if (!ch._inRoom)
                     {
-                        string buf = String.Empty;
-                        buf = String.Format("Hunt_victim: no ch.in_room!  Mob #{0}, _name: {1}.  Placing mob in limbo (ch.AddToRoom()).",
+                        string text = String.Empty;
+                        text = String.Format("Hunt_victim: no ch.in_room!  Mob #{0}, _name: {1}.  Placing mob in limbo (ch.AddToRoom()).",
                                   ch._mobTemplate.IndexNumber, ch._name);
-                        Log.Error(buf, 0);
+                        Log.Error(text, 0);
                         ch.AddToRoom(Room.GetRoom(StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO")));
-                        buf = String.Format("{0}&n has gone to limbo while hunting {1}.", ch._shortDescription, ch._hunting.Name);
-                        ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, buf);
+                        text = String.Format("{0}&n has gone to limbo while hunting {1}.", ch._shortDescription, ch._hunting.Name);
+                        ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, text);
                         return;
                     }
                     CommandType.Interpret(ch, "say Damn!  Lost my prey!");
@@ -725,11 +730,11 @@ namespace MUDEngine
 
             if( !ch._inRoom )
             {
-                string buf = "Return_to_load: no ch.in_room!  Mob #" + ch._mobTemplate.IndexNumber + ", _name: " +
+                string text = "Return_to_load: no ch._inRoom!  Mob #" + ch._mobTemplate.IndexNumber + ", _name: " +
                        ch._name + ".  Placing mob in limbo (mob.AddToRoom()).";
-                Log.Error( buf, 0 );
+                Log.Error( text, 0 );
                 ch.AddToRoom( Room.GetRoom( StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO") ) );
-                ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SPAM, 0, buf);
+                ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SPAM, 0, text);
                 return;
             }
             return;

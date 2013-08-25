@@ -203,10 +203,14 @@ namespace MUDEngine
             // damn hard code to write.
         }
 
-        // Code to check if someone just fragged.
-        // Will also have to add to race, class, and guild frag tables in
-        // addition to the master frag table.  This does not update any
-        // lists yet and instead only updates the totals. - Xangis
+        /// <summary>
+        /// Code to check if someone just fragged. 
+        /// Will also have to add to race, class, and guild frag tables in
+        /// addition to the master frag table.  This does not update any
+        /// lists yet and instead only updates the totals.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="victim"></param>
         public static void CheckForFrag( CharData ch, CharData victim )
         {
             // NPC's don't participate in fragging, can't frag yourself,
@@ -264,18 +268,19 @@ namespace MUDEngine
                 _fraglist._totalFragsBySide[ (int)victim.GetRacewarSide() ]--;
             }
 
-            if( ( (PC)victim ).GuildMembership != null )
-                ( (PC)victim ).GuildMembership.Frags--;
+            if (((PC)victim).GuildMembership != null)
+            {
+                ((PC)victim).GuildMembership.Frags--;
+            }
 
             ch.SendText( "&+WYou gain a frag!&n\r\n" );
             victim.SendText( "&+WYou lose a frag!&n\r\n" );
 
-            string buf = ch._name + " has fragged " + victim._name + " in room " + ch._inRoom.IndexNumber + ".";
-            ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, buf );
-            Log.Trace( buf );
+            string text = ch._name + " has fragged " + victim._name + " in room " + ch._inRoom.IndexNumber + ".";
+            ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, text );
+            Log.Trace( text );
 
             // Check to see if either person goes up or down on their particular lists.
-
             if( ( (PC)ch ).Frags > 0 )
             {
                 SortFraglist( ch, _fraglist._topFrags );
