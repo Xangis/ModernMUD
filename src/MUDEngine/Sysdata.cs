@@ -173,11 +173,11 @@ namespace MUDEngine
         [XmlIgnore]
         public readonly string[] MonthName = new[]
         {
-            "the Winter Wolf", "the Frost Giant", "the Old Gods",
-            "the Sundering", "the Spring", "the Dragon",
-            "the Sun", "the Heat", "the Beast",
-            "the Spirits", "the Long Shadows", "the Ancient Darkness",
-            "the Great Evil"
+            "Hoarfrost", "the White Bear", "the Old Gods",
+            "the Sundering", "the Thaw", "the Wyrm",
+            "the Clear Sky", "the Burning", "the Beast",
+            "the Spirits", "the Long Shadows", "the Coming Darkness",
+            "the Long Darkness"
         };
 
         public bool GameIsDown
@@ -461,6 +461,8 @@ namespace MUDEngine
 
         /// <summary>
         /// Updates the weather and game hour.  Also updates things that depend on the game hour.
+        /// 
+        /// Weather depends on the time of year.
         /// </summary>
         public void UpdateWeather()
         {
@@ -628,8 +630,7 @@ namespace MUDEngine
                     break;
 
                 case SkyType.clear:
-                    if (WeatherData.BarometricPressure < 990
-                             || (WeatherData.BarometricPressure < 1010 && MUDMath.NumberBits(2) == 0))
+                    if (WeatherData.BarometricPressure < 990 || (WeatherData.BarometricPressure < 1010 && MUDMath.NumberBits(2) == 0))
                     {
                         if (GameMonth <= 3 || GameMonth >= 11)
                         {
@@ -663,13 +664,15 @@ namespace MUDEngine
 
                     if (WeatherData.BarometricPressure > 1030 && MUDMath.NumberBits(2) == 0)
                     {
-                        if( GameMonth <= 3 || GameMonth >= 11 )
+                        if (GameMonth <= 3 || GameMonth >= 11)
                         {
                             text += "&+wThe &+Wsnow&n&+w-&+Lstorm&n&+w seems to settle&n.\r\n";
                             WeatherData.Temperature += 10;
                         }
                         else
+                        {
                             text += "&+cThe &+Cclouds&n&+c disappear from the skyline&n.\r\n";
+                        }
                         WeatherData.Sky = SkyType.clear;
                         WeatherData.WindSpeed -= 10;
                     }
@@ -689,8 +692,7 @@ namespace MUDEngine
                         WeatherData.WindSpeed += 10;
                     }
 
-                    if (WeatherData.BarometricPressure > 1030
-                             || (WeatherData.BarometricPressure > 1010 && MUDMath.NumberBits(2) == 0))
+                    if (WeatherData.BarometricPressure > 1030 || (WeatherData.BarometricPressure > 1010 && MUDMath.NumberBits(2) == 0))
                     {
                         if (GameMonth <= 3 || GameMonth >= 11)
                         {
@@ -707,8 +709,7 @@ namespace MUDEngine
                     break;
 
                 case SkyType.thunderstorm:
-                    if (WeatherData.BarometricPressure > 1010
-                             || (WeatherData.BarometricPressure > 990 && MUDMath.NumberBits(2) == 0))
+                    if (WeatherData.BarometricPressure > 1010 || (WeatherData.BarometricPressure > 990 && MUDMath.NumberBits(2) == 0))
                     {
                         if (GameMonth <= 3 || GameMonth >= 11)
                         {
@@ -731,10 +732,8 @@ namespace MUDEngine
                 foreach( SocketConnection socket in Database.SocketList )
                 {
                     if (socket._connectionState == SocketConnection.ConnectionState.playing
-                            && socket.Character.IsOutside()
-                            && !socket.Character.IsUnderground()
-                            && socket.Character.IsAwake()
-                            && !socket.Character._inRoom.HasFlag(RoomTemplate.ROOM_NO_PRECIP))
+                        && socket.Character.IsOutside() && !socket.Character.IsUnderground()
+                        && socket.Character.IsAwake() && !socket.Character._inRoom.HasFlag(RoomTemplate.ROOM_NO_PRECIP))
                     {
                         socket.Character.SendText(text);
                     }
@@ -744,7 +743,7 @@ namespace MUDEngine
             foreach( SocketConnection playerSocket in Database.SocketList )
             {
                 if ((playerSocket._connectionState == SocketConnection.ConnectionState.playing) &&
-                        !playerSocket.Character.IsNPC())
+                    !playerSocket.Character.IsNPC())
                 {
                     if (((PC)playerSocket.Character).FirstaidTimer > 0)
                     {
@@ -792,11 +791,6 @@ namespace MUDEngine
             _newsEntries.Sort();
             Save();
         }
-
-        /*
-         * Time and weather stuff.
-         * Note that weather changes according to the gameMonth (winter).
-         */
 
         /// <summary>
         /// Represents phases of the moon.

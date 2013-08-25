@@ -21244,12 +21244,6 @@ namespace MUDEngine
                       Database.SystemData.CurrentTime,
                       (Database.SystemData.CurrentTime - Database.SystemData.GameBootTime));
             ch.SendText(text);
-            //if( Database.SystemData._shutdownTime > 0 )
-            //{
-            //    buf = String.Format( "&n{0} will be at {1}\r", Database.Reboot ? "Reboot" : "Shutdown",
-            //              ( Database.SystemData._shutdownTime ));
-            //    ch.SendText( buf );
-            //}
             return;
         }
 

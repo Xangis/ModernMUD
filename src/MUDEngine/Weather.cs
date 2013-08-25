@@ -35,5 +35,5 @@ namespace MUDEngine
             }
             return true;
         }
-    };
+    }
 }
