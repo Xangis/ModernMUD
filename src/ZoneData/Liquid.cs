@@ -59,21 +59,21 @@ namespace ModernMUD
             new Liquid( "ale", "brown", 2, 2, 5 ),
             new Liquid( "dark ale", "dark", 1, 2, 5 ),
             new Liquid( "whiskey", "golden", 6, 1, 4 ), /* 5 */
-            new Liquid( "lemonade", "pink", 0, 1, 8 ),
-            new Liquid( "firebreather", "boiling", 10, 0, 0 ),
-            new Liquid( "local specialty", "clear", 3, 3, 3 ),
-            new Liquid( "slime mold juice", "green", 0, 4, -8 ),
+            new Liquid( "lemonade", "yellow", 0, 1, 8 ),
+            new Liquid( "firewater", "red", 10, 0, 0 ),
+            new Liquid( "scotch", "amber", 3, 3, 3 ),
+            new Liquid( "slime", "green", 0, 4, -8 ),
             new Liquid( "milk", "white", 0, 3, 6 ), /* 10 */
             new Liquid( "tea", "tan", 0, 1, 6 ),
             new Liquid( "coffee", "black", 0, 1, 6 ),
             new Liquid( "blood", "red", 0, 2, -1 ),
             new Liquid( "salt water", "clear", 0, 1, -2 ),
-            new Liquid( "cola", "cherry", 0, 1, 5 ), /* 15 */
+            new Liquid( "cola", "brown", 0, 1, 5 ), /* 15 */
             new Liquid( "white wine", "golden", 5, 2, 5 ),
             new Liquid( "root beer", "brown", 0, 3, 6 ),
             new Liquid( "champagne", "golden", 5, 2, 5 ),
             new Liquid( "vodka", "clear", 7, 1, 4 ),
-            new Liquid( "absinth", "green", 10, 0, 0 ), /* 20 */
+            new Liquid( "absinthe", "green", 10, 0, 0 ), /* 20 */
             new Liquid( "brandy", "golden", 5, 1, 4 ),
             new Liquid( "schnapps", "clear", 6, 1, 4 ),
             new Liquid( "orange juice", "orange", 0, 2, 8 ),
@@ -83,6 +83,10 @@ namespace ModernMUD
             new Liquid( "holy water", "clear", 0, 0, 12 ),
             new Liquid( "unholy water", "clear", 0, 0, 12 ),
             new Liquid( "stout beer", "dark brown", 4, 3, 5 ),
+            new Liquid( "sour milk", "chunky white", 0, 2, -1),
+            new Liquid( "apple juice", "yellow", 0, 1, 6),
+            new Liquid( "grape juice", "purple", 0, 1, 6),
+            new Liquid( "urine", "yellow", 0, 0, -2),
         };
     }
 }

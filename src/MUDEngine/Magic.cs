@@ -239,61 +239,59 @@ namespace MUDEngine
         /// <param name="spell"></param>
         static void SaySpell( CharData ch, Spell spell )
         {
-            string buf = String.Empty;
-
             SyllableType[] sylTable = 
             {
                 new SyllableType( " ",      " "         ),
-                new SyllableType( "ar",     "abra"      ),
-                new SyllableType( "au",     "kada"      ),
-                new SyllableType( "bless",  "fido"      ),
-                new SyllableType( "blind",  "nose"      ),
-                new SyllableType( "bur",    "mosa"      ),
-                new SyllableType( "cu",     "judi"      ),
-                new SyllableType( "de",     "oculo"     ),
-                new SyllableType( "en",     "unso"      ),
-                new SyllableType( "light",  "dies"      ),
-                new SyllableType( "lo",     "hi"        ),
-                new SyllableType( "mor",    "zak"       ),
-                new SyllableType( "move",   "sido"      ),
-                new SyllableType( "ness",   "lacri"     ),
-                new SyllableType( "ning",   "illa"      ),
-                new SyllableType( "per",    "duda"      ),
-                new SyllableType( "ra",     "gru"       ),
-                new SyllableType( "re",     "candus"    ),
-                new SyllableType( "son",    "sabru"     ),
-                new SyllableType( "tect",   "infra"     ),
-                new SyllableType( "tri",    "cula"      ),
-                new SyllableType( "ven",    "nofo"      ),
-                new SyllableType( "a", "a" ), new SyllableType( "b", "b" ), new SyllableType( "c", "q" ), new SyllableType( "d", "e" ),
-                new SyllableType( "e", "z" ), new SyllableType( "f", "y" ), new SyllableType( "g", "o" ), new SyllableType( "h", "p" ),
-                new SyllableType( "i", "u" ), new SyllableType( "j", "y" ), new SyllableType( "k", "t" ), new SyllableType( "l", "r" ),
-                new SyllableType( "m", "w" ), new SyllableType( "n", "i" ), new SyllableType( "o", "a" ), new SyllableType( "p", "s" ),
-                new SyllableType( "q", "d" ), new SyllableType( "r", "f" ), new SyllableType( "s", "g" ), new SyllableType( "t", "h" ),
-                new SyllableType( "u", "j" ), new SyllableType( "v", "z" ), new SyllableType( "w", "x" ), new SyllableType( "x", "n" ),
-                new SyllableType( "y", "l" ), new SyllableType( "z", "k" ),
+                new SyllableType( "ar",     "arbo"      ),
+                new SyllableType( "au",     "katra"     ),
+                new SyllableType( "bless",  "candra"    ),
+                new SyllableType( "blind",  "nacra"     ),
+                new SyllableType( "bur",    "mola"      ),
+                new SyllableType( "cu",     "hanto"     ),
+                new SyllableType( "de",     "dintra"    ),
+                new SyllableType( "en",     "ilso"      ),
+                new SyllableType( "light",  "sincra"    ),
+                new SyllableType( "lo",     "ulom"      ),
+                new SyllableType( "mor",    "kis"       ),
+                new SyllableType( "move",   "ando"      ),
+                new SyllableType( "ness",   "lixtra"    ),
+                new SyllableType( "ning",   "talix"     ),
+                new SyllableType( "per",    "ginto"     ),
+                new SyllableType( "ra",     "be"        ),
+                new SyllableType( "re",     "fa"        ),
+                new SyllableType( "son",    "janti"     ),
+                new SyllableType( "tect",   "palcro"    ),
+                new SyllableType( "tri",    "rinzo"     ),
+                new SyllableType( "ven",    "tindon"    ),
+                new SyllableType( "a", "e" ), new SyllableType( "b", "h" ), new SyllableType( "c", "p" ), new SyllableType( "d", "b" ),
+                new SyllableType( "e", "i" ), new SyllableType( "f", "j" ), new SyllableType( "g", "l" ), new SyllableType( "h", "p" ),
+                new SyllableType( "i", "o" ), new SyllableType( "j", "k" ), new SyllableType( "k", "t" ), new SyllableType( "l", "g" ),
+                new SyllableType( "m", "w" ), new SyllableType( "n", "f" ), new SyllableType( "o", "a" ), new SyllableType( "p", "s" ),
+                new SyllableType( "q", "c" ), new SyllableType( "r", "d" ), new SyllableType( "s", "n" ), new SyllableType( "t", "m" ),
+                new SyllableType( "u", "y" ), new SyllableType( "v", "z" ), new SyllableType( "w", "r" ), new SyllableType( "x", "v" ),
+                new SyllableType( "y", "u" ), new SyllableType( "z", "x" ),
                 new SyllableType( String.Empty, String.Empty )
             };
 
-            // TODO: FIXME: Fix the replacement algorithm.
-            //for( pName = 0; pName < buf.Length; pName += length )
-            //{
-            //    int iSyl;
-            //    for( iSyl = 0; ( length = ( syl_table[ iSyl ]._old.Length ) ) != 0; iSyl++ )
-            //    {
-            //        if( !MUDString.IsPrefixOf( syl_table[ iSyl ]._old, pName ) )
-            //        {
-            //            buf += syl_table[ iSyl ]._cnew;
-            //            break;
-            //        }
-            //    }
+            string text = String.Empty;
+            int length = 0;
+            int namePos = 0;
 
-            //    if( length == 0 )
-            //        length = 1;
-            //}
+            for (namePos = 0; namePos < spell.Name.Length; namePos += length)
+            {
+                for (int iSyl = 0; iSyl < sylTable.Length; iSyl++)
+                {
+                    if (spell.Name.Substring(namePos).StartsWith(sylTable[iSyl].Old, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        text += sylTable[iSyl].New;
+                        namePos += sylTable[iSyl].Old.Length;
+                        break;
+                    }
+                }
+            }
 
-            string buf2 = "$n&n utters the words, '" + buf + "'.";
-            buf = "$n&n utters the words, '" + spell.Name + "'.";
+            string buf2 = "$n&n utters the words, '" + text + "'.";
+            text = "$n&n utters the words, '" + spell.Name + "'.";
 
             foreach( CharData roomChar in ch._inRoom.People )
             {
@@ -301,11 +299,11 @@ namespace MUDEngine
                     continue;
                 if( roomChar != ch && ( ( roomChar._charClass == ch._charClass ) || ch.IsImmortal() || ch.IsAffected( Affect.AFFECT_COMP_LANG ) ) )
                 {
-                    SocketConnection.Act( buf, ch, null, roomChar, SocketConnection.MessageTarget.victim );
+                    SocketConnection.Act(text, ch, null, roomChar, SocketConnection.MessageTarget.victim);
                 }
                 else if( roomChar != ch )
                 {
-                    SocketConnection.Act( buf2, ch, null, roomChar, SocketConnection.MessageTarget.victim );
+                    SocketConnection.Act(buf2, ch, null, roomChar, SocketConnection.MessageTarget.victim );
                 }
             }
 

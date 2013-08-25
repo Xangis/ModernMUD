@@ -133,7 +133,7 @@ namespace ModernMUD
 
 
         /// <summary>
-        /// Uses &amp;+ color codes - Xangis
+        /// Uses &amp;+ color codes.
         /// </summary>
         /// <param name="buffer">The text to strip color codes from</param>
         public static string RemoveColorCodes(string buffer)

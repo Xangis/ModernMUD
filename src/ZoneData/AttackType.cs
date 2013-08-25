@@ -92,6 +92,5 @@ namespace ModernMUD
             new AttackType(  "wail",     "barehanded fighting", DamageType.bludgeon  ),
             new AttackType(  "punch",    "barehanded fighting", DamageType.bludgeon  )
         };
-
-    };
+    }
 }

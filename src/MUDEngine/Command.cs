@@ -18259,7 +18259,7 @@ namespace MUDEngine
                 /* 'lock object' */
                 if (obj.ItemType != ObjTemplate.ObjectType.container)
                 {
-                    ch.SendText("That's not a container.\r\n");
+                    ch.SendText("That is not a container.\r\n");
                     return;
                 }
                 if (!Macros.IsSet(obj.Values[1], ObjTemplate.CONTAINER_CLOSED.Vector))
@@ -18406,7 +18406,7 @@ namespace MUDEngine
                 /* 'unlock object' */
                 if (obj.ItemType != ObjTemplate.ObjectType.container)
                 {
-                    ch.SendText("That's not a container.\r\n");
+                    ch.SendText("That is not a container.\r\n");
                     return;
                 }
                 if (!Macros.IsSet(obj.Values[1], ObjTemplate.CONTAINER_CLOSED.Vector))
@@ -18560,7 +18560,7 @@ namespace MUDEngine
                 /* 'pick object' */
                 if (obj.ItemType != ObjTemplate.ObjectType.container)
                 {
-                    ch.SendText("That's not a container.\r\n");
+                    ch.SendText("That is not a container.\r\n");
                     return;
                 }
                 if (!Macros.IsSet(obj.Values[1], ObjTemplate.CONTAINER_CLOSED.Vector))
@@ -22983,6 +22983,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Command to display your faction standings.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Faction(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23012,6 +23017,11 @@ namespace MUDEngine
             ch.SendText(buf);
         }
 
+        /// <summary>
+        /// Command to toggle blank line after prompt.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Blank(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23029,6 +23039,11 @@ namespace MUDEngine
 
         }
 
+        /// <summary>
+        /// Command to toggle brief mode.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Brief(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23046,6 +23061,11 @@ namespace MUDEngine
 
         }
 
+        /// <summary>
+        /// Command to toggle list combine mode.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Combine(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23060,9 +23080,13 @@ namespace MUDEngine
             CommandType.Interpret(ch, "toggle " + buf);
 
             return;
-
         }
 
+        /// <summary>
+        /// Command to set your page length.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void PageLength(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23073,9 +23097,13 @@ namespace MUDEngine
                 return;
 
             if (str.Length == 0)
+            {
                 lines = 20;
+            }
             else
+            {
                 Int32.TryParse(str[0], out lines);
+            }
 
             if (lines < 19)
             {
@@ -23090,8 +23118,8 @@ namespace MUDEngine
             }
 
             ((PC)ch).PageLength = lines;
-            string buf = String.Format("&nPage pause set to {0} lines.\r\n", lines);
-            ch.SendText(buf);
+            string text = String.Format("&nPage pause set to {0} lines.\r\n", lines);
+            ch.SendText(text);
             return;
         }
 
@@ -23114,9 +23142,13 @@ namespace MUDEngine
             if (str.Length == 0)
             {
                 if (ch.HasActBit(PC.PLAYER_PROMPT))
+                {
                     buf = "-prompt";
+                }
                 else
+                {
                     buf = "+prompt";
+                }
                 CommandType.Interpret(ch, "toggle " + buf);
                 return;
             }
@@ -23197,7 +23229,7 @@ namespace MUDEngine
         /// Used to flag a player as running or not running a bot.
         /// </summary>
         /// <param name="ch"></param>
-        /// <param name="argument"></param>
+        /// <param name="str"></param>
         public static void Bot(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23302,9 +23334,8 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            string buf;
+            string text;
             Affect af = new Affect();
-
 
             // Use innates here
             if (str.Length > 0 && !String.IsNullOrEmpty(str[0]))
@@ -23528,64 +23559,64 @@ namespace MUDEngine
                 return;
             }
 
-            buf = String.Format("&+BInnate abilities available to your race and class:&n\r\n");
+            text = String.Format("&+BInnate abilities available to your race and class:&n\r\n");
 
             if (ch.HasInnate(Race.RACE_BODYSLAM))
-                buf += "&n  bodyslam\r\n";
+                text += "&n  bodyslam\r\n";
             if (ch.HasInnate(Race.RACE_CHARGE))
-                buf += "&n  charge\r\n";
+                text += "&n  charge\r\n";
             if (ch.HasInnate(Race.RACE_FLY))
-                buf += "&n  fly\r\n";
+                text += "&n  fly\r\n";
             if (ch.HasInnate(Race.RACE_PASSDOOR))
-                buf += "&n  pass door\r\n";
+                text += "&n  pass door\r\n";
             if (ch.HasInnate(Race.RACE_SWIM))
-                buf += "&n  swim\r\n";
+                text += "&n  swim\r\n";
             if (ch.HasInnate(Race.RACE_WATERBREATH))
-                buf += "&n  water breathing\r\n";
+                text += "&n  water breathing\r\n";
             if (ch.HasInnate(Race.RACE_INFRAVISION))
-                buf += "&n  infravision\r\n";
+                text += "&n  infravision\r\n";
             if (ch.HasInnate(Race.RACE_ULTRAVISION))
-                buf += "&n  ultravision\r\n";
+                text += "&n  ultravision\r\n";
             if (ch.HasInnate(Race.RACE_DETECT_ALIGN)
                     || ch.IsClass(CharClass.Names.antipaladin)
                     || ch.IsClass(CharClass.Names.paladin))
-                buf += "&n  detect align\r\n";
+                text += "&n  detect align\r\n";
             if (ch.HasInnate(Race.RACE_DETECT_INVIS))
-                buf += "&n  detect invis\r\n";
+                text += "&n  detect invis\r\n";
             if (ch.HasInnate(Race.RACE_DETECT_HIDDEN))
-                buf += "&n  detect hidden\r\n";
+                text += "&n  detect hidden\r\n";
             if (ch.HasInnate(Race.RACE_MUTE))
-                buf += "&n  mute\r\n";
+                text += "&n  mute\r\n";
             if (ch.HasInnate(Race.RACE_DOORBASH))
-                buf += "&n  doorbash\r\n";
+                text += "&n  doorbash\r\n";
             if (ch.HasInnate(Race.RACE_SHRUG))
-                buf += "&n  shrug\r\n";
+                text += "&n  shrug\r\n";
             if (ch.HasInnate(Race.RACE_ODSNEAK))
-                buf += "&n  outdoor sneak\r\n";
+                text += "&n  outdoor sneak\r\n";
             if (ch.HasInnate(Race.RACE_UDSNEAK))
-                buf += "&n  underdark sneak\r\n";
+                text += "&n  underdark sneak\r\n";
             if (ch.HasInnate(Race.RACE_STRENGTH))
-                buf += "&n  strength\r\n";
+                text += "&n  strength\r\n";
             if (ch.HasInnate(Race.RACE_FAERIE_FIRE))
-                buf += "&n  faerie fire\r\n";
+                text += "&n  faerie fire\r\n";
             //    if( ch.HasInnate( Race.RACE_STEAL ))
             //      buf += "&n  steal\r\n" );
             if (ch.HasInnate(Race.RACE_ENLARGE))
-                buf += "&n  enlarge\r\n";
+                text += "&n  enlarge\r\n";
             if (ch.HasInnate(Race.RACE_INVIS))
-                buf += "&n  invisibility\r\n";
+                text += "&n  invisibility\r\n";
             //    if( ch.HasInnate( Race.RACE_SUMMON_HOARDE ))
             //      buf += "&n  summon hoarde\r\n" );
             if (ch.HasInnate(Race.RACE_SHIFT_PRIME))
-                buf += "&n  shift prime\r\n";
+                text += "&n  shift prime\r\n";
             if (ch.HasInnate(Race.RACE_SHIFT_ASTRAL))
-                buf += "&n  shift astral\r\n";
+                text += "&n  shift astral\r\n";
             if (ch.HasInnate(Race.RACE_LEVITATE))
-                buf += "&n  levitate\r\n";
+                text += "&n  levitate\r\n";
             if (ch.HasInnate(Race.RACE_BITE))
-                buf += "&n  bite\r\n";
+                text += "&n  bite\r\n";
 
-            ch.SendText(buf);
+            ch.SendText(text);
 
             return;
         }
@@ -23644,7 +23675,7 @@ namespace MUDEngine
                         }
                         break;
                     default:
-                        ch.SendText("That's not a container!\r\n");
+                        ch.SendText("That is not a container!\r\n");
                         return;
                 }
             }
