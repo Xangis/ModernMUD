@@ -12,7 +12,14 @@ namespace MUDEngine
             LevelExperience = lvlexp;
         }
 
+        /// <summary>
+        /// The typical experience reward for killing a mob.
+        /// </summary>
         public int MobExperience { get; set; }
+
+        /// <summary>
+        /// The experience required to advance to the next level.
+        /// </summary>
         public int LevelExperience { get; set; }
 
         /// <summary>

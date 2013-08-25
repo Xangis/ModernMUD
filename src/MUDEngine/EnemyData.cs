@@ -29,7 +29,7 @@ namespace MUDEngine
         /// <summary>
         /// Lets us use if( EnemyData ) to check for null.
         /// </summary>
-        /// <param name="hhf"></param>
+        /// <param name="enemy"></param>
         /// <returns></returns>
         public static implicit operator bool( EnemyData enemy )
         {

@@ -91,8 +91,17 @@ namespace MUDEngine
         /// </summary>
         public enum LogType
         {
+            /// <summary>
+            /// Use whatever player or MUD setting is enabled.
+            /// </summary>
             normal = 0,
+            /// <summary>
+            /// Always log this command.
+            /// </summary>
             always,
+            /// <summary>
+            /// Never log this command.
+            /// </summary>
             never
         }
 

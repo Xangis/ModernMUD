@@ -18,6 +18,10 @@ namespace MUDEngine
         public int SecondRoomNumber;
         public string FirstToSecondDirection;
 
+        /// <summary>
+        /// Loads zone connections.
+        /// </summary>
+        /// <returns></returns>
         public static List<ZoneConnection> Load()
         {
             string filename = FileLocation.AreaDirectory + FileLocation.ZoneConnectionFile;

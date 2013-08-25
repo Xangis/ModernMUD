@@ -235,6 +235,9 @@ namespace MUDEngine
             --_count;
         }
 
+        /// <summary>
+        /// The number of socket connections currently in memory.
+        /// </summary>
         public static int Count
         {
             get
@@ -771,7 +774,7 @@ namespace MUDEngine
         /// <summary>
         /// Low level output function.
         /// </summary>
-        /// <param name="fPrompt"></param>
+        /// <param name="showPrompt"></param>
         /// <returns></returns>
         bool ProcessOutput( bool showPrompt )
         {
@@ -1491,9 +1494,6 @@ namespace MUDEngine
         /// <summary>
         /// Writes a string of bytes to a socket connection, compressing if necessary.
         /// </summary>
-        /// <param name="desc"></param>
-        /// <param name="txt"></param>
-        /// <param name="length"></param>
         /// <param name="compress"></param>
         /// <returns></returns>
         private bool WriteToSocket(byte[] txt, bool compress)
@@ -2959,7 +2959,7 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Uses &+ color codes - Xangis
+        /// Uses &amp;+ color codes - Xangis
         /// </summary>
         /// <param name="outputBuffer">This should be an empty string.</param>
         /// <param name="txt">Text to convert.</param>
@@ -3117,7 +3117,7 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Takes a string and removes the '&+' ANSI codes, returning a cleaned string.
+        /// Takes a string and removes the '&amp;+' ANSI codes, returning a cleaned string.
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -3594,7 +3594,6 @@ namespace MUDEngine
         /// <summary>
         /// Check whether the character picked a valid class for their race.
         /// </summary>
-        /// <param name="ch">The player.</param>
         /// <param name="argument">Text that was entered.</param>
         /// <returns>The class number, or 0 for an invalid selection.</returns>
         private int CheckClassSelection( string argument )
@@ -3615,7 +3614,6 @@ namespace MUDEngine
         /// Sets the default values for a newly-created player character.  Called when they enter the
         /// the game for the first time.
         /// </summary>
-        /// <param name="ch"></param>
         private void SetupNewCharacter()
         {
             ((PC)Character).CreationTime = Database.SystemData.CurrentTime;

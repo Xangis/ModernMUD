@@ -16,6 +16,10 @@ namespace MUDEngine
         public string Password { get; set; }
         public DateTime LastLogin { get; set; }
         public int LastCharacter { get; set; }
+
+        /// <summary>
+        /// Last racewar side that the player logged in on.
+        /// </summary>
         public Race.RacewarSide LastRacewarSide { get; set; }
         public DateTime LastLogout { get; set; }
 

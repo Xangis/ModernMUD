@@ -5,6 +5,10 @@ namespace MUDEngine
     /// </summary>
     public class AgiModifier
     {
+        /// <summary>
+        /// Parameterized constructor.
+        /// </summary>
+        /// <param name="def"></param>
         public AgiModifier(int def)
         {
             ACModifier = def;
@@ -268,6 +272,9 @@ namespace MUDEngine
             new AgiModifier( - 130 )    // 250
         };
 
+        /// <summary>
+        /// The armor class modifier.
+        /// </summary>
         public int ACModifier { get; set; }
-    };
+    }
 }

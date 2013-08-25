@@ -27,12 +27,33 @@ namespace MUDEngine
         /// </summary>
         public enum ActionType
         {
+            /// <summary>
+            /// Not set or not one of the other types.
+            /// </summary>
             none = 0,
+            /// <summary>
+            /// A friendly social action.
+            /// </summary>
             friendly = 1,
+            /// <summary>
+            /// A neutral action.
+            /// </summary>
             neutral = 2,
+            /// <summary>
+            /// An aggressive action.
+            /// </summary>
             aggressive = 3,
+            /// <summary>
+            /// A greeting.
+            /// </summary>
             greeting = 4,
+            /// <summary>
+            /// A goodbye.
+            /// </summary>
             goodbye = 5,
+            /// <summary>
+            /// An insulting or offensive action.
+            /// </summary>
             insulting = 6
         }
 
@@ -73,6 +94,9 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Gets the type of social action.
+        /// </summary>
         public ActionType Type
         {
             get { return _actionType; }

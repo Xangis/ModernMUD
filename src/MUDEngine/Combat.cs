@@ -2662,14 +2662,12 @@ namespace MUDEngine
             return;
         }
 
-        /*
-        * Stop ch from fighting.  fBoth implies stop everyone from killing ch.
-        */
         /// <summary>
         /// Stops a player from actively participating in combat.  If stopBoth is
         /// true, any players attacking the calling player will also stop fighting.
         /// </summary>
         /// <param name="ch"></param>
+        /// <param name="stopBoth"></param>
         public static void StopFighting( CharData ch, bool stopBoth )
         {
             /* If this is true, something is _bad_. */

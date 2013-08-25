@@ -73,11 +73,17 @@ namespace MUDEngine
             _movementScript = String.Empty;
         }
 
+        /// <summary>
+        /// Destructor, decrements in-memory vehicle count.
+        /// </summary>
         ~Vehicle()
         {
             --_numVehicles;
         }
 
+        /// <summary>
+        /// Gets the number of vehicles in memory.
+        /// </summary>
         public static int Count
         {
             get
@@ -176,24 +182,59 @@ namespace MUDEngine
             set { _numVehicles = value; }
         }
 
-        /*
-         * Vehicle Data
-         */
-        // Vehicle types - Xangis
+        /// <summary>
+        /// Lists the different vehicle types.
+        /// </summary>
         public enum VehicleType
         {
-            none = 0,               // Invalid, uninitialized, or broken.
-            ship_any_water,         // Multi-purpose boats, typically medium sized.
-            ship_shallows,          // Rowboats, canoes, and rafts.
-            ship_deep_water,        // Giant boats, submarines, other non-beachable ships.
-            ship_any_terrain,       // All-terrain ships such as hovercraft, flying carpets, airships.
-            no_water,               // All-terrain land vehicles.
-            flat_land,              // Flat-land vehicles like carts, buggies, and wagons.
-            spelljammer,            // All-terrain spelljammer.
-            spelljammer_land,       // Spelljammer, can only land on flat land.
-            spelljammer_water,      // Spelljammer, can only land on water.
-            spelljammer_sky_only,   // Spelljammer, incapable of landing.
-            creature                // Giant creature.
+            /// <summary>
+            /// Invalid, uninitialized, or broken.
+            /// </summary>
+            none = 0,
+            /// <summary>
+            /// Multi-purpose boats, typically medium sized.
+            /// </summary>
+            ship_any_water,
+            /// <summary>
+            /// Rowboats, canoes, and rafts.
+            /// </summary>
+            ship_shallows,
+            /// <summary>
+            /// Giant boats, submarines, other non-beachable ships.
+            /// </summary>
+            ship_deep_water,
+            /// <summary>
+            /// All-terrain ships such as hovercraft, flying carpets, airships.
+            /// </summary>
+            ship_any_terrain,
+            /// <summary>
+            /// All-terrain land vehicles.
+            /// </summary>
+            no_water,
+            /// <summary>
+            /// Flat-land vehicles like carts, buggies, and wagons.
+            /// </summary>
+            flat_land,
+            /// <summary>
+            /// All-terrain spelljammer.
+            /// </summary>
+            spelljammer,
+            /// <summary>
+            /// Spelljammer, can only land on flat land.
+            /// </summary>
+            spelljammer_land,
+            /// <summary>
+            /// Spelljammer, can only land on water.
+            /// </summary>
+            spelljammer_water,
+            /// <summary>
+            /// Spelljammer, incapable of landing.
+            /// </summary>
+            spelljammer_sky_only,
+            /// <summary>
+            /// Giant creature.
+            /// </summary>
+            creature
         }
 
         static void MoveVehicle()
@@ -205,5 +246,5 @@ namespace MUDEngine
         {
             return;
         }
-    };
+    }
 }

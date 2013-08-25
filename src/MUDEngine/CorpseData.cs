@@ -6,6 +6,9 @@ using ModernMUD;
 
 namespace MUDEngine
 {
+    /// <summary>
+    /// Represents in-game player corpses.
+    /// </summary>
     [Serializable]
     public class CorpseData
     {
