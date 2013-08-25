@@ -55,16 +55,16 @@ namespace ModernMUD
         {
             new Liquid( "water", "clear", 0, 0, 10 ), /* 0 */
             new Liquid( "beer", "amber", 3, 2, 5 ),
-            new Liquid( "wine", "rose", 5, 2, 5 ),
+            new Liquid( "wine", "purple", 5, 2, 5 ),
             new Liquid( "ale", "brown", 2, 2, 5 ),
-            new Liquid( "dark ale", "dark", 1, 2, 5 ),
+            new Liquid( "dark ale", "dark brown", 1, 2, 5 ),
             new Liquid( "whiskey", "golden", 6, 1, 4 ), /* 5 */
             new Liquid( "lemonade", "yellow", 0, 1, 8 ),
             new Liquid( "firewater", "red", 10, 0, 0 ),
             new Liquid( "scotch", "amber", 3, 3, 3 ),
             new Liquid( "slime", "green", 0, 4, -8 ),
             new Liquid( "milk", "white", 0, 3, 6 ), /* 10 */
-            new Liquid( "tea", "tan", 0, 1, 6 ),
+            new Liquid( "tea", "amber", 0, 1, 6 ),
             new Liquid( "coffee", "black", 0, 1, 6 ),
             new Liquid( "blood", "red", 0, 2, -1 ),
             new Liquid( "salt water", "clear", 0, 1, -2 ),
