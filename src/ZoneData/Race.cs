@@ -901,16 +901,37 @@ namespace ModernMUD
         public enum DamageType
         {
             none = 0,
+            /// <summary>
+            /// Burning
+            /// </summary>
             fire = Bitvector.BV00,
+            /// <summary>
+            /// Freezing
+            /// </summary>
             cold = Bitvector.BV01,
+            /// <summary>
+            /// Shocking
+            /// </summary>
             electricity = Bitvector.BV02,
             energy = Bitvector.BV03,
+            /// <summary>
+            /// Corrosion.
+            /// </summary>
             acid = Bitvector.BV04,
+            /// <summary>
+            /// Poison damage.
+            /// </summary>
             poison = Bitvector.BV05,
             charm = Bitvector.BV06,
+            /// <summary>
+            /// Brain damage.
+            /// </summary>
             mental = Bitvector.BV07,
             whiteMana = Bitvector.BV08,
             blackMana = Bitvector.BV09,
+            /// <summary>
+            /// Disease damage.
+            /// </summary>
             disease = Bitvector.BV10,
             drowning = Bitvector.BV11,
             light = Bitvector.BV12,
@@ -924,20 +945,37 @@ namespace ModernMUD
             bash = Bitvector.BV20,
             pierce = Bitvector.BV21,
             slash = Bitvector.BV22,
-            // Asphyxiation rather than poison.  See BV05 for poison.
+            /// <summary>
+            /// Asphyxiation rather than poison.  See BV05 for poison.
+            /// </summary>
             gas = Bitvector.BV23,
             sleep = Bitvector.BV24
         }
 
         /// <summary>
-        /// Resistance types.  Used for checking immunity/vulnerability to different damage types.
+        /// Resistance types. Used for checking immunity/vulnerability to different damage types.
         /// </summary>
         public enum ResistanceType
         {
+            /// <summary>
+            /// Normal damage.
+            /// </summary>
             normal = 0,
+            /// <summary>
+            /// Reduced damage.
+            /// </summary>
             resistant,
+            /// <summary>
+            /// No damage.
+            /// </summary>
             immune,
+            /// <summary>
+            /// Extra damage.
+            /// </summary>
             susceptible,
+            /// <summary>
+            /// Massive damage.
+            /// </summary>
             vulnerable
         }
     }

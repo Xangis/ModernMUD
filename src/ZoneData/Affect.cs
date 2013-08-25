@@ -261,14 +261,29 @@ namespace ModernMUD
         };
 
         /// <summary>
-        /// The type of (source of) an effect.
+        /// The type of (source of) an affect.
         /// </summary>
         public enum AffectType
         {
+            /// <summary>
+            /// Unknown or invalid.
+            /// </summary>
             unknown = 0,
+            /// <summary>
+            /// Racial innate ability.
+            /// </summary>
             innate,
+            /// <summary>
+            /// Skill.
+            /// </summary>
             skill,
+            /// <summary>
+            /// Bard song.
+            /// </summary>
             song,
+            /// <summary>
+            /// Magical spell.
+            /// </summary>
             spell
         }
 

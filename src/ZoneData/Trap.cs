@@ -77,38 +77,128 @@ namespace ModernMUD
         [Flags]
         public enum TriggerType
         {
+            /// <summary>
+            /// Cannot be triggered.
+            /// </summary>
             none = 0,
-            move = Bitvector.BV00, // Movement in any direction
-            get_put = Bitvector.BV01, // Get, put, or drop.
+            /// <summary>
+            /// Movement in any direction
+            /// </summary>
+            move = Bitvector.BV00,
+            /// <summary>
+            /// Get, put, or drop.
+            /// </summary>
+            get_put = Bitvector.BV01,
+            /// <summary>
+            /// When the room is full.
+            /// </summary>
             full_room = Bitvector.BV02,
+            /// <summary>
+            /// Movement north.
+            /// </summary>
             north = Bitvector.BV03,
+            /// <summary>
+            /// Movement east.
+            /// </summary>
             east = Bitvector.BV04,
+            /// <summary>
+            /// Movement south.
+            /// </summary>
             south = Bitvector.BV05,
+            /// <summary>
+            /// Movement west.
+            /// </summary>
             west = Bitvector.BV06,
+            /// <summary>
+            /// Movement up.
+            /// </summary>
             up = Bitvector.BV07,
+            /// <summary>
+            /// Movement down.
+            /// </summary>
             down = Bitvector.BV08,
+            /// <summary>
+            /// Opening it.
+            /// </summary>
             open = Bitvector.BV09,
             unlimited = Bitvector.BV10,
             glyph = Bitvector.BV11,
+            /// <summary>
+            /// Wearing or equipping it.
+            /// </summary>
             wear = Bitvector.BV12,
+            /// <summary>
+            /// Unwearing or unequipping it.
+            /// </summary>
             unequip = Bitvector.BV13,
+            /// <summary>
+            /// Only when stolen.
+            /// </summary>
             steal = Bitvector.BV14,
+            /// <summary>
+            /// When someone tries to enchant it.
+            /// </summary>
             enchant = Bitvector.BV15,
+            /// <summary>
+            /// When someone tries to cast remove curse on it.
+            /// </summary>
             uncurse = Bitvector.BV16,
+            /// <summary>
+            /// When someone searches.
+            /// </summary>
             search = Bitvector.BV17,
+            /// <summary>
+            /// When closed.
+            /// </summary>
             close = Bitvector.BV18,
+            /// <summary>
+            /// When a spell is cast.
+            /// </summary>
             spell_cast = Bitvector.BV19,
-            voice = Bitvector.BV20, // Speech or songs.
+            /// <summary>
+            /// Triggered by speech or songs.
+            /// </summary>
+            voice = Bitvector.BV20,
+            /// <summary>
+            /// When it's climbed.
+            /// </summary>
             climb = Bitvector.BV21,
-            open_flame = Bitvector.BV22, // Flammable
+            /// <summary>
+            /// When an open flame is present (flammable).
+            /// </summary>
+            open_flame = Bitvector.BV22,
+            /// <summary>
+            /// Movement northwest.
+            /// </summary>
             northwest = Bitvector.BV23,
+            /// <summary>
+            /// Movement southwest.
+            /// </summary>
             southwest = Bitvector.BV24,
+            /// <summary>
+            /// Movement northeast.
+            /// </summary>
             northeast = Bitvector.BV25,
+            /// <summary>
+            /// Movement southeast.
+            /// </summary>
             southeast = Bitvector.BV26,
-            goodie_in_room = Bitvector.BV27, // Good racewar presence
-            evil_in_room = Bitvector.BV28, // Evil racewar presence
+            /// <summary>
+            /// Triggered by good racewar presence.
+            /// </summary>
+            goodie_in_room = Bitvector.BV27,
+            /// <summary>
+            /// Triggered by evil racewar presence.
+            /// </summary>
+            evil_in_room = Bitvector.BV28,
+            /// <summary>
+            /// When it is thrown or shot.
+            /// </summary>
             throw_shoot = Bitvector.BV29,
-            destroy = Bitvector.BV30 // Item is disintegrated, burned, shattered, or otherwise destroyed.
+            /// <summary>
+            /// When the item is disintegrated, burned, shattered, or otherwise destroyed.
+            /// </summary>
+            destroy = Bitvector.BV30
         }
 
         /// <summary>

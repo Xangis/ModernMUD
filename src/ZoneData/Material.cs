@@ -212,6 +212,5 @@ namespace ModernMUD
             new Material(  "jade",           4,  MaterialType.jade,           920, "&+Gjade&n", 4          ),  //  55
             new Material(  "lead",           4,  MaterialType.lead,            60, "&+wlead&n", 4          ),
         };
-
     }
 }
