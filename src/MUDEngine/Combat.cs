@@ -2086,7 +2086,7 @@ namespace MUDEngine
 
             if (!ch.IsNPC() && !victim.IsNPC() && victim.GetRacewarSide() == ch.GetRacewarSide() && !ch.IsImmortal())
             {
-                SocketConnection.Act("You can't attack an ally.\n\r", ch, null, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("You can't attack an ally.\r\n", ch, null, victim, SocketConnection.MessageTarget.character);
                 return true;
             }
 
