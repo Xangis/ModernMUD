@@ -12,9 +12,20 @@ namespace MUDEngine
     [Serializable]
     public class CorpseData
     {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public CorpseData() {}
 
+        /// <summary>
+        /// The full list of in-game player corpses.
+        /// </summary>
         public static List<Object> CorpseList = new List<Object>();
+
+        /// <summary>
+        /// Save player corpses for later loading.
+        /// </summary>
+        /// <returns></returns>
         public bool Save()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.CorpseFile;
@@ -33,6 +44,10 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Load player corpses and add them to the corpse list.
+        /// </summary>
+        /// <returns></returns>
         public static CorpseData Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.CorpseFile;

@@ -44,15 +44,15 @@ namespace MUDEngine
                 return false;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_NO_EMOTE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_NO_EMOTE))
             {
                 ch.SendText("You are anti-social!\r\n");
                 return true;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEDITATING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEDITATING))
             {
-                ch.RemoveActBit(PC.PLAYER_MEDITATING);
+                ch.RemoveActionBit(PC.PLAYER_MEDITATING);
                 ch.SendText("You stop meditating.\r\n");
             }
 

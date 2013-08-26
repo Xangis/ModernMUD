@@ -516,7 +516,7 @@ namespace MUDEngine
             int visibility = 5 + (int)ch._flyLevel;
 
             // Godmode will make you see farther on the map.
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 visibility += 5;
             }
@@ -1919,6 +1919,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Show information about a guild.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatGuild(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -2292,7 +2297,7 @@ namespace MUDEngine
                 return;
             }
 
-            victim.SetActBit(PC.PLAYER_DENY);
+            victim.SetActionBit(PC.PLAYER_DENY);
             victim.SendText("You are denied access!\r\n");
             ch.SendText("Done.\r\n");
             if (victim._level <= 1)
@@ -2355,6 +2360,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Forgive someone for their crimes.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Pardon(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -2559,6 +2569,11 @@ namespace MUDEngine
             ch.SendText("Done.\r\n");
         }
 
+        /// <summary>
+        /// Perform a command at another location.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void At(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -2652,7 +2667,7 @@ namespace MUDEngine
             {
                 Combat.StopFighting(ch, true);
             }
-            if (!ch.HasActBit(PC.PLAYER_WIZINVIS))
+            if (!ch.HasActionBit(PC.PLAYER_WIZINVIS))
             {
                 if (!ch.IsNPC() && ((PC)ch).ImmortalData.DisappearMessage.Length > 0)
                 {
@@ -2667,7 +2682,7 @@ namespace MUDEngine
             ch.RemoveFromRoom();
             ch.AddToRoom(location);
 
-            if (!ch.HasActBit(PC.PLAYER_WIZINVIS))
+            if (!ch.HasActionBit(PC.PLAYER_WIZINVIS))
             {
                 if (!ch.IsNPC() && ((PC)ch).ImmortalData.AppearMessage.Length > 0)
                 {
@@ -2775,6 +2790,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Prints the list of active spellcasters.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatCastList(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -2783,9 +2803,11 @@ namespace MUDEngine
             ch.SendText(text);
         }
 
-        // This function written purely for future debugging purposes
-        // It shows the CharList in exactly the order that the game runs through
-        // it.
+        /// <summary>
+        /// Prints the character list.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Charlist(CharData ch, string[] str)
         {
             if (ch == null)
@@ -2803,6 +2825,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Print information about hunting status.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatHunt(CharData ch, string[] str)
         {
             if (ch == null)
@@ -2834,6 +2861,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Print information about hate status.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatHate(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -2866,6 +2898,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Print information about fear status.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatFear(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -5280,9 +5317,9 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch == victim && ch.HasActBit(PC.PLAYER_FREEZE))
+            if (ch == victim && ch.HasActionBit(PC.PLAYER_FREEZE))
             {
-                ch.RemoveActBit(PC.PLAYER_FREEZE);
+                ch.RemoveActionBit(PC.PLAYER_FREEZE);
             }
 
             if (victim.IsNPC())
@@ -5297,15 +5334,15 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim.HasActBit(PC.PLAYER_FREEZE))
+            if (victim.HasActionBit(PC.PLAYER_FREEZE))
             {
-                victim.RemoveActBit(PC.PLAYER_FREEZE);
+                victim.RemoveActionBit(PC.PLAYER_FREEZE);
                 ch.SendText("FREEZE removed.\r\n");
                 victim.SendText("You can Play again.\r\n");
             }
             else
             {
-                victim.SetActBit(PC.PLAYER_FREEZE);
+                victim.SetActionBit(PC.PLAYER_FREEZE);
                 ch.SendText("FREEZE set.\r\n");
                 victim.SendText("You can't do ANYthing!\r\n");
             }
@@ -5374,14 +5411,14 @@ namespace MUDEngine
             /*
             * No level check, gods can log anyone.
             */
-            if (victim.HasActBit(PC.PLAYER_LOG))
+            if (victim.HasActionBit(PC.PLAYER_LOG))
             {
-                victim.RemoveActBit(PC.PLAYER_LOG);
+                victim.RemoveActionBit(PC.PLAYER_LOG);
                 ch.SendText("LOG removed.\r\n");
             }
             else
             {
-                victim.SetActBit(PC.PLAYER_LOG);
+                victim.SetActionBit(PC.PLAYER_LOG);
                 ch.SendText("LOG set.\r\n");
             }
 
@@ -5428,15 +5465,15 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim.HasActBit(PC.PLAYER_NO_EMOTE))
+            if (victim.HasActionBit(PC.PLAYER_NO_EMOTE))
             {
-                victim.RemoveActBit(PC.PLAYER_NO_EMOTE);
+                victim.RemoveActionBit(PC.PLAYER_NO_EMOTE);
                 ch.SendText("NO_EMOTE removed.\r\n");
                 victim.SendText("You are now allowed to emote.\r\n");
             }
             else
             {
-                victim.SetActBit(PC.PLAYER_NO_EMOTE);
+                victim.SetActionBit(PC.PLAYER_NO_EMOTE);
                 victim.SendText("You are no longer allowed to emote!\r\n");
                 ch.SendText("NO_EMOTE set.\r\n");
             }
@@ -5486,15 +5523,15 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim.HasActBit(PC.PLAYER_SILENCE))
+            if (victim.HasActionBit(PC.PLAYER_SILENCE))
             {
-                victim.RemoveActBit(PC.PLAYER_SILENCE);
+                victim.RemoveActionBit(PC.PLAYER_SILENCE);
                 victim.SendText("You can use channels again.\r\n");
                 ch.SendText("SILENCE removed.\r\n");
             }
             else
             {
-                victim.SetActBit(PC.PLAYER_SILENCE);
+                victim.SetActionBit(PC.PLAYER_SILENCE);
                 victim.SendText("You can't use channels!\r\n");
                 ch.SendText("SILENCE set.\r\n");
             }
@@ -7548,9 +7585,9 @@ namespace MUDEngine
             if (!ch.Authorized("wizinvis"))
                 return;
 
-            if (ch.HasActBit(PC.PLAYER_WIZINVIS))
+            if (ch.HasActionBit(PC.PLAYER_WIZINVIS))
             {
-                ch.RemoveActBit(PC.PLAYER_WIZINVIS);
+                ch.RemoveActionBit(PC.PLAYER_WIZINVIS);
                 ch.SendText("You slowly fade back into existence.\r\n");
                 SocketConnection.Act("$n slowly fades into existence.", ch, null, null, SocketConnection.MessageTarget.room);
             }
@@ -7558,7 +7595,7 @@ namespace MUDEngine
             {
                 ch.SendText("You slowly vanish into thin air.\r\n");
                 SocketConnection.Act("$n slowly fades into thin air.", ch, null, null, SocketConnection.MessageTarget.room);
-                ch.SetActBit(PC.PLAYER_WIZINVIS);
+                ch.SetActionBit(PC.PLAYER_WIZINVIS);
             }
 
             return;
@@ -7574,14 +7611,14 @@ namespace MUDEngine
             if (!ch.Authorized("godmode"))
                 return;
 
-            if (ch.HasActBit(PC.PLAYER_GODMODE))
+            if (ch.HasActionBit(PC.PLAYER_GODMODE))
             {
-                ch.RemoveActBit(PC.PLAYER_GODMODE);
+                ch.RemoveActionBit(PC.PLAYER_GODMODE);
                 ch.SendText("God mode off.\r\n");
             }
             else
             {
-                ch.SetActBit(PC.PLAYER_GODMODE);
+                ch.SetActionBit(PC.PLAYER_GODMODE);
                 ch.SendText("God mode on.\r\n");
             }
 
@@ -7617,15 +7654,15 @@ namespace MUDEngine
             }
 
 
-            if (!victim.HasActBit(PC.PLAYER_WIZBIT))
+            if (!victim.HasActionBit(PC.PLAYER_WIZBIT))
             {
-                victim.SetActBit(PC.PLAYER_WIZBIT);
+                victim.SetActionBit(PC.PLAYER_WIZBIT);
                 SocketConnection.Act("$N wizified.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n has wizified you!", ch, null, victim, SocketConnection.MessageTarget.victim);
             }
             else
             {
-                victim.RemoveActBit(PC.PLAYER_WIZBIT);
+                victim.RemoveActionBit(PC.PLAYER_WIZBIT);
                 SocketConnection.Act("$N dewizzed.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n has dewizzed you!", ch, null, victim, SocketConnection.MessageTarget.victim);
             }
@@ -8027,7 +8064,7 @@ namespace MUDEngine
 
             if (!SocketConnection.CheckPlayerName(str[1]))
             {
-                ch.SendText("Illegal _name, try again.\r\n");
+                ch.SendText("That name is not allowed here, please try again.\r\n");
                 return;
             }
 
@@ -8582,8 +8619,8 @@ namespace MUDEngine
             {
                 return;
             }
-            ch.ToggleActBit(PC.PLAYER_FOG);
-            if (ch.HasActBit(PC.PLAYER_FOG))
+            ch.ToggleActionBit(PC.PLAYER_FOG);
+            if (ch.HasActionBit(PC.PLAYER_FOG))
             {
                 ch.SendText("Fog is now on.\r\n");
             }
@@ -8631,6 +8668,11 @@ namespace MUDEngine
             ch.AttackCharacter(victim);
         }
 
+        /// <summary>
+        /// Stab someone in the back.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Backstab(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -8675,6 +8717,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Circle around behind someone and backstab them.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Circle(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -8810,17 +8857,17 @@ namespace MUDEngine
             }
 
             // Remove memorization and meditation bits - Xangis
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEDITATING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEDITATING))
             {
                 SocketConnection.Act("$N&n is disrupted from meditation.", ch, null, null, SocketConnection.MessageTarget.room);
                 SocketConnection.Act("Your meditation is disrupted.", ch, null, null, SocketConnection.MessageTarget.character);
-                ch.RemoveActBit(PC.PLAYER_MEDITATING);
+                ch.RemoveActionBit(PC.PLAYER_MEDITATING);
             }
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
             {
                 SocketConnection.Act("$N&n abandons $S studies.", ch, null, null, SocketConnection.MessageTarget.room);
                 SocketConnection.Act("You abandon your studies.", ch, null, null, SocketConnection.MessageTarget.character);
-                ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
             }
 
             if (ch._position < Position.fighting)
@@ -8889,7 +8936,7 @@ namespace MUDEngine
                 if ((exit = wasIn.ExitData[door]) == null || !exit.TargetRoom
                         || exit.TargetRoom == wasIn || exit.HasFlag(Exit.ExitFlag.closed)
                         || (ch.IsNPC() && (Room.GetRoom(exit.IndexNumber).HasFlag(RoomTemplate.ROOM_NO_MOB)
-                        || (ch.HasActBit(MobTemplate.ACT_STAY_AREA) && exit.TargetRoom.Area != ch._inRoom.Area))))
+                        || (ch.HasActionBit(MobTemplate.ACT_STAY_AREA) && exit.TargetRoom.Area != ch._inRoom.Area))))
                 {
                     continue;
                 }
@@ -8900,7 +8947,7 @@ namespace MUDEngine
                 }
 
                 // Just to keep the damned messages from being wacky...
-                ch.SetAffBit(Affect.AFFECT_IS_FLEEING);
+                ch.SetAffectBit(Affect.AFFECT_IS_FLEEING);
                 ch.Move(door);
                 ch.RemoveAffect(Affect.AFFECT_IS_FLEEING);
                 if (ch._inRoom == wasIn)
@@ -9096,6 +9143,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Kick someone.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Kick(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -10346,9 +10398,11 @@ namespace MUDEngine
             return;
         }
 
-        /*
-        * Charge. Usable to initiate combat.
-        */
+        /// <summary>
+        /// Charge into someone. Helps to have horns on your head.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Charge(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -10418,6 +10472,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Throw dirt in someone's eyes.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void DirtToss(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -10459,10 +10518,9 @@ namespace MUDEngine
                 return;
             }
 
-
             if (victim == ch)
             {
-                ch.SendText("Very funny.\r\n");
+                ch.SendText("How about sticking a fork your eye instead?\r\n");
                 return;
             }
 
@@ -10738,6 +10796,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Pick up an item.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Get(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -11063,6 +11126,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Drop an item.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Drop(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -11266,6 +11334,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Give an item to someone.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Give(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -11443,7 +11516,7 @@ namespace MUDEngine
 
             if (victim._carryWeight + obj.GetWeight() > victim.MaxCarryWeight())
             {
-                SocketConnection.Act("$N&n can't carry that much weight.", ch, null, victim, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("$N&n cannot carry that much weight.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
@@ -11935,9 +12008,9 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
             {
-                ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                 ch.SendText("You abandon your studies.\r\n");
             }
 
@@ -12058,6 +12131,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Pour a liquid.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Pour(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -13319,7 +13397,7 @@ namespace MUDEngine
 
             if (ch._carryWeight + obj.GetWeight() > ch.MaxCarryWeight())
             {
-                ch.SendText("You can't carry that much weight.\r\n");
+                ch.SendText("You cannot carry that much weight.\r\n");
                 return;
             }
 
@@ -13387,7 +13465,7 @@ namespace MUDEngine
                     return;
                 }
 
-                if (pet == null || !pet.HasActBit(MobTemplate.ACT_PET))
+                if (pet == null || !pet.HasActionBit(MobTemplate.ACT_PET))
                 {
                     ch.SendText("Sorry, you can't buy that here.\r\n");
                     return;
@@ -13404,9 +13482,9 @@ namespace MUDEngine
 
                 ch.SpendCash(((100 * pet._level) * pet._level));
                 pet = Database.CreateMobile(pet._mobTemplate);
-                pet.SetActBit(MobTemplate.ACT_PET);
-                pet.SetActBit(MobTemplate.ACT_NOEXP);
-                pet.SetAffBit(Affect.AFFECT_CHARM);
+                pet.SetActionBit(MobTemplate.ACT_PET);
+                pet.SetActionBit(MobTemplate.ACT_NOEXP);
+                pet.SetAffectBit(Affect.AFFECT_CHARM);
 
                 if (!String.IsNullOrEmpty(str[0]))
                 {
@@ -13524,15 +13602,15 @@ namespace MUDEngine
                 }
             }
 
-            if (ch._carryNumber + itemCount > Limits.MAX_CARRY)
+            if (ch._carryNumber + itemCount > ch.GetMaxItemsCarried())
             {
-                ch.SendText("You can't carry that many items.\r\n");
+                ch.SendText("You cannot carry that many items.\r\n");
                 return;
             }
 
             if (ch._carryWeight + (itemCount * obj.GetWeight()) > ch.MaxCarryWeight())
             {
-                ch.SendText("You can't carry that much weight.\r\n");
+                ch.SendText("You cannot carry that much weight.\r\n");
                 return;
             }
 
@@ -13619,7 +13697,7 @@ namespace MUDEngine
                 bool found = false;
                 foreach (CharData pet in nextRoom.People)
                 {
-                    if (pet.HasActBit(MobTemplate.ACT_PET))
+                    if (pet.HasActionBit(MobTemplate.ACT_PET))
                     {
                         // I set this here so as to list a nicer and more comprehensive
                         // pet shop  stock/price list.  I *think* I got it right.
@@ -14277,6 +14355,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Eat something.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Eat(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -14411,6 +14494,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Hide an item.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void HideItem(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -14993,6 +15081,11 @@ namespace MUDEngine
 
         }
 
+        /// <summary>
+        /// List the areas in the game.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void AreaList(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -16367,7 +16460,7 @@ namespace MUDEngine
                             || ivictim._flyLevel != ch._flyLevel
                             || ch.IsRacewar(ivictim))
                         continue;
-                    if (((ivictim.IsNPC() && ivictim.HasActBit(MobTemplate.ACT_PET))
+                    if (((ivictim.IsNPC() && ivictim.HasActionBit(MobTemplate.ACT_PET))
                             || (!ivictim.IsNPC() && ivictim.IsConsenting(ch)))
                             && ivictim._master == ch && !ivictim._groupLeader)
                     {
@@ -16794,9 +16887,9 @@ namespace MUDEngine
             victim._position = position;
             victim._replyTo = ch;
 
-            if (victim.HasActBit(PC.PLAYER_AFK))
+            if (victim.HasActionBit(PC.PLAYER_AFK))
                 SocketConnection.Act("Just so you know, $E is &+RAFK&n.", ch, null, victim, SocketConnection.MessageTarget.character);
-            else if (victim.HasActBit(PC.PLAYER_BOTTING))
+            else if (victim.HasActionBit(PC.PLAYER_BOTTING))
                 SocketConnection.Act("Just so you know, $E is a &+YBOT&n", ch, null, victim, SocketConnection.MessageTarget.character);
 
             return;
@@ -17233,8 +17326,8 @@ namespace MUDEngine
                 return;
             }
 
-            if ((!ch.IsNPC() && (ch.HasActBit(PC.PLAYER_SILENCE) || !ch.HasActBit(PC.PLAYER_TELL)
-                || (!victim.IsNPC() && !victim.HasActBit(PC.PLAYER_TELL))))
+            if ((!ch.IsNPC() && (ch.HasActionBit(PC.PLAYER_SILENCE) || !ch.HasActionBit(PC.PLAYER_TELL)
+                || (!victim.IsNPC() && !victim.HasActionBit(PC.PLAYER_TELL))))
                     || victim._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
             {
                 ch.SendText("They can't hear you.\r\n");
@@ -17288,11 +17381,11 @@ namespace MUDEngine
             victim._position = position;
             victim._replyTo = ch;
 
-            if (victim.HasActBit(PC.PLAYER_AFK))
+            if (victim.HasActionBit(PC.PLAYER_AFK))
             {
                 SocketConnection.Act("Just so you know, $E is &+RAFK&n.", ch, null, victim, SocketConnection.MessageTarget.character);
             }
-            else if (victim.HasActBit(PC.PLAYER_BOTTING))
+            else if (victim.HasActionBit(PC.PLAYER_BOTTING))
             {
                 SocketConnection.Act("Just so you know, $E is a &+YBOT&n", ch, null, victim, SocketConnection.MessageTarget.character);
             }
@@ -17350,9 +17443,9 @@ namespace MUDEngine
                 return;
             }
 
-            if ((!ch.IsNPC() && (ch.HasActBit(PC.PLAYER_SILENCE)
-                      || !ch.HasActBit(PC.PLAYER_TELL) || (!victim.IsNPC() &&
-                     !victim.HasActBit(PC.PLAYER_TELL)))) || victim._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
+            if ((!ch.IsNPC() && (ch.HasActionBit(PC.PLAYER_SILENCE)
+                      || !ch.HasActionBit(PC.PLAYER_TELL) || (!victim.IsNPC() &&
+                     !victim.HasActionBit(PC.PLAYER_TELL)))) || victim._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
             {
                 ch.SendText("Your message didn't get through.\r\n");
                 return;
@@ -17392,11 +17485,11 @@ namespace MUDEngine
             victim._position = position;
             victim._replyTo = ch;
 
-            if (victim.HasActBit(PC.PLAYER_AFK))
+            if (victim.HasActionBit(PC.PLAYER_AFK))
             {
                 SocketConnection.Act("Just so you know, $E is &+RAFK&n.", ch, null, victim, SocketConnection.MessageTarget.character);
             }
-            else if (victim.HasActBit(PC.PLAYER_BOTTING))
+            else if (victim.HasActionBit(PC.PLAYER_BOTTING))
             {
                 SocketConnection.Act("Just so you know, $E is a &+YBOT&n", ch, null, victim, SocketConnection.MessageTarget.character);
             }
@@ -17412,7 +17505,7 @@ namespace MUDEngine
         public static void Emote(CharData ch, string[] str)
         {
             if( ch == null ) return;
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_NO_EMOTE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_NO_EMOTE))
             {
                 ch.SendText("You are unable to emote.\r\n");
                 return;
@@ -17683,7 +17776,7 @@ namespace MUDEngine
                 }
             }
 
-            ch.RemoveActBit(PC.PLAYER_CAMPING);
+            ch.RemoveActionBit(PC.PLAYER_CAMPING);
             ((PC)ch).LastRentLocation = ch._inRoom.IndexNumber;
             CharData.SavePlayer(ch);
 
@@ -17735,10 +17828,10 @@ namespace MUDEngine
 
             if (ch._position == Position.fighting || ch._fighting)
             {
-                if (ch.HasActBit(PC.PLAYER_CAMPING))
+                if (ch.HasActionBit(PC.PLAYER_CAMPING))
                 {
                     ch.SendText("You're not gifted enough to make camp and fight at the same time.\r\n");
-                    ch.RemoveActBit(PC.PLAYER_CAMPING);
+                    ch.RemoveActionBit(PC.PLAYER_CAMPING);
                     return;
                 }
                 ch.SendText("No way! You are fighting.\r\n");
@@ -18607,9 +18700,9 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
             {
-                ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                 ch.SendText("You abandon your studies.\r\n");
             }
 
@@ -18727,9 +18820,9 @@ namespace MUDEngine
                 case Position.kneeling:
                 case Position.resting:
                 case Position.standing:
-                    if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+                    if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
                     {
-                        ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                        ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                         ch.SendText("You abandon your studies.\r\n");
                     }
                     ch.SendText("You recline.\r\n");
@@ -18810,9 +18903,9 @@ namespace MUDEngine
                 case Position.reclining:
                 case Position.resting:
                 case Position.sitting:
-                    if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+                    if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
                     {
-                        ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                        ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                         ch.SendText("You abandon your studies.\r\n");
                     }
                     ch.SendText("You swing up to your knees.\r\n");
@@ -18851,9 +18944,9 @@ namespace MUDEngine
                 case Position.resting:
                 case Position.standing:
 
-                    if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+                    if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
                     {
-                        ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                        ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                         ch.SendText("You abandon your studies.\r\n");
                     }
                     ch.SendText("You sleep.\r\n");
@@ -19009,7 +19102,7 @@ namespace MUDEngine
 
             if (ch.CheckSkill("hide"))
             {
-                ch.SetAffBit(Affect.AFFECT_HIDE);
+                ch.SetAffectBit(Affect.AFFECT_HIDE);
             }
 
             ch.WaitState(12);
@@ -19071,7 +19164,7 @@ namespace MUDEngine
             //find a teacher
             foreach (CharData iteacher in ch._inRoom.People)
             {
-                if (iteacher._charClass == ch._charClass && iteacher.HasActBit(MobTemplate.ACT_TEACHER))
+                if (iteacher._charClass == ch._charClass && iteacher.HasActionBit(MobTemplate.ACT_TEACHER))
                 {
                     teacher = iteacher;
                     break;
@@ -19272,7 +19365,7 @@ namespace MUDEngine
 
             if (ch.CheckSkill("chameleon power"))
             {
-                ch.SetAffBit(Affect.AFFECT_HIDE);
+                ch.SetAffectBit(Affect.AFFECT_HIDE);
             }
 
             return;
@@ -19611,7 +19704,7 @@ namespace MUDEngine
 
             foreach (CharData guardChar in ch._inRoom.People)
             {
-                if (guardChar != ch && guardChar.HasActBit(MobTemplate.ACT_PROTECTOR) && (guardChar.IsNPC() && 
+                if (guardChar != ch && guardChar.HasActionBit(MobTemplate.ACT_PROTECTOR) && (guardChar.IsNPC() && 
                     !guardChar.IsAffected( Affect.AFFECT_CHARM)) && guardChar.IsAwake() && CharData.CanSee(guardChar, ch) &&
                     !guardChar._fighting && MUDMath.NumberBits(2) == 0)
                 {
@@ -19730,6 +19823,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Try to free someone who has been bound.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Untangle(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -20007,7 +20105,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim.IsNPC() || !victim.HasActBit(MobTemplate.ACT_MOUNT))
+            if (!victim.IsNPC() || !victim.HasActionBit(MobTemplate.ACT_MOUNT))
             {
                 ch.SendText("You can't mount that!\r\n");
                 return;
@@ -20266,13 +20364,13 @@ namespace MUDEngine
                             break;
                     }
                 }
-                if (!ch.HasActBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
+                if (!ch.HasActionBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
                         && !ch.HasInnate(Race.RACE_ULTRAVISION)
                         && !ch.IsAffected( Affect.AFFECT_ULTRAVISION))
                 {
                     ch.SendText("&+lSomewhere\r\n");
                 }
-                else if (!ch.HasActBit(PC.PLAYER_GODMODE))
+                else if (!ch.HasActionBit(PC.PLAYER_GODMODE))
                 {
                     String roomOpen = String.Empty;
                     String roomClose = String.Empty;
@@ -20304,7 +20402,7 @@ namespace MUDEngine
                     Look.ShowRoomInfo(ch, ch._inRoom);
                 }
 
-                if (!ch.IsNPC() && !ch.HasActBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
+                if (!ch.IsNPC() && !ch.HasActionBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
                     && !ch.HasInnate(Race.RACE_ULTRAVISION) && !ch.IsAffected( Affect.AFFECT_ULTRAVISION))
                 {
                     ch.SendText("&+LIt is pitch black...&n \r\n");
@@ -20329,7 +20427,7 @@ namespace MUDEngine
                         roomDescClose = "&n\r\n";
                         mapSpace = "    ";
                     }
-                    if( !ch.HasActBit(PC.PLAYER_BRIEF) && !ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
+                    if( !ch.HasActionBit(PC.PLAYER_BRIEF) && !ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                     {
                         // Added support for both manual and automatic descriptions on the worldmap.
                         if (ch._inRoom.Description.Length > 0)
@@ -20351,7 +20449,7 @@ namespace MUDEngine
 
                 if (ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                 {
-                    if (ch.HasActBit(PC.PLAYER_MAP))
+                    if (ch.HasActionBit(PC.PLAYER_MAP))
                     {
                         Command.Worldmap(ch, null);
                     }
@@ -20425,7 +20523,7 @@ namespace MUDEngine
                 }
 
                 // Check for farsee
-                if ((ch.IsAffected( Affect.AFFECT_FARSEE) || ch.HasActBit(PC.PLAYER_GODMODE))
+                if ((ch.IsAffected( Affect.AFFECT_FARSEE) || ch.HasActionBit(PC.PLAYER_GODMODE))
                         && !exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     if (exit.TargetRoom)
@@ -20806,7 +20904,7 @@ namespace MUDEngine
                         // Show a yellow exclamation point to those with holylight on though.
                         if (exit.TargetRoom && exit.TargetRoom.TerrainType == TerrainType.underground_impassable)
                         {
-                            if (!ch.HasActBit(PC.PLAYER_GODMODE))
+                            if (!ch.HasActionBit(PC.PLAYER_GODMODE))
                             {
                                 continue;
                             }
@@ -20827,7 +20925,7 @@ namespace MUDEngine
                             // gods with holylight on can go to useless exits.
                             if (exit.TargetRoom && exit.TargetRoom.TerrainType == TerrainType.underground_impassable)
                             {
-                                if (!ch.HasActBit(PC.PLAYER_GODMODE))
+                                if (!ch.HasActionBit(PC.PLAYER_GODMODE))
                                 {
                                     continue;
                                 }
@@ -21117,7 +21215,7 @@ namespace MUDEngine
             {
                 buf += ", &+Rberzerk&n";
             }
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEMORIZING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEMORIZING))
             {
                 buf += ", Memorizing";
             }
@@ -21129,11 +21227,11 @@ namespace MUDEngine
             {
                 buf += ", Singing";
             }
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEDITATING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEDITATING))
             {
                 buf += ", Meditating";
             }
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_CAMPING))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_CAMPING))
             { /* This is ugly and should be moved to its own function */
                 buf += ", Camping";
             }
@@ -21625,8 +21723,8 @@ namespace MUDEngine
                     if (!workingChar.IsImmortal())
                     {
                         string buf5 = String.Format("{0}{1}{2}{3}{4} {5} ({6})",
-                                                    workingChar.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
-                                                    workingChar.HasActBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
+                                                    workingChar.HasActionBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
+                                                    workingChar.HasActionBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
                                                     workingChar.IsAffected(Affect.AFFECT_INVISIBLE) ? "*" : String.Empty,
                                                     workingChar._name,
                                                     ((PC)workingChar).Title,
@@ -21637,9 +21735,9 @@ namespace MUDEngine
                     else
                     {
                         string buf1 = String.Format("{0}{1}{2}{3}{4}",
-                                                     workingChar.HasActBit(PC.PLAYER_WIZINVIS) ? "(WIZINVIS) " : String.Empty,
-                                                     workingChar.HasActBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
-                                                     workingChar.HasActBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
+                                                     workingChar.HasActionBit(PC.PLAYER_WIZINVIS) ? "(WIZINVIS) " : String.Empty,
+                                                     workingChar.HasActionBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
+                                                     workingChar.HasActionBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
                                                      workingChar._name,
                                                      ((PC)workingChar).Title);
                         string buf2 = String.Format(" {0}", !workingChar.IsGuild() ? String.Empty : ((PC)workingChar).GuildMembership.WhoName);
@@ -21982,6 +22080,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Show the game credits.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Credits(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -22107,7 +22210,7 @@ namespace MUDEngine
             if (victim.IsAffected( Affect.AFFECT_INCOMPETENCE))
                 diff -= (5 + victim._level / 5);
 
-            if (ch.HasActBit(PC.PLAYER_COLOR_CON))
+            if (ch.HasActionBit(PC.PLAYER_COLOR_CON))
             {
                 if (diff <= -10)
                     msg = "&n&+bToo easy to bother with.&n";
@@ -22500,7 +22603,7 @@ namespace MUDEngine
 
             if (str.Length == 0 || String.IsNullOrEmpty(str[0]))
             {
-                if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_SILENCE))
+                if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_SILENCE))
                 {
                     ch.SendText("&nYou are silenced, cur.\r\n");
                     return;
@@ -22590,71 +22693,71 @@ namespace MUDEngine
                 ch.SendText("&+L+------------+------------------------------------------------------------+&n\r\n");
                 ch.SendText("&+L|&n&+m  Option&+L    |&n&+r Description&n                                                &+L|&n\r\n");
                 ch.SendText("&+L+------------+------------------------------------------------------------+&n\r\n");
-                ch.SendText(ch.HasActBit(PC.PLAYER_AUTOWRAP)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_AUTOWRAP)
                                ? "&+L[&+WX&+L]&n Autowrap &+L|&n &+cThe MUD automatically wraps long lines of text.            &+L|&n\r\n"
                                : "&+L[ ]&n Autowrap &+L|&n &+cThe MUD does not automatically wrap long text.             &+L|&n\r\n"
                                );
-                ch.SendText(ch.HasActBit(PC.PLAYER_BLANK)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_BLANK)
                                ? "&+L[&+WX&+L]&n Blank    &+L|&n &+cYou have a blank line before your prompt.                  &+L|&n\r\n"
                                : "&+L[ ]&n Blank    &+L|&n &+cYou have no blank line before your prompt.                 &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_BRIEF)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_BRIEF)
                                ? "&+L[&+WX&+L]&n Brief    &+L|&n &+cYou see brief descriptions.                                &+L|&n\r\n"
                                : "&+L[ ]&n Brief    &+L|&n &+cYou see long descriptions.                                 &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_CAST_TICK)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_CAST_TICK)
                                ? "&+L[&+WX&+L]&n Casttick &+L|&n &+cYou see your casting ticks.                                &+L|&n\r\n"
                                : "&+L[ ]&n Casttick &+L|&n &+cFor spam's sake, no casting ticks!                         &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_COMBINE)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_COMBINE)
                                ? "&+L[&+WX&+L]&n Combine  &+L|&n &+cYou see object lists in combined format.                   &+L|&n\r\n"
                                : "&+L[ ]&n Combine  &+L|&n &+cYou see object lists in single format.                     &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_COLOR)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_COLOR)
                                ? "&+L[&+WX&+L]&n Color    &+L|&n &+cYou see ANSI colors.                                       &+L|&n\r\n"
                                : "&+L[ ]&n Color    &+L|&n &+cYou don't see ANSI colors.                                 &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_COLOR_CON)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_COLOR_CON)
                                ? "&+L[&+WX&+L]&n Colorcon &+L|&n &+cYou see ANSI colors in consider messages.                  &+L|&n\r\n"
                                : "&+L[ ]&n Colorcon &+L|&n &+cYou don't see ANSI colors in consider messages.            &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_MSP)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_MSP)
                                ? "&+L[&+WX&+L]&n MSP      &+L|&n &+cMUD Sound Protocol (MSP) support is on.                    &+L|&n\r\n"
                                : "&+L[ ]&n MSP      &+L|&n &+cMUD Sound Protocol (MSP) support is off.                   &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_PAGER)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_PAGER)
                                ? "&+L[&+WX&+L]&n Pager    &+L|&n &+cText is shown in separate pages.                           &+L|&n\r\n"
                                : "&+L[ ]&n Pager    &+L|&n &+cText is shown all-at-once with no paging.                  &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_PROMPT)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_PROMPT)
                                ? "&+L[&+WX&+L]&n Prompt   &+L|&n &+cYou have a prompt.                                         &+L|&n\r\n"
                                : "&+L[ ]&n Prompt   &+L|&n &+cYou don't have a prompt.                                   &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_SHOUT)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_SHOUT)
                                ? "&+L[&+WX&+L]&n Shout    &+L|&n &+cYou can hear shouts.                                       &+L|&n\r\n"
                                : "&+L[ ]&n Shout    &+L|&n &+cYou cover your ears when someone is yelling.               &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_TELNET_GA)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_TELNET_GA)
                                ? "&+L[&+WX&+L]&n TelnetGA &+L|&n &+cYou receive a telnet go-ahead sequence.                    &+L|&n\r\n"
                                : "&+L[ ]&n TelnetGA &+L|&n &+cYou don't receive a telnet GA sequence.                    &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_TELL)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_TELL)
                                ? "&+L[&+WX&+L]&n Tell     &+L|&n &+cYou can hear tells.                                        &+L|&n\r\n"
                                : "&+L[ ]&n Tell     &+L|&n &+cYou are ignoring tells.                                    &+L|&n\r\n"
                                 );
-                ch.SendText(ch.HasActBit(PC.PLAYER_VICIOUS)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_VICIOUS)
                                ? "&+L[&+WX&+L]&n Vicious  &+L|&n &+cYou are vicious and will kill mortally wounded foes.       &+L|&n\r\n"
                                : "&+L[ ]&n Vicious  &+L|&n &+cYou aren't vicious and will spare a mortally wounded foe.  &+L|&n\r\n");
-                ch.SendText(ch.HasActBit(PC.PLAYER_MAP)
+                ch.SendText(ch.HasActionBit(PC.PLAYER_MAP)
                                ? "&+L[&+WX&+L]&n Map      &+L|&n &+cYou see the maps.                                          &+L|&n\r\n"
                                : "&+L[ ]&n Map      &+L|&n &+cYou do not see maps.                                       &+L|&n\r\n");
 
-                if (ch.HasActBit(PC.PLAYER_SILENCE))
+                if (ch.HasActionBit(PC.PLAYER_SILENCE))
                 {
                     ch.SendText( "&+L[&+WX&+L]&n Silence  &+L|&n &+cYou are silenced.                                       &+L|&n\r\n");
                 }
 
-                ch.SendText(!ch.HasActBit(PC.PLAYER_NO_EMOTE)
+                ch.SendText(!ch.HasActionBit(PC.PLAYER_NO_EMOTE)
                               ? "&n"
                               : "&+L[ ]&n emote    | &+cYou can't emote.                                                 &+L|&n\r\n");
 
@@ -22758,7 +22861,7 @@ namespace MUDEngine
                 {
                     ch.SendText("Paladins may not toggle vicious.\r\n");
                     /* Just to make sure they don't have it toggled on. */
-                    ch.RemoveActBit(bit);
+                    ch.RemoveActionBit(bit);
                     return;
                 }
 
@@ -22766,7 +22869,7 @@ namespace MUDEngine
                 {
                     if (bit != PC.PLAYER_NONE)
                     {
-                        ch.SetActBit(bit);
+                        ch.SetActionBit(bit);
                     }
                     ch.SendText( (String.Format("&n{0} is now ON.\r\n", word.ToUpper())));
                 }
@@ -22774,7 +22877,7 @@ namespace MUDEngine
                 {
                     if (bit != PC.PLAYER_NONE)
                     {
-                        ch.RemoveActBit(bit);
+                        ch.RemoveActionBit(bit);
                     }
                     ch.SendText((String.Format("&n{0} is now OFF.\r\n", word.ToUpper())));
                 }
@@ -22782,9 +22885,9 @@ namespace MUDEngine
                 {
                     if (bit != PC.PLAYER_NONE)
                     {
-                        ch.ToggleActBit(bit);
+                        ch.ToggleActionBit(bit);
                     }
-                    if (ch.HasActBit(bit))
+                    if (ch.HasActionBit(bit))
                         ch.SendText((String.Format("&n{0} is now ON.\r\n", word.ToUpper())));
                     else
                         ch.SendText((String.Format("&n{0} is now OFF.\r\n", word.ToUpper())));
@@ -23022,7 +23125,7 @@ namespace MUDEngine
 
             string buf;
 
-            if (ch.HasActBit(PC.PLAYER_BLANK))
+            if (ch.HasActionBit(PC.PLAYER_BLANK))
                 buf = String.Format("-blank");
             else
                 buf = String.Format("+blank");
@@ -23044,7 +23147,7 @@ namespace MUDEngine
 
             string buf;
 
-            if (ch.HasActBit(PC.PLAYER_BRIEF))
+            if (ch.HasActionBit(PC.PLAYER_BRIEF))
                 buf = String.Format("-brief");
             else
                 buf = String.Format("+brief");
@@ -23066,7 +23169,7 @@ namespace MUDEngine
 
             string buf;
 
-            if (ch.HasActBit(PC.PLAYER_COMBINE))
+            if (ch.HasActionBit(PC.PLAYER_COMBINE))
                 buf = String.Format("-combine");
             else
                 buf = String.Format("+combine");
@@ -23135,7 +23238,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                if (ch.HasActBit(PC.PLAYER_PROMPT))
+                if (ch.HasActionBit(PC.PLAYER_PROMPT))
                 {
                     buf = "-prompt";
                 }
@@ -23203,15 +23306,15 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (ch.HasActBit(PC.PLAYER_AFK))
+            if (ch.HasActionBit(PC.PLAYER_AFK))
             {
-                ch.RemoveActBit(PC.PLAYER_AFK);
+                ch.RemoveActionBit(PC.PLAYER_AFK);
                 ch.SendText("&nYou are back at your keyboard.\r\n");
                 SocketConnection.Act("$n&n has returned to $s keyboard.", ch, null, ch, SocketConnection.MessageTarget.room);
             }
             else
             {
-                ch.SetActBit(PC.PLAYER_AFK);
+                ch.SetActionBit(PC.PLAYER_AFK);
                 ch.SendText("&nYou are away from keyboard.\r\n");
                 SocketConnection.Act("$n&n has left $s keyboard.", ch, null, ch, SocketConnection.MessageTarget.room);
             }
@@ -23231,15 +23334,15 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (ch.HasActBit(PC.PLAYER_BOTTING))
+            if (ch.HasActionBit(PC.PLAYER_BOTTING))
             {
-                ch.RemoveActBit(PC.PLAYER_BOTTING);
+                ch.RemoveActionBit(PC.PLAYER_BOTTING);
                 ch.SendText("&nYou are no longer running a bot.\r\n");
                 SocketConnection.Act("$n&n's soul has returned to $s body.", ch, null, ch, SocketConnection.MessageTarget.room);
             }
             else
             {
-                ch.SetActBit(PC.PLAYER_BOTTING);
+                ch.SetActionBit(PC.PLAYER_BOTTING);
                 ch.SendText("&nYou are now running a bot.\r\n");
                 SocketConnection.Act("$n&n's soul has left $s body.", ch, null, ch, SocketConnection.MessageTarget.room);
             }
@@ -23615,6 +23718,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Try to find hidden things.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Search(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -23775,7 +23883,7 @@ namespace MUDEngine
                             SocketConnection.Act("$n&n reveals your hiding spot!", ch, null, roomChar, SocketConnection.MessageTarget.victim);
                             return;
                         }
-                        roomChar.SetAffBit(Affect.AFFECT_HIDE);
+                        roomChar.SetAffectBit(Affect.AFFECT_HIDE);
                     }
                 }
             }
@@ -23912,8 +24020,8 @@ namespace MUDEngine
             */
             mount._currentMoves -= MUDMath.Dice(2, 40) + MUDMath.Dice(1, 80) + MUDMath.Dice(4, 2);
             CharData.AddFollower(mount, ch);
-            mount.SetAffBit(Affect.AFFECT_CHARM);
-            mount.SetActBit(MobTemplate.ACT_NOEXP);
+            mount.SetAffectBit(Affect.AFFECT_CHARM);
+            mount.SetActionBit(MobTemplate.ACT_NOEXP);
             mount.AddToRoom(ch._inRoom);
 
             ch.WaitState(MUDMath.FuzzyNumber(Skill.SkillList["summon mount"].Delay));
@@ -24345,7 +24453,7 @@ namespace MUDEngine
             {
                 if (!iteacher.IsNPC())
                     continue;
-                if (iteacher.HasActBit(MobTemplate.ACT_TEACHER))
+                if (iteacher.HasActionBit(MobTemplate.ACT_TEACHER))
                 {
                     teacher = iteacher;
                     break;
@@ -24476,7 +24584,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.HasActBit(Affect.AFFECT_MUTE))
+            if (ch.HasActionBit(Affect.AFFECT_MUTE))
             {
                 ch.SendText("You have no voice!\r\n");
                 return;
@@ -24786,9 +24894,9 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.HasActBit(PC.PLAYER_MEDITATING))
+            if (ch.HasActionBit(PC.PLAYER_MEDITATING))
             {
-                ch.RemoveActBit(PC.PLAYER_MEDITATING);
+                ch.RemoveActionBit(PC.PLAYER_MEDITATING);
                 ch.SendText("You stop meditating.\r\n");
             }
 
@@ -24804,7 +24912,7 @@ namespace MUDEngine
                 return;
             }
 
-            ch.SetActBit(PC.PLAYER_MEDITATING);
+            ch.SetActionBit(PC.PLAYER_MEDITATING);
             ch.WaitState(Skill.SkillList["meditate"].Delay);
             ch.PracticeSkill("meditate");
             ch.SendText("You start meditating...\r\n");
@@ -25665,7 +25773,7 @@ namespace MUDEngine
             // This means that they should move in that direction.  We leave it up to
             // move_char to make sure that there is actually an exit in that direction.
             // we use the climbing bit to allow them to pass the walls in move_char.
-            ch.SetAffBit(Affect.AFFECT_CLIMBING);
+            ch.SetAffectBit(Affect.AFFECT_CLIMBING);
             ch.Move(obj.Values[0]);
             ch.RemoveAffect(Affect.AFFECT_CLIMBING);
 
@@ -25919,7 +26027,7 @@ namespace MUDEngine
             if (ch._position == Position.fighting || ch._fighting)
             {
                 ch.SendText("You're not gifted enough to make camp and fight at the same time.\r\n");
-                ch.RemoveActBit(PC.PLAYER_CAMPING);
+                ch.RemoveActionBit(PC.PLAYER_CAMPING);
                 return;
             }
 
@@ -25929,7 +26037,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.HasActBit(PC.PLAYER_CAMPING))
+            if (ch.HasActionBit(PC.PLAYER_CAMPING))
             {
                 ch.SendText("Your preparations are not quite complete.\r\n");
                 return;
@@ -25943,7 +26051,7 @@ namespace MUDEngine
 
             SocketConnection.Act("$n&n starts to set up camp.", ch, null, null, SocketConnection.MessageTarget.room);
             ch.SendText("You start to set up camp.\r\n");
-            ch.SetActBit(PC.PLAYER_CAMPING);
+            ch.SetActionBit(PC.PLAYER_CAMPING);
             // Pass the character, the room they started camping in, and the
             // number of cycles to camp for
             // Pulse camp is 5 seconds, so make them wait for 1.5 minutes
@@ -26432,7 +26540,7 @@ namespace MUDEngine
             int n;
             bool inBattle = false;
 
-            if (ch.IsNPC() && ch.HasActBit(MobTemplate.ACT_PET))
+            if (ch.IsNPC() && ch.HasActionBit(MobTemplate.ACT_PET))
                 return;
 
             /* Target specified => arg2 has direction. */
@@ -26730,7 +26838,7 @@ namespace MUDEngine
             Object quiver;
             Object ammo = null;
 
-            if (ch.IsNPC() && ch.HasActBit(MobTemplate.ACT_PET))
+            if (ch.IsNPC() && ch.HasActionBit(MobTemplate.ACT_PET))
             {
                 return;
             }
@@ -26825,7 +26933,7 @@ namespace MUDEngine
             }
 
             if (ch._fighting._fighting && ch._fighting._fighting == ch
-                    && ch.HasActBit(PC.PLAYER_VICIOUS))
+                    && ch.HasActionBit(PC.PLAYER_VICIOUS))
             {
                 ch.SendText("You're a little busy getting beat on at the moment.\r\n");
                 return;
@@ -26911,7 +27019,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            CharData victim;
+            /*CharData victim;
             string arg3;
             string arg2;
             Object obj;
@@ -26919,8 +27027,9 @@ namespace MUDEngine
             Object inHand2;
             Room room2;
             int dir;
-            bool twoRooms;
+            bool twoRooms;*/
 
+            // TODO: Implement throwing weapons.
             if (true)
             {
                 ch.SendText("Throwing weapons are not implemented yet.\r\n");
@@ -27168,15 +27277,15 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (!ch.HasActBit(PC.PLAYER_COLOR))
+            if (!ch.HasActionBit(PC.PLAYER_COLOR))
             {
-                ch.SetActBit(PC.PLAYER_COLOR);
+                ch.SetActionBit(PC.PLAYER_COLOR);
                 ch.SendText("&+LThe world becomes more &n&+mco&+Ml&+Wor&+Cf&n&+cul&+L.&n\r\n");
             }
             else
             {
                 SocketConnection.SendToCharBW("The color drains.\r\n", ch);
-                ch.RemoveActBit(PC.PLAYER_COLOR);
+                ch.RemoveActionBit(PC.PLAYER_COLOR);
             }
             return;
         }
@@ -27345,7 +27454,7 @@ namespace MUDEngine
             /*
             * Display the results of the search.
             */
-            ch.SetAffBit(Affect.AFFECT_TRACK);
+            ch.SetAffectBit(Affect.AFFECT_TRACK);
             string buf = String.Format("You sense $N&n's trail {0} from here...", Exit.DirectionName[direction]);
             SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.character);
             if (ch._position == Position.standing)

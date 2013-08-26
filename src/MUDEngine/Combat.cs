@@ -271,7 +271,7 @@ namespace MUDEngine
             {
                 CheckShout( ch, victim );
             }
-            ch.BreakInvis();
+            ch.BreakInvisibility();
 
             // Everyone gets at least one swing/breath in battle.
             // This handles breathing, roaring, etc.
@@ -830,8 +830,8 @@ namespace MUDEngine
             }
 
             // Remove memorization and meditation bits - Xangis
-            victim.BreakMed();
-            victim.BreakMem();
+            victim.BreakMeditate();
+            victim.BreakMemorization();
             if (victim.IsAffected( Affect.AFFECT_MINOR_PARA))
             {
                 SocketConnection.Act( "$n&n disrupts the magic preventing $N&n from moving.", ch, null, victim, SocketConnection.MessageTarget.room_vict );
@@ -895,7 +895,7 @@ namespace MUDEngine
                     StopFighting( victim, true );
                 }
 
-                ch.BreakInvis();
+                ch.BreakInvisibility();
 
                 /*
                 * Hunting stuff...
@@ -1361,7 +1361,7 @@ namespace MUDEngine
                 // Done in attempt to squelch the combat continuation bug
                 StopFighting( victim, true );
 
-                if( !victim.HasActBit(MobTemplate.ACT_NOEXP ) || !victim.IsNPC() )
+                if( !victim.HasActionBit(MobTemplate.ACT_NOEXP ) || !victim.IsNPC() )
                     GroupExperienceGain( ch, victim );
 
                 if( ch.IsNPC() )
@@ -1457,7 +1457,7 @@ namespace MUDEngine
             */
             if( victim.IsNPC() && dam > 0 )
             {
-                if( ( victim.HasActBit(MobTemplate.ACT_WIMPY ) && MUDMath.NumberBits( 1 ) == 0
+                if( ( victim.HasActionBit(MobTemplate.ACT_WIMPY ) && MUDMath.NumberBits( 1 ) == 0
                         && victim._hitpoints < victim.GetMaxHit() / 5 )
                         || (victim.IsAffected( Affect.AFFECT_CHARM) && victim._master
                              && victim._master._inRoom != victim._inRoom ) )
@@ -1516,9 +1516,9 @@ namespace MUDEngine
 
             // Remove memorization and meditation bits.
             // And invis.
-            ch.BreakInvis();
-            victim.BreakMed();
-            victim.BreakMem();
+            ch.BreakInvisibility();
+            victim.BreakMeditate();
+            victim.BreakMemorization();
 
             if( CheckShrug( ch, victim ) )
                 return false;
@@ -1925,7 +1925,7 @@ namespace MUDEngine
             {
                 StopFighting( ch, false );
 
-                if( !victim.HasActBit(MobTemplate.ACT_NOEXP ) || !victim.IsNPC() )
+                if( !victim.HasActionBit(MobTemplate.ACT_NOEXP ) || !victim.IsNPC() )
                     GroupExperienceGain( ch, victim );
 
                 if( !victim.IsNPC() )
@@ -2016,7 +2016,7 @@ namespace MUDEngine
             */
             if( victim.IsNPC() && dam > 0 )
             {
-                if( ( victim.HasActBit(MobTemplate.ACT_WIMPY ) && MUDMath.NumberBits( 1 ) == 0
+                if( ( victim.HasActionBit(MobTemplate.ACT_WIMPY ) && MUDMath.NumberBits( 1 ) == 0
                         && victim._hitpoints < victim.GetMaxHit() / 5 )
                         || (victim.IsAffected(Affect.AFFECT_CHARM) && victim._master
                              && victim._master._inRoom != victim._inRoom ) )
@@ -2096,7 +2096,7 @@ namespace MUDEngine
                 return true;
             }
 
-            if( !victim.IsNPC() && victim.HasActBit(PC.PLAYER_JUST_DIED ) )
+            if( !victim.IsNPC() && victim.HasActionBit(PC.PLAYER_JUST_DIED ) )
             {
                 ch.SendText( "&+cThey just died, try in a few seconds...&n\r\n" );
                 return true;
@@ -2280,7 +2280,7 @@ namespace MUDEngine
         /// <param name="victim"></param>
         public static void StartFearing( CharData ch, CharData victim )
         {
-            if( !ch.IsNPC() || !ch.HasActBit(MobTemplate.ACT_MEMORY ) )
+            if( !ch.IsNPC() || !ch.HasActionBit(MobTemplate.ACT_MEMORY ) )
                 return;
 
             if( ch._fearing )
@@ -2306,9 +2306,9 @@ namespace MUDEngine
             
             if( !ch.IsNPC() || victim.IsNPC() )
                 return;
-            if( ( ch.HasActBit(MobTemplate.ACT_HUNTER ) && ch.HasActBit(MobTemplate.ACT_MEMORY ) ) || ranged )
+            if( ( ch.HasActionBit(MobTemplate.ACT_HUNTER ) && ch.HasActionBit(MobTemplate.ACT_MEMORY ) ) || ranged )
                 StartHunting( ch, victim );
-            if( ch.HasActBit(MobTemplate.ACT_MEMORY ) || ranged )
+            if( ch.HasActionBit(MobTemplate.ACT_MEMORY ) || ranged )
                 StartHating( ch, victim );
             return;
         }
@@ -3065,7 +3065,7 @@ namespace MUDEngine
             }
 
             // Just died flag used for safe time after re-login.
-            victim.SetActBit( PC.PLAYER_JUST_DIED );
+            victim.SetActionBit( PC.PLAYER_JUST_DIED );
 
             return;
         }
@@ -3383,7 +3383,7 @@ namespace MUDEngine
             if( victim.IsNPC() )
             {
                 // 5% bonus for aggros
-                if( victim.HasActBit(MobTemplate.ACT_AGGRESSIVE ) )
+                if( victim.HasActionBit(MobTemplate.ACT_AGGRESSIVE ) )
                 {
                     percent = ( percent * 21 ) / 20;
                 }
@@ -3425,7 +3425,7 @@ namespace MUDEngine
 
                 if( !killer.IsRacewar( victim ) )
                 {
-                    if( !killer.HasActBit( PC.PLAYER_BOTTING ))
+                    if( !killer.HasActionBit( PC.PLAYER_BOTTING ))
                     {
                         killer.SendText("You gain no experience for killing your own side.\r\n");
                         return 0;
@@ -3433,7 +3433,7 @@ namespace MUDEngine
                     // Same-side bot kills are worth normal experience.
                     killer.SendText("You gain experience for vanquishing an automaton.\r\n");
                 }
-                else if( killer.HasActBit( PC.PLAYER_BOTTING ))
+                else if( killer.HasActionBit( PC.PLAYER_BOTTING ))
                 {
                     // Racewar bot kills.  50% bonus exp.
                     killer.SendText("You gain bonus experience for killing an automaton.\r\n");
@@ -4262,7 +4262,7 @@ namespace MUDEngine
 
         public static bool CheckVicious( CharData ch, CharData victim )
         {
-            if( ch.HasActBit(PC.PLAYER_VICIOUS ) )
+            if( ch.HasActionBit(PC.PLAYER_VICIOUS ) )
                 return true;
             if( victim._position < Position.reclining
                     && victim._position != Position.stunned )
@@ -4430,7 +4430,7 @@ namespace MUDEngine
         {
             foreach( CharData niceCh in victim._inRoom.People )
             {
-                if (!niceCh.HasActBit(PC.PLAYER_VICIOUS)
+                if (!niceCh.HasActionBit(PC.PLAYER_VICIOUS)
                         && niceCh._fighting == victim )
                     StopFighting( niceCh, false );
             }
@@ -4812,7 +4812,7 @@ namespace MUDEngine
             }
 
             if (Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.checkfactionbit) &&
-                victim.HasActBit(MobTemplate.ACT_FACTION))
+                victim.HasActionBit(MobTemplate.ACT_FACTION))
             {
                 return;
             }

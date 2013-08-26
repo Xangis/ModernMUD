@@ -776,7 +776,7 @@ namespace MUDEngine
                 }
 
                 // If they're not already memorizing, they are now.
-                ch.SetActBit(PC.PLAYER_MEMORIZING );
+                ch.SetActionBit(PC.PLAYER_MEMORIZING );
 
                 if( pray )
                     text = String.Format( "You start praying for {0} which will take about {1} seconds.\r\n",
@@ -911,10 +911,10 @@ namespace MUDEngine
             }
 
             // If they aren't memming and they should be, start 'em up.
-            if( found && !ch.HasActBit(PC.PLAYER_MEMORIZING )
+            if( found && !ch.HasActionBit(PC.PLAYER_MEMORIZING )
                 && ch._position == Position.resting )
             {
-                ch.SetActBit(PC.PLAYER_MEMORIZING );
+                ch.SetActionBit(PC.PLAYER_MEMORIZING );
                 if( ( (PC)ch ).Hunger > 0
                     && ( (PC)ch ).Thirst > 0 )
                 {
@@ -982,7 +982,7 @@ namespace MUDEngine
                 if( ch.IsNPC() )
                     continue;
 
-                if( !( ch.HasActBit(PC.PLAYER_MEMORIZING ) ) )
+                if( !( ch.HasActionBit(PC.PLAYER_MEMORIZING ) ) )
                     continue;
 
                 if( ( (PC)ch ).Hunger <= 0 )
@@ -999,7 +999,7 @@ namespace MUDEngine
                 if( ( (PC)ch ).Memorized.Count == 0 )
                 {
                     Log.Error( "Memorizing character with no mem_data", 0 );
-                    ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                    ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                 }
 
                 // Find the oldest unmemmed piece of spell data
@@ -1015,8 +1015,8 @@ namespace MUDEngine
 
                 if( !chkspl )
                 {
-                    ch.RemoveActBit(PC.PLAYER_MEDITATING);
-                    ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                    ch.RemoveActionBit(PC.PLAYER_MEDITATING);
+                    ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                     ch.SendText( "Your studies are complete..." );
                     continue;
                 }
@@ -1029,7 +1029,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if (ch.HasActBit(PC.PLAYER_MEDITATING))
+                    if (ch.HasActionBit(PC.PLAYER_MEDITATING))
                     {
                         if ((chkspl.Memtime >= (chkspl.FullMemtime / 2)) && ((chkspl.Memtime - Event.TICK_MEMORIZE)
                                  < (chkspl.FullMemtime / 2)))
@@ -1055,10 +1055,10 @@ namespace MUDEngine
                     }
                 }
 
-                if( ( done ) && ( ch.HasActBit(PC.PLAYER_MEMORIZING ) ) )
+                if( ( done ) && ( ch.HasActionBit(PC.PLAYER_MEMORIZING ) ) )
                 {
-                    ch.RemoveActBit(PC.PLAYER_MEDITATING);
-                    ch.RemoveActBit(PC.PLAYER_MEMORIZING);
+                    ch.RemoveActionBit(PC.PLAYER_MEDITATING);
+                    ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
                     ch.SendText( "Your studies are complete.\r\n" );
                     SocketConnection.Act( "$n&n is finished memorizing.", ch, null, null, SocketConnection.MessageTarget.room );
                 }
@@ -1455,12 +1455,12 @@ namespace MUDEngine
                         if( roomChar._flyLevel != ch._flyLevel )
                             continue;
                         //protectors will be aggro'd
-                        if (roomChar.HasActBit(MobTemplate.ACT_PROTECTOR) && (roomChar.GetRace() == victim.GetRace()))
+                        if (roomChar.HasActionBit(MobTemplate.ACT_PROTECTOR) && (roomChar.GetRace() == victim.GetRace()))
                         {
                             Combat.StartGrudge( roomChar, ch, true );
                         }
                         // all aggro mobs will hunt down caster
-                        if (roomChar.HasActBit(MobTemplate.ACT_AGGRESSIVE))
+                        if (roomChar.HasActionBit(MobTemplate.ACT_AGGRESSIVE))
                         {
                             Combat.StartGrudge(roomChar, ch, true);
                         }
@@ -1640,7 +1640,7 @@ namespace MUDEngine
 
                         Crime.CheckAttemptedMurder(ch, victim);
                         target = new Target(victim);
-                        ch.BreakInvis();
+                        ch.BreakInvisibility();
                         break;
 
                     case TargetType.singleCharacterDefensive:
@@ -1817,7 +1817,7 @@ namespace MUDEngine
                         Crime.CheckAttemptedMurder(ch, victim);
 
                         target = new Target(victim);
-                        ch.BreakInvis();
+                        ch.BreakInvisibility();
                         break;
                 }
 
@@ -1890,7 +1890,7 @@ namespace MUDEngine
                 caster.Who = ch;
                 caster.Eventdata = Event.CreateEvent( Event.EventType.spell_cast, beats, ch, target, spell );
                 Database.CastList.Add( caster );
-                ch.SetAffBit( Affect.AFFECT_CASTING );
+                ch.SetAffectBit( Affect.AFFECT_CASTING );
             }
             else if (ch.IsClass( CharClass.Names.psionicist))
             {
@@ -1918,7 +1918,7 @@ namespace MUDEngine
                     string buf = String.Format( "Spell {0} ({1}) being willed by {2}", spell,
                                                 spell.Name, ch._name );
                     Log.Trace( buf );
-                    ch.SetAffBit( Affect.AFFECT_CASTING );
+                    ch.SetAffectBit( Affect.AFFECT_CASTING );
                     FinishSpell( ch, spell, target );
                 }
                 if( ch._position > Position.sleeping && ch._currentMana < 0 )
@@ -1958,7 +1958,7 @@ namespace MUDEngine
                 caster.Eventdata = Event.CreateEvent( Event.EventType.bard_song, Event.TICK_SONG * 4, ch, target, spell);
                 caster.Eventdata = Event.CreateEvent( Event.EventType.bard_song, Event.TICK_SONG * 5, ch, target, spell);
                 Database.CastList.Add( caster );
-                ch.SetAffBit( Affect.AFFECT_SINGING );
+                ch.SetAffectBit( Affect.AFFECT_SINGING );
             }
             return;
         }
@@ -2034,7 +2034,7 @@ namespace MUDEngine
                 return true;
 
             // Immortals can cast without totems in god mode.
-            if (ch.IsImmortal() && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (ch.IsImmortal() && ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 return true;
             }

@@ -297,7 +297,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( !ch.IsNPC() && ch.HasActBit(PC.PLAYER_SILENCE ) )
+            if( !ch.IsNPC() && ch.HasActionBit(PC.PLAYER_SILENCE ) )
             {
                 text = String.Format( "You can't {0}.\r\n", verb );
                 ch.SendText( text );
@@ -371,7 +371,7 @@ namespace MUDEngine
                     {
                         // TODO: BUG: FIXME: Get rid of this hard-coded mob index number crap!
                         if( ( ch.IsNPC() && ( ch._mobTemplate.IndexNumber == 9316
-                                  || ch._mobTemplate.IndexNumber == 9748 ) ) || (!targetChar.IsNPC() && targetChar.HasActBit(PC.PLAYER_SHOUT)))
+                                  || ch._mobTemplate.IndexNumber == 9748 ) ) || (!targetChar.IsNPC() && targetChar.HasActionBit(PC.PLAYER_SHOUT)))
                         {
                             // Add foreign language filter
                             if( !ch.IsNPC() )
@@ -823,13 +823,13 @@ namespace MUDEngine
                         if( _connectionState == ConnectionState.playing && Outbuf.Length > 0)
                         {
                             CharData ch = Original ? Original : Character;
-                            if( ch.HasActBit(PC.PLAYER_BLANK ) )
+                            if( ch.HasActionBit(PC.PLAYER_BLANK ) )
                                 WriteToBuffer( "\r\n" );
 
-                            if( ch.HasActBit(PC.PLAYER_PROMPT ) )
+                            if( ch.HasActionBit(PC.PLAYER_PROMPT ) )
                                 ShowPrompt();
 
-                            if( ch.HasActBit(PC.PLAYER_TELNET_GA ) )
+                            if( ch.HasActionBit(PC.PLAYER_TELNET_GA ) )
                                 WriteToBuffer( GO_AHEAD_STRING );
                         }
                     }
@@ -1199,7 +1199,7 @@ namespace MUDEngine
                         if (ch._inRoom)
                         {
                             output += String.Format("{0}",
-                                    ((!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE)) ||
+                                    ((!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE)) ||
                                         (!ch.IsAffected(Affect.AFFECT_BLIND) &&
                                         !ch._inRoom.IsDark()))
                                     ? ch._inRoom.Title : "darkness");
@@ -1228,7 +1228,7 @@ namespace MUDEngine
                     case 'I':
                         if (ch.IsImmortal())
                         {
-                            output += String.Format("(wizinv: {0})", ch.HasActBit(PC.PLAYER_WIZINVIS) ?
+                            output += String.Format("(wizinv: {0})", ch.HasActionBit(PC.PLAYER_WIZINVIS) ?
                                     "on" : "off");
                         }
                         else
@@ -1449,7 +1449,7 @@ namespace MUDEngine
             int length = txt.Length;
 
             if (!Character || (length > 77 && !Character.IsNPC() && _terminalType != TerminalType.TERMINAL_ENHANCED &&
-                Character.HasActBit(PC.PLAYER_AUTOWRAP)))
+                Character.HasActionBit(PC.PLAYER_AUTOWRAP)))
             {
                 txt = MUDString.InsertLineBreaks(txt, 78);
             }
@@ -1738,7 +1738,7 @@ namespace MUDEngine
 
             if (MUDString.StringsNotEqual(argument, ((PC)Character).Password))
             {
-                WriteToBuffer("Wrong password.\r\n");
+                WriteToBuffer("Incorrect password.\r\n");
                 ShowScreen(Screen.MainMenuScreen);
                 _connectionState = ConnectionState.menu;
                 return;
@@ -1936,7 +1936,7 @@ namespace MUDEngine
 
             Character.SendText("\r\n&nWelcome to " + Database.SystemData.MudAnsiName + ".  May your visit here be... Eventful.\r\n");
 
-            if (!Character.HasActBit(PC.PLAYER_WIZINVIS) && !Character.IsAffected(Affect.AFFECT_INVISIBLE))
+            if (!Character.HasActionBit(PC.PLAYER_WIZINVIS) && !Character.IsAffected(Affect.AFFECT_INVISIBLE))
             {
                 Act("$n&n has entered the realm.", Character, null, null, MessageTarget.room);
             }
@@ -1963,9 +1963,9 @@ namespace MUDEngine
                 }
             }
 
-            if (Character.HasActBit(PC.PLAYER_JUST_DIED))
+            if (Character.HasActionBit(PC.PLAYER_JUST_DIED))
             {
-                Character.RemoveActBit(PC.PLAYER_JUST_DIED);
+                Character.RemoveActionBit(PC.PLAYER_JUST_DIED);
             }
 
             if (Character._hitpoints < 1)
@@ -1992,7 +1992,7 @@ namespace MUDEngine
 
             if (MUDString.StringsNotEqual(argument, ((PC)Character).Password))
             {
-                WriteToBuffer("\r\nThe passwords don't match.\r\nRetype your password: ");
+                WriteToBuffer("\r\nThe passwords do not match.\r\nRetype your password: ");
                 _connectionState = ConnectionState.choose_new_password;
                 return;
             }
@@ -2031,17 +2031,17 @@ namespace MUDEngine
             {
                 case 'y':
                 case 'Y':
-                    WriteToBuffer(String.Format("New character.\r\nGive me a password for {0}: ", Character._name));
+                    WriteToBuffer(String.Format("Creating a new character.\r\nGive me a password for {0}: ", Character._name));
                     _connectionState = ConnectionState.choose_new_password;
                     break;
                 case 'n':
                 case 'N':
-                    WriteToBuffer("Ok, what IS it, then? ");
+                    WriteToBuffer("Ok, what *is* your name, then? ");
                     Character = null;
                     _connectionState = ConnectionState.choose_name;
                     break;
                 default:
-                    WriteToBuffer("Please type Yes or No? ");
+                    WriteToBuffer("Please enter Yes or No? ");
                     break;
             }
         }
@@ -2086,7 +2086,7 @@ namespace MUDEngine
         {
             if (MUDString.StringsNotEqual(argument, ((PC)Character).NewPassword))
             {
-                WriteToBuffer("\r\nPasswords don't match.\r\nRetype password: ");
+                WriteToBuffer("\r\nPasswords do not match.\r\nEnter a new password: ");
                 _connectionState = ConnectionState.change_password_get_new;
                 return;
             }
@@ -2113,7 +2113,7 @@ namespace MUDEngine
 
             if (MUDString.StringsNotEqual(argument, ((PC)Character).Password))
             {
-                WriteToBuffer( "Wrong password.\r\n");
+                WriteToBuffer( "Incorrect password.\r\n");
                 ShowScreen(Screen.MainMenuScreen);
                 _connectionState = ConnectionState.menu;
                 return;
@@ -2151,7 +2151,7 @@ namespace MUDEngine
                 Character._name = argument;
             }
 
-            if (Character.HasActBit(PC.PLAYER_DENY))
+            if (Character.HasActionBit(PC.PLAYER_DENY))
             {
                 string logbuf = String.Format("Denying access to {0}@{1}.", argument, _host);
                 Log.Trace(logbuf);
@@ -2167,7 +2167,7 @@ namespace MUDEngine
             else
             {
                 /* Must be immortal with wizbit in order to get in */
-                if (Database.SystemData.GameIsWizlocked && !Character.IsHero() && !Character.HasActBit(PC.PLAYER_WIZBIT))
+                if (Database.SystemData.GameIsWizlocked && !Character.IsHero() && !Character.HasActionBit(PC.PLAYER_WIZBIT))
                 {
                     WriteToBuffer("The game is wizlocked.\r\n");
                     CloseSocket();
@@ -2180,7 +2180,7 @@ namespace MUDEngine
                     CloseSocket();
                     return;
                 }
-                if (Character._level < Database.SystemData.NumlockLevel && !Character.HasActBit(PC.PLAYER_WIZBIT))
+                if (Character._level < Database.SystemData.NumlockLevel && !Character.HasActionBit(PC.PLAYER_WIZBIT))
                 {
                     WriteToBuffer("The game is locked to your level character.\r\nTry contacting the admins for assitance.\r\n\r\n");
                     CloseSocket();
@@ -2227,7 +2227,7 @@ namespace MUDEngine
                     Character._sex = MobTemplate.Sex.female;
                     break;
                 default:
-                    WriteToBuffer("\r\nThat's not a sex.\r\nWhat IS your sex? ");
+                    WriteToBuffer("\r\nThat is not a valid sex.\r\nWhat is your sex? ");
                     return;
             }
 
@@ -2326,11 +2326,11 @@ namespace MUDEngine
 
             if (HasColor())
             {
-                Character.SetActBit(PC.PLAYER_COLOR);
+                Character.SetActionBit(PC.PLAYER_COLOR);
             }
             else
             {
-                Character.RemoveActBit(PC.PLAYER_COLOR);
+                Character.RemoveActionBit(PC.PLAYER_COLOR);
             }
 
             int lines = ((PC)Character).PageLength;
@@ -2350,7 +2350,7 @@ namespace MUDEngine
             int classnum = CheckClassSelection(argument);
             if (classnum == 0)
             {
-                WriteToBuffer("\r\nThat's not a valid class name.\r\nWhat IS your class? ");
+                WriteToBuffer("\r\nThat's not a valid class name.\r\nWhat is your class? ");
                 return;
             }
             Character._charClass = CharClass.ClassList[classnum];
@@ -2420,7 +2420,7 @@ namespace MUDEngine
             }
 
             WriteToBuffer( "\r\n" );
-            Character.RemoveActBit(PC.PLAYER_PAGER);
+            Character.RemoveActionBit(PC.PLAYER_PAGER);
             CommandType.Interpret(Character, "help " + Race.RaceList[Character.GetOrigRace()].Name);
             WriteToBuffer( "Are you sure you want to be a(n) " + Race.RaceList[Character.GetOrigRace()].Name + " (Y/N)? ");
             _connectionState = ConnectionState.confirm_new_race;
@@ -2482,11 +2482,11 @@ namespace MUDEngine
 
             if (HasColor())
             {
-                Character.SetActBit(PC.PLAYER_COLOR);
+                Character.SetActionBit(PC.PLAYER_COLOR);
             }
             else
             {
-                Character.RemoveActBit(PC.PLAYER_COLOR);
+                Character.RemoveActionBit(PC.PLAYER_COLOR);
             }
 
             int lines = ((PC)Character).PageLength;
@@ -2526,7 +2526,7 @@ namespace MUDEngine
             }
 
             ((PC)Character).NewPassword = argument;
-            WriteToBuffer("\r\nPlease retype password: ");
+            WriteToBuffer("\r\nPlease enter your password again: ");
             _connectionState = ConnectionState.change_password_confirm_new;
         }
 
@@ -2826,7 +2826,7 @@ namespace MUDEngine
             }
 
             // Bypass the paging procedure if the text output is small
-            if( txt.Length < 600 || !ch.HasActBit(PC.PLAYER_PAGER ) )
+            if( txt.Length < 600 || !ch.HasActionBit(PC.PLAYER_PAGER ) )
             {
                 ch._socket.WriteToBuffer( txt );
             }
@@ -2974,7 +2974,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( ch._socket && ch.HasActBit(PC.PLAYER_COLOR ) )
+            if( ch._socket && ch.HasActionBit(PC.PLAYER_COLOR ) )
             {
                 for( position = 0; position < txt.Length; position++ )
                 {
@@ -3439,9 +3439,9 @@ namespace MUDEngine
 
             try
             {
-                if (ch.HasActBit(PC.PLAYER_CAMPING))
+                if (ch.HasActionBit(PC.PLAYER_CAMPING))
                 {
-                    ch.RemoveActBit(PC.PLAYER_CAMPING);
+                    ch.RemoveActionBit(PC.PLAYER_CAMPING);
                     Act("You climb into your bedroll and leave the realm.", ch, null, null, MessageTarget.character);
                     if (ch._sex == MobTemplate.Sex.male)
                         Act("$n&n climbs into his bedroll and leaves the realm.", ch, null, null, MessageTarget.room);
@@ -3698,7 +3698,7 @@ namespace MUDEngine
             // Set default prompt to "prompt meter" text.
             ((PC)Character).Prompt = "&n&+g<%h&n&+g/%H&n&+ghp %mm/%MM %v&n&+g/%V&n&+gmv>\r\n&n&+g<&n%d&n %b&+g>&n ";
 
-            Character.SetActBit( PC.PLAYER_PAGER );
+            Character.SetActionBit( PC.PLAYER_PAGER );
 
             Character.ReceiveNewbieEquipment();
 

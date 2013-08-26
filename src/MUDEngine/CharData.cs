@@ -853,6 +853,10 @@ namespace MUDEngine
             return buf;
         }
 
+        /// <summary>
+        /// Gets the character's racewar side.
+        /// </summary>
+        /// <returns></returns>
         public Race.RacewarSide GetRacewarSide()
         {
             return Race.RaceList[ GetOrigRace() ].WarSide;
@@ -867,18 +871,25 @@ namespace MUDEngine
             _race = newrace;
         }
 
-        // Returns amount of cash cash a player has denominated in copper pieces.
+        /// <summary>
+        /// Returns amount of cash cash a player has denominated in copper pieces.
+        /// </summary>
+        /// <returns></returns>
         public int GetCash()
         {
             return ( _money.Copper + ( _money.Silver * 10 ) +
                     ( _money.Gold * 100 ) + ( _money.Platinum * 1000 ) );
         }
 
+        /// <summary>
+        /// Remove the specified amount of coins from the player.
+        /// </summary>
+        /// <param name="amount">The amount of money in copper pieces.</param>
         public void SpendCash( int amount )
         {
             if( GetCash() < amount )
             {
-                Log.Error( "SpendCash(): spending more money than player has.", 0 );
+                Log.Error( "SpendCash(): Spending more money than player has.", 0 );
                 _money.Copper = 0;
                 _money.Silver = 0;
                 _money.Gold = 0;
@@ -886,7 +897,7 @@ namespace MUDEngine
             }
 
             // Note that this will automatically convert a player's coins
-            // to the most efficient type to carry - Xangis
+            // to the most efficient type to carry.
             int value = GetCash();
             _money.Copper = 0;
             _money.Silver = 0;
@@ -1068,6 +1079,10 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Extends a character's affect vector data. Used when the number of affect
+        /// vectors is increased. Allows seamless forward-versioning of XML storage.
+        /// </summary>
         protected void ExtendAffectData()
         {
             if (_affectedBy.Length < Limits.NUM_AFFECT_VECTORS)
@@ -1123,8 +1138,11 @@ namespace MUDEngine
             }
         }
 
-        // These three functions are only used for affect manipulation - Xangis
-        public void SetAffBit(Bitvector bvect)
+        /// <summary>
+        /// Sets an affect bit on the character.
+        /// </summary>
+        /// <param name="bvect"></param>
+        public void SetAffectBit(Bitvector bvect)
         {
             _affectedBy[ bvect.Group ] |= bvect.Vector;
             return;
@@ -1135,38 +1153,58 @@ namespace MUDEngine
         /// through RemoveAffect().
         /// </summary>
         /// <param name="bvect"></param>
-        private void RemoveAffBit( Bitvector bvect )
+        private void RemoveAffectBit( Bitvector bvect )
         {
             _affectedBy[ bvect.Group ] &= ~( bvect.Vector );
             return;
         }
 
-        public void ToggleAffBit( Bitvector bvect )
+        /// <summary>
+        /// Toggles an affect bit on the character.
+        /// </summary>
+        /// <param name="bvect"></param>
+        public void ToggleAffectBit( Bitvector bvect )
         {
             _affectedBy[ bvect.Group ] ^= bvect.Vector;
             return;
         }
             
-        // These four functions are only used for act flag manipulation.
-        public void SetActBit(Bitvector bvect)
+        /// <summary>
+        /// Sets an action bit on the character.
+        /// </summary>
+        /// <param name="bvect"></param>
+        public void SetActionBit(Bitvector bvect)
         {
             _actionFlags[bvect.Group] |= bvect.Vector;
             return;
         }
 
-        public void RemoveActBit(Bitvector bvect)
+        /// <summary>
+        /// Removes an action bit from the character.
+        /// </summary>
+        /// <param name="bvect"></param>
+        public void RemoveActionBit(Bitvector bvect)
         {
             _actionFlags[bvect.Group] &= ~(bvect.Vector);
             return;
         }
 
-        public void ToggleActBit(Bitvector bvect)
+        /// <summary>
+        /// Toggles an action bit on the character.
+        /// </summary>
+        /// <param name="bvect"></param>
+        public void ToggleActionBit(Bitvector bvect)
         {
             _actionFlags[bvect.Group] ^= bvect.Vector;
             return;
         }
 
-        public bool HasActBit(Bitvector bvect)
+        /// <summary>
+        /// Checks whether the character has an action bit set.
+        /// </summary>
+        /// <param name="bvect"></param>
+        /// <returns></returns>
+        public bool HasActionBit(Bitvector bvect)
         {
             if( Macros.IsSet( _actionFlags[ bvect.Group ], bvect.Vector ) )
             {
@@ -1221,7 +1259,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsNPC()
         {
-            return HasActBit( MobTemplate.ACT_IS_NPC );
+            return HasActionBit( MobTemplate.ACT_IS_NPC );
         }
 
         /// <summary>
@@ -1239,42 +1277,77 @@ namespace MUDEngine
             return ( GetTrust() >= Limits.LEVEL_HERO );
         }
 
+        /// <summary>
+        /// Is the character of good alignment?
+        /// </summary>
+        /// <returns></returns>
         public bool IsGood()
         {
             return ( _alignment >= 350 );
         }
 
+        /// <summary>
+        /// Is the character of neutral alignment?
+        /// </summary>
+        /// <returns></returns>
         public bool IsNeutral()
         {
             return ( !IsGood() && !IsEvil() );
         }
 
+        /// <summary>
+        /// Is the character of evil alignment?
+        /// </summary>
+        /// <returns></returns>
         public bool IsEvil()
         {
             return ( _alignment <= -350 );
         }
 
+        /// <summary>
+        /// Does the character hate the victim?
+        /// </summary>
+        /// <param name="victim"></param>
+        /// <returns></returns>
         public bool IsHating( CharData victim )
         {
-            foreach( EnemyData hhf in _hating )
+            foreach( EnemyData enemy in _hating )
             {
-                if( hhf.Who == victim )
+                if (enemy.Who == victim)
+                {
                     return true;
+                }
             }
             return false;
         }
 
+        /// <summary>
+        /// Is the character awake?
+        /// </summary>
+        /// <returns></returns>
         public bool IsAwake()
         {
             return ( _position > Position.sleeping );
         }
 
+        /// <summary>
+        /// Is the character outdoors?
+        /// </summary>
+        /// <returns></returns>
         public bool IsOutside()
         {
-            if( !_inRoom )
+            if (!_inRoom)
+            {
                 return false;
+            }
 
-            return ( !_inRoom.HasFlag( RoomTemplate.ROOM_INDOORS ) );
+            if (_inRoom.HasFlag(RoomTemplate.ROOM_INDOORS) || _inRoom.TerrainType == TerrainType.inside ||
+                _inRoom.TerrainType == TerrainType.underground_indoors)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -1334,6 +1407,10 @@ namespace MUDEngine
             }
         }
 
+        /// <summary>
+        /// Checks whether the character is below ground.
+        /// </summary>
+        /// <returns></returns>
         public bool IsUnderground()
         {
             if( !_inRoom )
@@ -1342,11 +1419,11 @@ namespace MUDEngine
             }
 
             if( _inRoom.TerrainType == TerrainType.underground_wild
-                    || _inRoom.TerrainType == TerrainType.underground_city
-                    || _inRoom.TerrainType == TerrainType.underground_indoors
-                    || _inRoom.TerrainType == TerrainType.underground_swimmable_water
-                    || _inRoom.TerrainType == TerrainType.underground_unswimmable_water
-                    || _inRoom.TerrainType == TerrainType.underground_no_ground )
+                || _inRoom.TerrainType == TerrainType.underground_city
+                || _inRoom.TerrainType == TerrainType.underground_indoors
+                || _inRoom.TerrainType == TerrainType.underground_swimmable_water
+                || _inRoom.TerrainType == TerrainType.underground_unswimmable_water
+                || _inRoom.TerrainType == TerrainType.underground_no_ground )
             {
                 return true;
             }
@@ -1354,16 +1431,28 @@ namespace MUDEngine
             return false;
         }
 
+        /// <summary>
+        /// Checks whether the character is undead.
+        /// </summary>
+        /// <returns></returns>
         public bool IsUndead()
         {
             return ( GetRace() == Race.RACE_VAMPIRE || GetRace() == Race.RACE_GHOST || GetRace() == Race.RACE_DRACOLICH || GetRace() == Race.RACE_UNDEAD );
         }
 
+        /// <summary>
+        /// Checks whether the character is an elemental.
+        /// </summary>
+        /// <returns></returns>
         public bool IsElemental()
         {
             return ( GetRace() == Race.RACE_AIR_ELE || GetRace() == Race.RACE_FIRE_ELE || GetRace() == Race.RACE_EARTH_ELE || GetRace() == Race.RACE_WATER_ELE );
         }
 
+        /// <summary>
+        /// Checks whether the character is able to talk.
+        /// </summary>
+        /// <returns></returns>
         public bool CanSpeak()
         {
             if( IsAffected( Affect.AFFECT_MUTE ) || HasInnate( Race.RACE_MUTE ) )
@@ -1378,17 +1467,23 @@ namespace MUDEngine
             return true;
         }
 
-        public void BreakMed()
+        /// <summary>
+        /// Something has happened to make the character stop meditating. Make them that way and print a message.
+        /// </summary>
+        public void BreakMeditate()
         {
-            if (!IsNPC() && HasActBit(PC.PLAYER_MEDITATING))
+            if (!IsNPC() && HasActionBit(PC.PLAYER_MEDITATING))
             {
                 SocketConnection.Act( "$n&n is disrupted from meditation.", this, null, null, SocketConnection.MessageTarget.room );
                 SocketConnection.Act( "Your meditation is disrupted.", this, null, null, SocketConnection.MessageTarget.character );
-                RemoveActBit( PC.PLAYER_MEDITATING );
+                RemoveActionBit( PC.PLAYER_MEDITATING );
             }
         }
 
-        public void BreakInvis()
+        /// <summary>
+        /// Something has happened to cause the character to turn visible. Make them that way and print a message.
+        /// </summary>
+        public void BreakInvisibility()
         {
             
             if( IsAffected( Affect.AFFECT_INVISIBLE ) )
@@ -1399,23 +1494,30 @@ namespace MUDEngine
                 SocketConnection.Act( "$n&n snaps into visibility.", this, null, null, SocketConnection.MessageTarget.room );
                 SendText( "You snap into visibility.\r\n" );
             }
-            if (HasActBit(PC.PLAYER_WIZINVIS) && !IsImmortal())
+            if (HasActionBit(PC.PLAYER_WIZINVIS) && !IsImmortal())
             {
-                RemoveActBit(PC.PLAYER_WIZINVIS);
+                RemoveActionBit(PC.PLAYER_WIZINVIS);
             }
 
         }
 
-        public void BreakMem()
+        /// <summary>
+        /// Something has happened to interrupt the character's memorization. Make them that way and print a message.
+        /// </summary>
+        public void BreakMemorization()
         {
-            if (!IsNPC() && HasActBit(PC.PLAYER_MEMORIZING))
+            if (!IsNPC() && HasActionBit(PC.PLAYER_MEMORIZING))
             {
                 SocketConnection.Act( "$n&n abandons $s studies.", this, null, null, SocketConnection.MessageTarget.room );
                 SocketConnection.Act( "You abandon your studies.", this, null, null, SocketConnection.MessageTarget.character );
-                RemoveActBit(PC.PLAYER_MEMORIZING);
+                RemoveActionBit(PC.PLAYER_MEMORIZING);
             }
         }
 
+        /// <summary>
+        /// Can the character move under their own power?
+        /// </summary>
+        /// <returns></returns>
         public bool CanMove()
         {
             if( IsAffected( Affect.AFFECT_HOLD ) )
@@ -1430,9 +1532,17 @@ namespace MUDEngine
             {
                 return false;
             }
+            if (!IsAwake())
+            {
+                return false;
+            }
             return true;
         }
 
+        /// <summary>
+        /// Is the character able to fly?
+        /// </summary>
+        /// <returns></returns>
         public bool CanFly()
         {
             if (IsAffected(Affect.AFFECT_FLYING) || HasInnate(Race.RACE_FLY))
@@ -1443,9 +1553,13 @@ namespace MUDEngine
             return false;
         }
 
+        /// <summary>
+        /// Is the character blind?
+        /// </summary>
+        /// <returns></returns>
         public bool IsBlind()
         {
-            if (!IsNPC() && HasActBit(PC.PLAYER_GODMODE))
+            if (!IsNPC() && HasActionBit(PC.PLAYER_GODMODE))
             {
                 return false;
             }
@@ -1459,9 +1573,13 @@ namespace MUDEngine
             return false;
         }
 
+        /// <summary>
+        /// Does the character have free will (not charmed)?
+        /// </summary>
+        /// <returns></returns>
         public bool IsFreewilled()
         {
-            if (HasActBit(MobTemplate.ACT_PET) && _master)
+            if (HasActionBit(MobTemplate.ACT_PET) && _master)
             {
                 return false;
             }
@@ -1945,7 +2063,7 @@ namespace MUDEngine
             }
 
             // Prevents infinite move loop in maze zone when group has 2 leaders 
-            if (HasActBit(moved))
+            if (HasActionBit(moved))
             {
                 return;
             }
@@ -2257,20 +2375,19 @@ namespace MUDEngine
                     }
 
                     if( _riding != null && ( _riding.HasInnate( Race.RACE_WATERWALK )
-                                         || _riding.HasInnate( Race.RACE_SWIM ) ) )
+                        || _riding.HasInnate( Race.RACE_SWIM ) ) )
                     {
                         found = true;
                     }
 
-                    if( HasInnate( Race.RACE_WATERWALK )
-                            || HasInnate( Race.RACE_SWIM ) )
+                    if( HasInnate( Race.RACE_WATERWALK ) || HasInnate( Race.RACE_SWIM ) )
                     {
                         found = true;
                     }
 
                     if( !found )
                     {
-                        SendText( "You need a boat to go there.\r\n" );
+                        SendText( "You can't go there without a boat.\r\n" );
                         return;
                     }
                 }
@@ -2280,8 +2397,7 @@ namespace MUDEngine
                     if( ( inRoom.TerrainType == TerrainType.underwater_has_ground
                             || toRoom.TerrainType == TerrainType.underwater_has_ground )
                             && !_riding.HasInnate( Race.RACE_SWIM )
-                            && ( !_riding.IsNPC()
-                                 && ((PC)this).SkillAptitude["swim"] == 0))
+                            && ( !_riding.IsNPC() && ((PC)this).SkillAptitude["swim"] == 0))
                     {
                         SendText( "Your mount needs to be able to swim better to go there.\r\n" );
                         return;
@@ -2291,8 +2407,7 @@ namespace MUDEngine
                 {
                     if( ( inRoom.TerrainType == TerrainType.underwater_has_ground
                             || toRoom.TerrainType == TerrainType.underwater_has_ground )
-                            && !HasInnate( Race.RACE_SWIM )
-                            && ((PC)this).SkillAptitude["swim"] == 0)
+                            && !HasInnate( Race.RACE_SWIM ) && ((PC)this).SkillAptitude["swim"] == 0)
                     {
                         SendText( "You need to be able to swim better to go there.\r\n" );
                         PracticeSkill( "swim" );
@@ -2300,7 +2415,7 @@ namespace MUDEngine
                     }
                     else if( (toRoom.TerrainType == TerrainType.ocean || inRoom.TerrainType == TerrainType.ocean ||
                         toRoom.TerrainType == TerrainType.underground_ocean || inRoom.TerrainType == TerrainType.underground_ocean ) &&
-                        (!IsImmortal() || !HasActBit(PC.PLAYER_GODMODE)))
+                        (!IsImmortal() || !HasActionBit(PC.PLAYER_GODMODE)))
                     {
                         SendText("The ocean is much too turbulent for your swimming ability.\r\n");
                         return;
@@ -2370,7 +2485,7 @@ namespace MUDEngine
                 }
             }
 
-            if (!CheckSneak() && !HasActBit(PC.PLAYER_WIZINVIS)
+            if (!CheckSneak() && !HasActionBit(PC.PLAYER_WIZINVIS)
                     && !IsAffected( Affect.AFFECT_IS_FLEEING ) )
             {
                 if( ( ( inRoom.TerrainType == TerrainType.swimmable_water )
@@ -2545,7 +2660,7 @@ namespace MUDEngine
                 CommandType.Interpret(this, "look auto");
             }
 
-            SetActBit(moved );
+            SetActionBit(moved );
 
             // Handle following.
             for( int i = _inRoom.People.Count -1; i >= 0; i--)
@@ -2563,7 +2678,7 @@ namespace MUDEngine
                 }
             }
 
-            RemoveActBit(moved);
+            RemoveActionBit(moved);
 
             // Okay, now that they're in to room, check to see if they've just invaded a
             // hometown
@@ -4201,7 +4316,7 @@ namespace MUDEngine
                         break;
                     case Position.resting:
                         percent += 50;
-                        if (ch.HasActBit(PC.PLAYER_MEDITATING))
+                        if (ch.HasActionBit(PC.PLAYER_MEDITATING))
                         {
                             percent += 50;
                             int number = MUDMath.NumberPercent();
@@ -5597,17 +5712,17 @@ namespace MUDEngine
             }
 
             /* All mobiles cannot see wizinvised immorts */
-            if (ch.IsNPC() && !ch.IsNPC() && ch.HasActBit(PC.PLAYER_WIZINVIS))
+            if (ch.IsNPC() && !ch.IsNPC() && ch.HasActionBit(PC.PLAYER_WIZINVIS))
             {
                 return false;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < ch._level)
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < ch._level)
             {
                 return false;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 return true;
             }
@@ -5673,7 +5788,7 @@ namespace MUDEngine
                 return false;
             }
 
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))
                 return true;
 
             if( ch.IsAffected( Affect.AFFECT_BLIND ) || ch._position <= Position.sleeping )
@@ -5902,7 +6017,7 @@ namespace MUDEngine
                     RemoveAffect( _affected[i] );
                 }
             }
-            RemoveAffBit(bvect);
+            RemoveAffectBit(bvect);
         }
 
         /// <summary>
@@ -5913,7 +6028,7 @@ namespace MUDEngine
         /// <param name="txt"></param>
         public void SendSound(string txt)
         {
-            if (IsNPC() || !HasActBit(PC.PLAYER_MSP) ||
+            if (IsNPC() || !HasActionBit(PC.PLAYER_MSP) ||
                 Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.disablemsp))
             {
                 return;
@@ -5938,7 +6053,7 @@ namespace MUDEngine
         /// <param name="txt"></param>
         public void SendMusic(string txt)
         {
-            if (IsNPC() || !HasActBit(PC.PLAYER_MSP))
+            if (IsNPC() || !HasActionBit(PC.PLAYER_MSP))
             {
                 return;
             }
@@ -5987,7 +6102,7 @@ namespace MUDEngine
                     }
                     else
                     {
-                        if (HasActBit(PC.PLAYER_COLOR))
+                        if (HasActionBit(PC.PLAYER_COLOR))
                         {
                             output += SocketConnection.GetColorCode( txt.Substring(point) );
                             if( input[ point ] != 'n' && input[ point ] != 'N' )
@@ -6019,7 +6134,7 @@ namespace MUDEngine
 
             // Bypass the paging procedure if the text output is small
             // Saves process time.
-            if (output.Length < 500 || !HasActBit(PC.PLAYER_PAGER))
+            if (output.Length < 500 || !HasActionBit(PC.PLAYER_PAGER))
             {
                 _socket.WriteToBuffer( output );
             }
@@ -6256,7 +6371,7 @@ namespace MUDEngine
                 return false;
 
             // Invisible immortals auto-sneak.
-            if (HasActBit(PC.PLAYER_WIZINVIS))
+            if (HasActionBit(PC.PLAYER_WIZINVIS))
                 return true;
 
             // If PCs pass their sneak check, then yes.
@@ -6405,32 +6520,32 @@ namespace MUDEngine
                 Log.Trace("Returning true for is_aggro due to race hatred.");
                 return true;
             }
-            if (ch.HasActBit(MobTemplate.ACT_AGGROGOOD) && victim.IsGood())
+            if (ch.HasActionBit(MobTemplate.ACT_AGGROGOOD) && victim.IsGood())
             {
                 Log.Trace("Returning true for is_aggro due to aggro good and good victim.");
                 return true;
             }
-            if (ch.HasActBit(MobTemplate.ACT_AGGROEVIL) && victim.IsEvil())
+            if (ch.HasActionBit(MobTemplate.ACT_AGGROEVIL) && victim.IsEvil())
             {
                 Log.Trace("Returning true for is_aggro due to aggro evil and evil victim.");
                 return true;
             }
-            if (ch.HasActBit(MobTemplate.ACT_AGGRONEUT) && victim.IsNeutral())
+            if (ch.HasActionBit(MobTemplate.ACT_AGGRONEUT) && victim.IsNeutral())
             {
                 Log.Trace("Returning true for is_aggro due to aggro neutral and neutral victim.");
                 return true;
             }
-            if (ch.HasActBit(MobTemplate.ACT_AGGROEVILRACE) && victim.GetRacewarSide() == Race.RacewarSide.evil)
+            if (ch.HasActionBit(MobTemplate.ACT_AGGROEVILRACE) && victim.GetRacewarSide() == Race.RacewarSide.evil)
             {
                 Log.Trace("Returning true for is_aggro due to aggro evil race and victim evil racewar.");
                 return true;
             }
-            if (ch.HasActBit(MobTemplate.ACT_AGGROGOODRACE) && victim.GetRacewarSide() == Race.RacewarSide.good)
+            if (ch.HasActionBit(MobTemplate.ACT_AGGROGOODRACE) && victim.GetRacewarSide() == Race.RacewarSide.good)
             {
                 Log.Trace("Returning true for is_aggro due to aggro good race and victim good racewar.");
                 return true;
             }
-            if (ch.HasActBit(MobTemplate.ACT_AGGRESSIVE))
+            if (ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE))
             {
                 Log.Trace("Returning true for is_aggro due to aggressive flag on ch.");
                 return true;
@@ -7185,8 +7300,8 @@ namespace MUDEngine
         /// Applies modifiers of an affect to a character.  Called when adding and removing affects
         /// to/from a char.
         /// </summary>
-        /// <param name="ch">The character affected.</param>
-        /// <param name="fAdd">True if the affect is being added, false if it is being removed.</param>
+        /// <param name="af">The affect to apply.</param>
+        /// <param name="addingAffect">True if the affect is being added, false if it is being removed.</param>
         public void ApplyAffectModifiers(Affect af, bool addingAffect)
         {
             if (af == null)
@@ -7637,6 +7752,23 @@ namespace MUDEngine
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the maximum number of items the character can carry, modified by dexterity.
+        /// </summary>
+        /// <returns></returns>
+        internal int GetMaxItemsCarried()
+        {
+            if (IsNPC())
+            {
+                return Limits.MAX_CARRY;
+            }
+            else
+            {
+                // Assume a dexterity of 80 gives you full carry ability.
+                return GetCurrDex() / 20 + (Limits.MAX_CARRY - 4);
+            }
         }
     }
 }

@@ -11,25 +11,58 @@ namespace MUDEngine
     /// </summary>
     public class Crime
     {
+        /// <summary>
+        /// Person who has committed the crime.
+        /// </summary>
         public string Criminal { get; set; }
+
+        /// <summary>
+        /// Person who was wronged.
+        /// </summary>
         public string Victim { get; set; }
+
+        /// <summary>
+        /// Zone where the crime was committed.
+        /// </summary>
         public string Zone { get; set; }
+
+        /// <summary>
+        /// The type of crime.
+        /// </summary>
         public int CrimeType { get; set; }
+
+        /// <summary>
+        /// Time the crime was committed.
+        /// </summary>
         public DateTime Time { get; set; }
+
+        /// <summary>
+        /// Status of the cimr.e
+        /// </summary>
         public CrimeStatus Status { get; set; }
+
         private static int _numCrimes;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Crime()
         {
             Time = DateTime.Now;
             ++_numCrimes;
         }
 
+        /// <summary>
+        /// Destructor, decrements in-memory count of crimes.
+        /// </summary>
         ~Crime()
         {
             --_numCrimes;
         }
 
+        /// <summary>
+        /// Gets the number of crimes in memory.
+        /// </summary>
         public static int Count
         {
             get
@@ -56,6 +89,9 @@ namespace MUDEngine
         const int CRIME_SUMMONING = Bitvector.BV16; // summoning creatures
         const int CRIME_BLASPHEMY = Bitvector.BV17; // insulting the gods
 
+        /// <summary>
+        /// The status of a crime - where it is in the justice system/process.
+        /// </summary>
         [Flags]
         public enum CrimeStatus
         {
@@ -113,7 +149,7 @@ namespace MUDEngine
 
             foreach( CharData roomChar in ch._inRoom.People )
             {
-                if( roomChar.IsNPC() && roomChar.HasActBit( MobTemplate.ACT_WITNESS ) )
+                if( roomChar.IsNPC() && roomChar.HasActionBit( MobTemplate.ACT_WITNESS ) )
                 {
                     // Crime committed and witnessed by a mob, add a crime data
                     CreateCrime( ch, victim, CRIME_ATT_MURDER );
@@ -170,7 +206,7 @@ namespace MUDEngine
 
             foreach( CharData roomChar in ch._inRoom.People )
             {
-                if( roomChar.IsNPC() && roomChar.HasActBit(MobTemplate.ACT_WITNESS ) )
+                if( roomChar.IsNPC() && roomChar.HasActionBit(MobTemplate.ACT_WITNESS ) )
                 {
                     // Crime committed and witnessed by an NPC, add a crime data
                     CreateCrime( ch, victim, CRIME_THEFT );
@@ -372,12 +408,12 @@ namespace MUDEngine
                 }
                 mob = Database.CreateMobile( Database.GetMobTemplate( ch._inRoom.Area.DefenderTemplateNumber ) );
                 mob.AddToRoom( Room.GetRoom( ch._inRoom.Area.BarracksRoom ) );
-                if (!mob.HasActBit(MobTemplate.ACT_MEMORY))
-                    mob.SetActBit( MobTemplate.ACT_MEMORY );
-                if (!mob.HasActBit(MobTemplate.ACT_HUNTER))
-                    mob.SetActBit( MobTemplate.ACT_HUNTER );
-                if (mob.HasActBit(MobTemplate.ACT_SENTINEL))
-                    mob.RemoveActBit(MobTemplate.ACT_SENTINEL);
+                if (!mob.HasActionBit(MobTemplate.ACT_MEMORY))
+                    mob.SetActionBit( MobTemplate.ACT_MEMORY );
+                if (!mob.HasActionBit(MobTemplate.ACT_HUNTER))
+                    mob.SetActionBit( MobTemplate.ACT_HUNTER );
+                if (mob.HasActionBit(MobTemplate.ACT_SENTINEL))
+                    mob.RemoveActionBit(MobTemplate.ACT_SENTINEL);
                 mob._mobTemplate.AddSpecFun( "spec_justice_guard" );
                 Combat.StartGrudge( mob, ch, false );
                 ch._inRoom.Area.NumDefendersDispatched++;
@@ -393,12 +429,12 @@ namespace MUDEngine
         {
             CharData mob = Database.CreateMobile( Database.GetMobTemplate( ch._inRoom.Area.DefenderTemplateNumber ) );
             mob.AddToRoom( Room.GetRoom( ch._inRoom.Area.BarracksRoom ) );
-            if (!mob.HasActBit(MobTemplate.ACT_MEMORY))
-                mob.SetActBit( MobTemplate.ACT_MEMORY );
-            if (!mob.HasActBit(MobTemplate.ACT_HUNTER))
-                if (mob.HasActBit(MobTemplate.ACT_SENTINEL))
-                    mob.RemoveActBit(MobTemplate.ACT_SENTINEL);
-            mob.SetAffBit( Affect.AFFECT_JUSTICE_TRACKER );
+            if (!mob.HasActionBit(MobTemplate.ACT_MEMORY))
+                mob.SetActionBit( MobTemplate.ACT_MEMORY );
+            if (!mob.HasActionBit(MobTemplate.ACT_HUNTER))
+                if (mob.HasActionBit(MobTemplate.ACT_SENTINEL))
+                    mob.RemoveActionBit(MobTemplate.ACT_SENTINEL);
+            mob.SetAffectBit( Affect.AFFECT_JUSTICE_TRACKER );
             mob._mobTemplate.AddSpecFun( "spec_justice_guard" );
             Combat.StartGrudge( mob, ch, false );
 

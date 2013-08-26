@@ -451,7 +451,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n says, 'Stop, $N&n, you're under ARREST!'", ch, null, victim, SocketConnection.MessageTarget.room);
                 SocketConnection.Act("$n&n chains you up.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n binds $N&n so $E can't move.", ch, null, victim, SocketConnection.MessageTarget.room);
-                victim.SetAffBit(Affect.AFFECT_BOUND);
+                victim.SetAffectBit(Affect.AFFECT_BOUND);
                 victim.RemoveFromRoom();
 
                 if (ch._inRoom.Area.JailRoom != 0)

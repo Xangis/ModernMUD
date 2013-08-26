@@ -727,7 +727,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsWearableBy(CharData ch)
         {
-            if (ch.IsImmortal() && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (ch.IsImmortal() && ch.HasActionBit(PC.PLAYER_GODMODE))
                 return true;
 
             if (ch.IsClass(CharClass.Names.monk))
@@ -1965,7 +1965,7 @@ namespace MUDEngine
             }
             if (obj.HasAffect(Affect.AFFECT_FLYING) && !ch.IsAffected(Affect.AFFECT_FLYING))
             {
-                ch.SetAffBit(Affect.AFFECT_FLYING);
+                ch.SetAffectBit(Affect.AFFECT_FLYING);
                 ch.SendText("Your feet rise off the ground.\r\n");
                 SocketConnection.Act("$n's feet rise off the ground.", ch, null, null, SocketConnection.MessageTarget.room);
             }
@@ -2628,9 +2628,9 @@ namespace MUDEngine
             mob._sex = mobTemplate.Gender;
             mob.SetPermRace( mobTemplate.Race );
             mob._size = Race.RaceList[ mob.GetRace() ].DefaultSize;
-            if (mob.HasActBit(MobTemplate.ACT_SIZEMINUS))
+            if (mob.HasActionBit(MobTemplate.ACT_SIZEMINUS))
                 mob._size--;
-            if (mob.HasActBit(MobTemplate.ACT_SIZEPLUS))
+            if (mob.HasActionBit(MobTemplate.ACT_SIZEPLUS))
                 mob._size++;
 
             mob._castingSpell = 0;

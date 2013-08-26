@@ -230,7 +230,7 @@ namespace MUDEngine
                     if (((CharData)eventdata._arg1).IsAffected(Affect.AFFECT_CASTING))
                     {
                         if( !( (CharData)eventdata._arg1 ).IsNPC()
-                                && ( (CharData)eventdata._arg1 ).HasActBit(PC.PLAYER_CAST_TICK )
+                                && ( (CharData)eventdata._arg1 ).HasActionBit(PC.PLAYER_CAST_TICK )
                                 && eventdata._time > 0
                                 && eventdata._time % TICK_PER_SECOND == 0 )
                         {
@@ -359,7 +359,7 @@ namespace MUDEngine
                                 break;
                             }
                             Log.Trace( "removing just died bit" );
-                            ( (CharData)eventdata._arg1 ).RemoveActBit(PC.PLAYER_JUST_DIED );
+                            ( (CharData)eventdata._arg1 ).RemoveActionBit(PC.PLAYER_JUST_DIED );
                             Log.Trace( "done with just died eventdata, erasing from list" );
                             Database.EventList.Remove( it );
                             Log.Trace( "deleting just died eventdata." );
@@ -528,7 +528,7 @@ namespace MUDEngine
                             // Camp_update returns true if they're still camping.
                             if( !CampUpdate( (CharData)eventdata._arg1, (Room)eventdata._arg2 ) )
                             {
-                                ( (CharData)eventdata._arg1 ).RemoveActBit(PC.PLAYER_CAMPING );
+                                ( (CharData)eventdata._arg1 ).RemoveActionBit(PC.PLAYER_CAMPING );
                                 Database.EventList.Remove( it );
                             }
                             else
@@ -826,12 +826,12 @@ namespace MUDEngine
         {
             if( !ch || !room || ch._position <= Position.incapacitated )
                 return false;
-            if( !ch.HasActBit(PC.PLAYER_CAMPING ) )
+            if( !ch.HasActionBit(PC.PLAYER_CAMPING ) )
                 return false;
             if( ch._position == Position.fighting || ch._fighting || ch._inRoom != room )
             {
                 ch.SendText( "So much for that camping effort.\r\n" );
-                ch.RemoveActBit(PC.PLAYER_CAMPING);
+                ch.RemoveActionBit(PC.PLAYER_CAMPING);
                 return false;
             }
             return true;
@@ -952,7 +952,7 @@ namespace MUDEngine
                 }
 
                 // Scavenge
-                if( ch.HasActBit(MobTemplate.ACT_SCAVENGER )
+                if( ch.HasActionBit(MobTemplate.ACT_SCAVENGER )
                         && ch._inRoom.Contents.Count != 0
                         && MUDMath.NumberBits( 2 ) == 0 )
                 {
@@ -988,9 +988,9 @@ namespace MUDEngine
                 }
 
                 int door;
-                if( !ch.HasActBit(MobTemplate.ACT_SENTINEL ) && ( door = MUDMath.NumberBits( rnum ) ) < Limits.MAX_DIRECTION
+                if( !ch.HasActionBit(MobTemplate.ACT_SENTINEL ) && ( door = MUDMath.NumberBits( rnum ) ) < Limits.MAX_DIRECTION
                         && (exit = ch._inRoom.ExitData[door]) && exit.TargetRoom && !exit.HasFlag(Exit.ExitFlag.closed)
-                        && !Room.GetRoom(exit.IndexNumber).HasFlag( RoomTemplate.ROOM_NO_MOB ) && ( !ch.HasActBit(MobTemplate.ACT_STAY_AREA )
+                        && !Room.GetRoom(exit.IndexNumber).HasFlag( RoomTemplate.ROOM_NO_MOB ) && ( !ch.HasActionBit(MobTemplate.ACT_STAY_AREA )
                              || exit.TargetRoom.Area == ch._inRoom.Area )
                         && !( !Room.GetRoom(exit.IndexNumber).IsWater() && ch.HasInnate( Race.RACE_SWIM ) ) )
                 {
@@ -1009,7 +1009,7 @@ namespace MUDEngine
                 }
 
                 // If people are in the room, then flee.
-                if( rnum == 3 && !ch.HasActBit(MobTemplate.ACT_SENTINEL ) )
+                if( rnum == 3 && !ch.HasActionBit(MobTemplate.ACT_SENTINEL ) )
                 {
                     for (int j = (ch._inRoom.People.Count - 1); j >= 0; j-- )
                     {
@@ -1080,7 +1080,7 @@ namespace MUDEngine
                 // Wander back home last, low priority.
                 if( !ch._fighting && !ch._hunting
                         && ch._position == Position.standing
-                        && ch.HasActBit(MobTemplate.ACT_SENTINEL )
+                        && ch.HasActionBit(MobTemplate.ACT_SENTINEL )
                         && ch._loadRoomIndexNumber != 0
                         && ch._loadRoomIndexNumber != ch._inRoom.IndexNumber )
                 {
@@ -1171,7 +1171,7 @@ namespace MUDEngine
                 {
                     ch.SendText( "You become part of your surroundings.\r\n" );
                     SocketConnection.Act( "$n&n fades from view.", ch, null, null, SocketConnection.MessageTarget.room );
-                    ch.SetAffBit( Affect.AFFECT_HIDE );
+                    ch.SetAffectBit( Affect.AFFECT_HIDE );
                 }
 
                 // Careful with the damages here, MUST NOT refer to ch after damage taken,
@@ -1337,7 +1337,7 @@ namespace MUDEngine
                 if( ch.IsNPC() && Macros.IsSet( ch._mobTemplate.AffectedBy[ Affect.AFFECT_STONESKIN.Group ], Affect.AFFECT_STONESKIN.Vector ) &&
                         !ch.IsAffected( Affect.AFFECT_STONESKIN ) )
                 {
-                    ch.SetAffBit( Affect.AFFECT_STONESKIN );
+                    ch.SetAffectBit( Affect.AFFECT_STONESKIN );
                     SocketConnection.Act( "$n&+L's skin turns to stone.&n", ch, null, null, SocketConnection.MessageTarget.room );
                 }
 
@@ -1887,7 +1887,7 @@ namespace MUDEngine
                 ch = socket.Character;
 
                 if (socket.Character == null || socket._connectionState != SocketConnection.ConnectionState.playing
-                        || (ch._level >= Limits.LEVEL_HERO && ch.HasActBit(PC.PLAYER_FOG)) || !ch._inRoom)
+                        || (ch._level >= Limits.LEVEL_HERO && ch.HasActionBit(PC.PLAYER_FOG)) || !ch._inRoom)
                 {
                     continue;
                 }
@@ -1902,7 +1902,7 @@ namespace MUDEngine
                             || roomCharacter._fighting
                             || roomCharacter.IsAffected( Affect.AFFECT_CHARM )
                             || !roomCharacter.IsAwake()
-                            || (roomCharacter.HasActBit(MobTemplate.ACT_WIMPY) && ch.IsAwake())
+                            || (roomCharacter.HasActionBit(MobTemplate.ACT_WIMPY) && ch.IsAwake())
                             || ch._flyLevel != roomCharacter._flyLevel
                             || ch.IsImmortal()
                             || !CharData.CanSee( roomCharacter, ch ) )
@@ -1937,7 +1937,7 @@ namespace MUDEngine
                                 || !CharData.CanSee( roomCharacter, possibleVictim )
                                 || !roomCharacter.IsAggressive(possibleVictim))
                             continue;
-                        if ((!roomCharacter.HasActBit(MobTemplate.ACT_WIMPY) || !possibleVictim.IsAwake())
+                        if ((!roomCharacter.HasActionBit(MobTemplate.ACT_WIMPY) || !possibleVictim.IsAwake())
                                 && CharData.CanSee( roomCharacter, possibleVictim ) )
                         {
                             if( MUDMath.NumberRange( 0, count ) == 0 )
@@ -2113,7 +2113,7 @@ namespace MUDEngine
                     // IF a character is fighting a  mobile, then we can check for assist.
                     // protector mobs will only assist their own race, a group member,
                     // or a follower/leader
-                    if (ch.IsNPC() && ch.HasActBit(MobTemplate.ACT_PROTECTOR)
+                    if (ch.IsNPC() && ch.HasActionBit(MobTemplate.ACT_PROTECTOR)
                             && !ch._fighting && ch._position > Position.sleeping)
                     {
                         if (irch.GetRace() == ch.GetRace())

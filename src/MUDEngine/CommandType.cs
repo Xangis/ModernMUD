@@ -450,11 +450,11 @@ namespace MUDEngine
             // Remove AFK
             if (!ch.IsNPC())
             {
-                ch.RemoveActBit(PC.PLAYER_AFK);
+                ch.RemoveActionBit(PC.PLAYER_AFK);
             }
 
             // Implement freeze command.
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_FREEZE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_FREEZE))
             {
                 ch.SendText("You're totally frozen!\r\n");
                 return;
@@ -573,7 +573,7 @@ namespace MUDEngine
                     logline = "---- Nothing to see here ----";
                 }
 
-                if ((!ch.IsNPC() && ch.HasActBit(PC.PLAYER_LOG)) || fLogAll
+                if ((!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_LOG)) || fLogAll
                         || CommandTable[cmd]._logType == LogType.always)
                 {
                     string logBuf = String.Format("Log {0}: {1}", ch._name, logline);
@@ -591,9 +591,9 @@ namespace MUDEngine
                 // Break meditate
                 if (CommandTable[cmd].BreakMeditate)
                 {
-                    if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_MEDITATING))
+                    if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_MEDITATING))
                     {
-                        ch.RemoveActBit(PC.PLAYER_MEDITATING);
+                        ch.RemoveActionBit(PC.PLAYER_MEDITATING);
                         ch.SendText("You stop meditating.\r\n");
                     }
                 }

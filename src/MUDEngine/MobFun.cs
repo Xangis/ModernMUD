@@ -1870,19 +1870,18 @@ namespace MUDEngine
 
             foreach( CharData victim in ch._inRoom.People )
             {
-                if( victim.IsNPC()
-                        || victim._level >= Limits.LEVEL_AVATAR
-                        || victim._flyLevel != ch._flyLevel
-                        || MUDMath.NumberBits( 3 ) != 0
-                        || !CharData.CanSee( ch, victim ) ) /* Thx Glop */
-                    continue;
-
-                if( victim.IsAwake() && victim._level > 5
-                        && MUDMath.NumberPercent() + ch._level - victim._level >= 33 )
+                if (victim.IsNPC() || victim._level >= Limits.LEVEL_AVATAR
+                    || victim._flyLevel != ch._flyLevel || MUDMath.NumberBits(3) != 0
+                    || !CharData.CanSee(ch, victim))
                 {
-                    SocketConnection.Act( "You discover $n&n's hands in your wallet!",
+                    continue;
+                }
+
+                if( victim.IsAwake() && victim._level > 5 && MUDMath.NumberPercent() + ch._level - victim._level >= 33 )
+                {
+                    SocketConnection.Act( "You discover $n&n's hands in your purse!",
                          ch, null, victim, SocketConnection.MessageTarget.victim );
-                    SocketConnection.Act( "$N&n discovers $n&n's hands in $S wallet!",
+                    SocketConnection.Act( "$N&n discovers $n&n's hands in $S purse!",
                          ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim );
                     return true;
                 }
@@ -2395,7 +2394,7 @@ namespace MUDEngine
                     Log.Error( "Check_spellup:  Mob casting spell {0} which is neither _targetType offensive nor ignore.a", spell );
 
                 SocketConnection.Act( "$n&n  starts casting...", ch, null, null, SocketConnection.MessageTarget.room );
-                ch.SetAffBit( Affect.AFFECT_CASTING );
+                ch.SetAffectBit( Affect.AFFECT_CASTING );
                 CastData caster = new CastData();
                 caster.Who = ch;
                 caster.Eventdata = Event.CreateEvent(Event.EventType.spell_cast, spell.CastingTime, ch, victim, spell);
@@ -2428,7 +2427,7 @@ namespace MUDEngine
                     Log.Error( "Check_defensive:  Mob casting spell {0} which is neither _targetType defensive nor ignore.b", spell );
 
                 SocketConnection.Act( "$n&n  starts casting...", ch, null, null, SocketConnection.MessageTarget.room );
-                ch.SetAffBit( Affect.AFFECT_CASTING );
+                ch.SetAffectBit( Affect.AFFECT_CASTING );
                 CastData caster = new CastData();
                 caster.Who = ch;
                 caster.Eventdata = Event.CreateEvent(Event.EventType.spell_cast, spell.CastingTime, ch, victim, spell);
@@ -2467,7 +2466,7 @@ namespace MUDEngine
                     Log.Error( "CheckSpellup:  Mob casting spell {0} which is neither TargetType.self nor TargetType.defensive.", spell );
 
                 SocketConnection.Act( "$n&n starts casting...", ch, null, null, SocketConnection.MessageTarget.room );
-                ch.SetAffBit( Affect.AFFECT_CASTING );
+                ch.SetAffectBit( Affect.AFFECT_CASTING );
                 CastData caster = new CastData();
                 caster.Who = ch;
                 caster.Eventdata = Event.CreateEvent(Event.EventType.spell_cast, spell.CastingTime, ch, ch, spell);
@@ -2611,7 +2610,7 @@ namespace MUDEngine
                     {
                         SocketConnection.Act( "$n shivers.", i, null, null, SocketConnection.MessageTarget.room );
                         i._hitpoints = i._maxHitpoints = 5000;
-                        i.SetActBit(MobTemplate.ACT_AGGRESSIVE);
+                        i.SetActionBit(MobTemplate.ACT_AGGRESSIVE);
                     } //end if
                 }   //end for
                 // set the trees aggro too
@@ -2623,7 +2622,7 @@ namespace MUDEngine
                             i._inRoom && i._inRoom.Area == ch._inRoom.Area )
                     {
                         SocketConnection.Act( "$n shivers.", i, null, null, SocketConnection.MessageTarget.room );
-                        i.SetActBit(MobTemplate.ACT_AGGRESSIVE );
+                        i.SetActionBit(MobTemplate.ACT_AGGRESSIVE );
                     } //end if
                 }   //end for
                 CharData.ExtractChar( ch, true );
@@ -2839,7 +2838,7 @@ namespace MUDEngine
             }
             newCh._position = ch._position;
             newCh._actionFlags = ch._actionFlags;
-            newCh.RemoveActBit(PC.PLAYER_WIZINVIS);
+            newCh.RemoveActionBit(PC.PLAYER_WIZINVIS);
             newCh._hating = ch._hating;
             ch._hating = null;
             newCh._hunting = ch._hunting;
@@ -2871,15 +2870,15 @@ namespace MUDEngine
                 newCh = Database.CreateMobile( Database.GetMobTemplate( ch._mobTemplate.IndexNumber ) );
                 newCh.AddToRoom( ch._inRoom );
                 newCh._actionFlags = ch._actionFlags;
-                newCh.RemoveActBit(PC.PLAYER_WIZINVIS);
+                newCh.RemoveActionBit(PC.PLAYER_WIZINVIS);
                 SocketConnection.Act( "$p&n comes back to life!", ch, null, null, SocketConnection.MessageTarget.room );
-                if( ch.HasActBit(MobTemplate.ACT_AGGRESSIVE ) )
+                if( ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE ) )
                 {
                     ch._hitpoints = ch._maxHitpoints = 5000;
                 }
                 return true; //make no corpse
             }
-            if( ch._fighting && ch.HasActBit(MobTemplate.ACT_AGGRESSIVE ) )
+            if( ch._fighting && ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE ) )
             {
                 // transform into a demon
                 CharData demon = TransformMob( ch, indexNumber, null );

@@ -18,42 +18,152 @@ namespace ModernMUD
         private Race.RacewarSide _controlledBy; // Racewar side control.  Used only for worldmap.
         public static readonly int TERRAIN_MAX = Enum.GetValues(typeof(TerrainType)).Length;
 
+        // TODO: Verify that all of these flags are implemented.
+
+        /// <summary>
+        /// No flag set.
+        /// </summary>
         public static readonly Bitvector ROOM_NONE = new Bitvector(0, 0);
+        /// <summary>
+        /// Dark.
+        /// </summary>
         public static readonly Bitvector ROOM_DARK = new Bitvector(0, Bitvector.BV00);
+        /// <summary>
+        /// Blocks scanning - you can scan into this room, but not past it.
+        /// </summary>
         public static readonly Bitvector ROOM_LIMITSCAN = new Bitvector(0, Bitvector.BV01);
+        /// <summary>
+        /// Mobs can't normally go here.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_MOB = new Bitvector(0, Bitvector.BV02);
+        /// <summary>
+        /// Inside.
+        /// </summary>
         public static readonly Bitvector ROOM_INDOORS = new Bitvector(0, Bitvector.BV03);
+        /// <summary>
+        /// Can't speak or cast spells.
+        /// </summary>
         public static readonly Bitvector ROOM_SILENT = new Bitvector(0, Bitvector.BV04);
+        /// <summary>
+        /// Filled with water.
+        /// </summary>
         public static readonly Bitvector ROOM_UNDERWATER = new Bitvector(0, Bitvector.BV05);
+        /// <summary>
+        /// Cannot use word of recall.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_RECALL = new Bitvector(0, Bitvector.BV06);
+        /// <summary>
+        /// Can't cast spells.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_MAGIC = new Bitvector(0, Bitvector.BV07);
+        /// <summary>
+        /// Tight, cramped room.
+        /// </summary>
         public static readonly Bitvector ROOM_TUNNEL = new Bitvector(0, Bitvector.BV08);
+        /// <summary>
+        /// Only two people can be in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_PRIVATE = new Bitvector(0, Bitvector.BV09);
         // Bitvector.BV10 unused.
+        /// <summary>
+        /// Cannot fight in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_SAFE = new Bitvector(0, Bitvector.BV11);
+        /// <summary>
+        /// It won't rain here (no weather).
+        /// </summary>
         public static readonly Bitvector ROOM_NO_PRECIP = new Bitvector(0, Bitvector.BV12);
+        /// <summary>
+        /// Can only travel in single-file in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_SINGLE_FILE = new Bitvector(0, Bitvector.BV13);
+        /// <summary>
+        /// Prison cell.
+        /// </summary>
         public static readonly Bitvector ROOM_JAIL = new Bitvector(0, Bitvector.BV14);
+        /// <summary>
+        /// Cannot teleport to or from this room.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_TELEPORT = new Bitvector(0, Bitvector.BV15);
+        /// <summary>
+        /// Only one person can be in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_SOLITARY = new Bitvector(0, Bitvector.BV16);
+        /// <summary>
+        /// You heal faster in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_HEAL = new Bitvector(0, Bitvector.BV17);
+        /// <summary>
+        /// You don't heal at all in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_HEAL = new Bitvector(0, Bitvector.BV18);
+        /// <summary>
+        /// You can log out of the game (rent) in this room.
+        /// </summary>
         public static readonly Bitvector ROOM_INN = new Bitvector(0, Bitvector.BV19);
+        /// <summary>
+        /// You can dock a ship here.
+        /// </summary>
         public static readonly Bitvector ROOM_DOCKABLE = new Bitvector(0, Bitvector.BV20);
+        /// <summary>
+        /// Magical darkness, torches useless.
+        /// </summary>
         public static readonly Bitvector ROOM_MAGICDARK = new Bitvector(0, Bitvector.BV21);
+        /// <summary>
+        /// Magical light.
+        /// </summary>
         public static readonly Bitvector ROOM_MAGICLIGHT = new Bitvector(0, Bitvector.BV22);
+        /// <summary>
+        /// Cannot summon anything into or out of the room.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_SUMMON = new Bitvector(0, Bitvector.BV23);
+        /// <summary>
+        /// Room is part of a guildhall.
+        /// </summary>
         public static readonly Bitvector ROOM_GUILDROOM = new Bitvector(0, Bitvector.BV24);
+        /// <summary>
+        /// Room is twilight - everyone can see here regardless of vision type.
+        /// </summary>
         public static readonly Bitvector ROOM_TWILIGHT = new Bitvector(0, Bitvector.BV25);
+        /// <summary>
+        /// Cannot use psionic powers.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_PSIONICS = new Bitvector(0, Bitvector.BV26);
+        /// <summary>
+        /// Cannot create gates or portals to/from this room.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_GATE = new Bitvector(0, Bitvector.BV27);
+        /// <summary>
+        /// The room is a bank. You can deposit and withdraw coins here.
+        /// </summary>
         public static readonly Bitvector ROOM_BANK = new Bitvector(0, Bitvector.BV28);
+        /// <summary>
+        /// Room is a pet shop.
+        /// </summary>
         public static readonly Bitvector ROOM_PET_SHOP = new Bitvector(0, Bitvector.BV29);
+        /// <summary>
+        /// You cannot scan into this room.
+        /// </summary>
         public static readonly Bitvector ROOM_NO_SCAN = new Bitvector(0, Bitvector.BV30);
+        /// <summary>
+        /// Room is covered in an earthen starshell.
+        /// </summary>
         public static readonly Bitvector ROOM_EARTHEN_STARSHELL = new Bitvector(1, Bitvector.BV00);
+        /// <summary>
+        /// Room is covered in an airy starshell.
+        /// </summary>
         public static readonly Bitvector ROOM_AIRY_STARSHELL = new Bitvector(1, Bitvector.BV01);
+        /// <summary>
+        /// Room is covered in a fiery starshell.
+        /// </summary>
         public static readonly Bitvector ROOM_FIERY_STARSHELL = new Bitvector(1, Bitvector.BV02);
+        /// <summary>
+        /// Room is covered in a watery starshell.
+        /// </summary>
         public static readonly Bitvector ROOM_WATERY_STARSHELL = new Bitvector(1, Bitvector.BV03);
+        /// <summary>
+        /// There is a hypnotic pattern present.
+        /// </summary>
         public static readonly Bitvector ROOM_HYPNOTIC_PATTERN = new Bitvector(1, Bitvector.BV04);
 
         /// <summary>

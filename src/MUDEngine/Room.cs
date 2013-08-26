@@ -502,12 +502,12 @@ namespace MUDEngine
                         Room prevRoom = GetRoom( room.IndexNumber - 1 );
                         if (prevRoom && prevRoom.HasFlag(ROOM_PET_SHOP))
                         {
-                            mobile.SetActBit(MobTemplate.ACT_PET);
+                            mobile.SetActionBit(MobTemplate.ACT_PET);
                         }
 
                         if (room.IsDark())
                         {
-                            mobile.SetAffBit(Affect.AFFECT_INFRAVISION);
+                            mobile.SetAffectBit(Affect.AFFECT_INFRAVISION);
                         }
 
                         mobile.AddToRoom( room );
@@ -561,12 +561,12 @@ namespace MUDEngine
                         Room prev = GetRoom( room.IndexNumber - 1 );
                         if (prev && prev.HasFlag(ROOM_PET_SHOP))
                         {
-                            mobile.SetActBit(MobTemplate.ACT_PET);
+                            mobile.SetActionBit(MobTemplate.ACT_PET);
                         }
 
                         if( room.IsDark() )
                         {
-                            mobile.SetAffBit( Affect.AFFECT_INFRAVISION );
+                            mobile.SetAffectBit( Affect.AFFECT_INFRAVISION );
                         }
 
                         // Set following bit. Can't have a message sent because

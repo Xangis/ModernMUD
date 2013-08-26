@@ -138,7 +138,7 @@ namespace MUDEngine
                 text += "&n(&+WLight Aura&n) ";
             }
             if (obj.HasFlag(ObjTemplate.ITEM_MAGIC) && (ch.IsAffected(Affect.AFFECT_DETECT_MAGIC) ||
-                (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE))))
+                (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))))
             {
                 text += "&n(&+BMagic&n) ";
             }
@@ -151,7 +151,7 @@ namespace MUDEngine
                 text += "&n(&+WIlluminating&n) ";
             }
             if (obj.HasFlag(ObjTemplate.ITEM_SECRET) && (ch.IsAffected(Affect.AFFECT_DETECT_HIDDEN) ||
-                (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE))))
+                (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))))
             {
                 text += "&n(&+yHidden&n) ";
             }
@@ -212,7 +212,7 @@ namespace MUDEngine
                         string pstrShow = FormatObjectToCharacter(obj, ch, shortDisplay); // Temporary string containing current line.
                         bool fCombine = false;
 
-                        if (ch.IsNPC() || ch.HasActBit(PC.PLAYER_COMBINE))
+                        if (ch.IsNPC() || ch.HasActionBit(PC.PLAYER_COMBINE))
                         {
                             // Look for duplicates, case sensitive.
                             // Matches tend to be near end so run loop backwords.
@@ -241,7 +241,7 @@ namespace MUDEngine
             // Output the formatted list.
             for (iterator = 0; iterator < numShown; ++iterator)
             {
-                if (ch.IsNPC() || ch.HasActBit(PC.PLAYER_COMBINE))
+                if (ch.IsNPC() || ch.HasActionBit(PC.PLAYER_COMBINE))
                 {
                     if (showCounts[iterator] != 1)
                     {
@@ -253,7 +253,7 @@ namespace MUDEngine
 
             if (showNothing && numShown == 0)
             {
-                if (ch.IsNPC() || ch.HasActBit(PC.PLAYER_COMBINE))
+                if (ch.IsNPC() || ch.HasActionBit(PC.PLAYER_COMBINE))
                 {
                     text += "     ";
                 }
@@ -367,7 +367,7 @@ namespace MUDEngine
             {
                 text += "&n (&+Yparalyzed)&n";
             }
-            if (!victim.IsNPC() && victim.HasActBit(PC.PLAYER_WIZINVIS)
+            if (!victim.IsNPC() && victim.HasActionBit(PC.PLAYER_WIZINVIS)
                     && victim.GetTrust() <= ch.GetTrust())
             {
                 text += " &n&+g*&n";
@@ -377,17 +377,17 @@ namespace MUDEngine
             {
                 text += " &n(&+LHiding&n)";
             }
-            if (victim.IsAffected(Affect.AFFECT_CHARM) && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (victim.IsAffected(Affect.AFFECT_CHARM) && ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 text += " &n(&n&+mCharmed&n)";
             }
             if ((victim.IsAffected(Affect.AFFECT_PASS_DOOR) || victim.HasInnate(Race.RACE_PASSDOOR))
-                    && ch.HasActBit(PC.PLAYER_GODMODE))
+                    && ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 text += " &n(&+WTranslucent&n)";
             }
             if ((victim.GetRace() == Race.RACE_UNDEAD || victim.GetRace() == Race.RACE_VAMPIRE)
-                    && (ch.IsAffected( Affect.AFFECT_DETECT_UNDEAD) || ch.HasActBit(PC.PLAYER_GODMODE)))
+                    && (ch.IsAffected( Affect.AFFECT_DETECT_UNDEAD) || ch.HasActionBit(PC.PLAYER_GODMODE)))
             {
                 text += " &n(&+WPale&n)";
             }
@@ -413,11 +413,11 @@ namespace MUDEngine
             {
                 text += " &n(&+WWhite&+L Aura&n)";
             }
-            if (!victim.IsNPC() && victim.HasActBit(PC.PLAYER_AFK))
+            if (!victim.IsNPC() && victim.HasActionBit(PC.PLAYER_AFK))
             {
                 text += " &n&+b(&+RAFK&n&+b)&n";
             }
-            if (!victim.IsNPC() && victim.HasActBit(PC.PLAYER_BOTTING))
+            if (!victim.IsNPC() && victim.HasActionBit(PC.PLAYER_BOTTING))
             {
                 text += " &n&+b(&+YBot&n&+b)&n";
             }
@@ -602,7 +602,7 @@ namespace MUDEngine
                 if (listChar._flyLevel != ch._flyLevel)
                     continue;
 
-                if (!listChar.IsNPC() && listChar.HasActBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < listChar.GetTrust())
+                if (!listChar.IsNPC() && listChar.HasActionBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < listChar.GetTrust())
                     continue;
 
                 Visibility sight = HowSee(ch, listChar);
@@ -637,7 +637,7 @@ namespace MUDEngine
         /// <param name="room"></param>
         public static void ShowRoomInfo(CharData ch, Room room)
         {
-            if (ch == null || room == null || !ch.HasActBit(PC.PLAYER_GODMODE))
+            if (ch == null || room == null || !ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 return;
             }
@@ -683,20 +683,20 @@ namespace MUDEngine
             }
 
             // All mobiles cannot see wizinvised immortals.
-            if (ch.IsNPC() && !victim.IsNPC() && victim.HasActBit(PC.PLAYER_WIZINVIS))
+            if (ch.IsNPC() && !victim.IsNPC() && victim.HasActionBit(PC.PLAYER_WIZINVIS))
             {
                 return Visibility.invisible;
             }
 
             // Handles Immortal Invis.
-            if (!victim.IsNPC() && victim.HasActBit(PC.PLAYER_WIZINVIS)
+            if (!victim.IsNPC() && victim.HasActionBit(PC.PLAYER_WIZINVIS)
                     && ch.GetTrust() < victim._level)
             {
                 return Visibility.invisible;
             }
 
             // Handles Immmortal sight.
-            if (!ch.IsNPC() && ch.HasActBit(PC.PLAYER_GODMODE))
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))
             {
                 return Visibility.visible;
             }

@@ -908,7 +908,7 @@ namespace MUDEngine
             foreach (CharData petChar in Database.CharList)
             {
                 if (petChar != ch && petChar._master == ch &&
-                        petChar.IsNPC() && petChar.HasActBit(MobTemplate.ACT_PET))
+                        petChar.IsNPC() && petChar.HasActionBit(MobTemplate.ACT_PET))
                     numpets++;
             }
 
@@ -932,7 +932,7 @@ namespace MUDEngine
             elemental._maxHitpoints = 150 + MUDMath.Dice(16, level / 2);
             elemental._hitpoints = elemental._maxHitpoints;
             elemental._armorPoints -= (ch._level * 3 / 2);
-            elemental.SetActBit(MobTemplate.ACT_NOEXP);
+            elemental.SetActionBit(MobTemplate.ACT_NOEXP);
 
             switch (indexNumber)
             {
@@ -966,7 +966,7 @@ namespace MUDEngine
             Affect af = new Affect(Affect.AffectType.spell, spell.Name, level / 2 + MUDMath.Dice(4, level / 2), Affect.Apply.none, 0, Affect.AFFECT_CHARM);
             elemental.AddAffect(af);
             // Set the MobIndex.ACT_PET bit as well
-            elemental.SetActBit(MobTemplate.ACT_PET);
+            elemental.SetActionBit(MobTemplate.ACT_PET);
             elemental._flyLevel = ch._flyLevel;
             if (ch._fighting)
             {

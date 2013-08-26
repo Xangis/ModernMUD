@@ -443,7 +443,7 @@ namespace MUDEngine
                         Log.Error("Object index data not found for object " + obj.ObjIndexNumber + " (" + obj.Name + ") on player " + filename + ".");
                     }
                 }
-                data.RemoveActBit(PLAYER_CAMPING);
+                data.RemoveActionBit(PLAYER_CAMPING);
                 if (data._level >= Limits.LEVEL_AVATAR && data.ImmortalData == null)
                 {
                     data.ImmortalData = new ImmortalData();

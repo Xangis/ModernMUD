@@ -6,40 +6,145 @@ namespace ModernMUD
     /// </summary>
     public enum TerrainType
     {
+        /// <summary>
+        /// Indoors.
+        /// </summary>
         inside = 0,
+        /// <summary>
+        /// City/civilized, outdoors.
+        /// </summary>
         city,
+        /// <summary>
+        /// Field or grassland.
+        /// </summary>
         field,
+        /// <summary>
+        /// Trees.
+        /// </summary>
         forest,
+        /// <summary>
+        /// Hills and valleys.
+        /// </summary>
         hills,
+        /// <summary>
+        /// Steep mountains.
+        /// </summary>
         mountain, // 5
+        /// <summary>
+        /// Hot, dry desert.
+        /// </summary>
         desert,
+        /// <summary>
+        /// Cold and icy.
+        /// </summary>
         arctic,
+        /// <summary>
+        /// Soggy and mucky.
+        /// </summary>
         swamp,
+        /// <summary>
+        /// Road, paved or dirt.
+        /// </summary>
         road,
+        /// <summary>
+        /// Molten rock.
+        /// </summary>
         lava, // 10
+        /// <summary>
+        /// Solid ice.
+        /// </summary>
         glacier,
+        /// <summary>
+        /// Cold.
+        /// </summary>
         tundra,
+        /// <summary>
+        /// Hot, wet, and full of trees
+        /// </summary>
         jungle,
+        /// <summary>
+        /// Shallow and calm water.
+        /// </summary>
         swimmable_water,
+        /// <summary>
+        /// Rough seas.
+        /// </summary>
         unswimmable_water, // 15
+        /// <summary>
+        /// Ocean, unswimmable water.
+        /// </summary>
         ocean,
+        /// <summary>
+        /// Underwater, but no sea floor.
+        /// </summary>
         underwater_no_ground,
+        /// <summary>
+        /// Underwater, with sea floor.
+        /// </summary>
         underwater_has_ground,
+        /// <summary>
+        /// Midair.
+        /// </summary>
         air,
+        /// <summary>
+        /// Underground wilderness.
+        /// </summary>
         underground_wild, // 20
+        /// <summary>
+        /// Urban underground.
+        /// </summary>
         underground_city,
+        /// <summary>
+        /// Underground, enclosed space.
+        /// </summary>
         underground_indoors,
+        /// <summary>
+        /// Underground, in swimmable water.
+        /// </summary>
         underground_swimmable_water,
+        /// <summary>
+        /// Underground, impassable water.
+        /// </summary>
         underground_unswimmable_water,
+        /// <summary>
+        /// Underground, in midiar.
+        /// </summary>
         underground_no_ground, // 25
+        /// <summary>
+        /// Underground, solid rock.
+        /// </summary>
         underground_impassable,
+        /// <summary>
+        /// Underground sea, unswimmable.
+        /// </summary>
         underground_ocean,
+        /// <summary>
+        /// Underground glacier.
+        /// </summary>
         underground_frozen,
+        /// <summary>
+        /// Elemental plane of fire.
+        /// </summary>
         plane_of_fire,
+        /// <summary>
+        /// Elemental plane of air.
+        /// </summary>
         plane_of_air, // 30
+        /// <summary>
+        /// Elemental plane of water.
+        /// </summary>
         plane_of_water,
+        /// <summary>
+        /// Elemental plane of earth.
+        /// </summary>
         plane_of_earth,
+        /// <summary>
+        /// Ethereal plane.
+        /// </summary>
         plane_ethereal,
+        /// <summary>
+        /// Astral plane.
+        /// </summary>
         plane_astral
     };
 

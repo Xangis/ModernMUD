@@ -657,9 +657,9 @@ namespace MUDEngine
             mob._sex = mobTemplate.Gender;
             mob.SetPermRace( mobTemplate.Race );
             mob._size = Race.RaceList[ mob.GetRace() ].DefaultSize;
-            if (mob.HasActBit(MobTemplate.ACT_SIZEMINUS))
+            if (mob.HasActionBit(MobTemplate.ACT_SIZEMINUS))
                 mob._size--;
-            if (mob.HasActBit(MobTemplate.ACT_SIZEPLUS))
+            if (mob.HasActionBit(MobTemplate.ACT_SIZEPLUS))
                 mob._size++;
 
             mob._castingSpell = 0;
