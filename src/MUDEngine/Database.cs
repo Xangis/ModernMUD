@@ -187,17 +187,17 @@ namespace MUDEngine
             {
                 RoomTemplate room1 = Room.GetRoom(connection.FirstRoomNumber);
                 RoomTemplate room2 = Room.GetRoom(connection.SecondRoomNumber);
-                int direction = Exit.DoorLookup(connection.FirstToSecondDirection);
-                if (room1 != null && room2 != null && direction > -1 && direction < Limits.MAX_DIRECTION)
+                Exit.Direction direction = connection.FirstToSecondDirection;
+                if (room1 != null && room2 != null && direction != Exit.Direction.invalid)
                 {
                     Exit exit = new Exit();
                     exit.TargetRoom = room2;
                     exit.IndexNumber = connection.SecondRoomNumber;
-                    room1.ExitData[direction] = exit;
+                    room1.ExitData[(int)direction] = exit;
                     exit = new Exit();
                     exit.TargetRoom = room1;
                     exit.IndexNumber = connection.FirstRoomNumber;
-                    room2.ExitData[Exit.ReverseDirection[direction]] = exit;
+                    room2.ExitData[(int)Exit.ReverseDirection(direction)] = exit;
                     Log.Trace("Connected " + room1.Area.Name + " to " + room2.Area.Name + " at " + room1.IndexNumber);
                 }
                 else
@@ -377,7 +377,9 @@ namespace MUDEngine
             foreach (CharClass charclass in CharClass.ClassList)
             {
                 if (charclass.Spells == null)
+                {
                     continue;
+                }
                 foreach (SpellEntry spellentry in charclass.Spells)
                 {
                     if (Spell.SpellList.ContainsKey(spellentry.Name))
@@ -420,17 +422,17 @@ namespace MUDEngine
                         if (exit != null)
                         {
                             if (exit.IndexNumber <= 0)
+                            {
                                 exit.TargetRoom = null;
+                            }
                             else
                             {
                                 exit.TargetRoom = Room.GetRoom(exit.IndexNumber);
                                 if (exit.TargetRoom == null)
                                 {
                                     string buf = String.Format("Room {0} in zone {1} has an exit in direction {2} to room {3}.  Room {3} was not found.",
-                                        room.IndexNumber,
-                                        SocketConnection.RemoveANSICodes(room.Area.Name),
-                                        Exit.DirectionName[door],
-                                        exit.IndexNumber);
+                                                 room.IndexNumber, SocketConnection.RemoveANSICodes(room.Area.Name),
+                                                 door.ToString(), exit.IndexNumber);
                                     Log.Error(buf);
                                     // NOTE: We do not delete the exit data here because most non-linkable exits are due to 
                                     // attached zones not loading.  If we delete the exit data, that means that the zone link
@@ -451,17 +453,13 @@ namespace MUDEngine
                     for( door = 0; door < Limits.MAX_DIRECTION; door++ )
                     {
                         if( ( exit = room.ExitData[ door ] ) && ( toRoom = Room.GetRoom(exit.IndexNumber) )
-                                && ( reverseExit = toRoom.ExitData[ Exit.ReverseDirection[ door ] ] )
-                                && reverseExit.TargetRoom != room )
+                            && ( reverseExit = toRoom.GetExit(Exit.ReverseDirection((Exit.Direction)door)) )
+                            && reverseExit.TargetRoom != room )
                         {
                             String buf = String.Format("Database.LinkExits(): Mismatched Exit - Room {0} Exit {1} to Room {2} in zone {3}: Target room's {4} Exit points to Room {5}.",
-                            room.IndexNumber,
-                            Exit.DirectionName[door],
-                            toRoom.IndexNumber, 
-                            SocketConnection.RemoveANSICodes(room.Area.Name),
-                            Exit.DirectionName[Exit.ReverseDirection[door]],
-                            (!reverseExit.TargetRoom) ? 0
-                            : reverseExit.TargetRoom.IndexNumber );
+                                         room.IndexNumber, door.ToString(), toRoom.IndexNumber, 
+                                         SocketConnection.RemoveANSICodes(room.Area.Name), Exit.ReverseDirection((Exit.Direction)door).ToString(),
+                                         (!reverseExit.TargetRoom) ? 0 : reverseExit.TargetRoom.IndexNumber );
                             Log.Info( buf );
                         }
                     }
@@ -1013,9 +1011,9 @@ namespace MUDEngine
         /// Generate a random door.
         /// </summary>
         /// <returns></returns>
-        public static int RandomDoor()
+        public static Exit.Direction RandomDoor()
         {
-            return MUDMath.NumberRange( 0, ( Limits.MAX_DIRECTION - 1 ) );
+            return (Exit.Direction)MUDMath.NumberRange(0, (Enum.GetValues(typeof(Exit.Direction)).Length));
         }
 
         /// <summary>

@@ -575,7 +575,7 @@ namespace ModernMUDEditor
                     dlg.ShowDialog();
                     if (dlg.DialogResult == DialogResult.OK)
                     {
-                        txtArg2.Text = dlg.GetDirectionNumber().ToString();
+                        txtArg2.Text = dlg.GetDirection().ToString();
                     }
                     break;
                 default:

@@ -52,38 +52,38 @@ namespace ModernMUDEditor
                             newLocation.z = location.z;
                             switch( exit )
                             {
-                                case Exit.DIRECTION_DOWN:
+                                case (int)Exit.Direction.down:
                                     newLocation.z -= 1;
                                     break;
-                                case Exit.DIRECTION_EAST:
+                                case (int)Exit.Direction.east:
                                     newLocation.x += 1;
                                     break;
-                                case Exit.DIRECTION_NORTH:
+                                case (int)Exit.Direction.north:
                                     newLocation.y += 1;
                                     break;
-                                case Exit.DIRECTION_NORTHEAST:
+                                case (int)Exit.Direction.northeast:
                                     newLocation.x += 1;
                                     newLocation.y += 1;
                                     break;
-                                case Exit.DIRECTION_NORTHWEST:
+                                case (int)Exit.Direction.northwest:
                                     newLocation.x -= 1;
                                     newLocation.y += 1;
                                     break;
-                                case Exit.DIRECTION_SOUTH:
+                                case (int)Exit.Direction.south:
                                     newLocation.y -= 1;
                                     break;
-                                case Exit.DIRECTION_SOUTHEAST:
+                                case (int)Exit.Direction.southeast:
                                     newLocation.y -= 1;
                                     newLocation.x += 1;
                                     break;
-                                case Exit.DIRECTION_SOUTHWEST:
+                                case (int)Exit.Direction.southwest:
                                     newLocation.x -= 1;
                                     newLocation.y -= 1;
                                     break;
-                                case Exit.DIRECTION_UP:
+                                case (int)Exit.Direction.up:
                                     newLocation.z += 1;
                                     break;
-                                case Exit.DIRECTION_WEST:
+                                case (int)Exit.Direction.west:
                                     newLocation.x -= 1;
                                     break;
                             }

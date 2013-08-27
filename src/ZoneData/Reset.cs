@@ -176,7 +176,7 @@ namespace ModernMUD
                 case 'E':
                     return "Equip object " + _arg1 + " on mobile " + _arg5 + " in room " + _arg4 + " on eq slot " + _arg3 + " (" + ((ObjTemplate.WearLocation)_arg3).ToString() +").";
                 case 'D':
-                    return "Set the state of the " + Exit.DirectionName[_arg2] + " door in room " + _arg1 + " to " + _arg3 + " (" + ((Exit.ExitFlag)_arg3).ToString() + ").";
+                    return "Set the state of the " + ((Exit.Direction)_arg2).ToString() + " door in room " + _arg1 + " to " + _arg3 + " (" + ((Exit.ExitFlag)_arg3).ToString() + ").";
                 case 'R':
                     return "Randomize exits in room " + _arg3 + ".";
                 case 'S':

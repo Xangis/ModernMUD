@@ -276,7 +276,7 @@ namespace MUDEngine
             return 1;
         }
 
-        public static int FindPath( int inRoomIndexNumber, int outRoomIndexNumber, CharData ch, int depth, bool inZone )
+        public static Exit.Direction FindPath( int inRoomIndexNumber, int outRoomIndexNumber, CharData ch, int depth, bool inZone )
         {
             RoomTemplate herep;
             RoomTemplate startp;
@@ -404,7 +404,7 @@ namespace MUDEngine
                 // junk left over from a previous track
                 DestroyHashTable(x_room, null);
             }*/
-            return -1;
+            return Exit.Direction.invalid;
         }
 
         /// <summary>
@@ -631,13 +631,13 @@ namespace MUDEngine
                 }
 
                 ch.WaitState(Skill.SkillList["track"].Delay);
-                int dir = FindPath(ch._inRoom.IndexNumber, ch._hunting.Who._inRoom.IndexNumber, ch, -40000, true);
+                Exit.Direction dir = FindPath(ch._inRoom.IndexNumber, ch._hunting.Who._inRoom.IndexNumber, ch, -40000, true);
 
-                if (dir < 0 || dir >= Limits.MAX_DIRECTION)
+                if (dir == Exit.Direction.invalid)
                 {
                     if (!ch.IsAffected(Affect.AFFECT_TRACK))
                     {
-                        SocketConnection.Act("$n&n says 'Damn!  Lost $M!'", ch, null, ch._hunting.Who, SocketConnection.MessageTarget.room);
+                        SocketConnection.Act("$n&n says 'Damn! Lost $M!'", ch, null, ch._hunting.Who, SocketConnection.MessageTarget.room);
                     }
                     else
                     {
@@ -655,21 +655,21 @@ namespace MUDEngine
                 {
                     do
                     {
-                        dir = MUDMath.NumberDoor();
+                        dir = Database.RandomDoor();
                     }
-                    while (!(ch._inRoom.ExitData[dir]) || !(ch._inRoom.ExitData[dir].TargetRoom));
+                    while (!(ch._inRoom.ExitData[(int)dir]) || !(ch._inRoom.ExitData[(int)dir].TargetRoom));
                 }
 
-                if (ch._inRoom.ExitData[dir].HasFlag(Exit.ExitFlag.closed))
+                if (ch._inRoom.ExitData[(int)dir].HasFlag(Exit.ExitFlag.closed))
                 {
-                    CommandType.Interpret(ch, "open " + Exit.DirectionName[dir]);
+                    CommandType.Interpret(ch, "open " + dir.ToString());
                     return;
                 }
                 ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, String.Format("{0}&n leaves room {1} to the {2}.",
-                    ch._shortDescription, ch._inRoom.IndexNumber, Exit.DirectionName[dir]));
+                    ch._shortDescription, ch._inRoom.IndexNumber, dir.ToString()));
                 if (ch.IsAffected(Affect.AFFECT_TRACK))
                 {
-                    SocketConnection.Act(String.Format("You sense $N&n's trail {0} from here...", Exit.DirectionName[dir]),
+                    SocketConnection.Act(String.Format("You sense $N&n's trail {0} from here...", dir.ToString()),
                         ch, null, ch._hunting.Who, SocketConnection.MessageTarget.character);
                 }
                 ch.Move(dir);
@@ -711,18 +711,18 @@ namespace MUDEngine
             if( ch._inRoom.Area != Room.GetRoom( ch._loadRoomIndexNumber ).Area )
                 return;
 
-            int dir = FindPath( ch._inRoom.IndexNumber, ch._loadRoomIndexNumber, ch, -40000, true );
+            Exit.Direction dir = FindPath( ch._inRoom.IndexNumber, ch._loadRoomIndexNumber, ch, -40000, true );
 
-            if( dir < 0 || dir >= Limits.MAX_DIRECTION )
+            if( dir == Exit.Direction.invalid )
             {
                 return;
             }
 
-            if( ch._inRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.closed ) &&
+            if( ch._inRoom.ExitData[ (int)dir ].HasFlag( Exit.ExitFlag.closed ) &&
                     !ch.IsAffected( Affect.AFFECT_PASS_DOOR ) && !ch.HasInnate( Race.RACE_PASSDOOR ) )
             {
-                CommandType.Interpret(ch, "unlock " + Exit.DirectionName[dir]);
-                CommandType.Interpret(ch, "open " + Exit.DirectionName[dir]);
+                CommandType.Interpret(ch, "unlock " + dir.ToString());
+                CommandType.Interpret(ch, "open " + dir.ToString());
                 return;
             }
 

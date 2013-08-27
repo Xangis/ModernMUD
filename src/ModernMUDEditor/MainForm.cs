@@ -629,31 +629,31 @@ namespace ModernMUDEditor
 
                             switch (i)
                             {
-                                case Exit.DIRECTION_EAST:
+                                case (int)Exit.Direction.east:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(20, 0), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y > ymax)
                                         ymax = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_WEST:
+                                case (int)Exit.Direction.west:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(-20, 0), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y < ymin)
                                         ymin = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_NORTH:
+                                case (int)Exit.Direction.north:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(0, -20), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.X < xmin)
                                         xmin = _roomLocations[room.ExitData[i].IndexNumber].Location.X;
                                     break;
-                                case Exit.DIRECTION_SOUTH:
+                                case (int)Exit.Direction.south:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(0, 20), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.X > xmax)
                                         xmax = _roomLocations[room.ExitData[i].IndexNumber].Location.X;
                                     break;
-                                case Exit.DIRECTION_NORTHEAST:
+                                case (int)Exit.Direction.northeast:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(20, -20), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.X > xmax)
@@ -661,7 +661,7 @@ namespace ModernMUDEditor
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y < ymin)
                                         ymin = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_SOUTHEAST:
+                                case (int)Exit.Direction.southeast:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(20, 20), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.X > xmax)
@@ -669,7 +669,7 @@ namespace ModernMUDEditor
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y > ymax)
                                         ymax = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_NORTHWEST:
+                                case (int)Exit.Direction.northwest:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(-20, -20), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.X < xmin)
@@ -677,7 +677,7 @@ namespace ModernMUDEditor
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y < ymin)
                                         ymin = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_SOUTHWEST:
+                                case (int)Exit.Direction.southwest:
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location +
                                         new System.Drawing.Size(20, -20), level, pen, secondaryBrush);
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.X > xmax)
@@ -685,7 +685,7 @@ namespace ModernMUDEditor
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y < ymin)
                                         ymin = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_UP:
+                                case (int)Exit.Direction.up:
                                     ++level;
                                     if (level > maxLevel) maxLevel = level;
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location,
@@ -695,7 +695,7 @@ namespace ModernMUDEditor
                                     if (_roomLocations[room.ExitData[i].IndexNumber].Location.Y < ymin)
                                         ymin = _roomLocations[room.ExitData[i].IndexNumber].Location.Y;
                                     break;
-                                case Exit.DIRECTION_DOWN:
+                                case (int)Exit.Direction.down:
                                     --level;
                                     if (level < minLevel) minLevel = level;
                                     _roomLocations[room.ExitData[i].IndexNumber] = new RoomLocation(_roomLocations[room.IndexNumber].Location,
@@ -727,42 +727,42 @@ namespace ModernMUDEditor
                 e.Graphics.FillRectangle(point.Value.SecondaryColor, (point.Value.Location.X + 1 + _xOffset),
                     (point.Value.Location.Y + 1 + _yOffset), 9, 9);
                 // North exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_NORTH])
+                if (point.Value.Exits[(int)Exit.Direction.north])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + 5 + _xOffset),
                         (point.Value.Location.Y + _yOffset), (point.Value.Location.X + 5 + _xOffset),
                         (point.Value.Location.Y - 10 + _yOffset));
                 // South exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_SOUTH])
+                if (point.Value.Exits[(int)Exit.Direction.south])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + 6 + _xOffset),
                         (point.Value.Location.Y + 10 + _yOffset), (point.Value.Location.X + 6 + _xOffset),
                         (point.Value.Location.Y + 20 + _yOffset));
                 // East exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_EAST])
+                if (point.Value.Exits[(int)Exit.Direction.east])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + 10 + _xOffset),
                         (point.Value.Location.Y + 5 + _yOffset), (point.Value.Location.X + 20 + _xOffset),
                         (point.Value.Location.Y + 5 + _yOffset));
                 // West exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_WEST])
+                if (point.Value.Exits[(int)Exit.Direction.west])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + _xOffset),
                         (point.Value.Location.Y + 6 + _yOffset), (point.Value.Location.X - 10 + _xOffset),
                         (point.Value.Location.Y + 6 + _yOffset));
                 // Northeast exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_NORTHEAST])
+                if (point.Value.Exits[(int)Exit.Direction.northeast])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + 10 + _xOffset),
                         (point.Value.Location.Y + _yOffset), (point.Value.Location.X + 20 + _xOffset),
                         (point.Value.Location.Y - 10 + _yOffset));
                 // Southeast exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_SOUTHEAST])
+                if (point.Value.Exits[(int)Exit.Direction.southeast])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + 10 + _xOffset),
                         (point.Value.Location.Y + 10 + _yOffset), (point.Value.Location.X + 20 + _xOffset),
                         (point.Value.Location.Y + 20 + _yOffset));
                 // Northwest exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_NORTHWEST])
+                if (point.Value.Exits[(int)Exit.Direction.northwest])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + _xOffset),
                         (point.Value.Location.Y + _yOffset), (point.Value.Location.X - 10 + _xOffset),
                         (point.Value.Location.Y - 10 + _yOffset));
                 // Southwest exit connection.
-                if (point.Value.Exits[Exit.DIRECTION_SOUTHWEST])
+                if (point.Value.Exits[(int)Exit.Direction.southwest])
                     e.Graphics.DrawLine(point.Value.RoomColor, (point.Value.Location.X + _xOffset),
                         (point.Value.Location.Y + 10 + _yOffset), (point.Value.Location.X - 10 + _xOffset),
                         (point.Value.Location.Y + 20 + _yOffset));
@@ -775,9 +775,9 @@ namespace ModernMUDEditor
             {
                 default:
                     return 0;
-                case Exit.DIRECTION_UP:
+                case (int)Exit.Direction.up:
                     return 1;
-                case Exit.DIRECTION_DOWN:
+                case (int)Exit.Direction.down:
                     return -1;
             }
         }
@@ -889,29 +889,29 @@ namespace ModernMUDEditor
                 text.StartsWith("l", StringComparison.CurrentCultureIgnoreCase))
                 LookCommand(text);
             else if ("north".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_NORTH);
+                MoveCommand(Exit.Direction.north);
             else if ("south".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_SOUTH);
+                MoveCommand(Exit.Direction.south);
             else if ("east".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_EAST);
+                MoveCommand(Exit.Direction.east);
             else if ("west".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_WEST);
+                MoveCommand(Exit.Direction.west);
             else if ("up".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_UP);
+                MoveCommand(Exit.Direction.up);
             else if ("down".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_DOWN);
+                MoveCommand(Exit.Direction.down);
             else if ("southeast".StartsWith(text, StringComparison.CurrentCultureIgnoreCase) ||
                 "se".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_SOUTHEAST);
+                MoveCommand(Exit.Direction.southeast);
             else if ("southwest".StartsWith(text, StringComparison.CurrentCultureIgnoreCase) ||
                 "sw".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_SOUTHWEST);
+                MoveCommand(Exit.Direction.southwest);
             else if ("northeast".StartsWith(text, StringComparison.CurrentCultureIgnoreCase) ||
                 "ne".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_NORTHEAST);
+                MoveCommand(Exit.Direction.northeast);
             else if ("northwest".StartsWith(text, StringComparison.CurrentCultureIgnoreCase) ||
                 "nw".StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
-                MoveCommand(Exit.DIRECTION_NORTHWEST);
+                MoveCommand(Exit.Direction.northwest);
             else if (text.StartsWith("goto", StringComparison.CurrentCultureIgnoreCase))
                 GotoCommand(text);
             else if (text.StartsWith("createedit", StringComparison.CurrentCultureIgnoreCase))
@@ -965,11 +965,11 @@ namespace ModernMUDEditor
                     RoomTemplate target = FindRoom(room.ExitData[i].IndexNumber);
                     if (target == null)
                     {
-                        exits += Exit.DirectionName[i] + ": (Target Room Not Found)" + "\r\n";
+                        exits += ((Exit.Direction)i).ToString() + ": (Target Room Not Found)" + "\r\n";
                     }
                     else
                     {
-                        exits += Exit.DirectionName[i] + ": " + target.Title + "\r\n";
+                        exits += ((Exit.Direction)i).ToString() + ": " + target.Title + "\r\n";
                     }
                 }
             }
@@ -1129,8 +1129,8 @@ namespace ModernMUDEditor
                 }
                 if (pieces.Length > 2 && !String.IsNullOrEmpty(pieces[2]))
                 {
-                    int direction = Exit.DoorLookup(pieces[2]);
-                    if( direction == -1 )
+                    Exit.Direction direction = Exit.DoorLookup(pieces[2]);
+                    if( direction == Exit.Direction.invalid )
                     {
                         txtOutputText.AppendText("That's not a valid direction.  Try again.\r\n");
                         return;
@@ -1725,17 +1725,17 @@ namespace ModernMUDEditor
             txtOutputText.ScrollToCaret();
         }
 
-        private void MoveCommand(int direction)
+        private void MoveCommand(Exit.Direction direction)
         {
             RoomTemplate room = FindRoom(_currentRoom);
             if( room != null)
             {
-                if (room.ExitData[direction] != null)
+                if (room.ExitData[(int)direction] != null)
                 {
-                    _currentRoom = room.ExitData[direction].IndexNumber;
+                    _currentRoom = room.ExitData[(int)direction].IndexNumber;
                     if (_dlgRooms != null)
                     {
-                        _dlgRooms.SetActiveRoom(room.ExitData[direction].IndexNumber);
+                        _dlgRooms.SetActiveRoom(room.ExitData[(int)direction].IndexNumber);
                     }
                     
                 }

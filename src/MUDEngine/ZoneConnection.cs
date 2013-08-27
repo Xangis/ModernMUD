@@ -16,7 +16,7 @@ namespace MUDEngine
     {
         public int FirstRoomNumber;
         public int SecondRoomNumber;
-        public string FirstToSecondDirection;
+        public Exit.Direction FirstToSecondDirection;
 
         /// <summary>
         /// Loads zone connections.

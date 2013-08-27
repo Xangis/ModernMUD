@@ -916,5 +916,21 @@ namespace MUDEngine
 
             return null;
         }
+
+        /// <summary>
+        /// Utility function that gets a room's exit for a particular direction.
+        /// </summary>
+        /// <param name="door"></param>
+        /// <returns></returns>
+        public Exit GetExit(Exit.Direction door)
+        {
+            // Exit direction could have been stored somewhere as an invalid value,
+            // i.e. as a bad integer on a wall value. Check for it.
+            if (!Enum.IsDefined(typeof(Exit.Direction), door))
+            {
+                return null;
+            }
+            return ExitData[(int)door];
+        }
     }
 }

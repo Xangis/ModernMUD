@@ -84,15 +84,6 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Gets a random exit direction.
-        /// </summary>
-        /// <returns></returns>
-        public static int NumberDoor()
-        {
-            return NumberRange( 0, ( Limits.MAX_DIRECTION - 1 ) );
-        }
-
-        /// <summary>
         /// Generates a percentile roll.
         /// </summary>
         /// <returns></returns>

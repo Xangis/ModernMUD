@@ -12,7 +12,7 @@ namespace ModernMUDEditor
     public partial class EditExit : Form
     {
         private RoomTemplate _room = null;
-        private int _direction = 0;
+        private Exit.Direction _direction = 0;
         private Area _area = null;
         bool _delete = false;
         private MainForm _parent = null;
@@ -30,14 +30,14 @@ namespace ModernMUDEditor
         /// </summary>
         /// <param name="room"></param>
         /// <param name="direction"></param>
-        public void UpdateWindowContents(RoomTemplate room, int direction)
+        public void UpdateWindowContents(RoomTemplate room, Exit.Direction direction)
         {
             _room = room;
             _direction = direction;
-            Exit exit = _room.ExitData[direction];
+            Exit exit = _room.ExitData[(int)direction];
             if (exit != null)
             {
-                lblEditStatus.Text = "Editing " + Exit.DirectionName[direction] + " exit in room " + room.IndexNumber.ToString() + ".";
+                lblEditStatus.Text = "Editing " + direction.ToString() + " exit in room " + room.IndexNumber.ToString() + ".";
                 txtDescription.Text = exit.Description;
                 txtFlags.Text = exit.ExitFlags.ToString();
                 txtKeyIndexNumber.Text = exit.Key.ToString();
@@ -46,7 +46,7 @@ namespace ModernMUDEditor
             }
             else
             {
-                lblEditStatus.Text = "Creating new " + Exit.DirectionName[direction] + " exit in room " + room.IndexNumber.ToString() + ".";
+                lblEditStatus.Text = "Creating new " + direction.ToString() + " exit in room " + room.IndexNumber.ToString() + ".";
             }
         }
 
@@ -166,16 +166,16 @@ namespace ModernMUDEditor
             int roomNumber = _parent.AddNewRoomFromExit();
             this.txtIndexNumber.Text = roomNumber.ToString();
             // Create reverse-direction exit by default.
-            int dir = Exit.ReverseDirection[_direction];
+            Exit.Direction dir = Exit.ReverseDirection(_direction);
             for( int i = 0; i < _area.Rooms.Count; i++ )
             {
                 if (_area.Rooms[i].IndexNumber == roomNumber)
                 {
-                    if (_area.Rooms[i].ExitData != null && _area.Rooms[i].ExitData[dir] == null)
+                    if (_area.Rooms[i].ExitData != null && _area.Rooms[i].ExitData[(int)dir] == null)
                     {
                         Exit exit = new Exit();
                         exit.IndexNumber = currentRoom;
-                        _area.Rooms[i].ExitData[dir] = exit;
+                        _area.Rooms[i].ExitData[(int)dir] = exit;
                     }
                     return;
                 }

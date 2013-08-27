@@ -952,9 +952,8 @@ namespace MUDEngine
                 }
 
                 // Scavenge
-                if( ch.HasActionBit(MobTemplate.ACT_SCAVENGER )
-                        && ch._inRoom.Contents.Count != 0
-                        && MUDMath.NumberBits( 2 ) == 0 )
+                if( ch.HasActionBit(MobTemplate.ACT_SCAVENGER ) && ch._inRoom.Contents.Count != 0
+                    && MUDMath.NumberBits( 2 ) == 0 )
                 {
                     int max = 1;
                     Object objBest = null;
@@ -987,12 +986,12 @@ namespace MUDEngine
                     rnum = 5;
                 }
 
-                int door;
-                if( !ch.HasActionBit(MobTemplate.ACT_SENTINEL ) && ( door = MUDMath.NumberBits( rnum ) ) < Limits.MAX_DIRECTION
-                        && (exit = ch._inRoom.ExitData[door]) && exit.TargetRoom && !exit.HasFlag(Exit.ExitFlag.closed)
-                        && !Room.GetRoom(exit.IndexNumber).HasFlag( RoomTemplate.ROOM_NO_MOB ) && ( !ch.HasActionBit(MobTemplate.ACT_STAY_AREA )
-                             || exit.TargetRoom.Area == ch._inRoom.Area )
-                        && !( !Room.GetRoom(exit.IndexNumber).IsWater() && ch.HasInnate( Race.RACE_SWIM ) ) )
+                Exit.Direction door;
+                if( !ch.HasActionBit(MobTemplate.ACT_SENTINEL ) && ( door = (Exit.Direction)MUDMath.NumberBits( rnum ) ) != Exit.Direction.invalid
+                    && (exit = ch._inRoom.GetExit(door)) && exit.TargetRoom && !exit.HasFlag(Exit.ExitFlag.closed)
+                    && !Room.GetRoom(exit.IndexNumber).HasFlag( RoomTemplate.ROOM_NO_MOB ) && ( !ch.HasActionBit(MobTemplate.ACT_STAY_AREA )
+                    || exit.TargetRoom.Area == ch._inRoom.Area )
+                    && !( !Room.GetRoom(exit.IndexNumber).IsWater() && ch.HasInnate( Race.RACE_SWIM ) ) )
                 {
                     // Give message if hurt.
                     if( rnum == 3 )
@@ -1018,7 +1017,7 @@ namespace MUDEngine
                         if (!roomCharacter.IsNPC() && CharData.CanSee(ch, roomCharacter) && !roomCharacter.IsImmortal())
                         {
                             int direction;
-                            door = -1;
+                            door = Exit.Direction.invalid;
 
                             if (Combat.IsFearing(ch, roomCharacter))
                             {
@@ -1059,12 +1058,12 @@ namespace MUDEngine
                             {
                                 if (ch._inRoom.ExitData[direction] && MUDMath.NumberRange(0, direction) == 0)
                                 {
-                                    door = direction;
+                                    door = (Exit.Direction)direction;
                                 }
                             }
 
                             // If no exit, attack.  Else flee!
-                            if (door == -1)
+                            if (door == Exit.Direction.invalid)
                             {
                                 ch.AttackCharacter( roomCharacter );
                             }

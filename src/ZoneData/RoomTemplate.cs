@@ -353,7 +353,7 @@ namespace ModernMUD
             {
                 if (ExitData[i] != null)
                 {
-                    sb.Append(Exit.DirectionName[i] + " ");
+                    sb.Append(((Exit.Direction)i).ToString() + " ");
                 }
             }
             sb.Append("\r\n");

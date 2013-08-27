@@ -477,7 +477,7 @@ namespace ModernMUDEditor
                         SelectDirection dlg = new SelectDirection();
                         if (dlg.ShowDialog() == DialogResult.OK)
                         {
-                            txtValue3.Text = dlg.GetDirectionNumber().ToString();
+                            txtValue3.Text = dlg.GetDirection().ToString();
                         }
                     }
                     return;

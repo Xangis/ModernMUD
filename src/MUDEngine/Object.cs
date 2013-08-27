@@ -1856,16 +1856,16 @@ namespace MUDEngine
                 return null;
             }
 
-            int door = Movement.FindExit(ch, targetName);
+            Exit.Direction door = Movement.FindExit(ch, targetName);
 
-            if (door == -1)
+            if (door == Exit.Direction.invalid)
             {
                 ch.SendText("You failed!\r\n");
                 return null;
             }
 
             // The exit of the same direction should be flagged Exit.ExitFlags.walled
-            if (!(exit = ch._inRoom.ExitData[door]))
+            if (!(exit = ch._inRoom.GetExit(door)))
             {
                 ch.SendText("You failed!\r\n");
                 return null;
@@ -1876,6 +1876,7 @@ namespace MUDEngine
                 ch.SendText("There's already a wall there!\r\n");
                 return null;
             }
+
             if (exit.HasFlag(Exit.ExitFlag.is_door))
             {
                 return null;
@@ -1900,16 +1901,18 @@ namespace MUDEngine
             }
 
             // Value[0] should be the direction that is blocked by the wall.
-            wall.Values[0] = door;
+            wall.Values[0] = (int)door;
             // Set the wall's level
             wall.Values[2] = level;
 
-            string text = String.Format("{0} {1} exit.&n", wall.FullDescription, Exit.DirectionName[door]);
+            string text = String.Format("{0} {1} exit.&n", wall.FullDescription, door.ToString());
             wall.FullDescription = text;
 
             exit.AddFlag(Exit.ExitFlag.walled);
             if (indexNumber == StaticObjects.OBJECT_NUMBER_WALL_ILLUSION)
+            {
                 exit.AddFlag(Exit.ExitFlag.illusion);
+            }
 
             wall.Timer = ch._level / 3;
             wall.Level = ch._level;
@@ -1918,28 +1921,30 @@ namespace MUDEngine
             // Create the wall on the other side
             if (exit.TargetRoom)
             {
-                if (exit.TargetRoom.ExitData[Exit.ReverseDirection[wall.Values[0]]])
+                if (exit.TargetRoom.ExitData[(int)Exit.ReverseDirection(door)])
                 {
                     //we actually have a matching exit
                     wall2 = Database.CreateObject(Database.GetObjTemplate(indexNumber), 0);
 
                     // Value[0] should be the direction that is blocked by the wall.
-                    wall2.Values[0] = Exit.ReverseDirection[door];
+                    wall2.Values[0] = (int)Exit.ReverseDirection(door);
                     // Set the wall's level
                     wall2.Values[2] = level;
 
-                    text = String.Format("{0} {1} exit.&n", wall2.FullDescription, Exit.DirectionName[Exit.ReverseDirection[door]]);
+                    text = String.Format("{0} {1} exit.&n", wall2.FullDescription, Exit.ReverseDirection(door).ToString());
                     wall2.FullDescription = text;
 
-                    if (exit.TargetRoom.ExitData[Exit.ReverseDirection[door]])
-                        exit.TargetRoom.ExitData[Exit.ReverseDirection[door]].AddFlag(Exit.ExitFlag.walled);
+                    if (exit.TargetRoom.ExitData[(int)Exit.ReverseDirection(door)])
+                    {
+                        exit.TargetRoom.ExitData[(int)Exit.ReverseDirection(door)].AddFlag(Exit.ExitFlag.walled);
+                    }
 
                     wall2.Timer = ch._level / 2;
                     wall2.Level = ch._level;
                     wall2.AddToRoom(Room.GetRoom(exit.IndexNumber));
                     if (Room.GetRoom(exit.IndexNumber).People.Count > 0)
                     {
-                        text = String.Format("$p&n appears to the {0}.", Exit.DirectionName[wall2.Values[0]]);
+                        text = String.Format("$p&n appears to the {0}.", Exit.ReverseDirection(door).ToString());
                         SocketConnection.Act(text, Room.GetRoom(exit.IndexNumber).People[0], wall2, null, SocketConnection.MessageTarget.all);
                     }
                 } //end if matching exit

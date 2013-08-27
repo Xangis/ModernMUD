@@ -245,7 +245,7 @@ namespace MUDEngine
                         }
 
                         // Taken from the Commandrecho code - Xangis
-                        string buf = vehicle.ParentObject.ShortDescription + "&n sails " + Exit.DirectionName[door] + ".";
+                        string buf = vehicle.ParentObject.ShortDescription + "&n sails " + door.ToString() + ".";
                         foreach (SocketConnection socket in Database.SocketList)
                         {
                             if (socket._connectionState == SocketConnection.ConnectionState.playing
@@ -3221,8 +3221,8 @@ namespace MUDEngine
                             {
                                 // Bad exit
                                 text = String.Format("Exit {0} in room {1} leads to nothing.\r\n",
-                                          Exit.DirectionName[door].ToUpper(),
-                                          room.IndexNumber != 0 ? room.IndexNumber : -1);
+                                       door.ToString().ToUpper(),
+                                       room.IndexNumber != 0 ? room.IndexNumber : -1);
                                 ch.SendText(text);
                             }
                             else
@@ -3231,8 +3231,8 @@ namespace MUDEngine
                                 if (vn < lower || vn > upper)
                                 {
                                     text = String.Format("Exit {0} in room {1} leads to zone {2}&n.\r\n",
-                                              Exit.DirectionName[door].ToUpper(), room.IndexNumber,
-                                              exit.TargetRoom.Area.Name);
+                                           door.ToString().ToUpper(), room.IndexNumber,
+                                           exit.TargetRoom.Area.Name);
                                     ch.SendText(text);
                                 }
                             }
@@ -3485,7 +3485,7 @@ namespace MUDEngine
                     string buf4;
                     buf4 = String.Format(
                               "{0}:  To: {1}.  Key: {2}.  Exit flags: {3}.\r\n",
-                              MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5),
+                              MUDString.PadStr(door.ToString().ToUpper(), 5),
                               exit.TargetRoom ? exit.TargetRoom.IndexNumber : 0,
                               exit.Key,
                               exit.ExitFlags.ToString());
@@ -3496,7 +3496,7 @@ namespace MUDEngine
             }
 
             /* Added display of percent chance of falling. */
-            if (location.ExitData[Exit.DIRECTION_DOWN])
+            if (location.GetExit(Exit.Direction.down))
             {
                 text += "Percent chance of falling: " + location.FallChance + ".\r\n";
             }
@@ -8932,8 +8932,8 @@ namespace MUDEngine
             {
                 Exit exit;
 
-                int door = Database.RandomDoor();
-                if ((exit = wasIn.ExitData[door]) == null || !exit.TargetRoom
+                Exit.Direction door = Database.RandomDoor();
+                if ((exit = wasIn.GetExit(door)) == null || !exit.TargetRoom
                         || exit.TargetRoom == wasIn || exit.HasFlag(Exit.ExitFlag.closed)
                         || (ch.IsNPC() && (Room.GetRoom(exit.IndexNumber).HasFlag(RoomTemplate.ROOM_NO_MOB)
                         || (ch.HasActionBit(MobTemplate.ACT_STAY_AREA) && exit.TargetRoom.Area != ch._inRoom.Area))))
@@ -8965,12 +8965,12 @@ namespace MUDEngine
                 }
                 else
                 {
-                    text = String.Format("$n&n flees {0}ward.", Exit.DirectionName[door]);
+                    text = String.Format("$n&n flees {0}ward.", door.ToString());
                     SocketConnection.Act(text, ch, null, null, SocketConnection.MessageTarget.room, true);
                 }
                 ch._inRoom = nowIn;
 
-                text = String.Format("You flee {0}ward!\r\n", Exit.DirectionName[door]);
+                text = String.Format("You flee {0}ward!\r\n", door.ToString());
                 ch.SendText(text);
 
                 Combat.StopFighting(ch, true);
@@ -9152,7 +9152,6 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            string arg1 = String.Empty;
             int chance;
             int wallkickchance;
 
@@ -9252,32 +9251,27 @@ namespace MUDEngine
                 /* to be kicked out of the room (random direction). */
                 if (MUDMath.NumberPercent() < wallkickchance)
                 {
-                    // Let immortals choose the direction to kick the victim
-                    int door;
-                    bool valid = Int32.TryParse(arg1, out door);
-                    if (!ch.IsImmortal() || !valid || door >= Limits.MAX_DIRECTION)
-                    {
-                        door = Database.RandomDoor();
-                    }
+                    Exit.Direction door = Database.RandomDoor();
 
                     // Check for valid room stuff on victim
                     Room kickedInto;
+                    Exit exit;
                     if (victim && victim._inRoom && victim._inRoom.ExitData != null
-                            && victim._inRoom.ExitData[door]
-                            && victim._inRoom.ExitData[door].TargetRoom
-                            && victim._inRoom.ExitData[door].ExitFlags != 0
-                            && !victim._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)
-                            && !victim._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.blocked)
-                            && !victim._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.walled)
-                            && !victim._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.closed)
-                            && !Room.GetRoom(victim._inRoom.ExitData[door].IndexNumber).IsPrivate()
-                            && victim._inRoom.ExitData[door].TargetRoom.TerrainType != TerrainType.underground_impassable
-                            && (kickedInto = Room.GetRoom(victim._inRoom.ExitData[door].IndexNumber)))
+                        && (exit = victim._inRoom.GetExit(door))
+                        && exit.TargetRoom
+                        && exit.ExitFlags != 0
+                        && !exit.HasFlag(Exit.ExitFlag.secret)
+                        && !exit.HasFlag(Exit.ExitFlag.blocked)
+                        && !exit.HasFlag(Exit.ExitFlag.walled)
+                        && exit.HasFlag(Exit.ExitFlag.closed)
+                        && !Room.GetRoom(exit.IndexNumber).IsPrivate()
+                        && exit.TargetRoom.TerrainType != TerrainType.underground_impassable
+                        && (kickedInto = Room.GetRoom(exit.IndexNumber)))
                     {
                         Combat.StopFighting(victim, true);
-                        string buf = String.Format("$N&n is sent flying out of the room {0}ward by $n&n's mighty kick.", Exit.DirectionName[door]);
+                        string buf = String.Format("$N&n is sent flying out of the room {0}ward by $n&n's mighty kick.", door.ToString());
                         SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                        buf = String.Format("$N&n is sent flying out of the room {0}ward by your mighty kick.", Exit.DirectionName[door]);
+                        buf = String.Format("$N&n is sent flying out of the room {0}ward by your mighty kick.", door.ToString());
                         SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.character);
                         SocketConnection.Act("You are sent flying out of the room by $n's mighty kick!", ch, null, victim, SocketConnection.MessageTarget.victim);
                         victim.RemoveFromRoom();
@@ -12090,7 +12084,7 @@ namespace MUDEngine
                 }
             }
 
-            int door = Movement.FindExit(ch, str[1]);
+            Exit.Direction door = Movement.FindExit(ch, str[1]);
 
             if (door < 0)
             {
@@ -12103,9 +12097,9 @@ namespace MUDEngine
                 return;
             }
 
-            string text = String.Format("You drag $p&n {0}.", Exit.DirectionName[door]);
+            string text = String.Format("You drag $p&n {0}.", door.ToString());
             SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
-            text = String.Format("$n&n drags $p&n {0}.", Exit.DirectionName[door]);
+            text = String.Format("$n&n drags $p&n {0}.", door.ToString());
             SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.room);
 
             obj.RemoveFromRoom();
@@ -17862,7 +17856,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_NORTH);
+            ch.Move(Exit.Direction.north);
             return;
         }
 
@@ -17876,7 +17870,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_NORTHEAST);
+            ch.Move(Exit.Direction.northeast);
             return;
         }
 
@@ -17890,7 +17884,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_NORTHWEST);
+            ch.Move(Exit.Direction.northwest);
             return;
         }
 
@@ -17904,7 +17898,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_EAST);
+            ch.Move(Exit.Direction.east);
             return;
         }
 
@@ -17918,7 +17912,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_SOUTH);
+            ch.Move(Exit.Direction.south);
             return;
         }
 
@@ -17932,7 +17926,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_SOUTHEAST);
+            ch.Move(Exit.Direction.southeast);
             return;
         }
 
@@ -17946,7 +17940,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_SOUTHWEST);
+            ch.Move(Exit.Direction.southwest);
             return;
         }
 
@@ -17960,7 +17954,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_WEST);
+            ch.Move(Exit.Direction.west);
             return;
         }
 
@@ -17974,7 +17968,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_UP);
+            ch.Move(Exit.Direction.up);
             return;
         }
 
@@ -17988,7 +17982,7 @@ namespace MUDEngine
             if (ch == null)
                 return;
 
-            ch.Move(Exit.DIRECTION_DOWN);
+            ch.Move(Exit.Direction.down);
             return;
         }
 
@@ -18001,7 +17995,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
             Object obj;
-            int door;
+            Exit.Direction door;
 
             if (str.Length == 0 )
             {
@@ -18018,9 +18012,9 @@ namespace MUDEngine
                 door = Movement.FindDoor(ch, str[0]);
             }
 
-            if (door >= 0 && !(ch._level < Limits.LEVEL_AVATAR
-                && ch._inRoom.ExitData[door] && ch._inRoom.ExitData[door].ExitFlags != 0
-                && ch._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)))
+            if (door != Exit.Direction.invalid && !(ch._level < Limits.LEVEL_AVATAR
+                && ch._inRoom.ExitData[(int)door] && ch._inRoom.ExitData[(int)door].ExitFlags != 0
+                && ch._inRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.secret)))
             {
                 /* 'open door' */
                 Exit reverseExit;
@@ -18036,7 +18030,7 @@ namespace MUDEngine
                     ch.SendText("Stop fighting first!\r\n");
                     return;
                 }
-                Exit exit = ch._inRoom.ExitData[door];
+                Exit exit = ch._inRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's already open.\r\n");
@@ -18054,8 +18048,8 @@ namespace MUDEngine
 
                 /* open the other side */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber))
-                        && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && reverseExit.TargetRoom == ch._inRoom)
+                    && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
+                    && reverseExit.TargetRoom == ch._inRoom)
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.closed);
                     reverseExit.RemoveFlag(Exit.ExitFlag.secret);
@@ -18143,7 +18137,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
             string arg1 = String.Empty;
-            int door;
+            Exit.Direction door;
 
             if (str.Length == 0)
             {
@@ -18177,7 +18171,7 @@ namespace MUDEngine
                     return;
                 }
 
-                Exit exit = ch._inRoom.ExitData[door];
+                Exit exit = ch._inRoom.GetExit(door);
                 if (exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's already closed.\r\n");
@@ -18196,7 +18190,7 @@ namespace MUDEngine
                 ch.SendText("Done.\r\n");
 
                 /* close the other side */
-                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
                         && reverseExit.TargetRoom == ch._inRoom)
                 {
                     reverseExit.AddFlag(Exit.ExitFlag.closed);
@@ -18266,7 +18260,7 @@ namespace MUDEngine
         public static void Lock(CharData ch, string[] str)
         {
             if( ch == null ) return;
-            int door;
+            Exit.Direction door;
 
             if (str.Length == 0)
             {
@@ -18280,7 +18274,7 @@ namespace MUDEngine
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit exit = ch._inRoom.ExitData[door];
+                Exit exit = ch._inRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
@@ -18307,7 +18301,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n locks the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
 
                 /* lock the other side */
-                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
                         && reverseExit.TargetRoom == ch._inRoom)
                 {
                     reverseExit.AddFlag(Exit.ExitFlag.locked);
@@ -18394,7 +18388,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
             string arg1 = String.Empty;
-            int door;
+            Exit.Direction door;
 
             if (str.Length == 0)
             {
@@ -18411,15 +18405,14 @@ namespace MUDEngine
                 door = Movement.FindDoor(ch, str[0]);
             }
 
-            if (door >= 0 && !(ch._level < Limits.LEVEL_AVATAR
-                                 && ch._inRoom.ExitData[door] && ch._inRoom.ExitData[door].ExitFlags != 0
-                                 && ch._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)))
+            if (door >= 0 && !(ch._level < Limits.LEVEL_AVATAR && ch._inRoom.ExitData[(int)door] && ch._inRoom.ExitData[(int)door].ExitFlags != 0
+                && ch._inRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.secret)))
             {
                 /* 'unlock door' */
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit exit = ch._inRoom.ExitData[door];
+                Exit exit = ch._inRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
@@ -18453,9 +18446,8 @@ namespace MUDEngine
                 }
 
                 /* unlock the other side */
-                if ((toRoom = Room.GetRoom(exit.IndexNumber))
-                        && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
-                        && reverseExit.TargetRoom == ch._inRoom)
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
+                    && reverseExit.TargetRoom == ch._inRoom)
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.locked);
                 }
@@ -18541,7 +18533,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
             Object obj;
-            int door;
+            Exit.Direction door;
 
             if (str.Length == 0)
             {
@@ -18582,7 +18574,7 @@ namespace MUDEngine
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit exit = ch._inRoom.ExitData[door];
+                Exit exit = ch._inRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
@@ -18609,7 +18601,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n picks the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room);
 
                 /* pick the other side */
-                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
                         && reverseExit.TargetRoom == ch._inRoom)
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.locked);
@@ -19548,7 +19540,7 @@ namespace MUDEngine
         public static void DoorBash(CharData ch, string[] str)
         {
             if( ch == null ) return;
-            int door;
+            Exit.Direction door;
             Room toRoom;
 
             if (ch.IsNPC() || (!ch.HasSkill("doorbash") && !ch.HasInnate(Race.RACE_DOORBASH)))
@@ -19574,7 +19566,7 @@ namespace MUDEngine
                 Exit reverseExit;
                 int chance;
 
-                Exit exit = ch._inRoom.ExitData[door];
+                Exit exit = ch._inRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("Calm down. It is already open.\r\n");
@@ -19648,7 +19640,7 @@ namespace MUDEngine
                     Combat.InflictDamage(ch, ch, (ch.GetMaxHit() / 30), "doorbash", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
 
                     /* Bash through the other side */
-                    if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                    if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
                         && reverseExit.TargetRoom == ch._inRoom)
                     {
                         reverseExit.RemoveFlag(Exit.ExitFlag.closed);
@@ -20910,7 +20902,7 @@ namespace MUDEngine
                             }
                             text += "&+Y!&n";
                         }
-                        text += Exit.DirectionName[door];
+                        text += door.ToString();
                         text += " ";
                     }
                     else
@@ -20918,7 +20910,7 @@ namespace MUDEngine
                         if (exit.HasFlag(Exit.ExitFlag.walled))
                         {
                             text += String.Format("&n{0} - (Walled)&n\r\n",
-                                MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5));
+                                MUDString.PadStr(door.ToString().ToUpper(), 5));
                         }
                         else if (!exit.HasFlag(Exit.ExitFlag.closed))
                         {
@@ -20931,14 +20923,14 @@ namespace MUDEngine
                                 }
                                 text += "&+Y!&n";
                             }
-                            text += String.Format("&n {0} - {1}&n\r\n", MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5),
+                            text += String.Format("&n {0} - {1}&n\r\n", MUDString.PadStr(door.ToString().ToUpper(), 5),
                                     (!ch.HasInnate(Race.RACE_ULTRAVISION) && Room.GetRoom(exit.IndexNumber).IsDark())
                                       ? "&nToo dark to tell" : exit.TargetRoom.Title);
                         }
                         else
                         {
                             text += String.Format("&+y#&n{0} - Closed {1}\r\n",
-                                MUDString.PadStr(Exit.DirectionName[door].ToUpper(), 5), exit.Keyword);
+                                MUDString.PadStr(door.ToString().ToUpper(), 5), exit.Keyword);
                         }
                     }
                 }
@@ -21432,7 +21424,7 @@ namespace MUDEngine
 
                 text = String.Format("&n and a {0} {1}ward {2} blows.\r\n",
                           tempWord,
-                          Exit.DirectionName[Math.Abs(Database.SystemData.WeatherData.WindDirection) % 3],
+                          ((Exit.Direction)(Math.Abs(Database.SystemData.WeatherData.WindDirection) % 3)).ToString(),
                           wind <= 20 ? "breeze" :
                           wind <= 45 ? "wind" :
                           wind <= 70 ? "gust" :
@@ -23732,7 +23724,7 @@ namespace MUDEngine
             Exit exit = null;
             Object obj;
             bool isArg;
-            int door;
+            Exit.Direction door;
 
             if (ch._inRoom == null)
             {
@@ -23789,7 +23781,9 @@ namespace MUDEngine
 
             /* Lag ch from searching. */
             if (ch._level < Limits.LEVEL_AVATAR)
+            {
                 ch.WaitState(MUDMath.FuzzyNumber(18));
+            }
 
             List<Object> list;
             if (obj != null)
@@ -23813,33 +23807,32 @@ namespace MUDEngine
             }
 
             /* Look for a hidden exit. */
-            for (door = 0; door <= Limits.MAX_DIRECTION; door++)
+            door = Exit.Direction.invalid;
+            for (int doornum = 0; doornum <= Limits.MAX_DIRECTION; doornum++)
             {
-                /* If all exits have been searched and none are secret. */
-                if (door == Limits.MAX_DIRECTION)
+                /* If there's a secret exit that leads to a room. */
+                exit = ch._inRoom.GetExit((Exit.Direction)doornum);
+                if (exit && exit.HasFlag(Exit.ExitFlag.secret) && exit.TargetRoom)
                 {
+                    door = (Exit.Direction)doornum;
                     break;
                 }
-                /* If there's a secret exit that leads to a room. */
-                exit = ch._inRoom.ExitData[door];
-                if (exit && exit.HasFlag(Exit.ExitFlag.secret) && exit.TargetRoom)
-                    break;
             }
 
             if (isArg)
             {
-                door = Limits.MAX_DIRECTION;
+                door = Exit.Direction.invalid;
             }
-            if (door < Limits.MAX_DIRECTION)
+            if (door != Exit.Direction.invalid)
             {
                 if (exit == null)
                 {
-                    Log.Error("Commandsearch: null exit found", 0);
+                    Log.Error("Command.Search: null exit found", 0);
                     return;
                 }
                 if (exit.TargetRoom == null)
                 {
-                    Log.Error("Commandsearch: exit to null room found", 0);
+                    Log.Error("Command.Search: exit to null room found", 0);
                     return;
                 }
                 if (MUDMath.NumberPercent() < chance)
@@ -23856,14 +23849,13 @@ namespace MUDEngine
                     exit.RemoveFlag(Exit.ExitFlag.secret);
                     /* And the other side, if it exists. */
                     toRoom = Room.GetRoom(exit.IndexNumber);
-                    if (toRoom && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]]) && (reverseExit.TargetRoom == ch._inRoom))
+                    if (toRoom && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door))) && (reverseExit.TargetRoom == ch._inRoom))
                     {
                         reverseExit.RemoveFlag(Exit.ExitFlag.secret);
                     }
                     return;
                 }
             }
-
 
             if (!isArg)
             {
@@ -25757,7 +25749,9 @@ namespace MUDEngine
 
             // Maximum chance of 98%
             if (chance > 98)
+            {
                 chance = 98;
+            }
 
             if (MUDMath.NumberPercent() >= chance)
             {
@@ -25774,7 +25768,7 @@ namespace MUDEngine
             // move_char to make sure that there is actually an exit in that direction.
             // we use the climbing bit to allow them to pass the walls in move_char.
             ch.SetAffectBit(Affect.AFFECT_CLIMBING);
-            ch.Move(obj.Values[0]);
+            ch.Move((Exit.Direction)obj.Values[0]);
             ch.RemoveAffect(Affect.AFFECT_CLIMBING);
 
             return;
@@ -26552,13 +26546,13 @@ namespace MUDEngine
                     return;
                 }
                 /* If a _targetType was specified as arg1. */
-                if (!MUDString.IsPrefixOf(arg2, Exit.DirectionName[dir]))
+                if (!MUDString.IsPrefixOf(arg2, dir.ToString()))
                     break;
             }
             if (dir == Limits.MAX_DIRECTION)
                 dir = 0;
             /* If arg2 wasn't a direction, then check if arg1 is. */
-            if (MUDString.IsPrefixOf(arg2, Exit.DirectionName[dir]))
+            if (MUDString.IsPrefixOf(arg2, dir.ToString()))
                 for (dir = 0; dir <= Limits.MAX_DIRECTION; dir++)
                 {
                     if (dir == Limits.MAX_DIRECTION)
@@ -26567,10 +26561,12 @@ namespace MUDEngine
                         return;
                     }
                     /* If arg1 is the direction, no _targetType specified. */
-                    if (!MUDString.IsPrefixOf(arg1, Exit.DirectionName[dir]))
+                    if (!MUDString.IsPrefixOf(arg1, dir.ToString()))
                     {
                         if (arg2.Length != 0)         // If there is a distance,
+                        {
                             arg3 = arg2;     // Copy distance into arg3.
+                        }
                         arg2 = arg1;     // Copy direction into arg2.
                         arg1 = String.Empty;     // Set _targetType to null;
                         break;
@@ -26637,7 +26633,7 @@ namespace MUDEngine
                     msg = "You crank back {0}&n, and release it {1}ward!\r\n";
                     break;
             }
-            string buf = String.Format(msg, obj.ShortDescription, Exit.DirectionName[dir]);
+            string buf = String.Format(msg, obj.ShortDescription, dir.ToString());
             ch.SendText(buf);
 
             switch (obj.Values[3])
@@ -26656,7 +26652,7 @@ namespace MUDEngine
                     break;
             }
             buf = String.Format(msg, (ch.IsNPC() ? ch._shortDescription : ch._name),
-                      obj.ShortDescription, Exit.DirectionName[dir]);
+                      obj.ShortDescription, dir.ToString());
             SocketConnection.Act(buf, ch, null, null, SocketConnection.MessageTarget.room);
 
             ObjTemplate objTemplate = Database.GetObjTemplate(obj.Values[5]);
@@ -26800,7 +26796,7 @@ namespace MUDEngine
                     if (n <= range)
                     {
                         buf = String.Format("{0}&n streaks through the air and continues {1}&n.",
-                                  newobj.ShortDescription, Exit.DirectionName[dir]);
+                                  newobj.ShortDescription, dir.ToString());
                         SocketConnection.Act(buf, toRoom.People[0], null, null, SocketConnection.MessageTarget.room);
                         SocketConnection.Act(buf, toRoom.People[0], null, null, SocketConnection.MessageTarget.character);
                     }
@@ -27386,12 +27382,16 @@ namespace MUDEngine
             }
 
             /* only imps can hunt to different areas */
-            bool fArea = (ch.GetTrust() < Limits.LEVEL_OVERLORD);
+            bool area = (ch.GetTrust() < Limits.LEVEL_OVERLORD);
 
-            if (fArea)
+            if (area)
+            {
                 victim = ch.GetCharInArea(str[0]);
+            }
             else
+            {
                 victim = ch.GetCharWorld(str[0]);
+            }
 
             if (!victim || (!victim.IsNPC() && (ch.IsRacewar(victim)) && !ch.IsImmortal()))
             {
@@ -27409,7 +27409,9 @@ namespace MUDEngine
             * Deduct some movement.
             */
             if (ch._currentMoves > 2)
+            {
                 ch._currentMoves -= 3;
+            }
             else
             {
                 ch.SendText("You're too exhausted to hunt anyone!\r\n");
@@ -27418,19 +27420,12 @@ namespace MUDEngine
 
             SocketConnection.Act("$n carefully sniffs the air.", ch, null, null, SocketConnection.MessageTarget.room);
             ch.WaitState(Skill.SkillList["track"].Delay);
-            int direction = (int)Track.FindPath(ch._inRoom.IndexNumber, victim._inRoom.IndexNumber,
-                                                 ch, -40000, fArea);
+            Exit.Direction direction = Track.FindPath(ch._inRoom.IndexNumber, victim._inRoom.IndexNumber, ch, -40000, area);
 
-            if (direction == -1)
+            if (direction == Exit.Direction.invalid)
             {
                 SocketConnection.Act("You can't sense $N&n's trail from here.",
                      ch, null, victim, SocketConnection.MessageTarget.character);
-                return;
-            }
-
-            if (direction < 0 || direction >= Limits.MAX_DIRECTION)
-            {
-                ch.SendText("Hmm... Something seems to be wrong.\r\n");
                 return;
             }
 
@@ -27443,10 +27438,9 @@ namespace MUDEngine
             {
                 do
                 {
-                    direction = MUDMath.NumberDoor();
+                    direction = Database.RandomDoor();
                 }
-                while (!(ch._inRoom.ExitData[direction])
-                          || !(ch._inRoom.ExitData[direction].TargetRoom));
+                while (!(ch._inRoom.ExitData[(int)direction]) || !(ch._inRoom.ExitData[(int)direction].TargetRoom));
             }
 
             ch.PracticeSkill("track");
@@ -27455,10 +27449,12 @@ namespace MUDEngine
             * Display the results of the search.
             */
             ch.SetAffectBit(Affect.AFFECT_TRACK);
-            string buf = String.Format("You sense $N&n's trail {0} from here...", Exit.DirectionName[direction]);
+            string buf = String.Format("You sense $N&n's trail {0} from here...", direction.ToString());
             SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.character);
             if (ch._position == Position.standing)
+            {
                 ch.Move(direction);
+            }
             Combat.StartHunting(ch, victim);
 
             return;

@@ -197,7 +197,7 @@ namespace MapGenerator
                                 {
                                     Exit exit = new Exit();
                                     exit.IndexNumber = vnum + x + (y * _bitmap.Width) - 1;
-                                    room.ExitData[Exit.DIRECTION_WEST] = exit;
+                                    room.ExitData[(int)Exit.Direction.west] = exit;
                                 }
                             }
                             if (x < (_bitmap.Width - 1))
@@ -208,7 +208,7 @@ namespace MapGenerator
                                 {
                                     Exit exit = new Exit();
                                     exit.IndexNumber = vnum + x + (y * _bitmap.Width) + 1;
-                                    room.ExitData[Exit.DIRECTION_EAST] = exit;
+                                    room.ExitData[(int)Exit.Direction.east] = exit;
                                 }
                             }
                             if (y > 0)
@@ -219,7 +219,7 @@ namespace MapGenerator
                                 {
                                     Exit exit = new Exit();
                                     exit.IndexNumber = vnum + x + ((y - 1) * _bitmap.Width);
-                                    room.ExitData[Exit.DIRECTION_NORTH] = exit;
+                                    room.ExitData[(int)Exit.Direction.north] = exit;
                                 }
                             }
                             if( y < (_bitmap.Height - 1 ))
@@ -230,7 +230,7 @@ namespace MapGenerator
                                 {
                                     Exit exit = new Exit();
                                     exit.IndexNumber = vnum + x + ((y + 1) * _bitmap.Width);
-                                    room.ExitData[Exit.DIRECTION_SOUTH] = exit;
+                                    room.ExitData[(int)Exit.Direction.south] = exit;
                                 }
                             }
                             area.Rooms.Add(room);

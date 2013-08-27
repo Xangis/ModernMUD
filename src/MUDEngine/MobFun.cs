@@ -2135,14 +2135,14 @@ namespace MUDEngine
             if( !ch.IsAwake() )
                 return false;
 
-            int door = MUDMath.NumberRange( 0, ( Limits.MAX_DIRECTION - 1 ) );
+            Exit.Direction door = Database.RandomDoor();
             /*
             *   Could search through all doors randomly, but deathtraps would 
             *   freeze the game!  And I'd prefer not to go through from 1 to 6...
             *   too boring.  Instead, just check one direction at a time.  There's
             *   a 51% chance they'll find the door within 4 tries anyway.
             */
-            Exit exit = ch._inRoom.ExitData[ door ];
+            Exit exit = ch._inRoom.GetExit(door);
             if( !exit )
             {
                 return false;
@@ -2155,7 +2155,7 @@ namespace MUDEngine
                 SocketConnection.Act( "$n&n repairs the $d.", ch, null, exit.Keyword, SocketConnection.MessageTarget.room );
 
                 /* Don't forget the other side! */
-                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.ExitData[Exit.ReverseDirection[door]])
+                if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
                         && reverseExit.TargetRoom == ch._inRoom )
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.bashed);

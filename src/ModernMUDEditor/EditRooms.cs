@@ -27,7 +27,7 @@ namespace ModernMUDEditor
             }
             for (int count = 0; count < Limits.MAX_DIRECTION; count++)
             {
-                cbCurrentDir.Items.Add(Exit.DirectionName[count]);
+                cbCurrentDir.Items.Add(((Exit.Direction)count).ToString());
             }
             String[] names = Enum.GetNames(typeof(SecondaryTerrainType));
             foreach( string name in names )
@@ -116,7 +116,7 @@ namespace ModernMUDEditor
 
         private void UpdateExitButtons(RoomTemplate room)
         {
-            if (room.ExitData[Exit.DIRECTION_NORTH] == null)
+            if (room.ExitData[(int)Exit.Direction.north] == null)
             {
                 btnn.ForeColor = System.Drawing.Color.Gray;
             }
@@ -124,7 +124,7 @@ namespace ModernMUDEditor
             {
                 btnn.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_NORTHWEST] == null)
+            if (room.ExitData[(int)Exit.Direction.northwest] == null)
             {
                 btnnw.ForeColor = System.Drawing.Color.Gray;
             }
@@ -132,7 +132,7 @@ namespace ModernMUDEditor
             {
                 btnnw.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_NORTHEAST] == null)
+            if (room.ExitData[(int)Exit.Direction.northeast] == null)
             {
                 btnne.ForeColor = System.Drawing.Color.Gray;
             }
@@ -140,7 +140,7 @@ namespace ModernMUDEditor
             {
                 btnne.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_SOUTH] == null)
+            if (room.ExitData[(int)Exit.Direction.south] == null)
             {
                 btns.ForeColor = System.Drawing.Color.Gray;
             }
@@ -148,7 +148,7 @@ namespace ModernMUDEditor
             {
                 btns.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_SOUTHEAST] == null)
+            if (room.ExitData[(int)Exit.Direction.southeast] == null)
             {
                 btnse.ForeColor = System.Drawing.Color.Gray;
             }
@@ -156,7 +156,7 @@ namespace ModernMUDEditor
             {
                 btnse.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_SOUTHWEST] == null)
+            if (room.ExitData[(int)Exit.Direction.southwest] == null)
             {
                 btnsw.ForeColor = System.Drawing.Color.Gray;
             }
@@ -164,7 +164,7 @@ namespace ModernMUDEditor
             {
                 btnsw.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_EAST] == null)
+            if (room.ExitData[(int)Exit.Direction.east] == null)
             {
                 btne.ForeColor = System.Drawing.Color.Gray;
             }
@@ -172,7 +172,7 @@ namespace ModernMUDEditor
             {
                 btne.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_WEST] == null)
+            if (room.ExitData[(int)Exit.Direction.west] == null)
             {
                 btnw.ForeColor = System.Drawing.Color.Gray;
             }
@@ -180,7 +180,7 @@ namespace ModernMUDEditor
             {
                 btnw.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_UP] == null)
+            if (room.ExitData[(int)Exit.Direction.up] == null)
             {
                 btnup.ForeColor = System.Drawing.Color.Gray;
             }
@@ -188,7 +188,7 @@ namespace ModernMUDEditor
             {
                 btnup.ForeColor = System.Drawing.Color.Black;
             }
-            if (room.ExitData[Exit.DIRECTION_DOWN] == null)
+            if (room.ExitData[(int)Exit.Direction.down] == null)
             {
                 btndn.ForeColor = System.Drawing.Color.Gray;
             }
@@ -208,7 +208,7 @@ namespace ModernMUDEditor
             }
         }
 
-        public void AddNewRoom(int originalRoom, int direction)
+        public void AddNewRoom(int originalRoom, Exit.Direction direction)
         {
             btnNew_Click(null, null);
             RoomTemplate newRoom = _area.Rooms[(_area.Rooms.Count - 1)];
@@ -223,16 +223,16 @@ namespace ModernMUDEditor
             }
             if (oldRoom != null)
             {
-                if (oldRoom.ExitData[direction] == null)
+                if (oldRoom.ExitData[(int)direction] == null)
                 {
-                    oldRoom.ExitData[direction] = new Exit();
+                    oldRoom.ExitData[(int)direction] = new Exit();
                 }
-                oldRoom.ExitData[direction].IndexNumber = newRoom.IndexNumber;
-                if (newRoom.ExitData[Exit.ReverseDirection[direction]] == null)
+                oldRoom.ExitData[(int)direction].IndexNumber = newRoom.IndexNumber;
+                if (newRoom.ExitData[(int)Exit.ReverseDirection(direction)] == null)
                 {
-                    newRoom.ExitData[Exit.ReverseDirection[direction]] = new Exit();
+                    newRoom.ExitData[(int)Exit.ReverseDirection(direction)] = new Exit();
                 }
-                newRoom.ExitData[Exit.ReverseDirection[direction]].IndexNumber = oldRoom.IndexNumber;
+                newRoom.ExitData[(int)Exit.ReverseDirection(direction)].IndexNumber = oldRoom.IndexNumber;
             }
         }
 
@@ -300,55 +300,55 @@ namespace ModernMUDEditor
 
         private void btnnw_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_NORTHWEST);
+            ShowExitDlg(Exit.Direction.northwest);
         }
 
         private void btnn_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_NORTH);
+            ShowExitDlg(Exit.Direction.north);
         }
 
         private void btnne_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_NORTHEAST);
+            ShowExitDlg(Exit.Direction.northeast);
         }
 
         private void btnw_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_WEST);
+            ShowExitDlg(Exit.Direction.west);
         }
 
         private void btne_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_EAST);
+            ShowExitDlg(Exit.Direction.east);
         }
 
         private void btnsw_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_SOUTHWEST);
+            ShowExitDlg(Exit.Direction.southwest);
         }
 
         private void btns_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_SOUTH);
+            ShowExitDlg(Exit.Direction.south);
         }
 
         private void btnse_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_SOUTHEAST);
+            ShowExitDlg(Exit.Direction.southeast);
         }
 
         private void btnup_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_UP);
+            ShowExitDlg(Exit.Direction.up);
         }
 
         private void btndn_Click(object sender, EventArgs e)
         {
-            ShowExitDlg(Exit.DIRECTION_DOWN);
+            ShowExitDlg(Exit.Direction.down);
         }
 
-        private void ShowExitDlg(int direction)
+        private void ShowExitDlg(Exit.Direction direction)
         {
             if( roomList.SelectedIndex != -1 )
             {
@@ -358,7 +358,7 @@ namespace ModernMUDEditor
                 if( result == DialogResult.OK )
                 {
                     Exit exitData = exitdlg.GetExitData();
-                    _area.Rooms[roomList.SelectedIndex].ExitData[direction] = exitData;
+                    _area.Rooms[roomList.SelectedIndex].ExitData[(int)direction] = exitData;
                     UpdateExitButtons(_area.Rooms[roomList.SelectedIndex]);
                     this._parent.UpdateRoomMap();
                 }

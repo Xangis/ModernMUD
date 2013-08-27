@@ -18,48 +18,23 @@ namespace ModernMUD
         private string _description;
         private static int _numExits;
 
-        // Movement directions.
-        // TODO: Convert all of these to enum values.
         /// <summary>
-        /// north
+        /// Movement directions.
         /// </summary>
-        public const int DIRECTION_NORTH = 0;
-        /// <summary>
-        /// east
-        /// </summary>
-        public const int DIRECTION_EAST = 1;
-        /// <summary>
-        /// south
-        /// </summary>
-        public const int DIRECTION_SOUTH = 2;
-        /// <summary>
-        /// west
-        /// </summary>
-        public const int DIRECTION_WEST = 3;
-        /// <summary>
-        /// up
-        /// </summary>
-        public const int DIRECTION_UP = 4;
-        /// <summary>
-        /// down
-        /// </summary>
-        public const int DIRECTION_DOWN = 5;
-        /// <summary>
-        /// northwest
-        /// </summary>
-        public const int DIRECTION_NORTHWEST = 6;
-        /// <summary>
-        /// southwest
-        /// </summary>
-        public const int DIRECTION_SOUTHWEST = 7;
-        /// <summary>
-        /// northeast
-        /// </summary>
-        public const int DIRECTION_NORTHEAST = 8;
-        /// <summary>
-        /// southeast
-        /// </summary>
-        public const int DIRECTION_SOUTHEAST = 9;
+        public enum Direction
+        {
+            invalid = -1,
+            north = 0,
+            east = 1,
+            south = 2,
+            west = 3,
+            up = 4,
+            down = 5,
+            northwest = 6,
+            southwest = 7,
+            northeast = 8,
+            southeast = 9
+        }
 
         /// <summary>
         /// Exit flags.  Used to determine whether the exit has a door, is secret,
@@ -277,15 +252,6 @@ namespace ModernMUD
         }
 
         /// <summary>
-        /// Gets the name of a direction.
-        /// </summary>
-        public static string[] DirectionName = new[]   
-        {
-            "north", "east", "south", "west", "up", "down",
-            "northwest", "southwest", "northeast", "southeast"
-        };
-
-        /// <summary>
         /// Gets the name of the direction opposite the supplied direction.
         /// Used primarily for direction someone enters a room from.
         /// </summary>
@@ -298,79 +264,91 @@ namespace ModernMUD
         /// <summary>
         /// Gets the opposite direction number based on an exit direction.
         /// </summary>
-        public static int[] ReverseDirection = new[]     
+        private static Direction[] _reverseDirection = new[]     
         {
-            2, 3, 0, 1, 5, 4, 9, 8, 7, 6
+            Direction.south, Direction.west, Direction.north, Direction.east,
+            Direction.down, Direction.up, Direction.southeast, Direction.northeast,
+            Direction.southwest, Direction.northwest
         };
+
+        /// <summary>
+        /// Does a reverse direction lookup.
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public static Direction ReverseDirection(Direction dir)
+        {
+            return _reverseDirection[(int)dir];
+        }
 
         /// <summary>
         /// Returns the door number based on the provided string
         /// </summary>
         /// <param name="arg"></param>
         /// <returns>The direction number, or -1 if no match was found.</returns>
-        public static int DoorLookup(string arg)
+        public static Exit.Direction DoorLookup(string arg)
         {
             if (String.IsNullOrEmpty(arg))
             {
-                return -1;
+                return Exit.Direction.invalid;
             }
             if ("north".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 0;
+                return Exit.Direction.north;
             }
             if ("east".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 1;
+                return Exit.Direction.east;
             }
             if ("south".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 2;
+                return Exit.Direction.south;
             }
             if ("west".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 3;
+                return Exit.Direction.west;
             }
             if ("up".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 4;
+                return Exit.Direction.up;
             }
             if ("down".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 5;
+                return Exit.Direction.down;
             }
             if ("northwest".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 6;
+                return Exit.Direction.northwest;
             }
             if ("southwest".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 7;
+                return Exit.Direction.southwest;
             }
             if ("northeast".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 8;
+                return Exit.Direction.northeast;
             }
             if ("southeast".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 9;
+                return Exit.Direction.southeast;
             }
             if ("nw".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 6;
+                return Exit.Direction.northwest;
             }
             if ("sw".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 7;
+                return Exit.Direction.southwest;
             }
             if ("ne".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 8;
+                return Exit.Direction.northeast;
             }
             if ("se".StartsWith(arg, StringComparison.CurrentCultureIgnoreCase))
             {
-                return 9;
+                return Exit.Direction.southeast;
             }
-            return -1;
+            return Exit.Direction.invalid;
         }
 
         /// <summary>
@@ -397,7 +375,5 @@ namespace ModernMUD
             }
             return false;
         }
-    };
-
-
+    }
 }

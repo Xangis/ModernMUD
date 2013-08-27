@@ -704,7 +704,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["wall of stone"];
                         if (spl != null)
                         {
-                            spl.Invoke(keeper, 50, Exit.DirectionName[dir]);
+                            spl.Invoke(keeper, 50, dir.ToString());
                         }
                     }
                     retval = true;

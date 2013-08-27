@@ -33,7 +33,7 @@ namespace ModernMUDEditor
             return comboBox1.Text;
         }
 
-        public int GetDirectionNumber()
+        public Exit.Direction GetDirection()
         {
             return Exit.DoorLookup(comboBox1.Text);
         }

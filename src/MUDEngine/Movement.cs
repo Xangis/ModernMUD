@@ -160,14 +160,14 @@ namespace MUDEngine
                         case Visibility.visible:
                             text += ( target.ShowNameTo( ch, true ));
                             text += distanceMsg;
-                            text += Exit.DirectionName[ dir ];
+                            text += dir.ToString();
                             text += ".&n\r\n";
                             numberFound++;
                             break;
                         case Visibility.sense_infravision:
                             text += "&+rYou sense a being within the darkness";
                             text += distanceMsg;
-                            text += Exit.DirectionName[ dir ];
+                            text += dir.ToString();
                             text += ".&n\r\n";
                             numberFound++;
                             break;
@@ -177,23 +177,23 @@ namespace MUDEngine
             return numberFound;
         }
 
-        public static int GolemGuardDirection( CharData ch )
+        public static Exit.Direction GolemGuardDirection( CharData ch )
         {
             // TODO: Verify that this works correctly since it was rewritten.
             
             int index = ch._name.IndexOf( "guild_" );
             if (index == -1)
             {
-                return -1;
+                return Exit.Direction.invalid;
             }
             string tmp = ch._name.Substring( index + 6 );
             index = tmp.IndexOf( "_" );
             if (index == -1)
             {
-                return -1;
+                return Exit.Direction.invalid;
             }
             tmp = tmp.Substring( 0, index );
-            int dir = FindExit( ch, tmp );
+            Exit.Direction dir = FindExit( ch, tmp );
             return dir;
         }
 
@@ -361,15 +361,15 @@ namespace MUDEngine
         /// <returns></returns>
         public static Room FindRoom( CharData ch, string argument )
         {
-            int dir = FindExit( ch, argument );
-            if( dir == -1 )
+            Exit.Direction dir = FindExit( ch, argument );
+            if( dir == Exit.Direction.invalid )
             {
                 SocketConnection.Act( "I see no door $T here.", ch, null, argument, SocketConnection.MessageTarget.character );
                 return null;
             }
-            if( ch._inRoom.ExitData[ dir ] )
+            if( ch._inRoom.ExitData[ (int)dir ] )
             {
-                Room room = Room.GetRoom(ch._inRoom.ExitData[ dir ].IndexNumber);
+                Room room = Room.GetRoom(ch._inRoom.ExitData[ (int)dir ].IndexNumber);
                 return room;
             }
             return null;
@@ -382,36 +382,35 @@ namespace MUDEngine
         /// <param name="ch"></param>
         /// <param name="arg"></param>
         /// <returns></returns>
-        public static int FindDoor( CharData ch, string arg )
+        public static Exit.Direction FindDoor( CharData ch, string arg )
         {
             Exit exit;
-            int door = Exit.DoorLookup(arg);
-            if (door == -1)
+            Exit.Direction door = Exit.DoorLookup(arg);
+            if (door == Exit.Direction.invalid)
             {
-                for( door = 0; door < Limits.MAX_DIRECTION; door++ )
+                for( int doornum = 0; doornum < Limits.MAX_DIRECTION; doornum++ )
                 {
-                    if ((exit = ch._inRoom.ExitData[door]) && exit.HasFlag(Exit.ExitFlag.is_door)
-                            && !(ch._level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
-                                  && (exit.HasFlag(Exit.ExitFlag.secret) ||
-                                      exit.HasFlag(Exit.ExitFlag.blocked)))
-                            && exit.Keyword.Length != 0 && ("door".Equals(arg, StringComparison.CurrentCultureIgnoreCase)
-                                 || MUDString.NameContainedIn(arg, exit.Keyword)))
+                    if ((exit = ch._inRoom.ExitData[doornum]) && exit.HasFlag(Exit.ExitFlag.is_door)
+                        && !(ch._level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
+                        && (exit.HasFlag(Exit.ExitFlag.secret) || exit.HasFlag(Exit.ExitFlag.blocked)))
+                        && exit.Keyword.Length != 0 && ("door".Equals(arg, StringComparison.CurrentCultureIgnoreCase)
+                        || MUDString.NameContainedIn(arg, exit.Keyword)))
                     {
-                        return door;
+                        return (Exit.Direction)doornum;
                     }
                 }
-                return -1;
+                return Exit.Direction.invalid;
             }
 
-            exit = ch._inRoom.ExitData[ door ];
+            exit = ch._inRoom.GetExit(door);
             if( !exit )
             {
-                return -1;
+                return Exit.Direction.invalid;
             }
 
             if (!exit.HasFlag(Exit.ExitFlag.is_door))
             {
-                return -1;
+                return Exit.Direction.invalid;
             }
 
             return door;
@@ -423,32 +422,31 @@ namespace MUDEngine
         /// <param name="ch"></param>
         /// <param name="arg"></param>
         /// <returns></returns>
-        public static int FindExit( CharData ch, string arg )
+        public static Exit.Direction FindExit( CharData ch, string arg )
         {
             Exit exit;
-            int door = Exit.DoorLookup(arg);
-            if( door == -1 )
+            Exit.Direction door = Exit.DoorLookup(arg);
+            if( door == Exit.Direction.invalid )
             {
-                for( door = 0; door < Limits.MAX_DIRECTION; door++ )
+                for (int doornum = 0; doornum < Limits.MAX_DIRECTION; doornum++)
                 {
-                    if ((exit = ch._inRoom.ExitData[door]) && exit.HasFlag(Exit.ExitFlag.is_door)
-                            && !(ch._level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
-                                  && (exit.HasFlag(Exit.ExitFlag.secret) ||
-                                      exit.HasFlag(Exit.ExitFlag.blocked)))
-                            && exit.Keyword.Length != 0 && ("door".Equals(arg, StringComparison.CurrentCultureIgnoreCase)
-                                 || MUDString.NameContainedIn(arg, exit.Keyword)))
+                    if ((exit = ch._inRoom.ExitData[doornum]) && exit.HasFlag(Exit.ExitFlag.is_door)
+                         && !(ch._level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
+                         && (exit.HasFlag(Exit.ExitFlag.secret) || exit.HasFlag(Exit.ExitFlag.blocked)))
+                         && exit.Keyword.Length != 0 && ("door".Equals(arg, StringComparison.CurrentCultureIgnoreCase)
+                         || MUDString.NameContainedIn(arg, exit.Keyword)))
                     {
-                        return door;
+                        return (Exit.Direction)doornum;
                     }
                 }
                 SocketConnection.Act( "I see no $T here.", ch, null, arg, SocketConnection.MessageTarget.character );
-                return -1;
+                return Exit.Direction.invalid;
             }
 
-            if( !( exit = ch._inRoom.ExitData[ door ] ) )
+            if( !( exit = ch._inRoom.ExitData[ (int)door ] ) )
             {
                 SocketConnection.Act( "I see no door $T here.", ch, null, arg, SocketConnection.MessageTarget.character );
-                return -1;
+                return Exit.Direction.invalid;
             }
 
             return door;

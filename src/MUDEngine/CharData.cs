@@ -2036,29 +2036,27 @@ namespace MUDEngine
         /// Movement function.  Handles all processing related to walking/flying/moving from one room to another.
         /// </summary>
         /// <param name="door"></param>
-        public void Move( int door )
+        public void Move( Exit.Direction door )
         {
             Exit exit;
             Room toRoom;
             Room target;
-            Bitvector moved = PC.PLAYER_MOVED; /* Matches ACT & PLR bits */ // Actually, this DOES NOT match.
+            Bitvector moved = PC.PLAYER_MOVED;
             string text;
             string text2;
             bool riding = false;
             bool disbelief = false;
             bool illusion = false;
 
+            if (door == Exit.Direction.invalid)
+            {
+                return;
+            }
+
             if( _inRoom == null )
             {
                 Log.Trace( "Null from room in CharData.Move" );
                 SendText("There's nowhere for you to move from - you aren't anywhere!");
-                return;
-            }
-
-            if( door < 0 || door >= Limits.MAX_DIRECTION )
-            {
-                Log.Error( "CharData.Move: bad door {0} by {1}.", door, _name );
-                SendText("I don't know what direction you're trying to go, but there is no such direction.");
                 return;
             }
 
@@ -2068,17 +2066,15 @@ namespace MUDEngine
                 return;
             }
 
-            if( IsAffected( Affect.AFFECT_MINOR_PARA )
-                    || IsAffected( Affect.AFFECT_BOUND )
-                    || IsAffected( Affect.AFFECT_HOLD ) )
+            if(IsAffected( Affect.AFFECT_MINOR_PARA ) || IsAffected( Affect.AFFECT_BOUND )
+               || IsAffected( Affect.AFFECT_HOLD ) )
             {
                 SendText( "You can't move!\r\n" );
                 return;
             }
 
-            if (_riding && (_riding.IsAffected(Affect.AFFECT_BOUND) ||
-                                _riding.IsAffected(Affect.AFFECT_HOLD) ||
-                                _riding.IsAffected(Affect.AFFECT_MINOR_PARA)))
+            if (_riding && (_riding.IsAffected(Affect.AFFECT_BOUND) || _riding.IsAffected(Affect.AFFECT_HOLD) ||
+                _riding.IsAffected(Affect.AFFECT_MINOR_PARA)))
             {
                 SendText( "Your ride can't move.\r\n" );
                 return;
@@ -2089,7 +2085,7 @@ namespace MUDEngine
             {
                 if (MUDMath.NumberRange(1, 2) == 1)
                 {
-                    door = MUDMath.NumberRange(0, 3);
+                    door = (Exit.Direction)MUDMath.NumberRange(0, 3);
                 }
                 else
                 {
@@ -2101,12 +2097,11 @@ namespace MUDEngine
 
             RemoveAffect(Affect.AFFECT_HIDE);
 
-            if( !( exit = inRoom.ExitData[ door ] ) || !( toRoom = Room.GetRoom(exit.IndexNumber) )
-                    || ( toRoom.TerrainType == TerrainType.underground_impassable )
-                    || ( toRoom.WorldmapTerrainType == ExtendedTerrain.EXT_ZONEMARKER )
-                    || ( _level < Limits.LEVEL_AVATAR
-                         && ( inRoom.ExitData[ door ].HasFlag( Exit.ExitFlag.secret )
-                              || inRoom.ExitData[door].HasFlag(Exit.ExitFlag.blocked))))
+            if( !( exit = inRoom.GetExit(door)) || !( toRoom = Room.GetRoom(exit.IndexNumber) )
+                || ( toRoom.TerrainType == TerrainType.underground_impassable )
+                || ( toRoom.WorldmapTerrainType == ExtendedTerrain.EXT_ZONEMARKER )
+                || ( _level < Limits.LEVEL_AVATAR
+                && ( exit.HasFlag( Exit.ExitFlag.secret ) || exit.HasFlag(Exit.ExitFlag.blocked))))
             {
                 SendText( "Alas, you cannot go that way.\r\n" );
                 return;
@@ -2131,9 +2126,9 @@ namespace MUDEngine
                         return;
                     }
                 }
-                else if( door < Limits.MAX_DIRECTION )
+                else if( door != Exit.Direction.invalid )
                 {
-                    if (obj.Trap.CheckTrigger(Movement.TrapDirectionFlag[door]))
+                    if (obj.Trap.CheckTrigger(Movement.TrapDirectionFlag[(int)door]))
                     {
                         SetOffTrap( obj );
                         if (_position == Position.dead)
@@ -2146,11 +2141,11 @@ namespace MUDEngine
 
             // Being walled doesen't mean they can't go there, it just means that we
             // need to check for wall functions.
-            if (!IsAffected(Affect.AFFECT_CLIMBING) && inRoom.ExitData[door].HasFlag(Exit.ExitFlag.walled))
+            if (!IsAffected(Affect.AFFECT_CLIMBING) && inRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.walled))
             {
                 foreach( Object wall in _inRoom.Contents )
                 {
-                    if( wall.ItemType != ObjTemplate.ObjectType.wall || wall.Values[ 0 ] != door )
+                    if( wall.ItemType != ObjTemplate.ObjectType.wall || wall.Values[ 0 ] != (int)door )
                         continue;
                     if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_WALL_ILLUSION )
                     {
@@ -2200,7 +2195,7 @@ namespace MUDEngine
                     {
                         SocketConnection.Act(StringConversion.WallDecayString(StaticObjects.OBJECT_NUMBER_WALL_ILLUSION), this, wall, null, SocketConnection.MessageTarget.all);
                         wall.RemoveFromWorld();
-                        inRoom.ExitData[ door ].RemoveFlag( Exit.ExitFlag.walled );
+                        inRoom.ExitData[ (int)door ].RemoveFlag( Exit.ExitFlag.walled );
                     }
                     else if( !illusion )
                     {
@@ -2324,7 +2319,7 @@ namespace MUDEngine
                     }
                     if( _riding )
                     {
-                        if( !_riding.CanFly() && door != Exit.DIRECTION_DOWN )
+                        if( !_riding.CanFly() && door != Exit.Direction.down )
                         {
                             SendText( "Your mount can't fly.\r\n" );
                             return;
@@ -2333,7 +2328,7 @@ namespace MUDEngine
                     else
                     {
                         // Changed to allow going down always in an air sector.
-                        if( !CanFly() && door != Exit.DIRECTION_DOWN )
+                        if( !CanFly() && door != Exit.Direction.down )
                         {
                             SendText( "You can't fly.\r\n" );
                             return;
@@ -2485,15 +2480,14 @@ namespace MUDEngine
                 }
             }
 
-            if (!CheckSneak() && !HasActionBit(PC.PLAYER_WIZINVIS)
-                    && !IsAffected( Affect.AFFECT_IS_FLEEING ) )
+            if (!CheckSneak() && !HasActionBit(PC.PLAYER_WIZINVIS) && !IsAffected( Affect.AFFECT_IS_FLEEING ) )
             {
                 if( ( ( inRoom.TerrainType == TerrainType.swimmable_water )
-                        || ( inRoom.TerrainType == TerrainType.underwater_has_ground ) )
-                        && ( ( toRoom.TerrainType == TerrainType.swimmable_water )
-                               || ( toRoom.TerrainType == TerrainType.underwater_has_ground ) ) )
+                    || ( inRoom.TerrainType == TerrainType.underwater_has_ground ) )
+                    && ( ( toRoom.TerrainType == TerrainType.swimmable_water )
+                    || ( toRoom.TerrainType == TerrainType.underwater_has_ground ) ) )
                 {
-                    SocketConnection.Act("$n&n swims $T.", this, null, Exit.DirectionName[door], SocketConnection.MessageTarget.room);
+                    SocketConnection.Act("$n&n swims $T.", this, null, door.ToString(), SocketConnection.MessageTarget.room);
                 }
                 else
                 {
@@ -2507,23 +2501,21 @@ namespace MUDEngine
                             case Visibility.visible:
                                 if( !_riding )
                                 {
-                                    text2 = String.Format( "{0}&n {1} {2}.\r\n",
-                                              ShowNameTo( watchCh, true ),
-                                              ( _flyLevel != 0 ) ? "flies" :
-                                  Race.RaceList[ GetRace() ].WalkMessage,
-                                              Exit.DirectionName[ door ] );
+                                    text2 = String.Format( "{0}&n {1} {2}.\r\n", ShowNameTo( watchCh, true ),
+                                            ( _flyLevel != 0 ) ? "flies" :
+                                            Race.RaceList[ GetRace() ].WalkMessage, door.ToString() );
                                     watchCh.SendText( text2 );
                                 }
                                 else
                                 {
                                     text2 = String.Format( "{0}&n rides {1}&n {2}.\r\n", ShowNameTo( watchCh, true ),
-                                              _riding.ShowNameTo(watchCh, false), Exit.DirectionName[ door ] );
+                                            _riding.ShowNameTo(watchCh, false), door.ToString() );
                                     watchCh.SendText( text2 );
                                 }
                                 break;
                             case Visibility.sense_infravision:
                                 text2 = String.Format( "&+LA &n&+rred shape &+Lleaves {0} in the &+Wd&n&+war&+Lkness.\r\n&n",
-                                          Exit.DirectionName[ door ] );
+                                          door.ToString());
                                 watchCh.SendText( text2 );
                                 break;
                             case Visibility.invisible:
@@ -2535,7 +2527,7 @@ namespace MUDEngine
                                                   _riding.ShowNameTo(watchCh, true),
                                                   ( _flyLevel != 0 ) ? "flies" :
                                       Race.RaceList[ GetRace() ].WalkMessage,
-                                                  Exit.DirectionName[ door ] );
+                                                  door.ToString() );
                                         watchCh.SendText( text2 );
                                     }
                                 }
@@ -2558,8 +2550,8 @@ namespace MUDEngine
                     if( !roomCharacter.IsNPC() && !MUDString.NameContainedIn( "_guildgolem_", roomCharacter._name ) )
                         continue;
                     int id = Guild.GolemGuildID( roomCharacter );
-                    int dir = Movement.GolemGuardDirection( roomCharacter );
-                    if( id > 0 && dir > -1 )
+                    Exit.Direction dir = Movement.GolemGuardDirection( roomCharacter );
+                    if( id > 0 && dir > Exit.Direction.invalid )
                     {
                         // We have a golem guarding an exit
                         if (!IsNPC() && ((PC)this).GuildMembership != null)
@@ -2601,7 +2593,7 @@ namespace MUDEngine
             {
                 if( _riding )
                 {
-                    text = String.Format( "$n&n enters from {0}, riding $N&n.", Exit.ReverseDirectionName[ door ] );
+                    text = String.Format( "$n&n enters from {0}, riding $N&n.", Exit.ReverseDirectionName[ (int)door ] );
                     SocketConnection.Act(text, this, null, _riding, SocketConnection.MessageTarget.room);
                 }
                 else if( !_rider )
@@ -2617,18 +2609,16 @@ namespace MUDEngine
                             if( sight == Visibility.visible )
                             {
                                 // If they can see the person enter clearly..
-                                text2 = String.Format( "{0}&n {1} in from {2}.\r\n",
-                                          ShowNameTo( watchCh, true ),
-                                          ( _flyLevel != 0 ) ? "flies" :
-                                          Race.RaceList[ GetRace() ].WalkMessage,
-                                          Exit.ReverseDirectionName[door]);
+                                text2 = String.Format( "{0}&n {1} in from {2}.\r\n", ShowNameTo( watchCh, true ),
+                                        ( _flyLevel != 0 ) ? "flies" : Race.RaceList[ GetRace() ].WalkMessage,
+                                        Exit.ReverseDirectionName[(int)door]);
                                 watchCh.SendText( text2 );
                             }
                             else if( sight == Visibility.sense_infravision )
                             {
                                 // Otherwise, show a vague message..
                                 text2 = String.Format( "&+LA &n&+rred shape &+Lenters from {0}.\r\n&n",
-                                          Exit.ReverseDirectionName[door]);
+                                          Exit.ReverseDirectionName[(int)door]);
                                 watchCh.SendText( text2 );
                             }
                         }
@@ -3689,7 +3679,7 @@ namespace MUDEngine
                     ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                     if( !MUDString.StringsNotEqual( MUDString.LastArgument( ch._inRoom.ExitData[ door ].Keyword ), arg ) )
                     {
-                        Exit exit = ch._inRoom.ExitData[door].TargetRoom.ExitData[Exit.ReverseDirection[door]];
+                        Exit exit = ch._inRoom.ExitData[door].TargetRoom.ExitData[(int)Exit.ReverseDirection((Exit.Direction)door)];
                         MUDString.OneArgument( ch._inRoom.ExitData[ door ].Keyword, ref text );
                         string outputText = String.Format( "The {0} hums briefly and opens.", text );
                         ch._inRoom.ExitData[door].RemoveFlag(Exit.ExitFlag.closed);
