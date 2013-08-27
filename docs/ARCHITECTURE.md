@@ -51,7 +51,7 @@ DLLs and Source Projects
 The ModernMUD solution for Visual Studio has quite a few projects. Here's what
 they are:
 
---- CORE LIBRARIES ---
+=== CORE LIBRARIES ===
 
 HelpData - A DLL that contains the help entry class.
 
@@ -63,7 +63,7 @@ Screens - A DLL that contains the Screens class and color code definitions.
 ZoneData - Defines the zone (area) format for the game and the data types for
 all in-game entities (mobiles, objects, rooms, etc.)
 
---- TOOLS ---
+=== TOOLS ===
 
 HelpEditor - A standalone help file editor, depends on HelpData.
 
