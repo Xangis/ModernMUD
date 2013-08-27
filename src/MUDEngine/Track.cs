@@ -290,6 +290,9 @@ namespace MUDEngine
             int tmp_room;
             int count = 0;
 
+            // TODO: Re-enable this.
+            return Exit.Direction.invalid;
+
             if (depth < 0)
             {
                 throughDoors = true;

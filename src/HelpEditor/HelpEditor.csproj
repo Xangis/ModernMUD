@@ -86,10 +86,6 @@
       <Project>{FCBBCD8A-3525-4C16-B469-8D80D24BF449}</Project>
       <Name>HelpData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZoneData\ZoneData.csproj">
-      <Project>{2E98D584-94B4-4528-9C52-8AE887B2D351}</Project>
-      <Name>ZoneData</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="B_yellow32x32.ico" />

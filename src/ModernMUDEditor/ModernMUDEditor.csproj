@@ -444,7 +444,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Screens\Screens.csproj">
-      <Project>{B8CD6B12-EB6C-4ABB-A115-144584FB812B}</Project>
+      <Project>{b8cd6b12-eb6c-4abb-a115-144584fb812b}</Project>
       <Name>Screens</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZoneData\ZoneData.csproj">
