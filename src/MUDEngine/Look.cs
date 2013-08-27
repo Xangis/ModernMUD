@@ -339,7 +339,7 @@ namespace MUDEngine
                     text += "&n fighting ";
                     if (victim._fighting == ch)
                     {
-                        text += "&nYOU!";
+                        text += "&nyou!";
                     }
                     else if (victim._inRoom == victim._fighting._inRoom)
                     {

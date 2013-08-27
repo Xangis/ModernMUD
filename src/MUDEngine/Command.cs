@@ -5337,14 +5337,14 @@ namespace MUDEngine
             if (victim.HasActionBit(PC.PLAYER_FREEZE))
             {
                 victim.RemoveActionBit(PC.PLAYER_FREEZE);
-                ch.SendText("FREEZE removed.\r\n");
-                victim.SendText("You can Play again.\r\n");
+                ch.SendText("FREEZE bit removed.\r\n");
+                victim.SendText("You can play again.\r\n");
             }
             else
             {
                 victim.SetActionBit(PC.PLAYER_FREEZE);
-                ch.SendText("FREEZE set.\r\n");
-                victim.SendText("You can't do ANYthing!\r\n");
+                ch.SendText("FREEZE bit set.\r\n");
+                victim.SendText("You can't do anything!\r\n");
             }
 
             CharData.SavePlayer(victim);
@@ -16626,7 +16626,7 @@ namespace MUDEngine
             string text = String.Join(" ", str, 1, (str.Length - 1));
             text = DrunkSpeech.MakeDrunk(text, ch);
 
-            SocketConnection.Act("$n&n whispers something to $N&n.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
+            SocketConnection.Act("$n&n whispers quietly to $N&n.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
             string buf = "&n&+c$n&n&+c whispers '&+c" + text + "&n&+c'&n";
             SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.victim);
             buf = "&n&+cYou whisper &+c'" + text + "&n&+c' to $N&n";
