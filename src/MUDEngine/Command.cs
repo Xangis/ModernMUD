@@ -13624,11 +13624,11 @@ namespace MUDEngine
             {
                 text = String.Format("You buy $p&n for {0}.", StringConversion.CoinString(cost * itemCount));
                 SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
-                SocketConnection.Act("$n&n buys $p&n.", ch, obj, null, SocketConnection.MessageTarget.room);
+                SocketConnection.Act("$n&n purchases $p&n.", ch, obj, null, SocketConnection.MessageTarget.room);
             }
             else
             {
-                text = String.Format("$n&n buys {0} * $p&n.", itemCount);
+                text = String.Format("$n&n purchases {0} * $p&n.", itemCount);
                 SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.room);
                 text = String.Format("You buy {0} * $p&n.", itemCount);
                 SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
@@ -20005,7 +20005,7 @@ namespace MUDEngine
                 if (Macros.IsSet(portal.Values[3], ObjTemplate.PORTAL_RANDOM)
                         || Macros.IsSet(portal.Values[3], ObjTemplate.PORTAL_BUGGY))
                 {
-                    SocketConnection.Act("$n&n has arrived.", ch, portal, null, SocketConnection.MessageTarget.room);
+                    SocketConnection.Act("$n&n has arrived from elsewhere.", ch, portal, null, SocketConnection.MessageTarget.room);
                 }
                 else
                 {
@@ -20169,7 +20169,9 @@ namespace MUDEngine
             {
                 ch.SendText("Weird! You dismount, but your mount isn't here.");
                 if (ch._riding._rider && ch._riding._rider == ch)
+                {
                     ch._riding._rider = null;
+                }
                 ch._riding = null;
                 return;
             }

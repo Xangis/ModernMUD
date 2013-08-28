@@ -2320,8 +2320,8 @@ namespace MUDEngine
                     WriteToBuffer(outbuf);
                 }
             }
-            Log.Trace(String.Format("{0}@{1} new player.", Character._name, _host));
-            ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_NEWBIE, 0, String.Format("{0}@{1} new player.", Character._name, _host));
+            Log.Trace(String.Format("{0}@{1} new character.", Character._name, _host));
+            ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_NEWBIE, 0, String.Format("{0}@{1} new character.", Character._name, _host));
             WriteToBuffer("\r\n");
 
             if (HasColor())
@@ -2476,7 +2476,7 @@ namespace MUDEngine
                 return;
             }
 
-            Log.Trace(String.Format("{0}@{1} has connected.", Character._name, _host));
+            Log.Trace(String.Format("{0}@{1} has logged in.", Character._name, _host));
 
             WriteToBuffer("\r\n");
 

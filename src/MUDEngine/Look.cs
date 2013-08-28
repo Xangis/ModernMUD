@@ -572,8 +572,8 @@ namespace MUDEngine
             // Keep in mind that players can spam looking at someone in order
             // to increase their skill in peek - this will need to be fixed.
             if ((victim != ch && !ch.IsNPC()
-                    && ((((PC)ch).SkillAptitude.ContainsKey("peek") && MUDMath.NumberPercent() < ((PC)ch).SkillAptitude["peek"])
-                         || ch._level >= Limits.LEVEL_AVATAR)) || ch._riding == victim || ch._rider == victim)
+                && ((((PC)ch).SkillAptitude.ContainsKey("peek") && MUDMath.NumberPercent() < ((PC)ch).SkillAptitude["peek"])
+                || ch._level >= Limits.LEVEL_AVATAR)) || ch._riding == victim || ch._rider == victim)
             {
                 ch.SendText("\r\n&nYou peek at the inventory:\r\n");
                 ch.PracticeSkill("peek");
@@ -626,7 +626,6 @@ namespace MUDEngine
                     ShowCharacterToCharacterAbbreviated(listChar._riding, ch);
                     listChar._riding._rider = listChar._riding;
                 }
-
             }
         }
 
@@ -710,11 +709,10 @@ namespace MUDEngine
             // Handles regular invisibility.
             if ((victim.IsAffected(Affect.AFFECT_INVISIBLE) || victim.IsAffected(Affect.AFFECT_MINOR_INVIS)))
             {
-                if (ch.HasInnate(Race.RACE_DETECT_INVIS)
-                        || ch.IsAffected(Affect.AFFECT_DETECT_INVIS)
-                        || (ch.IsAffected(Affect.AFFECT_ELEM_SIGHT) &&
-                             (victim.GetRace() == Race.RACE_AIR_ELE || victim.GetRace() == Race.RACE_WATER_ELE
-                               || victim.GetRace() == Race.RACE_FIRE_ELE || victim.GetRace() == Race.RACE_EARTH_ELE)))
+                if (ch.HasInnate(Race.RACE_DETECT_INVIS) || ch.IsAffected(Affect.AFFECT_DETECT_INVIS)
+                    || (ch.IsAffected(Affect.AFFECT_ELEM_SIGHT) && (victim.GetRace() == Race.RACE_AIR_ELE 
+                    || victim.GetRace() == Race.RACE_WATER_ELE || victim.GetRace() == Race.RACE_FIRE_ELE
+                    || victim.GetRace() == Race.RACE_EARTH_ELE)))
                 {
                     if (victim.IsAffected(Affect.AFFECT_HIDE))
                     {
@@ -740,8 +738,8 @@ namespace MUDEngine
                 {
                     return Visibility.visible;
                 }
-                if ((ch.HasInnate(Race.RACE_INFRAVISION) || ch.IsAffected(Affect.AFFECT_INFRAVISION)
-                     ) && !victim._inRoom.HasFlag(RoomTemplate.ROOM_UNDERWATER))
+                if ((ch.HasInnate(Race.RACE_INFRAVISION) || ch.IsAffected(Affect.AFFECT_INFRAVISION))
+                    && !victim._inRoom.HasFlag(RoomTemplate.ROOM_UNDERWATER))
                 {
                     return Visibility.sense_infravision;
                 }

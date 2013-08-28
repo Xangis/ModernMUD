@@ -538,9 +538,11 @@ namespace MUDEngine
 
                 if( victim.IsAwake() )
                 {
-                    victim.SendText( "You feel very sleepy ..... zzzzzz.\r\n" );
-                    if( ch._fighting || victim._position == Position.fighting )
-                        Combat.StopFighting( victim, false );
+                    victim.SendText( "You feel very sleepy... zzzzz.\r\n" );
+                    if (ch._fighting || victim._position == Position.fighting)
+                    {
+                        Combat.StopFighting(victim, false);
+                    }
                     CommandType.Interpret( victim, "sleep" );
                 }
 

@@ -5073,10 +5073,9 @@ namespace MUDEngine
                         break;
                     }
 
-                    text = String.Format("It's {0} full of a {1} liquid.\r\n",
-                             obj.Values[1] < obj.Values[0] / 4
-                             ? "less than half" :
-                             obj.Values[1] < 3 * obj.Values[0] / 4 ? "about half" : obj.Values[1] < obj.Values[0]
+                    // TODO: Fix this, it's obviously been written by an idiot.
+                    text = String.Format("It's {0} full of a {1} liquid.\r\n", obj.Values[1] < obj.Values[0] / 4
+                             ? "less than half" : obj.Values[1] < 3 * obj.Values[0] / 4 ? "about half" : obj.Values[1] < obj.Values[0]
                              ? "more than half" : "completely", Liquid.Table[obj.Values[2]].Color);
 
                     ch.SendText(text);
