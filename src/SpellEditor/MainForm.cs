@@ -292,7 +292,7 @@ namespace SpellEditor
             Spell.SpellList[spell].ManaType = Int32.Parse(txtManaType.Text);
             Spell.SpellList[spell].School = Int32.Parse(txtSchool.Text);
             Spell.SpellList[spell].AICategoryType = (Spell.AICategory)Enum.Parse(typeof(Spell.AICategory), cbAIType.Text );
-            //TODO: Fix: Spell.SpellList[spell].DamageInflicted = (AttackType.DamageType)Enum.Parse(typeof(AttackType.DamageType), cbDamageType.Text);
+            Spell.SpellList[spell].DamageInflicted = (AttackType.DamageType)Enum.Parse(typeof(AttackType.DamageType), cbDamageType.Text);
             Spell.SpellList[spell].Duration = (SpellDurationType)Enum.Parse(typeof(SpellDurationType), cbSpellDuration.Text);
             Spell.SpellList[spell].SavingThrowEffect = (Spell.SavingThrowResult)Enum.Parse(typeof(Spell.SavingThrowResult), cbSavingThrow.Text);
             Spell.SpellList[spell].ValidTargets = (TargetType)Enum.Parse(typeof(TargetType), cbTargetType.Text);

@@ -25509,31 +25509,27 @@ namespace MUDEngine
                 }
                 else
                 {
-                    // TODO: Rewrite this to handle the AREA_WORLDMAP flag.
-
-                    //if in a zone then fly out
-                    if (ch._inRoom.IndexNumber < StaticRooms.GetRoomNumber("SURFACE_MAP1_START_INDEX_NUMBER"))
+                    // If in a zone then fly out.
+                    if (!ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                     {
                         int lower = ch._inRoom.Area.LowRoomIndexNumber;
                         int higher = ch._inRoom.Area.HighRoomIndexNumber;
-                        // there has to be a better way than checking every room in zone
                         int iroom;
                         for (iroom = lower; iroom <= higher; iroom++)
                         {
                             troom = Room.GetRoom(iroom);
                             if (!troom)
                                 continue;
-                            //now check all exits
+                            // Now check all exits.
                             int i;
                             for (i = 0; i < Limits.MAX_DIRECTION; i++)
                             {
                                 texit = troom.ExitData[i];
                                 if (!texit || !(texit.TargetRoom))
                                     continue;
-                                if (texit.TargetRoom.IndexNumber >= StaticRooms.GetRoomNumber("SURFACE_MAP1_START_INDEX_NUMBER"))
+                                if (texit.TargetRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                                 {
-                                    //wheee! found a way out
-                                    //should check for exit zone being flyable
+                                    // Found a way out. Should check for exit zone being flyable.
                                     ch.SendText("You fly up.\r\n");
                                     SocketConnection.Act("$n&n flies up higher.", ch, null, null, SocketConnection.MessageTarget.room);
                                     ch.RemoveFromRoom();
@@ -25544,9 +25540,9 @@ namespace MUDEngine
                                 }
                             }
                         }
-                        ch.SendText("You can't fly out of this zone.\r\n"); //glitch
+                        ch.SendText("You can't fly out of this zone.\r\n"); // Glitch or no exits to worldmap.
                     }
-                    ch.SendText("If you were any higher you'd be Bob Marley.\r\n");
+                    ch.SendText("If you were any higher you'd be Woody Harrelson.\r\n");
                 }
             }
             else if (!MUDString.IsPrefixOf(str[0], "down"))
@@ -25604,10 +25600,8 @@ namespace MUDEngine
                         {
                             continue;
                         }
-                        if (follower._master == ch && follower.CanFly()
-                                && follower._flyLevel == (ch._flyLevel + 1)
-                                && follower._position == Position.standing
-                                && follower.CanMove())
+                        if (follower._master == ch && follower.CanFly() && follower._flyLevel == (ch._flyLevel + 1)
+                            && follower._position == Position.standing && follower.CanMove())
                         {
                             for (; follower._flyLevel > 0; follower._flyLevel--)
                             {
@@ -25643,12 +25637,7 @@ namespace MUDEngine
 
             if (ch._fighting)
             {
-                ch.SendText("Suicide!?  Just let your opponent finish you off...\r\n");
-                return;
-            }
-            if (ch._level > 20 && !ch.IsImmortal())
-            {
-                ch.SendText("Suicide is for low level characters only!\r\n");
+                ch.SendText("Suicide!? Just let your opponent finish you off...\r\n");
                 return;
             }
 
@@ -25683,7 +25672,9 @@ namespace MUDEngine
             // Exp loss is that of a normal death
             ch.GainExperience((0 - (((25 + ch._level) * ExperienceTable.Table[ch._level].LevelExperience) / 200)));
             if (ch._level < 2 && ch._experiencePoints < 1)
+            {
                 ch._experiencePoints = 1;
+            }
 
             return;
         }

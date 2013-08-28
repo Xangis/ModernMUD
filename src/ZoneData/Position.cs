@@ -130,6 +130,5 @@ namespace ModernMUD
                     return "dead";
             }
         }
-    };
-
+    }
 }

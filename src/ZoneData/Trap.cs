@@ -19,31 +19,6 @@ namespace ModernMUD
         private int _level;
         private int _percent;
 
-        // Common traps
-        // TODO: Make these non-constant.  A trap's variables should contain
-        // all of the information needed for it to deliver its damage, spell
-        // payload, or any other effects.
-        //
-        // I'm not even sure it's actually necessary to define these anymore.
-        public static int TrpAcid;
-        public static int TrpBash;
-        public static int TrpCold;
-        public static int TrpDisease;
-        public static int TrpDispel;
-        public static int TrpEnergy;
-        public static int TrpFire;
-        public static int TrpGate;
-        public static int TrpHarm;
-        public static int TrpPara;
-        public static int TrpPierce;
-        public static int TrpPoison;
-        public static int TrpSlash;
-        public static int TrpSleep;
-        public static int TrpStun;
-        public static int TrpSummon;
-        public static int TrpTeleport;
-        public static int TrpWither;
-
         /// <summary>
         /// Trap types.
         /// </summary>
