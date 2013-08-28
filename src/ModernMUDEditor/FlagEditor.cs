@@ -14,35 +14,6 @@ namespace ModernMUDEditor
         CheckBoxArray _myArray;
         int _initialValue = 0;
 
-        // Allows us to edit a flag type.
-        //public FlagEditor(int flags, int initialValue)
-        //{
-        //    InitializeComponent();
-        //    _initialValue = initialValue;
-        //    _myArray = new CheckBoxArray(this);
-        //    Value = initialValue;
-        //    for (int i = 0; i < 32; i++)
-        //    {
-        //        _myArray.AddNewCheckBox();
-        //        _myArray[i].Checked = ((_initialValue & (1 << i)) != 0);
-        //        _myArray[i].Enabled = false;
-        //    }
-        //    _myArray.AddValueLabel();
-        //    for (int x = 0; x < flags.Length; x++)
-        //    {
-        //        for (int y = 0; y < 32; y++)
-        //        {
-        //            if (flags[x].bit == 1 << y)
-        //            {
-        //                _myArray[y].Text = flags[x].name;
-        //                _myArray[y].Enabled = flags[x].settable;
-        //            }
-        //        }
-        //    }
-        //    // TODO: Set text for each control based on the flags we were passed.
-        //    //_myArray[1].BackColor = System.Drawing.Color.Red;
-        //}
-
         // Allows us to edit a single page of bitvector flags.
         public FlagEditor(BitvectorFlagType[] flags, int initialValue, int group)
         {

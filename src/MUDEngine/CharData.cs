@@ -6481,7 +6481,7 @@ namespace MUDEngine
 
             if (victim == null)
             {
-                Log.Error("is_aggro: called with null ch or victim.", 0);
+                Log.Error("IsAggressive: called with null ch or victim.", 0);
                 return false;
             }
 
@@ -6506,37 +6506,37 @@ namespace MUDEngine
             }
             if (MUDString.NameContainedIn(Race.RaceList[victim.GetRace()].Name, Race.RaceList[ch.GetOrigRace()].Hate))
             {
-                Log.Trace("Returning true for is_aggro due to race hatred.");
+                Log.Trace("Returning true for IsAggressive due to race hatred.");
                 return true;
             }
             if (ch.HasActionBit(MobTemplate.ACT_AGGROGOOD) && victim.IsGood())
             {
-                Log.Trace("Returning true for is_aggro due to aggro good and good victim.");
+                Log.Trace("Returning true for IsAggressive due to aggro good and good victim.");
                 return true;
             }
             if (ch.HasActionBit(MobTemplate.ACT_AGGROEVIL) && victim.IsEvil())
             {
-                Log.Trace("Returning true for is_aggro due to aggro evil and evil victim.");
+                Log.Trace("Returning true for IsAggressive due to aggro evil and evil victim.");
                 return true;
             }
             if (ch.HasActionBit(MobTemplate.ACT_AGGRONEUT) && victim.IsNeutral())
             {
-                Log.Trace("Returning true for is_aggro due to aggro neutral and neutral victim.");
+                Log.Trace("Returning true for IsAggressive due to aggro neutral and neutral victim.");
                 return true;
             }
             if (ch.HasActionBit(MobTemplate.ACT_AGGROEVILRACE) && victim.GetRacewarSide() == Race.RacewarSide.evil)
             {
-                Log.Trace("Returning true for is_aggro due to aggro evil race and victim evil racewar.");
+                Log.Trace("Returning true for IsAggressive due to aggro evil race and victim evil racewar.");
                 return true;
             }
             if (ch.HasActionBit(MobTemplate.ACT_AGGROGOODRACE) && victim.GetRacewarSide() == Race.RacewarSide.good)
             {
-                Log.Trace("Returning true for is_aggro due to aggro good race and victim good racewar.");
+                Log.Trace("Returning true for IsAggressive due to aggro good race and victim good racewar.");
                 return true;
             }
             if (ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE))
             {
-                Log.Trace("Returning true for is_aggro due to aggressive flag on ch.");
+                Log.Trace("Returning true for IsAggressive due to aggressive flag on ch.");
                 return true;
             }
 

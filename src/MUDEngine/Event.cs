@@ -1930,12 +1930,14 @@ namespace MUDEngine
                     for( int j = (roomCharacter._inRoom.People.Count - 1); j >= 0; j-- )
                     {
                         CharData possibleVictim = roomCharacter._inRoom.People[j];
-                        if( possibleVictim.IsNPC()
-                                || possibleVictim._level >= Limits.LEVEL_AVATAR
-                                || possibleVictim._flyLevel != roomCharacter._flyLevel
-                                || !CharData.CanSee( roomCharacter, possibleVictim )
-                                || !roomCharacter.IsAggressive(possibleVictim))
+                        if (possibleVictim.IsNPC()
+                            || possibleVictim._level >= Limits.LEVEL_AVATAR
+                            || possibleVictim._flyLevel != roomCharacter._flyLevel
+                            || !CharData.CanSee(roomCharacter, possibleVictim)
+                            || !roomCharacter.IsAggressive(possibleVictim))
+                        {
                             continue;
+                        }
                         if ((!roomCharacter.HasActionBit(MobTemplate.ACT_WIMPY) || !possibleVictim.IsAwake())
                                 && CharData.CanSee( roomCharacter, possibleVictim ) )
                         {
@@ -1963,11 +1965,8 @@ namespace MUDEngine
                             roomCharacter._position = Position.standing;
                         }
                     }
-
                 }
-
             }
-
             return;
         }
 

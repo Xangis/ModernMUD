@@ -578,5 +578,87 @@ namespace MUDEngine
             Log.Error( "SizeLookup: Unable to match size string " + size );
             return Race.Size.medium;
         }
+
+        /// <summary>
+        /// Get the language ID from a language name.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public static Race.Language LanguageLookup(CharData ch, string lang)
+        {
+            if (ch == null) return 0;
+
+            if (ch.IsImmortal() && MUDString.IsNumber(lang))
+            {
+                int ilang;
+                Int32.TryParse(lang, out ilang);
+                if (ilang >= 0 && ilang < Race.MAX_LANG)
+                    return (Race.Language)ilang;
+                string buf = String.Format("{0} is not within valid language range(0 to {1})!\r\n", ilang, (Race.MAX_LANG - 1));
+                ch.SendText(buf);
+                return Race.Language.unknown;
+            }
+
+            if (!MUDString.IsPrefixOf(lang, "unknown"))
+                return Race.Language.unknown;
+            if (!MUDString.IsPrefixOf(lang, "common"))
+                return Race.Language.common;
+            if (!MUDString.IsPrefixOf(lang, "elven"))
+                return Race.Language.elven;
+            if (!MUDString.IsPrefixOf(lang, "dwarven"))
+                return Race.Language.dwarven;
+            if (!MUDString.IsPrefixOf(lang, "centaur"))
+                return Race.Language.centaur;
+            if (!MUDString.IsPrefixOf(lang, "ogre"))
+                return Race.Language.ogre;
+            if (!MUDString.IsPrefixOf(lang, "orc"))
+                return Race.Language.orcish;
+            if (!MUDString.IsPrefixOf(lang, "troll"))
+                return Race.Language.troll;
+            if (!MUDString.IsPrefixOf(lang, "aquatic elf"))
+                return Race.Language.aquaticelf;
+            if (!MUDString.IsPrefixOf(lang, "neogi"))
+                return Race.Language.neogi;
+            if (!MUDString.IsPrefixOf(lang, "thri-kreen"))
+                return Race.Language.thri;
+            if (!MUDString.IsPrefixOf(lang, "dragon"))
+                return Race.Language.dragon;
+            if (!MUDString.IsPrefixOf(lang, "magic"))
+                return Race.Language.magical;
+            if (!MUDString.IsPrefixOf(lang, "goblin"))
+                return Race.Language.goblin;
+            if (!MUDString.IsPrefixOf(lang, "god"))
+                return Race.Language.god;
+            if (!MUDString.IsPrefixOf(lang, "halfling"))
+                return Race.Language.halfling;
+            if (!MUDString.IsPrefixOf(lang, "githyanki"))
+                return Race.Language.githyanki;
+            if (!MUDString.IsPrefixOf(lang, "drow"))
+                return Race.Language.drow;
+            if (!MUDString.IsPrefixOf(lang, "kobold"))
+                return Race.Language.kobold;
+            if (!MUDString.IsPrefixOf(lang, "gnome"))
+                return Race.Language.gnome;
+            if (!MUDString.IsPrefixOf(lang, "animal"))
+                return Race.Language.animal;
+            if (!MUDString.IsPrefixOf(lang, "duergar"))
+                return Race.Language.duergar;
+            if (!MUDString.IsPrefixOf(lang, "githzerai"))
+                return Race.Language.githzerai;
+            if (!MUDString.IsPrefixOf(lang, "gnoll"))
+                return Race.Language.gnoll;
+            if (!MUDString.IsPrefixOf(lang, "rakshasa"))
+                return Race.Language.rakshasa;
+            if (!MUDString.IsPrefixOf(lang, "minotaur"))
+                return Race.Language.minotaur;
+            if (!MUDString.IsPrefixOf(lang, "illithid"))
+                return Race.Language.illithid;
+            if (!MUDString.IsPrefixOf(lang, "barbarian"))
+                return Race.Language.barbarian;
+
+            return Race.Language.unknown;
+        }
+
     }
 }
