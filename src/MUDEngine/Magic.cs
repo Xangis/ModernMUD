@@ -15,8 +15,35 @@ namespace MUDEngine
             none = 0,
             abjuration = Bitvector.BV00,
             alteration = Bitvector.BV01,
-            conjuration = Bitvector.BV02
+            conjuration = Bitvector.BV02,
+            summoning = Bitvector.BV03, 
+            illusion = Bitvector.BV04,
+            phantasm = Bitvector.BV05,
+            invocation = Bitvector.BV06,
+            evocation = Bitvector.BV07,
+            enchantment = Bitvector.BV08,
+            charm = Bitvector.BV09,
+            divination = Bitvector.BV10,
+            necromancy = Bitvector.BV11,
+            offensive = Bitvector.BV13,
+            defensive = Bitvector.BV14,
+            stealth = Bitvector.BV15,
+            survival = Bitvector.BV16,
+            elemental = Bitvector.BV17,
+            spiritual = Bitvector.BV18,
+            animal = Bitvector.BV19,
+            horn = Bitvector.BV20,
+            flute = Bitvector.BV21,
+            mandolin = Bitvector.BV22,
+            lyre = Bitvector.BV23,
+            drums = Bitvector.BV24,
+            harp = Bitvector.BV25,
+            pipes = Bitvector.BV26,
+            fiddle = Bitvector.BV27,
+            dulcimer = Bitvector.BV28,
+            chronomancy = Bitvector.BV29
         }
+        // TODO: Nuke these and replace them with the enum above.
         public const int SCHOOL_NONE = 0;		/* no school realm required  */
         public const int SCHOOL_ABJURATION = Bitvector.BV00;		/* abjuration magics	     */
         public const int SCHOOL_ALTERATION = Bitvector.BV01;		/* alteration magics	     */

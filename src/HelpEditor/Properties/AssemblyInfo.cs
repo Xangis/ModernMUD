@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle( "HelpEditor" )]
-[assembly: AssemblyDescription( "Help File Editor for Basternae MUD" )]
+[assembly: AssemblyDescription( "Help File Editor for ModernMUD" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Zeta Centauri" )]
-[assembly: AssemblyProduct( "BasternaeHelpEditor" )]
+[assembly: AssemblyProduct( "ModernMUDHelpEditor" )]
 [assembly: AssemblyCopyright( "Copyright © 2008-2013 Zeta Centauri" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]

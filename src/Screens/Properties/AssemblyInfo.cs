@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Screens")]
-[assembly: AssemblyDescription("Screen Library for Basternae MUD")]
+[assembly: AssemblyDescription("Screen Library for ModernMUD")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zeta Centauri")]
 [assembly: AssemblyProduct("Screens")]

@@ -336,7 +336,7 @@ namespace MUDScreenEditor
                             "use a bit of cut-and-paste when you want to edit the control codes in an existing\n" +
                             "block of text.\n\n" +
                             "Even though this application is specifically meant for editing screens on\n" +
-                            "Basternae MUD, it should function well enough as a simple ANSI screen editor\n" +
+                            "ModernMUD, it should function well enough as a simple ANSI screen editor\n" +
                             "for use with other MUDS, bulletin board systems, or other ANSI-screen-enabled\n" +
                             "applications.  ANSI screen files have traditionally had the .ANS file extension\n" +
                             "but you can name them anything you like.\n\n" +

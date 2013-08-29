@@ -22800,7 +22800,7 @@ namespace MUDEngine
                 {
                     if (ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                     {
-                        ch.SendText("You cannot turn color off when using the Basternae client.\r\n");
+                        ch.SendText("You cannot turn color off when using the enhanced client.\r\n");
                         return;
                     }
                     bit = PC.PLAYER_COLOR;
