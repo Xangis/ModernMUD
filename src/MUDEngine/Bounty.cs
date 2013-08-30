@@ -172,13 +172,12 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Shows a list of the outstanding bounties to a player.
+        /// Prints the bounty as a string.
         /// </summary>
-        /// <param name="ch"></param>
         /// <returns></returns>
-        public static void ShowBounties(CharData ch)
+        public override string ToString()
         {
-            // TODO: Print all bounties to the player.
+            return "Bounty: " + this.Amount + " on " + this.Name + " until " + this.Expiration;
         }
-    };
+    }
 }

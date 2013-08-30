@@ -223,6 +223,13 @@ namespace ModernMUD
         public double ExperienceModifier { get; set; }
 
         /// <summary>
+        /// Used for paladin and antipaladin summoning of mounts (warhorses). Can also be used
+        /// to let the class summon other mounts. Class also needs the "summon mount" skill for
+        /// this to have any effect.
+        /// </summary>
+        public int CanSummonMountNumber { get; set; }
+
+        /// <summary>
         /// The count of in-memory character classes.
         /// </summary>
         [XmlIgnore]

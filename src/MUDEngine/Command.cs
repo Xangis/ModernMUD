@@ -3817,17 +3817,14 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            CharData victim = null;
-            Object obj;
-            int value;
-            string buf1 = String.Empty;
-
             if (str.Length == 0)
             {
                 ch.SendText("Stat which mobile?\r\n");
                 return;
             }
 
+            int value;
+            CharData victim = null;
             Int32.TryParse(str[0], out value);
             // If non-numeric, check based on name.
             if (value == 0 && !(victim = ch.GetCharWorld(str[0])))
@@ -3859,6 +3856,7 @@ namespace MUDEngine
                 }
             }
 
+            string buf1 = String.Empty;
             string text = String.Format("Name: {0}.\r\n", victim._name);
             buf1 += text;
 
@@ -3944,6 +3942,7 @@ namespace MUDEngine
 
             /* Changed location of the if statement. */
             /* If char has a weapon in second hand and has dual wield.. */
+            Object obj;
             if ((victim.IsNPC() || victim.HasSkill("dual wield"))
                     && ((obj = Object.GetEquipmentOnCharacter(victim, ObjTemplate.WearLocation.hand_two)) && (obj.ItemType ==
                             ObjTemplate.ObjectType.weapon)))
@@ -6043,16 +6042,16 @@ namespace MUDEngine
             //return;
         }
 
+        /// <summary>
+        /// Change something on a mob or a player.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void SetMob(CharData ch, string[] str)
         {
             if( ch == null ) return;
 
-            CharData victim;
-            string buf = String.Empty;
-
-            int value;
-
-            ch.GetChar();
+            ch = ch.GetChar();
 
             if (str.Length < 3)
             {
@@ -6070,6 +6069,7 @@ namespace MUDEngine
                 return;
             }
 
+            CharData victim;
             if (!(victim = ch.GetCharWorld(str[0])))
             {
                 ch.SendText("They aren't here.\r\n");
@@ -6079,11 +6079,14 @@ namespace MUDEngine
             /*
             * Snarf the value (which need not be numeric).
             */
+            int value;
             bool ok = Int32.TryParse(str[2], out value);
             if (!ok)
             {
                 value = -1;
             }
+
+            string text = String.Empty;
 
             /*
             * Set something.
@@ -6092,8 +6095,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Strength range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Strength range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6106,8 +6109,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Intelligence range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Intelligence range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6120,8 +6123,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Wisdom range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Wisdom range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6134,8 +6137,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Dexterity range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Dexterity range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6148,8 +6151,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Constitution range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Constitution range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6162,8 +6165,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Agility range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Agility range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6176,8 +6179,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Charisma range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Charisma range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6190,8 +6193,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Power range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Power range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6204,8 +6207,8 @@ namespace MUDEngine
             {
                 if (value < 1 || value > Limits.MAX_BASE_ATTRIBUTE)
                 {
-                    buf += "Luck range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Luck range is 1 to " + Limits.MAX_BASE_ATTRIBUTE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6229,8 +6232,8 @@ namespace MUDEngine
 
                 if (newsize < 0 || newsize > Race.Size.none)
                 {
-                    buf += "Size range is from 0 to " + Race.MAX_SIZE + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Size range is from 0 to " + Race.MAX_SIZE + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6243,8 +6246,8 @@ namespace MUDEngine
             {
                 if (value < 0 || value > (int)Position.standing)
                 {
-                    buf += "Position range is from 0 to " + Position.standing + ".\r\n";
-                    ch.SendText(buf);
+                    text += "Position range is from 0 to " + Position.standing + ".\r\n";
+                    ch.SendText(text);
                     return;
                 }
 
@@ -6291,9 +6294,11 @@ namespace MUDEngine
                     ch.SendText(buf4);
                     return;
                 }
+                value = (int)cclass;
                 SocketConnection.Act("You set $N&n's class to $t.", ch, CharClass.ClassList[value].Name, victim, SocketConnection.MessageTarget.character);
-                SocketConnection.Act("Your class is now $t.", ch, CharClass.ClassList[value].Name, victim, SocketConnection.MessageTarget.victim); 
+                SocketConnection.Act("Your class is now $t.", ch, CharClass.ClassList[value].Name, victim, SocketConnection.MessageTarget.victim);
                 victim._charClass = CharClass.ClassList[value];
+                victim._charClassNum = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6906,8 +6911,8 @@ namespace MUDEngine
                 {
                     if (((PC)ch).Security > 0)
                     {
-                        buf += "Valid security is 0-" + ((PC)ch).Security + ".\r\n";
-                        ch.SendText(buf);
+                        text += "Valid security is 0-" + ((PC)ch).Security + ".\r\n";
+                        ch.SendText(text);
                     }
                     else
                     {
@@ -8291,8 +8296,9 @@ namespace MUDEngine
                     MUDString.PadInt(cclass.HitrollLevel0, 5), cclass.HitrollLevel40, cclass.ExperienceModifier);
             buf1 += text;
 
-            text = String.Format("Hp Min/Hp Max: {0}/{1}  Mana: {2}  Weapon: {3}\r\n",
-                    cclass.MinHpGain, cclass.MaxHpGain, cclass.GainsMana ? "yes" : "no", cclass.FirstWeapon);
+            text = String.Format("Hp Min/Hp Max: {0}/{1}  Mana: {2}  Weapon: {3}  Mount: {4}\r\n",
+                    cclass.MinHpGain, cclass.MaxHpGain, cclass.GainsMana ? "yes" : "no", cclass.FirstWeapon,
+                    cclass.CanSummonMountNumber);
             buf1 += text;
 
             buf1 += "\r\nSkills available for this class.\r\n";
@@ -23958,19 +23964,16 @@ namespace MUDEngine
         /// <param name="str"></param>
         public static void SummonMount(CharData ch, string[] str)
         {
-            bool isAnti;
             MobTemplate mobTemplate;
             Affect af = new Affect();
+            int mountNumber = ch._charClass.CanSummonMountNumber;
 
-            if (ch.IsClass(CharClass.Names.antipaladin))
-                isAnti = true;
-            else if (ch.IsClass(CharClass.Names.paladin))
-                isAnti = false;
-            else
+            if (mountNumber == 0)
             {
                 ch.SendText("You scream and yell for a mount.  Strangely nothing comes.\r\n");
                 return;
             }
+
             if (ch.IsAffected( Affect.AFFECT_SUMMON_MOUNT_TIMER))
             {
                 ch.SendText("&nIt is too soon to accomplish that!\r\n");
@@ -23980,27 +23983,16 @@ namespace MUDEngine
             // Look to see if they already have a mount.
             foreach (CharData previousMount in Database.CharList)
             {
-                // TODO: FIXME: BUG: Don't hard-code index numbers.
-                if (previousMount._master == ch && previousMount.IsNPC() && (previousMount._mobTemplate != null)
-                        && ((previousMount._mobTemplate.IndexNumber == 264 && isAnti)
-                             || (previousMount._mobTemplate.IndexNumber == 265 && !isAnti)))
+                if (previousMount._master == ch && previousMount.IsNPC() && previousMount._mobTemplate != null
+                    && (previousMount._mobTemplate.IndexNumber == mountNumber))
                 {
                     ch.SendText("You already have a mount!\r\n");
                     return;
                 }
             }
 
-            // If not let them summon one. :)
-            // TODO: FIXME: BUG: Do not hard-code mob numbers.
-            // TODO: Change it so we can specify what mounts a player can summon via the class file definitions.
-            if (isAnti)
-            {
-                mobTemplate = Database.GetMobTemplate(264);
-            }
-            else
-            {
-                mobTemplate = Database.GetMobTemplate(265);
-            }
+            // If not let found, them summon one.
+            mobTemplate = Database.GetMobTemplate(mountNumber);
 
             if (mobTemplate == null)
             {
@@ -24010,10 +24002,9 @@ namespace MUDEngine
 
             CharData mount = Database.CreateMobile(mobTemplate);
 
-            /* Must simulate the poor horse running across the world.
-            * They arrive with between 303 and 126 moves out of 294-310.
-            */
-            mount._currentMoves -= MUDMath.Dice(2, 40) + MUDMath.Dice(1, 80) + MUDMath.Dice(4, 2);
+            // Simulate the poor mount running across the world.
+            // They arrive with partially depleted moves.
+            mount._currentMoves -= MUDMath.Dice(4, 40);
             CharData.AddFollower(mount, ch);
             mount.SetAffectBit(Affect.AFFECT_CHARM);
             mount.SetActionBit(MobTemplate.ACT_NOEXP);
@@ -24025,7 +24016,9 @@ namespace MUDEngine
             SocketConnection.Act("$n&n trots up to $N&n.", mount, null, ch, SocketConnection.MessageTarget.everyone_but_victim);
 
             if (ch.IsImmortal())
+            {
                 return;
+            }
             af.Value = "summon mount";
             af.Type = Affect.AffectType.skill;
             af.Duration = 48;
@@ -24035,6 +24028,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Lets you check the justice state and rules for an area.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void JusticeCommand(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -25108,7 +25106,6 @@ namespace MUDEngine
                 ch.SendText(output);
                 return;
             }
-
         }
 
         /// <summary>

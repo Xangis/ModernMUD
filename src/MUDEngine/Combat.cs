@@ -2623,8 +2623,6 @@ namespace MUDEngine
             return true;
         }
 
-
-
         /// <summary>
         /// Set ch as fighting victim.
         /// </summary>
@@ -2646,8 +2644,10 @@ namespace MUDEngine
                 return;
             }
 
-            if( ch.IsAffected( Affect.AFFECT_SLEEP ) )
+            if (ch.IsAffected(Affect.AFFECT_SLEEP))
+            {
                 ch.RemoveAffect(Affect.AFFECT_SLEEP);
+            }
 
             if( ch._flyLevel != victim._flyLevel )
             {
@@ -2810,10 +2810,12 @@ namespace MUDEngine
             return;
         }
 
-        /*
-        * Pad out first if() clause for elementals, etc. that
-        * shouldn't leave corpses with appropriate messages.
-        */
+        /// <summary>
+        /// Checks whether the mob should leave a corpse when it dies. If so, returns
+        /// true. Otherwise, it prints a message, if appropriate, and returns false.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <returns></returns>
         static bool LeavesNoCorpse( CharData ch )
         {
             string msg = String.Empty;
@@ -2824,6 +2826,7 @@ namespace MUDEngine
                 noCorpse = true;
                 msg = String.Format( "$n&N crumbles to dust." );
             }
+
             else if( ch.IsElemental() )
             {
                 noCorpse = true;

@@ -14,6 +14,7 @@
 <GainsMana>false</GainsMana>
 <ExperienceModifier>1</ExperienceModifier>
 <MemType>Lesser</MemType>
+<CanSummonMountNumber>265</CanSummonMountNumber>
 <SaveModifiers>
   <float>0</float>
   <float>0</float>
