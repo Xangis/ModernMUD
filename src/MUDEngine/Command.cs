@@ -2769,7 +2769,7 @@ namespace MUDEngine
                 ch.SendText(Screen.GetStatus());
             // Not supported yet.
             //else if( !MUDString.str_prefix( arg1, "crime" ) )
-            //    Commandstatcrime( ch, argument );
+            //    Command.StatCrime( ch, argument );
             else if (!MUDString.IsPrefixOf(str[0], "vehicle"))
                 StatVehicle(ch,  arguments );
             else if (!MUDString.IsPrefixOf(str[0], "fear"))
@@ -2931,6 +2931,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Prints information about traps.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatTraps(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -3036,6 +3041,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Immortal command to change stats on something.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Set(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -3089,6 +3099,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Immortal command to load a mob or an object.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void Load(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -3122,6 +3137,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Shows area details and stats.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatArea(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -3280,6 +3300,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Displays details about quests.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatQuest(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -3364,6 +3389,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Displays spell memorization data for the game.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatMemdata(CharData ch, string[] str)
         {
             if( ch == null ) return;
@@ -3686,6 +3716,11 @@ namespace MUDEngine
             return;
         }
 
+        /// <summary>
+        /// Displays the statistics for a shop.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="str"></param>
         public static void StatShop(CharData ch, string[] str)
         {
             if( ch == null ) return;

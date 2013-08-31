@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
@@ -451,10 +452,13 @@ namespace MUDEngine
         /// </summary>
         public void Save()
         {
+            XmlWriterSettings ws = new XmlWriterSettings();
+            ws.NewLineHandling = NewLineHandling.Entitize;
             XmlSerializer serializer = new XmlSerializer(GetType());
             Stream stream = new FileStream(FileLocation.SpellDirectory + FileName, FileMode.Create,
                 FileAccess.Write, FileShare.None);
-            serializer.Serialize(stream, this);
+            XmlWriter writer = XmlWriter.Create(stream, ws);
+            serializer.Serialize(writer, this);
             stream.Close();
         }
 

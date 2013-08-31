@@ -320,5 +320,21 @@ namespace SpellEditor
         {
             MessageBox.Show("TODO: Work out how the 'modifies' button is going to work.");
         }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            int width = this.Width;
+            this.txtCode.Width = width - 43;
+            this.txtCompletedMessage.Width = width - 202;
+            this.txtCompletedMessageToRoom.Width = width - 202;
+            this.txtCompletedMessageToTarget.Width = width - 202;
+            this.txtDamageMessage.Width = width - 202;
+            this.txtDamageMessageSelfToRoom.Width = width - 202;
+            this.txtDamageMessageToRoom.Width = width - 202;
+            this.txtDamageMessageToSelf.Width = width - 202;
+            this.txtDamageMessageToVictim.Width = width - 202;
+            this.txtKillMessage.Width = width - 202;
+            this.txtWearOffMessage.Width = width - 202;
+        }
     }
 }

@@ -285,6 +285,9 @@
             // 
             // txtCode
             // 
+            this.txtCode.AcceptsReturn = true;
+            this.txtCode.AcceptsTab = true;
+            this.txtCode.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCode.Location = new System.Drawing.Point(12, 417);
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
@@ -366,6 +369,7 @@
             // 
             // txtDamageMessage
             // 
+            this.txtDamageMessage.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDamageMessage.Location = new System.Drawing.Point(171, 285);
             this.txtDamageMessage.Name = "txtDamageMessage";
             this.txtDamageMessage.Size = new System.Drawing.Size(424, 20);
@@ -373,6 +377,7 @@
             // 
             // txtWearOffMessage
             // 
+            this.txtWearOffMessage.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtWearOffMessage.Location = new System.Drawing.Point(171, 238);
             this.txtWearOffMessage.Name = "txtWearOffMessage";
             this.txtWearOffMessage.Size = new System.Drawing.Size(424, 20);
@@ -380,6 +385,7 @@
             // 
             // txtKillMessage
             // 
+            this.txtKillMessage.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtKillMessage.Location = new System.Drawing.Point(171, 262);
             this.txtKillMessage.Name = "txtKillMessage";
             this.txtKillMessage.Size = new System.Drawing.Size(424, 20);
@@ -387,6 +393,7 @@
             // 
             // txtDamageMessageToRoom
             // 
+            this.txtDamageMessageToRoom.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDamageMessageToRoom.Location = new System.Drawing.Point(171, 308);
             this.txtDamageMessageToRoom.Name = "txtDamageMessageToRoom";
             this.txtDamageMessageToRoom.Size = new System.Drawing.Size(424, 20);
@@ -394,6 +401,7 @@
             // 
             // txtDamageMessageToSelf
             // 
+            this.txtDamageMessageToSelf.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDamageMessageToSelf.Location = new System.Drawing.Point(171, 330);
             this.txtDamageMessageToSelf.Name = "txtDamageMessageToSelf";
             this.txtDamageMessageToSelf.Size = new System.Drawing.Size(424, 20);
@@ -401,6 +409,7 @@
             // 
             // txtDamageMessageToVictim
             // 
+            this.txtDamageMessageToVictim.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDamageMessageToVictim.Location = new System.Drawing.Point(171, 352);
             this.txtDamageMessageToVictim.Name = "txtDamageMessageToVictim";
             this.txtDamageMessageToVictim.Size = new System.Drawing.Size(424, 20);
@@ -408,6 +417,7 @@
             // 
             // txtDamageMessageSelfToRoom
             // 
+            this.txtDamageMessageSelfToRoom.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDamageMessageSelfToRoom.Location = new System.Drawing.Point(171, 374);
             this.txtDamageMessageSelfToRoom.Name = "txtDamageMessageSelfToRoom";
             this.txtDamageMessageSelfToRoom.Size = new System.Drawing.Size(424, 20);
@@ -586,10 +596,11 @@
             // 
             // cbSelectSpell
             // 
+            this.cbSelectSpell.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSelectSpell.FormattingEnabled = true;
             this.cbSelectSpell.Location = new System.Drawing.Point(183, 30);
             this.cbSelectSpell.Name = "cbSelectSpell";
-            this.cbSelectSpell.Size = new System.Drawing.Size(121, 21);
+            this.cbSelectSpell.Size = new System.Drawing.Size(210, 22);
             this.cbSelectSpell.Sorted = true;
             this.cbSelectSpell.TabIndex = 51;
             this.cbSelectSpell.SelectedIndexChanged += new System.EventHandler(this.cbSelectSpell_SelectedIndexChanged);
@@ -664,6 +675,7 @@
             // 
             // txtCompletedMessageToRoom
             // 
+            this.txtCompletedMessageToRoom.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCompletedMessageToRoom.Location = new System.Drawing.Point(171, 215);
             this.txtCompletedMessageToRoom.Name = "txtCompletedMessageToRoom";
             this.txtCompletedMessageToRoom.Size = new System.Drawing.Size(424, 20);
@@ -680,6 +692,7 @@
             // 
             // txtCompletedMessageToTarget
             // 
+            this.txtCompletedMessageToTarget.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCompletedMessageToTarget.Location = new System.Drawing.Point(171, 192);
             this.txtCompletedMessageToTarget.Name = "txtCompletedMessageToTarget";
             this.txtCompletedMessageToTarget.Size = new System.Drawing.Size(424, 20);
@@ -696,6 +709,7 @@
             // 
             // txtCompletedMessage
             // 
+            this.txtCompletedMessage.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCompletedMessage.Location = new System.Drawing.Point(171, 170);
             this.txtCompletedMessage.Name = "txtCompletedMessage";
             this.txtCompletedMessage.Size = new System.Drawing.Size(424, 20);
@@ -783,6 +797,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(626, 717);
             this.Name = "MainForm";
             this.Text = "ModernMUD Spell Editor";
             this.menuStrip1.ResumeLayout(false);
