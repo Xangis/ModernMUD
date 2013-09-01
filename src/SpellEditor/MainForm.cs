@@ -324,6 +324,7 @@ namespace SpellEditor
         protected override void OnSizeChanged(EventArgs e)
         {
             int width = this.Width;
+            int height = this.Height;
             this.txtCode.Width = width - 43;
             this.txtCompletedMessage.Width = width - 202;
             this.txtCompletedMessageToRoom.Width = width - 202;
@@ -335,6 +336,16 @@ namespace SpellEditor
             this.txtDamageMessageToVictim.Width = width - 202;
             this.txtKillMessage.Width = width - 202;
             this.txtWearOffMessage.Width = width - 202;
+            this.txtCode.Height = height - 520;
+            this.label1.Location = new System.Drawing.Point(this.label1.Location.X, height - 93);
+            this.txtAIPower.Location = new System.Drawing.Point(this.txtAIPower.Location.X, height - 96);
+            this.label2.Location = new System.Drawing.Point(this.label2.Location.X, height - 93);
+            this.txtAIChance.Location = new System.Drawing.Point(this.txtAIChance.Location.X, height - 96);
+            this.label16.Location = new System.Drawing.Point(this.label16.Location.X, height - 93);
+            this.cbAIType.Location = new System.Drawing.Point(this.cbAIType.Location.X, height - 96);
+            this.btnProvides.Location = new System.Drawing.Point(this.btnProvides.Location.X, height - 98);
+            this.btnNegates.Location = new System.Drawing.Point(this.btnNegates.Location.X, height - 98);
+            this.btnModifies.Location = new System.Drawing.Point(this.btnModifies.Location.X, height - 98);
         }
     }
 }
