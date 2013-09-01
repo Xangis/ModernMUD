@@ -96,6 +96,9 @@ namespace ModernMUD
             /// Opening it.
             /// </summary>
             open = Bitvector.BV09,
+            /// <summary>
+            /// Everything triggers this trap.
+            /// </summary>
             unlimited = Bitvector.BV10,
             glyph = Bitvector.BV11,
             /// <summary>
@@ -266,6 +269,5 @@ namespace ModernMUD
             }
             return false;
         }
-
     }
 }

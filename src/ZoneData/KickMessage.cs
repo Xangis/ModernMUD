@@ -23,5 +23,5 @@ namespace ModernMUD
         /// Message sent to the target of the action.
         /// </summary>
         public string ToVictimMessage { get; set; }
-    };
+    }
 }

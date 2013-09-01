@@ -197,6 +197,5 @@ namespace ModernMUD
                 return false;
             return true;
         }
-    };
-
+    }
 }

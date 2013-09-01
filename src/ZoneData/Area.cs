@@ -874,5 +874,5 @@ namespace ModernMUD
             }
             return false;
         }
-    };
+    }
 }

@@ -75,18 +75,28 @@ namespace ModernMUD
             _maxNumber = 0;
             _itemType = ObjectType.trash;
             int count;
-            for( count = 0; count < Limits.NUM_ITEM_EXTRA_VECTORS; ++count )
-                _extraFlags[ count ] = 0;
+            for (count = 0; count < Limits.NUM_ITEM_EXTRA_VECTORS; ++count)
+            {
+                _extraFlags[count] = 0;
+            }
             for (count = 0; count < Limits.NUM_USE_FLAGS_VECTORS; ++count)
+            {
                 _antiFlags[count] = 0;
+            }
             _antiFlags[0] = 1; // Usable by all by default.
             for (count = 0; count < Limits.NUM_WEAR_FLAGS_VECTORS; ++count)
+            {
                 _wearFlags[count] = 0;
+            }
             _wearFlags[0] = 1; // Carryable by default.
-            for( count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count )
-                _affectedBy[ count ] = 0;
-            for( count = 0; count < 8; ++count )
-                _values[ count ] = 0;
+            for (count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count)
+            {
+                _affectedBy[count] = 0;
+            }
+            for (count = 0; count < 8; ++count)
+            {
+                _values[count] = 0;
+            }
         }
 
         /// <summary>
@@ -139,7 +149,6 @@ namespace ModernMUD
         {
             _shortDescription = String.Empty;
             _fullDescription = String.Empty;
-
             --_numObjIndex;
             return;
         }
@@ -663,8 +672,10 @@ namespace ModernMUD
 
             _cost = ( ( ivalue * multiplier ) / 100 );
 
-            if( _condition != 0 )
-                _cost = ( _cost * _condition ) / 100;
+            if (_condition != 0)
+            {
+                _cost = (_cost * _condition) / 100;
+            }
 
             // Last stage, multiply it by the scarcity (which is denoted in hundredths of a percent).
             //

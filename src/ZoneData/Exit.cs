@@ -206,8 +206,10 @@ namespace ModernMUD
         /// <returns></returns>
         public static bool operator !( Exit e )
         {
-            if( e == null )
+            if (e == null)
+            {
                 return true;
+            }
             return false;
         }
 
@@ -218,8 +220,10 @@ namespace ModernMUD
         /// <returns></returns>
         public static implicit operator bool( Exit e )
         {
-            if( e == null )
+            if (e == null)
+            {
                 return false;
+            }
             return true;
         }
 

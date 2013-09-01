@@ -109,5 +109,5 @@ namespace ModernMUD
         {
             return _type.ToString() + ": " + _value.ToString();
         }
-    };
+    }
 }

@@ -46,13 +46,33 @@ namespace ModernMUD
         private Race.DamageType _susceptible;
         private Race.DamageType _vulnerable;
 
-        // Action bits for mobs.  Used in area files.
+        /// <summary>
+        /// No bit set.
+        /// </summary>
         public static readonly Bitvector ACT_NONE = new Bitvector( 0, 0 );
+        /// <summary>
+        /// One size smaller than is normal for race.
+        /// </summary>
         public static readonly Bitvector ACT_SIZEMINUS = new Bitvector(0, Bitvector.BV00);
+        /// <summary>
+        /// Stays in place, no wandering.
+        /// </summary>
         public static readonly Bitvector ACT_SENTINEL = new Bitvector(0, Bitvector.BV01);
+        /// <summary>
+        /// Picks up items and loots corpses.
+        /// </summary>
         public static readonly Bitvector ACT_SCAVENGER = new Bitvector(0, Bitvector.BV02);
+        /// <summary>
+        /// Is an NPC.
+        /// </summary>
         public static readonly Bitvector ACT_IS_NPC = new Bitvector(0, Bitvector.BV03);
+        /// <summary>
+        /// Is a guard.
+        /// </summary>
         public static readonly Bitvector ACT_GUARDIAN = new Bitvector(0, Bitvector.BV04);
+        /// <summary>
+        /// Attacks everything.
+        /// </summary>
         public static readonly Bitvector ACT_AGGRESSIVE = new Bitvector(0, Bitvector.BV05);
         public static readonly Bitvector ACT_STAY_AREA = new Bitvector(0, Bitvector.BV06);
         public static readonly Bitvector ACT_WIMPY = new Bitvector(0, Bitvector.BV07);
@@ -60,27 +80,66 @@ namespace ModernMUD
         public static readonly Bitvector ACT_AGGROGOOD = new Bitvector(0, Bitvector.BV09);
         public static readonly Bitvector ACT_AGGRONEUT = new Bitvector(0, Bitvector.BV10);
         public static readonly Bitvector ACT_MEMORY = new Bitvector(0, Bitvector.BV11);
+        /// <summary>
+        /// Cannot be paralyzed.
+        /// </summary>
         public static readonly Bitvector ACT_NOPARA = new Bitvector(0, Bitvector.BV12);
+        /// <summary>
+        /// Cannot be summoned.
+        /// </summary>
         public static readonly Bitvector ACT_NOSUMMON = new Bitvector(0, Bitvector.BV13);
+        /// <summary>
+        /// Cannot be bashed.
+        /// </summary>
         public static readonly Bitvector ACT_NOBASH = new Bitvector(0, Bitvector.BV14);
+        /// <summary>
+        /// Is a teacher.
+        /// </summary>
         public static readonly Bitvector ACT_TEACHER = new Bitvector(0, Bitvector.BV15);
         public static readonly Bitvector ACT_OUTLAW = new Bitvector(0, Bitvector.BV16);
+        /// <summary>
+        /// Is able to fly.
+        /// </summary>
         public static readonly Bitvector ACT_CANFLY = new Bitvector(0, Bitvector.BV17);
+        /// <summary>
+        /// Is able to swim.
+        /// </summary>
         public static readonly Bitvector ACT_CANSWIM = new Bitvector(0, Bitvector.BV18);
+        /// <summary>
+        /// Cannot be the target of telekinesis.
+        /// </summary>
         public static readonly Bitvector ACT_CANT_TK = new Bitvector(0, Bitvector.BV19);
         public static readonly Bitvector ACT_MOVED = new Bitvector(0, Bitvector.BV20);
+        /// <summary>
+        /// Is a pet.
+        /// </summary>
         public static readonly Bitvector ACT_PET = new Bitvector(0, Bitvector.BV21);
+        /// <summary>
+        /// Not worth any experience.
+        /// </summary>
         public static readonly Bitvector ACT_NOEXP = new Bitvector(0, Bitvector.BV22);
+        /// <summary>
+        /// One sizer than normal for race.
+        /// </summary>
         public static readonly Bitvector ACT_SIZEPLUS = new Bitvector(0, Bitvector.BV23);
         public static readonly Bitvector ACT_WITNESS = new Bitvector(0, Bitvector.BV24);
         public static readonly Bitvector ACT_NOCHARM = new Bitvector(0, Bitvector.BV25);
         public static readonly Bitvector ACT_PROTECTOR = new Bitvector(0, Bitvector.BV26);
+        /// <summary>
+        /// Is a mount.
+        /// </summary>
         public static readonly Bitvector ACT_MOUNT = new Bitvector(0, Bitvector.BV27);
         public static readonly Bitvector ACT_AGGROEVILRACE = new Bitvector(0, Bitvector.BV28);
         public static readonly Bitvector ACT_AGGROGOODRACE = new Bitvector(0, Bitvector.BV29);
         public static readonly Bitvector ACT_HUNTER = new Bitvector(0, Bitvector.BV30);
-        public static readonly Bitvector ACT_FACTION = new Bitvector(1, Bitvector.BV00); // Faction adjustments when killed.
-        public static readonly Bitvector ACT_DISPEL_WALL = new Bitvector(1, Bitvector.BV01); // Dispels walls, even if doesn't have dispel magic spell.
+        /// <summary>
+        /// Faction adjustments when killed.
+        /// </summary>
+        public static readonly Bitvector ACT_FACTION = new Bitvector(1, Bitvector.BV00);
+        /// <summary>
+        /// Dispels walls, even if doesn't have dispel magic spell.
+        /// </summary>
+        public static readonly Bitvector ACT_DISPEL_WALL = new Bitvector(1, Bitvector.BV01);
 
         /// <summary>
         /// Represents the sex of a mobile or player.
@@ -702,6 +761,5 @@ namespace ModernMUD
             }
             return;
         }
-
     }
 }

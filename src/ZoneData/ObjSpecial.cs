@@ -63,5 +63,5 @@ namespace ModernMUD
         {
             return _name;
         }
-    };
+    }
 }

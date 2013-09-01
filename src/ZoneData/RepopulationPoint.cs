@@ -133,6 +133,5 @@ namespace ModernMUD
         {
             return _raceString + " " + _classString + " repop in room " + _roomIndexNumber;
         }
-
     }
 }

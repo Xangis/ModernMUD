@@ -58,5 +58,4 @@ namespace ModernMUD
         /// </summary>
         evil_only
     }
-
 }

@@ -369,6 +369,5 @@ namespace ModernMUD
             }
             return true;
         }
-    };
-
+    }
 }

@@ -61,8 +61,10 @@ namespace ModernMUD
         /// <returns></returns>
         public static implicit operator bool(MobSpecial ms)
         {
-            if( ms == null )
+            if (ms == null)
+            {
                 return false;
+            }
             return true;
         }
 
@@ -88,12 +90,12 @@ namespace ModernMUD
 
             foreach (String str in names)
             {
-                if( MobSpecialTable.ContainsKey(str))
+                if (MobSpecialTable.ContainsKey(str))
+                {
                     functions.Add(MobSpecialTable[str]);
+                }
             }
             return functions;
         }
-
-    };
-
+    }
 }

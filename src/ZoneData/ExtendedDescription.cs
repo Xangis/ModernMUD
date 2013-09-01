@@ -47,7 +47,6 @@ namespace ModernMUD
         ~ExtendedDescription()
         {
             --_numExtendedDescriptions;
-
             return;
         }
         
@@ -79,10 +78,11 @@ namespace ModernMUD
         /// <returns></returns>
         public static implicit operator bool( ExtendedDescription ed )
         {
-            if( ed == null )
+            if (ed == null)
+            {
                 return false;
+            }
             return true;
         }
-    };
-
+    }
 }

@@ -82,6 +82,9 @@ namespace ModernMUD
             _saveModifiers[ 5 ] = 0;
         }
 
+        /// <summary>
+        /// Gets the number of races currently in memory.
+        /// </summary>
         [XmlIgnore]
         public static int Count
         {
@@ -115,8 +118,8 @@ namespace ModernMUD
         /// </summary>
         public int Number
         {
-          get { return _number; }
-          set { _number = value; }
+            get { return _number; }
+            set { _number = value; }
         }
 
         /// <summary>
@@ -571,8 +574,10 @@ namespace ModernMUD
                 default:
                     throw new Exception("Race.GetRandomRace: invalid type");
             }
-            if( race == RACE_GOD )
-                race = GetRandomRace( type );
+            if (race == RACE_GOD)
+            {
+                race = GetRandomRace(type);
+            }
 
             return race;
         }

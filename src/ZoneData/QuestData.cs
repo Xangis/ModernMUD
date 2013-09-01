@@ -99,5 +99,5 @@ namespace ModernMUD
             }
             return str;
         }
-    };
+    }
 }

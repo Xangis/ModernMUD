@@ -57,8 +57,10 @@ namespace ModernMUD
         /// <returns></returns>
         public static implicit operator bool( Affect af )
         {
-            if( af == null )
+            if (af == null)
+            {
                 return false;
+            }
             return true;
         }
 
@@ -846,7 +848,7 @@ namespace ModernMUD
         /// </summary>
         public static readonly Bitvector AFFECT_MISDIRECTION = new Bitvector(4, Bitvector.BV21);
         /// <summary>
-        /// ???
+        /// Affected by the vacancy spell.
         /// </summary>
         public static readonly Bitvector AFFECT_VACANCY = new Bitvector(4, Bitvector.BV22);
         /// <summary>
@@ -981,5 +983,5 @@ namespace ModernMUD
         /// Increased charisma.
         /// </summary>
         public static readonly Bitvector AFFECT_CHARISMA_INCREASED = new Bitvector(5, Bitvector.BV24);
-    };
+    }
 }

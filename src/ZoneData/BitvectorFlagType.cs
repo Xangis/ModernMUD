@@ -630,6 +630,5 @@ namespace ModernMUD
 
             return (!String.IsNullOrEmpty(text)) ? text.Substring(1) : "none";
         }
-
-    };
+    }
 }

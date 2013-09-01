@@ -310,8 +310,5 @@ namespace ModernMUD
 
             return null;
         }
-
-
-    };
-
+    }
 }
