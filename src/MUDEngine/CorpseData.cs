@@ -51,17 +51,28 @@ namespace MUDEngine
         public static CorpseData Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.CorpseFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.CorpseFile;
+            XmlSerializer serializer = new XmlSerializer(typeof(CorpseData));
+            Stream stream = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer( typeof( CorpseData ) );
-                Stream stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
-                CorpseData data = (CorpseData)serializer.Deserialize( stream );
+                try
+                {
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Corpse file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                CorpseData data = (CorpseData)serializer.Deserialize(stream);
                 stream.Close();
                 return data;
             }
-            catch( Exception ex )
+            catch (Exception ex)
             {
-                Log.Error( "Exception in CorpseData.Load(): " + ex );
+                Log.Error("Exception in CorpseData.Load(): " + ex);
                 return new CorpseData();
             }
         }

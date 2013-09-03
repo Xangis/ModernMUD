@@ -113,6 +113,11 @@ namespace HelpData
                 xtr.Close();
                 return helps;
             }
+            catch (FileNotFoundException)
+            {
+                Console.Write("ERROR: Help file " + filename + " not found. Continuing without help data.");
+                return new List<Help>();
+            }
             catch (Exception ex)
             {
                 throw new FileLoadException("Exception in Help.Load(): " + ex);
@@ -132,7 +137,5 @@ namespace HelpData
             xtw.Flush();
             xtw.Close();
         }
-
-    };
-
+    }
 }

@@ -109,17 +109,28 @@ namespace MUDEngine
         public static bool Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.IssueFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.IssueFile;
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Issue>));
+            XmlTextReader xtr = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer( typeof( List<Issue> ) );
-                XmlTextReader xtr = new XmlTextReader(new StreamReader(filename));
-                Database.IssueList = (List<Issue>)serializer.Deserialize( xtr );
+                try
+                {
+                    xtr = new XmlTextReader(new StreamReader(filename));
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Issue file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    xtr = new XmlTextReader(new StreamReader(filename));
+                }
+                Database.IssueList = (List<Issue>)serializer.Deserialize(xtr);
                 xtr.Close();
                 return true;
             }
-            catch( Exception ex )
+            catch (Exception ex)
             {
-                Log.Error( "Exception in Issue.Load(): " + ex );
+                Log.Error("Exception in Issue.Load(): " + ex);
                 Database.IssueList = new List<Issue>();
                 return false;
             }
