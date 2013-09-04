@@ -120,7 +120,7 @@ namespace MUDEngine
             Log.Trace( "Loaded " + Help.Count + " help entries." );
 
             Log.Trace( "Loading screens." );
-            Screen.Load(FileLocation.SystemDirectory + FileLocation.ScreenFile);
+            Screen.Load(FileLocation.SystemDirectory + FileLocation.ScreenFile, FileLocation.BlankSystemFileDirectory + FileLocation.ScreenFile);
             Log.Trace( "Loaded " + Screen.Count + " screens." );
 
             // Chatbots have to be loaded before mobs.

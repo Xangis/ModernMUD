@@ -208,7 +208,7 @@ namespace ModernMUD
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static bool Load(string filename)
+        public static bool Load(string filename, string blankFilename = null)
         {
             ScreenList.Clear();
             _introScreenColor = null;
@@ -216,15 +216,28 @@ namespace ModernMUD
             _mainMenuScreen = null;
             _raceSelectionScreenColor = null;
             _raceSelectionScreenMonochrome = null;
+            XmlTextReader xtr = null;
             try
             {
                 // This method of serialization will preserve newline characters in the text.
                 // This is different from most of what we have done in other parts of Basternae.
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Screen>));
-                XmlTextReader xtr = new XmlTextReader(new StreamReader(filename));
-                // This commented method mangles newlines.
-                //Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
-                //ScreenList = (List<Screen>)serializer.Deserialize(stream);
+                try
+                {
+                    xtr = new XmlTextReader(new StreamReader(filename));
+                }
+                catch (FileNotFoundException)
+                {
+                    if (!String.IsNullOrEmpty(blankFilename))
+                    {
+                        File.Copy(blankFilename, filename);
+                        xtr = new XmlTextReader(new StreamReader(filename));
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 ScreenList = serializer.Deserialize(xtr) as List<Screen>;
                 xtr.Close();
                 if( ScreenList == null )

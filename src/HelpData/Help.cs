@@ -115,7 +115,7 @@ namespace HelpData
             }
             catch (FileNotFoundException)
             {
-                Console.Write("ERROR: Help file " + filename + " not found. Continuing without help data.");
+                Console.WriteLine("ERROR: Help file " + filename + " not found. Continuing without help data.");
                 return new List<Help>();
             }
             catch (Exception ex)
