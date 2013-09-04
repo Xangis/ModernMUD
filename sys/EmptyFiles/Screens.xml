@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><ArrayOfScreen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Screen><Type>menu</Type><Name>MainMenu</Name><Contents>&#x1B;[0;31m---------------------------
+&#x1B;[1;31m 0] Leave the game.
+ 1] Enter the game.
+ 2] Change your password.
+ 6] Retire this character.&#x1B;[0;37m
+&#x1B;[0;31m---------------------------&#x1B;[0;37m
+</Contents><Active>true</Active></Screen><Screen><Type>intro</Type><Name>Intro</Name><Contents>Welcome to &#x1B;[1;31mModernMUD&#x1B;[0;37m.
+
+Enter your character name: </Contents><Active>true</Active></Screen><Screen><Type>monochrome_intro</Type><Name>MonoIntro</Name><Contents>Welcome to ModernMUD.
+
+Enter your character name: </Contents><Active>true</Active></Screen><Screen><Type>races</Type><Name>Races</Name><Contents>&#x1B;[1;33mGood Races         &#x1B;[0;31mEvil Races        &#x1B;[0;35mEnslavers
+&#x1B;[0;37m-------------------------------------------------
+&#x1B;[1;37mHuman              Rakshasa          Illithid
+Barbarian          Gnoll             Neogi
+Grey Elf           Drow Elf          Umber Hulk
+Half-Elf           Duergar
+Dwarf              Troll
+Halfling           Ogre
+Gnome              Orc
+Centaur            Githyanki
+Thri-Kreen         Goblin
+                   Kobold
+                   Minotaur
+&#x1B;[0;37mPlease Select a Race:  </Contents><Active>true</Active></Screen><Screen><Type>monochrome_races</Type><Name>MonoRaces</Name><Contents>Good Races         Evil Races        Enslavers
+-------------------------------------------------
+Human              Rakshasa          Illithid
+Barbarian          Gnoll             Neogi
+Grey Elf           Drow Elf          Umber Hulk
+Half-Elf           Duergar
+Dwarf              Troll
+Halfling           Ogre
+Gnome              Orc
+Centaur            Githyanki
+Thri-Kreen         Goblin
+                   Kobold
+                   Minotaur
+Please Select a Race:  </Contents><Active>true</Active></Screen></ArrayOfScreen>
