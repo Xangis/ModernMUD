@@ -449,8 +449,9 @@ namespace ModernMUD
         }
 
         /// <summary>
-        /// The on-disk storage location for this area.
+        /// The on-disk storage location for this area. Set at load/save time, not stored.
         /// </summary>
+        [XmlIgnore]
         public string Filename
         {
             get { return _filename; }
