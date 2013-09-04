@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Sysdata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TotalBountiesPlacedValue>0</TotalBountiesPlacedValue>
+  <TotalBountyFeesCharged>0</TotalBountyFeesCharged>
+  <TotalBountiesClaimed>0</TotalBountiesClaimed>
+  <TotalBountiesClaimedValue>0</TotalBountiesClaimedValue>
+  <TotalBountiesExpired>0</TotalBountiesExpired>
+  <TotalBountiesExpiredValue>0</TotalBountiesExpiredValue>
+  <MudName>ModernMUD</MudName>
+  <MudAnsiName>&amp;+BModernMUD&amp;n</MudAnsiName>
+  <GameIsDown>false</GameIsDown>
+  <GameBootTime>2013-08-31T21:24:03.7525992-07:00</GameBootTime>
+  <GameIsWizlocked>false</GameIsWizlocked>
+  <TotalBountiesPlaced>0</TotalBountiesPlaced>
+  <NumlockLevel>0</NumlockLevel>
+  <NewsEntries />
+  <MaxPlayersEver>1</MaxPlayersEver>
+  <MaxPlayersTime>2011-01-27T19:24:14.1475311-08:00</MaxPlayersTime>
+  <ActFlags>equipmentdamage autoprice alwaysequip</ActFlags>
+  <ShutdownTime>0001-01-01T00:00:00</ShutdownTime>
+  <ShutdownIsScheduled>false</ShutdownIsScheduled>
+  <CurrentTime>2013-08-31T21:56:13.1729386-07:00</CurrentTime>
+  <GameHour>1</GameHour>
+  <GameDay>1</GameDay>
+  <GameMonth>1</GameMonth>
+  <GameYear>1</GameYear>
+  <WeatherData>
+    <BarometricPressure>1017</BarometricPressure>
+    <Change>11</Change>
+    <Sky>cloudy</Sky>
+    <Sunlight>daytime</Sunlight>
+    <MoonPhase>new_moon</MoonPhase>
+    <Moonday>1</Moonday>
+    <WindDirection>-9</WindDirection>
+    <Temperature>31</Temperature>
+    <WindSpeed>-430</WindSpeed>
+  </WeatherData>
+  <BannedNames />
+</Sysdata>
