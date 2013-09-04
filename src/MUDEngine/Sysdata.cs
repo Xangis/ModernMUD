@@ -13,25 +13,25 @@ namespace MUDEngine
     [Serializable]
     public class Sysdata
     {
-        private bool _gameIsDown = false;      /* Shutdown                     */
-        private bool _gameIsWizlocked = false;        /* Game is wizlocked        */
-        private int _numlockLevel = 0;        /* Game is numlocked at <level> */
+        private bool _gameIsDown = false; /* Shutdown */
+        private bool _gameIsWizlocked = false; /* Game is wizlocked */
+        private int _numlockLevel = 0; /* Game is numlocked at <level> */
         private DateTime _gameBootTime = DateTime.Now;
         private DateTime _lastPlayerCount = DateTime.MinValue;
         private int _numPlayers = 0;
-        private int _maxPlayers = 0;		/* Maximum players this boot */
-        private int _maxPlayersEver = 0;		/* Maximum players ever      */
-        private DateTime _maxPlayersTime;	/* Time of max players ever  */
-        private MudFlags _actFlags = MudFlags.autoprice | MudFlags.equipmentdamage; /* Mud act flags             */
-        private DateTime _shutdownTime;           /* Shutdown/reboot time      */
-        private bool _shutdownIsScheduled = false;      // Is there a scheduled shutdown?
-        private DateTime _currentTime = DateTime.Now;        /* Current time              */
-        private int _gameHour = 0;                   /* in-game _gameHour  */
-        private int _gameDay = 0;                    /* in-game _gameDay   */
-        private int _gameMonth = 0;                  /* in-game _gameMonth */
-        private int _gameYear = 1;                   /* in-game _gameYear  */
-        private Weather _weather;            /* Weather information       */
-        private string _bannedNames = String.Empty;       /* Banned names              */
+        private int _maxPlayers = 0; /* Maximum players this boot */
+        private int _maxPlayersEver = 0; /* Maximum players ever */
+        private DateTime _maxPlayersTime; /* Time of max players ever */
+        private MudFlags _actFlags = MudFlags.autoprice | MudFlags.equipmentdamage; /* Mud act flags */
+        private DateTime _shutdownTime; /* Shutdown/reboot time */
+        private bool _shutdownIsScheduled = false; // Is there a scheduled shutdown?
+        private DateTime _currentTime = DateTime.Now; /* Current time */
+        private int _gameHour = 0; /* in-game _gameHour */
+        private int _gameDay = 0; /* in-game _gameDay */
+        private int _gameMonth = 0; /* in-game _gameMonth */
+        private int _gameYear = 1; /* in-game _gameYear */
+        private Weather _weather; /* Weather information */
+        private string _bannedNames = String.Empty; /* Banned names */
         private int _totalBountiesPlaced = 0;
         private string _mudName = "Basternae";
         private string _mudAnsiName = "&+RBasternae&n";
@@ -403,20 +403,31 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool Load()
         {
-            Log.Trace("Loading sysdata file: " + FileLocation.SystemDirectory + FileLocation.SysdataFile);
 
+            string filename = FileLocation.SystemDirectory + FileLocation.SysdataFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.SysdataFile;
+            XmlSerializer serializer = new XmlSerializer(typeof(CorpseData));
+            Log.Trace("Loading sysdata file: " + filename);
+            Stream stream = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer( typeof(Sysdata) );
-                Stream stream = new FileStream(FileLocation.SystemDirectory + FileLocation.SysdataFile, FileMode.Open,
-                    FileAccess.Read, FileShare.None );
-                Database.SystemData = (Sysdata)serializer.Deserialize( stream );
+                try
+                {
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("SystemData file not found, using blank file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                Database.SystemData = (Sysdata)serializer.Deserialize(stream);
                 stream.Close();
                 return true;
             }
-            catch( Exception ex )
+            catch (Exception ex)
             {
-                Log.Error( "Exception in Database.SystemData.Load(): " + ex );
+                Log.Error("Exception in Database.SystemData.Load(): " + ex);
                 Database.SystemData = new Sysdata();
                 return false;
             }
