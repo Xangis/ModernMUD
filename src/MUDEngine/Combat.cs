@@ -143,7 +143,7 @@ namespace MUDEngine
             {
                 chance /= 2;
             }
-            string lbuf = String.Format("Commandbackstab: {0} is attempting with a {0}%% chance.", ch._name, stabChance);
+            string lbuf = String.Format("Command.Backstab: {0} is attempting with a {1}%% chance.", ch._name, stabChance);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
             if (MUDMath.NumberPercent() < stabChance)
             {

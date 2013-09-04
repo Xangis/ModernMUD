@@ -14,9 +14,9 @@ namespace MUDEngine
     [Serializable]
     public class ZoneConnection
     {
-        public int FirstRoomNumber;
-        public int SecondRoomNumber;
-        public Exit.Direction FirstToSecondDirection;
+        public int FirstRoomNumber { set; get; }
+        public int SecondRoomNumber { set; get; }
+        public Exit.Direction FirstToSecondDirection { set; get; }
 
         /// <summary>
         /// Loads zone connections.

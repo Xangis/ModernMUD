@@ -82,8 +82,8 @@ namespace MUDEngine
         static void _hash_enter( HashHeader ht, int key, Object data )
         {
             /* precondition: there is no entry for <Key> yet */
-            HashLink temp;
-            int i;
+            //HashLink temp;
+            //int i;
 
             /*
             temp = new HashLink();
@@ -200,7 +200,7 @@ namespace MUDEngine
 
             if( scan != null )
             {
-                HashLink temp = null;
+                //HashLink temp = null;
                 HashLink aux;
                 int i = 0;
 
@@ -380,7 +380,7 @@ namespace MUDEngine
                                 //else
                                 {
                                     /* else return the Ancestor */
-                                    long j;
+                                    //long j;
 
                                     /*j = (long)hash_find(x_room, tmp_room);
                                     if (x_room.Buckets)

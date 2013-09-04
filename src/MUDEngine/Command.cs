@@ -3198,7 +3198,7 @@ namespace MUDEngine
                       Room.GetRoom(area.Recall) ? Room.GetRoom(area.Recall).Title : "none");
             ch.SendText(text);
 
-            text = String.Format("Flags:    {0} ({1})    Reset Mode: {1}\r\n",
+            text = String.Format("Flags:    {0} ({1})    Reset Mode: {2}\r\n",
                       BitvectorFlagType.AreaString(area), area.AreaFlags[0], area.AreaResetMode);
             ch.SendText(text);
 
@@ -3405,7 +3405,7 @@ namespace MUDEngine
             {
                 foreach (MemorizeData mem in ((PC)ch).Memorized)
                 {
-                    string text = String.Format("Name: {1}. Memtime: {2} pulses.\r\n  Full Memtime: {3} pulses.  Circle: {4}.  Memmed: {5}.\r\n",
+                    string text = String.Format("Name: {0}. Memtime: {1} pulses.\r\n  Full Memtime: {2} pulses.  Circle: {3}.  Memmed: {4}.\r\n",
                                                 mem.Name,
                                                 mem.Memtime,
                                                 mem.FullMemtime,
@@ -3661,8 +3661,7 @@ namespace MUDEngine
                 foreach (AffectApplyType apply in aff.Modifiers)
                 {
                     text = String.Format("Affects {0} by {1}.\r\n",
-                              StringConversion.AffectApplyString(apply.Location), apply.Amount,
-                              aff.AffectString(false));
+                              StringConversion.AffectApplyString(apply.Location), apply.Amount);
                     buf1 += text;
                 }
             }
@@ -3672,8 +3671,7 @@ namespace MUDEngine
                 foreach (AffectApplyType apply in aff.Modifiers)
                 {
                     text = String.Format("Template Affects {0} by {1}.\r\n",
-                              StringConversion.AffectApplyString(apply.Location), apply.Amount,
-                              aff.AffectString(false));
+                              StringConversion.AffectApplyString(apply.Location), apply.Amount);
                     buf1 += text;
                 }
             }
@@ -5761,7 +5759,7 @@ namespace MUDEngine
                         ch.SendText("&+WToo many skills to display!!\r\n");
                         break;
                     }
-                    buf = String.Format("Skill: '{1}' Lag: {2}\r\n", skll.Name, skll.Delay);
+                    buf = String.Format("Skill: '{0}' Lag: {1}\r\n", skll.Name, skll.Delay);
                     buf1 += buf;
                     for (count = 0; count < CharClass.ClassList.Length; ++count)
                     {
@@ -7519,7 +7517,7 @@ namespace MUDEngine
                 if (socket.Character && CharData.CanSee(ch, socket.Character))
                 {
                     ++count;
-                    text = String.Format("[{1}] {2}@{3}\r\n",
+                    text = String.Format("[{0}] {1}@{2}\r\n",
                             socket._connectionState.ToString(),
                             socket.Original ? socket.Original._name :
                             socket.Character ? socket.Character._name : "(none)",
@@ -8494,7 +8492,7 @@ namespace MUDEngine
                         ch.SendText(String.Format("Mobs:    {0}  MobTemplates:  {1}\r\n",
                                         MUDString.PadInt(CharData.Count, 5), MUDString.PadInt(MobTemplate.Count, 5)));
                         ch.SendText(String.Format("Rooms:   {0}\r\n",
-                                        MUDString.PadInt(RoomTemplate.Count, 5), MUDString.PadInt(RoomTemplate.Count, 5)));
+                                        MUDString.PadInt(RoomTemplate.Count, 5)));
                         ch.SendText(String.Format("Objects: {0}  ObjTemplates:  {1}\r\n",
                                         MUDString.PadInt(Object.Count, 5), MUDString.PadInt(ObjTemplate.Count, 5)));
                         ch.SendText(String.Format("Shops:   {0}\r\n",
@@ -20823,7 +20821,7 @@ namespace MUDEngine
                 ch.SendText(text);
                 if (obj.HasFlag(ObjTemplate.ITEM_NOSELL))
                 {
-                    text = String.Format("It doesn't appear to be worth much.\r\n", obj.Condition);
+                    text = String.Format("It doesn't appear to be worth much.\r\n");
                     ch.SendText(text);
                 }
                 switch (obj.ItemType)
