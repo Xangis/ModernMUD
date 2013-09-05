@@ -2834,7 +2834,7 @@ namespace MUDEngine
 
             foreach (KeyValuePair<String, Song> kvp in Database.SongList)
             {
-                if (kvp.Value._spellCircle[(int)_charClass.ClassNumber] == 1
+                if (kvp.Value.SongCircle[(int)_charClass.ClassNumber] == 1
                         && ((PC)this).SongAptitude[kvp.Key] < (Limits.BASE_SPELL_ADEPT + 5))
                     ((PC)this).SongAptitude[kvp.Key] = (Limits.BASE_SPELL_ADEPT + 5);
             }

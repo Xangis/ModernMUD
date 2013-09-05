@@ -16449,7 +16449,7 @@ namespace MUDEngine
 
                 foreach (KeyValuePair<String, Song> kvp in Database.SongList)
                 {
-                    if (kvp.Value._spellCircle[(int)ch._charClass.ClassNumber] != level)
+                    if (kvp.Value.SongCircle[(int)ch._charClass.ClassNumber] != level)
                         continue;
 
                     if (pSong)
@@ -16463,7 +16463,7 @@ namespace MUDEngine
                     }
                     buf += "     ";
                     buf += "&n&+c" + MUDString.PadStr(kvp.Key, 21) + "  &+Y" + ((PC)ch).SongAptitude[kvp.Key] +
-                        "&n (" + StringConversion.SpellSchoolString(kvp.Value._performanceType) + ")";
+                        "&n (" + StringConversion.SpellSchoolString(kvp.Value.PerformanceType) + ")";
                     buf += "\r\n";
                 }
 

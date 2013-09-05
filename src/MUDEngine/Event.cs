@@ -274,12 +274,12 @@ namespace MUDEngine
                             ch = (CharData)eventdata._arg1;
                             if( ch == null )
                                 break;
-                            if( ch._currentMana < ((Song)eventdata._var)._minimumMana )
+                            if( ch._currentMana < ((Song)eventdata._var).MinimumMana )
                             {
                                 SocketConnection.Act( "$n&n chokes and falls silent.", ch, null, null, SocketConnection.MessageTarget.room );
                                 break;
                             }
-                            ch._currentMana -= ((Song)eventdata._var)._minimumMana;
+                            ch._currentMana -= ((Song)eventdata._var).MinimumMana;
                             // We stored the CharData in arg1
                             // We stored the spell in var
                             // We stored the target argument in arg2
@@ -1156,9 +1156,9 @@ namespace MUDEngine
                             ch.SendText( Spell.SpellList[ affect.Value ].MessageWearOff );
                             ch.SendText( "\r\n" );
                         }
-                        else if( affect.Type == Affect.AffectType.song && Database.SongList[ affect.Value ]._messageWearOff.Length > 0 )
+                        else if( affect.Type == Affect.AffectType.song && Database.SongList[ affect.Value ].MessageWearOff.Length > 0 )
                         {
-                            ch.SendText( Database.SongList[ affect.Value ]._messageWearOff );
+                            ch.SendText( Database.SongList[ affect.Value ].MessageWearOff );
                             ch.SendText( "\r\n" );
                         }
 
