@@ -66,7 +66,7 @@ namespace MUDEngine
             ch.RemoveAffect(Affect.AFFECT_MINOR_INVIS);
             ch.RemoveAffect(Affect.AFFECT_HIDE);
 
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.dead:
                     ch.SendText("Lie still; you are DEAD.\r\n");
@@ -98,9 +98,9 @@ namespace MUDEngine
             {
                 SocketConnection.Act(soc.CharNoArgument, ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act(soc.OthersNoArgument, ch, null, victim, SocketConnection.MessageTarget.room);
-                if (!String.IsNullOrEmpty(soc.AudioFile) && ch._inRoom != null)
+                if (!String.IsNullOrEmpty(soc.AudioFile) && ch.InRoom != null)
                 {
-                    foreach (CharData cd in ch._inRoom.People)
+                    foreach (CharData cd in ch.InRoom.People)
                     {
                         cd.SendSound(soc.AudioFile);
                     }
@@ -108,7 +108,7 @@ namespace MUDEngine
                 return true;
             }
             victim = ch.GetCharWorld(arg);
-            if (!victim || (ch.IsRacewar(victim) && ch._inRoom != victim._inRoom))
+            if (!victim || (ch.IsRacewar(victim) && ch.InRoom != victim.InRoom))
             {
                 ch.SendText("They aren't here.\r\n");
             }
@@ -116,9 +116,9 @@ namespace MUDEngine
             {
                 SocketConnection.Act(soc.CharSelf, ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act(soc.OthersSelf, ch, null, victim, SocketConnection.MessageTarget.room);
-                if (!String.IsNullOrEmpty(soc.AudioFile) && ch._inRoom != null)
+                if (!String.IsNullOrEmpty(soc.AudioFile) && ch.InRoom != null)
                 {
-                    foreach (CharData cd in ch._inRoom.People)
+                    foreach (CharData cd in ch.InRoom.People)
                     {
                         cd.SendSound(soc.AudioFile);
                     }
@@ -141,9 +141,9 @@ namespace MUDEngine
                         ch.SendText("They are ignoring you.\r\n");
                         return false;
                     }
-                    Room original = ch._inRoom;
+                    Room original = ch.InRoom;
                     ch.RemoveFromRoom();
-                    ch.AddToRoom(victim._inRoom);
+                    ch.AddToRoom(victim.InRoom);
 
                     string ldmsg = ldbase;
                     ldmsg += soc.CharFound;
@@ -153,9 +153,9 @@ namespace MUDEngine
                     ldmsg += soc.VictimFound;
                     SocketConnection.Act(ldmsg, ch, null, victim, SocketConnection.MessageTarget.victim);
 
-                    if (!String.IsNullOrEmpty(soc.AudioFile) && ch._inRoom != null)
+                    if (!String.IsNullOrEmpty(soc.AudioFile) && ch.InRoom != null)
                     {
-                        foreach (CharData cd in ch._inRoom.People)
+                        foreach (CharData cd in ch.InRoom.People)
                         {
                             cd.SendSound(soc.AudioFile);
                         }
@@ -175,9 +175,9 @@ namespace MUDEngine
                 SocketConnection.Act(soc.CharFound, ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act(soc.VictimFound, ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act(soc.OthersFound, ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
-                if (!String.IsNullOrEmpty(soc.AudioFile) && ch._inRoom != null)
+                if (!String.IsNullOrEmpty(soc.AudioFile) && ch.InRoom != null)
                 {
-                    foreach (CharData cd in ch._inRoom.People)
+                    foreach (CharData cd in ch.InRoom.People)
                     {
                         cd.SendSound(soc.AudioFile);
                     }

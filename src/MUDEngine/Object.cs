@@ -677,10 +677,10 @@ namespace MUDEngine
 
             if( _carriedBy != null )
             {
-                _carriedBy._carryWeight += objToAdd.Weight;
+                _carriedBy.CarryWeight += objToAdd.Weight;
                 foreach (Object obj in objToAdd.Contains)
                 {
-                    _carriedBy._carryWeight += obj.Weight;
+                    _carriedBy.CarryWeight += obj.Weight;
                 }
             }
 
@@ -711,7 +711,7 @@ namespace MUDEngine
             {
                 if( objFrom._carriedBy != null )
                 {
-                    objFrom._carriedBy._carryWeight -= GetWeight();
+                    objFrom._carriedBy.CarryWeight -= GetWeight();
                 }
             }
 
@@ -732,7 +732,7 @@ namespace MUDEngine
 
             if (ch.IsClass(CharClass.Names.monk))
             {
-                if (_weight > (1 + (ch._level / 15)))
+                if (_weight > (1 + (ch.Level / 15)))
                 {
                     SocketConnection.Act("$p&n is too heavy for you to use.", ch, this, null, SocketConnection.MessageTarget.character);
                     return false;
@@ -742,7 +742,7 @@ namespace MUDEngine
             if (HasWearFlag(ObjTemplate.USE_ANYONE))
                 return true;
 
-            switch (ch._sex)
+            switch (ch.Gender)
             {
                 case MobTemplate.Sex.male:
                     if (HasAntiFlag(ObjTemplate.USE_ANTIMALE))
@@ -770,7 +770,7 @@ namespace MUDEngine
                     return false;
             }
 
-            switch (ch._charClass.ClassNumber)
+            switch (ch.CharacterClass.ClassNumber)
             {
                 default:
                     break;
@@ -1052,17 +1052,17 @@ namespace MUDEngine
                 ch.UnequipObject( this );
             }
 
-            if (!ch._carrying.Remove(this))
+            if (!ch.Carrying.Remove(this))
             {
                 Log.Error("Object.RemoveFromChar(): obj not in list.", 0);
             }
             else
             {
-                ch._carryNumber -= 1;
-                ch._carryWeight -= GetWeight();
+                ch.CarryNumber -= 1;
+                ch.CarryWeight -= GetWeight();
                 if (HasFlag(ObjTemplate.ITEM_LIT))
                 {
-                    ch._inRoom.Light--;
+                    ch.InRoom.Light--;
                 }
             }
             _carriedBy = null;
@@ -1101,7 +1101,7 @@ namespace MUDEngine
 
             if (obj._itemType != ObjTemplate.ObjectType.money)
             {
-                if (ch._carryWeight + obj.GetWeight() > ch.MaxCarryWeight())
+                if (ch.CarryWeight + obj.GetWeight() > ch.MaxCarryWeight())
                 {
                     SocketConnection.Act("$p&n is quite literally the &+Ystraw&n that would break the &n&+ycamel&n's back.", ch, obj, null, SocketConnection.MessageTarget.character);
                     return;
@@ -1133,7 +1133,7 @@ namespace MUDEngine
                      SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&+L is &n&+rburned&+L by holy &+Rfire&+L from &n$p&+L!&n", ch, obj, null, SocketConnection.MessageTarget.room);
                 Combat.InflictSpellDamage(ch, ch, 20, "burning hands", AttackType.DamageType.white_magic);
-                obj.AddToRoom(ch._inRoom);
+                obj.AddToRoom(ch.InRoom);
                 return;
             }
 
@@ -1143,7 +1143,7 @@ namespace MUDEngine
                      SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&+L is &n&+rburned&+L by holy &+Rfire&+L from &n$p&+L!&n", ch, obj, null, SocketConnection.MessageTarget.room);
                 Combat.InflictSpellDamage(ch, ch, 20, "burning hands", AttackType.DamageType.white_magic);
-                obj.AddToRoom(ch._inRoom);
+                obj.AddToRoom(ch.InRoom);
                 return;
             }
 
@@ -1152,7 +1152,7 @@ namespace MUDEngine
                 SocketConnection.Act("&+LYou are &n&+rconsumed&+L by &+Rfire&+L and &+Ldespair&n from $p&+L!&n", ch, obj, null, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&+L is &n&+rengulfed&+L by an abundancy of &+Rflames&+L from &n$p&+L!&n", ch, obj, null, SocketConnection.MessageTarget.room);
                 Combat.InflictSpellDamage(ch, ch, 20, "burning hands", AttackType.DamageType.white_magic);
-                obj.AddToRoom(ch._inRoom);
+                obj.AddToRoom(ch.InRoom);
                 return;
             }
 
@@ -1753,7 +1753,7 @@ namespace MUDEngine
             if (!obj)
                 return 0;
 
-            if (!(shop = keeper._mobTemplate.ShopData))
+            if (!(shop = keeper.MobileTemplate.ShopData))
             {
                 cost = obj._cost;
             }
@@ -1895,7 +1895,7 @@ namespace MUDEngine
             }
 
             // The exit of the same direction should be flagged Exit.ExitFlags.walled
-            if (!(exit = ch._inRoom.GetExit(door)))
+            if (!(exit = ch.InRoom.GetExit(door)))
             {
                 ch.SendText("You failed!\r\n");
                 return null;
@@ -1944,9 +1944,9 @@ namespace MUDEngine
                 exit.AddFlag(Exit.ExitFlag.illusion);
             }
 
-            wall.Timer = ch._level / 3;
-            wall.Level = ch._level;
-            wall.AddToRoom(ch._inRoom);
+            wall.Timer = ch.Level / 3;
+            wall.Level = ch.Level;
+            wall.AddToRoom(ch.InRoom);
 
             // Create the wall on the other side
             if (exit.TargetRoom)
@@ -1969,8 +1969,8 @@ namespace MUDEngine
                         exit.TargetRoom.ExitData[(int)Exit.ReverseDirection(door)].AddFlag(Exit.ExitFlag.walled);
                     }
 
-                    wall2.Timer = ch._level / 2;
-                    wall2.Level = ch._level;
+                    wall2.Timer = ch.Level / 2;
+                    wall2.Level = ch.Level;
                     wall2.AddToRoom(Room.GetRoom(exit.IndexNumber));
                     if (Room.GetRoom(exit.IndexNumber).People.Count > 0)
                     {
@@ -1995,7 +1995,7 @@ namespace MUDEngine
                 Spell spl = Spell.SpellList["stoneskin"];
                 if (spl != null)
                 {
-                    spl.Invoke(ch, Math.Max(obj._level, ch._level), ch);
+                    spl.Invoke(ch, Math.Max(obj._level, ch.Level), ch);
                 }
             }
             if (obj.HasAffect(Affect.AFFECT_FLYING) && !ch.IsAffected(Affect.AFFECT_FLYING))
@@ -2259,7 +2259,7 @@ namespace MUDEngine
             if (obj._trap != null && obj._trap.CheckTrigger( Trap.TriggerType.wear))
             {
                 ch.SetOffTrap(obj);
-                if (ch._position == Position.dead)
+                if (ch.CurrentPosition == Position.dead)
                     return false;
             }
 
@@ -2292,14 +2292,14 @@ namespace MUDEngine
         /// <param name="ch"></param>
         public void ObjToChar( CharData ch )
         {
-            ch._carrying.Add(this);
+            ch.Carrying.Add(this);
             _carriedBy = ch;
-            ch._carryNumber += 1;
-            ch._carryWeight += GetWeight();
+            ch.CarryNumber += 1;
+            ch.CarryWeight += GetWeight();
 
             if( HasFlag( ObjTemplate.ITEM_LIT ) )
-                ch._inRoom.Light++;
-            _flyLevel = ch._flyLevel;
+                ch.InRoom.Light++;
+            _flyLevel = ch.FlightLevel;
         }
 
         /// <summary>
@@ -2383,7 +2383,7 @@ namespace MUDEngine
             if( ch == null )
                 return null;
 
-            foreach( Object obj in ch._carrying )
+            foreach( Object obj in ch.Carrying )
             {
                 if( obj._wearLocation == iWear )
                     return obj;
@@ -2427,7 +2427,7 @@ namespace MUDEngine
             foreach( Object obj in list )
             {
                 // fly_level added
-                if( obj._flyLevel != ch._flyLevel )
+                if( obj._flyLevel != ch.FlightLevel )
                     continue;
 
                 if( CharData.CanSeeObj( ch, obj ) && MUDString.NameContainedIn( arg, obj._name ) )
@@ -2440,7 +2440,7 @@ namespace MUDEngine
             count = 0;
             foreach( Object obj in list )
             {
-                if( ch._flyLevel != obj._flyLevel
+                if( ch.FlightLevel != obj._flyLevel
                         && obj._itemType != ObjTemplate.ObjectType.wall )
                     continue;
                 if( CharData.CanSeeObj( ch, obj ) && MUDString.NameIsPrefixOfContents( arg, obj._name ) )
@@ -2461,7 +2461,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static Object GetObjectInRoom( CharData ch, string argument )
         {
-            Object obj = GetObjFromList( ch._inRoom.Contents, ch, argument );
+            Object obj = GetObjFromList( ch.InRoom.Contents, ch, argument );
             if( obj != null )
                 return obj;
 
@@ -2527,8 +2527,8 @@ namespace MUDEngine
                     SocketConnection.Act("$p&n falls to the ground.", ch, obj, null, SocketConnection.MessageTarget.room);
                     SocketConnection.Act("$p&n falls to the ground.", ch, obj, null, SocketConnection.MessageTarget.character);
                     obj.RemoveFromChar();
-                    obj.AddToRoom(ch._inRoom);
-                    obj._flyLevel = ch._flyLevel;
+                    obj.AddToRoom(ch.InRoom);
+                    obj._flyLevel = ch.FlightLevel;
                     Combat.InflictSpellDamage(ch, ch, MUDMath.Dice(2, 6), "none", AttackType.DamageType.magic_other);
                 }
                 return true;
@@ -2646,54 +2646,54 @@ namespace MUDEngine
 
             CharData mob = new CharData();
 
-            mob._mobTemplate = mobTemplate;
-            mob._name = obj._name;
-            mob._shortDescription = obj._shortDescription;
-            mob._fullDescription = obj._fullDescription;
-            mob._description = obj._fullDescription;
-            mob._charClass = mobTemplate.CharacterClass;
-            mob._level = Math.Max( obj._level, 1 );
-            mob._actionFlags = mobTemplate.ActionFlags;
-            mob._position = mobTemplate.DefaultPosition;
+            mob.MobileTemplate = mobTemplate;
+            mob.Name = obj._name;
+            mob.ShortDescription = obj._shortDescription;
+            mob.FullDescription = obj._fullDescription;
+            mob.Description = obj._fullDescription;
+            mob.CharacterClass = mobTemplate.CharacterClass;
+            mob.Level = Math.Max( obj._level, 1 );
+            mob.ActionFlags = mobTemplate.ActionFlags;
+            mob.CurrentPosition = mobTemplate.DefaultPosition;
             for( count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count )
             {
-                mob._affectedBy[ count ] = mobTemplate.AffectedBy[ count ];
+                mob.AffectedBy[ count ] = mobTemplate.AffectedBy[ count ];
             }
-            mob._alignment = mobTemplate.Alignment;
-            mob._sex = mobTemplate.Gender;
+            mob.Alignment = mobTemplate.Alignment;
+            mob.Gender = mobTemplate.Gender;
             mob.SetPermRace( mobTemplate.Race );
-            mob._size = Race.RaceList[ mob.GetRace() ].DefaultSize;
+            mob.CurrentSize = Race.RaceList[ mob.GetRace() ].DefaultSize;
             if (mob.HasActionBit(MobTemplate.ACT_SIZEMINUS))
-                mob._size--;
+                mob.CurrentSize--;
             if (mob.HasActionBit(MobTemplate.ACT_SIZEPLUS))
-                mob._size++;
+                mob.CurrentSize++;
 
-            mob._castingSpell = 0;
-            mob._castingTime = 0;
-            mob._permStrength = 55;
-            mob._permIntelligence = 55;
-            mob._permWisdom = 55;
-            mob._permDexterity = 55;
-            mob._permConstitution = 55;
-            mob._permAgility = 55;
-            mob._permCharisma = 55;
-            mob._permPower = 55;
-            mob._permLuck = 55;
-            mob._modifiedStrength = 0;
-            mob._modifiedIntelligence = 0;
-            mob._modifiedWisdom = 0;
-            mob._modifiedDexterity = 0;
-            mob._modifiedConstitution = 0;
-            mob._modifiedAgility = 0;
-            mob._modifiedCharisma = 0;
-            mob._modifiedPower = 0;
-            mob._modifiedLuck = 0;
-            mob._resistant = mobTemplate.Resistant;
-            mob._immune = mobTemplate.Immune;
-            mob._susceptible = mobTemplate.Susceptible;
-            mob._vulnerable = mobTemplate.Vulnerable;
+            mob.CastingSpell = 0;
+            mob.CastingTime = 0;
+            mob.PermStrength = 55;
+            mob.PermIntelligence = 55;
+            mob.PermWisdom = 55;
+            mob.PermDexterity = 55;
+            mob.PermConstitution = 55;
+            mob.PermAgility = 55;
+            mob.PermCharisma = 55;
+            mob.PermPower = 55;
+            mob.PermLuck = 55;
+            mob.ModifiedStrength = 0;
+            mob.ModifiedIntelligence = 0;
+            mob.ModifiedWisdom = 0;
+            mob.ModifiedDexterity = 0;
+            mob.ModifiedConstitution = 0;
+            mob.ModifiedAgility = 0;
+            mob.ModifiedCharisma = 0;
+            mob.ModifiedPower = 0;
+            mob.ModifiedLuck = 0;
+            mob.Resistant = mobTemplate.Resistant;
+            mob.Immune = mobTemplate.Immune;
+            mob.Susceptible = mobTemplate.Susceptible;
+            mob.Vulnerable = mobTemplate.Vulnerable;
             mob.SetCoins( 0, 0, 0, 0 );
-            mob._armorPoints = MUDMath.Interpolate( mob._level, 100, -100 );
+            mob.ArmorPoints = MUDMath.Interpolate( mob.Level, 100, -100 );
 
             // * MOB HITPOINTS *
             //
@@ -2704,8 +2704,8 @@ namespace MUDEngine
             // Mob hitpoints are not based on constitution *unless* they have a
             // constitution modifier from an item, spell, or other affect
 
-            mob._maxHitpoints = mob._level * 100;
-            mob._hitpoints = mob.GetMaxHit();
+            mob.MaxHitpoints = mob.Level * 100;
+            mob.Hitpoints = mob.GetMaxHit();
 
             /*
             * Insert in list.

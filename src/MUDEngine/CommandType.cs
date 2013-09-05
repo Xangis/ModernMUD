@@ -13,7 +13,7 @@ namespace MUDEngine
             Name = nam;
             Function = fun;
             MinLevel = lvl;
-            _logType = logged;
+            LoggingType = logged;
             Show = shown;
             BreakInvisibility = removeinvis;
             BreakHide = removehide;
@@ -28,7 +28,7 @@ namespace MUDEngine
             Name = nam;
             Function = fun;
             MinLevel = lvl;
-            _logType = logged;
+            LoggingType = logged;
             Show = shown;
             BreakInvisibility = removeinvis;
             BreakHide = removehide;
@@ -43,7 +43,7 @@ namespace MUDEngine
             Name = nam;
             Function = fun;
             MinLevel = lvl;
-            _logType = logged;
+            LoggingType = logged;
             Show = shown;
             BreakInvisibility = removeinvis;
             BreakHide = removehide;
@@ -63,7 +63,7 @@ namespace MUDEngine
         public CommandFunction Function { get; set; }
         public int MinPosition { get; set; }
         public int MinLevel { get; set; }
-        public LogType _logType;
+        public LogType LoggingType { get; set; }
         public bool Show { get; set; }
         /// <summary>
         /// Does the command cause the person to snap vis?
@@ -492,7 +492,7 @@ namespace MUDEngine
 
             // Look for an item with a teleport trigger in the room.
             // and check to see if the command is a teleport trigger
-            if (ch._inRoom && (obj = ch.GetObjHere(argument)))
+            if (ch.InRoom && (obj = ch.GetObjHere(argument)))
             {
                 if (obj.ItemType == ObjTemplate.ObjectType.teleport)
                 {
@@ -508,7 +508,7 @@ namespace MUDEngine
                             SocketConnection.Act("$n&n vanishes suddenly.", ch, null, null, SocketConnection.MessageTarget.room);
                             string text = String.Format("You {0} $p&n.\r\n", command);
                             SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.character);
-                            Log.Trace(String.Format("{0} activated keyword and was teleported by object.", ch._name));
+                            Log.Trace(String.Format("{0} activated keyword and was teleported by object.", ch.Name));
                             ch.RemoveFromRoom();
                             ch.AddToRoom(room);
                             Interpret(ch, "look auto");
@@ -568,24 +568,24 @@ namespace MUDEngine
             if (found)
             {
                 // Logging and snooping.
-                if (CommandTable[cmd]._logType == LogType.never)
+                if (CommandTable[cmd].LoggingType == LogType.never)
                 {
                     logline = "---- Nothing to see here ----";
                 }
 
                 if ((!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_LOG)) || fLogAll
-                        || CommandTable[cmd]._logType == LogType.always)
+                        || CommandTable[cmd].LoggingType == LogType.always)
                 {
-                    string logBuf = String.Format("Log {0}: {1}", ch._name, logline);
+                    string logBuf = String.Format("Log {0}: {1}", ch.Name, logline);
                     Log.Trace(logBuf);
                     ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SECURE, ch.GetTrust(), logBuf);
                 }
 
-                if (ch._socket && ch._socket.SnoopBy)
+                if (ch.Socket && ch.Socket.SnoopBy)
                 {
-                    ch._socket.SnoopBy.WriteToBuffer("% ");
-                    ch._socket.SnoopBy.WriteToBuffer(logline);
-                    ch._socket.SnoopBy.WriteToBuffer("\r\n");
+                    ch.Socket.SnoopBy.WriteToBuffer("% ");
+                    ch.Socket.SnoopBy.WriteToBuffer(logline);
+                    ch.Socket.SnoopBy.WriteToBuffer("\r\n");
                 }
 
                 // Break meditate
@@ -643,7 +643,7 @@ namespace MUDEngine
                 {
                     if (!ch.IsNPC() && !MUDString.IsPrefixOf(command, "petition"))
                     {
-                        string logBuf = String.Format("Log {0}: {1}", ch._name, logline);
+                        string logBuf = String.Format("Log {0}: {1}", ch.Name, logline);
                         Log.Trace(logBuf);
                         ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SECURE, ch.GetTrust(), logBuf);
                         Command.Petition(ch, argument.Split(' '));
@@ -656,9 +656,9 @@ namespace MUDEngine
             }
 
             // Character not in position for command?
-            if (ch._position < CommandTable[cmd].MinPosition)
+            if (ch.CurrentPosition < CommandTable[cmd].MinPosition)
             {
-                switch (ch._position)
+                switch (ch.CurrentPosition)
                 {
                     case Position.dead:
                         ch.SendText("Lie still; you are &+rDEAD&n!\r\n");
@@ -702,8 +702,8 @@ namespace MUDEngine
                 {
                     return;
                 }
-                if (ch._position == Position.dead)
-                    ch._position = Position.sleeping;
+                if (ch.CurrentPosition == Position.dead)
+                    ch.CurrentPosition = Position.sleeping;
                 ch.SendText("You're not in the right position, but..\r\n");
             }
             if (ch.IsAffected(Affect.AFFECT_MINOR_PARA) &&

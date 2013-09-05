@@ -43,6 +43,11 @@ namespace ModernMUD
         public static string AreaDirectory = ".." + Path.DirectorySeparatorChar + "area" +
             Path.DirectorySeparatorChar;
         /// <summary>
+        /// Contains blank area files, used if there is nothing in the area file directory.
+        /// </summary>
+        public static string BlankAreaFileDirectory = ".." + Path.DirectorySeparatorChar + "area" +
+            Path.DirectorySeparatorChar + "EmptyFiles" + Path.DirectorySeparatorChar;
+        /// <summary>
         /// Guild files.
         /// </summary>
         public static string GuildDirectory = ".." + Path.DirectorySeparatorChar + "guilds" +

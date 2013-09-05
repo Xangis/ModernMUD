@@ -150,7 +150,7 @@ namespace MUDEngine
 
             for( count = 0; count < FraglistData.MAX_FRAG; ++count )
             {
-                if( list[ count ].Name.Equals(ch._name, StringComparison.CurrentCultureIgnoreCase ) )
+                if( list[ count ].Name.Equals(ch.Name, StringComparison.CurrentCultureIgnoreCase ) )
                 {
                     // remove them from the list if they're in it already
                     list[ count ].Name = String.Empty;
@@ -174,7 +174,7 @@ namespace MUDEngine
                 }
             }
 
-            person.Name = ch._name;
+            person.Name = ch.Name;
             person.Frags = ( (PC)ch ).Frags;
 
             // This works fine provided a blank entry isn't found where the player
@@ -234,11 +234,11 @@ namespace MUDEngine
                 return;
             if( victim.IsImmortal() )
                 return;
-            if( victim._level < 20 )
+            if( victim.Level < 20 )
                 return;
-            if( ch._level < 20 )
+            if( ch.Level < 20 )
                 return;
-            if( ( ch._level - 10 ) > victim._level )
+            if( ( ch.Level - 10 ) > victim.Level )
                 return;
             if (ch.IsClass(CharClass.Names.none) || victim.IsClass(CharClass.Names.none))
                 return;
@@ -251,7 +251,7 @@ namespace MUDEngine
             // Protect against polymorphed character race frags.
             if( ch.GetOrigRace() < Limits.MAX_PC_RACE )
             {
-                _fraglist._totalFragsByRaceAndClass[ch.GetOrigRace()][ (int)ch._charClass.ClassNumber]++;
+                _fraglist._totalFragsByRaceAndClass[ch.GetOrigRace()][ (int)ch.CharacterClass.ClassNumber]++;
                 _fraglist._totalFragsBySide[ (int)ch.GetRacewarSide() ]++;
             }
 
@@ -264,7 +264,7 @@ namespace MUDEngine
             // Protect against polymorphed character race frags
             if( victim.GetOrigRace() < Limits.MAX_PC_RACE )
             {
-                _fraglist._totalFragsByRaceAndClass[victim.GetOrigRace()][ (int)victim._charClass.ClassNumber]--;
+                _fraglist._totalFragsByRaceAndClass[victim.GetOrigRace()][ (int)victim.CharacterClass.ClassNumber]--;
                 _fraglist._totalFragsBySide[ (int)victim.GetRacewarSide() ]--;
             }
 
@@ -276,7 +276,7 @@ namespace MUDEngine
             ch.SendText( "&+WYou gain a frag!&n\r\n" );
             victim.SendText( "&+WYou lose a frag!&n\r\n" );
 
-            string text = ch._name + " has fragged " + victim._name + " in room " + ch._inRoom.IndexNumber + ".";
+            string text = ch.Name + " has fragged " + victim.Name + " in room " + ch.InRoom.IndexNumber + ".";
             ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, text );
             Log.Trace( text );
 
@@ -285,26 +285,26 @@ namespace MUDEngine
             {
                 SortFraglist( ch, _fraglist._topFrags );
                 SortFraglist( ch, _fraglist._topRaceFrags[ ch.GetOrigRace() ] );
-                SortFraglist(ch, _fraglist._topClassFrags[(int)ch._charClass.ClassNumber]);
+                SortFraglist(ch, _fraglist._topClassFrags[(int)ch.CharacterClass.ClassNumber]);
             }
             else if( ( (PC)ch ).Frags < 0 )
             {
                 SortFraglist( ch, _fraglist._bottomFrags );
                 SortFraglist( ch, _fraglist._bottomRaceFrags[ ch.GetOrigRace() ] );
-                SortFraglist(ch, _fraglist._bottomClassFrags[(int)ch._charClass.ClassNumber]);
+                SortFraglist(ch, _fraglist._bottomClassFrags[(int)ch.CharacterClass.ClassNumber]);
             }
 
             if( ( (PC)victim ).Frags > 0 )
             {
                 SortFraglist( victim, _fraglist._topFrags );
                 SortFraglist( victim, _fraglist._topRaceFrags[ victim.GetOrigRace() ] );
-                SortFraglist(victim, _fraglist._topClassFrags[(int)victim._charClass.ClassNumber]);
+                SortFraglist(victim, _fraglist._topClassFrags[(int)victim.CharacterClass.ClassNumber]);
             }
             else if( ( (PC)victim ).Frags < 0 )
             {
                 SortFraglist( victim, _fraglist._bottomFrags );
                 SortFraglist( victim, _fraglist._bottomRaceFrags[ victim.GetOrigRace() ] );
-                SortFraglist(victim, _fraglist._bottomClassFrags[(int)victim._charClass.ClassNumber]);
+                SortFraglist(victim, _fraglist._bottomClassFrags[(int)victim.CharacterClass.ClassNumber]);
             }
 
             _fraglist.Save();

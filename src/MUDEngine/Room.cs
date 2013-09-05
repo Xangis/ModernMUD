@@ -120,7 +120,7 @@ namespace MUDEngine
         {
             if( !ch.IsClass( CharClass.Names.bard ) )
             {
-                if( ch._inRoom.HasFlag( ROOM_EARTHEN_STARSHELL ) )
+                if( ch.InRoom.HasFlag( ROOM_EARTHEN_STARSHELL ) )
                 {
                     ch.SendText( "You start casting...\r\n" );
                     ch.SendText( "&+lThe &+yearth&n &+lcomes up &+yand engulfs &+lyour spell.\r\n" );
@@ -128,29 +128,29 @@ namespace MUDEngine
                     ch.WaitState( 6 );
                     return true;
                 }
-                if( ch._inRoom.HasFlag( ROOM_AIRY_STARSHELL ) )
+                if( ch.InRoom.HasFlag( ROOM_AIRY_STARSHELL ) )
                 {
                     ch.SendText( "You start casting...\r\n" );
                     ch.SendText( "&+CAir swir&n&+cls a&+Cnd absorbs y&n&+cour spell.&n\r\n" );
                     ch.WaitState( 6 );
-                    if( ch._position > Position.reclining && MUDMath.NumberPercent() + 50 > ch.GetCurrAgi() )
+                    if( ch.CurrentPosition > Position.reclining && MUDMath.NumberPercent() + 50 > ch.GetCurrAgi() )
                     {
-                        ch._position = Position.reclining;
+                        ch.CurrentPosition = Position.reclining;
                         ch.WaitState( 6 );
                         ch.SendText( "You are knocked over!\r\n" );
                     }
                     return true;
                 }
-                if( ch._inRoom.HasFlag( ROOM_WATERY_STARSHELL ) )
+                if( ch.InRoom.HasFlag( ROOM_WATERY_STARSHELL ) )
                 {
                     ch.SendText( "You start casting...\r\n" );
                     ch.SendText( "&+bWater b&+Bursts up a&n&+bnd absor&+Bbs your spell.&n\r\n" );
                     ch.WaitState( 6 );
-                    ch._currentMoves -= 20;
+                    ch.CurrentMoves -= 20;
                     ch.SendText( "You feel tired!\r\n" );
                     return true;
                 }
-                if( ch._inRoom.HasFlag( ROOM_FIERY_STARSHELL ) )
+                if( ch.InRoom.HasFlag( ROOM_FIERY_STARSHELL ) )
                 {
                     ch.SendText( "You start casting...\r\n" );
                     ch.SendText( "&+RFire&n&+r engu&+Rlfs y&n&+rour s&+Rpell.&n\r\n" );
@@ -511,19 +511,19 @@ namespace MUDEngine
                         }
 
                         mobile.AddToRoom( room );
-                        mobile._loadRoomIndexNumber = room.IndexNumber;
+                        mobile.LoadRoomIndexNumber = room.IndexNumber;
 
                         // This code makes mounts make their mounters mount them.
                         if( reset.Arg0 == -1 && lastMob )
                         {
                             // If set to be mounted.
-                            String[] keywords = mobile._name.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+                            String[] keywords = mobile.Name.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
                             Command.Mount(lastMob, keywords);
                         }
 
                         lastMob = mobile;
 
-                        level = Macros.Range( 0, mobile._level - 2, Limits.LEVEL_HERO );
+                        level = Macros.Range( 0, mobile.Level - 2, Limits.LEVEL_HERO );
                         last = true;
                         break;
 
@@ -575,8 +575,8 @@ namespace MUDEngine
 
                         lastMob = mobile;
                         mobile.AddToRoom( room );
-                        mobile._loadRoomIndexNumber = room.IndexNumber;
-                        level = Macros.Range( 0, mobile._level - 2, Limits.LEVEL_HERO );
+                        mobile.LoadRoomIndexNumber = room.IndexNumber;
+                        level = Macros.Range( 0, mobile.Level - 2, Limits.LEVEL_HERO );
                         last = true;
                         break;
 
@@ -699,7 +699,7 @@ namespace MUDEngine
                             Log.Trace( text );
                         } //end if artifact
 
-                        if( lastMob._mobTemplate.ShopData )   /* Shop-keeper? */
+                        if( lastMob.MobileTemplate.ShopData )   /* Shop-keeper? */
                         {
                             int olevel;
 
@@ -905,7 +905,7 @@ namespace MUDEngine
             CharData victim = ch.GetCharWorld( arg );
             if( victim )
             {
-                return victim._inRoom;
+                return victim.InRoom;
             }
 
             Object obj = Object.GetObjectInWorld( ch, arg );

@@ -80,19 +80,19 @@ namespace MUDEngine
         {
             int temp = corpseLevel;
 
-            if( ( corpseLevel > Table[ petType ].MaxLevel ) && ( corpseLevel <= ch._level ) )
+            if( ( corpseLevel > Table[ petType ].MaxLevel ) && ( corpseLevel <= ch.Level ) )
             {
                 return Table[ petType ].MaxLevel;
             }
-            if( ( corpseLevel >= ch._level ) &&
-                ( ch._level <= Table[ petType ].MaxLevel ) )
+            if( ( corpseLevel >= ch.Level ) &&
+                ( ch.Level <= Table[ petType ].MaxLevel ) )
             {
-                temp = ( ch._level + ( ( MUDMath.Dice( 1, ( ( corpseLevel + 1 ) - ch._level ) ) ) - 1 ) );
+                temp = ( ch.Level + ( ( MUDMath.Dice( 1, ( ( corpseLevel + 1 ) - ch.Level ) ) ) - 1 ) );
                 return Math.Min( temp, Table[ petType ].MaxLevel );
             }
-            if( ch._level >= corpseLevel )
+            if( ch.Level >= corpseLevel )
             {
-                return Math.Min( ch._level, Table[ petType ].MaxLevel );
+                return Math.Min( ch.Level, Table[ petType ].MaxLevel );
             }
             return temp;
         }
@@ -123,32 +123,32 @@ namespace MUDEngine
             CharData pet;
             int count = 0;
 
-            foreach( CharData flist in ch._followers )
+            foreach( CharData flist in ch.Followers )
             {
                 pet = flist;
                 if( pet && pet.IsNPC() )
                 {
-                    if( "skeleton undead".StartsWith(pet._name, StringComparison.CurrentCultureIgnoreCase))
+                    if( "skeleton undead".StartsWith(pet.Name, StringComparison.CurrentCultureIgnoreCase))
                         count += Table[ UNDEAD_SKELETON ].Slots;
-                    if ("zombie undead".StartsWith(pet._name, StringComparison.CurrentCultureIgnoreCase))
+                    if ("zombie undead".StartsWith(pet.Name, StringComparison.CurrentCultureIgnoreCase))
                         count += Table[ UNDEAD_ZOMBIE ].Slots;
-                    if ("spectre undead".StartsWith(pet._name, StringComparison.CurrentCultureIgnoreCase))
+                    if ("spectre undead".StartsWith(pet.Name, StringComparison.CurrentCultureIgnoreCase))
                         count += Table[ UNDEAD_SPECTRE ].Slots;
-                    if ("wraith undead".StartsWith(pet._name, StringComparison.CurrentCultureIgnoreCase))
+                    if ("wraith undead".StartsWith(pet.Name, StringComparison.CurrentCultureIgnoreCase))
                         count += Table[ UNDEAD_WRAITH ].Slots;
-                    if ("vampire undead".StartsWith(pet._name, StringComparison.CurrentCultureIgnoreCase))
+                    if ("vampire undead".StartsWith(pet.Name, StringComparison.CurrentCultureIgnoreCase))
                         count += Table[ UNDEAD_VAMPIRE ].Slots;
-                    if ("lich undead".StartsWith(pet._name, StringComparison.CurrentCultureIgnoreCase))
+                    if ("lich undead".StartsWith(pet.Name, StringComparison.CurrentCultureIgnoreCase))
                         count += Table[ UNDEAD_LICH ].Slots;
-                    if( !MUDString.IsSuffixOf( "dracolich undead", pet._name ) )
+                    if( !MUDString.IsSuffixOf( "dracolich undead", pet.Name ) )
                         count += Table[ UNDEAD_RED_DRACO ].Slots;
-                    if( !MUDString.IsSuffixOf( "dracolich undead", pet._name ) )
+                    if( !MUDString.IsSuffixOf( "dracolich undead", pet.Name ) )
                         count += Table[ UNDEAD_BLUE_DRACO ].Slots;
-                    if( !MUDString.IsSuffixOf( "dracolich undead", pet._name ) )
+                    if( !MUDString.IsSuffixOf( "dracolich undead", pet.Name ) )
                         count += Table[ UNDEAD_BLACK_DRACO ].Slots;
-                    if( !MUDString.IsSuffixOf( "dracolich undead", pet._name ) )
+                    if( !MUDString.IsSuffixOf( "dracolich undead", pet.Name ) )
                         count += Table[ UNDEAD_GREEN_DRACO ].Slots;
-                    if( !MUDString.IsSuffixOf( "dracolich undead", pet._name ) )
+                    if( !MUDString.IsSuffixOf( "dracolich undead", pet.Name ) )
                         count += Table[ UNDEAD_WHITE_DRACO ].Slots;
 
                 }

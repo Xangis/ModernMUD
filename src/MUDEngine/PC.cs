@@ -172,7 +172,7 @@ namespace MUDEngine
             PageLength = 25;
             IsSwitched = false;
             Speaking = 0;
-            _actionFlags[0] = PLAYER_CAST_TICK.Vector | PLAYER_TELL.Vector | PLAYER_SHOUT.Vector |
+            ActionFlags[0] = PLAYER_CAST_TICK.Vector | PLAYER_TELL.Vector | PLAYER_SHOUT.Vector |
                 PLAYER_PROMPT.Vector | PLAYER_COMBINE.Vector | PLAYER_MAP.Vector |
                 PLAYER_PAGER.Vector | PLAYER_AUTOWRAP.Vector | PLAYER_COLOR.Vector | PLAYER_VICIOUS.Vector;
             HitpointModifier = 0;
@@ -275,8 +275,8 @@ namespace MUDEngine
         /// </summary>
         public Coins Money
         {
-            get { return _money; }
-            set { _money = value; }
+            get { return Money; }
+            set { Money = value; }
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace MUDEngine
                 PC data = (PC)serializer.Deserialize(stream);
                 stream.Close();
                 // Fix up any data references that can't be saved.
-                foreach (Object obj in data._carrying)
+                foreach (Object obj in data.Carrying)
                 {
                     obj.CarriedBy = data;
                     if((obj.ObjIndexData = Database.GetObjTemplate(obj.ObjIndexNumber)) == null)
@@ -444,12 +444,12 @@ namespace MUDEngine
                     }
                 }
                 data.RemoveActionBit(PLAYER_CAMPING);
-                if (data._level >= Limits.LEVEL_AVATAR && data.ImmortalData == null)
+                if (data.Level >= Limits.LEVEL_AVATAR && data.ImmortalData == null)
                 {
                     data.ImmortalData = new ImmortalData();
                 }
                 // Extend affect vectors if the number has been increased.
-                if (data._affectedBy.Length < Limits.NUM_AFFECT_VECTORS)
+                if (data.AffectedBy.Length < Limits.NUM_AFFECT_VECTORS)
                 {
                     data.ExtendAffectData();
                 }
@@ -514,9 +514,9 @@ namespace MUDEngine
         public override bool SaveFile(string filename)
         {
             // Store the room when we save so we can come back to the same place.
-            if (_inRoom != null)
+            if (InRoom != null)
             {
-                LastRentLocation = _inRoom.IndexNumber;
+                LastRentLocation = InRoom.IndexNumber;
             }
             return base.SaveFile(filename);
         }

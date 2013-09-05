@@ -21,13 +21,13 @@ namespace MUDEngine
         /// <param name="str"></param>
         public static void History(CharData ch, string[] str)
         {
-            if (ch == null || ch._socket == null)
+            if (ch == null || ch.Socket == null)
             {
                 return;
             }
 
             int num = 0;
-            foreach (HistoryData history in ch._socket._history)
+            foreach (HistoryData history in ch.Socket.CommandHistory)
             {
                 ++num;
                 string text = " " + MUDString.PadInt(Math.Abs(num), 4) + ": " + history.Command + "\r\n";
@@ -85,7 +85,7 @@ namespace MUDEngine
         /// <param name="str"></param>
         public static void Disembark(CharData ch, string[] str)
         {
-            if (ch == null || !ch._inRoom)
+            if (ch == null || !ch.InRoom)
             {
                 return;
             }
@@ -94,7 +94,7 @@ namespace MUDEngine
             {
                 if (!vehicle.ParentObject)
                     continue;
-                if (ch._inRoom.IndexNumber == vehicle.EntryRoomTemplateNumber)
+                if (ch.InRoom.IndexNumber == vehicle.EntryRoomTemplateNumber)
                 {
                     if (vehicle.ParentObject.InRoom)
                     {
@@ -117,7 +117,7 @@ namespace MUDEngine
         /// <param name="str"></param>
         public static void Lookpanel(CharData ch, string[] str)
         {
-            if (ch == null || !ch._inRoom)
+            if (ch == null || !ch.InRoom)
             {
                 return;
             }
@@ -128,7 +128,7 @@ namespace MUDEngine
             {
                 if (!vehicle.ParentObject)
                     continue;
-                if (ch._inRoom.IndexNumber == vehicle.ControlPanelRoomTemplateNumber)
+                if (ch.InRoom.IndexNumber == vehicle.ControlPanelRoomTemplateNumber)
                 {
                     text = String.Format("Ship Control Panel Readout:\r\n" +
                               "Hull: {0}/{1}  Occupants: {2}/{3}  Speed: {4}/{5} Firepower: {6}\r\n",
@@ -152,7 +152,7 @@ namespace MUDEngine
         /// <param name="str"></param>
         public static void OrderShip(CharData ch, string[] str)
         {
-            if (ch == null || ch._inRoom == null)
+            if (ch == null || ch.InRoom == null)
             {
                 return;
             }
@@ -166,7 +166,7 @@ namespace MUDEngine
             {
                 if (vehicle.ParentObject == null)
                     continue;
-                if (ch._inRoom.IndexNumber == vehicle.ControlPanelRoomTemplateNumber)
+                if (ch.InRoom.IndexNumber == vehicle.ControlPanelRoomTemplateNumber)
                 {
                     if (str.Length > 1 && !MUDString.StringsNotEqual(str[0], "speed"))
                     {
@@ -248,8 +248,8 @@ namespace MUDEngine
                         string buf = vehicle.ParentObject.ShortDescription + "&n sails " + door.ToString() + ".";
                         foreach (SocketConnection socket in Database.SocketList)
                         {
-                            if (socket._connectionState == SocketConnection.ConnectionState.playing
-                                && socket.Character._inRoom == vehicle.ParentObject.InRoom)
+                            if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing
+                                && socket.Character.InRoom == vehicle.ParentObject.InRoom)
                             {
                                 socket.Character.SendText(buf);
                                 socket.Character.SendText("\r\n");
@@ -260,8 +260,8 @@ namespace MUDEngine
                         buf += vehicle.ParentObject.ShortDescription + "&n sails in from " + Exit.ReverseDirectionName[door] + ".";
                         foreach (SocketConnection socket in Database.SocketList)
                         {
-                            if (socket._connectionState == SocketConnection.ConnectionState.playing
-                                && socket.Character._inRoom == room)
+                            if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing
+                                && socket.Character.InRoom == room)
                             {
                                 socket.Character.SendText(buf);
                                 socket.Character.SendText("\r\n");
@@ -502,18 +502,18 @@ namespace MUDEngine
             int x;
             Room room;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
                 return;
             }
 
-            if (!ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
+            if (!ch.InRoom.Area.HasFlag(Area.AREA_WORLDMAP))
             {
                 return;
             }
 
             // TODO: Use Map.GetUnderdarkVisibilityModifier(racewarside) and Map.GetDaytimeVisibilityModifier(racewarside)
-            int visibility = 5 + (int)ch._flyLevel;
+            int visibility = 5 + (int)ch.FlightLevel;
 
             // Godmode will make you see farther on the map.
             if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))
@@ -521,11 +521,11 @@ namespace MUDEngine
                 visibility += 5;
             }
 
-            int indexNumber = ch._inRoom.IndexNumber;
-            int startIndexNumber = ch._inRoom.Area.LowRoomIndexNumber;
+            int indexNumber = ch.InRoom.IndexNumber;
+            int startIndexNumber = ch.InRoom.Area.LowRoomIndexNumber;
 
-            int column = (indexNumber - startIndexNumber) % ch._inRoom.Area.Width;
-            int row = (indexNumber - startIndexNumber) / ch._inRoom.Area.Width;
+            int column = (indexNumber - startIndexNumber) % ch.InRoom.Area.Width;
+            int row = (indexNumber - startIndexNumber) / ch.InRoom.Area.Width;
             if (visibility <= 0 && !ch.IsAffected(Affect.AFFECT_BLIND))
             {
                 visibility = 1;
@@ -541,7 +541,7 @@ namespace MUDEngine
             string mapClose = "</map>";
             string text = "<map>";
             string boundchar = " ";
-            bool graphicalClient = !ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED;
+            bool graphicalClient = !ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED;
             if (!graphicalClient)
             {
                 boundchar = "&-L &n";
@@ -578,16 +578,16 @@ namespace MUDEngine
 
                     bool hasM = false;
                     bool hasP = false;
-                    room = Room.GetRoom((indexNumber + ((x * ch._inRoom.Area.Width) + y)));
+                    room = Room.GetRoom((indexNumber + ((x * ch.InRoom.Area.Width) + y)));
                     if (room && room.People.Count > 0)
                     {
                         foreach (CharData roomChar in room.People)
                         {
-                            if ((roomChar._flyLevel == ch._flyLevel || ch._flyLevel == roomChar._flyLevel + 1) && CharData.CanSee(ch, roomChar))
+                            if ((roomChar.FlightLevel == ch.FlightLevel || ch.FlightLevel == roomChar.FlightLevel + 1) && CharData.CanSee(ch, roomChar))
                             {
                                 if (roomChar.IsNPC())
                                 {
-                                    if (roomChar._flyLevel == ch._flyLevel)
+                                    if (roomChar.FlightLevel == ch.FlightLevel)
                                     {
                                         hasM = true;
                                     }
@@ -598,7 +598,7 @@ namespace MUDEngine
                                 }
                                 else
                                 {
-                                    if (roomChar._flyLevel == ch._flyLevel)
+                                    if (roomChar.FlightLevel == ch.FlightLevel)
                                     {
                                         hasP = true;
                                     }
@@ -618,11 +618,11 @@ namespace MUDEngine
                             // Pick a diff character based on player's size.
                             text += chars[0];
                             int offset = 64;
-                            if (ch._size >= Race.Size.large && ch._size <= Race.Size.gargantuan)
+                            if (ch.CurrentSize >= Race.Size.large && ch.CurrentSize <= Race.Size.gargantuan)
                             {
                                 text += (char)(24 + offset); // Large humanoid
                             }
-                            else if( ch._size <= Race.Size.small && ch._size >= Race.Size.tiny )
+                            else if( ch.CurrentSize <= Race.Size.small && ch.CurrentSize >= Race.Size.tiny )
                             {
                                 text += (char)(28 + offset); // Small humanoid
                             }
@@ -636,12 +636,12 @@ namespace MUDEngine
                             text += "&+W@&n";
                         }
                     }
-                    else if ((column + y) < 0 || (column + y) >= ch._inRoom.Area.Width ||
-                             (row + x) < 0 || (row + x) >= ch._inRoom.Area.Height)
+                    else if ((column + y) < 0 || (column + y) >= ch.InRoom.Area.Width ||
+                             (row + x) < 0 || (row + x) >= ch.InRoom.Area.Height)
                     {
                         text += boundchar;
                     }
-                    else if (!(room = Room.GetRoom((indexNumber + ((x * ch._inRoom.Area.Width) + y)))))
+                    else if (!(room = Room.GetRoom((indexNumber + ((x * ch.InRoom.Area.Width) + y)))))
                     {
                         if (graphicalClient)
                         {
@@ -913,12 +913,12 @@ namespace MUDEngine
             }
             */
 
-            if (victim._level < 25)
+            if (victim.Level < 25)
             {
-                if (guild.TypeOfGuild == Guild.GuildType.clan && ch._level >= 15)
+                if (guild.TypeOfGuild == Guild.GuildType.clan && ch.Level >= 15)
                 {
                 }
-                else if (guild.TypeOfGuild == Guild.GuildType.guild && ch._level >= 20)
+                else if (guild.TypeOfGuild == Guild.GuildType.guild && ch.Level >= 20)
                 {
                 }
                 else
@@ -929,7 +929,7 @@ namespace MUDEngine
                 }
             }
 
-            if (guild.TypeOfGuild == Guild.GuildType.guild && guild.ClassRestriction != victim._charClass)
+            if (guild.TypeOfGuild == Guild.GuildType.guild && guild.ClassRestriction != victim.CharacterClass)
                 ch.SendText("You may only initiate those of your class into a guild.\r\n");
 
             ((PC)victim).GuildMembership = guild;
@@ -938,7 +938,7 @@ namespace MUDEngine
 
             SetTitle(victim, guild.RankNames[(int)((PC)victim).GuildRank]);
 
-            guild.Members[count].Name = victim._name;
+            guild.Members[count].Name = victim.Name;
             guild.Members[count].Rank = ((PC)victim).GuildRank;
             guild.Members[count].JoinTime = Database.SystemData.CurrentTime;
             guild.Members[count].Filled = true;
@@ -948,7 +948,7 @@ namespace MUDEngine
 
             if (Database.GetObjTemplate(guild.GuildRingIndexNumber))
             {
-                ring = Database.CreateObject(Database.GetObjTemplate(guild.GuildRingIndexNumber), victim._level);
+                ring = Database.CreateObject(Database.GetObjTemplate(guild.GuildRingIndexNumber), victim.Level);
 
                 if (ring)
                 {
@@ -956,14 +956,14 @@ namespace MUDEngine
                 }
             }
 
-            string buf = String.Format("Log {0}: initiated {1} to {2}", ch._name, victim._name, guild.Name);
+            string buf = String.Format("Log {0}: initiated {1} to {2}", ch.Name, victim.Name, guild.Name);
             Database.LogGuild(buf);
 
             buf = String.Format("'I {0} {1}, hereby declare you {2} a member of {3}!'\r\n" +
                       "Forever remember our motto: \"{4}\"\r\n",
                       ((PC)ch).GuildRank,
-                      ch._name,
-                      victim._name,
+                      ch.Name,
+                      victim.Name,
                       guild.WhoName,
                       guild.Motto);
 
@@ -1008,7 +1008,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim.IsNPC() || victim == ch || victim._level > ch._level)
+            if (victim.IsNPC() || victim == ch || victim.Level > ch.Level)
                 return;
 
             if (!ch.IsSameGuild(victim))
@@ -1017,7 +1017,7 @@ namespace MUDEngine
                 return;
             }
 
-            string text = String.Format("Log {0}: exiling {1} from {2}", ch._name, victim._name, ((PC)ch).GuildMembership.Name);
+            string text = String.Format("Log {0}: exiling {1} from {2}", ch.Name, victim.Name, ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             // This function handles resetting member data
@@ -1032,7 +1032,7 @@ namespace MUDEngine
                       "to join another clan, order or guild!'\r\n",
                       guild.WhoName,
                       guild.Overlord,
-                      victim._name,
+                      victim.Name,
                       guild.WhoName);
 
             victim.SendText(text);
@@ -1076,7 +1076,7 @@ namespace MUDEngine
                 {
                     continue;
                 }
-                if (MUDString.NameContainedIn(str[0], worldChar._name))
+                if (MUDString.NameContainedIn(str[0], worldChar.Name))
                 {
                     victim = worldChar;
                     loggedIn = true;
@@ -1118,7 +1118,7 @@ namespace MUDEngine
                 return;
             }
 
-            string text = String.Format("Log {0}: kicking {1} from {2}", ch._name, victim._name, ((PC)ch).GuildMembership.Name);
+            string text = String.Format("Log {0}: kicking {1} from {2}", ch.Name, victim.Name, ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             // this _function _resets member data
@@ -1183,7 +1183,7 @@ namespace MUDEngine
                 {
                     continue;
                 }
-                if (MUDString.NameContainedIn(str[0], worldChar._name))
+                if (MUDString.NameContainedIn(str[0], worldChar.Name))
                 {
                     victim = worldChar;
                     loggedIn = true;
@@ -1234,12 +1234,12 @@ namespace MUDEngine
             SetTitle(victim, guild.RankNames[(int)((PC)victim).GuildRank]);
 
             string text = String.Format("Log {0}: promoting {1} to {2} in guild {3}",
-                                       ch._name, victim._name, newrank, ((PC)ch).GuildMembership.Name);
+                                       ch.Name, victim.Name, newrank, ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
             text = String.Format(
                       "The grand Overlord {0} says:\r\n\r\nI hereby promote you {1} to {2}!'\r\n",
-                      ch._name, victim._name, newrank);
+                      ch.Name, victim.Name, newrank);
 
             if (loggedIn)
             {
@@ -1251,7 +1251,7 @@ namespace MUDEngine
 
             for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                if (!MUDString.StringsNotEqual(guild.Members[count].Name, victim._name))
+                if (!MUDString.StringsNotEqual(guild.Members[count].Name, victim.Name))
                 {
                     guild.Members[count].Rank = ((PC)victim).GuildRank;
                 }
@@ -1303,7 +1303,7 @@ namespace MUDEngine
                 {
                     continue;
                 }
-                if (MUDString.NameContainedIn(str[0], worldChar._name))
+                if (MUDString.NameContainedIn(str[0], worldChar.Name))
                 {
                     victim = worldChar;
                     loggedIn = true;
@@ -1361,8 +1361,8 @@ namespace MUDEngine
             SetTitle(victim, guild.RankNames[(int)((PC)victim).GuildRank]);
 
             string text = String.Format("Log {0}: demoting {1} to {2}",
-                                       ch._name,
-                                       victim._name,
+                                       ch.Name,
+                                       victim.Name,
                                        ((PC)ch).GuildMembership.Name);
             Database.LogGuild(text);
 
@@ -1370,7 +1370,7 @@ namespace MUDEngine
                       "The grand Overlord {0} says:\r\n\r\n" +
                       "'I hereby demote you {1} to {2}!!!'\r\n" +
                       "You should make more efforts to improve!",
-                      ch._name, victim._name, newrank);
+                      ch.Name, victim.Name, newrank);
 
             if (loggedIn)
             {
@@ -1382,7 +1382,7 @@ namespace MUDEngine
 
             for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
             {
-                if (!MUDString.StringsNotEqual(guild.Members[count].Name, victim._name))
+                if (!MUDString.StringsNotEqual(guild.Members[count].Name, victim.Name))
                 {
                     guild.Members[count].Rank = ((PC)victim).GuildRank;
                 }
@@ -1510,7 +1510,7 @@ namespace MUDEngine
                 int count;
                 for (count = 0; count < Limits.MAX_GUILD_MEMBERS; ++count)
                 {
-                    if (!MUDString.StringsNotEqual(guild.Members[count].Name, ch._name))
+                    if (!MUDString.StringsNotEqual(guild.Members[count].Name, ch.Name))
                     {
                         guild.Members[count].Fine -= value;
                         if (guild.Members[count].Fine < 0)
@@ -1666,7 +1666,7 @@ namespace MUDEngine
                       guild.GuildBankAccount.Copper);
             buf1 += text;
 
-            text = String.Format("Current Applicant: {0}\r\n", guild.Applicant ? guild.Applicant._name : "(none)");
+            text = String.Format("Current Applicant: {0}\r\n", guild.Applicant ? guild.Applicant.Name : "(none)");
             buf1 += text;
 
             if (((PC)ch).GuildRank == Guild.Rank.leader)
@@ -2300,7 +2300,7 @@ namespace MUDEngine
             victim.SetActionBit(PC.PLAYER_DENY);
             victim.SendText("You are denied access!\r\n");
             ch.SendText("Done.\r\n");
-            if (victim._level <= 1)
+            if (victim.Level <= 1)
             {
                 CommandType.Interpret(victim, "quit");
             }
@@ -2337,7 +2337,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._socket)
+            if (!victim.Socket)
             {
                 SocketConnection.Act("$N doesn't have a socket.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -2347,7 +2347,7 @@ namespace MUDEngine
             {
                 socket = it;
 
-                if (socket == victim._socket)
+                if (socket == victim.Socket)
                 {
                     socket.CloseSocket();
                     ch.SendText("Done.\r\n");
@@ -2463,8 +2463,8 @@ namespace MUDEngine
             {
                 socket = it;
 
-                if (socket._connectionState == SocketConnection.ConnectionState.playing
-                        && socket.Character._inRoom == ch._inRoom)
+                if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing
+                        && socket.Character.InRoom == ch.InRoom)
                 {
                     string text = String.Join(" ", str, 1, (str.Length - 1));
                     socket.Character.SendText(text);
@@ -2507,11 +2507,11 @@ namespace MUDEngine
                 {
                     socket = it;
 
-                    if (socket._connectionState == SocketConnection.ConnectionState.playing
-                            && socket.Character != ch && socket.Character._inRoom
+                    if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing
+                            && socket.Character != ch && socket.Character.InRoom
                             && CharData.CanSee(ch, socket.Character))
                     {
-                        str[0] = socket.Character._name;
+                        str[0] = socket.Character.Name;
                         Transfer(ch, str);
                     }
                 }
@@ -2520,7 +2520,7 @@ namespace MUDEngine
 
             if (str.Length < 2 || String.IsNullOrEmpty(str[1]))
             {
-                location = ch._inRoom;
+                location = ch.InRoom;
             }
             else
             {
@@ -2545,13 +2545,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._inRoom)
+            if (!victim.InRoom)
             {
                 ch.SendText("They are in limbo.\r\n");
                 return;
             }
 
-            if (victim._fighting)
+            if (victim.Fighting)
             {
                 Combat.StopFighting(victim, true);
             }
@@ -2604,7 +2604,7 @@ namespace MUDEngine
                 return;
             }
 
-            Room original = ch._inRoom;
+            Room original = ch.InRoom;
             ch.RemoveFromRoom();
             ch.AddToRoom(location);
 
@@ -2663,7 +2663,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting)
+            if (ch.Fighting)
             {
                 Combat.StopFighting(ch, true);
             }
@@ -2818,7 +2818,7 @@ namespace MUDEngine
             foreach (CharData worldChar in Database.CharList)
             {
                 ++count;
-                string text = String.Format("{0}: {1}\r\n", count, worldChar._name);
+                string text = String.Format("{0}: {1}\r\n", count, worldChar.Name);
                 ch.SendText(text);
             }
 
@@ -2843,7 +2843,7 @@ namespace MUDEngine
 
             foreach (CharData worldChar in Database.CharList)
             {
-                if (!worldChar.IsNPC() || !worldChar._hunting)
+                if (!worldChar.IsNPC() || !worldChar.Hunting)
                 {
                     continue;
                 }
@@ -2876,11 +2876,11 @@ namespace MUDEngine
 
             foreach (CharData worldChar in Database.CharList)
             {
-                if (!worldChar.IsNPC() || worldChar._hating.Count == 0)
+                if (!worldChar.IsNPC() || worldChar.Hating.Count == 0)
                 {
                     continue;
                 }
-                foreach (EnemyData hhf in worldChar._hating)
+                foreach (EnemyData hhf in worldChar.Hating)
                 {
                     if (count >= 100)
                     {
@@ -2913,7 +2913,7 @@ namespace MUDEngine
 
             foreach (CharData worldChar in Database.CharList)
             {
-                if (!worldChar.IsNPC() || !worldChar._fearing)
+                if (!worldChar.IsNPC() || !worldChar.Fearing)
                 {
                     continue;
                 }
@@ -3153,7 +3153,7 @@ namespace MUDEngine
 
             ch.GetChar();
 
-            Area area = ch._inRoom.Area;
+            Area area = ch.InRoom.Area;
 
             if (area == null)
             {
@@ -3312,7 +3312,7 @@ namespace MUDEngine
             QuestTemplate quest;
             string text;
 
-            if (ch._level < Limits.LEVEL_GREATER_GOD)
+            if (ch.Level < Limits.LEVEL_GREATER_GOD)
             {
                 ch.SendText("You are too low level to stat quests.\r\n");
                 return;
@@ -3435,7 +3435,7 @@ namespace MUDEngine
             int door;
 
             // Get the room supplied in the argument, or the current room if no argument supplied.
-            Room location = ch._inRoom;
+            Room location = ch.InRoom;
             if (str.Length > 0 && !String.IsNullOrEmpty(str[0]))
             {
                 location = Room.FindLocation(ch, str[0]);
@@ -3446,7 +3446,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._inRoom != location && location.IsPrivate())
+            if (ch.InRoom != location && location.IsPrivate())
             {
                 ch.SendText("That room is private right now.\r\n");
                 return;
@@ -3489,11 +3489,11 @@ namespace MUDEngine
                     text += " ";
                     if (!ch.IsNPC())
                     {
-                        text += irch._name;
+                        text += irch.Name;
                     }
                     else
                     {
-                        text += irch._shortDescription;
+                        text += irch.ShortDescription;
                     }
                 }
             }
@@ -3616,7 +3616,7 @@ namespace MUDEngine
                       "In room: {0}.  In object: {1}.  Carried by: {2}.  WearLoc: {3}.\r\n",
                       obj.InRoom ? obj.InRoom.IndexNumber : 0,
                       obj.InObject ? obj.InObject.ShortDescription : "(none)",
-                      obj.CarriedBy ? obj.CarriedBy._name : "(none)",
+                      obj.CarriedBy ? obj.CarriedBy.Name : "(none)",
                       obj.WearLocation); // Had to change this - V
             buf1 += text;
 
@@ -3724,9 +3724,9 @@ namespace MUDEngine
             if( ch == null ) return;
             CharData keeper = null;
 
-            foreach (CharData ikeeper in ch._inRoom.People)
+            foreach (CharData ikeeper in ch.InRoom.People)
             {
-                if (ikeeper.IsNPC() && (ikeeper._mobTemplate.ShopData))
+                if (ikeeper.IsNPC() && (ikeeper.MobileTemplate.ShopData))
                 {
                     keeper = ikeeper;
                     break;
@@ -3740,35 +3740,35 @@ namespace MUDEngine
             }
 
             string text = String.Format("Keeper: {0}.  Name: {1}&n\r\n",
-                                       keeper._mobTemplate.IndexNumber,
-                                       keeper._shortDescription);
+                                       keeper.MobileTemplate.IndexNumber,
+                                       keeper.ShortDescription);
 
             string buf1 = String.Format("Profit Buy: {0}.  Profit Sell: {1}.\r\n",
-                                        keeper._mobTemplate.ShopData.PercentBuy,
-                                        keeper._mobTemplate.ShopData.PercentSell);
+                                        keeper.MobileTemplate.ShopData.PercentBuy,
+                                        keeper.MobileTemplate.ShopData.PercentSell);
             text += buf1;
 
             buf1 = String.Format("Open Hour: {0}.   Close Hour: {1}.\r\n",
-                      keeper._mobTemplate.ShopData.OpenHour,
-                      keeper._mobTemplate.ShopData.CloseHour);
+                      keeper.MobileTemplate.ShopData.OpenHour,
+                      keeper.MobileTemplate.ShopData.CloseHour);
             text += buf1;
 
             text += "Types of item shop buys: ";
-            foreach (int buytype in keeper._mobTemplate.ShopData.BuyTypes)
+            foreach (int buytype in keeper.MobileTemplate.ShopData.BuyTypes)
             {
                 text += String.Format(" {0}", buytype);
             }
             text += ".\r\n";
 
             text += "Permanent items shop sells: \r\n";
-            foreach (int itemforsale in keeper._mobTemplate.ShopData.ItemsForSale)
+            foreach (int itemforsale in keeper.MobileTemplate.ShopData.ItemsForSale)
             {
                 text += String.Format(" {0}.\r\n", itemforsale);
             }
             text += ".\r\n";
 
             text += "Temporary items shop is selling:\r\n";
-            foreach (Object obj in keeper._carrying)
+            foreach (Object obj in keeper.Carrying)
             {
                 if (obj.WearLocation != ObjTemplate.WearLocation.none)
                     continue;
@@ -3805,16 +3805,16 @@ namespace MUDEngine
                     realChar.SendText("You can't find that person anywhere.\r\n");
                     return;
                 }
-                if (!victim._groupLeader)
+                if (!victim.GroupLeader)
                 {
                     realChar.SendText("They aren't in a group.\r\n");
                     return;
                 }
-                leader = victim._groupLeader;
-                buf1 = String.Format("&+G{0}'s group:&n\r\n", leader._name);
-                for (groupChar = leader; groupChar; groupChar = groupChar._nextInGroup)
+                leader = victim.GroupLeader;
+                buf1 = String.Format("&+G{0}'s group:&n\r\n", leader.Name);
+                for (groupChar = leader; groupChar; groupChar = groupChar.NextInGroup)
                 {
-                    text = String.Format("     &+G{0}&n\r\n", groupChar._name);
+                    text = String.Format("     &+G{0}&n\r\n", groupChar.Name);
                     buf1 += text;
                 }
                 realChar.SendText(buf1);
@@ -3824,16 +3824,16 @@ namespace MUDEngine
             foreach (CharData it in Database.CharList)
             {
                 victim = it;
-                if (victim != victim._groupLeader)
+                if (victim != victim.GroupLeader)
                 {
                     continue;
                 }
-                leader = victim._groupLeader;
-                text = String.Format("&+G{0}'s group:&n\r\n", leader._name);
+                leader = victim.GroupLeader;
+                text = String.Format("&+G{0}'s group:&n\r\n", leader.Name);
                 buf1 += text;
-                for (groupChar = leader; groupChar; groupChar = groupChar._nextInGroup)
+                for (groupChar = leader; groupChar; groupChar = groupChar.NextInGroup)
                 {
-                    text = String.Format("     &+G{0}&n\r\n", groupChar._name);
+                    text = String.Format("     &+G{0}&n\r\n", groupChar.Name);
                     buf1 += text;
                 }
             }
@@ -3877,7 +3877,7 @@ namespace MUDEngine
                 foreach (CharData it in Database.CharList)
                 {
                     victim = it;
-                    if (victim._mobTemplate == mobTemplate)
+                    if (victim.MobileTemplate == mobTemplate)
                     {
                         break;
                     }
@@ -3890,7 +3890,7 @@ namespace MUDEngine
             }
 
             string buf1 = String.Empty;
-            string text = String.Format("Name: {0}.\r\n", victim._name);
+            string text = String.Format("Name: {0}.\r\n", victim.Name);
             buf1 += text;
 
             text = String.Format("Race: {0} ({1})  Original Race: {2} ({3}).\r\n", Race.RaceList[victim.GetRace()].ColorName,
@@ -3902,25 +3902,25 @@ namespace MUDEngine
             buf1 += text;
 
             text = String.Format("IndexNumber: {0}.  Sex: {1}.  Room: {2}.  Load room: {3}.\r\n",
-                      victim.IsNPC() ? victim._mobTemplate.IndexNumber : 0,
-                      victim._sex,
-                      !victim._inRoom ? 0 : victim._inRoom.IndexNumber,
-                      victim._loadRoomIndexNumber);
+                      victim.IsNPC() ? victim.MobileTemplate.IndexNumber : 0,
+                      victim.Gender,
+                      !victim.InRoom ? 0 : victim.InRoom.IndexNumber,
+                      victim.LoadRoomIndexNumber);
             buf1 += text;
 
             text = String.Format("&+WBase Stats&n  Str: {0}.  Int: {1}.  Wis: {2}.  Dex: {3}.  Con: {4}.\r\n",
-                      victim._permStrength,
-                      victim._permIntelligence,
-                      victim._permWisdom,
-                      victim._permDexterity,
-                      victim._permConstitution);
+                      victim.PermStrength,
+                      victim.PermIntelligence,
+                      victim.PermWisdom,
+                      victim.PermDexterity,
+                      victim.PermConstitution);
             buf1 += text;
 
             text = String.Format("            Agi: {0}.  Cha: {1}.  Pow: {2}.  Luk: {3}.\r\n",
-                      victim._permAgility,
-                      victim._permCharisma,
-                      victim._permPower,
-                      victim._permLuck);
+                      victim.PermAgility,
+                      victim.PermCharisma,
+                      victim.PermPower,
+                      victim.PermLuck);
             buf1 += text;
 
             text = String.Format("&+WActual Stats&n Str: {0}.  Int: {1}.  Wis: {2}.  Dex: {3}.  Con: {4}.\r\n",
@@ -3940,30 +3940,30 @@ namespace MUDEngine
 
 
             text = String.Format("Hp: {0}/{1} ({2} base).  Mana: {3}/{4}.  Move: {5}/{6}.\r\n",
-                      victim._hitpoints, victim.GetMaxHit(), victim._maxHitpoints,
-                      victim._currentMana, victim._maxMana,
-                      victim._currentMoves, victim._maxMoves);
+                      victim.Hitpoints, victim.GetMaxHit(), victim.MaxHitpoints,
+                      victim.CurrentMana, victim.MaxMana,
+                      victim.CurrentMoves, victim.MaxMoves);
             buf1 += text;
 
             text = String.Format(
                       "Lv: {0}.  Class: {1} ({2})&n.  Align: {3}.  AC: {4}.\r\n",
-                      victim._level, victim._charClass.Name,
-                      victim._charClass.WholistName,
-                      victim._alignment, victim.GetAC());
+                      victim.Level, victim.CharacterClass.Name,
+                      victim.CharacterClass.WholistName,
+                      victim.Alignment, victim.GetAC());
             buf1 += text;
 
             /* show current and default size */
             text = String.Format("Current Size:  {0} ({1})  Default Size: {2} ({3})\r\n",
-                      Race.SizeString(victim._size), victim._size,
+                      Race.SizeString(victim.CurrentSize), victim.CurrentSize,
                       Race.SizeString(Race.RaceList[victim.GetRace()].DefaultSize), Race.RaceList[victim.GetRace()].DefaultSize);
             buf1 += text;
 
             /* Added position in text. */
             text = String.Format("Pos: {0} ({1}).  Wimpy: {2}.  Exp: {3}/{4}.  Coins: {5}.\r\n",
-                      Position.PositionString(victim._position),
-                      victim._position,
-                      victim._wimpy,
-                      victim._experiencePoints, ExperienceTable.Table[victim._level].LevelExperience, victim.GetCash());
+                      Position.PositionString(victim.CurrentPosition),
+                      victim.CurrentPosition,
+                      victim.Wimpy,
+                      victim.ExperiencePoints, ExperienceTable.Table[victim.Level].LevelExperience, victim.GetCash());
             buf1 += text;
 
             /* Always displays the Hit/Dam bonus for the char's primary weapon. */
@@ -4006,7 +4006,7 @@ namespace MUDEngine
             }
 
             text = String.Format("Fighting: {0}.\r\n",
-                      victim._fighting ? victim._fighting._name : "(none)");
+                      victim.Fighting ? victim.Fighting.Name : "(none)");
             buf1 += text;
 
             if (!victim.IsNPC())
@@ -4016,11 +4016,11 @@ namespace MUDEngine
                           ((PC)victim).Thirst,
                           ((PC)victim).Hunger,
                           ((PC)victim).Drunk,
-                          victim._savingThrows[0],
-                          victim._savingThrows[1],
-                          victim._savingThrows[2],
-                          victim._savingThrows[3],
-                          victim._savingThrows[4]);
+                          victim.SavingThrows[0],
+                          victim.SavingThrows[1],
+                          victim.SavingThrows[2],
+                          victim.SavingThrows[3],
+                          victim.SavingThrows[4]);
                 buf1 += text;
                 if (victim.IsGuild())
                 {
@@ -4035,63 +4035,63 @@ namespace MUDEngine
             {
                 text = String.Format(
                           "Saving throws: {0} {1} {2} {3} {4}.  Timer: {5}.\r\n",
-                          victim._savingThrows[0],
-                          victim._savingThrows[1],
-                          victim._savingThrows[2],
-                          victim._savingThrows[3],
-                          victim._savingThrows[4],
-                          victim._timer);
+                          victim.SavingThrows[0],
+                          victim.SavingThrows[1],
+                          victim.SavingThrows[2],
+                          victim.SavingThrows[3],
+                          victim.SavingThrows[4],
+                          victim.Timer);
                 buf1 += text;
             }
 
             text = String.Format("Carry number: {0}.  Carry weight: {1}.  Wait state: {2} ({3} seconds)\r\n",
-                      victim._carryNumber, victim._carryWeight,
-                      victim._wait, (victim._wait / Event.TICK_PER_SECOND));
+                      victim.CarryNumber, victim.CarryWeight,
+                      victim.Wait, (victim.Wait / Event.TICK_PER_SECOND));
             buf1 += text;
 
             if (!victim.IsNPC())
             {
                 text = String.Format("Age: {0}.  Played: {1}.  Timer: {2}.\r\n",
                           victim.GetAge(),
-                          victim._played,
-                          victim._timer);
+                          victim.TimePlayed,
+                          victim.Timer);
                 buf1 += text;
             }
 
             text = String.Format("ActFlags: {0} ({1} {2}).\r\n",
-                      PC.ActString(victim._affectedBy, false, victim.IsNPC()),
-                      victim._actionFlags[0],
-                      victim._actionFlags[1]);
+                      PC.ActString(victim.AffectedBy, false, victim.IsNPC()),
+                      victim.ActionFlags[0],
+                      victim.ActionFlags[1]);
 
             buf1 += text;
 
             text = String.Format("Riding:  {0}.  Rider:  {1}.\r\n",
-                      victim._riding ? victim._riding._name : "(none)",
-                      victim._rider ? victim._rider._name : "(none)");
+                      victim.Riding ? victim.Riding.Name : "(none)",
+                      victim.Rider ? victim.Rider.Name : "(none)");
             buf1 += text;
 
             text = String.Format("Master:  {0}.  Leader: {1}.\r\n",
-                      victim._master ? victim._master._name : "(none)",
-                      victim._groupLeader ? victim._groupLeader._name : "(none)");
+                      victim.Master ? victim.Master.Name : "(none)",
+                      victim.GroupLeader ? victim.GroupLeader.Name : "(none)");
             buf1 += text;
 
             text = String.Format("Hunting: {0}.  Hating: {1} targets.  Fearing: {2}.\r\n",
-                      victim._hunting ? victim._hunting.Name : "(none)",
-                      victim._hating.Count,
-                      victim._fearing ? victim._fearing.Name : "(none)");
+                      victim.Hunting ? victim.Hunting.Name : "(none)",
+                      victim.Hating.Count,
+                      victim.Fearing ? victim.Fearing.Name : "(none)");
             buf1 += text;
 
             text = String.Format("Resistant: {0}.  Immune: {1}.\r\n",
-                      StringConversion.DamageTypeString(victim._resistant),
-                      StringConversion.DamageTypeString(victim._immune));
+                      StringConversion.DamageTypeString(victim.Resistant),
+                      StringConversion.DamageTypeString(victim.Immune));
             buf1 += text;
 
             text = String.Format("Susceptible: {0}.  Vulnerable: {1}.\r\n",
-                      StringConversion.DamageTypeString(victim._susceptible),
-                      StringConversion.DamageTypeString(victim._vulnerable));
+                      StringConversion.DamageTypeString(victim.Susceptible),
+                      StringConversion.DamageTypeString(victim.Vulnerable));
             buf1 += text;
 
-            text = String.Format("Affected by: {0}.\r\n", BitvectorFlagType.AffectString(victim._affectedBy, false));
+            text = String.Format("Affected by: {0}.\r\n", BitvectorFlagType.AffectString(victim.AffectedBy, false));
             buf1 += text;
 
             if (!victim.IsNPC())
@@ -4101,24 +4101,24 @@ namespace MUDEngine
             else
             {
                 text = String.Format("Start Position: {0} ({1}).\r\n",
-                          Position.PositionString(victim._mobTemplate.DefaultPosition),
-                          victim._mobTemplate.DefaultPosition);
+                          Position.PositionString(victim.MobileTemplate.DefaultPosition),
+                          victim.MobileTemplate.DefaultPosition);
             }
             buf1 += text;
 
             text = String.Format("Short description: {0}&n.\r\nLong description: {1}&n\r\n",
-                      victim._shortDescription, victim._fullDescription );
+                      victim.ShortDescription, victim.FullDescription );
             buf1 += text;
 
             /* Displays mob specials */
-            if (victim.IsNPC() && victim._specFun != null && victim._specFun.Count > 0)
+            if (victim.IsNPC() && victim.SpecialFunction != null && victim.SpecialFunction.Count > 0)
             {
-                text = String.Format("Mobile has special function {0}.\r\n", StringConversion.MobSpecialString(victim._specFun));
+                text = String.Format("Mobile has special function {0}.\r\n", StringConversion.MobSpecialString(victim.SpecialFunction));
                 buf1 += text;
             }
-            if (victim.IsNPC() && victim._mobTemplate.DeathFun != null && victim._mobTemplate.DeathFun.Count > 0)
+            if (victim.IsNPC() && victim.MobileTemplate.DeathFun != null && victim.MobileTemplate.DeathFun.Count > 0)
             {
-                text = String.Format("Mobile has death function {0}.\r\n", StringConversion.MobSpecialString(victim._mobTemplate.DeathFun));
+                text = String.Format("Mobile has death function {0}.\r\n", StringConversion.MobSpecialString(victim.MobileTemplate.DeathFun));
                 buf1 += text;
             }
 
@@ -4129,7 +4129,7 @@ namespace MUDEngine
             //}
 
             /* Displays skills/spells currently on victim. */
-            foreach (Affect aff in victim._affected)
+            foreach (Affect aff in victim.Affected)
             {
                 // note that with this code if an affect has both a skill
                 // and spell affect, they will both show up as individual affects.
@@ -4193,10 +4193,10 @@ namespace MUDEngine
             if (!victim.IsNPC())
             {
                 /* ADD deaf in text, once table is written for it. */
-                text = String.Format("Deaf to: {0}. ", victim._deaf);
+                text = String.Format("Deaf to: {0}. ", victim.Deaf);
                 buf1 += text;
                 /* Added trust level. */
-                text = String.Format("Trust level: {0}.\r\n", victim._trustLevel);
+                text = String.Format("Trust level: {0}.\r\n", victim.TrustLevel);
                 buf1 += text;
             }
 
@@ -4227,10 +4227,10 @@ namespace MUDEngine
 
             /* Added list of follower */
             /* Made it check _targetType instead of imm */
-            if (victim._followers != null && victim._followers.Count > 0)
+            if (victim.Followers != null && victim.Followers.Count > 0)
             {
                 buf1 += "Followers: ";
-                foreach (CharData follower in victim._followers)
+                foreach (CharData follower in victim.Followers)
                 {
                     text = String.Format("{0}&n", follower.ShowNameTo(victim, true));
                     buf1 += text;
@@ -4296,7 +4296,7 @@ namespace MUDEngine
 
             bool all = !MUDString.StringsNotEqual(str[1], "all");
             bool found = false;
-            Area area = ch._inRoom.Area;
+            Area area = ch.InRoom.Area;
             bool bit = !MUDString.StringsNotEqual(str[0], "bit");
             bool fType = !MUDString.StringsNotEqual(str[0], "type");
             bool fArea = !MUDString.StringsNotEqual(str[0], "area");
@@ -4556,18 +4556,18 @@ namespace MUDEngine
             {
                 victim = it;
                 if (victim.IsNPC()
-                        && victim._inRoom
-                        && (MUDString.NameContainedIn(str[0], victim._name)
-                             || indexNumber == victim._mobTemplate.IndexNumber))
+                        && victim.InRoom
+                        && (MUDString.NameContainedIn(str[0], victim.Name)
+                             || indexNumber == victim.MobileTemplate.IndexNumber))
                 {
                     ++count;
                     if (count < 150)
                     {
                         text = String.Format("[{0}] {1} [{2}] {3}\r\n",
-                                  MUDString.PadInt(victim._mobTemplate.IndexNumber, 5),
-                                  MUDString.PadStr(victim._shortDescription, 28),
-                                  MUDString.PadInt(victim._inRoom.IndexNumber, 5),
-                                  victim._inRoom.Title);
+                                  MUDString.PadInt(victim.MobileTemplate.IndexNumber, 5),
+                                  MUDString.PadStr(victim.ShortDescription, 28),
+                                  MUDString.PadInt(victim.InRoom.IndexNumber, 5),
+                                  victim.InRoom.Title);
                         buf1 += text;
                     }
                 }
@@ -4611,7 +4611,7 @@ namespace MUDEngine
                 return;
             }
 
-            string text = String.Format("Reboot by {0}.", ch._name);
+            string text = String.Format("Reboot by {0}.", ch.Name);
             CommandType.Interpret(ch, "echo " + text);
             SocketConnection.EndOfGame();
             Database.SystemData.GameIsDown = true;
@@ -4644,7 +4644,7 @@ namespace MUDEngine
             }
 
             string text = "Shutdown by ";
-            text += ch._name;
+            text += ch.Name;
             Database.AppendFile(ch, FileLocation.ShutdownFile, text);
             text += ".\r\n";
             CommandType.Interpret(ch, "echo " + text);
@@ -4686,7 +4686,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._socket)
+            if (!victim.Socket)
             {
                 ch.SendText("No descriptor to snoop.\r\n");
                 return;
@@ -4699,7 +4699,7 @@ namespace MUDEngine
                 {
                     socket = it;
 
-                    if (socket.SnoopBy == ch._socket)
+                    if (socket.SnoopBy == ch.Socket)
                     {
                         socket.SnoopBy = null;
                     }
@@ -4707,21 +4707,21 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._socket.SnoopBy != null)
+            if (victim.Socket.SnoopBy != null)
             {
                 ch.SendText("Busy already.\r\n");
                 return;
             }
 
-            if (victim.GetTrust() >= ch.GetTrust() && MUDString.StringsNotEqual(ch._name, "Xangis"))
+            if (victim.GetTrust() >= ch.GetTrust() && MUDString.StringsNotEqual(ch.Name, "Xangis"))
             {
                 ch.SendText("You failed.\r\n");
                 return;
             }
 
-            if (ch._socket)
+            if (ch.Socket)
             {
-                for (socket = ch._socket.SnoopBy; socket; socket = socket.SnoopBy)
+                for (socket = ch.Socket.SnoopBy; socket; socket = socket.SnoopBy)
                 {
                     if (socket.Character == victim || socket.Original == victim)
                     {
@@ -4731,9 +4731,9 @@ namespace MUDEngine
                 }
             }
 
-            victim._socket.SnoopBy = ch._socket;
+            victim.Socket.SnoopBy = ch.Socket;
             ch.SendText("Done.\r\n");
-            string text = String.Format("{0} is snooping {1}", ch._name, victim._name);
+            string text = String.Format("{0} is snooping {1}", ch.Name, victim.Name);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SNOOPS, realChar.GetTrust(), text);
             return;
         }
@@ -4762,12 +4762,12 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._socket == null)
+            if (ch.Socket == null)
             {
                 return;
             }
 
-            if (ch._socket.Original)
+            if (ch.Socket.Original)
             {
                 ch.SendText("You are already switched.\r\n");
                 return;
@@ -4794,19 +4794,19 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._socket)
+            if (victim.Socket)
             {
                 ch.SendText("Character in use.\r\n");
                 return;
             }
 
             ((PC)ch).IsSwitched = true;
-            ch._socket.Character = victim;
-            ch._socket.Original = ch;
-            victim._socket = ch._socket;
-            ch._socket = null;
+            ch.Socket.Character = victim;
+            ch.Socket.Original = ch;
+            victim.Socket = ch.Socket;
+            ch.Socket = null;
             victim.SendText("Done.\r\n");
-            string buf = String.Format("{0} switched into {1}", realChar._name, victim._shortDescription);
+            string buf = String.Format("{0} switched into {1}", realChar.Name, victim.ShortDescription);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SWITCHES, realChar.GetTrust(), buf);
             return;
         }
@@ -4817,12 +4817,12 @@ namespace MUDEngine
 
             CharData realChar = ch.GetChar();
 
-            if (ch._socket == null)
+            if (ch.Socket == null)
             {
                 return;
             }
 
-            if (!ch._socket.Original)
+            if (!ch.Socket.Original)
             {
                 ch.SendText("You aren't switched.\r\n");
                 return;
@@ -4834,13 +4834,13 @@ namespace MUDEngine
              */
 
             ch.SendText("You return to your original body.\r\n");
-            ((PC)ch._socket.Original).IsSwitched = false;
-            ch._socket.Character = ch._socket.Original;
-            ch._socket.Original = null;
-            ch._socket.Character._socket = ch._socket;
-            ch._socket = null;
+            ((PC)ch.Socket.Original).IsSwitched = false;
+            ch.Socket.Character = ch.Socket.Original;
+            ch.Socket.Original = null;
+            ch.Socket.Character.Socket = ch.Socket;
+            ch.Socket = null;
 
-            string buf = String.Format("{0} returns to his original body.", realChar._name);
+            string buf = String.Format("{0} returns to his original body.", realChar.Name);
             ImmortalChat.SendImmortalChat(realChar, ImmortalChat.IMMTALK_SWITCHES, realChar.GetTrust(), buf);
             return;
         }
@@ -4906,13 +4906,13 @@ namespace MUDEngine
                 }
                 else
                 {
-                    clone.AddToRoom(ch._inRoom);
+                    clone.AddToRoom(ch.InRoom);
                 }
                 Object.RecursiveClone(ch, obj, clone);
 
                 SocketConnection.Act("$n has created $p.", ch, clone, null, SocketConnection.MessageTarget.room);
                 SocketConnection.Act("You clone $p.", ch, clone, null, SocketConnection.MessageTarget.character);
-                text = String.Format("{0} clones {1}.", ch._name, clone.ShortDescription);
+                text = String.Format("{0} clones {1}.", ch.Name, clone.ShortDescription);
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOAD, ch.GetTrust(), text);
                 return;
             }
@@ -4924,10 +4924,10 @@ namespace MUDEngine
                     return;
                 }
 
-                CharData clone = Database.CreateMobile(mob._mobTemplate);
+                CharData clone = Database.CreateMobile(mob.MobileTemplate);
                 Database.CloneMobile(mob, clone);
 
-                foreach (Object obj2 in mob._carrying)
+                foreach (Object obj2 in mob.Carrying)
                 {
                     Object newObj = Database.CreateObject(obj2.ObjIndexData, 0);
                     Database.CloneObject(obj2, ref newObj);
@@ -4936,10 +4936,10 @@ namespace MUDEngine
                     newObj.WearLocation = obj2.WearLocation;
                 }
 
-                clone.AddToRoom(ch._inRoom);
+                clone.AddToRoom(ch.InRoom);
                 SocketConnection.Act("$n has created $N.", ch, null, clone, SocketConnection.MessageTarget.room);
                 SocketConnection.Act("You clone $N.", ch, null, clone, SocketConnection.MessageTarget.character);
-                text = String.Format("{0} clones {1}.", ch._name, clone._shortDescription);
+                text = String.Format("{0} clones {1}.", ch.Name, clone.ShortDescription);
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOAD, ch.GetTrust(), text);
                 return;
             }
@@ -4972,11 +4972,11 @@ namespace MUDEngine
             }
 
             CharData victim = Database.CreateMobile(mobTemplate);
-            victim.AddToRoom(ch._inRoom);
+            victim.AddToRoom(ch.InRoom);
             ch.SendText("Done.\r\n");
             SocketConnection.Act("$n has created $N!", ch, null, victim, SocketConnection.MessageTarget.room);
-            string text = String.Format("{0} has mloaded {1} at {2} [{3}]", ch._name, victim._shortDescription,
-                                       ch._inRoom.Title, ch._inRoom.IndexNumber);
+            string text = String.Format("{0} has mloaded {1} at {2} [{3}]", ch.Name, victim.ShortDescription,
+                                       ch.InRoom.Title, ch.InRoom.IndexNumber);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOAD, realChar.GetTrust(), text);
             return;
         }
@@ -5030,12 +5030,12 @@ namespace MUDEngine
             }
             else
             {
-                obj.AddToRoom(ch._inRoom);
+                obj.AddToRoom(ch.InRoom);
                 SocketConnection.Act("$n&n has created $p&n!", ch, obj, null, SocketConnection.MessageTarget.room);
             }
             ch.SendText("Done.\r\n");
-            string text = String.Format("{0} has loaded {1} at {2} [{3}]", ch._name, obj.ShortDescription,
-                                       ch._inRoom.Title, ch._inRoom.IndexNumber);
+            string text = String.Format("{0} has loaded {1} at {2} [{3}]", ch.Name, obj.ShortDescription,
+                                       ch.InRoom.Title, ch.InRoom.IndexNumber);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOAD, realChar.GetTrust(), text);
             return;
         }
@@ -5059,17 +5059,17 @@ namespace MUDEngine
             if (str.Length == 0)
             {
                 /* 'purge' */
-                for( int i = (ch._inRoom.People.Count - 1); i >= 0; i-- )
+                for( int i = (ch.InRoom.People.Count - 1); i >= 0; i-- )
                 {
-                    if (ch._inRoom.People[i].IsNPC() && ch._inRoom.People[i] != ch)
+                    if (ch.InRoom.People[i].IsNPC() && ch.InRoom.People[i] != ch)
                     {
-                        CharData.ExtractChar(ch._inRoom.People[i], true);
+                        CharData.ExtractChar(ch.InRoom.People[i], true);
                     }
                 }
 
-                for( int i = (ch._inRoom.Contents.Count - 1); i >= 0; i-- )
+                for( int i = (ch.InRoom.Contents.Count - 1); i >= 0; i-- )
                 {
-                    ch._inRoom.Contents[i].RemoveFromWorld();
+                    ch.InRoom.Contents[i].RemoveFromWorld();
                 }
 
                 ch.SendText("Done.\r\n");
@@ -5154,52 +5154,52 @@ namespace MUDEngine
             *   Then raise again.
             *   Currently, an imp can lower another imp.
             */
-            if (level <= victim._level)
+            if (level <= victim.Level)
             {
                 ch.SendText("Lowering a player's level!\r\n");
                 victim.SendText("**** OOOOHHHHHHHHHH  NNNNOOOO ****\r\n");
-                victim._level = 1;
+                victim.Level = 1;
                 // Max_hit should only be accessed for PERMENANT changes.
-                victim._maxHitpoints = 20;
-                if (ch._charClass.GainsMana)
+                victim.MaxHitpoints = 20;
+                if (ch.CharacterClass.GainsMana)
                 {
-                    victim._maxMana = 50;
+                    victim.MaxMana = 50;
                     // Mana bonuses for newbies.
-                    victim._maxMana += (victim.GetCurrInt() / 10);
-                    victim._maxMana += (victim.GetCurrWis() / 14);
-                    victim._maxMana += (victim.GetCurrPow() / 7);
+                    victim.MaxMana += (victim.GetCurrInt() / 10);
+                    victim.MaxMana += (victim.GetCurrWis() / 14);
+                    victim.MaxMana += (victim.GetCurrPow() / 7);
                 }
                 else
                 {
-                    victim._maxMana = 0;
+                    victim.MaxMana = 0;
                 }
-                victim._maxMoves = 150;
+                victim.MaxMoves = 150;
                 // removed resetting of skills.
-                victim._hitpoints = victim.GetMaxHit();
-                victim._currentMana = victim._maxMana;
-                victim._currentMoves = victim._maxMoves;
-                text = String.Format("{0} has been demoted to level {1} by {2}", victim._name,
-                        level, ch._name);
+                victim.Hitpoints = victim.GetMaxHit();
+                victim.CurrentMana = victim.MaxMana;
+                victim.CurrentMoves = victim.MaxMoves;
+                text = String.Format("{0} has been demoted to level {1} by {2}", victim.Name,
+                        level, ch.Name);
                 ImmortalChat.SendImmortalChat(victim, ImmortalChat.IMMTALK_LEVELS, realChar.GetTrust(), text);
             }
             else
             {
                 ch.SendText("Raising a player's level!\r\n");
                 victim.SendText("**** OOOOHHHHHHHHHH  YYYYEEEESSS ****\r\n");
-                text = String.Format("{0} has been advanced to level {1} by {2}", victim._name,
-                        level, ch._name);
+                text = String.Format("{0} has been advanced to level {1} by {2}", victim.Name,
+                        level, ch.Name);
                 ImmortalChat.SendImmortalChat(victim, ImmortalChat.IMMTALK_LEVELS, realChar.GetTrust(), text);
             }
 
             // Do not advance skills -- rerolling someone will auto-master
             // their skills with no effort from the player... so we advance
             // them with skills set to false -- Xangis
-            for (iLevel = victim._level; iLevel < level; iLevel++)
+            for (iLevel = victim.Level; iLevel < level; iLevel++)
             {
                 victim.AdvanceLevel(victim);
             }
-            victim._experiencePoints = 1;
-            victim._trustLevel = 0;
+            victim.ExperiencePoints = 1;
+            victim.TrustLevel = 0;
 
             return;
         }
@@ -5246,11 +5246,11 @@ namespace MUDEngine
                 return;
             }
 
-            string text = String.Format("{0} has been trusted at level {1} by {2}", victim._name,
-                                       level, ch._name);
+            string text = String.Format("{0} has been trusted at level {1} by {2}", victim.Name,
+                                       level, ch.Name);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LEVELS, realChar.GetTrust(), text);
 
-            victim._trustLevel = level;
+            victim.TrustLevel = level;
             return;
         }
 
@@ -5275,7 +5275,7 @@ namespace MUDEngine
 
             if (str.Length == 0 || !MUDString.StringsNotEqual(str[0], "room"))
             {
-                foreach (CharData roomChar in ch._inRoom.People)
+                foreach (CharData roomChar in ch.InRoom.People)
                 {
                     if (roomChar.IsNPC())
                     {
@@ -5283,7 +5283,7 @@ namespace MUDEngine
                     }
                     ch.Restore(roomChar);
                 }
-                text = String.Format("{0} has restored room {1}.", realChar._name, ch._inRoom.IndexNumber);
+                text = String.Format("{0} has restored room {1}.", realChar.Name, ch.InRoom.IndexNumber);
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_RESTORE, realChar.GetTrust(), text);
                 ch.SendText("Room restored.\r\n");
                 return;
@@ -5294,13 +5294,13 @@ namespace MUDEngine
                 foreach (CharData it in Database.CharList)
                 {
                     victim = it;
-                    if (!victim._inRoom || victim.IsNPC())
+                    if (!victim.InRoom || victim.IsNPC())
                     {
                         continue;
                     }
                     ch.Restore(victim);
                 }
-                text = String.Format("{0} has restored the whole mud.", ch._name);
+                text = String.Format("{0} has restored the whole mud.", ch.Name);
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_RESTORE, realChar.GetTrust(), text);
                 ch.SendText("Aww...how sweet :)...Done.\r\n");
             }
@@ -5312,7 +5312,7 @@ namespace MUDEngine
                     return;
                 }
                 ch.Restore(victim);
-                text = String.Format("{0} has restored {1}.", ch._name, victim._name);
+                text = String.Format("{0} has restored {1}.", ch.Name, victim.Name);
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_RESTORE, realChar.GetTrust(), text);
                 ch.SendText("Done.\r\n");
             }
@@ -5587,9 +5587,9 @@ namespace MUDEngine
                 return;
             }
 
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
-                if (roomChar._fighting)
+                if (roomChar.Fighting)
                 {
                     Combat.StopFighting(roomChar, true);
                 }
@@ -5904,7 +5904,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._level <= victim._level && ch != victim)
+            if (ch.Level <= victim.Level && ch != victim)
             {
                 ch.SendText("You may not set your peer nor your superior.\r\n");
                 return;
@@ -5939,7 +5939,7 @@ namespace MUDEngine
                     ch.SendText("Only immortals level " + Limits.LEVEL_OVERLORD.ToString() + " and up may set all skills.\r\n");
                     return;
                 }
-                foreach( SkillEntry entry in ch._charClass.Skills )
+                foreach( SkillEntry entry in ch.CharacterClass.Skills )
                 {
                     if( entry.Level < victim.GetTrust() )
                     {
@@ -6133,7 +6133,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permStrength = value;
+                victim.PermStrength = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6147,7 +6147,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permIntelligence = value;
+                victim.PermIntelligence = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6161,7 +6161,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permWisdom = value;
+                victim.PermWisdom = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6175,7 +6175,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permDexterity = value;
+                victim.PermDexterity = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6189,7 +6189,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permConstitution = value;
+                victim.PermConstitution = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6203,7 +6203,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permAgility = value;
+                victim.PermAgility = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6217,7 +6217,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permCharisma = value;
+                victim.PermCharisma = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6231,7 +6231,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permPower = value;
+                victim.PermPower = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6245,7 +6245,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._permLuck = value;
+                victim.PermLuck = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6270,7 +6270,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._size = newsize;
+                victim.CurrentSize = newsize;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6284,7 +6284,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._position = value;
+                victim.CurrentPosition = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6330,8 +6330,8 @@ namespace MUDEngine
                 value = (int)cclass;
                 SocketConnection.Act("You set $N&n's class to $t.", ch, CharClass.ClassList[value].Name, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("Your class is now $t.", ch, CharClass.ClassList[value].Name, victim, SocketConnection.MessageTarget.victim);
-                victim._charClass = CharClass.ClassList[value];
-                victim._charClassNum = value;
+                victim.CharacterClass = CharClass.ClassList[value];
+                victim.CharClassNumber = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6351,7 +6351,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._sex = (MobTemplate.Sex)value;
+                victim.Gender = (MobTemplate.Sex)value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6388,7 +6388,7 @@ namespace MUDEngine
                     SocketConnection.Act("You drop $p&n.", victim, wield, null, SocketConnection.MessageTarget.character);
                     SocketConnection.Act("$n&n drops $p&n.", victim, wield, null, SocketConnection.MessageTarget.room);
                     wield.RemoveFromChar();
-                    wield.AddToRoom(victim._inRoom);
+                    wield.AddToRoom(victim.InRoom);
                 }
 
                 if ((wield2 = Object.GetEquipmentOnCharacter(victim, ObjTemplate.WearLocation.hand_two))
@@ -6398,7 +6398,7 @@ namespace MUDEngine
                     SocketConnection.Act("You drop $p&n.", victim, wield2, null, SocketConnection.MessageTarget.character);
                     SocketConnection.Act("$n&n drops $p&n.", victim, wield2, null, SocketConnection.MessageTarget.room);
                     wield2.RemoveFromChar();
-                    wield2.AddToRoom(victim._inRoom);
+                    wield2.AddToRoom(victim.InRoom);
                 }
 
                 ch.SendText("Ok.\r\n");
@@ -6418,7 +6418,7 @@ namespace MUDEngine
                     ch.SendText("Level range is 0 to 40.\r\n");
                     return;
                 }
-                victim._level = value;
+                victim.Level = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6430,7 +6430,7 @@ namespace MUDEngine
                     ch.SendText("Wait range is 0 to 120.\r\n");
                     return;
                 }
-                victim._wait = value;
+                victim.Wait = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6463,7 +6463,7 @@ namespace MUDEngine
                     ch.SendText("HP range is -10 to 30,000 hit points.\r\n");
                     return;
                 }
-                if (victim._fighting && value < 0)
+                if (victim.Fighting && value < 0)
                 {
                     ch.SendText("You cannot set a fighting person's hp below 0.\r\n");
                     return;
@@ -6472,11 +6472,11 @@ namespace MUDEngine
                 // Set their perm hitpoints so that their current max hitpoints will be reflected
                 if (!ch.IsNPC())
                 {
-                    victim._maxHitpoints = ((value * 100) / victim.GetCurrCon()) + 1;
+                    victim.MaxHitpoints = ((value * 100) / victim.GetCurrCon()) + 1;
                 }
                 else
                 {
-                    victim._maxHitpoints = value;
+                    victim.MaxHitpoints = value;
                 }
 
                 ch.SendText("Ok.\r\n");
@@ -6490,7 +6490,7 @@ namespace MUDEngine
                     ch.SendText("Mana range is 0 to 30,000 mana points.\r\n");
                     return;
                 }
-                victim._maxMana = value;
+                victim.MaxMana = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6502,7 +6502,7 @@ namespace MUDEngine
                     ch.SendText("Move range is 0 to 30,000 move points.\r\n");
                     return;
                 }
-                victim._maxMoves = value;
+                victim.MaxMoves = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6514,7 +6514,7 @@ namespace MUDEngine
                     ch.SendText("Alignment range is -1000 to 1000.\r\n");
                     return;
                 }
-                victim._alignment = value;
+                victim.Alignment = value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6581,7 +6581,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._experiencePoints = (value * ExperienceTable.Table[victim._level].LevelExperience) / 100;
+                victim.ExperiencePoints = (value * ExperienceTable.Table[victim.Level].LevelExperience) / 100;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6698,7 +6698,7 @@ namespace MUDEngine
                 if (ch.StringTooLong(str[2]))
                     return;
 
-                victim._name = str[2];
+                victim.Name = str[2];
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6708,7 +6708,7 @@ namespace MUDEngine
                 if (ch.StringTooLong(str[2]))
                     return;
 
-                victim._shortDescription = str[2];
+                victim.ShortDescription = str[2];
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6718,7 +6718,7 @@ namespace MUDEngine
                 if (ch.StringTooLong(str[2]))
                     return;
 
-                victim._fullDescription = str[2] + "\r\n";
+                victim.FullDescription = str[2] + "\r\n";
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6767,7 +6767,7 @@ namespace MUDEngine
                     int count2;
                     for (count2 = 0; count2 < Limits.MAX_GUILD_MEMBERS; count2++)
                     {
-                        if (oldGuild.Members[count2].Name.Length == 0 || !MUDString.StringsNotEqual(oldGuild.Members[count2].Name, victim._name))
+                        if (oldGuild.Members[count2].Name.Length == 0 || !MUDString.StringsNotEqual(oldGuild.Members[count2].Name, victim.Name))
                         {
                             oldGuild.Members[count2].Filled = false;
                         }
@@ -6783,7 +6783,7 @@ namespace MUDEngine
                 if (((PC)victim).GuildRank == 0)
                     ((PC)victim).GuildRank = Guild.Rank.normal;
 
-                guild.Members[count].Name = victim._name;
+                guild.Members[count].Name = victim.Name;
                 guild.Members[count].Rank = ((PC)victim).GuildRank;
                 guild.Members[count].Fine = 0;
                 guild.Members[count].JoinTime = Database.SystemData.CurrentTime;
@@ -6799,28 +6799,28 @@ namespace MUDEngine
 
             if ("resistant".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
             {
-                victim._resistant = (Race.DamageType)value;
+                victim.Resistant = (Race.DamageType)value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
 
             if ("immune".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
             {
-                victim._immune = (Race.DamageType)value;
+                victim.Immune = (Race.DamageType)value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
 
             if ("susceptible".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
             {
-                victim._susceptible = (Race.DamageType)value;
+                victim.Susceptible = (Race.DamageType)value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
 
             if ("vulnerable".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
             {
-                victim._vulnerable = (Race.DamageType)value;
+                victim.Vulnerable = (Race.DamageType)value;
                 ch.SendText("Ok.\r\n");
                 return;
             }
@@ -6853,7 +6853,7 @@ namespace MUDEngine
                     return;
                 }
 
-                victim._mobTemplate.AddSpecFun(spec[0]);
+                victim.MobileTemplate.AddSpecFun(spec[0]);
 
                 ch.SendText("Ok.\r\n");
                 return;
@@ -6867,7 +6867,7 @@ namespace MUDEngine
                     return;
                 }
 
-                if ((victim._mobTemplate.DeathFun = MobSpecial.SpecMobLookup(str[2])) == null)
+                if ((victim.MobileTemplate.DeathFun = MobSpecial.SpecMobLookup(str[2])) == null)
                 {
                     ch.SendText("No such death fun.\r\n");
                     return;
@@ -7386,7 +7386,7 @@ namespace MUDEngine
 
             foreach (CharData person in location.People)
             {
-                if (!person.IsNPC() && person != ch && person._level >= ch._level && MUDString.StringsNotEqual(ch._name, "Xangis"))
+                if (!person.IsNPC() && person != ch && person.Level >= ch.Level && MUDString.StringsNotEqual(ch.Name, "Xangis"))
                 {
                     ch.SendText("Your superior is in this room, no setting the room now.\r\n");
                     return;
@@ -7501,10 +7501,10 @@ namespace MUDEngine
                         continue;
                     text = String.Format("[{0} {1}] {2}@{3}\r\n",
                             MUDString.PadStr(socket.ToString(), 3),
-                            socket._connectionState.ToString(),
-                            socket.Original ? socket.Original._name :
-                            socket.Character ? socket.Character._name : "(none)",
-                            socket._host);
+                            socket.ConnectionStatus.ToString(),
+                            socket.Original ? socket.Original.Name :
+                            socket.Character ? socket.Character.Name : "(none)",
+                            socket.Host);
                     ch.SendText(text);
                 }
                 return;
@@ -7518,10 +7518,10 @@ namespace MUDEngine
                 {
                     ++count;
                     text = String.Format("[{0}] {1}@{2}\r\n",
-                            socket._connectionState.ToString(),
-                            socket.Original ? socket.Original._name :
-                            socket.Character ? socket.Character._name : "(none)",
-                            socket._host);
+                            socket.ConnectionStatus.ToString(),
+                            socket.Original ? socket.Original.Name :
+                            socket.Character ? socket.Character.Name : "(none)",
+                            socket.Host);
                 }
             }
 
@@ -7749,7 +7749,7 @@ namespace MUDEngine
                     buf = String.Format("[{0}] {1}&n carried by {2}&n at [{3}].\r\n",
                                         MUDString.PadInt(objCounter, 2), obj.ShortDescription,
                                         inObj.CarriedBy.ShowNameTo(ch, false),
-                                        MUDString.PadInt(inObj.CarriedBy._inRoom.IndexNumber, 4));
+                                        MUDString.PadInt(inObj.CarriedBy.InRoom.IndexNumber, 4));
                 }
                 else
                 {
@@ -7963,7 +7963,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (realChar._level <= victim._level && realChar != victim && MUDString.StringsNotEqual(ch._name, "Xangis"))
+            if (realChar.Level <= victim.Level && realChar != victim && MUDString.StringsNotEqual(ch.Name, "Xangis"))
             {
                 ch.SendText("You may not imtlset your peer nor your superior.\r\n");
                 return;
@@ -8039,7 +8039,7 @@ namespace MUDEngine
                 }
             }
 
-            string text = "Immortal skills set for " + victim._name + ":\r\n";
+            string text = "Immortal skills set for " + victim.Name + ":\r\n";
             foreach (CommandType cmd in CommandType.CommandTable)
             {
                 if (cmd.MinLevel < Limits.LEVEL_HERO
@@ -8094,7 +8094,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (realChar._level <= victim._level)
+            if (realChar.Level <= victim.Level)
             {
                 ch.SendText("You may not rename your peer nor your superior.\r\n");
                 return;
@@ -8120,16 +8120,16 @@ namespace MUDEngine
             CharData.DeletePlayer(victim);
 
             Log.Trace("Rename: Giving New Name to Player");
-            string oldname = victim._name;
-            victim._name = str[1].ToUpper();
+            string oldname = victim.Name;
+            victim.Name = str[1].ToUpper();
 
             Log.Trace("Rename: Saving Renamed Player");
             CharData.SavePlayer(victim);
             ch.SendText("Done.\r\n");
-            string text = String.Format("Your new _name is {0}.\r\n", victim._name);
+            string text = String.Format("Your new _name is {0}.\r\n", victim.Name);
             victim.SendText(text);
 
-            text = String.Format("{0} has just renamed {1} to {2}.", ch._name, oldname, victim._name);
+            text = String.Format("{0} has just renamed {1} to {2}.", ch.Name, oldname, victim.Name);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SECURE, realChar.GetTrust(), text);
             Log.Trace(text);
 
@@ -8183,7 +8183,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._socket)
+            if (!victim.Socket)
             {
                 SocketConnection.Act("$N&n doesn't have a descriptor.", ch, null, victim, SocketConnection.MessageTarget.character);
             }
@@ -8194,7 +8194,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (realChar._level <= victim._level && realChar != victim)
+            if (realChar.Level <= victim.Level && realChar != victim)
             {
                 ch.SendText("You may not terminate your peer nor your superior.\r\n");
                 return;
@@ -8204,7 +8204,7 @@ namespace MUDEngine
             {
                 socket = it;
 
-                if (socket == victim._socket)
+                if (socket == victim.Socket)
                 {
                     /* By saving first i assure i am not removing a non existing file
                     * i know it's stupid and probably useless but... 
@@ -8277,12 +8277,12 @@ namespace MUDEngine
             int level;
 
             CharData realChar = ch.GetChar();
-            int num = (int)realChar._charClass.ClassNumber;
+            int num = (int)realChar.CharacterClass.ClassNumber;
 
             /*
             * Set default arguments.
             */
-            CharClass cclass = realChar._charClass;
+            CharClass cclass = realChar.CharacterClass;
 
             if (str.Length != 0 && !String.IsNullOrEmpty(str[0]))
             {
@@ -8727,7 +8727,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't get close enough while mounted.\r\n");
                 return;
@@ -8781,7 +8781,7 @@ namespace MUDEngine
             }
 
             /* Yeah, gallop around them without them noticing. */
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't circle while mounted.\r\n");
                 return;
@@ -8790,7 +8790,7 @@ namespace MUDEngine
             /* Find the unlucky soul. */
             if (str.Length == 0)
             {
-                victim = ch._fighting;
+                victim = ch.Fighting;
             }
             else
             {
@@ -8831,9 +8831,9 @@ namespace MUDEngine
 
             /* Check if someone is attacking ch. */
             CharData roomChar = null;
-            foreach (CharData irch in ch._inRoom.People)
+            foreach (CharData irch in ch.InRoom.People)
             {
-                if (irch._fighting == ch)
+                if (irch.Fighting == ch)
                 {
                     roomChar = irch;
                     break;
@@ -8890,7 +8890,7 @@ namespace MUDEngine
             int attempt;
             int chances;
 
-            if (ch._position < Position.reclining || ch._wait > 0)
+            if (ch.CurrentPosition < Position.reclining || ch.Wait > 0)
             {
                 return;
             }
@@ -8909,27 +8909,27 @@ namespace MUDEngine
                 ch.RemoveActionBit(PC.PLAYER_MEMORIZING);
             }
 
-            if (ch._position < Position.fighting)
+            if (ch.CurrentPosition < Position.fighting)
             {
                 ch.SendText("You scramble madly to your feet!\r\n");
                 SocketConnection.Act("$n&n scrambles madly to $s feet!",
                      ch, null, null, SocketConnection.MessageTarget.room);
-                ch._position = Position.standing;
+                ch.CurrentPosition = Position.standing;
                 return;
             }
 
-            if (!ch._inRoom)
+            if (!ch.InRoom)
             {
                 ch.SendText("You give up when you realize there's nowhere to flee to.\r\n");
             }
 
             // Panicked people can flee when not fighting.
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
             if (!victim)
             {
-                if (ch._position == Position.fighting)
+                if (ch.CurrentPosition == Position.fighting)
                 {
-                    ch._position = Position.standing;
+                    ch.CurrentPosition = Position.standing;
                 }
             }
 
@@ -8957,7 +8957,7 @@ namespace MUDEngine
             }
 
             // You should almost always be able to flee when not fighting.
-            if (ch._position == Position.standing)
+            if (ch.CurrentPosition == Position.standing)
             {
                 chances = 30;
             }
@@ -8966,7 +8966,7 @@ namespace MUDEngine
                 chances = 6;
             }
 
-            Room wasIn = ch._inRoom;
+            Room wasIn = ch.InRoom;
             for (attempt = 0; attempt < chances; attempt++)
             {
                 Exit exit;
@@ -8975,26 +8975,26 @@ namespace MUDEngine
                 if ((exit = wasIn.GetExit(door)) == null || !exit.TargetRoom
                         || exit.TargetRoom == wasIn || exit.HasFlag(Exit.ExitFlag.closed)
                         || (ch.IsNPC() && (Room.GetRoom(exit.IndexNumber).HasFlag(RoomTemplate.ROOM_NO_MOB)
-                        || (ch.HasActionBit(MobTemplate.ACT_STAY_AREA) && exit.TargetRoom.Area != ch._inRoom.Area))))
+                        || (ch.HasActionBit(MobTemplate.ACT_STAY_AREA) && exit.TargetRoom.Area != ch.InRoom.Area))))
                 {
                     continue;
                 }
 
-                if (ch._riding && ch._riding._fighting)
+                if (ch.Riding && ch.Riding.Fighting)
                 {
-                    Combat.StopFighting(ch._riding, true);
+                    Combat.StopFighting(ch.Riding, true);
                 }
 
                 // Just to keep the damned messages from being wacky...
                 ch.SetAffectBit(Affect.AFFECT_IS_FLEEING);
                 ch.Move(door);
                 ch.RemoveAffect(Affect.AFFECT_IS_FLEEING);
-                if (ch._inRoom == wasIn)
+                if (ch.InRoom == wasIn)
                 {
                     break;
                 }
-                Room nowIn = ch._inRoom;
-                ch._inRoom = wasIn;
+                Room nowIn = ch.InRoom;
+                ch.InRoom = wasIn;
 
                 SocketConnection.Act("$n&n panics and attempts to flee...", ch, null, null, SocketConnection.MessageTarget.room, true);
                 string text;
@@ -9007,7 +9007,7 @@ namespace MUDEngine
                     text = String.Format("$n&n flees {0}ward.", door.ToString());
                     SocketConnection.Act(text, ch, null, null, SocketConnection.MessageTarget.room, true);
                 }
-                ch._inRoom = nowIn;
+                ch.InRoom = nowIn;
 
                 text = String.Format("You flee {0}ward!\r\n", door.ToString());
                 ch.SendText(text);
@@ -9057,9 +9057,9 @@ namespace MUDEngine
                 af.Value = "berzerk";
                 af.Type = Affect.AffectType.skill;
                 af.Duration = MUDMath.Dice(1, 2);
-                af.AddModifier( Affect.Apply.hitroll, Math.Max(ch._level / 6, 2));
-                af.AddModifier( Affect.Apply.damroll, Math.Max(ch._level / 6, 2));
-                af.AddModifier( Affect.Apply.ac, (ch._level / 2));
+                af.AddModifier( Affect.Apply.hitroll, Math.Max(ch.Level / 6, 2));
+                af.AddModifier( Affect.Apply.damroll, Math.Max(ch.Level / 6, 2));
+                af.AddModifier( Affect.Apply.ac, (ch.Level / 2));
                 af.AddModifier( Affect.Apply.max_constitution, MUDMath.Dice(5, 9));
                 af.AddModifier( Affect.Apply.agility, 0 - MUDMath.Dice(5, 9));
                 af.AddModifier( Affect.Apply.max_strength, MUDMath.Dice(5, 9));
@@ -9101,7 +9101,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't do that while mounted.\r\n");
                 return;
@@ -9125,13 +9125,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting == victim)
+            if (ch.Fighting == victim)
             {
                 ch.SendText("Too late.\r\n");
                 return;
             }
 
-            if (!victim._fighting)
+            if (!victim.Fighting)
             {
                 ch.SendText("That person is not fighting right now.\r\n");
                 return;
@@ -9146,9 +9146,9 @@ namespace MUDEngine
 
             int count = 0;
             CharData fighter = null;
-            foreach (CharData ifch in ch._inRoom.People)
+            foreach (CharData ifch in ch.InRoom.People)
             {
-                if (ifch._fighting == victim)
+                if (ifch.Fighting == victim)
                 {
                     if (MUDMath.NumberRange(0, count) == 0)
                     {
@@ -9175,7 +9175,7 @@ namespace MUDEngine
             Combat.StopFighting(victim, false);
 
             Combat.SetFighting(fighter, ch);
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 Combat.SetFighting(ch, fighter);
             }
@@ -9201,17 +9201,17 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.IsBlind() && !ch._fighting)
+            if (ch.IsBlind() && !ch.Fighting)
             {
                 return;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if (str.Length != 0)
             {
                 victim = ch.GetCharRoom(str[0]);
-                if (!victim || victim._position == Position.dead)
+                if (!victim || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("They aren't here.\r\n");
                     return;
@@ -9219,7 +9219,7 @@ namespace MUDEngine
             }
             else
             {
-                if (!victim || victim._position == Position.dead)
+                if (!victim || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("You aren't fighting anyone.\r\n");
                     return;
@@ -9241,20 +9241,20 @@ namespace MUDEngine
             }
             else
             {
-                chance = ch._level * 3 / 2 + 20;
+                chance = ch.Level * 3 / 2 + 20;
             }
             // It's much harder to kick really tiny things; imagine trying to kick
             // a fly.
-            if (ch._size > victim._size + 5)
+            if (ch.CurrentSize > victim.CurrentSize + 5)
             {
-                chance -= (ch._size - victim._size) * 5;
+                chance -= (ch.CurrentSize - victim.CurrentSize) * 5;
             }
 
             // It's harder to kick things that move faster than you.
             chance += ((ch.GetCurrAgi() - victim.GetCurrAgi()) / 5);
 
             // Huge bonus against incapacitated and mortally wounded foes.
-            if (victim._position <= Position.incapacitated)
+            if (victim.CurrentPosition <= Position.incapacitated)
             {
                 chance += 50;
             }
@@ -9274,13 +9274,13 @@ namespace MUDEngine
             //
             // Chance of 5% per size class difference, no maximum
             // (wall/room kick is 50% at a difference of 10 sizes)
-            if (victim._size - 1 >= ch._size)
+            if (victim.CurrentSize - 1 >= ch.CurrentSize)
             {
                 wallkickchance = 0;
             }
             else
             {
-                wallkickchance = ((ch._size - victim._size) * 5) - 5;
+                wallkickchance = ((ch.CurrentSize - victim.CurrentSize) * 5) - 5;
             }
 
             // Check for kick success
@@ -9295,8 +9295,8 @@ namespace MUDEngine
                     // Check for valid room stuff on victim
                     Room kickedInto;
                     Exit exit;
-                    if (victim && victim._inRoom && victim._inRoom.ExitData != null
-                        && (exit = victim._inRoom.GetExit(door))
+                    if (victim && victim.InRoom && victim.InRoom.ExitData != null
+                        && (exit = victim.InRoom.GetExit(door))
                         && exit.TargetRoom
                         && exit.ExitFlags != 0
                         && !exit.HasFlag(Exit.ExitFlag.secret)
@@ -9319,9 +9319,9 @@ namespace MUDEngine
                         SocketConnection.Act("$n&n is stunned!", victim, null, null, SocketConnection.MessageTarget.room);
                         victim.SendText("You are stunned!\r\n");
                         victim.WaitState((Skill.SkillList["kick"].Delay * 9) / 10);
-                        if (victim._position > Position.resting)
+                        if (victim.CurrentPosition > Position.resting)
                         {
-                            victim._position = Position.resting;
+                            victim.CurrentPosition = Position.resting;
                         }
                     }
                     else
@@ -9330,9 +9330,9 @@ namespace MUDEngine
                         SocketConnection.Act("$N&n is sent flying into the wall by $n&n's mighty kick.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
                         SocketConnection.Act("$N&n is sent flying into the wall by your mighty kick.", ch, null, victim, SocketConnection.MessageTarget.character);
                         SocketConnection.Act("You are smacked into the wall by $n's mighty kick!", ch, null, victim, SocketConnection.MessageTarget.victim);
-                        if (victim._position > Position.resting)
+                        if (victim.CurrentPosition > Position.resting)
                         {
-                            victim._position = Position.resting;
+                            victim.CurrentPosition = Position.resting;
                         }
                         // At least a two second stun
                         victim.WaitState(8);
@@ -9349,12 +9349,12 @@ namespace MUDEngine
                         }
                     }
                     // Do excessive damage compared to a normal kick
-                    Combat.InflictDamage(ch, victim, MUDMath.Dice(2, ch._level), String.Empty, ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    Combat.InflictDamage(ch, victim, MUDMath.Dice(2, ch.Level), String.Empty, ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
 
                 } // Check for wall kick (execute regular kick)
                 else
                 {
-                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch._level), "kick", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch.Level), "kick", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                 }
             } // Check for successful kick (missed kick)
             else
@@ -9383,17 +9383,17 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.IsBlind() && !ch._fighting)
+            if (ch.IsBlind() && !ch.Fighting)
             {
                 return;
             }
 
             /* Verify a target. */
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
             if (str.Length != 0)
             {
                 victim = ch.GetCharRoom(str[0]);
-                if (!victim || victim._position == Position.dead)
+                if (!victim || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("They aren't anywhere to be found.\r\n");
                     return;
@@ -9401,7 +9401,7 @@ namespace MUDEngine
             }
             else
             {
-                if (!victim || victim._position == Position.dead)
+                if (!victim || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("You aren't fighting anyone.\r\n");
                     return;
@@ -9415,7 +9415,7 @@ namespace MUDEngine
             {
                 ch.SendText("You throw yourself to the ground!\r\n");
                 SocketConnection.Act("$N&n knocks $mself to the ground.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                ch._position = Position.kneeling;
+                ch.CurrentPosition = Position.kneeling;
                 ch.WaitState((Skill.SkillList["bash"].Delay * 8) / 10);
                 Combat.InflictDamage(ch, ch, MUDMath.NumberRange(1, 3), "bash", ObjTemplate.WearLocation.none,
                         AttackType.DamageType.bludgeon);
@@ -9424,20 +9424,20 @@ namespace MUDEngine
 
             /* Check size of ch vs. victim. */
             /* If ch is too small. */
-            if (ch._size < victim._size)
+            if (ch.CurrentSize < victim.CurrentSize)
             {
                 SocketConnection.Act("$N&n is too big for you to bash!", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
             /* Ch 2 or more sizes larger than victim => bad! */
-            if (ch._size - 2 > victim._size)
+            if (ch.CurrentSize - 2 > victim.CurrentSize)
             {
                 SocketConnection.Act("You nearly topple over as you try to bash $N&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n nearly topples over as $e attempts to bash you.", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n nearly topples over as $e attempts to bash $N&n.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
                 ch.WaitState((Skill.SkillList["bash"].Delay));
-                ch._position = Position.kneeling;
-                if (victim._fighting == null)
+                ch.CurrentPosition = Position.kneeling;
+                if (victim.Fighting == null)
                 {
                     Combat.SetFighting(victim, ch);
                 }
@@ -9457,14 +9457,14 @@ namespace MUDEngine
             /* Base chance to bash, followed by chance modifications. */
             if (ch.IsNPC())
             {
-                chance = (ch._level * 3) / 2 + 15;
+                chance = (ch.Level * 3) / 2 + 15;
             }
             else
             {
                 chance = ((PC)ch).SkillAptitude["bash"] - 5;
             }
 
-            if (victim._position < Position.fighting)
+            if (victim.CurrentPosition < Position.fighting)
             {
                 chance /= 5; //used to be 0
             }
@@ -9599,17 +9599,17 @@ namespace MUDEngine
             /* Start a fight if not already in one. */
             if (ch != victim)
             {
-                if (!ch._fighting)
+                if (!ch.Fighting)
                 {
                     Combat.SetFighting(ch, victim);
                 }
-                if (!victim._fighting)
+                if (!victim.Fighting)
                 {
                     Combat.SetFighting(victim, ch);
                 }
             }
 
-            string lbuf = "Bash: " + ch._name + " bashing " + victim._name + " with " + chance + " chance.";
+            string lbuf = "Bash: " + ch.Name + " bashing " + victim.Name + " with " + chance + " chance.";
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
 
             /* Do the bash, deal the damage. */
@@ -9631,16 +9631,16 @@ namespace MUDEngine
                 if (!Combat.CheckTumble(victim))
                 {
                     victim.WaitState(((Skill.SkillList["bash"].Delay * 5) / 6));
-                    if (victim._position > Position.kneeling)
+                    if (victim.CurrentPosition > Position.kneeling)
                     {
-                        victim._position = Position.kneeling;
+                        victim.CurrentPosition = Position.kneeling;
                     }
                     victim.SendText("You are knocked to the ground!\r\n");
-                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch._level), "bash", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch.Level), "bash", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                 }
                 else
                 {
-                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, (ch._level / 3)), "bash", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, (ch.Level / 3)), "bash", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                     victim.SendText("You roll with the blow, finally landing on your feet.\r\n");
                     SocketConnection.Act("$n&n rolls with the blow, finally landing on $s feet.", victim, null, null, SocketConnection.MessageTarget.room);
                 }
@@ -9650,7 +9650,7 @@ namespace MUDEngine
                 SocketConnection.Act("As $N&n avoids your bash, you topple to the &n&+yground&n with a loud crash.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n crashes to the &n&+yground&n as you sidestep $s bash.", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n misses $s bash at $N&n and is driven to the &n&+yground&n.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                ch._position = Position.kneeling;
+                ch.CurrentPosition = Position.kneeling;
             }
 
             return;
@@ -9679,7 +9679,7 @@ namespace MUDEngine
                 return;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if (str.Length != 0)
             {
@@ -9711,7 +9711,7 @@ namespace MUDEngine
 
             if (ch.IsNPC())
             {
-                chance = (ch._level * 3) / 2 + 10;
+                chance = (ch.Level * 3) / 2 + 10;
             }
             else
             {
@@ -9723,11 +9723,11 @@ namespace MUDEngine
                 chance = 90;
             }
 
-            if ((ch._fighting == null) && (ch != victim))
+            if ((ch.Fighting == null) && (ch != victim))
             {
                 Combat.SetFighting(ch, victim);
             }
-            if ((!victim._fighting) && (victim != ch))
+            if ((!victim.Fighting) && (victim != ch))
             {
                 Combat.SetFighting(victim, ch);
             }
@@ -9739,9 +9739,9 @@ namespace MUDEngine
                 SocketConnection.Act("You trip $N&n and send $M sprawling to the &n&+yearth&n!", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n trips you and you go down!", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n trips $N&n and $E falls face-first to the &n&+yground&n!", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                if (victim._position > Position.reclining)
+                if (victim.CurrentPosition > Position.reclining)
                 {
-                    victim._position = Position.reclining;
+                    victim.CurrentPosition = Position.reclining;
                 }
             }
             else
@@ -9749,7 +9749,7 @@ namespace MUDEngine
                 SocketConnection.Act("You try to trip $N&n and fall down!", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n attempts to knock you from your feet, and falls down $sself!", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n tries to trip $N&n and tumbles to the &n&+yground&n!", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                ch._position = Position.reclining;
+                ch.CurrentPosition = Position.reclining;
             }
 
             return;
@@ -9784,11 +9784,11 @@ namespace MUDEngine
                 return;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if (str.Length != 0)
             {
-                if (!(victim = ch.GetCharRoom(str[0])) || victim._position == Position.dead)
+                if (!(victim = ch.GetCharRoom(str[0])) || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("You don't see them here.\r\n");
                     return;
@@ -9796,7 +9796,7 @@ namespace MUDEngine
             }
             else
             {
-                if (!victim || victim._position == Position.dead)
+                if (!victim || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("You aren't fighting anyone.\r\n");
                     return;
@@ -9812,21 +9812,21 @@ namespace MUDEngine
 
             /* Check size of ch vs. victim. */
             /* If ch is too small. */
-            if (ch._size - 2 > victim._size)
+            if (ch.CurrentSize - 2 > victim.CurrentSize)
             {
                 SocketConnection.Act("Your acrobatic maneuver cannot accurately leap into such a small being.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
             /* Ch 2 or more sizes larger than victim => bad! */
-            if (ch._size + 2 < victim._size)
+            if (ch.CurrentSize + 2 < victim.CurrentSize)
             {
                 SocketConnection.Act("Your acrobatic maneuver does not seem to work on someone so large.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n jumps into you, and slides down your leg.", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n jumps into $N&n and slides down $S leg.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
 
                 ch.WaitState(Skill.SkillList["springleap"].Delay);
-                ch._position = Position.reclining;
-                if (victim._fighting == null)
+                ch.CurrentPosition = Position.reclining;
+                if (victim.Fighting == null)
                 {
                     Combat.SetFighting(victim, ch);
                 }
@@ -9839,7 +9839,7 @@ namespace MUDEngine
 
             if (ch.IsNPC())
             {
-                chance = (ch._level * 3) / 2 + 15;
+                chance = (ch.Level * 3) / 2 + 15;
             }
             else
             {
@@ -9851,14 +9851,14 @@ namespace MUDEngine
                 chance = 95;
             }
 
-            if (victim._position < Position.fighting)
+            if (victim.CurrentPosition < Position.fighting)
             {
                 chance /= 4;
             }
 
             if (MUDMath.NumberPercent() < chance)
             {
-                ch._position = Position.fighting;
+                ch.CurrentPosition = Position.fighting;
                 SocketConnection.Act("&+WYour springleap knocks $N&n&+W on $S butt.&n", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("&+W$n&n&+W leaps gracefully at $N&n&+W, sending $M to the ground.&n", ch, null, victim, SocketConnection.MessageTarget.room);
                 SocketConnection.Act("&+W$n&n&+W leaps at you, knocking you to the ground!&n", ch, null, victim, SocketConnection.MessageTarget.victim);
@@ -9875,26 +9875,26 @@ namespace MUDEngine
                     victim.SendText("Lying on the ground, you realize you have no idea what you were just casting.\r\n");
                 }
 
-                if (!ch._fighting)
+                if (!ch.Fighting)
                 {
                     Combat.SetFighting(ch, victim);
                 }
-                if (!victim._fighting)
+                if (!victim.Fighting)
                 {
                     Combat.SetFighting(victim, ch);
                 }
                 if (!Combat.CheckTumble(victim))
                 {
                     victim.WaitState((Skill.SkillList["springleap"].Delay * 5 / 6));
-                    if (victim._position > Position.sitting)
+                    if (victim.CurrentPosition > Position.sitting)
                     {
-                        victim._position = Position.sitting;
+                        victim.CurrentPosition = Position.sitting;
                     }
-                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch._level), "springleap", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch.Level), "springleap", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                 }
                 else
                 {
-                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, (ch._level / 3)), "springleap", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, (ch.Level / 3)), "springleap", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                     ch.SendText("You roll with the blow, finally landing on your feet.\r\n");
                     SocketConnection.Act("$n&n rolls with the blow, finally landing on $s feet.", victim, null, null, SocketConnection.MessageTarget.room);
                 }
@@ -9902,7 +9902,7 @@ namespace MUDEngine
             else
             {
                 bool pissedOff = false;
-                if (ch._fighting == victim || victim.GetCurrInt() > MUDMath.NumberPercent())
+                if (ch.Fighting == victim || victim.GetCurrInt() > MUDMath.NumberPercent())
                 {
                     pissedOff = true;
                 }
@@ -9910,11 +9910,11 @@ namespace MUDEngine
                 {
                     SocketConnection.Act("As $N&n avoids your leap you crash to the ground.", ch, null, victim, SocketConnection.MessageTarget.character);
                     SocketConnection.Act("$n&n crashes to the ground as you avoid $s springleap.", ch, null, victim, SocketConnection.MessageTarget.victim);
-                    if (!ch._fighting)
+                    if (!ch.Fighting)
                     {
                         Combat.SetFighting(ch, victim);
                     }
-                    if (!victim._fighting)
+                    if (!victim.Fighting)
                     {
                         Combat.SetFighting(victim, ch);
                     }
@@ -9924,7 +9924,7 @@ namespace MUDEngine
                     SocketConnection.Act("You ungracefully leap at $N and miss, landing head first!", ch, null, victim, SocketConnection.MessageTarget.character);
                 }
                 SocketConnection.Act("$n&n misses a springleap and falls awkwardly to the ground.", ch, null, null, SocketConnection.MessageTarget.room);
-                ch._position = Position.reclining;
+                ch.CurrentPosition = Position.reclining;
                 Combat.InflictDamage(ch, ch, MUDMath.NumberRange(1, 4), "springleap",
                         ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
             }
@@ -9954,7 +9954,7 @@ namespace MUDEngine
             {
                 return;
             }
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't do that while mounted.\r\n");
                 return;
@@ -9962,7 +9962,7 @@ namespace MUDEngine
 
             if (str.Length != 0)
             {
-                if (!(victim = ch.GetCharRoom(str[0])) || victim._position == Position.dead)
+                if (!(victim = ch.GetCharRoom(str[0])) || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("They aren't here.\r\n");
                     return;
@@ -9975,12 +9975,12 @@ namespace MUDEngine
             }
 
             // Added size restrictions -- Xangis
-            if (victim._size > ch._size)
+            if (victim.CurrentSize > ch.CurrentSize)
             {
                 if (ch.HasInnate(Race.RACE_SLAM_LARGER))
                 {
                     // allowing centaurs to slam one size up if it's an ogre
-                    if (victim._size > (ch._size + 1))
+                    if (victim.CurrentSize > (ch.CurrentSize + 1))
                     {
                         ch.SendText("You can't bodyslam something that much bigger than you.\r\n");
                         return;
@@ -9993,7 +9993,7 @@ namespace MUDEngine
                 }
             }
 
-            if ((ch._size > victim._size) && ((ch._size - victim._size) > 3))
+            if ((ch.CurrentSize > victim.CurrentSize) && ((ch.CurrentSize - victim.CurrentSize) > 3))
             {
                 ch.SendText("They're too small to slam.\r\n");
                 return;
@@ -10006,7 +10006,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n throws $mself to the ground in a fit of clumsiness.",
                      ch, null, victim, SocketConnection.MessageTarget.room_vict);
                 ch.WaitState((Skill.SkillList["bodyslam"].Delay / 2));
-                ch._position = Position.reclining;
+                ch.CurrentPosition = Position.reclining;
                 Combat.InflictDamage(ch, ch, MUDMath.NumberRange(1, 6), "bodyslam", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                 return;
             }
@@ -10014,11 +10014,11 @@ namespace MUDEngine
             ch.WaitState(Skill.SkillList["bodyslam"].Delay);
             ch.PracticeSkill("bodyslam");
 
-            int chance = (ch._level * 3) / 2 + 15;
+            int chance = (ch.Level * 3) / 2 + 15;
             chance += ch.GetCurrAgi() - victim.GetCurrAgi();
-            chance -= (victim._level - ch._level);
+            chance -= (victim.Level - ch.Level);
 
-            switch (victim._position)
+            switch (victim.CurrentPosition)
             {
                 case Position.dead:
                     return;
@@ -10056,7 +10056,7 @@ namespace MUDEngine
             }
 
             // Small penalty for the small buggers -- Xangis
-            if (victim._size < (ch._size - 1))
+            if (victim.CurrentSize < (ch.CurrentSize - 1))
             {
                 chance -= 15;
             }
@@ -10082,7 +10082,7 @@ namespace MUDEngine
                 {
                     if (ch.IsNPC())
                     {
-                        if (MUDMath.NumberPercent() < ((ch._level * 3) / 2 + 15))
+                        if (MUDMath.NumberPercent() < ((ch.Level * 3) / 2 + 15))
                         {
                             chance -= 15;
                         }
@@ -10099,11 +10099,11 @@ namespace MUDEngine
                 }
             }
 
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 Combat.SetFighting(ch, victim);
             }
-            if (victim._fighting == null)
+            if (victim.Fighting == null)
             {
                 Combat.SetFighting(victim, ch);
             }
@@ -10128,12 +10128,12 @@ namespace MUDEngine
                 if (!Combat.CheckTumble(victim))
                 {
                     victim.WaitState(Skill.SkillList["bodyslam"].Delay);
-                    victim._position = Position.reclining;
-                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch._level), "bodyslam", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                    victim.CurrentPosition = Position.reclining;
+                    Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch.Level), "bodyslam", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                 }
                 else
                 {
-                    if (!Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, (ch._level / 3)), "bodyslam", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
+                    if (!Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, (ch.Level / 3)), "bodyslam", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
                     {
                         ch.SendText("You roll with the blow, finally landing on your feet.\r\n");
                         SocketConnection.Act("$n&n rolls with the blow, finally landing on $s feet.", ch, null, null, SocketConnection.MessageTarget.room);
@@ -10142,11 +10142,11 @@ namespace MUDEngine
             }
             else
             {
-                ch._hitpoints -= MUDMath.NumberRange(1, 5);
+                ch.Hitpoints -= MUDMath.NumberRange(1, 5);
                 SocketConnection.Act("As $N&n avoids your slam, you smack headfirst into the &n&+yground&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n throws $mself to the &n&+yground&n in a fit of clumsiness.", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n misses a bodyslam on $N&n and slams $s head into the &n&+yground&n.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                ch._position = Position.reclining;
+                ch.CurrentPosition = Position.reclining;
             }
 
             return;
@@ -10184,11 +10184,11 @@ namespace MUDEngine
                 return;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if (str.Length != 0)
             {
-                if (!(victim = ch.GetCharRoom(str[0])) || victim._position == Position.dead)
+                if (!(victim = ch.GetCharRoom(str[0])) || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("They are nowhere to be seen.\r\n");
                     return;
@@ -10196,7 +10196,7 @@ namespace MUDEngine
             }
             else
             {
-                if (!victim || victim._position == Position.dead)
+                if (!victim || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("You aren't fighting anyone.\r\n");
                     return;
@@ -10210,7 +10210,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._position < Position.fighting)
+            if (ch.CurrentPosition < Position.fighting)
             {
                 ch.SendText("You need to stand up to do that.\r\n");
                 return;
@@ -10218,20 +10218,20 @@ namespace MUDEngine
             /* Check size of ch vs. victim. */
             /* If ch is too small. */
             /* Made it 2 sizes */
-            if (ch._size - 2 > victim._size)
+            if (ch.CurrentSize - 2 > victim.CurrentSize)
             {
                 SocketConnection.Act("You would crush such a small and delicate being with your mass.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
             /* Ch 2 or more sizes larger than victim => bad! */
-            if (ch._size + 1 < victim._size)
+            if (ch.CurrentSize + 1 < victim.CurrentSize)
             {
                 SocketConnection.Act("You can't reach their head!", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n slams $s head into your thigh.", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("$n&n slams $s head into $N's thigh.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
 
                 ch.WaitState((Skill.SkillList["headbutt"].Delay * 9) / 10);
-                if (victim._fighting == null)
+                if (victim.Fighting == null)
                 {
                     Combat.SetFighting(victim, ch);
                 }
@@ -10241,11 +10241,11 @@ namespace MUDEngine
             ch.WaitState(MUDMath.FuzzyNumber(Skill.SkillList["headbutt"].Delay));
             ch.PracticeSkill("headbutt");
 
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 Combat.SetFighting(ch, victim);
             }
-            if (!victim._fighting)
+            if (!victim.Fighting)
             {
                 Combat.SetFighting(victim, ch);
             }
@@ -10260,7 +10260,7 @@ namespace MUDEngine
             // about 83%.
             if (ch.IsNPC())
             {
-                chance = 50 + ch._level;
+                chance = 50 + ch.Level;
             }
             else
             {
@@ -10273,7 +10273,7 @@ namespace MUDEngine
                 chance += 7;
             }
 
-            if (victim._position < Position.fighting)
+            if (victim.CurrentPosition < Position.fighting)
             {
                 chance /= 3;
             }
@@ -10301,7 +10301,7 @@ namespace MUDEngine
                 {
                     ko += 15;
                 }
-                text = String.Format("Commandheadbutt: {0}&n attempting a KO with {1}%% chance.", ch._name, ko);
+                text = String.Format("Commandheadbutt: {0}&n attempting a KO with {1}%% chance.", ch.Name, ko);
                 ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, text);
                 if (MUDMath.NumberPercent() < ko + 1)
                 {
@@ -10311,20 +10311,20 @@ namespace MUDEngine
                     // PvP damage is quartered, so headbutt will do about 56 against a player.
                     if (ch.GetRace() != Race.RACE_MINOTAUR)
                     {
-                        Combat.InflictDamage(ch, victim, MUDMath.Dice(ch._level, 8), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                        Combat.InflictDamage(ch, victim, MUDMath.Dice(ch.Level, 8), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                     }
                     else
                     {
-                        Combat.InflictDamage(ch, victim, MUDMath.Dice(ch._level, 9), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                        Combat.InflictDamage(ch, victim, MUDMath.Dice(ch.Level, 9), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                     }
-                    if (victim._position > Position.stunned)
+                    if (victim.CurrentPosition > Position.stunned)
                     {
                         SocketConnection.Act("$n&n staggers about, then collapses in a heap.", victim, null, null, SocketConnection.MessageTarget.room);
                         victim.SendText("You fall to the ground &+Wstunned&n.\r\n");
                         SocketConnection.Act("$n&n is &+Wstunned!&n", victim, null, null, SocketConnection.MessageTarget.room);
-                        victim._position = Position.stunned;
+                        victim.CurrentPosition = Position.stunned;
                         victim.WaitState((Skill.SkillList["headbutt"].Delay));
-                        text = String.Format("Commandheadbutt: {0}&n stunned {1}&n.", ch._name, victim._name);
+                        text = String.Format("Commandheadbutt: {0}&n stunned {1}&n.", ch.Name, victim.Name);
                         ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, text);
                     }
                 }
@@ -10336,7 +10336,7 @@ namespace MUDEngine
                     // PvP damage is quartered, so headbutt will do about 43 against a player.
                     if (ch.GetRace() != Race.RACE_MINOTAUR)
                     {
-                        if (!Combat.InflictDamage(ch, victim, MUDMath.Dice(ch._level, 6), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
+                        if (!Combat.InflictDamage(ch, victim, MUDMath.Dice(ch.Level, 6), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
                         {
                             // Someone blasts you in the head it'll definitely stun you for 3/4 of a second.
                             victim.WaitState(3);
@@ -10344,7 +10344,7 @@ namespace MUDEngine
                     }
                     else
                     {
-                        if (!Combat.InflictDamage(ch, victim, MUDMath.Dice(ch._level, 7), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
+                        if (!Combat.InflictDamage(ch, victim, MUDMath.Dice(ch.Level, 7), "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
                         {
                             // Someone blasts you in the head with horns it'll definitely stun you for a second.
                             // -- Xangis
@@ -10389,15 +10389,15 @@ namespace MUDEngine
                     //deal some decent damage...to self!
                     if (ch.GetRace() != Race.RACE_MINOTAUR)
                     {
-                        dam = MUDMath.Dice(ch._level, 3);
+                        dam = MUDMath.Dice(ch.Level, 3);
                     }
                     else
                     {
-                        dam = MUDMath.Dice(ch._level, 2);
+                        dam = MUDMath.Dice(ch.Level, 2);
                     }
-                    if (dam > ch._hitpoints)
+                    if (dam > ch.Hitpoints)
                     {
-                        dam = ch._hitpoints + 1;
+                        dam = ch.Hitpoints + 1;
                     }
                     if (Combat.InflictDamage(ch, ch, dam, "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon))
                     {
@@ -10407,9 +10407,9 @@ namespace MUDEngine
                     SocketConnection.Act("$n&n staggers about, then collapses in a heap.", ch, null, null, SocketConnection.MessageTarget.room);
                     ch.SendText("You fall to the ground stunned.\r\n");
                     SocketConnection.Act("$n&n is stunned!", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.stunned;
+                    ch.CurrentPosition = Position.stunned;
                     ch.WaitState((Skill.SkillList["headbutt"].Delay * 2));
-                    text = String.Format("Commandheadbutt: {0}&n stunned self.", ch._name);
+                    text = String.Format("Commandheadbutt: {0}&n stunned self.", ch.Name);
                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, text);
                 }
                 else
@@ -10420,10 +10420,10 @@ namespace MUDEngine
                     // instead of 65.
                     // Keep in mind that the real penalties come from KO and comparitively someone that
                     // fails a bash doesen't take insane damage.
-                    dam = MUDMath.Dice(ch._level, 2) - ch._level / 5;
-                    if (dam > ch._hitpoints)
+                    dam = MUDMath.Dice(ch.Level, 2) - ch.Level / 5;
+                    if (dam > ch.Hitpoints)
                     {
-                        dam = ch._hitpoints + 1;
+                        dam = ch.Hitpoints + 1;
                     }
                     Combat.InflictDamage(ch, ch, dam, "headbutt", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
                 }
@@ -10456,7 +10456,7 @@ namespace MUDEngine
 
             if (str.Length != 0)
             {
-                if (!(victim = ch.GetCharRoom(str[0])) || victim._position == Position.dead)
+                if (!(victim = ch.GetCharRoom(str[0])) || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("They aren't here.\r\n");
                     return;
@@ -10477,17 +10477,17 @@ namespace MUDEngine
 
             ch.WaitState(MUDMath.FuzzyNumber(Skill.SkillList["charge"].Delay));
 
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 Combat.SetFighting(ch, victim);
             }
-            if (!victim._fighting)
+            if (!victim.Fighting)
             {
                 Combat.SetFighting(victim, ch);
             }
 
             // Chance is based on level of charger and victim.
-            int chance = (ch._level * 2) - victim._level + 25;
+            int chance = (ch.Level * 2) - victim.Level + 25;
             if (chance > 95)
             {
                 chance = 95;
@@ -10495,7 +10495,7 @@ namespace MUDEngine
 
             if (ch.IsNPC() || MUDMath.NumberPercent() < chance)
             {
-                Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch._level), "charge", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
+                Combat.InflictDamage(ch, victim, MUDMath.NumberRange(1, ch.Level), "charge", ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
             }
             else
             {
@@ -10529,23 +10529,23 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._flyLevel != 0)
+            if (ch.FlightLevel != 0)
             {
                 ch.SendText("Perhaps you should land first matey.\r\n");
                 return;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if (str.Length != 0)
             {
-                if (!(victim = ch.GetCharRoom(str[0])) || victim._position == Position.dead)
+                if (!(victim = ch.GetCharRoom(str[0])) || victim.CurrentPosition == Position.dead)
                 {
                     ch.SendText("They aren't here.\r\n");
                     return;
                 }
             }
-            if (!victim || victim._position == Position.dead)
+            if (!victim || victim.CurrentPosition == Position.dead)
             {
                 ch.SendText("You aren't fighting anyone.\r\n");
                 return;
@@ -10569,16 +10569,16 @@ namespace MUDEngine
             }
             else
             {
-                percent = (ch._level * 3) / 2 + 25;
+                percent = (ch.Level * 3) / 2 + 25;
             }
 
-            percent += (ch._level - victim._level) * 2;
+            percent += (ch.Level - victim.Level) * 2;
             percent += (ch.GetCurrDex() / 10);
             percent -= (victim.GetCurrDex() / 10);
             percent -= (victim.GetCurrAgi() / 10);
 
             // Why waste time listing sectors with no modifier?
-            switch (ch._inRoom.TerrainType)
+            switch (ch.InRoom.TerrainType)
             {
                 case TerrainType.inside:
                 case TerrainType.arctic:
@@ -10687,7 +10687,7 @@ namespace MUDEngine
             SocketConnection.Act("$n&n holds $p&n firmly, and starts spinning round...", ch, wield, null, SocketConnection.MessageTarget.room);
             SocketConnection.Act("You hold $p&n firmly, and start spinning round...", ch, wield, null, SocketConnection.MessageTarget.character);
 
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
                 if ((roomChar.IsNPC() || (ch.IsRacewar(roomChar) && !roomChar.IsImmortal()))
                         && CharData.CanSee(roomChar, ch))
@@ -10718,7 +10718,7 @@ namespace MUDEngine
                      SocketConnection.MessageTarget.room);
                 SocketConnection.Act("You lose your balance and fall into a heap.", ch, null, null,
                      SocketConnection.MessageTarget.character);
-                ch._position = Position.stunned;
+                ch.CurrentPosition = Position.stunned;
             }
 
             return;
@@ -10750,13 +10750,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 ch.SendText("You aren't fighting anyone.\r\n");
                 return;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if (str.Length != 0)
             {
@@ -10767,7 +10767,7 @@ namespace MUDEngine
                 }
             }
 
-            if (victim._fighting != ch && ch._fighting != victim)
+            if (victim.Fighting != ch && ch.Fighting != victim)
             {
                 SocketConnection.Act("$E is not fighting you!", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -10780,7 +10780,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._level > ch._level + 10)
+            if (victim.Level > ch.Level + 10)
             {
                 ch.SendText("They are much too clever for such a clumsy attempt at that maneuver.\r\n");
                 return;
@@ -10790,7 +10790,7 @@ namespace MUDEngine
             ch.PracticeSkill("disarm");
             if (ch.IsNPC())
             {
-                odds = ch._level;
+                odds = ch.Level;
             }
             else
             {
@@ -10798,7 +10798,7 @@ namespace MUDEngine
             }
             if (victim.IsNPC())
             {
-                odds += 2 * (ch._level - victim._level);
+                odds += 2 * (ch.Level - victim.Level);
             }
             else
             {
@@ -10811,7 +10811,7 @@ namespace MUDEngine
             }
             odds = Math.Min(odds, 98);
             odds = Math.Max(odds, 2);
-            string lbuf = String.Format("Disarm: {0} attempting with {1}%% chance.", ch._name, odds);
+            string lbuf = String.Format("Disarm: {0} attempting with {1}%% chance.", ch.Name, odds);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
             if (MUDMath.NumberPercent() < odds)
             {
@@ -10860,14 +10860,14 @@ namespace MUDEngine
                 if (str[0] != "all" && MUDString.IsPrefixOf("all.", str[0]))
                 {
                     /* 'get obj' */
-                    obj = Object.GetObjFromList(ch._inRoom.Contents, ch, str[0]);
+                    obj = Object.GetObjFromList(ch.InRoom.Contents, ch, str[0]);
                     if (obj == null)
                     {
                         SocketConnection.Act("I see no $T&n here.", ch, null, str[0], SocketConnection.MessageTarget.character);
                         return;
                     }
 
-                    if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+                    if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
                     {
                         ch.SendText("You have your hands full.\r\n");
                         return;
@@ -10879,10 +10879,10 @@ namespace MUDEngine
                 {
                     /* 'get all' or 'get all.obj' */
                     found = false;
-                    for(int i = (ch._inRoom.Contents.Count - 1); i >= 0; i--)
+                    for(int i = (ch.InRoom.Contents.Count - 1); i >= 0; i--)
                     {
-                        Object iobj = ch._inRoom.Contents[i];
-                        if (iobj.FlyLevel != ch._flyLevel)
+                        Object iobj = ch.InRoom.Contents[i];
+                        if (iobj.FlyLevel != ch.FlightLevel)
                         {
                             continue;
                         }
@@ -10892,7 +10892,7 @@ namespace MUDEngine
                                 && CharData.CanSeeObj(ch, iobj))
                         {
                             found = true;
-                            if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+                            if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
                             {
                                 ch.SendText("You have your hands full.\r\n");
                                 return;
@@ -10950,7 +10950,7 @@ namespace MUDEngine
                         break;
                 }
 
-                if (ch._position == Position.fighting || ch._fighting)
+                if (ch.CurrentPosition == Position.fighting || ch.Fighting)
                 {
                     ch.SendText("You're too busy to be doing that!\r\n");
                     return;
@@ -10971,7 +10971,7 @@ namespace MUDEngine
                         SocketConnection.Act("You search the $T&n with little success.", ch, null, str[1], SocketConnection.MessageTarget.character);
                         return;
                     }
-                    if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+                    if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
                     {
                         ch.SendText("You have your hands full.\r\n");
                         return;
@@ -10989,7 +10989,7 @@ namespace MUDEngine
                                 && CharData.CanSeeObj(ch, container.Contains[i]))
                         {
                             found = true;
-                            if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+                            if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
                             {
                                 ch.SendText("You have your hands full.\r\n");
                                 return;
@@ -11113,7 +11113,7 @@ namespace MUDEngine
                 /* 'put all container' or 'put all.obj container' */
                 bool stuff = false;
 
-                foreach (Object iobj in ch._carrying)
+                foreach (Object iobj in ch.Carrying)
                 {
                     if (iobj.WearLocation != ObjTemplate.WearLocation.none)
                     {
@@ -11139,7 +11139,7 @@ namespace MUDEngine
                         if (iobj.Trap != null && iobj.Trap.CheckTrigger( Trap.TriggerType.get_put))
                         {
                             ch.SetOffTrap(iobj);
-                            if (ch._position == Position.dead)
+                            if (ch.CurrentPosition == Position.dead)
                             {
                                 return;
                             }
@@ -11210,8 +11210,8 @@ namespace MUDEngine
                     }
                     ch.SpendCopper(amount);
                     cash = Object.CreateMoney(amount, 0, 0, 0);
-                    cash.AddToRoom(ch._inRoom);
-                    cash.FlyLevel = ch._flyLevel;
+                    cash.AddToRoom(ch.InRoom);
+                    cash.FlyLevel = ch.FlightLevel;
                 }
                 else if ("silver".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -11221,7 +11221,7 @@ namespace MUDEngine
                         return;
                     }
                     ch.SpendSilver(amount);
-                    (Object.CreateMoney(0, amount, 0, 0)).AddToRoom(ch._inRoom);
+                    (Object.CreateMoney(0, amount, 0, 0)).AddToRoom(ch.InRoom);
                 }
                 else if ("gold".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -11231,7 +11231,7 @@ namespace MUDEngine
                         return;
                     }
                     ch.SpendGold(amount);
-                    (Object.CreateMoney(0, 0, amount, 0)).AddToRoom(ch._inRoom);
+                    (Object.CreateMoney(0, 0, amount, 0)).AddToRoom(ch.InRoom);
                 }
                 else if ("platinum".StartsWith(str[1], StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -11241,7 +11241,7 @@ namespace MUDEngine
                         return;
                     }
                     ch.SpendPlatinum(amount);
-                    (Object.CreateMoney(0, 0, 0, amount)).AddToRoom(ch._inRoom);
+                    (Object.CreateMoney(0, 0, 0, amount)).AddToRoom(ch.InRoom);
                 }
                 else
                 {
@@ -11290,12 +11290,12 @@ namespace MUDEngine
                 }
 
                 iobj.RemoveFromChar();
-                iobj.AddToRoom(ch._inRoom);
+                iobj.AddToRoom(ch.InRoom);
 
                 // Prevent item duping - Xangis
                 CharData.SavePlayer(ch);
 
-                iobj.FlyLevel = ch._flyLevel;
+                iobj.FlyLevel = ch.FlightLevel;
                 SocketConnection.Act("You drop $p&n.", ch, iobj, null, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n discards $p&n.", ch, iobj, null, SocketConnection.MessageTarget.room);
                 if (iobj.HasFlag(ObjTemplate.ITEM_TRANSIENT))
@@ -11303,7 +11303,7 @@ namespace MUDEngine
                     SocketConnection.Act("$p&n crumbles to dust.", ch, iobj, null, SocketConnection.MessageTarget.all);
                     iobj.RemoveFromWorld();
                 }
-                else if (ch._inRoom.TerrainType == TerrainType.lava && !iobj.HasFlag(ObjTemplate.ITEM_NOBURN))
+                else if (ch.InRoom.TerrainType == TerrainType.lava && !iobj.HasFlag(ObjTemplate.ITEM_NOBURN))
                 {
                     SocketConnection.Act("$p&n melts as it sinks into the &+RLava&n.", ch, iobj, null, SocketConnection.MessageTarget.all);
                     if (!ch.IsNPC())
@@ -11317,9 +11317,9 @@ namespace MUDEngine
             {
                 /* 'drop all' or 'drop all.obj' */
                 bool found = false;
-                for (int i = ch._carrying.Count - 1; i >= 0 ; i--)
+                for (int i = ch.Carrying.Count - 1; i >= 0 ; i--)
                 {
-                    Object obj = ch._carrying[i];
+                    Object obj = ch.Carrying[i];
                     if ( (str.Length < 2 || MUDString.NameContainedIn(str[0].Substring(4), obj.Name))
                             && CharData.CanSeeObj(ch, obj)
                             && obj.WearLocation == ObjTemplate.WearLocation.none
@@ -11327,7 +11327,7 @@ namespace MUDEngine
                     {
                         found = true;
                         obj.RemoveFromChar();
-                        obj.AddToRoom(ch._inRoom);
+                        obj.AddToRoom(ch.InRoom);
                         SocketConnection.Act("You drop $p&n.", ch, obj, null, SocketConnection.MessageTarget.character);
                         SocketConnection.Act("$n&n drops $p&n.", ch, obj, null, SocketConnection.MessageTarget.room);
                         if (obj.HasFlag(ObjTemplate.ITEM_TRANSIENT))
@@ -11339,7 +11339,7 @@ namespace MUDEngine
                             }
                             obj.RemoveFromWorld();
                         }
-                        else if (ch._inRoom.TerrainType == TerrainType.lava && !obj.HasFlag(ObjTemplate.ITEM_NOBURN))
+                        else if (ch.InRoom.TerrainType == TerrainType.lava && !obj.HasFlag(ObjTemplate.ITEM_NOBURN))
                         {
                             SocketConnection.Act("$p&n melts as it sinks into the &+RLava&n.", ch, obj, null, SocketConnection.MessageTarget.all);
                             if (!ch.IsNPC())
@@ -11541,13 +11541,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._carryNumber + 1 > Limits.MAX_CARRY)
+            if (victim.CarryNumber + 1 > Limits.MAX_CARRY)
             {
                 SocketConnection.Act("$N&n has $S hands full.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
 
-            if (victim._carryWeight + obj.GetWeight() > victim.MaxCarryWeight())
+            if (victim.CarryWeight + obj.GetWeight() > victim.MaxCarryWeight())
             {
                 SocketConnection.Act("$N&n cannot carry that much weight.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -11574,7 +11574,7 @@ namespace MUDEngine
 
             if (Database.IsArtifact(obj.ObjIndexData.IndexNumber))
             {
-                string buf = String.Format("{0} has given artifact {1} to {2}", ch._name, obj.ObjIndexData.IndexNumber, victim._name);
+                string buf = String.Format("{0} has given artifact {1} to {2}", ch.Name, obj.ObjIndexData.IndexNumber, victim.Name);
                 Log.Trace(buf);
             }
 
@@ -11644,9 +11644,9 @@ namespace MUDEngine
                 return;
             }
 
-            potion.Level = ch._level / 2;
-            potion.Values[0] = ch._level / 4;
-            ch.ImprintSpell(spell, ch._level, potion);
+            potion.Level = ch.Level / 2;
+            potion.Values[0] = ch.Level / 4;
+            ch.ImprintSpell(spell, ch.Level, potion);
             return;
         }
 
@@ -11698,9 +11698,9 @@ namespace MUDEngine
                 return;
             }
 
-            scroll.Level = ch._level * 2 / 3;
-            scroll.Values[0] = ch._level / 3;
-            ch.ImprintSpell(spell, ch._level, scroll);
+            scroll.Level = ch.Level * 2 / 3;
+            scroll.Values[0] = ch.Level / 3;
+            ch.ImprintSpell(spell, ch.Level, scroll);
             return;
         }
 
@@ -11723,7 +11723,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch._inRoom || !ch._inRoom.HasFlag(RoomTemplate.ROOM_BANK))
+            if (!ch.InRoom || !ch.InRoom.HasFlag(RoomTemplate.ROOM_BANK))
             {
                 ch.SendText("You're not in a bank!\r\n");
                 return;
@@ -11848,7 +11848,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch._inRoom || !ch._inRoom.HasFlag(RoomTemplate.ROOM_BANK))
+            if (!ch.InRoom || !ch.InRoom.HasFlag(RoomTemplate.ROOM_BANK))
             {
                 ch.SendText("You're not in a bank!\r\n");
                 return;
@@ -12130,7 +12130,7 @@ namespace MUDEngine
                 ch.SendText("You can't drag anything that way.\r\n");
                 return;
             }
-            if (ch._currentMoves < 5 && !ch.IsImmortal())
+            if (ch.CurrentMoves < 5 && !ch.IsImmortal())
             {
                 ch.SendText("You are too exhausted to drag that anywhere.\r\n");
                 return;
@@ -12142,12 +12142,12 @@ namespace MUDEngine
             SocketConnection.Act(text, ch, obj, null, SocketConnection.MessageTarget.room);
 
             obj.RemoveFromRoom();
-            ch._currentMoves -= 5;
+            ch.CurrentMoves -= 5;
 
             ch.Move(door);
             ch.WaitState(MUDMath.NumberRange(3, 12));
 
-            obj.AddToRoom(ch._inRoom);
+            obj.AddToRoom(ch.InRoom);
             SocketConnection.Act("$n&n drags $p&n along behind $m.", ch, obj, null, SocketConnection.MessageTarget.room);
         }
 
@@ -12248,7 +12248,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting || ch._position == Position.fighting)
+            if (ch.Fighting || ch.CurrentPosition == Position.fighting)
             {
                 ch.SendText("You can't wear stuff while you're fighting!\r\n");
                 return;
@@ -12262,7 +12262,7 @@ namespace MUDEngine
 
             if (str[0] == "all")
             {
-                foreach (Object iobj in ch._carrying)
+                foreach (Object iobj in ch.Carrying)
                 {
                     if (iobj.WearLocation != ObjTemplate.WearLocation.none || !CharData.CanSeeObj(ch, iobj))
                     {
@@ -12279,7 +12279,7 @@ namespace MUDEngine
                     if (iobj.Trap != null && iobj.Trap.CheckTrigger( Trap.TriggerType.wear))
                     {
                         ch.SetOffTrap(iobj);
-                        if (ch._position == Position.dead)
+                        if (ch.CurrentPosition == Position.dead)
                         {
                             return;
                         }
@@ -12304,7 +12304,7 @@ namespace MUDEngine
             if (obj.Trap != null && obj.Trap.CheckTrigger( Trap.TriggerType.wear))
             {
                 ch.SetOffTrap(obj);
-                if (ch._position == Position.dead)
+                if (ch.CurrentPosition == Position.dead)
                 {
                     return;
                 }
@@ -12417,7 +12417,7 @@ namespace MUDEngine
                     return;
                 }
 
-                if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+                if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
                 {
                     ch.SendText("You have your hands full.\r\n");
                     return;
@@ -12427,7 +12427,7 @@ namespace MUDEngine
                 if (obj.Trap != null && obj.Trap.CheckTrigger( Trap.TriggerType.unequip))
                 {
                     ch.SetOffTrap(obj);
-                    if (ch._position == Position.dead)
+                    if (ch.CurrentPosition == Position.dead)
                         return;
                 }
             }
@@ -12435,13 +12435,13 @@ namespace MUDEngine
             {
                 /* 'remove all' or 'remove all.obj' */
                 bool found = false;
-                foreach (Object iobj in ch._carrying)
+                foreach (Object iobj in ch.Carrying)
                 {
                     if (str.Length < 2 || (MUDString.NameContainedIn(str[0].Substring(4), iobj.Name)
                             && iobj.WearLocation != ObjTemplate.WearLocation.none))
                     {
                         found = true;
-                        if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+                        if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
                         {
                             ch.SendText("You have your hands full.\r\n");
                             return;
@@ -12450,7 +12450,7 @@ namespace MUDEngine
                         if (iobj.Trap != null && iobj.Trap.CheckTrigger(Trap.TriggerType.unequip))
                         {
                             ch.SetOffTrap(iobj);
-                            if (ch._position == Position.dead)
+                            if (ch.CurrentPosition == Position.dead)
                             {
                                 return;
                             }
@@ -12513,7 +12513,7 @@ namespace MUDEngine
             {
                 obj.RemoveFromWorld();
                 ;
-                if (ch._level != 50 || ch._experiencePoints < ExperienceTable.Table[ch._level].LevelExperience)
+                if (ch.Level != 50 || ch.ExperiencePoints < ExperienceTable.Table[ch.Level].LevelExperience)
                 {
                     ch.SendText("Nothing happens.\r\n");
                     return;
@@ -12523,7 +12523,7 @@ namespace MUDEngine
             if (obj.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_52_POTION)
             {
                 obj.RemoveFromWorld();
-                if (ch._level != 51 || ch._experiencePoints < ExperienceTable.Table[ch._level].LevelExperience)
+                if (ch.Level != 51 || ch.ExperiencePoints < ExperienceTable.Table[ch.Level].LevelExperience)
                 {
                     ch.SendText("Nothing happens.\r\n");
                     return;
@@ -12533,7 +12533,7 @@ namespace MUDEngine
             if (obj.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_53_POTION)
             {
                 obj.RemoveFromWorld();
-                if (ch._level != 52 || ch._experiencePoints < ExperienceTable.Table[ch._level].LevelExperience)
+                if (ch.Level != 52 || ch.ExperiencePoints < ExperienceTable.Table[ch.Level].LevelExperience)
                 {
                     ch.SendText("Nothing happens.\r\n");
                     return;
@@ -12543,7 +12543,7 @@ namespace MUDEngine
             if (obj.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_54_POTION)
             {
                 obj.RemoveFromWorld();
-                if (ch._level != 53 || ch._experiencePoints < ExperienceTable.Table[ch._level].LevelExperience)
+                if (ch.Level != 53 || ch.ExperiencePoints < ExperienceTable.Table[ch.Level].LevelExperience)
                 {
                     ch.SendText("Nothing happens.\r\n");
                     return;
@@ -12553,7 +12553,7 @@ namespace MUDEngine
             if (obj.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_55_POTION)
             {
                 obj.RemoveFromWorld();
-                if (ch._level != 54 || ch._experiencePoints < ExperienceTable.Table[ch._level].LevelExperience)
+                if (ch.Level != 54 || ch.ExperiencePoints < ExperienceTable.Table[ch.Level].LevelExperience)
                 {
                     ch.SendText("Nothing happens.\r\n");
                     return;
@@ -12635,14 +12635,14 @@ namespace MUDEngine
                 return;
             }
 
-            if ((Database.SystemData.WeatherData.Sky == Sysdata.SkyType.rain) && ((ch._inRoom.TerrainType != TerrainType.inside)
-                    || (ch._inRoom.TerrainType == TerrainType.swamp) || (ch._inRoom.TerrainType == TerrainType.forest)))
+            if ((Database.SystemData.WeatherData.Sky == Sysdata.SkyType.rain) && ((ch.InRoom.TerrainType != TerrainType.inside)
+                    || (ch.InRoom.TerrainType == TerrainType.swamp) || (ch.InRoom.TerrainType == TerrainType.forest)))
             {
                 ch.SendText("There is no way you can smoke in these wet conditions.\r\n");
                 return;
             }
 
-            if (ch._inRoom.IsWater())
+            if (ch.InRoom.IsWater())
             {
                 ch.SendText("The &n&+cwa&+Ct&n&+ce&+Cr&m makes that an impossiblity.\r\n");
                 return;
@@ -12722,9 +12722,9 @@ namespace MUDEngine
             if (String.IsNullOrEmpty(arg2))
             {
                 victim = ch;
-                if (ch._fighting != null)
+                if (ch.Fighting != null)
                 {
-                    victim = ch._fighting;
+                    victim = ch.Fighting;
                 }
             }
             else
@@ -12797,7 +12797,7 @@ namespace MUDEngine
                 }
             }
 
-            if (scroll.Level > ch._level)
+            if (scroll.Level > ch.Level)
             {
                 SocketConnection.Act("$p&n is too high level for you.", ch, scroll, null, SocketConnection.MessageTarget.character);
             }
@@ -12928,7 +12928,7 @@ namespace MUDEngine
                 }
             }
 
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
                 if( ch == null ) return;
 
@@ -13026,7 +13026,7 @@ namespace MUDEngine
             CharData victim;
             int level;
 
-            if (str.Length == 0 && ch._fighting == null)
+            if (str.Length == 0 && ch.Fighting == null)
             {
                 ch.SendText("Zap whom or what?\r\n");
                 return;
@@ -13050,9 +13050,9 @@ namespace MUDEngine
             level = wand.Level;
             if (String.IsNullOrEmpty(str[0]))
             {
-                if (ch._fighting != null)
+                if (ch.Fighting != null)
                 {
-                    victim = ch._fighting;
+                    victim = ch.Fighting;
                 }
                 else
                 {
@@ -13204,7 +13204,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding != null)
+            if (ch.Riding != null)
             {
                 ch.SendText("You can't do that while mounted.\r\n");
                 return;
@@ -13241,7 +13241,7 @@ namespace MUDEngine
 
             if (ch.IsNPC())
             {
-                percent = ch._level * 2;
+                percent = ch.Level * 2;
             }
             else
             {
@@ -13250,7 +13250,7 @@ namespace MUDEngine
 
             percent += ch.GetCurrLuck() / 20; /* Luck */
 
-            percent -= victim._level; /* Character level vs victim's */
+            percent -= victim.Level; /* Character level vs victim's */
 
             if (ch.GetRace() == Race.RACE_HALFLING)
             {
@@ -13281,7 +13281,7 @@ namespace MUDEngine
             {
                 int number = MUDString.NumberArgument(arg1, ref arg);
                 int count = 0;
-                foreach (Object iobj in victim._carrying)
+                foreach (Object iobj in victim.Carrying)
                 {
                     if (CharData.CanSeeObj(ch, iobj) && MUDString.NameContainedIn(arg, iobj.Name))
                     {
@@ -13299,15 +13299,15 @@ namespace MUDEngine
                     return;
                 }
 
-                if (ch._level < victim._level)
+                if (ch.Level < victim.Level)
                 {
                     // stealing from higher level is possible, but harder
-                    percent -= 5 * (victim._level - ch._level);
+                    percent -= 5 * (victim.Level - ch.Level);
                 }
                 else
                 {
                     // slight bonus for mobs lower level
-                    percent += (ch._level - victim._level);
+                    percent += (ch.Level - victim.Level);
                 }
                 if (obj.WearLocation == ObjTemplate.WearLocation.none)
                     /* Items worn are harder */
@@ -13355,7 +13355,7 @@ namespace MUDEngine
                 {
                     if (!sleeping && !victim.IsBlind())
                     {
-                        CommandType.Interpret(victim, "kill " + ch._name);
+                        CommandType.Interpret(victim, "kill " + ch.Name);
                     }
                 }
                 else
@@ -13363,7 +13363,7 @@ namespace MUDEngine
                     if (!victim.IsBlind() && !sleeping && victim.IsAffected(Affect.AFFECT_BERZERK))
                     {
                         victim.SendText("In your &+Rblood rage&n, you lash out in anger!\r\n");
-                        CommandType.Interpret(victim, "kill " + ch._name);
+                        CommandType.Interpret(victim, "kill " + ch.Name);
                     }
                 }
                 /*
@@ -13422,13 +13422,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._carryNumber + 1 > Limits.MAX_CARRY)
+            if (ch.CarryNumber + 1 > Limits.MAX_CARRY)
             {
                 ch.SendText("You have your hands full.\r\n");
                 return;
             }
 
-            if (ch._carryWeight + obj.GetWeight() > ch.MaxCarryWeight())
+            if (ch.CarryWeight + obj.GetWeight() > ch.MaxCarryWeight())
             {
                 ch.SendText("You cannot carry that much weight.\r\n");
                 return;
@@ -13446,7 +13446,7 @@ namespace MUDEngine
             if (obj.Trap != null && obj.Trap.CheckTrigger( Trap.TriggerType.steal))
             {
                 ch.SetOffTrap(obj);
-                if (ch._position == Position.dead)
+                if (ch.CurrentPosition == Position.dead)
                 {
                     return;
                 }
@@ -13474,23 +13474,23 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._inRoom.HasFlag(RoomTemplate.ROOM_PET_SHOP))
+            if (ch.InRoom.HasFlag(RoomTemplate.ROOM_PET_SHOP))
             {
                 if (ch.IsNPC())
                     return;
 
-                Room nextRoom = Room.GetRoom(ch._inRoom.IndexNumber + 1);
+                Room nextRoom = Room.GetRoom(ch.InRoom.IndexNumber + 1);
                 if (nextRoom == null)
                 {
-                    Log.Error("Buy: bad pet shop at index number {0}.", ch._inRoom.IndexNumber);
+                    Log.Error("Buy: bad pet shop at index number {0}.", ch.InRoom.IndexNumber);
                     ch.SendText("Sorry, you can't buy that here.\r\n");
                     return;
                 }
 
-                Room inRoom = ch._inRoom;
-                ch._inRoom = nextRoom;
+                Room inRoom = ch.InRoom;
+                ch.InRoom = nextRoom;
                 CharData pet = ch.GetCharRoom(str[0]);
-                ch._inRoom = inRoom;
+                ch.InRoom = inRoom;
 
                 if (pet && ch.MaxPets())
                 {
@@ -13507,28 +13507,28 @@ namespace MUDEngine
                 //  command below... original was set to 500 * pet.level * pet.level
                 //  Xangis tweaked it to 100 * pet level squared
 
-                if (ch.GetCash() < ((100 * pet._level) * pet._level))
+                if (ch.GetCash() < ((100 * pet.Level) * pet.Level))
                 {
                     ch.SendText("You can't afford it.\r\n");
                     return;
                 }
 
-                ch.SpendCash(((100 * pet._level) * pet._level));
-                pet = Database.CreateMobile(pet._mobTemplate);
+                ch.SpendCash(((100 * pet.Level) * pet.Level));
+                pet = Database.CreateMobile(pet.MobileTemplate);
                 pet.SetActionBit(MobTemplate.ACT_PET);
                 pet.SetActionBit(MobTemplate.ACT_NOEXP);
                 pet.SetAffectBit(Affect.AFFECT_CHARM);
 
                 if (!String.IsNullOrEmpty(str[0]))
                 {
-                    text = String.Format("{0} {1}", pet._name, str[0]);
-                    pet._name = text;
+                    text = String.Format("{0} {1}", pet.Name, str[0]);
+                    pet.Name = text;
                 }
 
                 text = String.Format("{0}&+LA neck tag says '&+RI belong to {1}&+L'.&n\r\n",
-                          pet._description, ch._name);
-                pet._description = text;
-                pet.AddToRoom(ch._inRoom);
+                          pet.Description, ch.Name);
+                pet.Description = text;
+                pet.AddToRoom(ch.InRoom);
                 CharData.AddFollower(pet, ch);
                 ch.SendText("Enjoy your pet.\r\n");
                 SocketConnection.Act("$n&n just purchased $N&n.", ch, null, pet, SocketConnection.MessageTarget.room);
@@ -13557,14 +13557,14 @@ namespace MUDEngine
                 if (((PC)ch).GetFaction(keeper) < (Limits.MIN_FACTION / 2))
                 {
                     SocketConnection.Act("$n&+W tells you 'I won't do business with scum like you.'&n", keeper, null, ch, SocketConnection.MessageTarget.victim);
-                    ch._replyTo = keeper;
+                    ch.ReplyTo = keeper;
                     return;
                 }
             }
 
-            if (keeper._mobTemplate.ShopData.ItemsForSale.Count != 0)
+            if (keeper.MobileTemplate.ShopData.ItemsForSale.Count != 0)
             {
-                foreach (int item in keeper._mobTemplate.ShopData.ItemsForSale)
+                foreach (int item in keeper.MobileTemplate.ShopData.ItemsForSale)
                 {
                     objTemplate = Database.GetObjTemplate(item);
                     if (!objTemplate)
@@ -13588,7 +13588,7 @@ namespace MUDEngine
             if (!obj || !CharData.CanSeeObj(ch, obj))
             {
                 SocketConnection.Act("$n&+W tells you 'I don't sell that -- try 'list'.'&n", keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13597,7 +13597,7 @@ namespace MUDEngine
             if (cost < obj.Cost)
             {
                 Log.Error("Shopkeeper with index number {0} sells for less than 100 percent of value.\r\n",
-                          keeper._mobTemplate.IndexNumber);
+                          keeper.MobileTemplate.IndexNumber);
                 cost = obj.Cost;
             }
 
@@ -13612,7 +13612,7 @@ namespace MUDEngine
                 if (itemCount == 1)
                 {
                     SocketConnection.Act("$n&+W tells you 'You can't afford to buy $p&+W.'&n", keeper, obj, ch, SocketConnection.MessageTarget.victim);
-                    ch._replyTo = keeper;
+                    ch.ReplyTo = keeper;
                     return;
                 }
                 else
@@ -13630,18 +13630,18 @@ namespace MUDEngine
                     }
 
                     SocketConnection.Act(buf4, keeper, obj, ch, SocketConnection.MessageTarget.victim);
-                    ch._replyTo = keeper;
+                    ch.ReplyTo = keeper;
                     return;
                 }
             }
 
-            if (ch._carryNumber + itemCount > ch.GetMaxItemsCarried())
+            if (ch.CarryNumber + itemCount > ch.GetMaxItemsCarried())
             {
                 ch.SendText("You cannot carry that many items.\r\n");
                 return;
             }
 
-            if (ch._carryWeight + (itemCount * obj.GetWeight()) > ch.MaxCarryWeight())
+            if (ch.CarryWeight + (itemCount * obj.GetWeight()) > ch.MaxCarryWeight())
             {
                 ch.SendText("You cannot carry that much weight.\r\n");
                 return;
@@ -13652,7 +13652,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&+W tells you, 'Sorry, $p&+W is something I have only one of.'&n",
                                      keeper, obj, ch, SocketConnection.MessageTarget.character);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13711,18 +13711,18 @@ namespace MUDEngine
             string text;
             string buf1 = String.Empty;
 
-            if (ch._inRoom.HasFlag(RoomTemplate.ROOM_PET_SHOP))
+            if (ch.InRoom.HasFlag(RoomTemplate.ROOM_PET_SHOP))
             {
-                if (!ch._inRoom)
+                if (!ch.InRoom)
                 {
                     ch.SendText("Nothing to list here.\r\n");
                     return;
                 }
 
-                Room nextRoom = Room.GetRoom(ch._inRoom.IndexNumber + 1);
+                Room nextRoom = Room.GetRoom(ch.InRoom.IndexNumber + 1);
                 if (!nextRoom)
                 {
-                    Log.Error("ListCommand: bad pet shop at index number {0}.", ch._inRoom.IndexNumber);
+                    Log.Error("ListCommand: bad pet shop at index number {0}.", ch.InRoom.IndexNumber);
                     ch.SendText("You can't do that here.\r\n");
                     return;
                 }
@@ -13735,7 +13735,7 @@ namespace MUDEngine
                         // I set this here so as to list a nicer and more comprehensive
                         // pet shop  stock/price list.  I *think* I got it right.
 
-                        int cost = ((100 * pet._level) * pet._level);
+                        int cost = ((100 * pet.Level) * pet.Level);
                         if (cost <= 0)
                         {
                             cost = 1;
@@ -13746,7 +13746,7 @@ namespace MUDEngine
                             buf1 += "&+LPets for sale&n&+r:&n\r\n";
                         }
 
-                        text = String.Format("{0}&n for {1}.\r\n", pet._shortDescription, StringConversion.CoinString(cost));
+                        text = String.Format("{0}&n for {1}.\r\n", pet.ShortDescription, StringConversion.CoinString(cost));
                         buf1 += text;
                     }
                 }
@@ -13772,12 +13772,12 @@ namespace MUDEngine
                 if (ch.IsImmortal())
                 {
                     buf1 = String.Format("Shop sell profit: {0} percent    Shop buy profit: {1} percent\r\n",
-                              keeper._mobTemplate.ShopData.PercentSell,
-                              keeper._mobTemplate.ShopData.PercentBuy);
+                              keeper.MobileTemplate.ShopData.PercentSell,
+                              keeper.MobileTemplate.ShopData.PercentBuy);
                 }
 
                 bool found = false;
-                foreach (Object obj in keeper._carrying)
+                foreach (Object obj in keeper.Carrying)
                 {
                     if (obj.WearLocation != ObjTemplate.WearLocation.none)
                         continue;
@@ -13801,11 +13801,11 @@ namespace MUDEngine
                     }
                 }
 
-                if (keeper._mobTemplate.ShopData.ItemsForSale.Count != 0)
+                if (keeper.MobileTemplate.ShopData.ItemsForSale.Count != 0)
                 {
                     bool fListed = false;
                     int count = 0;
-                    foreach (int item in keeper._mobTemplate.ShopData.ItemsForSale)
+                    foreach (int item in keeper.MobileTemplate.ShopData.ItemsForSale)
                     {
                         objTemplate = Database.GetObjTemplate(item);
                         if (!objTemplate)
@@ -13813,7 +13813,7 @@ namespace MUDEngine
                             continue;
                         }
                         ++count;
-                        foreach (Object obj2 in keeper._carrying)
+                        foreach (Object obj2 in keeper.Carrying)
                         {
                             if (obj2.ObjIndexData == objTemplate && obj2.WearLocation == ObjTemplate.WearLocation.none)
                             {
@@ -13874,7 +13874,7 @@ namespace MUDEngine
                 if (((PC)ch).GetFaction(keeper) < (Limits.MIN_FACTION / 2))
                 {
                     SocketConnection.Act("$n&+W tells you 'I won't do business with scum like you.'&n", keeper, null, ch, SocketConnection.MessageTarget.victim);
-                    ch._replyTo = keeper;
+                    ch.ReplyTo = keeper;
                     return;
                 }
             }
@@ -13883,7 +13883,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&+W tells you 'You don't have that item.'&n",
                      keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13897,7 +13897,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&+W tells you 'I can't see that item.'&n",
                      keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13910,7 +13910,7 @@ namespace MUDEngine
             if (cost > obj.Cost)
             {
                 Log.Error("Shopkeeper with index number {0} buys for more than 100 percent of value.\r\n",
-                     keeper._mobTemplate.IndexNumber);
+                     keeper.MobileTemplate.IndexNumber);
                 cost = obj.Cost;
             }
 
@@ -13921,7 +13921,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&+W tells you 'I won't buy that!  It's poisoned!'&n",
                      keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13971,7 +13971,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&n tells you 'You don't have that item'.",
                      keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13985,7 +13985,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&+W tells you 'You are offering me an imaginary object!?!?'&n",
                      keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
@@ -13999,13 +13999,13 @@ namespace MUDEngine
             {
                 SocketConnection.Act("$n&+W tells you 'I won't buy that!  It's poisoned!'&n",
                      keeper, null, ch, SocketConnection.MessageTarget.victim);
-                ch._replyTo = keeper;
+                ch.ReplyTo = keeper;
                 return;
             }
 
             string buf = String.Format("$n&+W tells you 'I'll give you {0} &n&+ycopper&+W coins for $p&n.'", cost);
             SocketConnection.Act(buf, keeper, obj, ch, SocketConnection.MessageTarget.victim);
-            ch._replyTo = keeper;
+            ch.ReplyTo = keeper;
 
             return;
         }
@@ -14038,7 +14038,7 @@ namespace MUDEngine
                 ch.SendText("What are you trying to poison?\r\n");
                 return;
             }
-            if (ch._fighting != null)
+            if (ch.Fighting != null)
             {
                 ch.SendText("While you're fighting?  Nice try.\r\n");
                 return;
@@ -14065,7 +14065,7 @@ namespace MUDEngine
             }
 
             /* Now we have a valid weapon...check to see if we have the poison. */
-            foreach (Object iobj in ch._carrying)
+            foreach (Object iobj in ch.Carrying)
             {
                 // here is where we should check to see if they have poison
                 if (iobj.ItemType == ObjTemplate.ObjectType.drink_container
@@ -14093,7 +14093,7 @@ namespace MUDEngine
             if (!ch.CheckSkill("poison weapon"))
             {
                 ch.SendText("You failed and spill some on yourself.  &+ROuch!&n\r\n");
-                Combat.InflictDamage(ch, ch, ch._level, "poison weapon", ObjTemplate.WearLocation.none, AttackType.DamageType.poison);
+                Combat.InflictDamage(ch, ch, ch.Level, "poison weapon", ObjTemplate.WearLocation.none, AttackType.DamageType.poison);
                 SocketConnection.Act("$n spills the &+Gpoison&n all over!", ch, null, null, SocketConnection.MessageTarget.room);
                 pobj.Values[1] -= 2;
                 return;
@@ -14113,9 +14113,9 @@ namespace MUDEngine
 
             af.Value = "poison weapon";
             af.Type = Affect.AffectType.skill;
-            af.Duration = ch._level + MUDMath.Dice(4, ch._level / 2);
+            af.Duration = ch.Level + MUDMath.Dice(4, ch.Level / 2);
             af.AddModifier(Affect.Apply.none, pobj.Values[3]);
-            af.Level = ch._level;
+            af.Level = ch.Level;
             af.SetBitvector(Affect.AFFECT_POISON);
             obj.AddAffect(af);
             // Consume one unit of the poison source.
@@ -14149,9 +14149,9 @@ namespace MUDEngine
             }
 
             bool found = false;
-            foreach (Object fount in ch._inRoom.Contents)
+            foreach (Object fount in ch.InRoom.Contents)
             {
-                if (fount.FlyLevel != ch._flyLevel)
+                if (fount.FlyLevel != ch.FlightLevel)
                     continue;
                 if (fount.ItemType == ObjTemplate.ObjectType.drink_container)
                 {
@@ -14207,15 +14207,15 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting || ch._position == Position.fighting)
+            if (ch.Fighting || ch.CurrentPosition == Position.fighting)
             {
                 ch.SendText("You can't drink while you're fighting!\r\n");
                 return;
             }
 
-            if (str.Length == 0 && ch._inRoom != null)
+            if (str.Length == 0 && ch.InRoom != null)
             {
-                foreach (Object iobj in ch._inRoom.Contents)
+                foreach (Object iobj in ch.InRoom.Contents)
                 {
                     if (iobj.ItemType == ObjTemplate.ObjectType.drink_container)
                     {
@@ -14355,9 +14355,9 @@ namespace MUDEngine
                             (ch.IsEvil() && obj.Values[2] == 28))
                     {
                         int heal = MUDMath.Dice(1, 8);
-                        if (ch._hitpoints < ch.GetMaxHit())
+                        if (ch.Hitpoints < ch.GetMaxHit())
                         {
-                            ch._hitpoints = Math.Min(ch._hitpoints + heal, ch.GetMaxHit());
+                            ch.Hitpoints = Math.Min(ch.Hitpoints + heal, ch.GetMaxHit());
                             ch.UpdatePosition();
                             ch.SendText("You feel a little better!\r\n");
                         }
@@ -14366,7 +14366,7 @@ namespace MUDEngine
                             (ch.IsGood() && obj.Values[2] == 28))
                     {
                         int harm = MUDMath.Dice(1, 10);
-                        ch._hitpoints = Math.Max(ch._hitpoints - harm, -10);
+                        ch.Hitpoints = Math.Max(ch.Hitpoints - harm, -10);
                         ch.SendText("You choke and feel as if you'd swallowed boiling oil!\r\n");
                         ch.UpdatePosition();
                     }
@@ -14402,7 +14402,7 @@ namespace MUDEngine
             if (ch.IsBlind())
                 return;
 
-            if (ch._fighting || ch._position == Position.fighting)
+            if (ch.Fighting || ch.CurrentPosition == Position.fighting)
             {
                 ch.SendText("You can't eat while you're fighting!\r\n");
                 return;
@@ -14591,7 +14591,7 @@ namespace MUDEngine
             {
                 color = ((PC)ch).ImmortalData.ImmortalColor;
             }
-            Database.SystemData.AddNewsEntry(ch._name, DateTime.Now.ToShortDateString(), content, color);
+            Database.SystemData.AddNewsEntry(ch.Name, DateTime.Now.ToShortDateString(), content, color);
             Sysdata.Save();
             ch.SendText("Ok.\r\n");
         }
@@ -14661,7 +14661,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim.IsNPC() && victim._level >= ch._level)
+            if (!victim.IsNPC() && victim.Level >= ch.Level)
             {
                 ch.SendText("You failed.\r\n");
                 return;
@@ -14749,7 +14749,7 @@ namespace MUDEngine
                     ch.SendText("Don't finger mobs.\r\n");
                     return;
                 }
-                if (!victim._socket)
+                if (!victim.Socket)
                 {
                     ch.SendText("Character is linkdead.\r\n");
                     if (!CharData.LoadPlayer((victDD = new SocketConnection()), str[0]))
@@ -14764,7 +14764,7 @@ namespace MUDEngine
                 {
                     loggedIn = true;
                     ch.SendText("This character is logged in.\r\n");
-                    victDD = victim._socket;
+                    victDD = victim.Socket;
                 }
             }   /* If not, then load from save files. */
             else
@@ -14784,20 +14784,20 @@ namespace MUDEngine
 
             /* Display general character info. */
             string buf = String.Format("Name: {0}. Title: {1}&n.\r\n",
-                                       victDD.Original ? victDD.Original._name :
-                                                                                     victDD.Character ? victDD.Character._name : "(none)",
+                                       victDD.Original ? victDD.Original.Name :
+                                                                                     victDD.Character ? victDD.Character.Name : "(none)",
                                        (!victim.IsNPC() && ((PC)victim).Title.Length != 0)
                                            ? ((PC)victim).Title : "(none)");
             ch.SendText(buf);
             buf = String.Format("Guild: {0}&n. Level: {1}&n.\r\n",
                     (!victim.IsNPC() && ((PC)victim).GuildMembership != null)
                     ? ((PC)victim).GuildMembership.Name : "(none)",
-                    victim._level);
+                    victim.Level);
             ch.SendText(buf);
             buf = String.Format("Class: {0}&n. Room: {1}&n.  Race: {2}&n.\r\n",
-                    (victim._charClass != null ?
-                    victim._charClass.WholistName : "(Undefined)"),
-                    victim._inRoom ? victim._inRoom.IndexNumber : -1,
+                    (victim.CharacterClass != null ?
+                    victim.CharacterClass.WholistName : "(Undefined)"),
+                    victim.InRoom ? victim.InRoom.IndexNumber : -1,
                     (victim.GetRace() < Race.RaceList.Length && victim.GetRace() >= 0) ?
                     Race.RaceList[victim.GetRace()].ColorName : "(Undefined)");
             ch.SendText(buf);
@@ -14805,14 +14805,14 @@ namespace MUDEngine
             /* Messages specific to whether a player is logged in. */
             if (loggedIn)
             {
-                if (victim._inRoom)
+                if (victim.InRoom)
                 {
                     buf = String.Format("In room: {0}&n ({1}).\r\n",
-                            victim._inRoom.Title.Length != 0 ? victim._inRoom.Title : "(none)",
-                            victim._inRoom.IndexNumber);
+                            victim.InRoom.Title.Length != 0 ? victim.InRoom.Title : "(none)",
+                            victim.InRoom.IndexNumber);
                     ch.SendText(buf);
                 }
-                buf = String.Format("On since: {0}", victim._logon);
+                buf = String.Format("On since: {0}", victim.LogonTime);
             }
             else
                 buf = String.Format("Created: {0}  Birthdate: {1}", ((PC)victim).Created, ((PC)victim).Birthdate);
@@ -14820,12 +14820,12 @@ namespace MUDEngine
 
             if (loggedIn)
             {
-                buf = String.Format("Last save: {0}", victim._saveTime);
+                buf = String.Format("Last save: {0}", victim.SaveTime);
                 ch.SendText(buf);
             }
             else
             {
-                buf = String.Format("Last logged in: {0}", victim._saveTime);
+                buf = String.Format("Last logged in: {0}", victim.SaveTime);
                 ch.SendText(buf);
             }
 
@@ -14845,10 +14845,10 @@ namespace MUDEngine
 
             if (String.IsNullOrEmpty(str[0]))
             {
-                area = ch._inRoom.Area;
+                area = ch.InRoom.Area;
                 Database.ResetArea(area);
                 ch.SendText("This zone has been &+Wreset&n.\r\n");
-                text += "&+WZone&n " + area.Filename + " &+Wreset&n by " + ch._name + ".";
+                text += "&+WZone&n " + area.Filename + " &+Wreset&n by " + ch.Name + ".";
                 ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, text);
                 return;
             }
@@ -14861,7 +14861,7 @@ namespace MUDEngine
             Database.ResetArea(location.Area);
             text += "&+WZone&n " + location.Area.Filename + " &+Wreset.&n\r\n";
             ch.SendText(text);
-            text += " by " + ch._name + ".";
+            text += " by " + ch.Name + ".";
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_RESETS, Limits.LEVEL_OVERLORD, text);
 
             return;
@@ -15032,7 +15032,7 @@ namespace MUDEngine
             if( ch.GetTrust() < Limits.LEVEL_OVERLORD )
                 return;
 
-            Log.Info("MUD Process terminated with KillProcess command by " + ch._name);
+            Log.Info("MUD Process terminated with KillProcess command by " + ch.Name);
 
             Environment.Exit(0);
         }
@@ -15076,7 +15076,7 @@ namespace MUDEngine
                 }
 
                 victim.InitializeLanguages();
-                string buf = String.Format("{0} has had their languages Reset.\r\n", victim._name);
+                string buf = String.Format("{0} has had their languages Reset.\r\n", victim.Name);
                 ch.SendText(buf);
 
             }
@@ -15310,7 +15310,7 @@ namespace MUDEngine
 
             string buf = String.Format("{0} is now considered an illegal name.", str[0]);
             SocketConnection.Act(buf, ch, null, null, SocketConnection.MessageTarget.character);
-            Log.Trace(ch._name + ": " + buf);
+            Log.Trace(ch.Name + ": " + buf);
 
             Sysdata.Save();
         }
@@ -15327,7 +15327,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                num = (int)realChar._charClass.ClassNumber;
+                num = (int)realChar.CharacterClass.ClassNumber;
             }
             else if (MUDString.IsNumber(str[0]))
             {
@@ -15447,23 +15447,23 @@ namespace MUDEngine
 
             int count = 0;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
                 ch.SendText("You're not in an room?!\r\n");
                 return;
             }
-            if (ch._inRoom.Area == null)
+            if (ch.InRoom.Area == null)
             {
                 ch.SendText("You are not in an area?!\r\n");
                 return;
             }
-            if (ch._inRoom.Area.Mobs == null)
+            if (ch.InRoom.Area.Mobs == null)
             {
                 ch.SendText("The area you are in has no mobs?!\r\n");
                 return;
             }
 
-            foreach (MobTemplate mobi in ch._inRoom.Area.Mobs)
+            foreach (MobTemplate mobi in ch.InRoom.Area.Mobs)
             {
                 ++count;
                 string buf = String.Format("{0}) [{1}] '{2}'&n\r\n",
@@ -15489,23 +15489,23 @@ namespace MUDEngine
 
             int count = 0;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
                 ch.SendText("You're not in an room?!\r\n");
                 return;
             }
-            if (ch._inRoom.Area == null)
+            if (ch.InRoom.Area == null)
             {
                 ch.SendText("You are not in an area?!\r\n");
                 return;
             }
-            if (ch._inRoom.Area.Objects == null)
+            if (ch.InRoom.Area.Objects == null)
             {
                 ch.SendText("The area you are in has no objects?!\r\n");
                 return;
             }
 
-            foreach (ObjTemplate obji in ch._inRoom.Area.Objects)
+            foreach (ObjTemplate obji in ch.InRoom.Area.Objects)
             {
                 ++count;
                 string buf = String.Format("{0}) [{1}] '{2}'&n\r\n",
@@ -15531,23 +15531,23 @@ namespace MUDEngine
 
             int count = 0;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
                 ch.SendText("You're not in an room?!\r\n");
                 return;
             }
-            if (ch._inRoom.Area == null)
+            if (ch.InRoom.Area == null)
             {
                 ch.SendText("You are not in an area?!\r\n");
                 return;
             }
-            if (ch._inRoom.Area.Rooms == null)
+            if (ch.InRoom.Area.Rooms == null)
             {
                 ch.SendText("The area you are in has no rooms?!\r\n");
                 return;
             }
 
-            foreach (Room roomi in ch._inRoom.Area.Rooms)
+            foreach (Room roomi in ch.InRoom.Area.Rooms)
             {
                 ++count;
                 string buf = String.Format("{0}) [{1}] '{2}'&n\r\n",
@@ -15641,7 +15641,7 @@ namespace MUDEngine
 
             bool all = !MUDString.StringsNotEqual(str[1], "all");
             bool found = false;
-            Area area = ch._inRoom.Area;
+            Area area = ch.InRoom.Area;
             bool world = !MUDString.StringsNotEqual(str[0], "world");
             if (!MUDString.StringsNotEqual(str[0], "race"))
             {
@@ -15725,7 +15725,7 @@ namespace MUDEngine
             {
                 ++count;
                 string buf = String.Format("Descriptor {0} connected state {1} character {2}",
-                                            count, socket._connectionState, socket.Character ? socket.Character._name : "None");
+                                            count, socket.ConnectionStatus, socket.Character ? socket.Character.Name : "None");
                 if (socket.Character != null)
                 {
                     foreach (CharData cit in Database.CharList)
@@ -15735,7 +15735,7 @@ namespace MUDEngine
                         {
                             buf += " found in CharList by pointer";
                         }
-                        if (!MUDString.StringsNotEqual(socket.Character._name, chr._name))
+                        if (!MUDString.StringsNotEqual(socket.Character.Name, chr.Name))
                         {
                             buf += " found in CharList by _name";
                         }
@@ -15789,16 +15789,16 @@ namespace MUDEngine
             {
                 String text = String.Join(" ", str, 1, (str.Length - 1));
                 Issue issue = new Issue();
-                issue.IssueDetail = new IssueEntry(ch._name, text);
+                issue.IssueDetail = new IssueEntry(ch.Name, text);
                 issue.OpenedByImmortal = ch.IsImmortal();
                 issue.IssueType = Issue.Type.bug;
                 issue.IssuePriority = Issue.Priority.medium;
-                if (ch._inRoom != null)
+                if (ch.InRoom != null)
                 {
-                    issue.RoomIndexNumber = ch._inRoom.IndexNumber;
+                    issue.RoomIndexNumber = ch.InRoom.IndexNumber;
                 }
                 Database.IssueList.Add(issue);
-                string output = String.Format("New issue # {0}: {1} (created by {2}).\n", issue.IssueNumber, text, ch._name);
+                string output = String.Format("New issue # {0}: {1} (created by {2}).\n", issue.IssueNumber, text, ch.Name);
                 ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_DEBUG, 0, output);
                 Issue.Save();
                 ch.SendText(output);
@@ -15826,7 +15826,7 @@ namespace MUDEngine
                         {
                             iss.Closed = true;
                             iss.Closure = new IssueEntry();
-                            iss.Closure.Name = ch._name;
+                            iss.Closure.Name = ch.Name;
                             string text = String.Empty;
                             for (int i = 2; i < str.Length; i++)
                             {
@@ -15863,7 +15863,7 @@ namespace MUDEngine
                         if (iss.IssueNumber == val)
                         {
                             IssueEntry ie = new IssueEntry();
-                            ie.Name = ch._name;
+                            ie.Name = ch.Name;
                             string text = String.Empty;
                             for( int i = 2; i < str.Length; i++ )
                             {
@@ -15947,7 +15947,7 @@ namespace MUDEngine
             }
 
             ch.SendText("As you wish.  The mud is now in an endless loop.  I hope you know what you're doing.\r\n");
-            Log.Trace(ch._name + " has just intentionally placed the MUD into an endless loop via the 'loopmud' command.");
+            Log.Trace(ch.Name + " has just intentionally placed the MUD into an endless loop via the 'loopmud' command.");
             for (; ; )
             {
                 int i = 1;
@@ -15958,7 +15958,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (ch._level < 25)
+            if (ch.Level < 25)
             {
                 ch.SendText("You don't have enough experience to join a guild.\r\n");
                 return;
@@ -16308,45 +16308,45 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (!ch._inRoom.HasFlag(RoomTemplate.ROOM_GUILDROOM))
+            if (!ch.InRoom.HasFlag(RoomTemplate.ROOM_GUILDROOM))
             {
                 ch.SendText("You can't set your hometown here!\r\n");
                 return;
             }
 
-            if (ch._position == Position.fighting || ch._fighting)
+            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
             {
                 ch.SendText("No way! You are fighting.\r\n");
                 return;
             }
 
-            if (ch._position < Position.stunned)
+            if (ch.CurrentPosition < Position.stunned)
             {
                 ch.SendText("You're not &+RD&n&+rE&+RA&n&+rD&n yet.\r\n");
                 return;
             }
 
-            string logBuf = String.Format("{0} is resetting their hometown to {1}.", ch._name, ch._inRoom.IndexNumber);
+            string logBuf = String.Format("{0} is resetting their hometown to {1}.", ch.Name, ch.InRoom.IndexNumber);
             Log.Trace(logBuf);
 
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), logBuf);
 
             // I can't see any reason why ch would not have an .in_room, but that
             // may just be shortsighted of me - Xangis
-            if (!ch._inRoom)
+            if (!ch.InRoom)
             {
                 Log.Error("Commandhometown: ch not in a room!", 0);
                 return;
             }
 
             // Put them in the correct body
-            if (ch._socket && ch._socket.Original)
+            if (ch.Socket && ch.Socket.Original)
             {
                 CommandType.Interpret(ch, "return");
             }
 
             ch.SendText("You Reset your hometown.\r\n");
-            ((PC)ch).CurrentHome = ch._inRoom.IndexNumber;
+            ((PC)ch).CurrentHome = ch.InRoom.IndexNumber;
 
             CharData.SavePlayer(ch);
 
@@ -16449,7 +16449,7 @@ namespace MUDEngine
 
                 foreach (KeyValuePair<String, Song> kvp in Database.SongList)
                 {
-                    if (kvp.Value.SongCircle[(int)ch._charClass.ClassNumber] != level)
+                    if (kvp.Value.SongCircle[(int)ch.CharacterClass.ClassNumber] != level)
                         continue;
 
                     if (pSong)
@@ -16487,15 +16487,15 @@ namespace MUDEngine
             if (!MUDString.IsPrefixOf(str[0], "all"))
             {
                 int added = 0; 
-                foreach (CharData ivictim in ch._inRoom.People)
+                foreach (CharData ivictim in ch.InRoom.People)
                 {
                     if (ivictim == ch
-                            || ivictim._flyLevel != ch._flyLevel
+                            || ivictim.FlightLevel != ch.FlightLevel
                             || ch.IsRacewar(ivictim))
                         continue;
                     if (((ivictim.IsNPC() && ivictim.HasActionBit(MobTemplate.ACT_PET))
                             || (!ivictim.IsNPC() && ivictim.IsConsenting(ch)))
-                            && ivictim._master == ch && !ivictim._groupLeader)
+                            && ivictim.Master == ch && !ivictim.GroupLeader)
                     {
                         ch.AddGroupMember(ivictim);
                         ++added;
@@ -16526,7 +16526,7 @@ namespace MUDEngine
             }
             if (ch.IsSameGroup(victim))
             {
-                if (ch._groupLeader == ch)
+                if (ch.GroupLeader == ch)
                 {
                     ch.RemoveFromGroup(victim);
                 }
@@ -16536,19 +16536,19 @@ namespace MUDEngine
                 }
                 return;
             }
-            if (ch._groupLeader == null || ch._groupLeader == ch)
+            if (ch.GroupLeader == null || ch.GroupLeader == ch)
             {
                 string buf;
-                if (victim._groupLeader == null)
+                if (victim.GroupLeader == null)
                 {
-                    if ((!victim.IsNPC() && !victim.IsConsenting(ch)) || (victim.IsNPC() && victim._master != ch))
+                    if ((!victim.IsNPC() && !victim.IsConsenting(ch)) || (victim.IsNPC() && victim.Master != ch))
                     {
                         buf = String.Format("{0} doesn't want to be in your group.\r\n", victim.ShowNameTo(ch, true));
                         ch.SendText(buf);
                     }
                     else
                     {
-                        ch._groupLeader = ch;
+                        ch.GroupLeader = ch;
                         ch.AddGroupMember(victim);
                     }
                 }
@@ -16577,17 +16577,17 @@ namespace MUDEngine
             CharData groupChar;
             CharData nextGroupChar;
 
-            if (ch != ch._groupLeader)
+            if (ch != ch.GroupLeader)
             {
                 ch.SendText("You must be group leader to disband!\r\n");
                 return;
             }
             for (groupChar = ch; groupChar; groupChar = nextGroupChar)
             {
-                nextGroupChar = groupChar._nextInGroup;
+                nextGroupChar = groupChar.NextInGroup;
                 groupChar.SendText("&+GYour group has been disbanded.&n\r\n");
-                groupChar._groupLeader = null;
-                groupChar._nextInGroup = null;
+                groupChar.GroupLeader = null;
+                groupChar.NextInGroup = null;
             }
             return;
         }
@@ -16608,18 +16608,18 @@ namespace MUDEngine
                 ch.SendText("They do not seem to exist!\r\n");
                 return;
             }
-            if (ch != victim._groupLeader && !ch.IsImmortal())
+            if (ch != victim.GroupLeader && !ch.IsImmortal())
             {
                 SocketConnection.Act("You are not $S group leader!", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
             }
-            if (!victim._groupLeader)
+            if (!victim.GroupLeader)
             {
                 SocketConnection.Act("$N is not in a group!", ch, null, victim, SocketConnection.MessageTarget.character);
-                victim._nextInGroup = null;
+                victim.NextInGroup = null;
                 return;
             }
-            victim._groupLeader.RemoveFromGroup(victim);
+            victim.GroupLeader.RemoveFromGroup(victim);
             return;
         }
 
@@ -16666,9 +16666,9 @@ namespace MUDEngine
             SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.character);
 
             // Chatterbot code.
-            if (victim._chatterBot != null)
+            if (victim.ChatBot != null)
             {
-                victim._chatterBot.CheckConversation(victim, ch, text);
+                victim.ChatBot.CheckConversation(victim, ch, text);
             }
 
             return;
@@ -16702,7 +16702,7 @@ namespace MUDEngine
             SocketConnection.Act("You sign '&n$T&n'", ch, null, text, SocketConnection.MessageTarget.character);
 
             text = DrunkSpeech.MakeDrunk(text, ch);
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
                 if (roomChar == ch || roomChar.IsNPC())
                     continue;
@@ -16715,8 +16715,8 @@ namespace MUDEngine
                 else
                 {
                     text2 = String.Format("{0} wiggles {1} fingers around.", ch.ShowNameTo(roomChar, true),
-                              ch._sex == MobTemplate.Sex.male ? "his" :
-                              ch._sex == MobTemplate.Sex.female ? "her" : "its");
+                              ch.Gender == MobTemplate.Sex.male ? "his" :
+                              ch.Gender == MobTemplate.Sex.female ? "her" : "its");
                 }
 
                 SocketConnection.Act(text, roomChar, null, text2, SocketConnection.MessageTarget.character);
@@ -16761,7 +16761,7 @@ namespace MUDEngine
             text = DrunkSpeech.MakeDrunk(text, ch);
             string random = NounType.RandomSentence();
 
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
                 if (roomChar == ch || roomChar.IsNPC())
                     continue;
@@ -16806,7 +16806,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.IsAffected( Affect.AFFECT_MUTE) || ch.HasInnate(Race.RACE_MUTE) || ch._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
+            if (ch.IsAffected( Affect.AFFECT_MUTE) || ch.HasInnate(Race.RACE_MUTE) || ch.InRoom.HasFlag(RoomTemplate.ROOM_SILENT))
             {
                 ch.SendText("Your lips move but nothing escapes their bounds.\r\n");
                 return;
@@ -16829,7 +16829,7 @@ namespace MUDEngine
             foreach (QuestTemplate it in QuestTemplate.QuestList)
             {
                 quest = it;
-                if (quest.Messages == null || (quest.IndexNumber != victim._mobTemplate.IndexNumber))
+                if (quest.Messages == null || (quest.IndexNumber != victim.MobileTemplate.IndexNumber))
                     continue;
                 foreach (TalkData message in quest.Messages)
                 {
@@ -16843,9 +16843,9 @@ namespace MUDEngine
             }
 
             // Only check chatterbot responses when there isn't a quest with the same keywords.
-            if (!questfound && victim._chatterBot != null)
+            if (!questfound && victim.ChatBot != null)
             {
-                victim._chatterBot.CheckConversation(victim, ch, text);
+                victim.ChatBot.CheckConversation(victim, ch, text);
             }
             return;
         }
@@ -16865,7 +16865,7 @@ namespace MUDEngine
                 return;
             }
             string text = String.Join(" ", str);
-            string buf = String.Format("&+r{0} petitions '{1}'&n", ch._name, text);
+            string buf = String.Format("&+r{0} petitions '{1}'&n", ch.Name, text);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_PETITION, Limits.LEVEL_AVATAR, buf);
             buf = String.Format("&+rYou petition '{0}'&n\r\n", text);
             ch.SendText(buf);
@@ -16902,7 +16902,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._socket)
+            if (!victim.Socket)
             {
                 SocketConnection.Act("$N&n is &+Llinkdead&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -16912,13 +16912,13 @@ namespace MUDEngine
             text = DrunkSpeech.MakeDrunk(text, ch);
 
             SocketConnection.Act("&n&+rYou tell $N&n&+r '&+R$t&n&+r'&n", ch, text, victim, SocketConnection.MessageTarget.character);
-            int position = victim._position;
-            victim._position = Position.standing;
+            int position = victim.CurrentPosition;
+            victim.CurrentPosition = Position.standing;
             SocketConnection.Act("&n&+r$n&n&+r responds to your petition with '&+R$t&n&+r'&n", ch, text, victim, SocketConnection.MessageTarget.victim);
-            string buf = String.Format("&+r{0} responds to {1}'s petition with '&+R{2}&n&+r'&n", ch._name, victim._name, text);
+            string buf = String.Format("&+r{0} responds to {1}'s petition with '&+R{2}&n&+r'&n", ch.Name, victim.Name, text);
             ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_PETITION, Limits.LEVEL_AVATAR, buf);
-            victim._position = position;
-            victim._replyTo = ch;
+            victim.CurrentPosition = position;
+            victim.ReplyTo = ch;
 
             if (victim.HasActionBit(PC.PLAYER_AFK))
                 SocketConnection.Act("Just so you know, $E is &+RAFK&n.", ch, null, victim, SocketConnection.MessageTarget.character);
@@ -16959,7 +16959,7 @@ namespace MUDEngine
                 {
                     if (ch.IsConsenting(it))
                     {
-                        SocketConnection.Act("You continue consenting $N&n.", ch, null, it._name, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act("You continue consenting $N&n.", ch, null, it.Name, SocketConnection.MessageTarget.character);
                         found = true;
                     }
                 }
@@ -17042,7 +17042,7 @@ namespace MUDEngine
                 {
                     if (ch.IsIgnoring(it))
                     {
-                        SocketConnection.Act("You are ignoring $N&n.", ch, null, it._name, SocketConnection.MessageTarget.character);
+                        SocketConnection.Act("You are ignoring $N&n.", ch, null, it.Name, SocketConnection.MessageTarget.character);
                         found = true;
                     }
                 }
@@ -17129,7 +17129,7 @@ namespace MUDEngine
                 if (!((PC)ch).Guarding)
                 {
                     string buf = "You are guarding " + (((PC)ch).Guarding.IsNPC() ?
-                                 ((PC)ch).Guarding._shortDescription : ((PC)ch).Guarding._name) + ".\r\n";
+                                 ((PC)ch).Guarding.ShortDescription : ((PC)ch).Guarding.Name) + ".\r\n";
                     ch.SendText(buf);
                     return;
                 }
@@ -17267,9 +17267,9 @@ namespace MUDEngine
 
             text = DrunkSpeech.MakeDrunk(text, ch);
 
-            if (ch._inRoom != null)
+            if (ch.InRoom != null)
             {
-                foreach (CharData roomChar in ch._inRoom.People)
+                foreach (CharData roomChar in ch.InRoom.People)
                 {
                     if (roomChar == ch || roomChar.IsNPC())
                         continue;
@@ -17289,9 +17289,9 @@ namespace MUDEngine
                     // Add foreign language filter.
                     SocketConnection.Act(output, roomChar, null, SocketConnection.TranslateText(text, ch, roomChar), SocketConnection.MessageTarget.character);
                     // Chatterbot code.  May want to restrict chatterbots to tells, asks, and whispers.
-                    if (roomChar._chatterBot != null)
+                    if (roomChar.ChatBot != null)
                     {
-                        roomChar._chatterBot.CheckConversation(roomChar, ch, text);
+                        roomChar.ChatBot.CheckConversation(roomChar, ch, text);
                     }
                 }
             }
@@ -17331,7 +17331,7 @@ namespace MUDEngine
             */
 
             CharData victim = ch.GetCharWorld(str[0]);
-            if (!victim || (victim.IsNPC() && victim._inRoom != ch._inRoom))
+            if (!victim || (victim.IsNPC() && victim.InRoom != ch.InRoom))
             {
                 ch.SendText("They aren't here.\r\n");
                 return;
@@ -17344,7 +17344,7 @@ namespace MUDEngine
             }
 
             if ((ch.IsRacewar(victim)) && (!ch.IsImmortal() && !victim.IsImmortal())
-                    && (ch._inRoom != victim._inRoom))
+                    && (ch.InRoom != victim.InRoom))
             {
                 ch.SendText("They aren't here.\r\n");
                 return;
@@ -17353,7 +17353,7 @@ namespace MUDEngine
             /* Can tell to other side of racewar iff the opponent is in the same
             room or one of the people are Immortals. */
             if ((!ch.IsImmortal() && !victim.IsImmortal()) && (ch.IsRacewar(victim))
-                    && (victim._inRoom != ch._inRoom))
+                    && (victim.InRoom != ch.InRoom))
             {
                 ch.SendText("They aren't here.\r\n");
                 return;
@@ -17361,13 +17361,13 @@ namespace MUDEngine
 
             if ((!ch.IsNPC() && (ch.HasActionBit(PC.PLAYER_SILENCE) || !ch.HasActionBit(PC.PLAYER_TELL)
                 || (!victim.IsNPC() && !victim.HasActionBit(PC.PLAYER_TELL))))
-                    || victim._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
+                    || victim.InRoom.HasFlag(RoomTemplate.ROOM_SILENT))
             {
                 ch.SendText("They can't hear you.\r\n");
                 return;
             }
 
-            if (!victim._socket && !victim.IsNPC())
+            if (!victim.Socket && !victim.IsNPC())
             {
                 SocketConnection.Act("$N&n is &+Llinkdead&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -17388,8 +17388,8 @@ namespace MUDEngine
             string text = String.Join(" ", str, 1, (str.Length - 1));
             text = DrunkSpeech.MakeDrunk(text, ch);
 
-            int position = victim._position;
-            victim._position = Position.standing;
+            int position = victim.CurrentPosition;
+            victim.CurrentPosition = Position.standing;
             Race.Language lang = ch.IsNPC() ? Race.RaceList[ch.GetOrigRace()].PrimaryLanguage :
                                                                                        ((PC)ch).Speaking;
             if (lang == Race.Language.god || lang == Race.Language.unknown)
@@ -17411,8 +17411,8 @@ namespace MUDEngine
                 text = String.Format("&+W$n&+W tells you in {0} '$t&+W'&n", Race.LanguageTable[(int)lang]);
             }
             SocketConnection.Act(text, ch, SocketConnection.TranslateText(text, ch, victim), victim, SocketConnection.MessageTarget.victim);
-            victim._position = position;
-            victim._replyTo = ch;
+            victim.CurrentPosition = position;
+            victim.ReplyTo = ch;
 
             if (victim.HasActionBit(PC.PLAYER_AFK))
             {
@@ -17434,7 +17434,7 @@ namespace MUDEngine
             {
                 bool isquest = (ch.IsImmortal() && !MUDString.StringsNotEqual(text, "quest")) ? true : false;
 
-                if (it.Messages == null || (it.IndexNumber != victim._mobTemplate.IndexNumber))
+                if (it.Messages == null || (it.IndexNumber != victim.MobileTemplate.IndexNumber))
                     continue;
                 foreach (TalkData message in it.Messages)
                 {
@@ -17447,9 +17447,9 @@ namespace MUDEngine
                 }
             }
             // Chatterbot code.  Bots won't check if a quest matched (prevents multiple statements).
-            if (!questfound && victim._chatterBot != null)
+            if (!questfound && victim.ChatBot != null)
             {
-                victim._chatterBot.CheckConversation(victim, ch, text);
+                victim.ChatBot.CheckConversation(victim, ch, text);
             }
 
             return;
@@ -17469,7 +17469,7 @@ namespace MUDEngine
                 return;
             }
 
-            CharData victim = ch._replyTo;
+            CharData victim = ch.ReplyTo;
             if (!victim)
             {
                 ch.SendText("They aren't here.\r\n");
@@ -17478,7 +17478,7 @@ namespace MUDEngine
 
             if ((!ch.IsNPC() && (ch.HasActionBit(PC.PLAYER_SILENCE)
                       || !ch.HasActionBit(PC.PLAYER_TELL) || (!victim.IsNPC() &&
-                     !victim.HasActionBit(PC.PLAYER_TELL)))) || victim._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
+                     !victim.HasActionBit(PC.PLAYER_TELL)))) || victim.InRoom.HasFlag(RoomTemplate.ROOM_SILENT))
             {
                 ch.SendText("Your message didn't get through.\r\n");
                 return;
@@ -17490,7 +17490,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._socket)
+            if (!victim.Socket)
             {
                 SocketConnection.Act("$N is &+Llinkdead&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -17512,11 +17512,11 @@ namespace MUDEngine
             text = DrunkSpeech.MakeDrunk(text, ch);
 
             SocketConnection.Act("&+WYou tell $N&+W '$t&+W'&n", ch, text, victim, SocketConnection.MessageTarget.character);
-            int position = victim._position;
-            victim._position = Position.standing;
+            int position = victim.CurrentPosition;
+            victim.CurrentPosition = Position.standing;
             SocketConnection.Act("&+W$n&+W tells you '$t&+W'&n", ch, SocketConnection.TranslateText(text, ch, victim), victim, SocketConnection.MessageTarget.victim);
-            victim._position = position;
-            victim._replyTo = ch;
+            victim.CurrentPosition = position;
+            victim.ReplyTo = ch;
 
             if (victim.HasActionBit(PC.PLAYER_AFK))
             {
@@ -17544,7 +17544,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._position == Position.fighting || ch._fighting)
+            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
             {
                 ch.SendText("You can't emote in combat.\r\n");
                 return;
@@ -17562,7 +17562,7 @@ namespace MUDEngine
                 text += ".";
             }
 
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
                 if (roomChar == ch)
                     continue;
@@ -17586,17 +17586,17 @@ namespace MUDEngine
             string text = String.Join(" ", str);
 
             Issue issue = new Issue();
-            issue.IssueDetail = new IssueEntry(ch._name, text);
+            issue.IssueDetail = new IssueEntry(ch.Name, text);
             issue.OpenedByImmortal = ch.IsImmortal();
             issue.IssueType = Issue.Type.bug;
             issue.IssuePriority = Issue.Priority.highest;
-            if (ch._inRoom != null)
+            if (ch.InRoom != null)
             {
-                issue.RoomIndexNumber = ch._inRoom.IndexNumber;
+                issue.RoomIndexNumber = ch.InRoom.IndexNumber;
             }
             Database.IssueList.Add(issue);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_DEBUG, 0, String.Format("New CRASH BUG, issue # {0} created by {1}.  Text is:\n{2}",
-                issue.IssueNumber, ch._name, text));
+                issue.IssueNumber, ch.Name, text));
             Issue.Save();
             ch.SendText("Crash bug report recorded.  Thank you.\r\n");
             return;
@@ -17619,17 +17619,17 @@ namespace MUDEngine
             string text = String.Join(" ", str);
 
             Issue issue = new Issue();
-            issue.IssueDetail = new IssueEntry(ch._name, text);
+            issue.IssueDetail = new IssueEntry(ch.Name, text);
             issue.OpenedByImmortal = ch.IsImmortal();
             issue.IssueType = Issue.Type.bug;
             issue.IssuePriority = Issue.Priority.none;
-            if (ch._inRoom != null)
+            if (ch.InRoom != null)
             {
-                issue.RoomIndexNumber = ch._inRoom.IndexNumber;
+                issue.RoomIndexNumber = ch.InRoom.IndexNumber;
             }
             Database.IssueList.Add(issue);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_DEBUG, 0, String.Format("New bug, issue # {0} created by {1}.  Text is:\n{2}",
-                issue.IssueNumber, ch._name, text));
+                issue.IssueNumber, ch.Name, text));
             Issue.Save();
             ch.SendText("Bug report recorded.  Thank you.\r\n");
             return;
@@ -17652,17 +17652,17 @@ namespace MUDEngine
             string text = String.Join(" ", str);
 
             Issue issue = new Issue();
-            issue.IssueDetail = new IssueEntry(ch._name, text);
+            issue.IssueDetail = new IssueEntry(ch.Name, text);
             issue.OpenedByImmortal = ch.IsImmortal();
             issue.IssueType = Issue.Type.idea;
             issue.IssuePriority = Issue.Priority.lowest;
-            if (ch._inRoom != null)
+            if (ch.InRoom != null)
             {
-                issue.RoomIndexNumber = ch._inRoom.IndexNumber;
+                issue.RoomIndexNumber = ch.InRoom.IndexNumber;
             }
             Database.IssueList.Add(issue);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_DEBUG, 0, String.Format("New idea, issue # {0} created by {1}.  Text is:\n{2}",
-                issue.IssueNumber, ch._name, text));
+                issue.IssueNumber, ch.Name, text));
             Issue.Save();
             ch.SendText("Idea recorded.  Thank you.\r\n");
             return;
@@ -17680,17 +17680,17 @@ namespace MUDEngine
             string text = String.Join(" ", str);
 
             Issue issue = new Issue();
-            issue.IssueDetail = new IssueEntry(ch._name, "Help Request: " + text);
+            issue.IssueDetail = new IssueEntry(ch.Name, "Help Request: " + text);
             issue.OpenedByImmortal = ch.IsImmortal();
             issue.IssueType = Issue.Type.helpentryrequest;
             issue.IssuePriority = Issue.Priority.lowest;
-            if (ch._inRoom != null)
+            if (ch.InRoom != null)
             {
-                issue.RoomIndexNumber = ch._inRoom.IndexNumber;
+                issue.RoomIndexNumber = ch.InRoom.IndexNumber;
             }
             Database.IssueList.Add(issue);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_DEBUG, 0, String.Format("New help entry request, issue # {0} created by {1}.  Text is:\n{2}",
-                issue.IssueNumber, ch._name, text));
+                issue.IssueNumber, ch.Name, text));
             Issue.Save();
             ch.SendText("Help entry request recorded.  Thank you.\r\n");
             return;
@@ -17713,17 +17713,17 @@ namespace MUDEngine
             string text = String.Join(" ", str);
 
             Issue issue = new Issue();
-            issue.IssueDetail = new IssueEntry(ch._name, text);
+            issue.IssueDetail = new IssueEntry(ch.Name, text);
             issue.OpenedByImmortal = ch.IsImmortal();
             issue.IssueType = Issue.Type.typo;
             issue.IssuePriority = Issue.Priority.low;
-            if (ch._inRoom != null)
+            if (ch.InRoom != null)
             {
-                issue.RoomIndexNumber = ch._inRoom.IndexNumber;
+                issue.RoomIndexNumber = ch.InRoom.IndexNumber;
             }
             Database.IssueList.Add(issue);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_DEBUG, 0, String.Format("New Typo, issue # {0} created by {1}.  Text is:\n{2}",
-                issue.IssueNumber, ch._name, text));
+                issue.IssueNumber, ch.Name, text));
             Issue.Save();
             ch.SendText("Yore typo report haz been rekorded.  Thank yew.\r\n");
             return;
@@ -17743,19 +17743,19 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (!ch._inRoom || !ch._inRoom.HasFlag(Room.ROOM_INN))
+            if (!ch.InRoom || !ch.InRoom.HasFlag(Room.ROOM_INN))
             {
                 ch.SendText("You must be within an inn to rent.\r\n");
                 return;
             }
 
-            if (ch._position == Position.fighting || ch._fighting)
+            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
             {
                 ch.SendText("No way! You are fighting.\r\n");
                 return;
             }
 
-            if (ch._position < Position.stunned)
+            if (ch.CurrentPosition < Position.stunned)
             {
                 ch.SendText("You're not &+RD&n&+rE&+RA&n&+rD&n yet.\r\n");
                 return;
@@ -17763,9 +17763,9 @@ namespace MUDEngine
 
             ch.SendText("The innkeeper grabs a &+Lkey&n from the &n&+yrack&n, and shows you to your room.\r\n\r\n");
             SocketConnection.Act("$n&n has left the realm.", ch, null, null, SocketConnection.MessageTarget.room);
-            Log.Trace(String.Format("{0} has rented.", ch._name));
+            Log.Trace(String.Format("{0} has rented.", ch.Name));
 
-            ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), String.Format("{0} has rented.", ch._name));
+            ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), String.Format("{0} has rented.", ch.Name));
 
             /*
             * After CharData.ExtractChar the ch is no longer valid
@@ -17774,28 +17774,28 @@ namespace MUDEngine
             */
 
             // I know we checked for position fighting, but I'm paranoid...
-            if (ch._fighting != null)
+            if (ch.Fighting != null)
             {
                 Combat.StopFighting(ch, true);
             }
 
-            ch.DieFollower(ch._name);
+            ch.DieFollower(ch.Name);
 
             // I can't see any reason why ch would not have an .in_room, but that
             // may just be shortsighted of me - Xangis
-            if (ch._inRoom)
+            if (ch.InRoom)
             {
-                room = ch._inRoom;
+                room = ch.InRoom;
             }
 
             ch.RemoveFromRoom();
             if (room)
             {
-                ch._inRoom = room;
+                ch.InRoom = room;
             }
 
             // Put them in the correct body
-            if (ch._socket && ch._socket.Original)
+            if (ch.Socket && ch.Socket.Original)
             {
                 CommandType.Interpret(ch, "return");
             }
@@ -17803,14 +17803,14 @@ namespace MUDEngine
             foreach (CharData it in Database.CharList)
             {
                 worldChar = it;
-                if (worldChar._replyTo == ch)
+                if (worldChar.ReplyTo == ch)
                 {
-                    worldChar._replyTo = null;
+                    worldChar.ReplyTo = null;
                 }
             }
 
             ch.RemoveActionBit(PC.PLAYER_CAMPING);
-            ((PC)ch).LastRentLocation = ch._inRoom.IndexNumber;
+            ((PC)ch).LastRentLocation = ch.InRoom.IndexNumber;
             CharData.SavePlayer(ch);
 
             // Remove them from the character list.
@@ -17825,8 +17825,8 @@ namespace MUDEngine
             // ConnectionState.menu is when they enter
             // the game... this shows menu
             // before they enter the game
-            ch._socket.ShowScreen(Screen.MainMenuScreen);
-            ch._socket._connectionState = SocketConnection.ConnectionState.menu;
+            ch.Socket.ShowScreen(Screen.MainMenuScreen);
+            ch.Socket.ConnectionStatus = SocketConnection.ConnectionState.menu;
 
             return;
         }
@@ -17850,7 +17850,7 @@ namespace MUDEngine
             // enough to try renting first.
             if (!ch.IsImmortal())
             {
-                if (ch._inRoom != null && ch._inRoom.HasFlag(RoomTemplate.ROOM_INN))
+                if (ch.InRoom != null && ch.InRoom.HasFlag(RoomTemplate.ROOM_INN))
                 {
                     Rent(ch, str);
                     return;
@@ -17859,7 +17859,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._position == Position.fighting || ch._fighting)
+            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
             {
                 if (ch.HasActionBit(PC.PLAYER_CAMPING))
                 {
@@ -17871,7 +17871,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._position < Position.stunned)
+            if (ch.CurrentPosition < Position.stunned)
             {
                 if (MUDMath.NumberRange(1, 2) == 1)
                 {
@@ -18051,25 +18051,25 @@ namespace MUDEngine
                 door = Movement.FindDoor(ch, str[0]);
             }
 
-            if (door != Exit.Direction.invalid && !(ch._level < Limits.LEVEL_AVATAR
-                && ch._inRoom.ExitData[(int)door] && ch._inRoom.ExitData[(int)door].ExitFlags != 0
-                && ch._inRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.secret)))
+            if (door != Exit.Direction.invalid && !(ch.Level < Limits.LEVEL_AVATAR
+                && ch.InRoom.ExitData[(int)door] && ch.InRoom.ExitData[(int)door].ExitFlags != 0
+                && ch.InRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.secret)))
             {
                 /* 'open door' */
                 Exit reverseExit;
                 Room toRoom;
 
-                if (ch._flyLevel > 0)
+                if (ch.FlightLevel > 0)
                 {
                     ch.SendText("You see no doors this high up!\r\n");
                     return;
                 }
-                if (ch._position == Position.fighting)
+                if (ch.CurrentPosition == Position.fighting)
                 {
                     ch.SendText("Stop fighting first!\r\n");
                     return;
                 }
-                Exit exit = ch._inRoom.GetExit(door);
+                Exit exit = ch.InRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's already open.\r\n");
@@ -18088,11 +18088,11 @@ namespace MUDEngine
                 /* open the other side */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber))
                     && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                    && reverseExit.TargetRoom == ch._inRoom)
+                    && reverseExit.TargetRoom == ch.InRoom)
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.closed);
                     reverseExit.RemoveFlag(Exit.ExitFlag.secret);
-                    foreach (CharData roomChar in ch._inRoom.People)
+                    foreach (CharData roomChar in ch.InRoom.People)
                     {
                         SocketConnection.Act("The $d opens.", roomChar, null, reverseExit.Keyword, SocketConnection.MessageTarget.character);
                     }
@@ -18157,7 +18157,7 @@ namespace MUDEngine
                 if (obj.Trap != null && obj.Trap.CheckTrigger( Trap.TriggerType.open))
                 {
                     ch.SetOffTrap(obj);
-                    if (ch._position == Position.dead)
+                    if (ch.CurrentPosition == Position.dead)
                         return;
                 }
                 return;
@@ -18199,18 +18199,18 @@ namespace MUDEngine
                 Exit reverseExit;
                 Room toRoom;
 
-                if (ch._flyLevel > 0)
+                if (ch.FlightLevel > 0)
                 {
                     ch.SendText("You can't reach that from up here!\r\n");
                     return;
                 }
-                if (ch._position == Position.fighting)
+                if (ch.CurrentPosition == Position.fighting)
                 {
                     ch.SendText("You can't close doors while fighting!.\r\n");
                     return;
                 }
 
-                Exit exit = ch._inRoom.GetExit(door);
+                Exit exit = ch.InRoom.GetExit(door);
                 if (exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's already closed.\r\n");
@@ -18230,10 +18230,10 @@ namespace MUDEngine
 
                 /* close the other side */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                        && reverseExit.TargetRoom == ch._inRoom)
+                        && reverseExit.TargetRoom == ch.InRoom)
                 {
                     reverseExit.AddFlag(Exit.ExitFlag.closed);
-                    foreach (CharData roomChar in ch._inRoom.People)
+                    foreach (CharData roomChar in ch.InRoom.People)
                     {
                         SocketConnection.Act("The $d closes.", roomChar, null, reverseExit.Keyword, SocketConnection.MessageTarget.character);
                     }
@@ -18313,7 +18313,7 @@ namespace MUDEngine
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit exit = ch._inRoom.GetExit(door);
+                Exit exit = ch.InRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
@@ -18341,7 +18341,7 @@ namespace MUDEngine
 
                 /* lock the other side */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                        && reverseExit.TargetRoom == ch._inRoom)
+                        && reverseExit.TargetRoom == ch.InRoom)
                 {
                     reverseExit.AddFlag(Exit.ExitFlag.locked);
                 }
@@ -18444,14 +18444,14 @@ namespace MUDEngine
                 door = Movement.FindDoor(ch, str[0]);
             }
 
-            if (door >= 0 && !(ch._level < Limits.LEVEL_AVATAR && ch._inRoom.ExitData[(int)door] && ch._inRoom.ExitData[(int)door].ExitFlags != 0
-                && ch._inRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.secret)))
+            if (door >= 0 && !(ch.Level < Limits.LEVEL_AVATAR && ch.InRoom.ExitData[(int)door] && ch.InRoom.ExitData[(int)door].ExitFlags != 0
+                && ch.InRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.secret)))
             {
                 /* 'unlock door' */
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit exit = ch._inRoom.GetExit(door);
+                Exit exit = ch.InRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
@@ -18486,7 +18486,7 @@ namespace MUDEngine
 
                 /* unlock the other side */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                    && reverseExit.TargetRoom == ch._inRoom)
+                    && reverseExit.TargetRoom == ch.InRoom)
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.locked);
                 }
@@ -18580,7 +18580,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't do that while mounted.\r\n");
                 return;
@@ -18589,9 +18589,9 @@ namespace MUDEngine
             ch.WaitState(Skill.SkillList["pick lock"].Delay);
 
             // Look for guards or other mobs who could be "in the way".
-            foreach (CharData charData in ch._inRoom.People)
+            foreach (CharData charData in ch.InRoom.People)
             {
-                if (charData.IsNPC() && charData.IsAwake() && ch._level + 5 < charData._level)
+                if (charData.IsNPC() && charData.IsAwake() && ch.Level + 5 < charData.Level)
                 {
                     SocketConnection.Act("$N&n is standing too close to the lock.", ch, null, charData, SocketConnection.MessageTarget.character);
                     return;
@@ -18613,7 +18613,7 @@ namespace MUDEngine
                 Exit reverseExit;
                 Room toRoom;
 
-                Exit exit = ch._inRoom.GetExit(door);
+                Exit exit = ch.InRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("It's not closed.\r\n");
@@ -18641,7 +18641,7 @@ namespace MUDEngine
 
                 /* pick the other side */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                        && reverseExit.TargetRoom == ch._inRoom)
+                        && reverseExit.TargetRoom == ch.InRoom)
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.locked);
                 }
@@ -18737,7 +18737,7 @@ namespace MUDEngine
                 ch.SendText("You abandon your studies.\r\n");
             }
 
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.sleeping:
                     if (ch.IsAffected( Affect.AFFECT_SLEEP))
@@ -18748,7 +18748,7 @@ namespace MUDEngine
 
                     ch.SendText("You wake and stand up.\r\n");
                     SocketConnection.Act("$n&n wakes and stands up.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.standing;
+                    ch.CurrentPosition = Position.standing;
                     break;
 
                 case Position.sitting:
@@ -18757,13 +18757,13 @@ namespace MUDEngine
                 case Position.resting:
                     ch.SendText("You stand up.\r\n");
                     SocketConnection.Act("$n&n stands up.", ch, null, null, SocketConnection.MessageTarget.room);
-                    if (ch._fighting)
+                    if (ch.Fighting)
                     {
-                        ch._position = Position.fighting;
+                        ch.CurrentPosition = Position.fighting;
                     }
                     else
                     {
-                        ch._position = Position.standing;
+                        ch.CurrentPosition = Position.standing;
                     }
                     break;
 
@@ -18791,7 +18791,7 @@ namespace MUDEngine
                 return;
             }
 
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.sleeping:
                     ch.SendText("You are already sleeping.\r\n");
@@ -18811,7 +18811,7 @@ namespace MUDEngine
                 case Position.standing:
                     ch.SendText("You rest.\r\n");
                     SocketConnection.Act("$n&n rests.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.resting;
+                    ch.CurrentPosition = Position.resting;
                     break;
             }
 
@@ -18833,7 +18833,7 @@ namespace MUDEngine
                 return;
             }
 
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.sleeping:
                     ch.SendText("You are sleeping.\r\n");
@@ -18858,7 +18858,7 @@ namespace MUDEngine
                     }
                     ch.SendText("You recline.\r\n");
                     SocketConnection.Act("$n&n reclines.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.reclining;
+                    ch.CurrentPosition = Position.reclining;
                     break;
             }
 
@@ -18880,7 +18880,7 @@ namespace MUDEngine
                 return;
             }
 
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.sleeping:
                     ch.SendText("You can't do that while you are asleep.\r\n");
@@ -18889,20 +18889,20 @@ namespace MUDEngine
                 case Position.resting:
                     ch.SendText("You sit up.\r\n");
                     SocketConnection.Act("$n&n sits up.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.sitting;
+                    ch.CurrentPosition = Position.sitting;
                     break;
 
                 case Position.kneeling:
                 case Position.reclining:
                     ch.SendText("You sit up.\r\n");
                     SocketConnection.Act("$n&n sits up.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.sitting;
+                    ch.CurrentPosition = Position.sitting;
                     break;
                 case Position.fighting:
                 case Position.standing:
                     ch.SendText("You sit down.\r\n");
                     SocketConnection.Act("$n&n sits down.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.sitting;
+                    ch.CurrentPosition = Position.sitting;
                     break;
             }
 
@@ -18925,7 +18925,7 @@ namespace MUDEngine
                 return;
             }
 
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.sleeping:
                     ch.SendText("You can't do that while you are asleep.\r\n");
@@ -18941,14 +18941,14 @@ namespace MUDEngine
                     }
                     ch.SendText("You swing up to your knees.\r\n");
                     SocketConnection.Act("$n&n swings up to $s knees.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.kneeling;
+                    ch.CurrentPosition = Position.kneeling;
                     break;
 
                 case Position.fighting:
                 case Position.standing:
                     ch.SendText("You kneel.\r\n");
                     SocketConnection.Act("$n&n drops to $s knees.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.kneeling;
+                    ch.CurrentPosition = Position.kneeling;
                     break;
             }
 
@@ -18963,7 +18963,7 @@ namespace MUDEngine
         static public void Sleep(CharData ch, string[] str)
         {
             if( ch == null ) return;
-            switch (ch._position)
+            switch (ch.CurrentPosition)
             {
                 case Position.sleeping:
                     ch.SendText("You are already sleeping.\r\n");
@@ -18982,7 +18982,7 @@ namespace MUDEngine
                     }
                     ch.SendText("You sleep.\r\n");
                     SocketConnection.Act("$n&n sleeps.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._position = Position.sleeping;
+                    ch.CurrentPosition = Position.sleeping;
                     break;
 
                 case Position.fighting:
@@ -19010,7 +19010,7 @@ namespace MUDEngine
             }
 
             if (str.Length == 0 || String.IsNullOrEmpty(str[0]) || 
-                str[0].Equals("me", StringComparison.CurrentCultureIgnoreCase) && ch._currentMana > 0)
+                str[0].Equals("me", StringComparison.CurrentCultureIgnoreCase) && ch.CurrentMana > 0)
             {
                 Stand(ch, str);
                 return;
@@ -19041,7 +19041,7 @@ namespace MUDEngine
                 return;
             }
 
-            victim._position = Position.resting;
+            victim.CurrentPosition = Position.resting;
             SocketConnection.Act("You wake $M.", ch, null, victim, SocketConnection.MessageTarget.character);
             SocketConnection.Act("$n&n wakes you.", ch, null, victim, SocketConnection.MessageTarget.victim);
             return;
@@ -19062,7 +19062,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't do that while mounted.\r\n");
                 return;
@@ -19114,13 +19114,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't do that while mounted.\r\n");
                 return;
             }
 
-            if (ch._position <= Position.sleeping)
+            if (ch.CurrentPosition <= Position.sleeping)
             {
                 return;
             }
@@ -19193,16 +19193,16 @@ namespace MUDEngine
                 return;
             }
             //find a teacher
-            foreach (CharData iteacher in ch._inRoom.People)
+            foreach (CharData iteacher in ch.InRoom.People)
             {
-                if (iteacher._charClass == ch._charClass && iteacher.HasActionBit(MobTemplate.ACT_TEACHER))
+                if (iteacher.CharacterClass == ch.CharacterClass && iteacher.HasActionBit(MobTemplate.ACT_TEACHER))
                 {
                     teacher = iteacher;
                     break;
                 }
             }
             // find an icon
-            foreach (Object iconobj in ch._inRoom.Contents)
+            foreach (Object iconobj in ch.InRoom.Contents)
             {
                 if (iconobj.ItemType == ObjTemplate.ObjectType.tradition_icon)
                 {
@@ -19213,7 +19213,7 @@ namespace MUDEngine
             // if not in room, check on the teacher
             if (!icon && teacher)
             {
-                foreach (Object iconobj in teacher._carrying)
+                foreach (Object iconobj in teacher.Carrying)
                 {
                     if (iconobj.ItemType == ObjTemplate.ObjectType.tradition_icon)
                     {
@@ -19247,7 +19247,7 @@ namespace MUDEngine
                     }
                     else
                     {
-                        buf1 = String.Format("It will cost you {0} points to train tradition in the {1}.\r\n", ch._level, TraditionData.Names[teacherTradition]);
+                        buf1 = String.Format("It will cost you {0} points to train tradition in the {1}.\r\n", ch.Level, TraditionData.Names[teacherTradition]);
                     }
                     ch.SendText(buf1);
                     return;
@@ -19314,14 +19314,14 @@ namespace MUDEngine
                     ch.SendText("don't know what they do!\r\n");
                     return;
                 }
-                if (((PC)ch).Tradition > 0 && ((PC)ch).SkillPoints < ch._level)
+                if (((PC)ch).Tradition > 0 && ((PC)ch).SkillPoints < ch.Level)
                 {
                     ch.SendText("You do not have enough skill points to change traditions.\r\n");
                     return;
                 }
                 if (((PC)ch).Tradition > 0)
                 {
-                    ((PC)ch).SkillPoints -= ch._level;
+                    ((PC)ch).SkillPoints -= ch.Level;
                 }
                 ((PC)ch).Tradition = teacherTradition;
                 buf = "You are now an initiate of the " + TraditionData.Names[teacherTradition] + "\r\n";
@@ -19416,7 +19416,7 @@ namespace MUDEngine
             string text = String.Empty;
             int dir;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
                 ch.SendText("There's no area to scan!\r\n");
                 return;
@@ -19425,7 +19425,7 @@ namespace MUDEngine
             ch.SendText("You scan the area.\r\n");
             for (dir = 0; dir < Limits.MAX_DIRECTION; dir++)
             {
-                room = ch._inRoom;
+                room = ch.InRoom;
 
                 int distance;
                 for (distance = 1; distance <= 3; distance++)
@@ -19448,11 +19448,11 @@ namespace MUDEngine
             }
             foreach (CharData.FlyLevel flyLevel in Enum.GetValues(typeof(CharData.FlyLevel)))
             {
-                if (ch._flyLevel == flyLevel)
+                if (ch.FlightLevel == flyLevel)
                 {
                     continue;
                 }
-                if (Movement.ScanThisRoom(ch, ch._inRoom, text, flyLevel) != 0)
+                if (Movement.ScanThisRoom(ch, ch.InRoom, text, flyLevel) != 0)
                 {
                     ch.SendText(text);
                 }
@@ -19479,7 +19479,7 @@ namespace MUDEngine
             {
                 af.Value = "heighten senses";
                 af.Type = Affect.AffectType.skill;
-                af.Duration = 24 + ch._level;
+                af.Duration = 24 + ch.Level;
                 af.SetBitvector(Affect.AFFECT_DETECT_INVIS);
                 ch.AddAffect(af);
 
@@ -19513,7 +19513,7 @@ namespace MUDEngine
             {
                 af.Value = "shadow form";
                 af.Type = Affect.AffectType.skill;
-                af.Duration = ch._level;
+                af.Duration = ch.Level;
                 af.SetBitvector(Affect.AFFECT_SNEAK);
                 ch.AddAffect(af);
             }
@@ -19537,7 +19537,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting)
+            if (ch.Fighting)
             {
                 ch.SendText("You can't break off your fight.\r\n");
                 return;
@@ -19549,7 +19549,7 @@ namespace MUDEngine
                 return;
             }
 
-            Area area = ch._inRoom.Area;
+            Area area = ch.InRoom.Area;
             Spell spell = StringLookup.SpellLookup("plane shift");
             if (!spell)
             {
@@ -19557,9 +19557,9 @@ namespace MUDEngine
                 Log.Error("Shift: 'plane shift' spell not found. Check the spells file.");
                 return;
             }
-            spell.Invoke(ch, ch._level, new Target(str[0]));
+            spell.Invoke(ch, ch.Level, new Target(str[0]));
             // if it failed, don't lag or add a timer
-            if (area == ch._inRoom.Area)
+            if (area == ch.InRoom.Area)
                 return;
             if (!ch.IsImmortal())
             {
@@ -19594,7 +19594,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting)
+            if (ch.Fighting)
             {
                 ch.SendText("You can't break off your fight.\r\n");
                 return;
@@ -19605,7 +19605,7 @@ namespace MUDEngine
                 Exit reverseExit;
                 int chance;
 
-                Exit exit = ch._inRoom.GetExit(door);
+                Exit exit = ch.InRoom.GetExit(door);
                 if (!exit.HasFlag(Exit.ExitFlag.closed))
                 {
                     ch.SendText("Calm down. It is already open.\r\n");
@@ -19680,7 +19680,7 @@ namespace MUDEngine
 
                     /* Bash through the other side */
                     if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                        && reverseExit.TargetRoom == ch._inRoom)
+                        && reverseExit.TargetRoom == ch.InRoom)
                     {
                         reverseExit.RemoveFlag(Exit.ExitFlag.closed);
                         if (reverseExit.HasFlag(Exit.ExitFlag.locked))
@@ -19701,7 +19701,7 @@ namespace MUDEngine
                         {
                             if (charData != ch && (charData.IsNPC() && !charData.IsAffected( Affect.AFFECT_CHARM))
                                 && charData.IsAggressive(ch) && charData.IsAwake() && CharData.CanSee(charData, ch)
-                                && !charData._fighting)
+                                && !charData.Fighting)
                             {
                                 Combat.StartHating(charData, ch);
                                 Combat.StartHunting(charData, ch);
@@ -19728,16 +19728,16 @@ namespace MUDEngine
             * But first...let's make sure ch ain't dead?  That'd be a pain.
             */
 
-            if (ch._hitpoints <= 1)
+            if (ch.Hitpoints <= 1)
                 return;
 
             ch.PracticeSkill("doorbash");
 
-            foreach (CharData guardChar in ch._inRoom.People)
+            foreach (CharData guardChar in ch.InRoom.People)
             {
                 if (guardChar != ch && guardChar.HasActionBit(MobTemplate.ACT_PROTECTOR) && (guardChar.IsNPC() && 
                     !guardChar.IsAffected( Affect.AFFECT_CHARM)) && guardChar.IsAwake() && CharData.CanSee(guardChar, ch) &&
-                    !guardChar._fighting && MUDMath.NumberBits(2) == 0)
+                    !guardChar.Fighting && MUDMath.NumberBits(2) == 0)
                 {
                     SocketConnection.Act("$n&n is very unhappy about you trying to destroy the door.", guardChar, null, ch, SocketConnection.MessageTarget.victim);
                     guardChar.AttackCharacter(ch);
@@ -19766,7 +19766,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                victim = ch._fighting;
+                victim = ch.Fighting;
                 if (!victim)
                 {
                     ch.SendText("Capture whom?\r\n");
@@ -19782,7 +19782,7 @@ namespace MUDEngine
                     return;
                 }
             }
-            if (ch._fighting && ch._fighting != victim)
+            if (ch.Fighting && ch.Fighting != victim)
             {
                 ch.SendText("Take care of the person you are fighting first!\r\n");
                 return;
@@ -19822,7 +19822,7 @@ namespace MUDEngine
 
                 af.Value = "capture";
                 af.Type = Affect.AffectType.skill;
-                af.Duration = 3 + ((ch._level) / 8);
+                af.Duration = 3 + ((ch.Level) / 8);
                 af.SetBitvector(Affect.AFFECT_BOUND);
 
                 victim.AddAffect(af);
@@ -19842,11 +19842,11 @@ namespace MUDEngine
             }
 
             /* go for the one who wanted to fight :) */
-            if (ch.IsNPC() && ch.IsAffected( Affect.AFFECT_CHARM) && !victim._fighting)
+            if (ch.IsNPC() && ch.IsAffected( Affect.AFFECT_CHARM) && !victim.Fighting)
             {
-                victim.AttackCharacter(ch._master);
+                victim.AttackCharacter(ch.Master);
             }
-            else if (!victim._fighting)
+            else if (!victim.Fighting)
             {
                 victim.AttackCharacter(ch);
             }
@@ -19930,14 +19930,14 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._fighting)
+            if (ch.Fighting)
             {
                 ch.SendText("Not while you're fighting!\r\n");
                 return;
             }
 
-            Room original = ch._inRoom;
-            Object portal = Object.GetObjFromList(ch._inRoom.Contents, ch, str[0]);
+            Room original = ch.InRoom;
+            Object portal = Object.GetObjFromList(ch.InRoom.Contents, ch, str[0]);
 
             if (!portal)
             {
@@ -20084,17 +20084,17 @@ namespace MUDEngine
 
             foreach (CharData follower in original.People)
             {
-                if (!follower.IsAffected(Affect.AFFECT_CHARM) || follower._master != ch)
+                if (!follower.IsAffected(Affect.AFFECT_CHARM) || follower.Master != ch)
                 {
                     continue;
                 }
 
-                if (follower._position < Position.standing)
+                if (follower.CurrentPosition < Position.standing)
                 {
                     CommandType.Interpret(ch, "stand");
                 }
 
-                if (follower._position == Position.standing && follower._wait == 0)
+                if (follower.CurrentPosition == Position.standing && follower.Wait == 0)
                 {
                     SocketConnection.Act("You follow $N&n.", follower, null, ch, SocketConnection.MessageTarget.character);
                     Enter(follower, str);
@@ -20117,7 +20117,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You're already mounted!\r\n");
                 return;
@@ -20142,25 +20142,25 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._rider)
+            if (ch.Rider)
             {
                 ch.SendText("You are being ridden by someone else!\r\n");
                 return;
             }
 
-            if (victim._rider)
+            if (victim.Rider)
             {
                 ch.SendText("That mount already has a rider.\r\n");
                 return;
             }
 
-            if (victim._position < Position.standing)
+            if (victim.CurrentPosition < Position.standing)
             {
                 ch.SendText("Your mount must be standing.\r\n");
                 return;
             }
 
-            if (victim._position == Position.fighting || victim._fighting)
+            if (victim.CurrentPosition == Position.fighting || victim.Fighting)
             {
                 ch.SendText("Your mount is moving around too much.\r\n");
                 return;
@@ -20172,8 +20172,8 @@ namespace MUDEngine
             // that they should be mounted.
             if (ch.IsNPC() || ch.IsImmortal() || ch.CheckSkill("mount", PracticeType.easy ))
             {
-                victim._rider = ch;
-                ch._riding = victim;
+                victim.Rider = ch;
+                ch.Riding = victim;
                 SocketConnection.Act("You mount $N&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n skillfully mounts $N&n.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act("$n&n mounts you.", ch, null, victim, SocketConnection.MessageTarget.victim);
@@ -20197,21 +20197,21 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            CharData victim = ch._riding;
+            CharData victim = ch.Riding;
             if (!victim)
             {
                 ch.SendText("You're not mounted.\r\n");
                 return;
             }
 
-            if (ch._riding._inRoom != ch._inRoom)
+            if (ch.Riding.InRoom != ch.InRoom)
             {
                 ch.SendText("Weird! You dismount, but your mount isn't here.");
-                if (ch._riding._rider && ch._riding._rider == ch)
+                if (ch.Riding.Rider && ch.Riding.Rider == ch)
                 {
-                    ch._riding._rider = null;
+                    ch.Riding.Rider = null;
                 }
-                ch._riding = null;
+                ch.Riding = null;
                 return;
             }
 
@@ -20221,18 +20221,18 @@ namespace MUDEngine
                 SocketConnection.Act("You dismount $N&n.", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n skillfully dismounts $N&n.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act("$n&n dismounts you.  Whew!", ch, null, victim, SocketConnection.MessageTarget.victim);
-                victim._rider = null;
-                ch._riding = null;
-                ch._position = Position.standing;
+                victim.Rider = null;
+                ch.Riding = null;
+                ch.CurrentPosition = Position.standing;
             }
             else
             {
                 SocketConnection.Act("You fall off while dismounting $N&n.  Ouch!", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n&n falls off of $N&n while dismounting.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act("$n&n falls off your back.", ch, null, victim, SocketConnection.MessageTarget.victim);
-                victim._rider = null;
-                ch._riding = null;
-                ch._position = Position.resting;
+                victim.Rider = null;
+                ch.Riding = null;
+                ch.CurrentPosition = Position.resting;
                 Combat.InflictDamage(ch, ch, 1, String.Empty, ObjTemplate.WearLocation.none, AttackType.DamageType.bludgeon);
             }
 
@@ -20248,19 +20248,19 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (!ch._rider)
+            if (!ch.Rider)
             {
                 ch.SendText("There is no one riding you.\r\n");
                 return;
             }
 
-            SocketConnection.Act("$n&n bucks $N&n!", ch, null, ch._rider, SocketConnection.MessageTarget.everyone_but_victim);
-            SocketConnection.Act("You buck $M!", ch, null, ch._rider, SocketConnection.MessageTarget.character);
-            SocketConnection.Act("$n&n bucks you from $m!", ch, null, ch._rider, SocketConnection.MessageTarget.victim);
+            SocketConnection.Act("$n&n bucks $N&n!", ch, null, ch.Rider, SocketConnection.MessageTarget.everyone_but_victim);
+            SocketConnection.Act("You buck $M!", ch, null, ch.Rider, SocketConnection.MessageTarget.character);
+            SocketConnection.Act("$n&n bucks you from $m!", ch, null, ch.Rider, SocketConnection.MessageTarget.victim);
 
-            ch._rider._riding = null;
-            ch._rider._position = Position.resting;
-            ch._rider = null;
+            ch.Rider.Riding = null;
+            ch.Rider.CurrentPosition = Position.resting;
+            ch.Rider = null;
             return;
         }
 
@@ -20276,7 +20276,7 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (ch._fighting || ch._position == Position.fighting)
+            if (ch.Fighting || ch.CurrentPosition == Position.fighting)
             {
                 ch.SendText("You can't do that while fighting!\r\n");
                 return;
@@ -20288,17 +20288,17 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._hitpoints < ch.GetMaxHit())
+            if (ch.Hitpoints < ch.GetMaxHit())
             {
-                ch._hitpoints += MUDMath.Dice(3, (ch._level / 2)) + 1;
+                ch.Hitpoints += MUDMath.Dice(3, (ch.Level / 2)) + 1;
                 if (((PC)ch).SkillAptitude["bandage"] > 9)
                 {
-                    ch._hitpoints += ((PC)ch).SkillAptitude["bandage"] / 8;
+                    ch.Hitpoints += ((PC)ch).SkillAptitude["bandage"] / 8;
                     ch.PracticeSkill("bandage");
                 }
-                if (ch._hitpoints > ch.GetMaxHit())
+                if (ch.Hitpoints > ch.GetMaxHit())
                 {
-                    ch._hitpoints = ch.GetMaxHit();
+                    ch.Hitpoints = ch.GetMaxHit();
                 }
             }
 
@@ -20335,16 +20335,16 @@ namespace MUDEngine
             }
 
             // If it's a mob that isn't switched, bail.
-            if (ch._socket == null)
+            if (ch.Socket == null)
                 return;
 
-            if (ch._position < Position.sleeping)
+            if (ch.CurrentPosition < Position.sleeping)
             {
                 ch.SendText("&nYou can't see anything but &+Ystars&n!  See how pretty!\r\n");
                 return;
             }
 
-            if (ch._position == Position.sleeping)
+            if (ch.CurrentPosition == Position.sleeping)
             {
                 ch.SendText("&nYou can't see anything, you're &+Lsleeping&n!  Zzz.\r\n");
                 return;
@@ -20376,15 +20376,15 @@ namespace MUDEngine
             if (args.Count == 0 || args[0].Equals( "auto", StringComparison.CurrentCultureIgnoreCase) ||
                 args[0].Equals("room", StringComparison.CurrentCultureIgnoreCase))
             {
-                if (ch._inRoom == null)
+                if (ch.InRoom == null)
                 {
                     ch.SendText("You are not in a room.  You are just floating in empty space.  This should never happen.  You should <petition> someone for help.\r\n");
-                    Log.Error("Character executing Commandlook command from null room: " + ch._name);
+                    Log.Error("Character executing Commandlook command from null room: " + ch.Name);
                     return;
                 }
-                if (ch._flyLevel > 0)
+                if (ch.FlightLevel > 0)
                 {
-                    switch (ch._flyLevel)
+                    switch (ch.FlightLevel)
                     {
                         case CharData.FlyLevel.low:
                             ch.SendText("Hovering above ");
@@ -20397,7 +20397,7 @@ namespace MUDEngine
                             break;
                     }
                 }
-                if (!ch.HasActionBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
+                if (!ch.HasActionBit(PC.PLAYER_GODMODE) && ch.InRoom.IsDark()
                         && !ch.HasInnate(Race.RACE_ULTRAVISION)
                         && !ch.IsAffected( Affect.AFFECT_ULTRAVISION))
                 {
@@ -20407,9 +20407,9 @@ namespace MUDEngine
                 {
                     String roomOpen = String.Empty;
                     String roomClose = String.Empty;
-                    if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                    if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                     {
-                        roomOpen = "<zone>" + ch._inRoom.Area.Name + "</zone><roomTitle>";
+                        roomOpen = "<zone>" + ch.InRoom.Area.Name + "</zone><roomTitle>";
                         roomClose = "</roomTitle>";
                     }
                     else
@@ -20417,9 +20417,9 @@ namespace MUDEngine
                         roomClose = "&n\r\n";
                     }
                     // Added support for both manual and automatic descriptions on the worldmap.
-                    if (!ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP) || ch._inRoom.Title.Length > 1)
+                    if (!ch.InRoom.Area.HasFlag(Area.AREA_WORLDMAP) || ch.InRoom.Title.Length > 1)
                     {
-                        output += roomOpen + ch._inRoom.Title + roomClose;
+                        output += roomOpen + ch.InRoom.Title + roomClose;
                     }
                     else
                     {
@@ -20428,18 +20428,18 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                    if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                     {
-                        ch.SendText("<zone>" + ch._inRoom.Area.Name + "</zone>");
+                        ch.SendText("<zone>" + ch.InRoom.Area.Name + "</zone>");
                     }
-                    Look.ShowRoomInfo(ch, ch._inRoom);
+                    Look.ShowRoomInfo(ch, ch.InRoom);
                 }
 
-                if (!ch.IsNPC() && !ch.HasActionBit(PC.PLAYER_GODMODE) && ch._inRoom.IsDark()
+                if (!ch.IsNPC() && !ch.HasActionBit(PC.PLAYER_GODMODE) && ch.InRoom.IsDark()
                     && !ch.HasInnate(Race.RACE_ULTRAVISION) && !ch.IsAffected( Affect.AFFECT_ULTRAVISION))
                 {
                     ch.SendText("&+LIt is pitch black...&n \r\n");
-                    Look.ShowCharacterToCharacter(ch._inRoom.People, ch);
+                    Look.ShowCharacterToCharacter(ch.InRoom.People, ch);
                     return;
                 }
 
@@ -20450,7 +20450,7 @@ namespace MUDEngine
                     String roomDescClose = String.Empty;
                     String mapSpace = String.Empty;
 
-                    if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                    if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                     {
                         roomDescOpen = "<roomDescription>";
                         roomDescClose = "</roomDescription>";
@@ -20460,12 +20460,12 @@ namespace MUDEngine
                         roomDescClose = "&n\r\n";
                         mapSpace = "    ";
                     }
-                    if( !ch.HasActionBit(PC.PLAYER_BRIEF) && !ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
+                    if( !ch.HasActionBit(PC.PLAYER_BRIEF) && !ch.InRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                     {
                         // Added support for both manual and automatic descriptions on the worldmap.
-                        if (ch._inRoom.Description.Length > 0)
+                        if (ch.InRoom.Description.Length > 0)
                         {
-                            output += roomDescOpen + "    " + (ch._inRoom.Description.Trim()) + roomDescClose;
+                            output += roomDescOpen + "    " + (ch.InRoom.Description.Trim()) + roomDescClose;
                         }
                         //else if (ch._inRoom.WorldmapTerrainType < Database.SystemData.MapInfo.Length)
                         //    output += roomDescOpen + mapSpace + Database.SystemData.MapInfo[ch._inRoom.WorldmapTerrainType].RoomDescription + roomDescClose;
@@ -20480,29 +20480,29 @@ namespace MUDEngine
                     ch.SendText(output);
                 }
 
-                if (ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
+                if (ch.InRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                 {
                     if (ch.HasActionBit(PC.PLAYER_MAP))
                     {
                         Command.Worldmap(ch, null);
                     }
-                    else if (!ch.IsNPC() && ch._socket._terminalType != SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                    else if (!ch.IsNPC() && ch.Socket.Terminal != SocketConnection.TerminalType.TERMINAL_ENHANCED)
                     {
                         ch.SendText("\r\n");
                     }
                 }
 
-                if (ch._inRoom.HasFlag(RoomTemplate.ROOM_SILENT))
+                if (ch.InRoom.HasFlag(RoomTemplate.ROOM_SILENT))
                 {
                     ch.SendText("&nIt seems preternaturally quiet.\r\n");
                 }
 
                 CommandType.Interpret(ch, "exits auto");
 
-                Look.ShowRoomAffects(ch, ch._inRoom);
+                Look.ShowRoomAffects(ch, ch.InRoom);
 
-                Look.ShowListToCharacter(ch._inRoom.Contents, ch, false, false);
-                Look.ShowCharacterToCharacter(ch._inRoom.People, ch);
+                Look.ShowListToCharacter(ch.InRoom.Contents, ch, false, false);
+                Look.ShowCharacterToCharacter(ch.InRoom.People, ch);
                 return;
             }
 
@@ -20542,7 +20542,7 @@ namespace MUDEngine
             if (door != -1)
             {
                 // If no exit data, then return.
-                exit = ch._inRoom.ExitData[door];
+                exit = ch.InRoom.ExitData[door];
                 if (!exit)
                 {
                     ch.SendText("There's nothing to see in that direction.\r\n");
@@ -20561,7 +20561,7 @@ namespace MUDEngine
                 {
                     if (exit.TargetRoom)
                     {
-                        Room room = ch._inRoom;
+                        Room room = ch.InRoom;
                         ch.RemoveFromRoom();
                         ch.AddToRoom(Room.GetRoom(exit.IndexNumber));
                         CommandType.Interpret(ch, "look");
@@ -20708,7 +20708,7 @@ namespace MUDEngine
                     obj = ch.GetObjWear(args[0]);
                 // If not on character, check room.
                 if (obj == null)
-                    obj = Object.GetObjFromList(ch._inRoom.Contents, ch, args[0]);
+                    obj = Object.GetObjFromList(ch.InRoom.Contents, ch, args[0]);
                 // If object found, show it to the char.
                 if (obj != null)
                 {
@@ -20740,7 +20740,7 @@ namespace MUDEngine
             if (args.Count > 0)
             {
                 int count = 0;
-                foreach (Object iobj in ch._inRoom.Contents)
+                foreach (Object iobj in ch.InRoom.Contents)
                 {
                     if (CharData.CanSeeObj(ch, iobj))
                     {
@@ -20781,7 +20781,7 @@ namespace MUDEngine
             // Check for room extra descriptions
             if (args.Count > 0)
             {
-                pdesc = (Database.GetExtraDescription(args[0], ch._inRoom.ExtraDescriptions));
+                pdesc = (Database.GetExtraDescription(args[0], ch.InRoom.ExtraDescriptions));
                 if (!String.IsNullOrEmpty(pdesc))
                 {
                     ch.SendText(pdesc);
@@ -20885,13 +20885,13 @@ namespace MUDEngine
 
             bool auto = (str.Length != 0 && !MUDString.StringsNotEqual(str[0], "auto"));
 
-            if (ch.IsBlind() || !ch._inRoom)
+            if (ch.IsBlind() || !ch.InRoom)
             {
                 return;
             }
 
             string text;
-            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED && auto)
+            if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED && auto)
             {
                 text = "<exits>";
             }
@@ -20907,13 +20907,13 @@ namespace MUDEngine
             // closed <whatever>.
             for (door = 0; door < Limits.MAX_DIRECTION; ++door)
             {
-                exit = ch._inRoom.ExitData[door];
+                exit = ch.InRoom.ExitData[door];
                 if (exit && exit.TargetRoom)
                 {
                     if (exit.HasFlag(Exit.ExitFlag.secret))
                     {
                         /* Mortals do not see secret exits. */
-                        if (ch._level < Limits.LEVEL_AVATAR)
+                        if (ch.Level < Limits.LEVEL_AVATAR)
                             continue;
                         /* Mark secret exits for immortals. */
                         text += "&+LS&n&+c";
@@ -20921,7 +20921,7 @@ namespace MUDEngine
                     if (exit.HasFlag(Exit.ExitFlag.blocked))
                     {
                         /* Mortals do not see secret exits. */
-                        if (ch._level < Limits.LEVEL_AVATAR)
+                        if (ch.Level < Limits.LEVEL_AVATAR)
                             continue;
                         /* Mark secret exits for immortals. */
                         text += "&+yB&n&+c";
@@ -20982,7 +20982,7 @@ namespace MUDEngine
                 text += auto ? " none" : "&nNone.\r\n";
             }
 
-            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED && auto)
+            if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED && auto)
             {
                 text += "&n</exits>";
             }
@@ -21014,21 +21014,21 @@ namespace MUDEngine
 
             Affect prev;
 
-            text += "&+WName: &+G" + ch._name + "&n" + (ch.IsNPC() ? String.Empty : ((PC)ch).Title) + "\r\n";
+            text += "&+WName: &+G" + ch.Name + "&n" + (ch.IsNPC() ? String.Empty : ((PC)ch).Title) + "\r\n";
             text += "&+WRace:&n " + MUDString.PadStr(Race.RaceList[ch.GetRace()].ColorName, 16);
-            text += "&+WClass:&n " + MUDString.PadStr(ch._charClass.WholistName, 32) + "&n\r\n";
-            text += "&+WLevel: " + MUDString.PadInt(ch._level, 5) + "     Played: " + (ch._played.Hours) + " hours       &+WSex: ";
+            text += "&+WClass:&n " + MUDString.PadStr(ch.CharacterClass.WholistName, 32) + "&n\r\n";
+            text += "&+WLevel: " + MUDString.PadInt(ch.Level, 5) + "     Played: " + (ch.TimePlayed.Hours) + " hours       &+WSex: ";
             text += System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(ch.GetSexString()) + "\r\n";
-            if (ch._fighting == null)
+            if (ch.Fighting == null)
             {
                 text += "&+WExperience: &+B" + StringConversion.ExperienceString(ch) + "&n\r\n\r\n";
             }
-            text += "&+WCurrent/Max Health: [&n&+g" + MUDString.PadInt(ch._hitpoints, 5) + "&+W / &n&+g" + MUDString.PadInt(ch.GetMaxHit(), 5);
+            text += "&+WCurrent/Max Health: [&n&+g" + MUDString.PadInt(ch.Hitpoints, 5) + "&+W / &n&+g" + MUDString.PadInt(ch.GetMaxHit(), 5);
             text += "&+W]     Coins:     Carried     In Bank\r\n";
-            text += "&+WCurrent/Max Moves:  [&n&+g" + MUDString.PadInt(ch._currentMoves, 5) + "&+W / &n&+g" + MUDString.PadInt(ch._maxMoves, 5);
+            text += "&+WCurrent/Max Moves:  [&n&+g" + MUDString.PadInt(ch.CurrentMoves, 5) + "&+W / &n&+g" + MUDString.PadInt(ch.MaxMoves, 5);
             text += "&+W]     &+WPlatinum      " + MUDString.PadInt(ch.GetPlatinum(), 5) + "        ";
             text += (ch.IsNPC() ? 0 : ((PC)ch).Bank.Platinum) + "\r\n";
-            text += "Current/Max Mana:   [&n&+g" + MUDString.PadInt(ch._currentMana, 5) + "&+W / &n&+g" + MUDString.PadInt(ch._maxMana, 5);
+            text += "Current/Max Mana:   [&n&+g" + MUDString.PadInt(ch.CurrentMana, 5) + "&+W / &n&+g" + MUDString.PadInt(ch.MaxMana, 5);
             text += "&+W]     &+YGold          " + MUDString.PadInt(ch.GetGold(), 5) + "        " + (ch.IsNPC() ? 0 : ((PC)ch).Bank.Gold) + "\r\n";
             text += "                                        &n&+wSilver        " + MUDString.PadInt(ch.GetSilver(), 5) + "        ";
             text += (ch.IsNPC() ? 0 : ((PC)ch).Bank.Silver) + "\r\n";
@@ -21072,10 +21072,10 @@ namespace MUDEngine
                 text += "&+WTraining Points: &+B" + (ch.IsNPC() ? 0 : ((PC)ch).SkillPoints) + "&n\r\n";
             }
 
-            if (ch._followers != null && ch._followers.Count > 0)
+            if (ch.Followers != null && ch.Followers.Count > 0)
             {
                 text += "&+BFollowers:&n\r\n";
-                foreach (CharData follower in ch._followers)
+                foreach (CharData follower in ch.Followers)
                 {
                     if (follower == null)
                     {
@@ -21091,16 +21091,16 @@ namespace MUDEngine
             }
 
             if ((ch.IsAffected( Affect.AFFECT_DETECT_MAGIC) || ch.IsImmortal())
-                    && MUDString.StringsNotEqual(BitvectorFlagType.AffectString(ch._affectedBy, true), "none"))
+                    && MUDString.StringsNotEqual(BitvectorFlagType.AffectString(ch.AffectedBy, true), "none"))
             {
-                text += "&+BEnchantments: &+W" + BitvectorFlagType.AffectString(ch._affectedBy, true) + "&n\r\n\r\n";
+                text += "&+BEnchantments: &+W" + BitvectorFlagType.AffectString(ch.AffectedBy, true) + "&n\r\n\r\n";
             }
 
-            if (ch._affected != null)
+            if (ch.Affected != null)
             {
                 bool printed = false;
                 prev = null;
-                foreach (Affect affect in ch._affected)
+                foreach (Affect affect in ch.Affected)
                 {
                     if (!printed)
                     {
@@ -21202,14 +21202,14 @@ namespace MUDEngine
 
             string buf = String.Format(
                 "&+WName: &+G{0}&n    &+WLevel: {1}&n\r\n",
-                MUDString.PadStr(ch._name, 17),
-                ch._level);
+                MUDString.PadStr(ch.Name, 17),
+                ch.Level);
             buf1 += buf;
 
             buf = String.Format(
                       "&+WRace:&n {0}          &+WClass:&n {1}     &n&+WSex:&n {2}\r\n",
                       MUDString.PadStr(Race.RaceList[ch.GetRace()].ColorName, 16),
-                      MUDString.PadStr(ch._charClass.WholistName, 16),
+                      MUDString.PadStr(ch.CharacterClass.WholistName, 16),
                       System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(ch.GetSexString()));
             buf1 += buf;
 
@@ -21221,15 +21221,15 @@ namespace MUDEngine
                           "&+WHeight:&n {0} inches         &+WWeight:&n {1} pounds    &+WSize:&n {2}\r\n",
                           MUDString.PadInt(((PC)ch).Height, 3),
                           MUDString.PadInt(((PC)ch).Weight, 5),
-                          Race.SizeString(ch._size));
+                          Race.SizeString(ch.CurrentSize));
             }
             else
             {
-                buf = String.Format("&+WSize:&n  {0}\r\n", ch._size);
+                buf = String.Format("&+WSize:&n  {0}\r\n", ch.CurrentSize);
             }
             buf1 += buf;
 
-            TimeSpan time = TimeSpan.FromTicks(ch._played.Ticks) + (DateTime.Now - ch._logon);
+            TimeSpan time = TimeSpan.FromTicks(ch.TimePlayed.Ticks) + (DateTime.Now - ch.LogonTime);
             int days = (int)time.TotalHours / 24;
             time = (time - TimeSpan.FromDays(days));
             int hours = (int)time.TotalHours;
@@ -21243,7 +21243,7 @@ namespace MUDEngine
             buf1 += buf;
 
             // Need to create a function to display character status strings
-            buf = String.Format("&+BStatus:&n  {0}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch._position)));
+            buf = String.Format("&+BStatus:&n  {0}", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch.CurrentPosition)));
             if (!ch.IsNPC() && ch.IsAffected(Affect.AFFECT_BERZERK))
             {
                 buf += ", &+Rberzerk&n";
@@ -21293,25 +21293,25 @@ namespace MUDEngine
                       MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrWis()), 15));
             buf1 += buf;
             buf = String.Format("     &+cPOW:&n  {0}      &+cParalysis:&n {1}\r\n",
-                      MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrPow()), 15), StringConversion.BonusString(-ch._savingThrows[0]));
+                      MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrPow()), 15), StringConversion.BonusString(-ch.SavingThrows[0]));
             buf1 += buf;
             buf = String.Format("     &+cCHA:&n  {0}      &+cRod:&n       {1}\r\n",
-                      MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrCha()), 15), StringConversion.BonusString(-ch._savingThrows[1]));
+                      MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrCha()), 15), StringConversion.BonusString(-ch.SavingThrows[1]));
             buf1 += buf;
             buf = String.Format("     &+cLUK:&n  {0}      &+cPetrify:&n   {1}\r\n",
-                      MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrLuck()), 15), StringConversion.BonusString(-ch._savingThrows[2]));
+                      MUDString.PadStr(StringConversion.AbilityScoreString(ch.GetCurrLuck()), 15), StringConversion.BonusString(-ch.SavingThrows[2]));
             buf1 += buf;
 
             buf = String.Format("                                &+cBreath:&n    {0}\r\n",
-                      StringConversion.BonusString(-ch._savingThrows[3]));
+                      StringConversion.BonusString(-ch.SavingThrows[3]));
             buf1 += buf;
 
             buf = String.Format("&+BWimpy:        &n{0}               &+cSpell:&n     {1}\r\n",
-                      MUDString.PadInt(ch._wimpy, 4), StringConversion.BonusString(-ch._savingThrows[4]));
+                      MUDString.PadInt(ch.Wimpy, 4), StringConversion.BonusString(-ch.SavingThrows[4]));
             buf1 += buf;
 
             buf = String.Format("&+BLoad Carried: &n{0} pounds ({1})\r\n",
-                      MUDString.PadInt(ch._carryWeight, 3), StringConversion.WeightString(ch));
+                      MUDString.PadInt(ch.CarryWeight, 3), StringConversion.WeightString(ch));
             buf1 += buf;
 
             ch.SendText(buf1);
@@ -21327,7 +21327,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (ch._fighting || (ch._position == Position.fighting))
+            if (ch.Fighting || (ch.CurrentPosition == Position.fighting))
             {
                 ch.SendText("&nEnd the fight first!\r\n");
                 return;
@@ -21559,7 +21559,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (ch._fighting || (ch._position == Position.fighting))
+            if (ch.Fighting || (ch.CurrentPosition == Position.fighting))
             {
                 ch.SendText("&nEnd the fight first!\r\n");
                 return;
@@ -21688,7 +21688,7 @@ namespace MUDEngine
                     * Check for match against restrictions.
                     * Don't use trust as that exposes trusted mortals.
                     */
-                    if (socket._connectionState != SocketConnection.ConnectionState.playing || !CharData.CanSee(ch, workingChar))
+                    if (socket.ConnectionStatus != SocketConnection.ConnectionState.playing || !CharData.CanSee(ch, workingChar))
                     {
                         continue;
                     }
@@ -21696,17 +21696,17 @@ namespace MUDEngine
                     if (name.Length == 0)
                     {
                         /* Outside level/class restrictions. */
-                        if ((workingChar._level < iLevelLower) || (workingChar._level > iLevelUpper)
-                                || (fClassRestrict && !rgfClass[(int)workingChar._charClass.ClassNumber])
+                        if ((workingChar.Level < iLevelLower) || (workingChar.Level > iLevelUpper)
+                                || (fClassRestrict && !rgfClass[(int)workingChar.CharacterClass.ClassNumber])
                                 || (fRaceRestrict && !rgfRace[workingChar.GetRace()]))
                             continue;
-                        if (sorted != false && (workingChar._level != temp))
+                        if (sorted != false && (workingChar.Level != temp))
                             continue;
                         /* Imm only . skip non-immortals. */
                         if (immortalOnly && !workingChar.IsImmortal())
                             continue;
                     }
-                    else if (!MUDString.NameContainedIn(workingChar._name, name) || (workingChar._level != temp && sorted != false))
+                    else if (!MUDString.NameContainedIn(workingChar.Name, name) || (workingChar.Level != temp && sorted != false))
                         continue;
 
                     /* Opposite racewar sides, and both chars are mortals. */
@@ -21718,9 +21718,9 @@ namespace MUDEngine
                     /*
                     * Figure out what to print for class.
                     */
-                    if (workingChar._level >= Limits.LEVEL_HERO)
+                    if (workingChar.Level >= Limits.LEVEL_HERO)
                     {
-                        switch (workingChar._level)
+                        switch (workingChar.Level)
                         {
                             default:
                                 cclass = "&+yUnknown    &n";
@@ -21747,7 +21747,7 @@ namespace MUDEngine
                     }
                     else
                     {
-                        cclass = workingChar._charClass.WholistName;
+                        cclass = workingChar.CharacterClass.WholistName;
                     }
 
                     /*
@@ -21759,11 +21759,11 @@ namespace MUDEngine
                                                     workingChar.HasActionBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
                                                     workingChar.HasActionBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
                                                     workingChar.IsAffected(Affect.AFFECT_INVISIBLE) ? "*" : String.Empty,
-                                                    workingChar._name,
+                                                    workingChar.Name,
                                                     ((PC)workingChar).Title,
                                                     !workingChar.IsGuild() ? String.Empty : ((PC)workingChar).GuildMembership.WhoName,
                                                     Race.RaceList[workingChar.GetRace()].ColorName);
-                        text = String.Format("&+L[&n{0} {1}&+L]&n {2}\r\n", MUDString.PadInt(workingChar._level, 2), MUDString.PadStr(cclass, 13), buf5);
+                        text = String.Format("&+L[&n{0} {1}&+L]&n {2}\r\n", MUDString.PadInt(workingChar.Level, 2), MUDString.PadStr(cclass, 13), buf5);
                     }
                     else
                     {
@@ -21771,7 +21771,7 @@ namespace MUDEngine
                                                      workingChar.HasActionBit(PC.PLAYER_WIZINVIS) ? "(WIZINVIS) " : String.Empty,
                                                      workingChar.HasActionBit(PC.PLAYER_AFK) ? "[AFK] " : String.Empty,
                                                      workingChar.HasActionBit(PC.PLAYER_BOTTING) ? "[BOT] " : String.Empty,
-                                                     workingChar._name,
+                                                     workingChar.Name,
                                                      ((PC)workingChar).Title);
                         string buf2 = String.Format(" {0}", !workingChar.IsGuild() ? String.Empty : ((PC)workingChar).GuildMembership.WhoName);
                         text = String.Format("&+L[&n{0}&+L]&n {1}{2}\r\n", MUDString.PadStr(cclass, 15), buf1, buf2);
@@ -21818,7 +21818,7 @@ namespace MUDEngine
 
             foreach (SocketConnection socket in Database.SocketList)
             {
-                if (socket._connectionState == SocketConnection.ConnectionState.playing)
+                if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing)
                 {
                     numPlayers++;
                 }
@@ -21840,7 +21840,7 @@ namespace MUDEngine
             if( ch == null ) return;
 
             ch.SendText("&nYou are carrying:\r\n");
-            Look.ShowListToCharacter(ch._carrying, ch, true, true);
+            Look.ShowListToCharacter(ch.Carrying, ch, true, true);
             return;
         }
 
@@ -21856,7 +21856,7 @@ namespace MUDEngine
             String equipmentOpen = String.Empty;
             String equipmentClose = String.Empty;
             String separator = String.Empty;
-            if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 equipmentOpen = "<equipment>";
                 equipmentClose = "</equipment>";
@@ -21886,7 +21886,7 @@ namespace MUDEngine
                     if (obj.HasFlag(ObjTemplate.ITEM_TWOHANDED)
                             && !ch.HasInnate(Race.RACE_EXTRA_STRONG_WIELD))
                     {
-                        if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                        if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                         {
                             ch.SendText(((int)iWear).ToString() + ",");
                         }
@@ -21897,7 +21897,7 @@ namespace MUDEngine
                     }
                     else
                     {
-                        if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                        if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                         {
                             ch.SendText(((int)iWear).ToString() + ",");
                         }
@@ -21916,7 +21916,7 @@ namespace MUDEngine
                                  || iWear == ObjTemplate.WearLocation.hand_two)
                             && obj.HasWearFlag(ObjTemplate.WEARABLE_SHIELD))
                     {
-                        if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                        if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                         {
                             ch.SendText(((int)iWear).ToString() + ",");
                         }
@@ -21927,7 +21927,7 @@ namespace MUDEngine
                     }
                     else
                     {
-                        if (!ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                        if (!ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                         {
                             ch.SendText(((int)iWear).ToString() + ",");
                         }
@@ -21986,7 +21986,7 @@ namespace MUDEngine
 
             if (str.Length < 2 || String.IsNullOrEmpty(str[1]))
             {
-                foreach (Object obj3 in ch._carrying)
+                foreach (Object obj3 in ch.Carrying)
                 {
                     if (obj3.WearLocation != ObjTemplate.WearLocation.none
                             && CharData.CanSeeObj(ch, obj3)
@@ -22146,13 +22146,13 @@ namespace MUDEngine
                 {
                     socket = it;
 
-                    if (socket._connectionState == SocketConnection.ConnectionState.playing && (victim = socket.Character)
-                            && !victim.IsNPC() && victim._inRoom
-                            && victim._inRoom.Area == ch._inRoom.Area && CharData.CanSee(ch, victim))
+                    if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing && (victim = socket.Character)
+                            && !victim.IsNPC() && victim.InRoom
+                            && victim.InRoom.Area == ch.InRoom.Area && CharData.CanSee(ch, victim))
                     {
                         found = true;
                         buf = String.Format("%{0} {1}\r\n",
-                                  MUDString.PadStr(victim._name, 28), victim._inRoom.Title);
+                                  MUDString.PadStr(victim.Name, 28), victim.InRoom.Title);
                         ch.SendText(buf);
                     }
                 }
@@ -22167,14 +22167,14 @@ namespace MUDEngine
                 {
                     socket = it;
 
-                    if (socket._connectionState == SocketConnection.ConnectionState.playing && (victim = socket.Character) && !victim.IsNPC()
-                            && victim._inRoom && CharData.CanSee(ch, victim))
+                    if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing && (victim = socket.Character) && !victim.IsNPC()
+                            && victim.InRoom && CharData.CanSee(ch, victim))
                     {
                         found = true;
                         buf = String.Format("{0} [{1}]{2}&n\r\n",
-                                  MUDString.PadStr(victim._name, 28),
-                                  MUDString.PadInt(victim._inRoom.IndexNumber, 7),
-                                  victim._inRoom.Title);
+                                  MUDString.PadStr(victim.Name, 28),
+                                  MUDString.PadInt(victim.InRoom.IndexNumber, 7),
+                                  victim.InRoom.Title);
                         ch.SendText(buf);
                     }
                 }
@@ -22187,13 +22187,13 @@ namespace MUDEngine
                 foreach (CharData it in Database.CharList)
                 {
                     victim = it;
-                    if (victim._inRoom.Area == ch._inRoom.Area
+                    if (victim.InRoom.Area == ch.InRoom.Area
                             && CharData.CanSee(ch, victim)
-                            && MUDString.NameContainedIn(str[0], victim._name))
+                            && MUDString.NameContainedIn(str[0], victim.Name))
                     {
                         found = true;
                         buf = String.Format("{0} {1}\r\n",
-                                  MUDString.PadStr(victim.ShowNameTo(ch, true), 28), victim._inRoom.Title);
+                                  MUDString.PadStr(victim.ShowNameTo(ch, true), 28), victim.InRoom.Title);
                         ch.SendText(buf);
                         break;
                     }
@@ -22235,13 +22235,13 @@ namespace MUDEngine
                 return;
             }
 
-            int diff = victim._level - ch._level;
+            int diff = victim.Level - ch.Level;
 
             if (victim.IsAffected( Affect.AFFECT_PROWESS))
-                diff += (5 + victim._level / 5);
+                diff += (5 + victim.Level / 5);
 
             if (victim.IsAffected( Affect.AFFECT_INCOMPETENCE))
-                diff -= (5 + victim._level / 5);
+                diff -= (5 + victim.Level / 5);
 
             if (ch.HasActionBit(PC.PLAYER_COLOR_CON))
             {
@@ -22403,7 +22403,7 @@ namespace MUDEngine
                     return;
                 }
             }
-            else if (!ch.IsImmortal() || (ch._level <= victim._level && ch != victim)
+            else if (!ch.IsImmortal() || (ch.Level <= victim.Level && ch != victim)
                      || ch.IsNPC() || victim.IsNPC())
             {
                 SocketConnection.Act("$N&n might not appreciate that.", ch, null, victim, SocketConnection.MessageTarget.character);
@@ -22497,19 +22497,19 @@ namespace MUDEngine
             string buf = String.Empty;
             if (str.Length == 0)
             {
-                buf += "&nYou report: " + ch._hitpoints + "/" + ch.GetMaxHit() + " hp " + ch._currentMana + "/" +
-                       ch._maxMana + " mana " + ch._currentMoves + "/" + ch._maxMoves + " mv.\r\n";
+                buf += "&nYou report: " + ch.Hitpoints + "/" + ch.GetMaxHit() + " hp " + ch.CurrentMana + "/" +
+                       ch.MaxMana + " mana " + ch.CurrentMoves + "/" + ch.MaxMoves + " mv.\r\n";
                 ch.SendText(buf);
 
-                buf += "$n&n reports: " + ch._hitpoints + "/" + ch.GetMaxHit() + " hp " + ch._currentMana + "/" +
-                       ch._maxMana + " mana " + ch._currentMoves + "/" + ch._maxMoves + " mv.\r\n";
+                buf += "$n&n reports: " + ch.Hitpoints + "/" + ch.GetMaxHit() + " hp " + ch.CurrentMana + "/" +
+                       ch.MaxMana + " mana " + ch.CurrentMoves + "/" + ch.MaxMoves + " mv.\r\n";
                 SocketConnection.Act(buf, ch, null, null, SocketConnection.MessageTarget.room);
                 return;
             }
             //report is essentially a tell, why not use that code?
             
-            buf += arg + " reporting: " + ch._hitpoints + "/" + ch.GetMaxHit() + " hp " + ch._currentMana + "/" +
-                   ch._maxMana + " mana " + ch._currentMoves + "/" + ch._maxMoves + " mv.\r\n";
+            buf += arg + " reporting: " + ch.Hitpoints + "/" + ch.GetMaxHit() + " hp " + ch.CurrentMana + "/" +
+                   ch.MaxMana + " mana " + ch.CurrentMoves + "/" + ch.MaxMoves + " mv.\r\n";
             CommandType.Interpret(ch, "tell " + buf);
             return;
         }
@@ -22530,7 +22530,7 @@ namespace MUDEngine
 
             if (str.Length == 0)
             {
-                wimpy = ch._wimpy;
+                wimpy = ch.Wimpy;
             }
             else
             {
@@ -22549,7 +22549,7 @@ namespace MUDEngine
                 return;
             }
 
-            ch._wimpy = wimpy;
+            ch.Wimpy = wimpy;
             string text = String.Format("&nWimpy set to {0} hit points.\r\n", wimpy);
             ch.SendText(text);
             return;
@@ -22562,8 +22562,8 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            ch._socket.WriteToBuffer("Password: ");
-            ch._socket._connectionState = SocketConnection.ConnectionState.change_password_get_old;
+            ch.Socket.WriteToBuffer("Password: ");
+            ch.Socket.ConnectionStatus = SocketConnection.ConnectionState.change_password_get_old;
             return;
         }
 
@@ -22795,8 +22795,8 @@ namespace MUDEngine
                               : "&+L[ ]&n emote    | &+cYou can't emote.                                                 &+L|&n\r\n");
 
                 ch.SendText("&+L+------------+------------------------------------------------------------+&n\r\n");
-                string termStr = "&+L|&n &+cYour terminal type is " + ch._socket._terminalType + " and MCCP is " +
-                    ch._socket.MccpEnabled + ".";
+                string termStr = "&+L|&n &+cYour terminal type is " + ch.Socket.Terminal + " and MCCP is " +
+                    ch.Socket.MCCPEnabled + ".";
                 while (termStr.Length < 82)
                     termStr += " ";
                 termStr += "&+L|&n\r\n";
@@ -22837,7 +22837,7 @@ namespace MUDEngine
                     bit = PC.PLAYER_COMBINE;
                 else if (("color".StartsWith(word, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    if (ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+                    if (ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
                     {
                         ch.SendText("You cannot turn color off when using the enhanced client.\r\n");
                         return;
@@ -22873,8 +22873,8 @@ namespace MUDEngine
                 }
                 else if ("mccp".StartsWith(word, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    ch._socket.MccpEnabled = !ch._socket.MccpEnabled;
-                    if (ch._socket.MccpEnabled)
+                    ch.Socket.MCCPEnabled = !ch.Socket.MCCPEnabled;
+                    if (ch.Socket.MCCPEnabled)
                     {
                         ch.SendText("MCCP is now enabled.");
                     }
@@ -22994,7 +22994,7 @@ namespace MUDEngine
 
                 foreach (KeyValuePair<String, Skill> kvp in Skill.SkillList)
                 {
-                    if (kvp.Value.ClassAvailability[(int)charData._charClass.ClassNumber] != level)
+                    if (kvp.Value.ClassAvailability[(int)charData.CharacterClass.ClassNumber] != level)
                         continue;
 
                     if (skill)
@@ -23080,7 +23080,7 @@ namespace MUDEngine
 
                 foreach (KeyValuePair<String, Spell> kvp in Spell.SpellList)
                 {
-                    if (kvp.Value.SpellCircle[(int)ch._charClass.ClassNumber] != circle)
+                    if (kvp.Value.SpellCircle[(int)ch.CharacterClass.ClassNumber] != circle)
                         continue;
 
                     if (pSpell)
@@ -23263,11 +23263,11 @@ namespace MUDEngine
             string buf = String.Empty;
 
             /* Unswitched NPC's get kicked out */
-            if (ch._socket == null)
+            if (ch.Socket == null)
                 return;
 
             /* Will always have a pc ch after this */
-            ch = (ch._socket.Original != null ? ch._socket.Original : ch._socket.Character);
+            ch = (ch.Socket.Original != null ? ch.Socket.Original : ch.Socket.Character);
 
             if (str.Length == 0)
             {
@@ -23415,7 +23415,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (targetChar._level < 5)
+            if (targetChar.Level < 5)
             {
                 ch.SendText("You don't need to worry about trophy yet.\r\n");
                 return;
@@ -23547,7 +23547,7 @@ namespace MUDEngine
                             Spell spl = Spell.SpellList["faerie fire"];
                             if (spl != null)
                             {
-                                spl.Invoke(ch, ch._level, victim);
+                                spl.Invoke(ch, ch.Level, victim);
                             }
                         }
                     }
@@ -23643,7 +23643,7 @@ namespace MUDEngine
                                 Log.Error("Innate Shift: 'plane shift' spell not found. Check the spells file.");
                                 return;
                             }
-                            spell.Invoke(ch, ch._level, new Target(str[1]));
+                            spell.Invoke(ch, ch.Level, new Target(str[1]));
                             ch.AddInnateTimer(InnateTimerData.Type.shift_astral, 8);
 
                             ch.WaitState(10);
@@ -23670,7 +23670,7 @@ namespace MUDEngine
                                 Log.Error("Innate Shift: 'plane shift' spell not found. Check the spells file.");
                                 return;
                             }
-                            spell.Invoke(ch, ch._level, new Target(str[1]));
+                            spell.Invoke(ch, ch.Level, new Target(str[1]));
                             ch.AddInnateTimer(InnateTimerData.Type.shift_prime, 8);
 
                             ch.WaitState(10);
@@ -23767,7 +23767,7 @@ namespace MUDEngine
             bool isArg;
             Exit.Direction door;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
                 ch.SendText("There's no searching to be done here.\r\n");
                 return;
@@ -23821,7 +23821,7 @@ namespace MUDEngine
             }
 
             /* Lag ch from searching. */
-            if (ch._level < Limits.LEVEL_AVATAR)
+            if (ch.Level < Limits.LEVEL_AVATAR)
             {
                 ch.WaitState(MUDMath.FuzzyNumber(18));
             }
@@ -23833,12 +23833,12 @@ namespace MUDEngine
             }
             else
             {
-                list = ch._inRoom.Contents;
+                list = ch.InRoom.Contents;
             }
             foreach (Object obj2 in list)
             {
                 if (obj2.HasFlag(ObjTemplate.ITEM_SECRET) && chance > MUDMath.NumberPercent()
-                        && obj2.FlyLevel == ch._flyLevel)
+                        && obj2.FlyLevel == ch.FlightLevel)
                 {
                     obj2.RemoveFlag(ObjTemplate.ITEM_SECRET);
                     SocketConnection.Act("You find $p&n.", ch, obj2, null, SocketConnection.MessageTarget.character);
@@ -23852,7 +23852,7 @@ namespace MUDEngine
             for (int doornum = 0; doornum <= Limits.MAX_DIRECTION; doornum++)
             {
                 /* If there's a secret exit that leads to a room. */
-                exit = ch._inRoom.GetExit((Exit.Direction)doornum);
+                exit = ch.InRoom.GetExit((Exit.Direction)doornum);
                 if (exit && exit.HasFlag(Exit.ExitFlag.secret) && exit.TargetRoom)
                 {
                     door = (Exit.Direction)doornum;
@@ -23878,7 +23878,7 @@ namespace MUDEngine
                 }
                 if (MUDMath.NumberPercent() < chance)
                 {
-                    if (ch._flyLevel > 0)
+                    if (ch.FlightLevel > 0)
                     {
                         ch.SendText("You're too high to be sure of what you saw.\r\n");
                         return;
@@ -23890,7 +23890,7 @@ namespace MUDEngine
                     exit.RemoveFlag(Exit.ExitFlag.secret);
                     /* And the other side, if it exists. */
                     toRoom = Room.GetRoom(exit.IndexNumber);
-                    if (toRoom && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door))) && (reverseExit.TargetRoom == ch._inRoom))
+                    if (toRoom && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door))) && (reverseExit.TargetRoom == ch.InRoom))
                     {
                         reverseExit.RemoveFlag(Exit.ExitFlag.secret);
                     }
@@ -23901,9 +23901,9 @@ namespace MUDEngine
             if (!isArg)
             {
                 // Chance of finding people hiding in the room
-                foreach (CharData roomChar in ch._inRoom.People)
+                foreach (CharData roomChar in ch.InRoom.People)
                 {
-                    if (!roomChar.IsAffected(Affect.AFFECT_HIDE) || roomChar._flyLevel != ch._flyLevel)
+                    if (!roomChar.IsAffected(Affect.AFFECT_HIDE) || roomChar.FlightLevel != ch.FlightLevel)
                         continue;
                     if (MUDMath.NumberPercent() < chance)
                     {
@@ -23999,7 +23999,7 @@ namespace MUDEngine
         {
             MobTemplate mobTemplate;
             Affect af = new Affect();
-            int mountNumber = ch._charClass.CanSummonMountNumber;
+            int mountNumber = ch.CharacterClass.CanSummonMountNumber;
 
             if (mountNumber == 0)
             {
@@ -24016,8 +24016,8 @@ namespace MUDEngine
             // Look to see if they already have a mount.
             foreach (CharData previousMount in Database.CharList)
             {
-                if (previousMount._master == ch && previousMount.IsNPC() && previousMount._mobTemplate != null
-                    && (previousMount._mobTemplate.IndexNumber == mountNumber))
+                if (previousMount.Master == ch && previousMount.IsNPC() && previousMount.MobileTemplate != null
+                    && (previousMount.MobileTemplate.IndexNumber == mountNumber))
                 {
                     ch.SendText("You already have a mount!\r\n");
                     return;
@@ -24037,11 +24037,11 @@ namespace MUDEngine
 
             // Simulate the poor mount running across the world.
             // They arrive with partially depleted moves.
-            mount._currentMoves -= MUDMath.Dice(4, 40);
+            mount.CurrentMoves -= MUDMath.Dice(4, 40);
             CharData.AddFollower(mount, ch);
             mount.SetAffectBit(Affect.AFFECT_CHARM);
             mount.SetActionBit(MobTemplate.ACT_NOEXP);
-            mount.AddToRoom(ch._inRoom);
+            mount.AddToRoom(ch.InRoom);
 
             ch.WaitState(MUDMath.FuzzyNumber(Skill.SkillList["summon mount"].Delay));
 
@@ -24070,16 +24070,16 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (ch._inRoom == null || ch._inRoom.Area == null)
+            if (ch.InRoom == null || ch.InRoom.Area == null)
                 return;
 
-            if (ch._inRoom.Area.JusticeType == 0)
+            if (ch.InRoom.Area.JusticeType == 0)
             {
                 ch.SendText("&+BYou are not in an area controlled by justice.&n\r\n");
                 return;
             }
             ch.SendText("&+BYou are in an area controlled by justice.&n\r\n");
-            string buf = String.Format("&+B{0}&n\r\n", Crime.GetInvaderString(ch._inRoom.Area.JusticeType));
+            string buf = String.Format("&+B{0}&n\r\n", Crime.GetInvaderString(ch.InRoom.Area.JusticeType));
             ch.SendText(buf);
             ch.SendText("\r\n&+BPossible crimes are:\r\n&n");
 
@@ -24099,7 +24099,7 @@ namespace MUDEngine
             if( ch == null ) return;
             Affect af = new Affect();
 
-            if (ch._level <= Limits.LEVEL_AVATAR && !ch.IsClass(CharClass.Names.paladin))
+            if (ch.Level <= Limits.LEVEL_AVATAR && !ch.IsClass(CharClass.Names.paladin))
             {
                 ch.SendText("&nYou aren't holy enough to do that!\r\n");
                 return;
@@ -24124,14 +24124,14 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim != ch && ch._fighting)
+            if (victim != ch && ch.Fighting)
             {
                 ch.SendText("&nYou can only layhands on yourself while fighting.\r\n");
                 return;
             }
 
-            if (victim._hitpoints < victim.GetMaxHit())
-                victim._hitpoints = Math.Min(victim._hitpoints + 300, victim.GetMaxHit());
+            if (victim.Hitpoints < victim.GetMaxHit())
+                victim.Hitpoints = Math.Min(victim.Hitpoints + 300, victim.GetMaxHit());
             victim.UpdatePosition();
 
             if (ch != victim)
@@ -24146,7 +24146,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n lays hands upon $mself&n.", ch, null, null, SocketConnection.MessageTarget.room);
             }
             victim.SendText("&+WYou feel a warm glow!&n\r\n");
-            if (ch._level >= Limits.LEVEL_AVATAR)
+            if (ch.Level >= Limits.LEVEL_AVATAR)
                 return;
             af.Value = "layhands timer";
             af.Type = Affect.AffectType.skill;
@@ -24168,13 +24168,13 @@ namespace MUDEngine
             Object obj = null;
             int[] flist = new int[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 25 };
 
-            if (!ch._inRoom)
+            if (!ch.InRoom)
             {
                 ch.SendText("There's no foraging to be done here.\r\n");
                 return;
             }
 
-            if (ch._flyLevel != 0)
+            if (ch.FlightLevel != 0)
             {
                 ch.SendText("Right, you're going to find something way up here.\r\n");
                 return;
@@ -24185,11 +24185,11 @@ namespace MUDEngine
             if (chance < MUDMath.NumberPercent())
             {
                 ch.SendText("You don't find anything at all.\r\n");
-                ch._wait += 10;
+                ch.Wait += 10;
                 return;
             }
-            ch._wait += 15;
-            TerrainType sector = ch._inRoom.TerrainType;
+            ch.Wait += 15;
+            TerrainType sector = ch.InRoom.TerrainType;
             // TODO: FIXME: Don't use hard-coded item numbers!
             switch (sector)
             {
@@ -24245,7 +24245,7 @@ namespace MUDEngine
                 ch.SendText("You find nothing edible.\r\n");
                 return;
             }
-            string buf = String.Format("Forage: {0} found index number {1} in room {2}.", ch._name, indexNumber, ch._inRoom.IndexNumber);
+            string buf = String.Format("Forage: {0} found index number {1} in room {2}.", ch.Name, indexNumber, ch.InRoom.IndexNumber);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, buf);
             /*
             if (fvnum == StaticObjects.OBJECT_NUMBER_SPRING) {
@@ -24267,7 +24267,7 @@ namespace MUDEngine
                 return;
             }
             obj = Database.CreateObject(objTemplate, 1);
-            obj.AddToRoom(ch._inRoom);
+            obj.AddToRoom(ch.InRoom);
             obj.FlyLevel = 0;
             if (indexNumber == StaticObjects.OBJECT_NUMBER_SPRING) // give spring a timer;
             {
@@ -24392,14 +24392,14 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (!ch._inRoom)
+            if (!ch.InRoom)
             {
                 ch.SendText("You're not in a proper place for scribing.\r\n");
                 return;
             }
 
             CharData teacher = null;
-            foreach (CharData iteacher in ch._inRoom.People)
+            foreach (CharData iteacher in ch.InRoom.People)
             {
                 if (!iteacher.IsNPC())
                     continue;
@@ -24416,7 +24416,7 @@ namespace MUDEngine
                 return;
             }
 
-            foreach (Object quill in ch._carrying)
+            foreach (Object quill in ch.Carrying)
             {
                 if (quill.ItemType == ObjTemplate.ObjectType.pen)
                 {
@@ -24445,8 +24445,8 @@ namespace MUDEngine
                 return;
             }
 
-            if ((spell.SpellCircle[(int)teacher._charClass.ClassNumber] * 4) >
-                    (teacher._level + 3))
+            if ((spell.SpellCircle[(int)teacher.CharacterClass.ClassNumber] * 4) >
+                    (teacher.Level + 3))
             {
                 ch.SendText("The teacher does not know that spell.\r\n");
                 return;
@@ -24458,7 +24458,7 @@ namespace MUDEngine
                 return;
             }
 
-            if ((spell.SpellCircle[(int)ch._charClass.ClassNumber] * 4) > (ch._level + 3))
+            if ((spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] * 4) > (ch.Level + 3))
             {
                 ch.SendText("That spell is beyond you.\r\n");
                 return;
@@ -24578,7 +24578,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding && ch._inRoom == ch._riding._inRoom)
+            if (ch.Riding && ch.InRoom == ch.Riding.InRoom)
             {
                 ch.SendText("You cannot cast while mounted!\r\n");
                 return;
@@ -24622,7 +24622,7 @@ namespace MUDEngine
                 return;
             }
                         
-            if (ch._riding && ch._riding._inRoom == ch._inRoom)
+            if (ch.Riding && ch.Riding.InRoom == ch.InRoom)
             {
                 ch.SendText("It's too hard to concentrate! Dismount.\r\n");
                 return;
@@ -24653,7 +24653,7 @@ namespace MUDEngine
                 return;
 
             // Check to see if they are allowed to mem anything
-            switch (ch._charClass.ClassNumber)
+            switch (ch.CharacterClass.ClassNumber)
             {
                 default:
                     break;
@@ -24674,7 +24674,7 @@ namespace MUDEngine
                     return;
             }
 
-            if (ch._charClass.MemType == CharClass.MemorizationType.None)
+            if (ch.CharacterClass.MemType == CharClass.MemorizationType.None)
             {
                 ch.SendText("Praying for spells really isn't your kind of thing.\r\n");
                 return;
@@ -24850,13 +24850,13 @@ namespace MUDEngine
                 ch.SendText("You stop meditating.\r\n");
             }
 
-            if (ch._position != Position.resting)
+            if (ch.CurrentPosition != Position.resting)
             {
                 ch.SendText("You must be resting in order to meditate.\r\n");
                 return;
             }
 
-            if (ch._fighting != null)
+            if (ch.Fighting != null)
             {
                 ch.SendText("Meditation during battle leads to permenant inner peace.\r\n");
                 return;
@@ -24941,7 +24941,7 @@ namespace MUDEngine
                 return;
 
             // Check to see if they are allowed to mem anything
-            switch (ch._charClass.ClassNumber)
+            switch (ch.CharacterClass.ClassNumber)
             {
                 default:
                     break;
@@ -24953,7 +24953,7 @@ namespace MUDEngine
                     return;
             }
 
-            if (ch._charClass.MemType == CharClass.MemorizationType.None)
+            if (ch.CharacterClass.MemType == CharClass.MemorizationType.None)
             {
                 ch.SendText("Memorizing spells really isn't your kind of thing.\r\n");
                 return;
@@ -25331,7 +25331,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._hitpoints > 0)
+            if (victim.Hitpoints > 0)
             {
                 ch.SendText("They do not need your help.\r\n");
                 return;
@@ -25373,7 +25373,7 @@ namespace MUDEngine
                 SocketConnection.Act("$n&n tries to bandage $N&n but is unable to have any effect.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim);
             }
 
-            victim._hitpoints += change;
+            victim.Hitpoints += change;
 
             victim.UpdatePosition();
 
@@ -25392,15 +25392,15 @@ namespace MUDEngine
             Room troom;
             Exit texit;
 
-            if (ch._fighting || ch._position == Position.fighting)
+            if (ch.Fighting || ch.CurrentPosition == Position.fighting)
             {
                 ch.SendText("&+cNot &+Wwhile &+cyou&+Wr fi&+cghting...&n\r\n");
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
-                if (!ch._riding.CanFly())
+                if (!ch.Riding.CanFly())
                 {
                     ch.SendText("Your mount can't fly.\r\n");
                     return;
@@ -25426,36 +25426,36 @@ namespace MUDEngine
                     ch.SendText("You cannot fly.\r\n");
                     return;
                 }
-                if (!ch._inRoom.IsFlyable())
+                if (!ch.InRoom.IsFlyable())
                 {
                     ch.SendText("You cannot fly here.\r\n");
                     return;
                 }
-                if (ch._inRoom.TerrainType == TerrainType.plane_of_air)
+                if (ch.InRoom.TerrainType == TerrainType.plane_of_air)
                 {
                     ch.SendText("That's not really an option here.\r\n");
                     return;
                 }
-                if (ch._flyLevel < CharData.FlyLevel.high)
+                if (ch.FlightLevel < CharData.FlyLevel.high)
                 {
                     SocketConnection.Act("$n&n flies up higher.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._flyLevel++;
+                    ch.FlightLevel++;
                     SocketConnection.Act("$n&n flies in from below.", ch, null, null, SocketConnection.MessageTarget.room);
                     ch.SendText("You fly up.\r\n");
                     CommandType.Interpret(ch, "look auto");
-                    foreach (CharData follower in ch._inRoom.People)
+                    foreach (CharData follower in ch.InRoom.People)
                     {
                         if (follower == ch)
                         {
                             continue;
                         }
-                        if (follower._master == ch && follower.CanFly() && follower._flyLevel == (ch._flyLevel - 1)
-                            && follower._position == Position.standing && follower.CanMove())
+                        if (follower.Master == ch && follower.CanFly() && follower.FlightLevel == (ch.FlightLevel - 1)
+                            && follower.CurrentPosition == Position.standing && follower.CanMove())
                         {
-                            if (follower._flyLevel < CharData.FlyLevel.high)
+                            if (follower.FlightLevel < CharData.FlyLevel.high)
                             {
                                 SocketConnection.Act("$n&n flies up.", follower, null, null, SocketConnection.MessageTarget.room);
-                                follower._flyLevel++;
+                                follower.FlightLevel++;
                                 follower.SendText("You fly up.\r\n");
                                 SocketConnection.Act("$n&n flies in from below.", follower, null, null, SocketConnection.MessageTarget.room);
                             }
@@ -25465,10 +25465,10 @@ namespace MUDEngine
                 else
                 {
                     // If in a zone then fly out.
-                    if (!ch._inRoom.Area.HasFlag(Area.AREA_WORLDMAP))
+                    if (!ch.InRoom.Area.HasFlag(Area.AREA_WORLDMAP))
                     {
-                        int lower = ch._inRoom.Area.LowRoomIndexNumber;
-                        int higher = ch._inRoom.Area.HighRoomIndexNumber;
+                        int lower = ch.InRoom.Area.LowRoomIndexNumber;
+                        int higher = ch.InRoom.Area.HighRoomIndexNumber;
                         int iroom;
                         for (iroom = lower; iroom <= higher; iroom++)
                         {
@@ -25489,7 +25489,7 @@ namespace MUDEngine
                                     SocketConnection.Act("$n&n flies up higher.", ch, null, null, SocketConnection.MessageTarget.room);
                                     ch.RemoveFromRoom();
                                     ch.AddToRoom(Room.GetRoom(texit.IndexNumber));
-                                    ch._flyLevel = CharData.FlyLevel.low;
+                                    ch.FlightLevel = CharData.FlyLevel.low;
                                     CommandType.Interpret(ch, "look auto");
                                     return;
                                 }
@@ -25502,12 +25502,12 @@ namespace MUDEngine
             }
             else if (!MUDString.IsPrefixOf(str[0], "down"))
             {
-                if (ch._flyLevel > 0)
+                if (ch.FlightLevel > 0)
                 {
                     SocketConnection.Act("$n&n flies down lower.", ch, null, null, SocketConnection.MessageTarget.room);
-                    ch._flyLevel--;
+                    ch.FlightLevel--;
                     SocketConnection.Act("$n&n flies in from above.", ch, null, null, SocketConnection.MessageTarget.room);
-                    if (ch._flyLevel == 0)
+                    if (ch.FlightLevel == 0)
                     {
                         ch.SendText("You fly down to the ground.\r\n");
                     }
@@ -25516,16 +25516,16 @@ namespace MUDEngine
                         ch.SendText("You fly down.\r\n");
                     }
                     CommandType.Interpret(ch, "look auto");
-                    foreach (CharData follower in ch._inRoom.People)
+                    foreach (CharData follower in ch.InRoom.People)
                     {
                         if (follower == ch)
                         {
                             continue;
                         }
-                        if (follower._master == ch && follower.CanFly() && follower._position == Position.standing && follower.CanMove())
+                        if (follower.Master == ch && follower.CanFly() && follower.CurrentPosition == Position.standing && follower.CanMove())
                         {
                             SocketConnection.Act("$n&n flies down.", follower, null, null, SocketConnection.MessageTarget.room);
-                            follower._flyLevel--;
+                            follower.FlightLevel--;
                             follower.SendText("You fly down.\r\n");
                             SocketConnection.Act("$n&n flies in from above.", follower, null, null, SocketConnection.MessageTarget.room);
                         }
@@ -25538,31 +25538,31 @@ namespace MUDEngine
             }
             else if (!MUDString.IsPrefixOf(str[0], "land"))
             {
-                if (ch._flyLevel > 0)
+                if (ch.FlightLevel > 0)
                 {
                     SocketConnection.Act("$n&n flies down lower.", ch, null, null, SocketConnection.MessageTarget.room);
-                    for (; ch._flyLevel > 0; ch._flyLevel--)
+                    for (; ch.FlightLevel > 0; ch.FlightLevel--)
                     {
                         SocketConnection.Act("$n&n flies down lower.", ch, null, null, SocketConnection.MessageTarget.room);
                     }
-                    ch._flyLevel = 0;
+                    ch.FlightLevel = 0;
                     SocketConnection.Act("$n&n flies in from above.", ch, null, null, SocketConnection.MessageTarget.room);
                     ch.SendText("You fly down to the ground.\r\n");
                     CommandType.Interpret(ch, "look auto");
-                    foreach (CharData follower in ch._inRoom.People)
+                    foreach (CharData follower in ch.InRoom.People)
                     {
                         if (follower == ch)
                         {
                             continue;
                         }
-                        if (follower._master == ch && follower.CanFly() && follower._flyLevel == (ch._flyLevel + 1)
-                            && follower._position == Position.standing && follower.CanMove())
+                        if (follower.Master == ch && follower.CanFly() && follower.FlightLevel == (ch.FlightLevel + 1)
+                            && follower.CurrentPosition == Position.standing && follower.CanMove())
                         {
-                            for (; follower._flyLevel > 0; follower._flyLevel--)
+                            for (; follower.FlightLevel > 0; follower.FlightLevel--)
                             {
                                 SocketConnection.Act("$n&n flies down lower.", follower, null, null, SocketConnection.MessageTarget.room);
                             }
-                            follower._flyLevel = 0;
+                            follower.FlightLevel = 0;
                             follower.SendText("You fly down to the ground.\r\n");
                             SocketConnection.Act("$n&n flies in from above.", follower, null, null, SocketConnection.MessageTarget.room);
                         }
@@ -25590,7 +25590,7 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (ch._fighting)
+            if (ch.Fighting)
             {
                 ch.SendText("Suicide!? Just let your opponent finish you off...\r\n");
                 return;
@@ -25599,9 +25599,9 @@ namespace MUDEngine
             if (ch.IsAffected(Affect.AFFECT_CHARM))
             {
                 ch.SendText("Only those with free will can suicide.\r\n");
-                if (ch._master)
+                if (ch.Master)
                 {
-                    ch._master.SendText("Shame on you for taking advantage like that!\r\n");
+                    ch.Master.SendText("Shame on you for taking advantage like that!\r\n");
                 }
                 return;
             }
@@ -25612,7 +25612,7 @@ namespace MUDEngine
             }
 
             // Specifically allowing suicide while bleeding to death.
-            if (ch._position < Position.stunned)
+            if (ch.CurrentPosition < Position.stunned)
             {
                 ch.SendText("You give up the will to live.\r\n");
             }
@@ -25625,10 +25625,10 @@ namespace MUDEngine
             Combat.KillingBlow(ch, ch);
 
             // Exp loss is that of a normal death
-            ch.GainExperience((0 - (((25 + ch._level) * ExperienceTable.Table[ch._level].LevelExperience) / 200)));
-            if (ch._level < 2 && ch._experiencePoints < 1)
+            ch.GainExperience((0 - (((25 + ch.Level) * ExperienceTable.Table[ch.Level].LevelExperience) / 200)));
+            if (ch.Level < 2 && ch.ExperiencePoints < 1)
             {
-                ch._experiencePoints = 1;
+                ch.ExperiencePoints = 1;
             }
 
             return;
@@ -25672,7 +25672,7 @@ namespace MUDEngine
 
             if (ch.IsNPC())
             {
-                chance = ch._level * 3 / 2 + 20;
+                chance = ch.Level * 3 / 2 + 20;
             }
             else
             {
@@ -25704,7 +25704,7 @@ namespace MUDEngine
             if (MUDMath.NumberPercent() >= chance)
             {
                 ch.SendText("You try to climb it, but you fall on your ass!\r\n");
-                ch._position = Position.sitting;
+                ch.CurrentPosition = Position.sitting;
                 ch.WaitState(5);
                 return;
             }
@@ -25761,7 +25761,7 @@ namespace MUDEngine
                 amount = 10;
             else
                 amount = 5;
-            Affect af = new Affect(Affect.AffectType.skill, "charm of the otter", 5 * ch._level, Affect.Apply.charisma, amount, Affect.AFFECT_NONE);
+            Affect af = new Affect(Affect.AffectType.skill, "charm of the otter", 5 * ch.Level, Affect.Apply.charisma, amount, Affect.AFFECT_NONE);
             ch.AddAffect(af);
             ch.SendText("You feel more charasmatic!\r\n");
         }
@@ -25798,7 +25798,7 @@ namespace MUDEngine
                 amount = 10;
             else
                 amount = 5;
-            Affect af = new Affect(Affect.AffectType.skill, "endurance", 5 * ch._level, Affect.Apply.move, amount, Affect.AFFECT_MOVEMENT_INCREASED);
+            Affect af = new Affect(Affect.AffectType.skill, "endurance", 5 * ch.Level, Affect.Apply.move, amount, Affect.AFFECT_MOVEMENT_INCREASED);
             ch.AddAffect(af);
             ch.SendText("You feel the endurance of the mountains in your muscles!\r\n");
         }
@@ -25835,7 +25835,7 @@ namespace MUDEngine
                 amount = 10;
             else
                 amount = 5;
-            Affect af = new Affect(Affect.AffectType.skill, "fortitude", 5 * ch._level, Affect.Apply.constitution, amount, Affect.AFFECT_NONE);
+            Affect af = new Affect(Affect.AffectType.skill, "fortitude", 5 * ch.Level, Affect.Apply.constitution, amount, Affect.AFFECT_NONE);
             ch.AddAffect(af);
             ch.SendText("You feel more fortified.\r\n");
         }
@@ -25871,7 +25871,7 @@ namespace MUDEngine
                 amount = 10;
             else
                 amount = 5;
-            Affect af = new Affect(Affect.AffectType.skill, "insight", 5 * ch._level, Affect.Apply.intelligence, amount, Affect.AFFECT_NONE);
+            Affect af = new Affect(Affect.AffectType.skill, "insight", 5 * ch.Level, Affect.Apply.intelligence, amount, Affect.AFFECT_NONE);
             ch.AddAffect(af);
             ch.SendText("You feel more insightful.\r\n");
         }
@@ -25908,7 +25908,7 @@ namespace MUDEngine
                 amount = 10;
             else
                 amount = 5;
-            Affect af = new Affect(Affect.AffectType.skill, "might", 5 * ch._level, Affect.Apply.strength, amount, Affect.AFFECT_STRENGTH_INCREASED);
+            Affect af = new Affect(Affect.AffectType.skill, "might", 5 * ch.Level, Affect.Apply.strength, amount, Affect.AFFECT_STRENGTH_INCREASED);
             ch.AddAffect(af);
             ch.SendText("You feel more mighty.\r\n");
         }
@@ -25945,7 +25945,7 @@ namespace MUDEngine
                 amount = 10;
             else
                 amount = 5;
-            Affect af = new Affect(Affect.AffectType.skill, "savvy", 5 * ch._level, Affect.Apply.strength, amount, Affect.AFFECT_STRENGTH_INCREASED);
+            Affect af = new Affect(Affect.AffectType.skill, "savvy", 5 * ch.Level, Affect.Apply.strength, amount, Affect.AFFECT_STRENGTH_INCREASED);
             ch.AddAffect(af);
             ch.SendText("You feel more savvy.\r\n");
         }
@@ -25966,14 +25966,14 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (ch._position == Position.fighting || ch._fighting)
+            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
             {
                 ch.SendText("You're not gifted enough to make camp and fight at the same time.\r\n");
                 ch.RemoveActionBit(PC.PLAYER_CAMPING);
                 return;
             }
 
-            if (ch._flyLevel != 0)
+            if (ch.FlightLevel != 0)
             {
                 ch.SendText("Perhaps it would be more comfortable on the ground.\r\n");
                 return;
@@ -25985,7 +25985,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._position < Position.stunned)
+            if (ch.CurrentPosition < Position.stunned)
             {
                 ch.SendText("Just lie still and finish &+RBle&+reding&n!\r\n");
                 return;
@@ -25997,7 +25997,7 @@ namespace MUDEngine
             // Pass the character, the room they started camping in, and the
             // number of cycles to camp for
             // Pulse camp is 5 seconds, so make them wait for 1.5 minutes
-            Event.CreateEvent(Event.EventType.camp, Event.TICK_CAMP, ch, ch._inRoom, 18);
+            Event.CreateEvent(Event.EventType.camp, Event.TICK_CAMP, ch, ch.InRoom, 18);
 
             return;
         }
@@ -26042,13 +26042,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch.IsAffected(Affect.AFFECT_CHARM) && ch._master)
+            if (ch.IsAffected(Affect.AFFECT_CHARM) && ch.Master)
             {
-                SocketConnection.Act("But you'd rather follow $N&n!", ch, null, ch._master, SocketConnection.MessageTarget.character);
+                SocketConnection.Act("But you'd rather follow $N&n!", ch, null, ch.Master, SocketConnection.MessageTarget.character);
                 return;
             }
 
-            if (victim._master == ch)
+            if (victim.Master == ch)
             {
                 ch.SendText("No following in loops!\r\n");
                 return;
@@ -26056,7 +26056,7 @@ namespace MUDEngine
 
             if (victim == ch)
             {
-                if (!ch._master)
+                if (!ch.Master)
                 {
                     ch.SendText("You already follow yourself.\r\n");
                     return;
@@ -26065,7 +26065,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._master)
+            if (ch.Master)
             {
                 Combat.StopFighting(ch, true);
             }
@@ -26131,7 +26131,7 @@ namespace MUDEngine
                     return;
                 }
 
-                if (!victim.IsAffected(Affect.AFFECT_CHARM) || victim._master != ch)
+                if (!victim.IsAffected(Affect.AFFECT_CHARM) || victim.Master != ch)
                 {
                     ch.SendText("Do it yourself!\r\n");
                     return;
@@ -26139,15 +26139,15 @@ namespace MUDEngine
             }
 
             bool found = false;
-            foreach (CharData roomChar in ch._inRoom.People)
+            foreach (CharData roomChar in ch.InRoom.People)
             {
-                if (roomChar.IsAffected(Affect.AFFECT_CHARM) && roomChar._master == ch
+                if (roomChar.IsAffected(Affect.AFFECT_CHARM) && roomChar.Master == ch
                     && (all || roomChar == victim))
                 {
                     found = true;
                     string text = String.Join(" ", str, 1, (str.Length - 1));
                     SocketConnection.Act("$n&n orders you to '$t'.", ch, text, roomChar, SocketConnection.MessageTarget.victim);
-                    if (roomChar._wait > 0)
+                    if (roomChar.Wait > 0)
                     {
                         SocketConnection.Act("$N&n seems to be busy at the moment.", ch, null, roomChar, SocketConnection.MessageTarget.character);
                     }
@@ -26183,7 +26183,7 @@ namespace MUDEngine
             bool success = false;
             Coins coin = new Coins();
 
-            if (!ch._groupLeader)
+            if (!ch.GroupLeader)
             {
                 ch.SendText("Split with yourself?  How generous!\r\n");
                 return;
@@ -26205,7 +26205,7 @@ namespace MUDEngine
                 ch.SendText("Try sharing some actual coins!\r\n");
                 return;
             }
-            foreach (CharData groupChar in ch._inRoom.People)
+            foreach (CharData groupChar in ch.InRoom.People)
             {
                 if (groupChar.IsSameGroup(ch))
                 {
@@ -26241,7 +26241,7 @@ namespace MUDEngine
                             ch.SendText(buf);
                             buf = String.Format("$n splits some &+ycopper&n.  Your share is {0} coins.",
                                       share);
-                            foreach (CharData groupChar in ch._inRoom.People)
+                            foreach (CharData groupChar in ch.InRoom.People)
                             {
                                 if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
@@ -26271,7 +26271,7 @@ namespace MUDEngine
                             ch.SendText(buf);
                             buf = String.Format("$n splits some &+wsilver&n.  Your share is {0} coins.",
                                       share);
-                            foreach (CharData groupChar in ch._inRoom.People)
+                            foreach (CharData groupChar in ch.InRoom.People)
                             {
                                 if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
@@ -26302,7 +26302,7 @@ namespace MUDEngine
                             buf = String.Format("You split {0} &+Ygold&n.  Your share is {1} coins.\r\n", coin.Gold, share + extra);
                             ch.SendText(buf);
                             buf = String.Format("$n splits some &+Ygold&n.  Your share is {0} coins.", share);
-                            foreach (CharData groupChar in ch._inRoom.People)
+                            foreach (CharData groupChar in ch.InRoom.People)
                             {
                                 if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
@@ -26335,7 +26335,7 @@ namespace MUDEngine
                             buf = String.Format("You split {0} &+Wplatinum&n.  Your share is {1} coins.\r\n", coin.Platinum, share + extra);
                             ch.SendText(buf);
                             buf = String.Format("$n splits some &+Wplatinum&n.  Your share is {0} coins.", share);
-                            foreach (CharData groupChar in ch._inRoom.People)
+                            foreach (CharData groupChar in ch.InRoom.People)
                             {
                                 if (groupChar != ch && groupChar.IsSameGroup(ch))
                                 {
@@ -26371,7 +26371,7 @@ namespace MUDEngine
             if( ch == null ) return;
 
             // No arguments, no leader, no chance.
-            if (!ch._groupLeader)
+            if (!ch.GroupLeader)
             {
                 ch.SendText("Tell who, yourself? You are not in a group!\r\n");
                 return;
@@ -26401,7 +26401,7 @@ namespace MUDEngine
                     continue;
                 }
                 if (groupChar.IsSameGroup(ch)
-                        && !groupChar._inRoom.HasFlag(RoomTemplate.ROOM_SILENT)
+                        && !groupChar.InRoom.HasFlag(RoomTemplate.ROOM_SILENT)
                         && !groupChar.HasInnate(Race.RACE_MUTE)
                         && !groupChar.IsAffected(Affect.AFFECT_MUTE)
                         && groupChar.IsAwake())
@@ -26452,9 +26452,9 @@ namespace MUDEngine
 
             if (ch != victim)
             {
-                buf = String.Format("You beep {0}.\r\n", victim._name);
+                buf = String.Format("You beep {0}.\r\n", victim.Name);
                 ch.SendText(buf);
-                buf = String.Format("\a\a{0} has beeped you.\r\n", ch._name);
+                buf = String.Format("\a\a{0} has beeped you.\r\n", ch.Name);
                 victim.SendText(buf);
             }
             else
@@ -26599,7 +26599,7 @@ namespace MUDEngine
                     msg = "{0}&n cranks back {1}, and releases it {2}ward!";
                     break;
             }
-            buf = String.Format(msg, (ch.IsNPC() ? ch._shortDescription : ch._name),
+            buf = String.Format(msg, (ch.IsNPC() ? ch.ShortDescription : ch.Name),
                       obj.ShortDescription, dir.ToString());
             SocketConnection.Act(buf, ch, null, null, SocketConnection.MessageTarget.room);
 
@@ -26610,8 +26610,8 @@ namespace MUDEngine
                 return;
             }
 
-            if (!ch._inRoom.ExitData[dir]
-                    || ch._inRoom.ExitData[dir].HasFlag(Exit.ExitFlag.closed))
+            if (!ch.InRoom.ExitData[dir]
+                    || ch.InRoom.ExitData[dir].HasFlag(Exit.ExitFlag.closed))
             {
                 newobj = Database.CreateObject(Database.GetObjTemplate(obj.Values[5]), 0);
                 if (!newobj)
@@ -26638,7 +26638,7 @@ namespace MUDEngine
 
                 SocketConnection.Act(buf.ToUpper(), ch, null, null, SocketConnection.MessageTarget.room);
                 SocketConnection.Act(buf.ToUpper(), ch, null, null, SocketConnection.MessageTarget.character);
-                newobj.AddToRoom(ch._inRoom);
+                newobj.AddToRoom(ch.InRoom);
                 return;
             }
             newobj = Database.CreateObject(objTemplate, 0);
@@ -26646,7 +26646,7 @@ namespace MUDEngine
                 Log.Error("Commandshoot: Missile not created! (2)", 0);
             obj.Values[4]--;
 
-            for (n = 1, exit = ch._inRoom.ExitData[dir]; exit && n <= (range + 1); n++)
+            for (n = 1, exit = ch.InRoom.ExitData[dir]; exit && n <= (range + 1); n++)
             {
                 if (exit.HasFlag(Exit.ExitFlag.closed)
                         || exit.HasFlag(Exit.ExitFlag.jammed))
@@ -26686,13 +26686,13 @@ namespace MUDEngine
                 {
                     foreach (CharData mob in toRoom.People)
                     {
-                        if ((mob._position == Position.standing
-                                || mob._position == Position.fighting)
-                                && (Combat.CheckDodge(ch, mob) || ch._level > MUDMath.NumberPercent()))
+                        if ((mob.CurrentPosition == Position.standing
+                                || mob.CurrentPosition == Position.fighting)
+                                && (Combat.CheckDodge(ch, mob) || ch.Level > MUDMath.NumberPercent()))
                         {
                             buf = String.Format("{0}&n streaks into {1}&n from {2}&n!",
                                       newobj.ShortDescription,
-                                      (mob.IsNPC() ? mob._shortDescription : mob._name),
+                                      (mob.IsNPC() ? mob.ShortDescription : mob.Name),
                                       Exit.ReverseDirectionName[dir]);
                             SocketConnection.Act(buf, mob, null, null, SocketConnection.MessageTarget.room);
                             n = range;
@@ -26710,7 +26710,7 @@ namespace MUDEngine
                             if (!ch.IsNPC() && ((PC)ch).SkillAptitude["archery"] > 0)
                                 dam += dam * ((PC)ch).SkillAptitude["archery"] / 150;
 
-                            if (ch._position == Position.fighting || ch._fighting)
+                            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
                                 inBattle = true;
                             newobj.RemoveFromWorld();
                             ;
@@ -26725,12 +26725,12 @@ namespace MUDEngine
                                 Combat.StartGrudge(mob, ch, false);
                             }
 
-                            if (mob._position > Position.stunned
+                            if (mob.CurrentPosition > Position.stunned
                                     && obj.Values[3] == ObjTemplate.RNG_CATAPULT)
                             {
                                 SocketConnection.Act("The impDescriptor._actFlags puts $n&n to sleep!", mob, null, null, SocketConnection.MessageTarget.room);
                                 SocketConnection.Act("The impact puts you to sleep... ZzZzZ", mob, null, null, SocketConnection.MessageTarget.character);
-                                mob._position = Position.sleeping;
+                                mob.CurrentPosition = Position.sleeping;
                             }
 
                             //      continue;
@@ -26800,7 +26800,7 @@ namespace MUDEngine
                 return;
             }
 
-            foreach (Object ammoobj in ch._carrying)
+            foreach (Object ammoobj in ch.Carrying)
             {
                 if (ammoobj.ObjIndexData.IndexNumber == weapon.Values[5])
                 {
@@ -26868,15 +26868,15 @@ namespace MUDEngine
         {
             if( ch == null ) return;
 
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 ch.SendText("You're not fighting anyone!\r\n");
-                if (ch._position == Position.fighting)
-                    ch._position = Position.standing;
+                if (ch.CurrentPosition == Position.fighting)
+                    ch.CurrentPosition = Position.standing;
                 return;
             }
 
-            if (ch._fighting._fighting && ch._fighting._fighting == ch
+            if (ch.Fighting.Fighting && ch.Fighting.Fighting == ch
                     && ch.HasActionBit(PC.PLAYER_VICIOUS))
             {
                 ch.SendText("You're a little busy getting beat on at the moment.\r\n");
@@ -26906,7 +26906,7 @@ namespace MUDEngine
                 ch.SendText("You can't assist the invisible.\r\n"); 
                 return;
             }
-            if (ch._fighting)
+            if (ch.Fighting)
             {
                 ch.SendText("You're a bit busy at the moment.\r\n");
                 return;
@@ -26933,13 +26933,13 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._fighting)
+            if (!victim.Fighting)
             {
                 ch.SendText("They're not fighting anyone.\r\n");
                 return;
             }
 
-            if (victim._fighting == ch)
+            if (victim.Fighting == ch)
             {
                 ch.SendText("Assist!? They're fighting YOU, fool!\r\n");
                 return;
@@ -26949,7 +26949,7 @@ namespace MUDEngine
             SocketConnection.Act("$n&n leaps into the fray, valiantly assisting you.", ch, null, victim, SocketConnection.MessageTarget.victim);
             SocketConnection.Act("$n&n charges into battle and assists $N&n heroically.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
 
-            Combat.SingleAttack(ch, victim._fighting, String.Empty, ObjTemplate.WearLocation.hand_one);
+            Combat.SingleAttack(ch, victim.Fighting, String.Empty, ObjTemplate.WearLocation.hand_one);
 
             return;
         }
@@ -27100,7 +27100,7 @@ namespace MUDEngine
 
             af.Value = "awareness";
             af.Type = Affect.AffectType.skill;
-            af.Duration = (ch._level / 3) + 3;
+            af.Duration = (ch.Level / 3) + 3;
             af.SetBitvector(Affect.AFFECT_SKL_AWARE);
             ch.AddAffect(af);
 
@@ -27246,27 +27246,27 @@ namespace MUDEngine
             if (ch.IsNPC())
                 return;
 
-            if (ch._position == Position.fighting || ch._fighting)
+            if (ch.CurrentPosition == Position.fighting || ch.Fighting)
             {
                 ch.SendText("No way! You are fighting.\r\n");
                 return;
             }
 
-            if (ch._position < Position.stunned)
+            if (ch.CurrentPosition < Position.stunned)
             {
                 ch.SendText("You're not &+RD&n&+rE&+RA&n&+rD&n yet.\r\n");
                 return;
             }
 
             /* If player does not have level 1 he should not have a file... */
-            if (ch._level < 1)
+            if (ch.Level < 1)
             {
                 ch.SendText("You haven't logged in yet and you want to retire? I think not.\r\n");
                 return;
             }
 
-            ch._socket.WriteToBuffer("Password: ");
-            ch._socket._connectionState = SocketConnection.ConnectionState.retire_character_get_password;
+            ch.Socket.WriteToBuffer("Password: ");
+            ch.Socket.ConnectionStatus = SocketConnection.ConnectionState.retire_character_get_password;
 
             return;
         }
@@ -27302,27 +27302,27 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't sniff a trail mounted.\r\n");
                 return;
             }
 
-            if (ch._flyLevel != 0)
+            if (ch.FlightLevel != 0)
             {
                 ch.SendText("You find tracks on the _ground_!\r\n");
                 return;
             }
 
-            if (ch._inRoom.IsWater())
+            if (ch.InRoom.IsWater())
             {
                 ch.SendText("You can't track through water.\r\n");
                 return;
             }
 
-            if (ch._position != Position.standing)
+            if (ch.CurrentPosition != Position.standing)
             {
-                if (ch._position == Position.fighting)
+                if (ch.CurrentPosition == Position.fighting)
                     ch.SendText("You're too busy fighting .\r\n");
                 else
                     ch.SendText("You must be standing to track!\r\n");
@@ -27347,7 +27347,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._inRoom == victim._inRoom)
+            if (ch.InRoom == victim.InRoom)
             {
                 SocketConnection.Act("You're already in $N&n's room!", ch, null, victim, SocketConnection.MessageTarget.character);
                 return;
@@ -27356,9 +27356,9 @@ namespace MUDEngine
             /*
             * Deduct some movement.
             */
-            if (ch._currentMoves > 2)
+            if (ch.CurrentMoves > 2)
             {
-                ch._currentMoves -= 3;
+                ch.CurrentMoves -= 3;
             }
             else
             {
@@ -27368,7 +27368,7 @@ namespace MUDEngine
 
             SocketConnection.Act("$n carefully sniffs the air.", ch, null, null, SocketConnection.MessageTarget.room);
             ch.WaitState(Skill.SkillList["track"].Delay);
-            Exit.Direction direction = Track.FindPath(ch._inRoom.IndexNumber, victim._inRoom.IndexNumber, ch, -40000, area);
+            Exit.Direction direction = Track.FindPath(ch.InRoom.IndexNumber, victim.InRoom.IndexNumber, ch, -40000, area);
 
             if (direction == Exit.Direction.invalid)
             {
@@ -27388,7 +27388,7 @@ namespace MUDEngine
                 {
                     direction = Database.RandomDoor();
                 }
-                while (!(ch._inRoom.ExitData[(int)direction]) || !(ch._inRoom.ExitData[(int)direction].TargetRoom));
+                while (!(ch.InRoom.ExitData[(int)direction]) || !(ch.InRoom.ExitData[(int)direction].TargetRoom));
             }
 
             ch.PracticeSkill("track");
@@ -27399,7 +27399,7 @@ namespace MUDEngine
             ch.SetAffectBit(Affect.AFFECT_TRACK);
             string buf = String.Format("You sense $N&n's trail {0} from here...", direction.ToString());
             SocketConnection.Act(buf, ch, null, victim, SocketConnection.MessageTarget.character);
-            if (ch._position == Position.standing)
+            if (ch.CurrentPosition == Position.standing)
             {
                 ch.Move(direction);
             }
@@ -27414,7 +27414,7 @@ namespace MUDEngine
 
             Vehicle vehicle;
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
                 return;
 
             foreach (Vehicle it in Database.VehicleList)
@@ -27422,12 +27422,12 @@ namespace MUDEngine
                 vehicle = it;
                 if (vehicle.ParentObject == null)
                     continue;
-                if (ch._inRoom.IndexNumber == vehicle.EntryRoomTemplateNumber)
+                if (ch.InRoom.IndexNumber == vehicle.EntryRoomTemplateNumber)
                 {
                     if (vehicle.ParentObject.InRoom)
                     {
                         // Copied from farsee code - Xangis
-                        Room room = ch._inRoom;
+                        Room room = ch.InRoom;
                         ch.RemoveFromRoom();
                         ch.AddToRoom(vehicle.ParentObject.InRoom);
                         CommandType.Interpret(ch, "look");

@@ -108,7 +108,7 @@ namespace MUDEngine
         {
             foreach (Bounty bounty in _bounties)
             {
-                if (bounty.Name == victim._name)
+                if (bounty.Name == victim.Name)
                 {
                     // Award bounty and delete it.
                 }

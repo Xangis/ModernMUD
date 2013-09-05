@@ -427,12 +427,12 @@ namespace MUDEngine
                 return;
             }
 
-            if (!victim._inRoom)
+            if (!victim.InRoom)
             {
                 Log.Error("FoundPrey: null victim._inRoom", 0);
                 return;
             }
-            ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, string.Format("{0}&n has found {1}.", ch._shortDescription, victim._name));
+            ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, string.Format("{0}&n has found {1}.", ch.ShortDescription, victim.Name));
 
             if (ch.IsAffected(Affect.AFFECT_TRACK))
             {
@@ -443,11 +443,11 @@ namespace MUDEngine
             if (ch.IsAffected(Affect.AFFECT_JUSTICE_TRACKER))
             {
                 /* Give Justice the ability to ground flying culprits */
-                if (victim._flyLevel != 0)
+                if (victim.FlightLevel != 0)
                 {
                     SocketConnection.Act("$n&n forces you to land!", ch, null, victim, SocketConnection.MessageTarget.victim);
                     SocketConnection.Act("$n&n forces $N&n to land!", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                    victim._flyLevel = 0;
+                    victim.FlightLevel = 0;
                 }
 
                 SocketConnection.Act("$n&n says, 'Stop, $N&n, you're under ARREST!'", ch, null, victim, SocketConnection.MessageTarget.character);
@@ -457,9 +457,9 @@ namespace MUDEngine
                 victim.SetAffectBit(Affect.AFFECT_BOUND);
                 victim.RemoveFromRoom();
 
-                if (ch._inRoom.Area.JailRoom != 0)
+                if (ch.InRoom.Area.JailRoom != 0)
                 {
-                    victim.AddToRoom(Room.GetRoom(victim._inRoom.Area.JailRoom));
+                    victim.AddToRoom(Room.GetRoom(victim.InRoom.Area.JailRoom));
                 }
                 else
                 {
@@ -469,13 +469,13 @@ namespace MUDEngine
                 return;
             }
 
-            victname = victim.IsNPC() ? victim._shortDescription : victim._name;
+            victname = victim.IsNPC() ? victim.ShortDescription : victim.Name;
 
-            if (ch._flyLevel != victim._flyLevel)
+            if (ch.FlightLevel != victim.FlightLevel)
             {
                 if (ch.CanFly())
                 {
-                    if (ch._flyLevel < victim._flyLevel && ch._flyLevel < CharData.FlyLevel.high)
+                    if (ch.FlightLevel < victim.FlightLevel && ch.FlightLevel < CharData.FlyLevel.high)
                     {
                         Command.Fly(ch, new string[] { "up" });
                     }
@@ -519,14 +519,14 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._inRoom.HasFlag(RoomTemplate.ROOM_SAFE) && ch.IsNPC())
+            if (ch.InRoom.HasFlag(RoomTemplate.ROOM_SAFE) && ch.IsNPC())
             {
-                text = String.Format("Hunting mob {0} found a safe room {1}.", ch._mobTemplate.IndexNumber, ch._inRoom.IndexNumber);
+                text = String.Format("Hunting mob {0} found a safe room {1}.", ch.MobileTemplate.IndexNumber, ch.InRoom.IndexNumber);
                 Log.Trace(text);
                 return;
             }
 
-            if (ch._position > Position.kneeling)
+            if (ch.CurrentPosition > Position.kneeling)
             {
 
                 switch (MUDMath.NumberBits(5))
@@ -556,7 +556,7 @@ namespace MUDEngine
                 }
                 Combat.StopHunting(ch);
                 Combat.CheckAggressive(victim, ch);
-                if (ch._fighting)
+                if (ch.Fighting)
                     return;
 
                 // Backstab if able, otherwise just kill them.
@@ -579,12 +579,12 @@ namespace MUDEngine
         /// <param name="ch"></param>
         public static void HuntVictim( CharData ch )
         {
-            if (!ch || !ch._hunting || !ch.IsAffected(Affect.AFFECT_TRACK))
+            if (!ch || !ch.Hunting || !ch.IsAffected(Affect.AFFECT_TRACK))
             {
                 return;
             }
 
-            if( ch._position != Position.standing )
+            if( ch.CurrentPosition != Position.standing )
             {
                 if( ch.IsAffected( Affect.AFFECT_TRACK ) )
                 {
@@ -606,11 +606,11 @@ namespace MUDEngine
                 foreach (CharData it in Database.CharList)
                 {
                     ch = it;
-                    if (ch._hunting != null && ch._hunting.Who == tmp)
+                    if (ch.Hunting != null && ch.Hunting.Who == tmp)
                         found = true;
                 }
 
-                if (!found || !CharData.CanSee(ch, ch._hunting.Who))
+                if (!found || !CharData.CanSee(ch, ch.Hunting.Who))
                 {
                     if (!ch.IsAffected(Affect.AFFECT_TRACK))
                         CommandType.Interpret(ch, "say Damn!  My prey is gone!");
@@ -623,24 +623,24 @@ namespace MUDEngine
                     return;
                 }
 
-                if (ch._inRoom == ch._hunting.Who._inRoom)
+                if (ch.InRoom == ch.Hunting.Who.InRoom)
                 {
-                    if (ch._fighting)
+                    if (ch.Fighting)
                     {
                         return;
                     }
-                    FoundPrey(ch, ch._hunting.Who);
+                    FoundPrey(ch, ch.Hunting.Who);
                     return;
                 }
 
                 ch.WaitState(Skill.SkillList["track"].Delay);
-                Exit.Direction dir = FindPath(ch._inRoom.IndexNumber, ch._hunting.Who._inRoom.IndexNumber, ch, -40000, true);
+                Exit.Direction dir = FindPath(ch.InRoom.IndexNumber, ch.Hunting.Who.InRoom.IndexNumber, ch, -40000, true);
 
                 if (dir == Exit.Direction.invalid)
                 {
                     if (!ch.IsAffected(Affect.AFFECT_TRACK))
                     {
-                        SocketConnection.Act("$n&n says 'Damn! Lost $M!'", ch, null, ch._hunting.Who, SocketConnection.MessageTarget.room);
+                        SocketConnection.Act("$n&n says 'Damn! Lost $M!'", ch, null, ch.Hunting.Who, SocketConnection.MessageTarget.room);
                     }
                     else
                     {
@@ -660,44 +660,44 @@ namespace MUDEngine
                     {
                         dir = Database.RandomDoor();
                     }
-                    while (!(ch._inRoom.ExitData[(int)dir]) || !(ch._inRoom.ExitData[(int)dir].TargetRoom));
+                    while (!(ch.InRoom.ExitData[(int)dir]) || !(ch.InRoom.ExitData[(int)dir].TargetRoom));
                 }
 
-                if (ch._inRoom.ExitData[(int)dir].HasFlag(Exit.ExitFlag.closed))
+                if (ch.InRoom.ExitData[(int)dir].HasFlag(Exit.ExitFlag.closed))
                 {
                     CommandType.Interpret(ch, "open " + dir.ToString());
                     return;
                 }
                 ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, String.Format("{0}&n leaves room {1} to the {2}.",
-                    ch._shortDescription, ch._inRoom.IndexNumber, dir.ToString()));
+                    ch.ShortDescription, ch.InRoom.IndexNumber, dir.ToString()));
                 if (ch.IsAffected(Affect.AFFECT_TRACK))
                 {
                     SocketConnection.Act(String.Format("You sense $N&n's trail {0} from here...", dir.ToString()),
-                        ch, null, ch._hunting.Who, SocketConnection.MessageTarget.character);
+                        ch, null, ch.Hunting.Who, SocketConnection.MessageTarget.character);
                 }
                 ch.Move(dir);
                 if (ch.IsAffected(Affect.AFFECT_TRACK))
                     SocketConnection.Act("$n&n peers around looking for tracks.", ch, null, null, SocketConnection.MessageTarget.room);
 
-                if (!ch._hunting)
+                if (!ch.Hunting)
                 {
-                    if (!ch._inRoom)
+                    if (!ch.InRoom)
                     {
                         string text = String.Empty;
                         text = String.Format("Hunt_victim: no ch.in_room!  Mob #{0}, _name: {1}.  Placing mob in limbo (ch.AddToRoom()).",
-                                  ch._mobTemplate.IndexNumber, ch._name);
+                                  ch.MobileTemplate.IndexNumber, ch.Name);
                         Log.Error(text, 0);
                         ch.AddToRoom(Room.GetRoom(StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO")));
-                        text = String.Format("{0}&n has gone to limbo while hunting {1}.", ch._shortDescription, ch._hunting.Name);
+                        text = String.Format("{0}&n has gone to limbo while hunting {1}.", ch.ShortDescription, ch.Hunting.Name);
                         ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HUNTING, 0, text);
                         return;
                     }
                     CommandType.Interpret(ch, "say Damn!  Lost my prey!");
                     return;
                 }
-                if (ch._inRoom == ch._hunting.Who._inRoom)
+                if (ch.InRoom == ch.Hunting.Who.InRoom)
                 {
-                    FoundPrey(ch, ch._hunting.Who);
+                    FoundPrey(ch, ch.Hunting.Who);
                 }
                 return;
             }
@@ -709,19 +709,19 @@ namespace MUDEngine
 
         public static void ReturnToLoad( CharData ch )
         {
-            if( !ch || !ch._inRoom )
+            if( !ch || !ch.InRoom )
                 return;
-            if( ch._inRoom.Area != Room.GetRoom( ch._loadRoomIndexNumber ).Area )
+            if( ch.InRoom.Area != Room.GetRoom( ch.LoadRoomIndexNumber ).Area )
                 return;
 
-            Exit.Direction dir = FindPath( ch._inRoom.IndexNumber, ch._loadRoomIndexNumber, ch, -40000, true );
+            Exit.Direction dir = FindPath( ch.InRoom.IndexNumber, ch.LoadRoomIndexNumber, ch, -40000, true );
 
             if( dir == Exit.Direction.invalid )
             {
                 return;
             }
 
-            if( ch._inRoom.ExitData[ (int)dir ].HasFlag( Exit.ExitFlag.closed ) &&
+            if( ch.InRoom.ExitData[ (int)dir ].HasFlag( Exit.ExitFlag.closed ) &&
                     !ch.IsAffected( Affect.AFFECT_PASS_DOOR ) && !ch.HasInnate( Race.RACE_PASSDOOR ) )
             {
                 CommandType.Interpret(ch, "unlock " + dir.ToString());
@@ -731,10 +731,10 @@ namespace MUDEngine
 
             ch.Move( dir );
 
-            if( !ch._inRoom )
+            if( !ch.InRoom )
             {
-                string text = "Return_to_load: no ch._inRoom!  Mob #" + ch._mobTemplate.IndexNumber + ", _name: " +
-                       ch._name + ".  Placing mob in limbo (mob.AddToRoom()).";
+                string text = "Return_to_load: no ch._inRoom!  Mob #" + ch.MobileTemplate.IndexNumber + ", _name: " +
+                       ch.Name + ".  Placing mob in limbo (mob.AddToRoom()).";
                 Log.Error( text, 0 );
                 ch.AddToRoom( Room.GetRoom( StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO") ) );
                 ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_SPAM, 0, text);

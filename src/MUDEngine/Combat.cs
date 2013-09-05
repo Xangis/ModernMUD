@@ -51,7 +51,7 @@ namespace MUDEngine
                 return false;
 
             // Can't stab on horseback
-            if (ch._riding)
+            if (ch.Riding)
             {
                 ch.SendText("You can't get close enough while mounted.\r\n");
                 return false;
@@ -71,17 +71,17 @@ namespace MUDEngine
                 return false;
 
             /* Check size of ch vs. victim. */
-            if (victim._position > Position.sleeping)
+            if (victim.CurrentPosition > Position.sleeping)
             {
                 /* If ch is more than 2 sizes smaller it's too small. */
-                if ((ch._size - 2) > victim._size && victim._position >= Position.stunned
-                        && !(ch.IsNPC() && ch._mobTemplate.IndexNumber == 10165))
+                if ((ch.CurrentSize - 2) > victim.CurrentSize && victim.CurrentPosition >= Position.stunned
+                        && !(ch.IsNPC() && ch.MobileTemplate.IndexNumber == 10165))
                 {
                     ch.SendText("Such tiny beings evade your skills.\r\n");
                     return false;
                 }
                 /* Ch 2 or more sizes larger than victim => bad! */
-                if ((ch._size + 2) < victim._size && victim._position >= Position.stunned)
+                if ((ch.CurrentSize + 2) < victim.CurrentSize && victim.CurrentPosition >= Position.stunned)
                 {
                     ch.SendText("It is rather ineffective to stab someone in the calf.\r\n");
                     return false;
@@ -109,15 +109,15 @@ namespace MUDEngine
             ch.WaitState(Skill.SkillList["backstab"].Delay);
             if (ch.IsNPC())
             {
-                stabChance = 2 * ch._level;
+                stabChance = 2 * ch.Level;
             }
             else
             {
                 stabChance = ((PC)ch).SkillAptitude["backstab"];
             }
-            if (Math.Abs(ch._size - victim._size) == 2)
+            if (Math.Abs(ch.CurrentSize - victim.CurrentSize) == 2)
                 stabChance -= 10;
-            switch (victim._position)
+            switch (victim.CurrentPosition)
             {
                 default:
                     break;
@@ -143,7 +143,7 @@ namespace MUDEngine
             {
                 chance /= 2;
             }
-            string lbuf = String.Format("Command.Backstab: {0} is attempting with a {1}%% chance.", ch._name, stabChance);
+            string lbuf = String.Format("Command.Backstab: {0} is attempting with a {1}%% chance.", ch.Name, stabChance);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
             if (MUDMath.NumberPercent() < stabChance)
             {
@@ -153,13 +153,13 @@ namespace MUDEngine
                     if (!ch.IsNPC())
                         chance = ((PC)ch).SkillAptitude["instant kill"];
                     else
-                        chance = (ch._level * 3) / 2 + 20;
+                        chance = (ch.Level * 3) / 2 + 20;
 
                     // People over level 50 get a bonus, equates to about 1-2%
-                    if (ch._level > 50)
+                    if (ch.Level > 50)
                         chance += 25;
 
-                    chance += (ch._level - victim._level);
+                    chance += (ch.Level - victim.Level);
 
                     // Immortals will get a bonus too
                     if (ch.IsImmortal())
@@ -177,7 +177,7 @@ namespace MUDEngine
                             ch.PracticeSkill("instant kill");
                         {
                             lbuf = String.Format("backstab: {0} hit an instakill on {1} with a {2} chance in hundredths of a percent.",
-                                      ch._name, victim._name, (chance / 30));
+                                      ch.Name, victim.Name, (chance / 30));
                             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
                             Log.Trace(lbuf);
                             ch.WaitState(15);
@@ -189,7 +189,7 @@ namespace MUDEngine
 
                 SingleAttack(ch, victim, "backstab", hand);
                 /* No double stabs when the first stab kills'm. */
-                if (victim._position == Position.dead)
+                if (victim.CurrentPosition == Position.dead)
                     return true;
 
                 /* Case of thieves/assassins doing a double backstab. */
@@ -203,7 +203,7 @@ namespace MUDEngine
                     // Xangis - removed double stab for thieves 6-9-00
                     if ((ch.IsClass(CharClass.Names.assassin)) && (MUDMath.NumberPercent() < ((PC)ch).SkillAptitude["backstab"] * 2 / 3))
                     {
-                        lbuf = String.Format("backstab: {0} hit a double backstab.", ch._name);
+                        lbuf = String.Format("backstab: {0} hit a double backstab.", ch.Name);
                         ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
                         SingleAttack(ch, victim, "backstab", ObjTemplate.WearLocation.hand_two);
                     }
@@ -247,7 +247,7 @@ namespace MUDEngine
             }
 
             /* I don't know how a dead person can hit someone/be hit. */
-            if( victim._position == Position.dead || victim._hitpoints < -10 )
+            if( victim.CurrentPosition == Position.dead || victim.Hitpoints < -10 )
             {
                 StopFighting( victim, true );
                 return true;
@@ -256,18 +256,18 @@ namespace MUDEngine
             /*
             * Set the fighting fields now.
             */
-            if( victim._position > Position.stunned )
+            if( victim.CurrentPosition > Position.stunned )
             {
-                if( !victim._fighting )
+                if( !victim.Fighting )
                     SetFighting( victim, ch );
                 // Can't have bashed/prone people just automatically be standing.
-                if( victim._position == Position.standing )
-                    victim._position = Position.fighting;
+                if( victim.CurrentPosition == Position.standing )
+                    victim.CurrentPosition = Position.fighting;
             }
 
             // HORRIBLE HORRIBLE! We've got index numbers hard-coded.  TODO: FIXME: BUG: Get rid of this!
-            if( ch.IsNPC() && ch._mobTemplate != null && ( ch._mobTemplate.IndexNumber == 9316 ||
-                   ch._mobTemplate.IndexNumber == 9748 ) && MUDMath.NumberPercent() < 20 )
+            if( ch.IsNPC() && ch.MobileTemplate != null && ( ch.MobileTemplate.IndexNumber == 9316 ||
+                   ch.MobileTemplate.IndexNumber == 9748 ) && MUDMath.NumberPercent() < 20 )
             {
                 CheckShout( ch, victim );
             }
@@ -280,7 +280,7 @@ namespace MUDEngine
 
             // Thrikreen primary hand extra attack, only thri extra attack that is
             // given to non-warriors in addition to warriors
-            if( ch.GetRace() == Race.RACE_THRIKREEN && MUDMath.NumberPercent() < ch._level )
+            if( ch.GetRace() == Race.RACE_THRIKREEN && MUDMath.NumberPercent() < ch.Level )
             {
                 if( ch.IsClass(CharClass.Names.warrior) )
                 {
@@ -307,7 +307,7 @@ namespace MUDEngine
                 else
                 {
                     SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
-                    if( MUDMath.NumberPercent() < ch._level / 2 )
+                    if( MUDMath.NumberPercent() < ch.Level / 2 )
                     {
                         SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
                     }
@@ -315,7 +315,7 @@ namespace MUDEngine
             }
 
             // Don't hurt a corpse.
-            if( victim._position == Position.dead || victim._hitpoints < -10 )
+            if( victim.CurrentPosition == Position.dead || victim.Hitpoints < -10 )
             {
                 StopFighting( ch, false );
                 {
@@ -333,7 +333,7 @@ namespace MUDEngine
             {
                 ch.PracticeSkill( "second attack" );
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
-                if( ch._fighting != victim )
+                if( ch.Fighting != victim )
                 {
                     return false;
                 }
@@ -348,12 +348,12 @@ namespace MUDEngine
                     {
                         if( !ch.HasSkill( "second attack" ))
                         {
-                            chance = ch._level / 5;  // Up to 10% chance of third arm for psis and
+                            chance = ch.Level / 5;  // Up to 10% chance of third arm for psis and
                         }
                         // other miscellaneous thris
                         else
                         {
-                            chance = ((ch._level - Skill.SkillList["second attack"].ClassAvailability[(int)ch._charClass.ClassNumber]) * 2 + 25);
+                            chance = ((ch.Level - Skill.SkillList["second attack"].ClassAvailability[(int)ch.CharacterClass.ClassNumber]) * 2 + 25);
                         }
                     }
                     else
@@ -375,7 +375,7 @@ namespace MUDEngine
                     {
                         ch.PracticeSkill( "second attack" );
                         SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_three);
-                        if( ch._fighting != victim )
+                        if( ch.Fighting != victim )
                         {
                             return false;
                         }
@@ -388,7 +388,7 @@ namespace MUDEngine
             {
                 ch.PracticeSkill( "third attack" );
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
-                if( ch._fighting != victim )
+                if( ch.Fighting != victim )
                 {
                     return false;
                 }
@@ -399,7 +399,7 @@ namespace MUDEngine
             {
                 ch.PracticeSkill( "fourth attack" );
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
-                if( ch._fighting != victim )
+                if( ch.Fighting != victim )
                 {
                     return false;
                 }
@@ -415,7 +415,7 @@ namespace MUDEngine
                     ch.PracticeSkill( "dual wield" );
                     if (ch.IsNPC())
                     {
-                        chance = ch._level;
+                        chance = ch.Level;
                     }
                     else
                     {
@@ -434,7 +434,7 @@ namespace MUDEngine
                         SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_two);
                     }
                 }
-                if( ch._fighting != victim )
+                if( ch.Fighting != victim )
                 {
                     return false;
                 }
@@ -446,7 +446,7 @@ namespace MUDEngine
                 if( wield.HasWearFlag( ObjTemplate.WEARABLE_WIELD ) )
                 {
                     ch.PracticeSkill( "dual wield" );
-                    chance = ch.IsNPC() ? ( ch._level * 3 / 2 + 20 ) : ( (PC)ch ).SkillAptitude[ "dual wield" ];
+                    chance = ch.IsNPC() ? ( ch.Level * 3 / 2 + 20 ) : ( (PC)ch ).SkillAptitude[ "dual wield" ];
                     if( chance > 95 )
                     {
                         chance = 95;
@@ -456,14 +456,14 @@ namespace MUDEngine
                         SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_four);
                     }
                 }
-                if( ch._fighting != victim )
+                if( ch.Fighting != victim )
                 {
                     return false;
                 }
             }
 
             // Don't hurt a corpse.
-            if( victim._position == Position.dead || victim._hitpoints < -10 )
+            if( victim.CurrentPosition == Position.dead || victim.Hitpoints < -10 )
             {
                 StopFighting( ch, false );
                 return true;
@@ -496,22 +496,22 @@ namespace MUDEngine
             * Can't beat a dead char!
             * Guard against weird room-leavings.
             */
-            if( victim._position == Position.dead || victim._hitpoints < -10 )
+            if( victim.CurrentPosition == Position.dead || victim.Hitpoints < -10 )
             {
-                text = String.Format("SingleAttack: ch {0} fighting dead victim {1}.", ch._name, victim._name );
+                text = String.Format("SingleAttack: ch {0} fighting dead victim {1}.", ch.Name, victim.Name );
                 Log.Error( text, 0 );
-                ch._fighting = null;
-                if( ch._position == Position.fighting )
-                    ch._position = Position.standing;
+                ch.Fighting = null;
+                if( ch.CurrentPosition == Position.fighting )
+                    ch.CurrentPosition = Position.standing;
                 return true;
             }
-            if( ch._inRoom != victim._inRoom )
+            if( ch.InRoom != victim.InRoom )
             {
-                text = String.Format("SingleAttack: ch {0} not with victim {1}.", ch._name, victim._name );
+                text = String.Format("SingleAttack: ch {0} not with victim {1}.", ch.Name, victim.Name );
                 Log.Error( text, 0 );
-                ch._fighting = null;
-                if( ch._position == Position.fighting )
-                    ch._position = Position.standing;
+                ch.Fighting = null;
+                if( ch.CurrentPosition == Position.fighting )
+                    ch.CurrentPosition = Position.standing;
                 return false;
             }
 
@@ -525,7 +525,7 @@ namespace MUDEngine
             // Inertial barrier will prevent some attacks.  At the following levels a person
             // affected by inertial barrier will be able to avoid this percentage of attacks:
             // 1 = 7%  5 = 10%  10 = 13%  20 = 20%  30 = 27%  40 = 33%  50 = 39%  51 = 40%
-            if (victim.IsAffected(Affect.AFFECT_INERTIAL_BARRIER) && MUDMath.NumberPercent() > (victim._level * 2 / 3 + 7))
+            if (victim.IsAffected(Affect.AFFECT_INERTIAL_BARRIER) && MUDMath.NumberPercent() > (victim.Level * 2 / 3 + 7))
                 return false;
 
             // Keep in mind that CheckRiposte returns a boolean.
@@ -577,12 +577,12 @@ namespace MUDEngine
             /*
             * Calculate to-hit-armor-class-0 versus armor.
             */
-            int hitroll00 = ch._charClass.HitrollLevel0;
-            int hitroll40 = ch._charClass.HitrollLevel40;
+            int hitroll00 = ch.CharacterClass.HitrollLevel0;
+            int hitroll40 = ch.CharacterClass.HitrollLevel40;
 
             /* Weapon-specific hitroll and damroll */
 
-            int hitroll = MUDMath.Interpolate( ch._level, hitroll00, hitroll40 )
+            int hitroll = MUDMath.Interpolate( ch.Level, hitroll00, hitroll40 )
                           - ( ch.GetHitroll( weapon ) * 3 );
             int victimAC = Math.Max( -100, victim.GetAC() );
 
@@ -662,8 +662,8 @@ namespace MUDEngine
             */
             if( ch.IsNPC() )
             {
-                dam = MUDMath.NumberRange( ( ch._level * 3 / 5 ), ( ch._level * 14 / 8 ) )
-                      + ( ch._level - 1 );
+                dam = MUDMath.NumberRange( ( ch.Level * 3 / 5 ), ( ch.Level * 14 / 8 ) )
+                      + ( ch.Level - 1 );
                 if (wield)
                 {
                     dam += MUDMath.Dice(wield.Values[1], wield.Values[2]);
@@ -683,7 +683,7 @@ namespace MUDEngine
                 {
                     if (!ch.IsClass(CharClass.Names.monk))
                     {
-                        dam = MUDMath.NumberRange(1, (2 + (int)ch._size / 3));
+                        dam = MUDMath.NumberRange(1, (2 + (int)ch.CurrentSize / 3));
                         if (ch.CheckSkill("unarmed damage"))
                         {
                             dam += MUDMath.NumberRange(1, (ch.GetSkillChance("unarmed damage") / 12));
@@ -710,7 +710,7 @@ namespace MUDEngine
                         dam = MUDMath.NumberRange(min, ((chance / 3) + min));
                     }
                 }
-                if( ( wield && dam > 1000 ) && ch._level < Limits.LEVEL_AVATAR )
+                if( ( wield && dam > 1000 ) && ch.Level < Limits.LEVEL_AVATAR )
                 {
                     text = String.Format( "SingleAttack damage range > 1000 from {0} to {1}",
                               wield.Values[ 1 ], wield.Values[ 2 ] );
@@ -767,15 +767,15 @@ namespace MUDEngine
                 // stabbing for 180 now stabs for 64.  Assassins will still be able to stab for
                 // 175 and mercs for 116 with this revised cap.  Keep in mind that a sorc can easily
                 // fist for 250.
-                int cap = 100 + 12 * ch._level;
+                int cap = 100 + 12 * ch.Level;
                 if( ch.IsClass(CharClass.Names.mercenary) || ch.IsClass(CharClass.Names.bard ))
                     cap = cap * 2 / 3;
-                dam *= ( 2 + ( ch._level / 9 ) );
+                dam *= ( 2 + ( ch.Level / 9 ) );
                 /* damage cap applied here */
                 dam = Math.Min( dam, cap );
             }
             else if (skill == "circle")              /* 150% to 200% at lev. 50 */
-                dam += dam / 2 + ( dam * ch._level ) / 100;
+                dam += dam / 2 + ( dam * ch.Level ) / 100;
 
             if( dam <= 0 )
                 dam = 1;
@@ -803,7 +803,7 @@ namespace MUDEngine
             Object obj;
             bool critical = false;
 
-            if( victim._position == Position.dead || victim._hitpoints < -10 )
+            if( victim.CurrentPosition == Position.dead || victim.Hitpoints < -10 )
             {
                 return true;
             }
@@ -811,19 +811,19 @@ namespace MUDEngine
             /*
             * Stop up any residual loopholes.
             */
-            if( ( dam > 1276 ) && ch._level < Limits.LEVEL_AVATAR )
+            if( ( dam > 1276 ) && ch.Level < Limits.LEVEL_AVATAR )
             {
                 string text;
 
-                if (ch.IsNPC() && ch._socket)
+                if (ch.IsNPC() && ch.Socket)
                 {
                     text = String.Format("Damage: {0} from {1} by {2}: > 1276 points with {3} damage type!",
-                              dam, ch._name, ch._socket.Original._name, skill);
+                              dam, ch.Name, ch.Socket.Original.Name, skill);
                 }
                 else
                 {
                     text = String.Format("Damage: {0} from {1}: > 1276 points with {2} damage type!",
-                              dam, ch.IsNPC() ? ch._shortDescription : ch._name, skill);
+                              dam, ch.IsNPC() ? ch.ShortDescription : ch.Name, skill);
                 }
                 Log.Error( text, 0 );
                 dam = 1276;
@@ -855,15 +855,15 @@ namespace MUDEngine
                 if( victim == null )
                     return true;
                 Crime.CheckAttemptedMurder( ch, victim );
-                if( victim._position > Position.stunned )
+                if( victim.CurrentPosition > Position.stunned )
                 {
-                    if( !victim._fighting )
+                    if( !victim.Fighting )
                         SetFighting( victim, ch );
                     // Can't have prone people automatically stand
-                    if( victim._position == Position.standing )
-                        victim._position = Position.fighting;
+                    if( victim.CurrentPosition == Position.standing )
+                        victim.CurrentPosition = Position.fighting;
 
-                    if( !ch._fighting )
+                    if( !ch.Fighting )
                         SetFighting( ch, victim );
 
                     /*
@@ -879,18 +879,18 @@ namespace MUDEngine
                     */
                     if( ch.IsNPC()
                             && victim.IsNPC()
-                            && victim._master
-                            && victim._master._inRoom == ch._inRoom
+                            && victim.Master
+                            && victim.Master.InRoom == ch.InRoom
                             && MUDMath.NumberBits( 2 ) == 0 )
                     {
-                        StartGrudge( ch, victim._master, false );
+                        StartGrudge( ch, victim.Master, false );
                     }
                 }
 
                 /*
                 * More charm stuff.
                 */
-                if( victim._master == ch )
+                if( victim.Master == ch )
                 {
                     StopFighting( victim, true );
                 }
@@ -946,12 +946,12 @@ namespace MUDEngine
                 // Critical hits will now go through stoneskin
                 // automatically
                 if (!critical && victim.IsAffected( Affect.AFFECT_STONESKIN) &&
-                        ( skill != "backstab" || MUDMath.NumberPercent() < ( 25 + ch._level ) ) )
+                        ( skill != "backstab" || MUDMath.NumberPercent() < ( 25 + ch.Level ) ) )
                 {
                     bool found = false;
-                    for (int i = (victim._affected.Count - 1); i >= 0; i--)
+                    for (int i = (victim.Affected.Count - 1); i >= 0; i--)
                     {
-                        if( victim._affected[i].HasBitvector( Affect.AFFECT_STONESKIN ) )
+                        if( victim.Affected[i].HasBitvector( Affect.AFFECT_STONESKIN ) )
                         {
                             // Small chance of shattering the stoneskin on a good hit.
                             // Reduced chance by about 20%
@@ -960,17 +960,17 @@ namespace MUDEngine
                                 victim.SendText( "&+LYour stoneskin is shattered by the massive blow!&n\r\n" );
                                 SocketConnection.Act( "$n&n's massive blow shatters $N&n's stoneskin!", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim );
                                 SocketConnection.Act( "Your massive blow shatters $N&n's stoneskin!", ch, null, victim, SocketConnection.MessageTarget.character );
-                                victim.RemoveAffect(victim._affected[i]);
+                                victim.RemoveAffect(victim.Affected[i]);
                                 found = true;
                             }
                             else if( dam > 0 ) // Added check for actual damage
                             {
-                                for( int j = 0; j < victim._affected[i].Modifiers.Count; j++ )
+                                for( int j = 0; j < victim.Affected[i].Modifiers.Count; j++ )
                                 {
-                                    victim._affected[i].Modifiers[j].Amount--;
-                                    if (victim._affected[i].Modifiers[j].Amount < 1)
+                                    victim.Affected[i].Modifiers[j].Amount--;
+                                    if (victim.Affected[i].Modifiers[j].Amount < 1)
                                     {
-                                        victim.RemoveAffect(victim._affected[i]);
+                                        victim.RemoveAffect(victim.Affected[i]);
                                         victim.SendText("&+LYou feel your skin soften and return to normal.&n\r\n");
                                     }
                                     dam /= 15;
@@ -1012,7 +1012,7 @@ namespace MUDEngine
                     // by each individual mob's special function.
                     if( ch.IsNPC()
                             && ch.HasInnate( Race.RACE_WEAPON_WIELD )
-                            && MUDMath.NumberPercent() < Math.Min( 25, Math.Max( 10, ch._level ) )
+                            && MUDMath.NumberPercent() < Math.Min( 25, Math.Max( 10, ch.Level ) )
                             && !victim.IsNPC() )
                         UseMagicalItem( ch );
                 }
@@ -1113,10 +1113,10 @@ namespace MUDEngine
                         && skill == "barehanded fighting" && !Object.GetEquipmentOnCharacter(ch, weapon)) || (ch.IsAffected( Affect.AFFECT_VAMP_TOUCH)
                              && ( !( obj = Object.GetEquipmentOnCharacter( ch, weapon ) ) || obj.HasAffect( Affect.AFFECT_VAMP_TOUCH ) ) ) )
                 {
-                    ch._hitpoints += dam / 3;
-                    if( ch._hitpoints > ( ch.GetMaxHit() + 50 + ch._level * 5 ) )
+                    ch.Hitpoints += dam / 3;
+                    if( ch.Hitpoints > ( ch.GetMaxHit() + 50 + ch.Level * 5 ) )
                     {
-                        ch._hitpoints = ch.GetMaxHit() + 50 + ch._level * 5;
+                        ch.Hitpoints = ch.GetMaxHit() + 50 + ch.Level * 5;
                     }
                 }
             }
@@ -1146,12 +1146,12 @@ namespace MUDEngine
                 if (!string.IsNullOrEmpty(skill))
                 {
                     buf4 = String.Format("Excessive damage: {0} attacking {1} for {2}, skill = {3}({4}).",
-                              ch._name, victim._name, dam, Skill.SkillList[skill].DamageText, skill);
+                              ch.Name, victim.Name, dam, Skill.SkillList[skill].DamageText, skill);
                 }
                 else
                 {
                     buf4 = String.Format("Excessive damage: {0} attacking {1} for {2}, unknown damage type.",
-                              ch._name, victim._name, dam);
+                              ch.Name, victim.Name, dam);
                 }
                 Log.Trace( buf4 );
             }
@@ -1166,36 +1166,36 @@ namespace MUDEngine
                 SendDamageMessage(ch, victim, dam, skill, weapon, immune);
             }
 
-            victim._hitpoints -= dam;
+            victim.Hitpoints -= dam;
 
             /* Check for HOLY_SACRFICE and BATTLE_ECSTASY */
             if( dam > 0 && victim != ch )
             {
                 CharData groupChar;
-                if (victim.IsAffected( Affect.AFFECT_HOLY_SACRIFICE) && victim._groupLeader)
+                if (victim.IsAffected( Affect.AFFECT_HOLY_SACRIFICE) && victim.GroupLeader)
                 {
-                    for( groupChar = victim._groupLeader; groupChar; groupChar = groupChar._nextInGroup )
+                    for( groupChar = victim.GroupLeader; groupChar; groupChar = groupChar.NextInGroup )
                     {
-                        if( groupChar == victim || groupChar._inRoom != ch._inRoom )
+                        if( groupChar == victim || groupChar.InRoom != ch.InRoom )
                             continue;
-                        groupChar._hitpoints += dam / 5;
-                        if (groupChar._hitpoints > groupChar.GetMaxHit() + 50 + groupChar._level * 5)
+                        groupChar.Hitpoints += dam / 5;
+                        if (groupChar.Hitpoints > groupChar.GetMaxHit() + 50 + groupChar.Level * 5)
                         {
-                            groupChar._hitpoints = groupChar.GetMaxHit() + 50 + groupChar._level * 5;
+                            groupChar.Hitpoints = groupChar.GetMaxHit() + 50 + groupChar.Level * 5;
                         }
                     } //end for loop
                 } //end if holy sac
-                if( ch._groupLeader != null )
+                if( ch.GroupLeader != null )
                 {
-                    for( groupChar = ch._groupLeader; groupChar != null; groupChar = groupChar._nextInGroup )
+                    for( groupChar = ch.GroupLeader; groupChar != null; groupChar = groupChar.NextInGroup )
                     {
-                        if( groupChar == victim || groupChar._inRoom != ch._inRoom )
+                        if( groupChar == victim || groupChar.InRoom != ch.InRoom )
                             continue;
                         if( groupChar.IsAffected( Affect.AFFECT_BATTLE_ECSTASY ) )
                         {
-                            groupChar._hitpoints += dam / 20;
-                            if( groupChar._hitpoints > groupChar.GetMaxHit() + 50 + groupChar._level * 5 )
-                                groupChar._hitpoints = groupChar.GetMaxHit() + 50 + groupChar._level * 5;
+                            groupChar.Hitpoints += dam / 20;
+                            if( groupChar.Hitpoints > groupChar.GetMaxHit() + 50 + groupChar.Level * 5 )
+                                groupChar.Hitpoints = groupChar.GetMaxHit() + 50 + groupChar.Level * 5;
                         } // end if battle ecstasy
                     } //end for loop
                 } //end if grouped
@@ -1207,7 +1207,7 @@ namespace MUDEngine
                 if( victim.GetRace() != Race.RACE_DEVIL
                         && victim.GetRace() != Race.RACE_DEMON
                         && victim.GetRace() != Race.RACE_GOD )
-                    victim._hitpoints = -20;
+                    victim.Hitpoints = -20;
             }
 
             /* Added damage exp! */
@@ -1215,13 +1215,13 @@ namespace MUDEngine
             // to be worked out when exp is redone.
             // you can now only get damage exp on mobs that con easy or better
             // and there's only a 25% chance per hit of you evern being eligible for damage exp.
-            if( MUDMath.NumberPercent() < 25 && victim._level >= ( ch._level - 3 ) )
+            if( MUDMath.NumberPercent() < 25 && victim.Level >= ( ch.Level - 3 ) )
                 ch.GainExperience( Math.Max( 1, dam / 20 ) );
 
             if( !victim.IsNPC()
-                    && victim._level >= Limits.LEVEL_AVATAR
-                    && victim._hitpoints < 1 )
-                victim._hitpoints = 1;
+                    && victim.Level >= Limits.LEVEL_AVATAR
+                    && victim.Hitpoints < 1 )
+                victim.Hitpoints = 1;
 
             /*
             * Magic shields that retaliate
@@ -1267,21 +1267,21 @@ namespace MUDEngine
                 }
             }
 
-            if (victim.IsAffected( Affect.AFFECT_BERZERK ) && victim._position <= Position.stunned )
+            if (victim.IsAffected( Affect.AFFECT_BERZERK ) && victim.CurrentPosition <= Position.stunned )
                 victim.RemoveAffect(Affect.AFFECT_BERZERK);
 
             if (dam > 0 && skill != "barehanded fighting"
                     && IsWieldingPoisoned( ch, weapon )
-                    && !Magic.SpellSavingThrow( ch._level, victim, AttackType.DamageType.poison ) )
+                    && !Magic.SpellSavingThrow( ch.Level, victim, AttackType.DamageType.poison ) )
             {
-                InflictPoison( "poison_weapon", ch._level, IsWieldingPoisoned( ch, weapon ), ch, victim );
+                InflictPoison( "poison_weapon", ch.Level, IsWieldingPoisoned( ch, weapon ), ch, victim );
                 SocketConnection.Act( "$n&n suffers from the &+Gpoison&n inflicted upon $m.", victim, null, null, SocketConnection.MessageTarget.room, true );
                 Object.StripAffect( Object.GetEquipmentOnCharacter( ch, weapon ), Affect.AffectType.skill, "poison weapon" );
             }
 
             victim.UpdatePosition();
 
-            switch( victim._position )
+            switch( victim.CurrentPosition )
             {
                 case Position.mortally_wounded:
                     victim.SendText(
@@ -1324,13 +1324,13 @@ namespace MUDEngine
                 default:
                     if( dam > victim.GetMaxHit() / 5 )
                         victim.SendText( "That really did &+RHURT&n!\r\n" );
-                    if( victim._hitpoints < victim.GetMaxHit() / 10 )
+                    if( victim.Hitpoints < victim.GetMaxHit() / 10 )
                         victim.SendText( "You sure are &n&+rBL&+RE&n&+rE&+RDI&n&+rN&+RG&n!\r\n" );
                     break;
             }
 
             // Check for weapon procs
-            if( ( obj = Object.GetEquipmentOnCharacter( ch, weapon ) ) && Position.dead != victim._position )
+            if( ( obj = Object.GetEquipmentOnCharacter( ch, weapon ) ) && Position.dead != victim.CurrentPosition )
             {
                 if( obj.SpecFun.Count > 0 )
                     obj.CheckSpecialFunction(true);
@@ -1341,11 +1341,11 @@ namespace MUDEngine
             */
             if( !victim.IsAwake() )      /* lets make NPC's not slaughter PC's */
             {
-                if( victim._fighting
-                        && victim._fighting._hunting
-                        && victim._fighting._hunting.Who == victim )
-                    StopHunting( victim._fighting );
-                if( victim._fighting
+                if( victim.Fighting
+                        && victim.Fighting.Hunting
+                        && victim.Fighting.Hunting.Who == victim )
+                    StopHunting( victim.Fighting );
+                if( victim.Fighting
                         && !victim.IsNPC()
                         && ch.IsNPC() )
                     StopFighting( victim, true );
@@ -1356,7 +1356,7 @@ namespace MUDEngine
             /*
             * Payoff for killing things.
             */
-            if( victim._position == Position.dead )
+            if( victim.CurrentPosition == Position.dead )
             {
                 // Done in attempt to squelch the combat continuation bug
                 StopFighting( victim, true );
@@ -1366,9 +1366,9 @@ namespace MUDEngine
 
                 if( ch.IsNPC() )
                 {
-                    if( ch._hunting )
+                    if( ch.Hunting )
                     {
-                        if( ch._hunting.Who == victim )
+                        if( ch.Hunting.Who == victim )
                             StopHunting( ch );
                     }
                     if( ch.IsHating(victim) )
@@ -1410,8 +1410,8 @@ namespace MUDEngine
                     }
 
                     string logBuf = String.Format( "{0}&n killed by {1}&n at {2}",
-                              victim._name, ( ch.IsNPC() ? ch._shortDescription : ch._name ),
-                              victim._inRoom.IndexNumber );
+                              victim.Name, ( ch.IsNPC() ? ch.ShortDescription : ch.Name ),
+                              victim.InRoom.IndexNumber );
                     Log.Trace( logBuf );
                     ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, logBuf );
 
@@ -1422,10 +1422,10 @@ namespace MUDEngine
                     * At level 50 you lose 25% of a level.
                     */
                     // Made it so people level 5 and under lose no exp from death.
-                    if( ch._level > 5 )
-                        victim.GainExperience( ( 0 - ( ( ( 50 + victim._level ) * ExperienceTable.Table[ victim._level ].LevelExperience ) / 400 ) ) );
-                    if( victim._level < 2 && victim._experiencePoints < 1 )
-                        victim._experiencePoints = 1;
+                    if( ch.Level > 5 )
+                        victim.GainExperience( ( 0 - ( ( ( 50 + victim.Level ) * ExperienceTable.Table[ victim.Level ].LevelExperience ) / 400 ) ) );
+                    if( victim.Level < 2 && victim.ExperiencePoints < 1 )
+                        victim.ExperiencePoints = 1;
 
                 }
                 else
@@ -1458,9 +1458,9 @@ namespace MUDEngine
             if( victim.IsNPC() && dam > 0 )
             {
                 if( ( victim.HasActionBit(MobTemplate.ACT_WIMPY ) && MUDMath.NumberBits( 1 ) == 0
-                        && victim._hitpoints < victim.GetMaxHit() / 5 )
-                        || (victim.IsAffected( Affect.AFFECT_CHARM) && victim._master
-                             && victim._master._inRoom != victim._inRoom ) )
+                        && victim.Hitpoints < victim.GetMaxHit() / 5 )
+                        || (victim.IsAffected( Affect.AFFECT_CHARM) && victim.Master
+                             && victim.Master.InRoom != victim.InRoom ) )
                 {
                     StartFearing( victim, ch );
                     StopHunting( victim );
@@ -1468,7 +1468,7 @@ namespace MUDEngine
                 }
             }
 
-            if( !victim.IsNPC() && victim._hitpoints > 0 && victim._hitpoints <= victim._wimpy )
+            if( !victim.IsNPC() && victim.Hitpoints > 0 && victim.Hitpoints <= victim.Wimpy )
             {
                 CommandType.Interpret(victim, "flee");
             }
@@ -1511,7 +1511,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool InflictSpellDamage( CharData ch, CharData victim, int dam, Spell spell, AttackType.DamageType damType )
         {
-            if( ch == null || victim == null || victim._position == Position.dead )
+            if( ch == null || victim == null || victim.CurrentPosition == Position.dead )
                 return true;
 
             // Remove memorization and meditation bits.
@@ -1523,15 +1523,15 @@ namespace MUDEngine
             if( CheckShrug( ch, victim ) )
                 return false;
 
-            if( victim._position == Position.sleeping
+            if( victim.CurrentPosition == Position.sleeping
                     && !( victim.GetRace() == Race.RACE_FIRE_ELE && damType == AttackType.DamageType.fire )
                     && !( victim.GetRace() == Race.RACE_WATER_ELE && damType == AttackType.DamageType.water )
                     && !( victim.GetRace() == Race.RACE_EARTH_ELE && damType == AttackType.DamageType.earth )
                     && !( victim.GetRace() == Race.RACE_AIR_ELE && damType == AttackType.DamageType.wind ) )
             {
                 SocketConnection.Act( "$n&n has a rude awakening!", victim, null, null, SocketConnection.MessageTarget.room );
-                victim._position = Position.resting;
-                if( ch._inRoom == victim._inRoom && ch._flyLevel == victim._flyLevel )
+                victim.CurrentPosition = Position.resting;
+                if( ch.InRoom == victim.InRoom && ch.FlightLevel == victim.FlightLevel )
                     SetFighting( victim, ch );
             }
 
@@ -1540,7 +1540,7 @@ namespace MUDEngine
             // doing damage if too low level.  The check for direct spells is in
             // Magic.cs
             if (victim.IsAffected( Affect.AFFECT_MAJOR_GLOBE)
-                    && (spell.SpellCircle[(int)ch._charClass.ClassNumber] <= 6
+                    && (spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] <= 6
                          || spell.Name == "fireshield"
                          || spell.Name == "shockshield"
                          || spell.Name == "soulshield"
@@ -1551,21 +1551,21 @@ namespace MUDEngine
                 SocketConnection.Act( "&+R$N&+R's globe deflects $n&+R's attack!&n", ch, null, victim, SocketConnection.MessageTarget.room_vict );
                 return false;
             }
-            if (victim.IsAffected( Affect.AFFECT_GREATER_SPIRIT_WARD) && spell.SpellCircle[(int)ch._charClass.ClassNumber] <= 5)
+            if (victim.IsAffected( Affect.AFFECT_GREATER_SPIRIT_WARD) && spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] <= 5)
             {
                 SocketConnection.Act( "&+WThe aura around $N&+W's body bears the brunt of your assault!&n", ch, null, victim, SocketConnection.MessageTarget.character );
                 SocketConnection.Act( "&+WYour globe absorbs $n&+W's attack!&n", ch, null, victim, SocketConnection.MessageTarget.victim );
                 SocketConnection.Act( "&+W$N&+W's aura absorbs $n&+W's attack!&n", ch, null, victim, SocketConnection.MessageTarget.room_vict );
                 return false;
             }
-            if (victim.IsAffected( Affect.AFFECT_MINOR_GLOBE) && spell.SpellCircle[(int)ch._charClass.ClassNumber] <= 4)
+            if (victim.IsAffected( Affect.AFFECT_MINOR_GLOBE) && spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] <= 4)
             {
                 SocketConnection.Act( "&+RThe globe around $N&+R's body bears the brunt of your assault!&n", ch, null, victim, SocketConnection.MessageTarget.character );
                 SocketConnection.Act( "&+RYour globe deflects $n&+R's attack!&n", ch, null, victim, SocketConnection.MessageTarget.victim );
                 SocketConnection.Act( "&+R$N&+R's globe deflects $n&+R's attack!&n", ch, null, victim, SocketConnection.MessageTarget.room_vict );
                 return false;
             }
-            if (victim.IsAffected( Affect.AFFECT_SPIRIT_WARD) && spell.SpellCircle[(int)ch._charClass.ClassNumber] <= 3)
+            if (victim.IsAffected( Affect.AFFECT_SPIRIT_WARD) && spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] <= 3)
             {
                 SocketConnection.Act( "&+WThe aura around $N&+W's body bears the brunt of your assault!&n", ch, null, victim, SocketConnection.MessageTarget.character );
                 SocketConnection.Act( "&+WYour globe absorbs $n&+W's attack!&n", ch, null, victim, SocketConnection.MessageTarget.victim );
@@ -1579,18 +1579,18 @@ namespace MUDEngine
             */
             // 1275 is average damage from Akiaurn's Power Word
             // I changed this to reflect that.
-            if( ( dam > 1275 ) && ch._level < Limits.LEVEL_AVATAR && ch.GetRace() != Race.RACE_DRAGON )
+            if( ( dam > 1275 ) && ch.Level < Limits.LEVEL_AVATAR && ch.GetRace() != Race.RACE_DRAGON )
             {
                 string buf3;
 
-                if( ch.IsNPC() && ch._socket )
+                if( ch.IsNPC() && ch.Socket )
                     buf3 = String.Format(
                               "Spell_Damage: {0} from {1} by {2}: > 1275 points with {3} spell!",
-                              dam, ch._name, ch._socket.Original._name, spell.Name );
+                              dam, ch.Name, ch.Socket.Original.Name, spell.Name );
                 else
                     buf3 = String.Format(
                               "Spell_Damage: {0} from {1}: > 1275 points with {2} spell!",
-                              dam, ch.IsNPC() ? ch._shortDescription : ch._name, spell.Name );
+                              dam, ch.IsNPC() ? ch.ShortDescription : ch.Name, spell.Name );
 
                 Log.Error( buf3, 0 );
                 dam = 1275;
@@ -1625,7 +1625,7 @@ namespace MUDEngine
                     return true;
                 Crime.CheckAttemptedMurder( ch, victim );
 
-                if( victim._position > Position.stunned
+                if( victim.CurrentPosition > Position.stunned
                         && !( victim.GetRace() == Race.RACE_FIRE_ELE && damType == AttackType.DamageType.fire )
                         && !( victim.GetRace() == Race.RACE_WATER_ELE && damType == AttackType.DamageType.water )
                         && !( victim.GetRace() == Race.RACE_EARTH_ELE && damType == AttackType.DamageType.earth )
@@ -1633,15 +1633,15 @@ namespace MUDEngine
                 {
                     // Offensive spells engage victim if not fighting, and
                     //   caster only if neither are fighting.
-                    if( !victim._fighting && victim._inRoom == ch._inRoom
-                            && victim._flyLevel == ch._flyLevel )
+                    if( !victim.Fighting && victim.InRoom == ch.InRoom
+                            && victim.FlightLevel == ch.FlightLevel )
                     {
                         SetFighting( victim, ch );
-                        if( !ch._fighting )
+                        if( !ch.Fighting )
                             SetFighting( ch, victim );
                         // Can't have prone people automaticaly stand.
-                        if( victim._position == Position.standing )
-                            victim._position = Position.fighting;
+                        if( victim.CurrentPosition == Position.standing )
+                            victim.CurrentPosition = Position.fighting;
                     }
                     /*
                     * If NPC victim is following, ch might attack victim's master.
@@ -1653,12 +1653,12 @@ namespace MUDEngine
                     */
                     if( ch.IsNPC()
                             && victim.IsNPC()
-                            && victim._master
-                            && victim._master._inRoom == ch._inRoom
+                            && victim.Master
+                            && victim.Master.InRoom == ch.InRoom
                             && MUDMath.NumberBits( 2 ) == 0 )
                     {
                         StopFighting( ch, false );
-                        SetFighting( ch, victim._master );
+                        SetFighting( ch, victim.Master );
                         return false;
                     }
                 }
@@ -1666,7 +1666,7 @@ namespace MUDEngine
                 /*
                 * More charm stuff.
                 */
-                if( victim._master == ch
+                if( victim.Master == ch
                         && !( victim.GetRace() == Race.RACE_FIRE_ELE && damType == AttackType.DamageType.fire )
                         && !( victim.GetRace() == Race.RACE_WATER_ELE && damType == AttackType.DamageType.water )
                         && !( victim.GetRace() == Race.RACE_EARTH_ELE && damType == AttackType.DamageType.earth )
@@ -1813,9 +1813,9 @@ namespace MUDEngine
                 // chance added because people level faster and faster as they get higher level...
                 // you can now only get damage exp on mobs that con easy or better
                 // and there's only a 25% chance per hit of you evern being eligible for damage exp.
-                if( MUDMath.NumberPercent() < 25 && victim._level >= ( ch._level - 3 ) )
+                if( MUDMath.NumberPercent() < 25 && victim.Level >= ( ch.Level - 3 ) )
                     ch.GainExperience( Math.Max( 1, dam / 20 ) );
-                victim._hitpoints -= dam;
+                victim.Hitpoints -= dam;
             }
             else
             {
@@ -1832,27 +1832,27 @@ namespace MUDEngine
                 if( ch.IsImmortal() )
                 {
                     string buf4 = String.Format( "You healed {0} damage.",
-                                                 victim.GetMaxHit() >= dam + victim._hitpoints ? dam : victim.GetMaxHit() - victim._hitpoints );
+                                                 victim.GetMaxHit() >= dam + victim.Hitpoints ? dam : victim.GetMaxHit() - victim.Hitpoints );
                     ch.SendText( buf4 );
                 }
 
-                victim._hitpoints = Math.Min( victim.GetMaxHit(), victim._hitpoints + dam );
+                victim.Hitpoints = Math.Min( victim.GetMaxHit(), victim.Hitpoints + dam );
 
                 return false;
             }
 
             if( !victim.IsNPC()
-                    && victim._level >= Limits.LEVEL_AVATAR
-                    && victim._hitpoints < 1 )
-                victim._hitpoints = 1;
+                    && victim.Level >= Limits.LEVEL_AVATAR
+                    && victim.Hitpoints < 1 )
+                victim.Hitpoints = 1;
 
             if (victim.IsAffected(Affect.AFFECT_BERZERK)
-                    && victim._position <= Position.stunned )
+                    && victim.CurrentPosition <= Position.stunned )
                 victim.RemoveAffect(Affect.AFFECT_BERZERK);
 
             victim.UpdatePosition();
 
-            switch( victim._position )
+            switch( victim.CurrentPosition )
             {
                 case Position.mortally_wounded:
                     victim.SendText(
@@ -1896,7 +1896,7 @@ namespace MUDEngine
                 default:
                     if( dam > victim.GetMaxHit() / 5 )
                         victim.SendText( "That really did &+RHURT&n!\r\n" );
-                    if( victim._hitpoints < victim.GetMaxHit() / 10 )
+                    if( victim.Hitpoints < victim.GetMaxHit() / 10 )
                         victim.SendText( "You sure are &n&+rBL&+RE&n&+rE&+RDI&n&+rN&+RG&n!\r\n" );
                     break;
             }
@@ -1906,11 +1906,11 @@ namespace MUDEngine
             */
             if( !victim.IsAwake() )      /* lets make NPC's not slaughter PC's */
             {
-                if( victim._fighting
-                        && victim._fighting._hunting
-                        && victim._fighting._hunting.Who == victim )
-                    StopHunting( victim._fighting );
-                if( victim._fighting
+                if( victim.Fighting
+                        && victim.Fighting.Hunting
+                        && victim.Fighting.Hunting.Who == victim )
+                    StopHunting( victim.Fighting );
+                if( victim.Fighting
                         && !victim.IsNPC()
                         && ch.IsNPC() )
                     StopFighting( victim, true );
@@ -1921,7 +1921,7 @@ namespace MUDEngine
             /*
             * Payoff for killing things.
             */
-            if( victim._position == Position.dead )
+            if( victim.CurrentPosition == Position.dead )
             {
                 StopFighting( ch, false );
 
@@ -1960,9 +1960,9 @@ namespace MUDEngine
                     }
 
                     string logBuf = String.Format( "{0}&n killed by {1}&n at {2}",
-                              victim._name,
-                              ( ch.IsNPC() ? ch._shortDescription : ch._name ),
-                              victim._inRoom.IndexNumber );
+                              victim.Name,
+                              ( ch.IsNPC() ? ch.ShortDescription : ch.Name ),
+                              victim.InRoom.IndexNumber );
                     Log.Trace( logBuf );
                     ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_DEATHS, Limits.LEVEL_AVATAR, logBuf );
 
@@ -1971,10 +1971,10 @@ namespace MUDEngine
                     * 1/2 way back to previous 2 levels.
                     */
                     // Newbies do not lose exp from death.
-                    if( ch._level > 5 )
-                        victim.GainExperience( ( 0 - ( ( ( 50 + victim._level ) * ExperienceTable.Table[ victim._level ].LevelExperience ) / 400 ) ) );
-                    if( victim._level < 2 && victim._experiencePoints < 1 )
-                        victim._experiencePoints = 1;
+                    if( ch.Level > 5 )
+                        victim.GainExperience( ( 0 - ( ( ( 50 + victim.Level ) * ExperienceTable.Table[ victim.Level ].LevelExperience ) / 400 ) ) );
+                    if( victim.Level < 2 && victim.ExperiencePoints < 1 )
+                        victim.ExperiencePoints = 1;
                 }
                 else
                 {
@@ -2017,9 +2017,9 @@ namespace MUDEngine
             if( victim.IsNPC() && dam > 0 )
             {
                 if( ( victim.HasActionBit(MobTemplate.ACT_WIMPY ) && MUDMath.NumberBits( 1 ) == 0
-                        && victim._hitpoints < victim.GetMaxHit() / 5 )
-                        || (victim.IsAffected(Affect.AFFECT_CHARM) && victim._master
-                             && victim._master._inRoom != victim._inRoom ) )
+                        && victim.Hitpoints < victim.GetMaxHit() / 5 )
+                        || (victim.IsAffected(Affect.AFFECT_CHARM) && victim.Master
+                             && victim.Master.InRoom != victim.InRoom ) )
                 {
                     StartFearing( victim, ch );
                     StopHunting( victim );
@@ -2027,7 +2027,7 @@ namespace MUDEngine
                 }
             }
 
-            if( !victim.IsNPC() && victim._hitpoints > 0 && victim._hitpoints <= victim._wimpy )
+            if( !victim.IsNPC() && victim.Hitpoints > 0 && victim.Hitpoints <= victim.Wimpy )
             {
                 CommandType.Interpret(victim, "flee");
             }
@@ -2048,18 +2048,18 @@ namespace MUDEngine
                 return null;
             }
 
-            foreach( CharData guard in victim._inRoom.People )
+            foreach( CharData guard in victim.InRoom.People )
             {
                 if( !guard.IsNPC() && ( ( (PC)guard ).Guarding == victim ) && ( guard != victim ) && ( guard != ch ) )
                 {
                     guard.PracticeSkill( "guard" );
-                    if( MUDMath.NumberPercent() < ( ( guard._level + ( (PC)guard ).SkillAptitude[ "guard" ] ) / 4 ) )
+                    if( MUDMath.NumberPercent() < ( ( guard.Level + ( (PC)guard ).SkillAptitude[ "guard" ] ) / 4 ) )
                     {
                         SocketConnection.Act( "$n&n bravely jumps in front of you!.", guard, null, victim, SocketConnection.MessageTarget.victim );
                         SocketConnection.Act( "$n&n bravely jumps in front of $N&n.", guard, null, victim, SocketConnection.MessageTarget.room_vict );
                         SocketConnection.Act( "You heriocally jump in front of $N&n's attacker.", guard, null, victim, SocketConnection.MessageTarget.character );
-                        if( ch._fighting == victim )
-                            ch._fighting = guard;
+                        if( ch.Fighting == victim )
+                            ch.Fighting = guard;
                         return guard;
                     }
                     SocketConnection.Act( "$n&n watches helplessly as you are attacked.", guard, null, victim, SocketConnection.MessageTarget.victim );
@@ -2112,16 +2112,16 @@ namespace MUDEngine
 
             // removed restriction allowing only registered players to pkill
 
-            if( victim._level > Limits.LEVEL_HERO && victim != ch && !victim.IsNPC() )
+            if( victim.Level > Limits.LEVEL_HERO && victim != ch && !victim.IsNPC() )
             {
                 SocketConnection.Act( "$N&n is an IMMORTAL and is automatically safe.", ch, null, victim, SocketConnection.MessageTarget.character );
                 return true;
             }
 
-            if( victim._fighting )
+            if( victim.Fighting )
                 return false;
 
-            if( victim._inRoom.HasFlag( RoomTemplate.ROOM_SAFE ) )
+            if( victim.InRoom.HasFlag( RoomTemplate.ROOM_SAFE ) )
             {
                 SocketConnection.Act( "$N&n is in a safe room.", ch, null, victim, SocketConnection.MessageTarget.character );
                 return true;
@@ -2131,12 +2131,12 @@ namespace MUDEngine
             {
                 //keep fighting, but allow the boss to invoke his special function
                 // ensures the function will be called
-                string lbuf = String.Format( "{0} is a boss", victim._shortDescription );
+                string lbuf = String.Format( "{0} is a boss", victim.ShortDescription );
                 Log.Trace( lbuf );
-                victim._fighting = ch;
-                if( victim._specFun.Count > 0 )
+                victim.Fighting = ch;
+                if( victim.SpecialFunction.Count > 0 )
                 {
-                    foreach( MobSpecial spec in victim._specFun )
+                    foreach( MobSpecial spec in victim.SpecialFunction )
                     {
                         if( spec.SpecFunction( victim, MobFun.PROC_NORMAL ) )
                         {
@@ -2183,7 +2183,7 @@ namespace MUDEngine
         /// <returns></returns>
         bool  IsHunting( CharData ch, CharData victim )
         {
-            if( !ch._hunting || ch._hunting.Who != victim )
+            if( !ch.Hunting || ch.Hunting.Who != victim )
                 return false;
 
             return true;
@@ -2197,7 +2197,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool IsFearing( CharData ch, CharData victim )
         {
-            if( !ch._fearing || ch._fearing.Who != victim )
+            if( !ch.Fearing || ch.Fearing.Who != victim )
                 return false;
 
             return true;
@@ -2209,11 +2209,11 @@ namespace MUDEngine
         /// <param name="ch"></param>
         public static void StopHunting( CharData ch )
         {
-            if( ch._hunting )
+            if( ch.Hunting )
             {
-                string lbuf = String.Format( "{0}&n has stopped hunting {1}.", ch._shortDescription, ch._hunting.Name );
+                string lbuf = String.Format( "{0}&n has stopped hunting {1}.", ch.ShortDescription, ch.Hunting.Name );
                 ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_HUNTING, 0, lbuf );
-                ch._hunting = null;
+                ch.Hunting = null;
             }
             // We may not want to let them continue hating the victim.
             // StopHating( ch );
@@ -2226,9 +2226,9 @@ namespace MUDEngine
         /// <param name="ch"></param>
         static public void StopFearing( CharData ch )
         {    
-            if( ch._fearing )
+            if( ch.Fearing )
             {
-                ch._fearing = null;
+                ch.Fearing = null;
             }
             return;
         }
@@ -2240,16 +2240,16 @@ namespace MUDEngine
         /// <param name="victim"></param>
         public static void StartHunting( CharData ch, CharData victim )
         {
-            if( ch._hunting )
+            if( ch.Hunting )
             {
-                if( ch._hunting.Who == victim )
+                if( ch.Hunting.Who == victim )
                     return;
                 StopHunting( ch );
             }
-            ch._hunting = new EnemyData();
-            ch._hunting.Name = victim._name;
-            ch._hunting.Who = victim;
-            string lbuf = String.Format( "{0}&n has started hunting {1}.", ch._shortDescription, ch._hunting.Name );
+            ch.Hunting = new EnemyData();
+            ch.Hunting.Name = victim.Name;
+            ch.Hunting.Who = victim;
+            string lbuf = String.Format( "{0}&n has started hunting {1}.", ch.ShortDescription, ch.Hunting.Name );
             ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_HUNTING, 0, lbuf );
             return;
         }
@@ -2265,10 +2265,10 @@ namespace MUDEngine
                 return;
 
             EnemyData hating = new EnemyData();
-            hating.Name = victim._name;
+            hating.Name = victim.Name;
             hating.Who = victim;
-            ch._hating.Add( hating );
-            string lbuf = String.Format( "{0}&n has started hating {1}.", ch._shortDescription, victim._name );
+            ch.Hating.Add( hating );
+            string lbuf = String.Format( "{0}&n has started hating {1}.", ch.ShortDescription, victim.Name );
             ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_HATING, 0, lbuf );
             return;
         }
@@ -2283,12 +2283,12 @@ namespace MUDEngine
             if( !ch.IsNPC() || !ch.HasActionBit(MobTemplate.ACT_MEMORY ) )
                 return;
 
-            if( ch._fearing )
+            if( ch.Fearing )
                 StopFearing( ch );
 
-            ch._fearing = new EnemyData();
-            ch._fearing.Name = victim._name;
-            ch._fearing.Who = victim;
+            ch.Fearing = new EnemyData();
+            ch.Fearing.Name = victim.Name;
+            ch.Fearing.Who = victim;
             return;
         }
 
@@ -2321,7 +2321,7 @@ namespace MUDEngine
         /// <returns></returns>
         static bool CheckParry( CharData ch, CharData victim )
         {
-            if( !victim.IsAwake() || victim._position < Position.reclining )
+            if( !victim.IsAwake() || victim.CurrentPosition < Position.reclining )
                 return false;
 
             if (ch.IsAffected(Affect.AFFECT_DAZZLE))
@@ -2357,7 +2357,7 @@ namespace MUDEngine
                 victim.PracticeSkill( "parry" );
             }
 
-            if( MUDMath.NumberPercent() >= ( chance - ch._level ) / 2 )
+            if( MUDMath.NumberPercent() >= ( chance - ch.Level ) / 2 )
                 return false;
             
             switch( MUDMath.NumberRange(1,3))
@@ -2378,9 +2378,9 @@ namespace MUDEngine
                     SocketConnection.Act("$N&n deflects $n&n's attack aside with $S weapon.", ch, null, victim, SocketConnection.MessageTarget.room_vict);
                     break;
             }
-            if( ch._fighting == null )
+            if( ch.Fighting == null )
                 SetFighting( ch, victim );
-            if( victim._fighting == null )
+            if( victim.Fighting == null )
                 SetFighting( victim, ch );
             return true;
         }
@@ -2394,7 +2394,7 @@ namespace MUDEngine
         /// <returns></returns>
         static bool CheckRiposte( CharData ch, CharData victim )
         {
-            if( !victim.IsAwake() || victim._position < Position.reclining )
+            if( !victim.IsAwake() || victim.CurrentPosition < Position.reclining )
                 return false;
 
             if( ch.IsAffected( Affect.AFFECT_DAZZLE ) )
@@ -2435,7 +2435,7 @@ namespace MUDEngine
                 victim.PracticeSkill( "riposte" );
             }
 
-            if( MUDMath.NumberPercent() >= (( chance - ch._level ) / 3 ) )
+            if( MUDMath.NumberPercent() >= (( chance - ch.Level ) / 3 ) )
                 return false;
 
             switch( MUDMath.NumberRange(1,3))
@@ -2473,7 +2473,7 @@ namespace MUDEngine
             if( ch.IsAffected( Affect.AFFECT_DAZZLE ) )
                 return false;
 
-            if( !victim.IsAwake() || victim._position < Position.reclining )
+            if( !victim.IsAwake() || victim.CurrentPosition < Position.reclining )
                 return false;
 
             Object obj = Object.GetEquipmentOnCharacter( victim, ObjTemplate.WearLocation.hand_one );
@@ -2495,7 +2495,7 @@ namespace MUDEngine
             int chance = ch.GetSkillChance("shield block");
             victim.PracticeSkill("shield block");
 
-            if (MUDMath.NumberPercent() >= ((chance - ch._level) / 2))
+            if (MUDMath.NumberPercent() >= ((chance - ch.Level) / 2))
             {
                 return false;
             }
@@ -2533,9 +2533,9 @@ namespace MUDEngine
                     break;
             }
 
-            if( ch._fighting == null )
+            if( ch.Fighting == null )
                 SetFighting( ch, victim );
-            if( victim._fighting == null )
+            if( victim.Fighting == null )
                 SetFighting( victim, ch );
 
             return true;
@@ -2549,7 +2549,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool CheckDodge( CharData ch, CharData victim )
         {
-            if( !victim.IsAwake() || victim._position < Position.reclining )
+            if( !victim.IsAwake() || victim.CurrentPosition < Position.reclining )
                 return false;
 
             if (ch.IsAffected(Affect.AFFECT_DAZZLE))
@@ -2565,9 +2565,9 @@ namespace MUDEngine
             // Drow get a flat 15% bonus.
             if( victim.GetRace() == Race.RACE_HALFLING )
             {
-                if( ch._size > victim._size )
+                if( ch.CurrentSize > victim.CurrentSize )
                 {
-                    chance += 3 * ( ch._size - victim._size );
+                    chance += 3 * ( ch.CurrentSize - victim.CurrentSize );
                 }
             }
             else if( victim.HasInnate( Race.RACE_GOOD_DODGE ) )
@@ -2580,13 +2580,13 @@ namespace MUDEngine
             }
 
             // Bashed mobs/creatures have a hard time dodging
-            if( victim._position < Position.fighting )
+            if( victim.CurrentPosition < Position.fighting )
             {
                 chance -= 25;
             }
 
             // Leap is 16% max at level 50.  Considering crappy thri hitpoints it's necessary.
-            if( victim.GetRace() == Race.RACE_THRIKREEN && MUDMath.NumberPercent() <= ( victim._level / 3 ) )
+            if( victim.GetRace() == Race.RACE_THRIKREEN && MUDMath.NumberPercent() <= ( victim.Level / 3 ) )
             {
                 SocketConnection.Act( "$N&n leaps over your attack.", ch, null, victim, SocketConnection.MessageTarget.character );
                 SocketConnection.Act( "You leap over $n&n's attack.", ch, null, victim, SocketConnection.MessageTarget.victim );
@@ -2596,7 +2596,7 @@ namespace MUDEngine
 
             victim.PracticeSkill( "dodge" );
 
-            if( MUDMath.NumberPercent() >= chance - ch._level )
+            if( MUDMath.NumberPercent() >= chance - ch.Level )
                 return false;
 
             switch( MUDMath.NumberRange( 1, 2 ) )
@@ -2615,9 +2615,9 @@ namespace MUDEngine
                     break;
             }
 
-            if( ch._fighting == null )
+            if( ch.Fighting == null )
                 SetFighting( ch, victim );
-            if( victim._fighting == null )
+            if( victim.Fighting == null )
                 SetFighting( victim, ch );
 
             return true;
@@ -2633,13 +2633,13 @@ namespace MUDEngine
             if( ch == victim )
                 return;
 
-            if( ch._fighting )
+            if( ch.Fighting )
             {
                 Log.Error( "Set_fighting: already fighting", 0 );
                 string buf = String.Format( "...{0} attacking {1} at {2}",
-                                            ( ch.IsNPC() ? ch._shortDescription : ch._name ),
-                                            ( victim.IsNPC() ? victim._shortDescription : victim._name ),
-                                            victim._inRoom.IndexNumber );
+                                            ( ch.IsNPC() ? ch.ShortDescription : ch.Name ),
+                                            ( victim.IsNPC() ? victim.ShortDescription : victim.Name ),
+                                            victim.InRoom.IndexNumber );
                 Log.Error( buf, 0 );
                 return;
             }
@@ -2649,15 +2649,15 @@ namespace MUDEngine
                 ch.RemoveAffect(Affect.AFFECT_SLEEP);
             }
 
-            if( ch._flyLevel != victim._flyLevel )
+            if( ch.FlightLevel != victim.FlightLevel )
             {
                 StartGrudge( ch, victim, false );
                 return;
             }
 
-            ch._fighting = victim;
-            if( ch._position == Position.standing )
-                ch._position = Position.fighting;
+            ch.Fighting = victim;
+            if( ch.CurrentPosition == Position.standing )
+                ch.CurrentPosition = Position.fighting;
 
             return;
         }
@@ -2678,10 +2678,10 @@ namespace MUDEngine
             }
 
             /* Always stop the character from fighting. */
-            ch._fighting = null;
-            if (ch._position == Position.fighting)
+            ch.Fighting = null;
+            if (ch.CurrentPosition == Position.fighting)
             {
-                ch._position = Position.standing;
+                ch.CurrentPosition = Position.standing;
             }
 
             /* Taking this out of the for loop is MUCH faster. */
@@ -2689,12 +2689,12 @@ namespace MUDEngine
             {
                 foreach( CharData fighter in Database.CharList )
                 {
-                    if( fighter._fighting == ch )
+                    if( fighter.Fighting == ch )
                     {
-                        fighter._fighting = null;
-                        if (fighter._position == Position.fighting)
+                        fighter.Fighting = null;
+                        if (fighter.CurrentPosition == Position.fighting)
                         {
-                            fighter._position = Position.standing;
+                            fighter.CurrentPosition = Position.standing;
                         }
                         fighter.UpdatePosition();
                     }
@@ -2728,16 +2728,16 @@ namespace MUDEngine
             if( ch.IsNPC() )
             {
                 corpseIndexNumber = StaticObjects.OBJECT_NUMBER_CORPSE_NPC;
-                name = ch._shortDescription;
+                name = ch.ShortDescription;
                 timer = MUDMath.NumberRange( 15, 30 );
-                level = ch._level;  // Corpse level
+                level = ch.Level;  // Corpse level
             }
             else
             {
                 corpseIndexNumber = StaticObjects.OBJECT_NUMBER_CORPSE_PC;
-                name = ch._name;
-                timer = MUDMath.NumberRange( 180, 240 ) + ( ch._level * 2 );
-                level = ch._level; // Corpse level
+                name = ch.Name;
+                timer = MUDMath.NumberRange( 180, 240 ) + ( ch.Level * 2 );
+                level = ch.Level; // Corpse level
             }
 
             /*
@@ -2774,9 +2774,9 @@ namespace MUDEngine
             corpse.FullDescription = buf;
 
             Object obj;
-            for(int i = (ch._carrying.Count - 1); i >= 0; i-- )
+            for(int i = (ch.Carrying.Count - 1); i >= 0; i-- )
             {
-                obj = ch._carrying[i];
+                obj = ch.Carrying[i];
                 
                 // Remove items flagged inventory-only from all corpses.
                 if (obj.HasFlag(ObjTemplate.ITEM_INVENTORY))
@@ -2786,7 +2786,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if (ch.IsNPC() && ch._mobTemplate.ShopData
+                    if (ch.IsNPC() && ch.MobileTemplate.ShopData
                             && obj.WearLocation == ObjTemplate.WearLocation.none)
                     {
                         obj.RemoveFromChar();
@@ -2800,7 +2800,7 @@ namespace MUDEngine
                 }
             }
 
-            corpse.AddToRoom( ch._inRoom );
+            corpse.AddToRoom( ch.InRoom );
             if( !corpse.InRoom )
             {
                 Log.Error( "MakeCorpse: corpse " + corpse.ToString() + " sent to null room, deleting.", 0 );
@@ -2839,13 +2839,13 @@ namespace MUDEngine
                 if( ch.GetCash() > 0 )
                 {
                     Object coins = Object.CreateMoney( ch.GetCopper(), ch.GetSilver(), ch.GetGold(), ch.GetPlatinum() );
-                    coins.AddToRoom( ch._inRoom );
+                    coins.AddToRoom( ch.InRoom );
                 }
-                for( int i = (ch._carrying.Count-1); i >= 0; i-- )
+                for( int i = (ch.Carrying.Count-1); i >= 0; i-- )
                 {
-                    Object obj = ch._carrying[i];
+                    Object obj = ch.Carrying[i];
                     obj.RemoveFromChar();
-                    obj.AddToRoom( ch._inRoom );
+                    obj.AddToRoom( ch.InRoom );
                 }
             }
 
@@ -2868,7 +2868,7 @@ namespace MUDEngine
                 Log.Error( "Death cry: death cry called with no arguments for CharData!", 0 );
                 return;
             }
-            if( !ch._inRoom )
+            if( !ch.InRoom )
             {
                 Log.Error( "Death cry called with ch in no room.", 0 );
                 return;
@@ -2901,18 +2901,18 @@ namespace MUDEngine
             else
                 msg = "&+rYour heart races as you hear a death cry nearby.&n";
 
-            Room wasInRoom = ch._inRoom;
+            Room wasInRoom = ch.InRoom;
             for( door = 0; door < Limits.MAX_DIRECTION; door++ )
             {
                 Exit exit;
 
                 if( ( exit = wasInRoom.ExitData[ door ] ) && exit.TargetRoom && exit.TargetRoom != wasInRoom )
                 {
-                    ch._inRoom = Room.GetRoom(exit.IndexNumber);
+                    ch.InRoom = Room.GetRoom(exit.IndexNumber);
                     SocketConnection.Act( msg, ch, null, null, SocketConnection.MessageTarget.room );
                 }
             }
-            ch._inRoom = wasInRoom;
+            ch.InRoom = wasInRoom;
 
             return;
         }
@@ -2930,21 +2930,21 @@ namespace MUDEngine
 
             StopFighting( victim, true );
 
-            if( victim._groupLeader || victim._nextInGroup )
+            if( victim.GroupLeader || victim.NextInGroup )
             {
                 victim.RemoveFromGroup( victim );
             }
             if( ch != victim )
             {
-                if( victim.IsNPC() && victim._mobTemplate.DeathFun.Count > 0 )
+                if( victim.IsNPC() && victim.MobileTemplate.DeathFun.Count > 0 )
                 {
-                    victim._mobTemplate.DeathFun[0].SpecFunction( victim, MobFun.PROC_NORMAL );
+                    victim.MobileTemplate.DeathFun[0].SpecFunction( victim, MobFun.PROC_NORMAL );
                 }
                 //        prog_death_trigger( victim );
             }
-            if( victim.IsNPC() && victim._deathFun != null )
+            if( victim.IsNPC() && victim.DeathFunction != null )
             {
-                noCorpse = victim._deathFun.SpecFunction( victim, MobFun.PROC_DEATH );
+                noCorpse = victim.DeathFunction.SpecFunction( victim, MobFun.PROC_DEATH );
             }
             if( !noCorpse )
             {
@@ -2965,19 +2965,19 @@ namespace MUDEngine
                 }
             }
 
-            if( victim._rider )
+            if( victim.Rider )
             {
-                SocketConnection.Act( "$n&n dies suddenly, and you topple to the &n&+yground&n.", victim, null, victim._rider, SocketConnection.MessageTarget.victim );
-                victim._rider._riding = null;
-                victim._rider._position = Position.resting;
-                victim._rider = null;
+                SocketConnection.Act( "$n&n dies suddenly, and you topple to the &n&+yground&n.", victim, null, victim.Rider, SocketConnection.MessageTarget.victim );
+                victim.Rider.Riding = null;
+                victim.Rider.CurrentPosition = Position.resting;
+                victim.Rider = null;
             }
 
-            if( victim._riding )
+            if( victim.Riding )
             {
-                SocketConnection.Act( "$n&n topples from you, &+Ldead&n.", victim, null, victim._riding, SocketConnection.MessageTarget.victim );
-                victim._riding._rider = null;
-                victim._riding = null;
+                SocketConnection.Act( "$n&n topples from you, &+Ldead&n.", victim, null, victim.Riding, SocketConnection.MessageTarget.victim );
+                victim.Riding.Rider = null;
+                victim.Riding = null;
             }
 
             if (!victim.IsNPC() && victim.IsAffected(Affect.AFFECT_VAMP_BITE))
@@ -2985,7 +2985,7 @@ namespace MUDEngine
                 victim.SetPermRace( Race.RACE_VAMPIRE );
             }
 
-            for (int i = (victim._affected.Count - 1); i >= 0; i--)
+            for (int i = (victim.Affected.Count - 1); i >= 0; i--)
             {
                 /* Keep the ghoul affect */
                 if (!victim.IsNPC() && victim.IsAffected(Affect.AFFECT_WRAITHFORM))
@@ -2993,12 +2993,12 @@ namespace MUDEngine
                     continue;
                 }
 
-                victim.RemoveAffect(victim._affected[i]);
+                victim.RemoveAffect(victim.Affected[i]);
             }
 
             if( victim.IsNPC() )
             {
-                victim._mobTemplate.NumberKilled++;
+                victim.MobileTemplate.NumberKilled++;
                 // This may invalidate the char list.
                 CharData.ExtractChar( victim, true );
                 return;
@@ -3012,11 +3012,11 @@ namespace MUDEngine
                  * Pardon crimes once justice system is complete
                  */
             // This is where we send them to the menu.
-            victim.DieFollower( victim._name );
+            victim.DieFollower( victim.Name );
 
-            if( victim._inRoom )
+            if( victim.InRoom )
             {
-                room = victim._inRoom;
+                room = victim.InRoom;
             }
             else
             {
@@ -3045,11 +3045,11 @@ namespace MUDEngine
             victim.RemoveFromRoom();
             if( room )
             {
-                victim._inRoom = room;
+                victim.InRoom = room;
             }
 
             // Put them in the correct body
-            if( victim._socket && victim._socket.Original )
+            if( victim.Socket && victim.Socket.Original )
             {
                 CommandType.Interpret(victim, "return");
             }
@@ -3060,11 +3060,11 @@ namespace MUDEngine
 
             // Remove from char list: handled by CharData.ExtractChar.
 
-            victim._socket.ShowScreen(ModernMUD.Screen.MainMenuScreen);
+            victim.Socket.ShowScreen(ModernMUD.Screen.MainMenuScreen);
 
-            if( victim._socket != null )
+            if( victim.Socket != null )
             {
-                victim._socket._connectionState = SocketConnection.ConnectionState.menu;
+                victim.Socket.ConnectionStatus = SocketConnection.ConnectionState.menu;
             }
 
             // Just died flag used for safe time after re-login.
@@ -3087,15 +3087,15 @@ namespace MUDEngine
             int members = 0;
 
             // Check for highest level group member and number of members in room
-            foreach( CharData groupChar in ch._inRoom.People )
+            foreach( CharData groupChar in ch.InRoom.People )
             {
                 if (groupChar.IsSameGroup(ch))
                 {
                     members++;
                 }
-                if (groupChar._level > highest)
+                if (groupChar.Level > highest)
                 {
-                    highest = groupChar._level;
+                    highest = groupChar.Level;
                 }
             }
 
@@ -3116,7 +3116,7 @@ namespace MUDEngine
                 AdjustFaction(ch, victim);
             }
 
-            foreach( CharData groupChar in ch._inRoom.People )
+            foreach( CharData groupChar in ch.InRoom.People )
             {
                 int factor;
 
@@ -3210,15 +3210,15 @@ namespace MUDEngine
                 // getting 51%.  Not enough of a reduction IMHO, but a little might
                 // be all that we need.
                 /* I increased this 150% as plvling is too easy. */
-                if( highest > ( ch._level + 10 ) )
+                if( highest > ( ch.Level + 10 ) )
                 {
-                    xp = ( xp * ( 100 - ( 3 * ( highest - ch._level ) ) / 2 ) ) / 100;
+                    xp = ( xp * ( 100 - ( 3 * ( highest - ch.Level ) ) / 2 ) ) / 100;
                 }
 
                 // Only check Trophy for NPC as victim, killer over level 5,
                 // and victim less than 20 levels lower than killer.
 
-                if (victim.IsNPC() && !groupChar.IsNPC() && (groupChar._level > 4) && ((ch._level - victim._level) < 20))
+                if (victim.IsNPC() && !groupChar.IsNPC() && (groupChar.Level > 4) && ((ch.Level - victim.Level) < 20))
                 {
                     xp = (xp * CheckTrophy(groupChar, victim, members)) / 100;
                 }
@@ -3247,7 +3247,7 @@ namespace MUDEngine
                     groupChar.GainExperience(xp);
                 }
 
-                foreach( Object obj in groupChar._carrying )
+                foreach( Object obj in groupChar.Carrying )
                 {
                     if( obj.WearLocation == ObjTemplate.WearLocation.none )
                         continue;
@@ -3259,7 +3259,7 @@ namespace MUDEngine
                         SocketConnection.Act( "&+LYou are wracked with &n&+rp&+Ra&n&+ri&+Rn&+L by&n $p&+L.&n", groupChar, obj, null, SocketConnection.MessageTarget.character );
                         SocketConnection.Act( "$n&+L convulses in &+Cp&n&+ca&+Ci&n&+cn&+L from&n $p&+L.&n", groupChar, obj, null, SocketConnection.MessageTarget.room );
                         obj.RemoveFromChar();
-                        obj.AddToRoom( groupChar._inRoom );
+                        obj.AddToRoom( groupChar.InRoom );
                     }
                 }
             }
@@ -3284,17 +3284,17 @@ namespace MUDEngine
             // for the first 9 levels, and then another 1% for the next 9 levels.
             // It actually counts down starting at 91%.
             /* If victim is lower level */
-            if( victim._level < killer._level )
+            if( victim.Level < killer.Level )
             {
                 /* If victim is less than 10 levels below */
-                if( killer._level - victim._level < 10 )
+                if( killer.Level - victim.Level < 10 )
                 {
-                    percent = 101 - ( ( killer._level - victim._level ) * 10 );
+                    percent = 101 - ( ( killer.Level - victim.Level ) * 10 );
                 }
                 /* If victim is less than 20 levels below */
-                else if( killer._level - victim._level < 20 )
+                else if( killer.Level - victim.Level < 20 )
                 {
-                    percent = 20 - ( killer._level - victim._level );
+                    percent = 20 - ( killer.Level - victim.Level );
                 }
                 else
                 {
@@ -3302,45 +3302,45 @@ namespace MUDEngine
                 }
             }
             /* If victim is over 10 levels over */
-            else if( victim._level > ( killer._level + 10 ) && killer._level <= 20 )
+            else if( victim.Level > ( killer.Level + 10 ) && killer.Level <= 20 )
             {
                 // Experience penalty for killing stuff way higher than you, 33 level difference and you
                 // get about nothing.
                 // Tweaked this slightly, 96 % at 10 levels above, 96% at 10 levels, etc
-                percent = 129 - ( ( victim._level - killer._level ) * 4 );
+                percent = 129 - ( ( victim.Level - killer.Level ) * 4 );
                 if( percent < 2 )
                     percent = 2;
             }
             else
-                percent += ( victim._level - killer._level );
+                percent += ( victim.Level - killer.Level );
 
-            if( killer._alignment > 0 )
+            if( killer.Alignment > 0 )
                 sign = 1;
             else
                 sign = -1;
-            if( victim._alignment > 0 )
+            if( victim.Alignment > 0 )
                 alignDir = -1;
             else
                 alignDir = 1;
-            int chance = Math.Abs( killer._alignment - victim._alignment ) - sign * killer._alignment;
+            int chance = Math.Abs( killer.Alignment - victim.Alignment ) - sign * killer.Alignment;
             chance /= 10;
             if( chance < 0 )
                 chance *= -1;
-            if( killer._level > victim._level )
-                chance -= ( killer._level - victim._level );
+            if( killer.Level > victim.Level )
+                chance -= ( killer.Level - victim.Level );
             chance = Macros.Range( 0, chance, 100 );
 
             string lbuf = String.Format( "ComputeExperience: {0} has a {1} chance of gaining {2} align.",
-                                         killer._name, chance, alignDir );
+                                         killer.Name, chance, alignDir );
             ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
-            if( MUDMath.NumberPercent() < chance && killer._alignment != -1000 )
+            if( MUDMath.NumberPercent() < chance && killer.Alignment != -1000 )
             {
-                killer._alignment += alignDir;
-                if( killer._alignment <= -1000 )
+                killer.Alignment += alignDir;
+                if( killer.Alignment <= -1000 )
                     killer.SendText( "&+RThe d&+rarkside t&+lakes over...&n\r\n" );
             }
 
-            killer._alignment = Macros.Range( -1000, killer._alignment, 1000 );
+            killer.Alignment = Macros.Range( -1000, killer.Alignment, 1000 );
 
             // 25% bonus for sanctuary
             if (victim.IsAffected(Affect.AFFECT_SANCTUARY))
@@ -3392,12 +3392,12 @@ namespace MUDEngine
                 }
 
                 // 50% penalty for killing shopkeepers
-                if( victim._mobTemplate.ShopData != null )
+                if( victim.MobileTemplate.ShopData != null )
                     percent = percent / 2;
 
                 // No bonus for special function #1 because they get that by having a class.
                 // 10% bonus for each extra special function.
-                int count = victim._specFun.Count;
+                int count = victim.SpecialFunction.Count;
                 percent = ( percent * ( 10 + count ) ) / 10;
             }
             else
@@ -3408,16 +3408,16 @@ namespace MUDEngine
                 // and you get no experience for anyone under level 10.
                 //
                 // Those 11-20 are worth one fifth experience.
-                if( victim._level < 6 )
+                if( victim.Level < 6 )
                 {
                     killer.SendText( "You killed a newbie!  You feel like a twink!\r\n" );
-                    return (victim._level - 6);
+                    return (victim.Level - 6);
                 }
-                if( victim._level < 11 )
+                if( victim.Level < 11 )
                 {
                     return 0;
                 }
-                if( victim._level < 20 )
+                if( victim.Level < 20 )
                 {
                     percent /= 5;
                 }
@@ -3444,7 +3444,7 @@ namespace MUDEngine
                 }
             }
 
-            int xp = ( percent * ExperienceTable.Table[ victim._level ].MobExperience ) / 100;
+            int xp = ( percent * ExperienceTable.Table[ victim.Level ].MobExperience ) / 100;
             xp = Math.Max( 0, xp );
             return xp;
         }
@@ -3518,10 +3518,10 @@ namespace MUDEngine
         /// <param name="immune"></param>
         static void SendDamageMessage( CharData ch, CharData victim, int damage, string skill, ObjTemplate.WearLocation weapon, bool immune )
         {
-            if( victim._position == Position.sleeping )
+            if( victim.CurrentPosition == Position.sleeping )
             {
                 SocketConnection.Act( "$n&n has a rude awakening!", victim, null, null, SocketConnection.MessageTarget.room );
-                victim._position = Position.resting;
+                victim.CurrentPosition = Position.resting;
                 SetFighting( victim, ch );
             }
 
@@ -3535,7 +3535,7 @@ namespace MUDEngine
 
             if (skill == "headbutt")
             {
-                if( ch != victim && damage > victim._hitpoints + 10 )
+                if( ch != victim && damage > victim.Hitpoints + 10 )
                 {
                     // a killing blow needs some nice verbage
                     SocketConnection.Act( "You swiftly split $N&n's skull with your forehead, sending &+Rblood&n&+r and brains&n flying!",
@@ -3682,8 +3682,8 @@ namespace MUDEngine
             else
             {
                 damage *= 100;
-                if( victim._hitpoints > 0 )
-                    damage /= victim._hitpoints;
+                if( victim.Hitpoints > 0 )
+                    damage /= victim.Hitpoints;
 
                 if( damage <= 1 )
                 {
@@ -3774,8 +3774,8 @@ namespace MUDEngine
                     string buf = String.Format( "SendDamageMessage: bad damage type {0} for {1} damage caused by {2} to {3} with weapon {4}.",
                                                 skill,
                                                 damage,
-                                                ch._name,
-                                                victim._name,
+                                                ch.Name,
+                                                victim.Name,
                                                 weapon );
                     Log.Error( buf, 0 );
                     skill = "barehanded fighting";
@@ -3840,15 +3840,15 @@ namespace MUDEngine
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
                 if( MUDMath.NumberPercent() < 9 )
                 {
-                    Spell.SpellList["dust blast"].Invoke(ch, ch._level, victim );
+                    Spell.SpellList["dust blast"].Invoke(ch, ch.Level, victim );
                 }
                 else if( MUDMath.NumberPercent() < 6 )
                 {
-                    Spell.SpellList["pebble"].Invoke(ch, ch._level, victim );
+                    Spell.SpellList["pebble"].Invoke(ch, ch.Level, victim );
                 }
                 else if( MUDMath.NumberPercent() < 3 )
                 {
-                    Spell.SpellList["dirt cloud"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["dirt cloud"].Invoke(ch, ch.Level, victim);
                 }
                 return true;
             }
@@ -3858,15 +3858,15 @@ namespace MUDEngine
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
                 if( MUDMath.NumberPercent() < 9 )
                 {
-                    Spell.SpellList["fire bolt"].Invoke(ch, ch._level, victim );
+                    Spell.SpellList["fire bolt"].Invoke(ch, ch.Level, victim );
                 }
                 else if( MUDMath.NumberPercent() < 6 )
                 {
-                    Spell.SpellList["burning hands"].Invoke(ch, ch._level, victim );
+                    Spell.SpellList["burning hands"].Invoke(ch, ch.Level, victim );
                 }
                 else if( MUDMath.NumberPercent() < 3 )
                 {
-                    Spell.SpellList["spark"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["spark"].Invoke(ch, ch.Level, victim);
                 }
                 return true;
             }
@@ -3876,15 +3876,15 @@ namespace MUDEngine
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
                 if( MUDMath.NumberPercent() < 9 )
                 {
-                    Spell.SpellList["ice bolt"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["ice bolt"].Invoke(ch, ch.Level, victim);
                 }
                 else if( MUDMath.NumberPercent() < 6 )
                 {
-                    Spell.SpellList["cutting breeze"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["cutting breeze"].Invoke(ch, ch.Level, victim);
                 }
                 else if( MUDMath.NumberPercent() < 3 )
                 {
-                    Spell.SpellList["cutting breeze"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["cutting breeze"].Invoke(ch, ch.Level, victim);
                 }
                 return true;
             }
@@ -3894,26 +3894,26 @@ namespace MUDEngine
                 SingleAttack(ch, victim, skill, ObjTemplate.WearLocation.hand_one);
                 if( MUDMath.NumberPercent() < 9 )
                 {
-                    Spell.SpellList["water bolt"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["water bolt"].Invoke(ch, ch.Level, victim);
                 }
                 else if( MUDMath.NumberPercent() < 6 )
                 {
                     Spell spell = Spell.SpellList["chill touch"];
                     if (spell != null)
                     {
-                        spell.Invoke(ch, ch._level, victim);
+                        spell.Invoke(ch, ch.Level, victim);
                     }
                 }
                 else if( MUDMath.NumberPercent() < 3 )
                 {
-                    Spell.SpellList["water blast"].Invoke(ch, ch._level, victim);
+                    Spell.SpellList["water blast"].Invoke(ch, ch.Level, victim);
                 }
                 return true;
             }
 
             if( !MUDString.StringsNotEqual( Race.RaceList[ ch.GetRace() ].Name, "Dragon" ) )
             {
-                if( MUDMath.NumberPercent() < ch._level )
+                if( MUDMath.NumberPercent() < ch.Level )
                 {
                     return true;
                 }
@@ -3928,7 +3928,7 @@ namespace MUDEngine
             int number = 0;
             int i;
 
-            foreach( Object obj in ch._carrying )
+            foreach( Object obj in ch.Carrying )
             {
                 if( ( obj.ItemType == ObjTemplate.ObjectType.scroll
                          || obj.ItemType == ObjTemplate.ObjectType.wand
@@ -4047,19 +4047,19 @@ namespace MUDEngine
             if( !victim.IsNPC() )
                 return 100;
 
-            if( ch._level < 5 )
+            if( ch.Level < 5 )
                 return 100;
 
-            if( ch._level < Limits.MAX_LEVEL )
+            if( ch.Level < Limits.MAX_LEVEL )
             {
-                maxlev = ch._level;
+                maxlev = ch.Level;
             }
             else
             {
                 maxlev = Limits.MAX_LEVEL;
             }
 
-            int indexNumber = victim._mobTemplate.IndexNumber;
+            int indexNumber = victim.MobileTemplate.IndexNumber;
             if( indexNumber == 0 )
             {
                 Log.Error( "Mobile without index number in CheckTrophy!", 0 );
@@ -4147,7 +4147,7 @@ namespace MUDEngine
             {
                 SocketConnection.Act( "$n&n moves with a BLUR of speed!", ch, null, null, SocketConnection.MessageTarget.room );
                 SocketConnection.Act( "You move with a BLUR of speed!", ch, null, null, SocketConnection.MessageTarget.character );
-                for( count = 0, numAttacks = 4; count < numAttacks && victim._position > Position.dead; ++count )
+                for( count = 0, numAttacks = 4; count < numAttacks && victim.CurrentPosition > Position.dead; ++count )
                 {
                     SingleAttack( ch, victim, String.Empty, ObjTemplate.WearLocation.hand_one );
                 }
@@ -4175,41 +4175,41 @@ namespace MUDEngine
                 {
                     SocketConnection.Act( "&+c$n&+c's $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.room );
                     SocketConnection.Act( "Your $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.character );
-                    for( count = 0; count < numAttacks && victim._position > Position.dead; ++count )
+                    for( count = 0; count < numAttacks && victim.CurrentPosition > Position.dead; ++count )
                     {
                         SingleAttack(ch, victim, String.Empty, ObjTemplate.WearLocation.hand_one);
                     }
-                    return ( victim._position > Position.dead );
+                    return ( victim.CurrentPosition > Position.dead );
                 }
                 if( ( wield = Object.GetEquipmentOnCharacter( ch, ObjTemplate.WearLocation.hand_two ) ) && wield.ObjIndexData.IndexNumber == 9716 )
                 {
                     SocketConnection.Act( "&+c$n&+c's $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.room );
                     SocketConnection.Act( "Your $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.character );
-                    for( count = 0; count < numAttacks && victim._position > Position.dead; ++count )
+                    for( count = 0; count < numAttacks && victim.CurrentPosition > Position.dead; ++count )
                     {
                         SingleAttack(ch, victim, String.Empty, ObjTemplate.WearLocation.hand_two);
                     }
-                    return ( victim._position > Position.dead );
+                    return ( victim.CurrentPosition > Position.dead );
                 }
                 if( ( wield = Object.GetEquipmentOnCharacter( ch, ObjTemplate.WearLocation.hand_three ) ) && wield.ObjIndexData.IndexNumber == 9716 )
                 {
                     SocketConnection.Act( "&+c$n&+c's $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.room );
                     SocketConnection.Act( "Your $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.character );
-                    for( count = 0; count < numAttacks && victim._position > Position.dead; ++count )
+                    for( count = 0; count < numAttacks && victim.CurrentPosition > Position.dead; ++count )
                     {
                         SingleAttack(ch, victim, String.Empty, ObjTemplate.WearLocation.hand_three);
                     }
-                    return ( victim._position > Position.dead );
+                    return ( victim.CurrentPosition > Position.dead );
                 }
                 if( ( wield = Object.GetEquipmentOnCharacter( ch, ObjTemplate.WearLocation.hand_four ) ) && wield.ObjIndexData.IndexNumber == 9716 )
                 {
                     SocketConnection.Act( "&+c$n&+c's $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.room );
                     SocketConnection.Act( "Your $p&n &+cbegins to move with the &+Wspeed&+c of a &+lstorm&+c!&n", ch, wield, null, SocketConnection.MessageTarget.character );
-                    for( count = 0; count < numAttacks && victim._position > Position.dead; ++count )
+                    for( count = 0; count < numAttacks && victim.CurrentPosition > Position.dead; ++count )
                     {
                         SingleAttack(ch, victim, String.Empty, ObjTemplate.WearLocation.hand_four);
                     }
-                    return ( victim._position > Position.dead );
+                    return ( victim.CurrentPosition > Position.dead );
                 }
             }
             return false;
@@ -4249,7 +4249,7 @@ namespace MUDEngine
                     break;
                 // Demons, devils, etc.
                 default:
-                    chance = 25 + ( victim._level ) / 2;
+                    chance = 25 + ( victim.Level ) / 2;
                     break;
             }
 
@@ -4267,8 +4267,8 @@ namespace MUDEngine
         {
             if( ch.HasActionBit(PC.PLAYER_VICIOUS ) )
                 return true;
-            if( victim._position < Position.reclining
-                    && victim._position != Position.stunned )
+            if( victim.CurrentPosition < Position.reclining
+                    && victim.CurrentPosition != Position.stunned )
                 return false;
             return true;
         }
@@ -4290,7 +4290,7 @@ namespace MUDEngine
             {
                 return false;
             }
-            if( !ch.IsNPC() && ( (PC)ch ).AggressiveLevel >= 1 && ( (PC)ch ).AggressiveLevel < ch._hitpoints && ch._position == Position.standing
+            if( !ch.IsNPC() && ( (PC)ch ).AggressiveLevel >= 1 && ( (PC)ch ).AggressiveLevel < ch.Hitpoints && ch.CurrentPosition == Position.standing
                     && !ch.IsAffected( Affect.AFFECT_CASTING ) )
             {
                 ch.SendText( "You charge aggressively at your foe!\r\n" );
@@ -4316,7 +4316,7 @@ namespace MUDEngine
         /// <param name="victim"></param>
         public static void Disarm(CharData ch, CharData victim)
         {
-            if ((ch._size - victim._size) < -2)
+            if ((ch.CurrentSize - victim.CurrentSize) < -2)
             {
                 return;
             }
@@ -4350,7 +4350,7 @@ namespace MUDEngine
             obj.RemoveFromChar();
             // obj.AddToRoom( victim.in_room ); // Removed drop in room
             obj.ObjToChar(victim); // put it in inventory instead
-            string lbuf = String.Format("Disarm: {0} disarmed by {1}.", victim._name, ch._name);
+            string lbuf = String.Format("Disarm: {0} disarmed by {1}.", victim.Name, ch.Name);
             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_SPAM, 0, lbuf);
             return;
         }
@@ -4367,9 +4367,9 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._riding)
+            if (victim.Riding)
             {
-                if (victim._riding.CanFly())
+                if (victim.Riding.CanFly())
                 {
                     return;
                 }
@@ -4377,16 +4377,16 @@ namespace MUDEngine
                 SocketConnection.Act("$n trips your mount and you crash to the &n&+yground&n!", ch, null, victim, SocketConnection.MessageTarget.victim);
                 SocketConnection.Act("You trip $N's mount and $N is thrown off!", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n trips $N's mount and $N falls off!", ch, null, victim, SocketConnection.MessageTarget.room_vict);
-                victim._riding._rider = null;
-                victim._riding = null;
+                victim.Riding.Rider = null;
+                victim.Riding = null;
 
                 ch.WaitState(2 * Event.TICK_COMBAT);
                 victim.WaitState(2 * Event.TICK_COMBAT);
-                victim._position = Position.resting;
+                victim.CurrentPosition = Position.resting;
                 return;
             }
 
-            if (victim._wait == 0)
+            if (victim.Wait == 0)
             {
                 SocketConnection.Act("You trip $N and $N goes down!", ch, null, victim, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$n trips you and you topple like a pile of bricks!", ch, null, victim, SocketConnection.MessageTarget.victim);
@@ -4394,7 +4394,7 @@ namespace MUDEngine
 
                 ch.WaitState(2 * Event.TICK_COMBAT);
                 victim.WaitState(2 * Event.TICK_COMBAT);
-                victim._position = Position.resting;
+                victim.CurrentPosition = Position.resting;
             }
 
             return;
@@ -4415,7 +4415,7 @@ namespace MUDEngine
                 return false;
 
             if( ch.IsNPC() )
-                chance = ch._level / 2 + 8;
+                chance = ch.Level / 2 + 8;
             else
                 chance = ( (PC)ch ).SkillAptitude[ "tumble" ] / 3;
 
@@ -4431,10 +4431,10 @@ namespace MUDEngine
 
         static void StopNotVicious( CharData victim )
         {
-            foreach( CharData niceCh in victim._inRoom.People )
+            foreach( CharData niceCh in victim.InRoom.People )
             {
                 if (!niceCh.HasActionBit(PC.PLAYER_VICIOUS)
-                        && niceCh._fighting == victim )
+                        && niceCh.Fighting == victim )
                     StopFighting( niceCh, false );
             }
         }
@@ -4481,21 +4481,21 @@ namespace MUDEngine
             string buf;
             CharData minion;
 
-            if( !ch.IsNPC() || victim.IsNPC() || !ch._mobTemplate )
+            if( !ch.IsNPC() || victim.IsNPC() || !ch.MobileTemplate )
                 return false;
 
-            switch( ch._mobTemplate.IndexNumber )
+            switch( ch.MobileTemplate.IndexNumber )
             {
                 case 9316:
                     buf = String.Format( "Denizens of the Fire Plane, come slay {0}!",
-                              victim._name );
+                              victim.Name );
                     break;
                 case 9748:
                     buf = String.Format( "Denizens of the Air Plane, come slay {0}!",
-                              victim._name );
+                              victim.Name );
                     break;
                 default:
-                    buf = String.Format( "Someone kill {0}!", victim._name );
+                    buf = String.Format( "Someone kill {0}!", victim.Name );
                     return false;
             }
 
@@ -4506,8 +4506,8 @@ namespace MUDEngine
                 minion = it;
                 /* Minion must be a NPC from the right plane and on that plane */
                 if( !minion.IsNPC()
-                        || minion._inRoom.Area != ch._inRoom.Area
-                        || minion._mobTemplate.Area != ch._inRoom.Area )
+                        || minion.InRoom.Area != ch.InRoom.Area
+                        || minion.MobileTemplate.Area != ch.InRoom.Area )
                     continue;
 
                 /* This is a ranged call to start_grudge */
@@ -4527,7 +4527,7 @@ namespace MUDEngine
                 return false;
             for( i = 0; list[ i ] > 0; i++ )
             {
-                if( list[ i ] == ch._mobTemplate.IndexNumber )
+                if( list[ i ] == ch.MobileTemplate.IndexNumber )
                     return true;
             }
             return false;
@@ -4549,7 +4549,7 @@ namespace MUDEngine
             // of difference and 2% for each additional level of difference.
 
             double ratio;
-            int leveldiff = victim._level - killer._level;
+            int leveldiff = victim.Level - killer.Level;
 
             if( leveldiff <= 5 && leveldiff >= -5 )
             {
@@ -4569,7 +4569,7 @@ namespace MUDEngine
             if( !victim.IsNPC() )
                 ratio *= 10;
 
-            return victim._level * ratio;
+            return victim.Level * ratio;
         }
 
         /// <summary>
@@ -4596,7 +4596,7 @@ namespace MUDEngine
             Affect af = new Affect();
             bool isSpell = false;
 
-            foreach (Affect aff in ch._affected)
+            foreach (Affect aff in ch.Affected)
             {
                 if( aff.Type == Affect.AffectType.spell && aff.Value == "poison" )
                 {
@@ -4782,10 +4782,10 @@ namespace MUDEngine
                 percent = 10;
             if (percent > 100)
                 percent = 100;
-            int dam = ch._hitpoints / 267 + MUDMath.NumberRange(ch._hitpoints / 267, ch._hitpoints / 133);
+            int dam = ch.Hitpoints / 267 + MUDMath.NumberRange(ch.Hitpoints / 267, ch.Hitpoints / 133);
             dam = dam * percent / 100;
             //    if ( dam > 900 ) dam = 900;
-            string lbuf = String.Format("{0}&n breathing for {1} base damage", ch._shortDescription, dam);
+            string lbuf = String.Format("{0}&n breathing for {1} base damage", ch.ShortDescription, dam);
             Log.Trace(lbuf);
 
             return dam;

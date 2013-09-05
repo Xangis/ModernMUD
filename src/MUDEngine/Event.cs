@@ -274,12 +274,12 @@ namespace MUDEngine
                             ch = (CharData)eventdata._arg1;
                             if( ch == null )
                                 break;
-                            if( ch._currentMana < ((Song)eventdata._var).MinimumMana )
+                            if( ch.CurrentMana < ((Song)eventdata._var).MinimumMana )
                             {
                                 SocketConnection.Act( "$n&n chokes and falls silent.", ch, null, null, SocketConnection.MessageTarget.room );
                                 break;
                             }
-                            ch._currentMana -= ((Song)eventdata._var).MinimumMana;
+                            ch.CurrentMana -= ((Song)eventdata._var).MinimumMana;
                             // We stored the CharData in arg1
                             // We stored the spell in var
                             // We stored the target argument in arg2
@@ -324,7 +324,7 @@ namespace MUDEngine
                             Spell spl = Spell.SpellList["sleep"];
                             if (spl != null)
                             {
-                                spl.Invoke((CharData)eventdata._arg1, ((CharData)eventdata._arg1)._level, eventdata._arg2);
+                                spl.Invoke((CharData)eventdata._arg1, ((CharData)eventdata._arg1).Level, eventdata._arg2);
                             }
                             Database.EventList.Remove( it );
                             break;
@@ -507,7 +507,7 @@ namespace MUDEngine
                                 break;
                             }
                             Combat.StopFighting( ch, true );
-                            if( ch._inRoom )
+                            if( ch.InRoom )
                             {
                                 if( ch.IsNPC() )
                                 {
@@ -516,7 +516,7 @@ namespace MUDEngine
                                 else
                                 {
                                     SocketConnection.Act( "$n&n is lost to the void.", ch, null, null, SocketConnection.MessageTarget.room );
-                                    ( (PC)ch ).LastRentLocation = ch._inRoom.IndexNumber;
+                                    ( (PC)ch ).LastRentLocation = ch.InRoom.IndexNumber;
                                     CharData.SavePlayer( ch );
                                 }
                             }
@@ -535,7 +535,7 @@ namespace MUDEngine
                             {
                                 // 3 ticks off each time if standing, 2 if at least
                                 // sitting, 1 if at least resting, 0 if sleeping.
-                                int pos = ((CharData)eventdata._arg1)._position;
+                                int pos = ((CharData)eventdata._arg1).CurrentPosition;
                                 int timer = (int)eventdata._var;
                                 if( pos == Position.standing )
                                     eventdata._var = (object)(--timer);
@@ -773,15 +773,15 @@ namespace MUDEngine
             {
                 ch = it;
 
-                if( ch._position >= Position.incapacitated )
+                if( ch.CurrentPosition >= Position.incapacitated )
                 {
-                    if (ch._hitpoints < ch.GetMaxHit())
+                    if (ch.Hitpoints < ch.GetMaxHit())
                     {
-                        ch._hitpoints += CharData.HitGain(ch);
+                        ch.Hitpoints += CharData.HitGain(ch);
                     }
-                    else if (ch._hitpoints > ch.GetMaxHit())
+                    else if (ch.Hitpoints > ch.GetMaxHit())
                     {
-                        ch._hitpoints--;
+                        ch.Hitpoints--;
                     }
                 }
                 ch.UpdatePosition();
@@ -792,11 +792,11 @@ namespace MUDEngine
         {
             foreach( CharData ch in Database.CharList )
             {
-                if( ch._position >= Position.incapacitated )
+                if( ch.CurrentPosition >= Position.incapacitated )
                 {
-                    if (ch._currentMana < ch._maxMana)
+                    if (ch.CurrentMana < ch.MaxMana)
                     {
-                        ch._currentMana += CharData.ManaGain(ch);
+                        ch.CurrentMana += CharData.ManaGain(ch);
                     }
                 }
             }
@@ -806,10 +806,10 @@ namespace MUDEngine
         {
             foreach( CharData ch in Database.CharList )
             {
-                if( ch._currentMoves < ch._maxMoves )
+                if( ch.CurrentMoves < ch.MaxMoves )
                 {
-                    if( ch._position > Position.incapacitated )
-                        ch._currentMoves += CharData.MoveGain( ch );
+                    if( ch.CurrentPosition > Position.incapacitated )
+                        ch.CurrentMoves += CharData.MoveGain( ch );
                 }
             }
         }
@@ -824,11 +824,11 @@ namespace MUDEngine
         /// <returns></returns>
         static bool CampUpdate( CharData ch, Room room )
         {
-            if( !ch || !room || ch._position <= Position.incapacitated )
+            if( !ch || !room || ch.CurrentPosition <= Position.incapacitated )
                 return false;
             if( !ch.HasActionBit(PC.PLAYER_CAMPING ) )
                 return false;
-            if( ch._position == Position.fighting || ch._fighting || ch._inRoom != room )
+            if( ch.CurrentPosition == Position.fighting || ch.Fighting || ch.InRoom != room )
             {
                 ch.SendText( "So much for that camping effort.\r\n" );
                 ch.RemoveActionBit(PC.PLAYER_CAMPING);
@@ -850,46 +850,46 @@ namespace MUDEngine
                 CharData ch = Database.CharList[i];
                 int rnum;
 
-                if( !ch._inRoom )
+                if( !ch.InRoom )
                     continue;
 
                 if( !ch.IsNPC() )
                     continue;
 
                 // Mobs may have to wait for lag too
-                if( ch._wait > 0 )
+                if( ch.Wait > 0 )
                 {
-                    ch._wait -= TICK_MOBILE;
-                    if( ch._wait < 0 )
+                    ch.Wait -= TICK_MOBILE;
+                    if( ch.Wait < 0 )
                     {
-                        ch._wait = 0;
+                        ch.Wait = 0;
                     }
                     continue;
                 }
 
                 // Mobs bashed or knocked down will try to get back up...
-                if( ch._position < Position.fighting && ch._position > Position.sleeping
-                        && ( ch._position != ch._mobTemplate.DefaultPosition || ch._fighting ) )
+                if( ch.CurrentPosition < Position.fighting && ch.CurrentPosition > Position.sleeping
+                        && ( ch.CurrentPosition != ch.MobileTemplate.DefaultPosition || ch.Fighting ) )
                 {
                     CommandType.Interpret( ch, "stand" );
                     continue;
                 }
 
-                if (ch._position == Position.sleeping && !ch.IsAffected( Affect.AFFECT_SLEEP ))
+                if (ch.CurrentPosition == Position.sleeping && !ch.IsAffected( Affect.AFFECT_SLEEP ))
                 {
                     // If there is a fight going on have a chance to waken
-                    foreach( CharData roomChar in ch._inRoom.People )
+                    foreach( CharData roomChar in ch.InRoom.People )
                     {
-                        if (roomChar._fighting && MUDMath.NumberBits(3) == 0 && !ch.IsAffected(Affect.AFFECT_SLEEP))
+                        if (roomChar.Fighting && MUDMath.NumberBits(3) == 0 && !ch.IsAffected(Affect.AFFECT_SLEEP))
                         {
                             SocketConnection.Act( "$n awakens from $s slumber.", ch, null, null, SocketConnection.MessageTarget.room );
-                            ch._position = Position.reclining;
+                            ch.CurrentPosition = Position.reclining;
                             break;
                         }
                     }
                 }
 
-                if( ch._position == Position.sleeping )
+                if( ch.CurrentPosition == Position.sleeping )
                     continue;
 
                 // If we're just updating lag, we have no need at all for any
@@ -927,7 +927,7 @@ namespace MUDEngine
                 {
                     continue;
                 }
-                if( !ch._fighting && ch._hunting && ch._position == Position.standing )
+                if( !ch.Fighting && ch.Hunting && ch.CurrentPosition == Position.standing )
                 {
                     ch.WaitState( 2 * TICK_COMBAT );
                     Track.HuntVictim( ch );
@@ -935,29 +935,29 @@ namespace MUDEngine
                 }
 
                 // That's all for a sleeping or busy monster.
-                if( ch._position < Position.standing )
+                if( ch.CurrentPosition < Position.standing )
                     continue;
 
                 /* MOBprogram random trigger */
-                if( ch._inRoom.Area.NumPlayers > 0 )
+                if( ch.InRoom.Area.NumPlayers > 0 )
                 {
                     //            prog_random_trigger( ch );
                     /* If ch dies or changes
                     position due to it's random
                     trigger, continue */
-                    if( ch._position < Position.standing )
+                    if( ch.CurrentPosition < Position.standing )
                     {
                         continue;
                     }
                 }
 
                 // Scavenge
-                if( ch.HasActionBit(MobTemplate.ACT_SCAVENGER ) && ch._inRoom.Contents.Count != 0
+                if( ch.HasActionBit(MobTemplate.ACT_SCAVENGER ) && ch.InRoom.Contents.Count != 0
                     && MUDMath.NumberBits( 2 ) == 0 )
                 {
                     int max = 1;
                     Object objBest = null;
-                    foreach( Object obj in ch._inRoom.Contents )
+                    foreach( Object obj in ch.InRoom.Contents )
                     {
                         if( obj.HasWearFlag( ObjTemplate.WEARABLE_CARRY )
                                 && obj.Cost > max
@@ -977,7 +977,7 @@ namespace MUDEngine
                 }
  
                 // Wander or flee.
-                if( ch._hitpoints < ch.GetMaxHit() / 5 )
+                if( ch.Hitpoints < ch.GetMaxHit() / 5 )
                 {
                     rnum = 3;
                 }
@@ -988,9 +988,9 @@ namespace MUDEngine
 
                 Exit.Direction door;
                 if( !ch.HasActionBit(MobTemplate.ACT_SENTINEL ) && ( door = (Exit.Direction)MUDMath.NumberBits( rnum ) ) != Exit.Direction.invalid
-                    && (exit = ch._inRoom.GetExit(door)) && exit.TargetRoom && !exit.HasFlag(Exit.ExitFlag.closed)
+                    && (exit = ch.InRoom.GetExit(door)) && exit.TargetRoom && !exit.HasFlag(Exit.ExitFlag.closed)
                     && !Room.GetRoom(exit.IndexNumber).HasFlag( RoomTemplate.ROOM_NO_MOB ) && ( !ch.HasActionBit(MobTemplate.ACT_STAY_AREA )
-                    || exit.TargetRoom.Area == ch._inRoom.Area )
+                    || exit.TargetRoom.Area == ch.InRoom.Area )
                     && !( !Room.GetRoom(exit.IndexNumber).IsWater() && ch.HasInnate( Race.RACE_SWIM ) ) )
                 {
                     // Give message if hurt.
@@ -1001,7 +1001,7 @@ namespace MUDEngine
 
                     ch.Move( door );
                     // In case ch changes position due to its or some other mob's movement via MOBProgs.
-                    if( ch._position < Position.standing )
+                    if( ch.CurrentPosition < Position.standing )
                     {
                         continue;
                     }
@@ -1010,9 +1010,9 @@ namespace MUDEngine
                 // If people are in the room, then flee.
                 if( rnum == 3 && !ch.HasActionBit(MobTemplate.ACT_SENTINEL ) )
                 {
-                    for (int j = (ch._inRoom.People.Count - 1); j >= 0; j-- )
+                    for (int j = (ch.InRoom.People.Count - 1); j >= 0; j-- )
                     {
-                        CharData roomCharacter = ch._inRoom.People[j];
+                        CharData roomCharacter = ch.InRoom.People[j];
                         // If NPC can't see PC it shouldn't feel fear.
                         if (!roomCharacter.IsNPC() && CharData.CanSee(ch, roomCharacter) && !roomCharacter.IsImmortal())
                         {
@@ -1027,19 +1027,19 @@ namespace MUDEngine
                                     default:
                                         break;
                                     case 0:
-                                        text = String.Format("Get away from me, {0}!", roomCharacter._name);
+                                        text = String.Format("Get away from me, {0}!", roomCharacter.Name);
                                         CommandType.Interpret(ch, "yell " + text);
                                         break;
                                     case 1:
-                                        text = String.Format("Leave me be, {0}!", roomCharacter._name);
+                                        text = String.Format("Leave me be, {0}!", roomCharacter.Name);
                                         CommandType.Interpret(ch, "yell " + text);
                                         break;
                                     case 2:
-                                        text = String.Format("{0} is trying to kill me! Help!", roomCharacter._name);
+                                        text = String.Format("{0} is trying to kill me! Help!", roomCharacter.Name);
                                         CommandType.Interpret(ch, "yell " + text);
                                         break;
                                     case 3:
-                                        text = String.Format("Someone save me from {0}!", roomCharacter._name);
+                                        text = String.Format("Someone save me from {0}!", roomCharacter.Name);
                                         CommandType.Interpret(ch, "yell " + text);
                                         break;
                                 }
@@ -1056,7 +1056,7 @@ namespace MUDEngine
                             // Find an exit giving each one an equal chance.
                             for (direction = 0; direction < Limits.MAX_DIRECTION; direction++)
                             {
-                                if (ch._inRoom.ExitData[direction] && MUDMath.NumberRange(0, direction) == 0)
+                                if (ch.InRoom.ExitData[direction] && MUDMath.NumberRange(0, direction) == 0)
                                 {
                                     door = (Exit.Direction)direction;
                                 }
@@ -1077,11 +1077,11 @@ namespace MUDEngine
                 }
 
                 // Wander back home last, low priority.
-                if( !ch._fighting && !ch._hunting
-                        && ch._position == Position.standing
+                if( !ch.Fighting && !ch.Hunting
+                        && ch.CurrentPosition == Position.standing
                         && ch.HasActionBit(MobTemplate.ACT_SENTINEL )
-                        && ch._loadRoomIndexNumber != 0
-                        && ch._loadRoomIndexNumber != ch._inRoom.IndexNumber )
+                        && ch.LoadRoomIndexNumber != 0
+                        && ch.LoadRoomIndexNumber != ch.InRoom.IndexNumber )
                 {
                     Track.ReturnToLoad( ch );
                 }
@@ -1109,15 +1109,15 @@ namespace MUDEngine
             {
                 ch = Database.CharList[i];
 
-                if( !ch._inRoom )
+                if( !ch.InRoom )
                 {
                     continue;
                 }
 
-                if( ch._position == Position.stunned )
+                if( ch.CurrentPosition == Position.stunned )
                     ch.UpdatePosition();
 
-                if( ch._position == Position.dead )
+                if( ch.CurrentPosition == Position.dead )
                 {
                     ch.SendText( "&+lYour soul finally leaves your body.&n\r\n" );
                     SocketConnection.Act( "&+l$n&+l's corpse grows &+bcold&+l.", ch, null, null, SocketConnection.MessageTarget.room );
@@ -1125,16 +1125,16 @@ namespace MUDEngine
                     continue;
                 }
 
-                if( ch._position == Position.fighting && !ch._fighting )
-                    ch._position = Position.standing;
+                if( ch.CurrentPosition == Position.fighting && !ch.Fighting )
+                    ch.CurrentPosition = Position.standing;
 
                 if( !ch.IsNPC() )
                     ch.UpdateInnateTimers();
 
                 Affect affect;
-                for( int j = (ch._affected.Count - 1); j >= 0; j-- )
+                for( int j = (ch.Affected.Count - 1); j >= 0; j-- )
                 {
-                    affect = ch._affected[j];
+                    affect = ch.Affected[j];
                     if( affect.Duration > 0 )
                         affect.Duration--;
                     else if( affect.Duration < 0 )
@@ -1162,7 +1162,7 @@ namespace MUDEngine
                             ch.SendText( "\r\n" );
                         }
 
-                        ch.RemoveAffect( ch._affected[j] );
+                        ch.RemoveAffect( ch.Affected[j] );
                     }
                 }
 
@@ -1182,7 +1182,7 @@ namespace MUDEngine
 
                     SocketConnection.Act( "$n&n writhes in agony as plague sores erupt from $s skin.", ch, null, null, SocketConnection.MessageTarget.room );
                     ch.SendText( "You writhe in agony from the plague.\r\n" );
-                    foreach (Affect af in ch._affected)
+                    foreach (Affect af in ch.Affected)
                     {
                         if (af.Type == Affect.AffectType.spell && af.Value == "plague")
                         {
@@ -1208,7 +1208,7 @@ namespace MUDEngine
                     plague.SetBitvector( Affect.AFFECT_DISEASE );
                     int save = plague.Level;
 
-                    foreach( CharData ivch in ch._inRoom.People )
+                    foreach( CharData ivch in ch.InRoom.People )
                     {
                         if( save != 0 && !Magic.SpellSavingThrow( save, ivch, AttackType.DamageType.disease )
                                 && !ivch.IsImmortal()
@@ -1222,9 +1222,9 @@ namespace MUDEngine
                         }
                     }
 
-                    int dam = Math.Min( ch._level, 5 );
-                    ch._currentMana -= dam;
-                    ch._currentMoves -= dam;
+                    int dam = Math.Min( ch.Level, 5 );
+                    ch.CurrentMana -= dam;
+                    ch.CurrentMoves -= dam;
                     Combat.InflictSpellDamage( ch, ch, dam, "plague", AttackType.DamageType.disease );
                 }
 
@@ -1238,14 +1238,14 @@ namespace MUDEngine
                     {
                         dmg = 0;
                     }
-                    if( ch._inRoom.TerrainType == TerrainType.inside )
+                    if( ch.InRoom.TerrainType == TerrainType.inside )
                     {
                         dmg = 1;
                     }
                     else
                     {
-                        if( ch._inRoom.TerrainType == TerrainType.forest ||
-                                ch._inRoom.TerrainType == TerrainType.swamp )
+                        if( ch.InRoom.TerrainType == TerrainType.forest ||
+                                ch.InRoom.TerrainType == TerrainType.swamp )
                         {
                             dmg = 2;
                         }
@@ -1266,26 +1266,26 @@ namespace MUDEngine
                     ch.SendText( "&+RThe heat of the sun feels terrible!&n\r\n" );
                     Combat.InflictSpellDamage( ch, ch, dmg, Spell.SpellList["poison"], AttackType.DamageType.light );
                 }
-                if( ch._inRoom.TerrainType == TerrainType.underwater_has_ground
+                if( ch.InRoom.TerrainType == TerrainType.underwater_has_ground
                     && ( !ch.IsImmortal() && !ch.IsAffected( Affect.AFFECT_BREATHE_UNDERWATER )
                          && !CharData.CheckImmune( ch, Race.DamageType.drowning )
                          && !ch.HasInnate( Race.RACE_WATERBREATH ) ) )
                 {
                     ch.SendText( "You can't breathe!\r\n" );
                     SocketConnection.Act( "$n&n sputters and chokes!", ch, null, null, SocketConnection.MessageTarget.room );
-                    ch._hitpoints -= 5;
+                    ch.Hitpoints -= 5;
                     ch.UpdatePosition();
                 }
-                else if( ch._inRoom.TerrainType != TerrainType.underwater_has_ground
-                         && ch._inRoom.TerrainType != TerrainType.unswimmable_water
-                         && ch._inRoom.TerrainType != TerrainType.swimmable_water
+                else if( ch.InRoom.TerrainType != TerrainType.underwater_has_ground
+                         && ch.InRoom.TerrainType != TerrainType.unswimmable_water
+                         && ch.InRoom.TerrainType != TerrainType.swimmable_water
                          && ch.HasInnate( Race.RACE_WATERBREATH )
                          && !Race.RaceList[ch.GetRace()].Name.Equals("Object", StringComparison.CurrentCultureIgnoreCase)
                          && ch.GetRace() != Race.RACE_GOD )
                 {
                     ch.SendText( "You can't breathe!\r\n" );
                     SocketConnection.Act( "$n&n sputters and gurgles!", ch, null, null, SocketConnection.MessageTarget.room );
-                    ch._hitpoints -= 5;
+                    ch.Hitpoints -= 5;
                     ch.UpdatePosition();
                 }
                 else if( ch.IsAffected( Affect.AFFECT_POISON ) )
@@ -1295,13 +1295,13 @@ namespace MUDEngine
                 else
                 {
                     string text;
-                    if( ch._position == Position.incapacitated )
+                    if( ch.CurrentPosition == Position.incapacitated )
                     {
-                        text = String.Format( "char_update: {0}&n is incapacitated.", ch._name );
+                        text = String.Format( "char_update: {0}&n is incapacitated.", ch.Name );
                         ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, text );
-                        if( ch.HasInnate( Race.RACE_REGENERATE ) && ch._hitpoints < ch.GetMaxHit() )
+                        if( ch.HasInnate( Race.RACE_REGENERATE ) && ch.Hitpoints < ch.GetMaxHit() )
                         {
-                            ++ch._hitpoints;
+                            ++ch.Hitpoints;
                         }
                         else if( !ch.IsNPC() )
                         {
@@ -1309,16 +1309,16 @@ namespace MUDEngine
                         }
                         else if( MUDMath.NumberPercent() < 50 )
                         {
-                            ch._hitpoints--;
+                            ch.Hitpoints--;
                         }
                     }
-                    else if( ch._position == Position.mortally_wounded )
+                    else if( ch.CurrentPosition == Position.mortally_wounded )
                     {
-                        text = String.Format( "char_update: {0}&n is mortally wounded.", ch._name );
+                        text = String.Format( "char_update: {0}&n is mortally wounded.", ch.Name );
                         ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, text );
-                        if( ch.HasInnate( Race.RACE_REGENERATE ) && ch._hitpoints < ch.GetMaxHit() )
+                        if( ch.HasInnate( Race.RACE_REGENERATE ) && ch.Hitpoints < ch.GetMaxHit() )
                         {
-                            ++ch._hitpoints;
+                            ++ch.Hitpoints;
                         }
                         else if( !ch.IsNPC() )
                         {
@@ -1333,7 +1333,7 @@ namespace MUDEngine
                 ch.UpdatePosition();
 
                 // Refresh stoneskin on perm stone mobs.
-                if( ch.IsNPC() && Macros.IsSet( ch._mobTemplate.AffectedBy[ Affect.AFFECT_STONESKIN.Group ], Affect.AFFECT_STONESKIN.Vector ) &&
+                if( ch.IsNPC() && Macros.IsSet( ch.MobileTemplate.AffectedBy[ Affect.AFFECT_STONESKIN.Group ], Affect.AFFECT_STONESKIN.Vector ) &&
                         !ch.IsAffected( Affect.AFFECT_STONESKIN ) )
                 {
                     ch.SetAffectBit( Affect.AFFECT_STONESKIN );
@@ -1346,37 +1346,37 @@ namespace MUDEngine
                     continue;
                 }
 
-                if( ch._position == Position.dead )
+                if( ch.CurrentPosition == Position.dead )
                 {
                     Combat.KillingBlow( ch, ch );
                     continue;
                 }
 
                 // Find player with oldest save time.
-                if( ( !ch._socket || ch._socket._connectionState == SocketConnection.ConnectionState.playing )
-                        && ch._level >= 2
-                        && ch._saveTime < saveTime )
+                if( ( !ch.Socket || ch.Socket.ConnectionStatus == SocketConnection.ConnectionState.playing )
+                        && ch.Level >= 2
+                        && ch.SaveTime < saveTime )
                 {
                     chSave = ch;
-                    saveTime = ch._saveTime;
+                    saveTime = ch.SaveTime;
                 }
 
-                if( ( ch._level < Limits.LEVEL_AVATAR || ( !ch._socket && !ch.IsSwitched ) ) )
+                if( ( ch.Level < Limits.LEVEL_AVATAR || ( !ch.Socket && !ch.IsSwitched ) ) )
                 {
                     Object obj = Object.GetEquipmentOnCharacter( ch, ObjTemplate.WearLocation.hand_one );
 
                     if( ( obj ) && obj.ItemType == ObjTemplate.ObjectType.light && obj.Values[ 2 ] > 0 )
                     {
-                        if( --obj.Values[ 2 ] == 0 && ch._inRoom )
+                        if( --obj.Values[ 2 ] == 0 && ch.InRoom )
                         {
-                            --ch._inRoom.Light;
+                            --ch.InRoom.Light;
                             SocketConnection.Act( "$p&n goes out.", ch, obj, null, SocketConnection.MessageTarget.room );
                             SocketConnection.Act( "$p&n goes out.", ch, obj, null, SocketConnection.MessageTarget.character );
                             obj.RemoveFromWorld();
                         }
                     }
 
-                    if( ch._timer > 15 && !ch.IsSwitched )
+                    if( ch.Timer > 15 && !ch.IsSwitched )
                         chQuit = ch;
 
                     // This is so that hunger updates once every 16 CharacterUpdates,
@@ -1398,19 +1398,19 @@ namespace MUDEngine
                     {
                         ch.AdjustThirst(-2);
                     }
-                    if( ( ch._hitpoints - ch.GetMaxHit() ) > 50
+                    if( ( ch.Hitpoints - ch.GetMaxHit() ) > 50
                             && ( _hunger % 5 == 0 ) )
                     {
-                        ch._hitpoints--;
+                        ch.Hitpoints--;
                     }
-                    else if( ( ch._hitpoints - ch.GetMaxHit() ) > 100
+                    else if( ( ch.Hitpoints - ch.GetMaxHit() ) > 100
                              && ( _hunger % 4 == 0 ) )
                     {
-                        ch._hitpoints--;
+                        ch.Hitpoints--;
                     }
-                    else if( ( ch._hitpoints - ch.GetMaxHit() ) > 150 )
+                    else if( ( ch.Hitpoints - ch.GetMaxHit() ) > 150 )
                     {
-                        ch._hitpoints--;
+                        ch.Hitpoints--;
                     }
                 }
             }
@@ -1455,7 +1455,7 @@ namespace MUDEngine
                         for (int k = room.People.Count - 1; k >= 0; k--)
                         {
                             CharData roomChar = room.People[k];
-                            if ((!roomChar.IsNPC() && roomChar._level >= Limits.LEVEL_AVATAR)
+                            if ((!roomChar.IsNPC() && roomChar.Level >= Limits.LEVEL_AVATAR)
                                     || roomChar.IsAffected(Affect.AFFECT_DENY_FIRE)
                                     || roomChar.GetRace() == Race.RACE_FIRE_ELE)
                             {
@@ -1464,19 +1464,19 @@ namespace MUDEngine
                             ris = roomChar.CheckRIS( AttackType.DamageType.fire );
                             if (ris == Race.ResistanceType.vulnerable)
                             {
-                                roomChar._hitpoints -= 8;
+                                roomChar.Hitpoints -= 8;
                             }
                             else if (ris == Race.ResistanceType.susceptible)
                             {
-                                roomChar._hitpoints -= 6;
+                                roomChar.Hitpoints -= 6;
                             }
                             else if (ris == Race.ResistanceType.normal)
                             {
-                                roomChar._hitpoints -= 4;
+                                roomChar.Hitpoints -= 4;
                             }
                             else if (ris == Race.ResistanceType.resistant)
                             {
-                                roomChar._hitpoints -= 2;
+                                roomChar.Hitpoints -= 2;
                             }
                             else if (ris == Race.ResistanceType.immune)
                             {
@@ -1484,7 +1484,7 @@ namespace MUDEngine
                             }
                             roomChar.SendText( "&+rYou are burned by the heat of the room.\r\n" );
                             roomChar.UpdatePosition();
-                            if( roomChar._position == Position.dead )
+                            if( roomChar.CurrentPosition == Position.dead )
                             {
                                 Combat.KillingBlow( roomChar, roomChar );
                             }
@@ -1495,7 +1495,7 @@ namespace MUDEngine
                         for (int k = room.People.Count - 1; k >= 0; k-- )
                         {
                             CharData roomChar = room.People[k];
-                            if ((!roomChar.IsNPC() && roomChar._level >= Limits.LEVEL_AVATAR)
+                            if ((!roomChar.IsNPC() && roomChar.Level >= Limits.LEVEL_AVATAR)
                                     || roomChar.IsAffected(Affect.AFFECT_DENY_AIR) || roomChar.GetRace() == Race.RACE_AIR_ELE
                                     || Combat.CheckShrug(roomChar, roomChar))
                             {
@@ -1504,19 +1504,19 @@ namespace MUDEngine
                             ris = roomChar.CheckRIS(AttackType.DamageType.wind);
                             if (ris == Race.ResistanceType.vulnerable)
                             {
-                                roomChar._hitpoints -= 8;
+                                roomChar.Hitpoints -= 8;
                             }
                             else if (ris == Race.ResistanceType.susceptible)
                             {
-                                roomChar._hitpoints -= 6;
+                                roomChar.Hitpoints -= 6;
                             }
                             else if (ris == Race.ResistanceType.normal)
                             {
-                                roomChar._hitpoints -= 4;
+                                roomChar.Hitpoints -= 4;
                             }
                             else if (ris == Race.ResistanceType.resistant)
                             {
-                                roomChar._hitpoints -= 2;
+                                roomChar.Hitpoints -= 2;
                             }
                             else if (ris == Race.ResistanceType.immune)
                             {
@@ -1524,7 +1524,7 @@ namespace MUDEngine
                             }
                             roomChar.SendText("&+CYou're hit by a bolt of lightning!\r\n");
                             roomChar.UpdatePosition();
-                            if (roomChar._position == Position.dead)
+                            if (roomChar.CurrentPosition == Position.dead)
                             {
                                 Combat.KillingBlow(roomChar, roomChar);
                             }
@@ -1537,28 +1537,28 @@ namespace MUDEngine
                         for (int k = room.People.Count - 1; k >= 0; k-- )
                         {
                             CharData roomChar = room.People[k];
-                            if (roomChar._flyLevel == 0)
+                            if (roomChar.FlightLevel == 0)
                                 continue;
-                            if (roomChar._flyLevel < 0)
+                            if (roomChar.FlightLevel < 0)
                             {
                                 Log.Error("Mob has a fly_level less than 0", 0);
-                                roomChar._flyLevel = 0;
+                                roomChar.FlightLevel = 0;
                                 continue;
                             }
                             if (roomChar.CanFly() || roomChar.IsAffected(Affect.AFFECT_LEVITATE)
-                                    || (!roomChar.IsNPC() && roomChar._level >= Limits.LEVEL_AVATAR))
+                                    || (!roomChar.IsNPC() && roomChar.Level >= Limits.LEVEL_AVATAR))
                                 continue;
                             // ouch, gonna fall!
                             if (!roomChar.IsNPC())
                                 roomChar.SendText("You fall tumbling down!\r\n");
                             SocketConnection.Act("$n&n falls away.", roomChar, null, roomChar, SocketConnection.MessageTarget.room);
-                            roomChar._position = Position.sitting;
+                            roomChar.CurrentPosition = Position.sitting;
                             // Command.damage(ich, ich, MUDMath.Dice(ich.fly_level, 10), null, AttackType.DamageType.magic_other);
-                            for (roomChar._flyLevel--; roomChar._flyLevel > 0; roomChar._flyLevel--)
+                            for (roomChar.FlightLevel--; roomChar.FlightLevel > 0; roomChar.FlightLevel--)
                             {
                                 SocketConnection.Act("$n&n falls past from above.", roomChar, null, null, SocketConnection.MessageTarget.room);
                             }
-                            roomChar._flyLevel = 0;
+                            roomChar.FlightLevel = 0;
                             SocketConnection.Act("$n&n falls from above.", roomChar, null, roomChar, SocketConnection.MessageTarget.room);
                         } //end of people falling from fly
 
@@ -1574,15 +1574,15 @@ namespace MUDEngine
                             for (int l = room.People.Count - 1; l >= 0; l--)
                             {
                                 CharData roomChar = room.People[l];
-                                if (roomChar._flyLevel == obj.FlyLevel)
+                                if (roomChar.FlightLevel == obj.FlyLevel)
                                 {
                                     SocketConnection.Act("$p&n falls away.", roomChar, obj, roomChar, SocketConnection.MessageTarget.character);
                                 }
-                                if (roomChar._flyLevel != 0 && roomChar._flyLevel < obj.FlyLevel)
+                                if (roomChar.FlightLevel != 0 && roomChar.FlightLevel < obj.FlyLevel)
                                 {
                                     SocketConnection.Act("$p&n falls past you from above.", roomChar, obj, roomChar, SocketConnection.MessageTarget.character);
                                 }
-                                if (roomChar._flyLevel == 0)
+                                if (roomChar.FlightLevel == 0)
                                 {
                                     SocketConnection.Act("$p&n falls from above.", roomChar, obj, roomChar, SocketConnection.MessageTarget.character);
                                 }
@@ -1595,7 +1595,7 @@ namespace MUDEngine
                     for (int k = room.People.Count - 1; k >= 0; k-- )
                     {
                         CharData roomChar = room.People[k];
-                        if (roomChar._hunting && roomChar._wait <= 0)
+                        if (roomChar.Hunting && roomChar.Wait <= 0)
                         {
                             if (roomChar.IsNPC())
                             {
@@ -1676,7 +1676,7 @@ namespace MUDEngine
             if( ch.CanFly() || ch.IsAffected( Affect.AFFECT_LEVITATE ) )
                 return;
 
-            if( ch._inRoom.People != null )
+            if( ch.InRoom.People != null )
             {
                 SocketConnection.Act( "You are falling down!", ch, null, null, SocketConnection.MessageTarget.character );
                 SocketConnection.Act( "$n&n falls away.", ch, null, null, SocketConnection.MessageTarget.room );
@@ -1688,7 +1688,7 @@ namespace MUDEngine
             if( !ch.HasSkill( "safe_fall" ) )
                 chance = 0;
             else if( ch.IsNPC() )
-                chance = ( ( ch._level * 3 ) / 2 ) + 15;
+                chance = ( ( ch.Level * 3 ) / 2 ) + 15;
             else
                 chance = ( (PC)ch ).SkillAptitude[ "safe fall" ];
 
@@ -1726,7 +1726,7 @@ namespace MUDEngine
                         if( Race.MAX_SIZE > 0 && !ch.IsNPC() )
                         {
                             Combat.InflictDamage(ch, ch, MUDMath.NumberRange(2, 4), String.Empty, ObjTemplate.WearLocation.none, AttackType.DamageType.none);
-                            ch._position = Position.sitting;
+                            ch.CurrentPosition = Position.sitting;
                             ch.WaitState( 3 );
                         }
                     }
@@ -1734,19 +1734,19 @@ namespace MUDEngine
                 else
                 {
                     ch.SendText( "You slam into the ground!\r\n" );
-                    ch._position = Position.sitting;
+                    ch.CurrentPosition = Position.sitting;
                     ch.WaitState( 8 );
                     SocketConnection.Act( "$n&n comes crashing in from above.", ch, null, null, SocketConnection.MessageTarget.room );
                     if( Race.MAX_SIZE > 0 && !ch.IsNPC() )
                     {
-                        Combat.InflictDamage( ch, ch, ( ( MUDMath.NumberPercent() * (int)ch._size ) / Race.MAX_SIZE ),
+                        Combat.InflictDamage( ch, ch, ( ( MUDMath.NumberPercent() * (int)ch.CurrentSize ) / Race.MAX_SIZE ),
                                 String.Empty, ObjTemplate.WearLocation.none, AttackType.DamageType.none);
                     }
                 }
             }
-            else if( ch && ch._inRoom )
+            else if( ch && ch.InRoom )
             {
-                if( ch._inRoom.People.Count > 0 )
+                if( ch.InRoom.People.Count > 0 )
                 {
                     SocketConnection.Act( "$n&n falls by.", ch, null, null, SocketConnection.MessageTarget.room );
                 }
@@ -1885,24 +1885,24 @@ namespace MUDEngine
                 socket = Database.SocketList[k];
                 ch = socket.Character;
 
-                if (socket.Character == null || socket._connectionState != SocketConnection.ConnectionState.playing
-                        || (ch._level >= Limits.LEVEL_HERO && ch.HasActionBit(PC.PLAYER_FOG)) || !ch._inRoom)
+                if (socket.Character == null || socket.ConnectionStatus != SocketConnection.ConnectionState.playing
+                        || (ch.Level >= Limits.LEVEL_HERO && ch.HasActionBit(PC.PLAYER_FOG)) || !ch.InRoom)
                 {
                     continue;
                 }
 
                 /* mch wont get hurt */
                 CharData roomCharacter;
-                for( int i = (ch._inRoom.People.Count - 1); i >= 0; i--)
+                for( int i = (ch.InRoom.People.Count - 1); i >= 0; i--)
                 {
-                    roomCharacter = ch._inRoom.People[i];
+                    roomCharacter = ch.InRoom.People[i];
 
                     if( !roomCharacter.IsNPC()
-                            || roomCharacter._fighting
+                            || roomCharacter.Fighting
                             || roomCharacter.IsAffected( Affect.AFFECT_CHARM )
                             || !roomCharacter.IsAwake()
                             || (roomCharacter.HasActionBit(MobTemplate.ACT_WIMPY) && ch.IsAwake())
-                            || ch._flyLevel != roomCharacter._flyLevel
+                            || ch.FlightLevel != roomCharacter.FlightLevel
                             || ch.IsImmortal()
                             || !CharData.CanSee( roomCharacter, ch ) )
                     {
@@ -1927,12 +1927,12 @@ namespace MUDEngine
                      */
                     int count = 0;
                     CharData victim = null;
-                    for( int j = (roomCharacter._inRoom.People.Count - 1); j >= 0; j-- )
+                    for( int j = (roomCharacter.InRoom.People.Count - 1); j >= 0; j-- )
                     {
-                        CharData possibleVictim = roomCharacter._inRoom.People[j];
+                        CharData possibleVictim = roomCharacter.InRoom.People[j];
                         if (possibleVictim.IsNPC()
-                            || possibleVictim._level >= Limits.LEVEL_AVATAR
-                            || possibleVictim._flyLevel != roomCharacter._flyLevel
+                            || possibleVictim.Level >= Limits.LEVEL_AVATAR
+                            || possibleVictim.FlightLevel != roomCharacter.FlightLevel
                             || !CharData.CanSee(roomCharacter, possibleVictim)
                             || !roomCharacter.IsAggressive(possibleVictim))
                         {
@@ -1955,14 +1955,14 @@ namespace MUDEngine
                     }
                     if( !Combat.CheckAggressive( victim, roomCharacter ) )
                     {
-                        if (roomCharacter._position == Position.standing)
+                        if (roomCharacter.CurrentPosition == Position.standing)
                         {
                             roomCharacter.AttackCharacter(victim);
                         }
-                        else if (roomCharacter._position >= Position.reclining)
+                        else if (roomCharacter.CurrentPosition >= Position.reclining)
                         {
                             SocketConnection.Act("$n scrambles to an upright position.", roomCharacter, null, null, SocketConnection.MessageTarget.room);
-                            roomCharacter._position = Position.standing;
+                            roomCharacter.CurrentPosition = Position.standing;
                         }
                     }
                 }
@@ -2011,7 +2011,7 @@ namespace MUDEngine
             for( int i = (Database.CharList.Count - 1); i >= 0; i-- )
             {
                 ch = Database.CharList[i];
-                if (!ch._inRoom)
+                if (!ch.InRoom)
                 {
                     continue;
                 }
@@ -2021,11 +2021,11 @@ namespace MUDEngine
                     continue;
                 }
 
-                victim = ch._fighting;
+                victim = ch.Fighting;
 
                 if (victim)
                 {
-                    if (ch.IsAwake() && ch._inRoom == victim._inRoom)
+                    if (ch.IsAwake() && ch.InRoom == victim.InRoom)
                     {
                         if (!Combat.CheckVicious(ch, victim))
                         {
@@ -2036,8 +2036,8 @@ namespace MUDEngine
                         /* Ok here we test for switch if victim is charmed */
                         if (victim.IsAffected(Affect.AFFECT_CHARM)
                                 && !victim.IsAffected( Affect.AFFECT_BLIND)
-                                && victim._master
-                                && victim._inRoom == victim._master._inRoom
+                                && victim.Master
+                                && victim.InRoom == victim.Master.InRoom
                                 && ch != victim
                                 && MUDMath.NumberPercent() > 40)
                         {
@@ -2089,7 +2089,7 @@ namespace MUDEngine
                     continue;
                 }
 
-                if (ch.IsAffected(Affect.AFFECT_BLIND) || (ch.IsNPC() && ch._mobTemplate.ShopData))
+                if (ch.IsAffected(Affect.AFFECT_BLIND) || (ch.IsNPC() && ch.MobileTemplate.ShopData))
                 {
                     continue;
                 }
@@ -2099,11 +2099,11 @@ namespace MUDEngine
                 // Check for assist.
                 CharData roomChar = null;
                 CharData irch;
-                for( int j = (ch._inRoom.People.Count - 1); j >= 0; j-- )
+                for( int j = (ch.InRoom.People.Count - 1); j >= 0; j-- )
                 {
-                    irch = ch._inRoom.People[j];
+                    irch = ch.InRoom.People[j];
                     bool assist = false;
-                    if (!irch || !irch.IsAwake() || !(victim = irch._fighting))
+                    if (!irch || !irch.IsAwake() || !(victim = irch.Fighting))
                     {
                         continue;
                     }
@@ -2112,29 +2112,29 @@ namespace MUDEngine
                     // protector mobs will only assist their own race, a group member,
                     // or a follower/leader
                     if (ch.IsNPC() && ch.HasActionBit(MobTemplate.ACT_PROTECTOR)
-                            && !ch._fighting && ch._position > Position.sleeping)
+                            && !ch.Fighting && ch.CurrentPosition > Position.sleeping)
                     {
                         if (irch.GetRace() == ch.GetRace())
                             assist = true;
                         if (ch.IsSameGroup(irch))
                             assist = true;
-                        if ((ch == irch._master && irch.IsNPC()) || irch == ch._master)
+                        if ((ch == irch.Master && irch.IsNPC()) || irch == ch.Master)
                             assist = true;
-                        if (ch.IsSameGroup(irch._fighting))
+                        if (ch.IsSameGroup(irch.Fighting))
                             assist = false;
-                        if (ch._master && ch._master.IsSameGroup(irch._fighting))
+                        if (ch.Master && ch.Master.IsSameGroup(irch.Fighting))
                             assist = false;
                         if (irch.GetRace() == ch.GetRace() && victim.GetRace() == ch.GetRace()
                                 && !irch.IsNPC())
                             assist = false;
                     }
 
-                    if (assist && ch._wait <= 0)
+                    if (assist && ch.Wait <= 0)
                     {
                         // Lower level mobs will take longer to assist, 26% for a level one
                         // and 100% for a 50.  Newbie guards could concievably ignore a whole
                         // fight. I guess that's why newbie guards are rare.
-                        if (CharData.CanSee(ch, victim) && MUDMath.NumberPercent() < ((ch._level * 3 / 2) + 25))
+                        if (CharData.CanSee(ch, victim) && MUDMath.NumberPercent() < ((ch.Level * 3 / 2) + 25))
                         {
                             SocketConnection.Act("$n&n assists $N&n...", ch, null, irch, SocketConnection.MessageTarget.room);
                             roomChar = irch;

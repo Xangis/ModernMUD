@@ -75,22 +75,22 @@ namespace MUDEngine
         public SocketConnection SnoopBy { get; set; }
         public CharData Character { get; set; }
         public CharData Original { get; set; }
-        public string _host = String.Empty;
+        public string Host = String.Empty;
         private Socket _socket;
-        public ConnectionState _connectionState;
-        public bool Fcommand { get; set; }
-        public bool MccpEnabled { get; set; }
-        public string Inbuf { get; set; }
-        public string _commandQueue = String.Empty;
-        public string _incomm = String.Empty;
-        public List<HistoryData> _history = new List<HistoryData>();
+        public ConnectionState ConnectionStatus { get; set; }
+        public bool IsCommand { get; set; }
+        public bool MCCPEnabled { get; set; }
+        public string InputBuffer { get; set; }
+        public string CommandQueue = String.Empty;
+        public string InputCommunication = String.Empty;
+        public List<HistoryData> CommandHistory = new List<HistoryData>();
         public int Repeat { get; set; }
-        public string _showstringHead = String.Empty;
+        public string ShowStringText = String.Empty;
         public int ShowstringPoint { get; set; }
-        public string _commandQueuePointer = String.Empty;
+        public string CommandQueuePointer = String.Empty;
         public string Outbuf { get; set; }
-        public string _stringEditing = String.Empty;
-        public TerminalType _terminalType;
+        public string EditingString = String.Empty;
+        public TerminalType Terminal { get; set; }
 
         /// <summary>
         /// String conversion.
@@ -214,15 +214,15 @@ namespace MUDEngine
         public SocketConnection()
         {
             ++_count;
-            _connectionState = ConnectionState.choose_terminal_type;
-            _showstringHead = String.Empty;
+            ConnectionStatus = ConnectionState.choose_terminal_type;
+            ShowStringText = String.Empty;
             ShowstringPoint = 0;
             _socket = null;
-            Fcommand = false;
-            MccpEnabled = false;
-            _terminalType = TerminalType.TERMINAL_ASCII;
+            IsCommand = false;
+            MCCPEnabled = false;
+            Terminal = TerminalType.TERMINAL_ASCII;
             Repeat = 0;
-            Inbuf = String.Empty;
+            InputBuffer = String.Empty;
             Outbuf = String.Empty;
             _closeThisSocket = false;
         }
@@ -266,7 +266,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool HasColor()
         {
-            if (_terminalType == TerminalType.TERMINAL_ASCII)
+            if (Terminal == TerminalType.TERMINAL_ASCII)
             {
                 return false;
             }
@@ -342,10 +342,10 @@ namespace MUDEngine
 
                 case TalkChannel.immortal:
                     text = String.Format( "&+L[&+r$n&+L]&n $t" );
-                    position = ch._position;
-                    ch._position = Position.standing;
+                    position = ch.CurrentPosition;
+                    ch.CurrentPosition = Position.standing;
                     Act( text, ch, argument, null, MessageTarget.character );
-                    ch._position = position;
+                    ch.CurrentPosition = position;
                     break;
             }
 
@@ -354,24 +354,24 @@ namespace MUDEngine
                 CharData originalChar = socket.Original ? socket.Original : socket.Character;
                 CharData targetChar = socket.Character;
 
-                if( socket._connectionState == ConnectionState.playing && targetChar != ch
-                        && !originalChar.IsListening( channel ) && !originalChar._inRoom.HasFlag( RoomTemplate.ROOM_SILENT ) )
+                if( socket.ConnectionStatus == ConnectionState.playing && targetChar != ch
+                        && !originalChar.IsListening( channel ) && !originalChar.InRoom.HasFlag( RoomTemplate.ROOM_SILENT ) )
                 {
                     if( channel == TalkChannel.immortal && !originalChar.IsImmortal() )
                         continue;
                     if( channel == TalkChannel.guild && ( !originalChar.IsGuild() || !ch.IsSameGuild( originalChar ) ) )
                         continue;
-                    if( channel == TalkChannel.shout && targetChar._inRoom.Area != ch._inRoom.Area && !targetChar.IsImmortal() )
+                    if( channel == TalkChannel.shout && targetChar.InRoom.Area != ch.InRoom.Area && !targetChar.IsImmortal() )
                         continue;
 
-                    position = targetChar._position;
+                    position = targetChar.CurrentPosition;
                     if( channel != TalkChannel.shout && channel != TalkChannel.yell )
-                        targetChar._position = Position.standing;
+                        targetChar.CurrentPosition = Position.standing;
                     if( channel == TalkChannel.shout || channel == TalkChannel.yell )
                     {
                         // TODO: BUG: FIXME: Get rid of this hard-coded mob index number crap!
-                        if( ( ch.IsNPC() && ( ch._mobTemplate.IndexNumber == 9316
-                                  || ch._mobTemplate.IndexNumber == 9748 ) ) || (!targetChar.IsNPC() && targetChar.HasActionBit(PC.PLAYER_SHOUT)))
+                        if( ( ch.IsNPC() && ( ch.MobileTemplate.IndexNumber == 9316
+                                  || ch.MobileTemplate.IndexNumber == 9748 ) ) || (!targetChar.IsNPC() && targetChar.HasActionBit(PC.PLAYER_SHOUT)))
                         {
                             // Add foreign language filter
                             if( !ch.IsNPC() )
@@ -388,7 +388,7 @@ namespace MUDEngine
                     {
                         Act( text, ch, argument, targetChar, MessageTarget.victim );
                     }
-                    targetChar._position = position;
+                    targetChar.CurrentPosition = position;
                 }
             }
 
@@ -526,15 +526,15 @@ namespace MUDEngine
 
             SocketConnection newSocket = new SocketConnection();
             newSocket._socket = socket;
-            newSocket._host = socket.RemoteEndPoint.ToString();
-            String logStr = String.Format( "New connection: {0} ({1})", newSocket._host, text );
+            newSocket.Host = socket.RemoteEndPoint.ToString();
+            String logStr = String.Format( "New connection: {0} ({1})", newSocket.Host, text );
             ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_LOGINS, Limits.LEVEL_OVERLORD, logStr );
             Log.Info(logStr);
 
             // Site ban list, for those bastards who just don't know how to behave.
             foreach( BanData ban in Database.BanList )
             {
-                if( !MUDString.IsSuffixOf( ban.Name, newSocket._host ) )
+                if( !MUDString.IsSuffixOf( ban.Name, newSocket.Host ) )
                 {
                     newSocket.WriteToSocket( "Your site has been banned from this Mud.\r\n",false);
                     socket.Close();
@@ -587,17 +587,17 @@ namespace MUDEngine
             }
             if (Character)
             {
-                string logBuf = String.Format("Closing link to {0}.", Character._name);
+                string logBuf = String.Format("Closing link to {0}.", Character.Name);
                 Log.Trace( logBuf );
                 if( IsPlaying() )
                 {
                     Act("$n has been lost to the &+Rab&n&+ry&+Rs&n&+rs&n.", Character, null, null, MessageTarget.room);
-                    logBuf = Character._name + " has lost link.";
+                    logBuf = Character.Name + " has lost link.";
                     CharData.SavePlayer(Character);
                     // Remove them from game in 10 min.
                     Event.CreateEvent(Event.EventType.extract_character, 10 * 60 * Event.TICK_PER_SECOND, Character, null, null);
                     ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_LOGINS, 0, logBuf);
-                    Character._socket = null;
+                    Character.Socket = null;
                 }
                 else
                 {
@@ -618,11 +618,11 @@ namespace MUDEngine
         /// <returns>bool representing success or failure.</returns>
         bool ReadFromSocket()
         {
-            if( Inbuf.Length >= 4096 )
+            if( InputBuffer.Length >= 4096 )
             {
-                string logBuf = String.Format( "{0} input overflow!", _host );
+                string logBuf = String.Format( "{0} input overflow!", Host );
                 Log.Trace( logBuf );
-                WriteToSocket("\r\n*** PUT A LID ON IT!!! ***\r\n", MccpEnabled);
+                WriteToSocket("\r\n*** PUT A LID ON IT!!! ***\r\n", MCCPEnabled);
                 return false;
             }
 
@@ -638,7 +638,7 @@ namespace MUDEngine
                 {
                     if (ex.ErrorCode == 10054)
                     {
-                        Log.Trace("Connection closed by remote host for socket " + _host);
+                        Log.Trace("Connection closed by remote host for socket " + Host);
                     }
                     else
                     {
@@ -653,7 +653,7 @@ namespace MUDEngine
                 }
                 if( numRead > 0 )
                 {
-                    if( MccpEnabled )
+                    if( MCCPEnabled )
                     {
                         MemoryStream ms = new MemoryStream();
                         // Use the newly created memory stream for the compressed data.
@@ -666,7 +666,7 @@ namespace MUDEngine
                     int count;
                     for( count = 0; count < numRead; count++ )
                     {                 
-                        Inbuf += (char)buffer[count];
+                        InputBuffer += (char)buffer[count];
                     }
                     return true;
                 }
@@ -685,20 +685,20 @@ namespace MUDEngine
         void ReadFromBuffer()
         {
             // Hold horses if pending command already.
-            if( _incomm.Length > 0 )
+            if( InputCommunication.Length > 0 )
                 return;
 
             // Do nothing if there's nothing to rea
-            if (Inbuf.Length <= 0)
+            if (InputBuffer.Length <= 0)
                 return;
 
             // Look for at least one new line.
-            if( !Inbuf.Contains( "\n" ) )
+            if( !InputBuffer.Contains( "\n" ) )
                 return;
 
             int chars = 0;
             // Canonical input processing.
-            foreach( char ch in Inbuf )
+            foreach( char ch in InputBuffer )
             {
                 // Track each char we've processed
                 ++chars;
@@ -717,55 +717,55 @@ namespace MUDEngine
                 if( char.IsLetterOrDigit( ch ) || char.IsPunctuation(ch )
                       || char.IsSeparator( ch ) || char.IsWhiteSpace( ch ) 
                       || char.IsSymbol( ch ))
-                    _incomm += ch;
+                    InputCommunication += ch;
             }
             // Trim off the characters we've processed.
-            Inbuf = Inbuf.Substring( chars );
+            InputBuffer = InputBuffer.Substring( chars );
 
             // Empty string in the incoming buffer.
-            if (String.IsNullOrEmpty(_incomm))
+            if (String.IsNullOrEmpty(InputCommunication))
             {
                 return;
             }
 
             // Do '!' substitution.
-            if( _incomm[ 0 ] == '!' )
+            if( InputCommunication[ 0 ] == '!' )
             {
                 HistoryData command = null;
-                if (_history.Count == 1 || _incomm.Length == 1)
+                if (CommandHistory.Count == 1 || InputCommunication.Length == 1)
                 {
-                    command = _history[(_history.Count - 1)];
+                    command = CommandHistory[(CommandHistory.Count - 1)];
                 }
-                else if (MUDString.IsNumber(_incomm.Substring(1)))
+                else if (MUDString.IsNumber(InputCommunication.Substring(1)))
                 {
                     int line;
 
-                    Int32.TryParse(_incomm.Substring(1), out line);
+                    Int32.TryParse(InputCommunication.Substring(1), out line);
                     --line; // Correct for 0-based index.
-                    if (line < _history.Count)
+                    if (line < CommandHistory.Count)
                     {
-                        command = _history[line];
+                        command = CommandHistory[line];
                     }
                 }
                 if( command != null )
                 {
-                    _incomm = command.Command;
-                    string text = _incomm + "\r\n";
-                    WriteToSocket(text, MccpEnabled);
+                    InputCommunication = command.Command;
+                    string text = InputCommunication + "\r\n";
+                    WriteToSocket(text, MCCPEnabled);
                 }
             }
 
-            if( _incomm[ 0 ] != '!' && IsPlaying() )
+            if( InputCommunication[ 0 ] != '!' && IsPlaying() )
             {
                 HistoryData command = new HistoryData();
-                command.Command = _incomm;
+                command.Command = InputCommunication;
 
                 // Remove one if history is full.
-                if (_history.Count > Limits.MAX_HISTORY)
+                if (CommandHistory.Count > Limits.MAX_HISTORY)
                 {
-                    _history.RemoveAt(0);
+                    CommandHistory.RemoveAt(0);
                 }
-                _history.Add(command);
+                CommandHistory.Add(command);
             }
 
             return;
@@ -786,22 +786,22 @@ namespace MUDEngine
             // Show prompt.
             if( showPrompt && IsPlaying() )
             {
-                if( ShowstringPoint < _showstringHead.Length )
+                if( ShowstringPoint < ShowStringText.Length )
                 {
                     int shownLines = 0;
                     int ptr;
                     for( ptr = 0; ptr != ShowstringPoint; ptr++ )
                     {
-                        if( _showstringHead[ ptr ] == '\n' ) // causes error in valgrind
+                        if( ShowStringText[ ptr ] == '\n' ) // causes error in valgrind
                         {
                             shownLines++;
                         }
                     }
 
                     int totalLines = shownLines;
-                    for( ptr = ShowstringPoint; ptr < _showstringHead.Length; ptr++ ) // causes error in valgrind
+                    for( ptr = ShowstringPoint; ptr < ShowStringText.Length; ptr++ ) // causes error in valgrind
                     {
-                        if( _showstringHead[ ptr ] == '\n' ) // causes error in valgrind
+                        if( ShowStringText[ ptr ] == '\n' ) // causes error in valgrind
                         {
                             totalLines++;
                         }
@@ -814,13 +814,13 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if( _stringEditing.Length != 0)
+                    if( EditingString.Length != 0)
                     {
                         WriteToBuffer( "> " );
                     }
                     else
                     {
-                        if( _connectionState == ConnectionState.playing && Outbuf.Length > 0)
+                        if( ConnectionStatus == ConnectionState.playing && Outbuf.Length > 0)
                         {
                             CharData ch = Original ? Original : Character;
                             if( ch.HasActionBit(PC.PLAYER_BLANK ) )
@@ -850,7 +850,7 @@ namespace MUDEngine
             }
 
             // OS-dependent output.
-            if (!WriteToSocket(Outbuf, MccpEnabled)) 
+            if (!WriteToSocket(Outbuf, MCCPEnabled)) 
             {
                 Outbuf = String.Empty;
                 return false;
@@ -868,40 +868,40 @@ namespace MUDEngine
             output.Append("<prompt>");
             // H = Hits.
             output.Append("H:");
-            output.Append(ch._hitpoints);
+            output.Append(ch.Hitpoints);
             // I = Max Hits.
             output.Append(" I:");
             output.Append(ch.GetMaxHit());
             // M = Moves.
             output.Append(" M:");
-            output.Append(ch._currentMoves);
+            output.Append(ch.CurrentMoves);
             // N = Max Moves.
             output.Append(" N:");
-            output.Append(ch._maxMoves);
+            output.Append(ch.MaxMoves);
             // A = Mana.
             output.Append(" A:");
-            output.Append(ch._currentMana);
+            output.Append(ch.CurrentMana);
             // B = Max Mana
             output.Append(" B:");
-            output.Append(ch._maxMana);
+            output.Append(ch.MaxMana);
             // P = Player Name.
             output.Append(" P:");
             output.Append((ch.ShowNameTo(ch, true)).Replace(' ', '_'));
             // Q = Player Condition.
             output.Append(" Q:");
-            output.Append((ch._hitpoints * 100) / ch._maxHitpoints);
+            output.Append((ch.Hitpoints * 100) / ch.MaxHitpoints);
             output.Append(" R:");
-            output.Append(Position.PositionString(ch._position));
+            output.Append(Position.PositionString(ch.CurrentPosition));
             // T = Tank Name.
             output.Append(" T:");
-            if (ch._fighting && ch._fighting._fighting)
+            if (ch.Fighting && ch.Fighting.Fighting)
             {
-                output.Append((ch._fighting._fighting.ShowNameTo(ch, true)).Replace(' ', '_'));
+                output.Append((ch.Fighting.Fighting.ShowNameTo(ch, true)).Replace(' ', '_'));
                 // U = Enemy Condition.
                 output.Append(" U:");
-                output.Append((ch._fighting._fighting._hitpoints * 100) / ch._fighting._fighting.GetMaxHit());
+                output.Append((ch.Fighting.Fighting.Hitpoints * 100) / ch.Fighting.Fighting.GetMaxHit());
                 output.Append(" V:");
-                output.Append(Position.PositionString(ch._fighting._fighting._position));
+                output.Append(Position.PositionString(ch.Fighting.Fighting.CurrentPosition));
             }
             else
             {
@@ -909,14 +909,14 @@ namespace MUDEngine
             }
             // E = Enemy Name.
             output.Append(" E:");
-            if (ch._fighting)
+            if (ch.Fighting)
             {
-                output.Append((ch._fighting.ShowNameTo(ch, true)).Replace(' ', '_'));
+                output.Append((ch.Fighting.ShowNameTo(ch, true)).Replace(' ', '_'));
                 // F = Enemy Condition.
                 output.Append(" F:");
-                output.Append((ch._fighting._hitpoints * 100) / ch._fighting.GetMaxHit());
+                output.Append((ch.Fighting.Hitpoints * 100) / ch.Fighting.GetMaxHit());
                 output.Append(" G:");
-                output.Append(Position.PositionString(ch._fighting._position));
+                output.Append(Position.PositionString(ch.Fighting.CurrentPosition));
                 output.Append(" ");
             }
             else
@@ -944,7 +944,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( !ch.IsNPC() && ch._socket._terminalType == TerminalType.TERMINAL_ENHANCED )
+            if( !ch.IsNPC() && ch.Socket.Terminal == TerminalType.TERMINAL_ENHANCED )
             {
                 ShowEnhancedPrompt(ch);
                 return;
@@ -975,14 +975,14 @@ namespace MUDEngine
                         //Set it so that the hitpoints of a character
                         // show up a different color dependent on level of injuries.
 
-                        if( ch._hitpoints < ( ch.GetMaxHit() / 10 ) )
-                            output += String.Format( "&+R{0}&+L", ch._hitpoints );
-                        else if( ch._hitpoints < ( ch.GetMaxHit() / 3 ) )
-                            output += String.Format( "&n&+r{0}&+L", ch._hitpoints );
-                        else if( ch._hitpoints < ( ch.GetMaxHit() * 2 / 3 ) )
-                            output += String.Format( "&n&+m{0}&+L", ch._hitpoints );
+                        if( ch.Hitpoints < ( ch.GetMaxHit() / 10 ) )
+                            output += String.Format( "&+R{0}&+L", ch.Hitpoints );
+                        else if( ch.Hitpoints < ( ch.GetMaxHit() / 3 ) )
+                            output += String.Format( "&n&+r{0}&+L", ch.Hitpoints );
+                        else if( ch.Hitpoints < ( ch.GetMaxHit() * 2 / 3 ) )
+                            output += String.Format( "&n&+m{0}&+L", ch.Hitpoints );
                         else
-                            output += ch._hitpoints.ToString();
+                            output += ch.Hitpoints.ToString();
                         break;
                     case 'H':
                         output += ch.GetMaxHit().ToString();
@@ -991,28 +991,28 @@ namespace MUDEngine
                         output += String.Format( "\r\n" );
                         break;
                     case 'l':
-                        if( ch._position <= Position.sleeping )
-                            output += String.Format("&n&+r{0}&n", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch._position)));
-                        else if( ch._position <= Position.kneeling )
-                            output += String.Format("&n&+y{0}&n", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch._position)));
+                        if( ch.CurrentPosition <= Position.sleeping )
+                            output += String.Format("&n&+r{0}&n", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch.CurrentPosition)));
+                        else if( ch.CurrentPosition <= Position.kneeling )
+                            output += String.Format("&n&+y{0}&n", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch.CurrentPosition)));
                         else
-                            output += String.Format("&n&+g{0}&n", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch._position)));
+                            output += String.Format("&n&+g{0}&n", System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Position.PositionString(ch.CurrentPosition)));
                         break;
                     case 'm':
                         // Set it so that the mana of a character
                         // show up a different color dependent on how low it is.
 
-                        if( ch._currentMana < ( ch._maxMana / 10 ) )
-                            output += String.Format( "&+R{0}&+L", ch._currentMana );
-                        else if( ch._currentMana < ( ch._maxMana / 3 ) )
-                            output += String.Format( "&n&+r{0}&+L", ch._currentMana );
-                        else if( ch._currentMana < ( ( ch._maxMana * 2 ) / 3 ) )
-                            output += String.Format( "&n&+m{0}&+L", ch._currentMana );
+                        if( ch.CurrentMana < ( ch.MaxMana / 10 ) )
+                            output += String.Format( "&+R{0}&+L", ch.CurrentMana );
+                        else if( ch.CurrentMana < ( ch.MaxMana / 3 ) )
+                            output += String.Format( "&n&+r{0}&+L", ch.CurrentMana );
+                        else if( ch.CurrentMana < ( ( ch.MaxMana * 2 ) / 3 ) )
+                            output += String.Format( "&n&+m{0}&+L", ch.CurrentMana );
                         else
-                            output += ch._currentMana.ToString();
+                            output += ch.CurrentMana.ToString();
                         break;
                     case 'M':
-                        output += ch._maxMana.ToString();
+                        output += ch.MaxMana.ToString();
                         break;
                     case 'u':
                         output += Database.SystemData.NumPlayers.ToString();
@@ -1023,27 +1023,27 @@ namespace MUDEngine
                     case 'v':
                         // Set it so that the moves of a character
                         // show up a different color dependent on how tired they are.
-                        if( ch._currentMoves < ( ch._maxMoves / 10 ) )
-                            output += String.Format( "&+R{0}&+L", ch._currentMoves );
-                        else if( ch._currentMoves < ( ch._maxMoves / 3 ) )
-                            output += String.Format( "&n&+r{0}&+L", ch._currentMoves );
-                        else if( ch._currentMoves < ( ( ch._maxMoves * 2 ) / 3 ) )
-                            output += String.Format( "&n&+y{0}&+L", ch._currentMoves );
+                        if( ch.CurrentMoves < ( ch.MaxMoves / 10 ) )
+                            output += String.Format( "&+R{0}&+L", ch.CurrentMoves );
+                        else if( ch.CurrentMoves < ( ch.MaxMoves / 3 ) )
+                            output += String.Format( "&n&+r{0}&+L", ch.CurrentMoves );
+                        else if( ch.CurrentMoves < ( ( ch.MaxMoves * 2 ) / 3 ) )
+                            output += String.Format( "&n&+y{0}&+L", ch.CurrentMoves );
                         else
-                            output += ch._currentMoves.ToString();
+                            output += ch.CurrentMoves.ToString();
                         break;
                     case 'V':
-                        output += ch._maxMoves.ToString();
+                        output += ch.MaxMoves.ToString();
                         break;
                     //
                     // Altered Tank Status Crapola
                     //
                     case 'e':
                         // Display (E)nemy's status as Chain Meter in Combat
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
-                            output += String.Format( "{0}: {1} ", ch._fighting.ShowNameTo( ch, true ),
-                                    ConditionMeter( ch._fighting ) );
+                            output += String.Format( "{0}: {1} ", ch.Fighting.ShowNameTo( ch, true ),
+                                    ConditionMeter( ch.Fighting ) );
                         }
                         else
                         {
@@ -1052,10 +1052,10 @@ namespace MUDEngine
                         break;
                     case 'E':
                         // Display (E)nemy's status as New Text in Combat
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
-                            output += String.Format( "{0}: {1} ", ch._fighting.ShowNameTo(ch, true),
-                                    ConditionString( ch._fighting ) );
+                            output += String.Format( "{0}: {1} ", ch.Fighting.ShowNameTo(ch, true),
+                                    ConditionString( ch.Fighting ) );
                         }
                         else
                         {
@@ -1064,10 +1064,10 @@ namespace MUDEngine
                         break;
                     case 'b':
                         // Added for Old Meters - (B)ad Guy condition Standard status bar here.
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
-                            output += String.Format( "{0}: {1} ", ch._fighting.ShowNameTo(ch, true),
-                                    ConditionMeter2( ch._fighting ) );
+                            output += String.Format( "{0}: {1} ", ch.Fighting.ShowNameTo(ch, true),
+                                    ConditionMeter2( ch.Fighting ) );
                         }
                         else
                         {
@@ -1077,11 +1077,11 @@ namespace MUDEngine
                     case 'B':
                         // Added for Old Text Colors
                         // add (B)ad Guy condition Standard Text bar here.
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
                             output += String.Format( "{0}: {1} ",
-                                    ch._fighting.ShowNameTo(ch, true),
-                                    ConditionString2(ch._fighting));
+                                    ch.Fighting.ShowNameTo(ch, true),
+                                    ConditionString2(ch.Fighting));
                         }
                         else
                         {
@@ -1091,11 +1091,11 @@ namespace MUDEngine
                     case 'd':
                         // Added for Old Meters
                         // add (D)efensive tank condition Standard status bar here.
-                        if( ch._fighting && ch._fighting._fighting )
+                        if( ch.Fighting && ch.Fighting.Fighting )
                         {
                             output += String.Format( "{0}: {1} ",
-                                    ch._fighting._fighting.ShowNameTo(ch, true),
-                                    ConditionMeter2( ch._fighting._fighting ) );
+                                    ch.Fighting.Fighting.ShowNameTo(ch, true),
+                                    ConditionMeter2( ch.Fighting.Fighting ) );
                         }
                         else
                         {
@@ -1105,11 +1105,11 @@ namespace MUDEngine
                     case 'D':
                         // Added for Old Meters
                         // add (D)efensive tank condition Old Text Colors here.
-                        if( ch._fighting && ch._fighting._fighting )
+                        if( ch.Fighting && ch.Fighting.Fighting )
                         {
                             output += String.Format( "{0}: {1} ",
-                                    ch._fighting._fighting.ShowNameTo(ch, true),
-                                    ConditionString2( ch._fighting._fighting ) );
+                                    ch.Fighting.Fighting.ShowNameTo(ch, true),
+                                    ConditionString2( ch.Fighting.Fighting ) );
                         }
                         else
                         {
@@ -1119,11 +1119,11 @@ namespace MUDEngine
                     case 't':
                         // New Meter:
                         // Add (T)ank condition Chain Status bar here.
-                        if( ch._fighting && ch._fighting._fighting )
+                        if( ch.Fighting && ch.Fighting.Fighting )
                         {
                             output += String.Format( "{0}: {1} ",
-                                    ch._fighting._fighting.ShowNameTo(ch, true),
-                                    ConditionMeter( ch._fighting._fighting ) );
+                                    ch.Fighting.Fighting.ShowNameTo(ch, true),
+                                    ConditionMeter( ch.Fighting.Fighting ) );
                         }
                         else
                         {
@@ -1132,11 +1132,11 @@ namespace MUDEngine
                         break;
                     case 'T':
                         // Add tank condition NEW Text Strings here.
-                        if( ch._fighting && ch._fighting._fighting )
+                        if( ch.Fighting && ch.Fighting.Fighting )
                         {
                             output += String.Format( "{0}: {1} ",
-                                    ch._fighting._fighting.ShowNameTo(ch, true),
-                                    ConditionString( ch._fighting._fighting ) );
+                                    ch.Fighting.Fighting.ShowNameTo(ch, true),
+                                    ConditionString( ch.Fighting.Fighting ) );
                         }
                         else
                         {
@@ -1146,7 +1146,7 @@ namespace MUDEngine
                     case 'P':
                         // Add player (not Tank) status strings here.
                         // New Text Section
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
                             output += String.Format("{0}: {1} ", ch.ShowNameTo(ch, true), ConditionString(ch));
                         }
@@ -1157,7 +1157,7 @@ namespace MUDEngine
                         break;
                     case 'p':
                         // Chain Meter for PC (Not Tank)
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
                             output += String.Format("{0}: {1} ", ch.ShowNameTo(ch, true), ConditionMeter(ch));
                         }
@@ -1169,7 +1169,7 @@ namespace MUDEngine
                     case 'Q':
                         // Add player (not Tank) status strings here.
                         // Old Text Section
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
                             output += String.Format("{0}: {1} ", ch.ShowNameTo(ch, true), ConditionString2(ch));
                         }
@@ -1180,7 +1180,7 @@ namespace MUDEngine
                         break;
                     case 'q':
                         // Old Meter for PC (Not Tank)
-                        if( ch._fighting )
+                        if( ch.Fighting )
                         {
                             output += String.Format("{0}: {1} ", ch.ShowNameTo(ch, true), ConditionMeter2(ch));
                         }
@@ -1190,19 +1190,19 @@ namespace MUDEngine
                         }
                         break;
                     case 'a':
-                        if( ch._level > 10 )
-                            output += String.Format( "{0}", ch._alignment );
+                        if( ch.Level > 10 )
+                            output += String.Format( "{0}", ch.Alignment );
                         else
                             output += String.Format( "{0}", ch.IsGood() ? "good" : ch.IsEvil() ? "evil" : "neutral" );
                         break;
                     case 'r':
-                        if (ch._inRoom)
+                        if (ch.InRoom)
                         {
                             output += String.Format("{0}",
                                     ((!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE)) ||
                                         (!ch.IsAffected(Affect.AFFECT_BLIND) &&
-                                        !ch._inRoom.IsDark()))
-                                    ? ch._inRoom.Title : "darkness");
+                                        !ch.InRoom.IsDark()))
+                                    ? ch.InRoom.Title : "darkness");
                         }
                         else
                         {
@@ -1210,14 +1210,14 @@ namespace MUDEngine
                         }
                         break;
                     case 'R':
-                        if( ch.IsImmortal() && ch._inRoom )
-                            output += String.Format( "{0}", ch._inRoom.IndexNumber );
+                        if( ch.IsImmortal() && ch.InRoom )
+                            output += String.Format( "{0}", ch.InRoom.IndexNumber );
                         else
                             output += String.Format( " " );
                         break;
                     case 'z':
-                        if( ch.IsImmortal() && ch._inRoom )
-                            output += String.Format( "{0}", ch._inRoom.Area.Name );
+                        if( ch.IsImmortal() && ch.InRoom )
+                            output += String.Format( "{0}", ch.InRoom.Area.Name );
                         else
                             output += String.Format( " " );
                         break;
@@ -1258,7 +1258,7 @@ namespace MUDEngine
             int percent;
 
             if( ch.GetMaxHit() > 0 )
-                percent = ( 100 * ch._hitpoints ) / ch.GetMaxHit();
+                percent = ( 100 * ch.Hitpoints ) / ch.GetMaxHit();
             else
                 percent = -1;
 
@@ -1295,7 +1295,7 @@ namespace MUDEngine
             int percent;
 
             if( ch.GetMaxHit() > 0 )
-                percent = ( 100 * ch._hitpoints ) / ch.GetMaxHit();
+                percent = ( 100 * ch.Hitpoints ) / ch.GetMaxHit();
             else
                 percent = -1;
 
@@ -1317,11 +1317,11 @@ namespace MUDEngine
                 return "&+rbadly &n&+rwo&+Ru&n&+rn&+Rded&n";
             if( percent >= 16 )
                 return "&+yin &n&+R awful shape&n";
-            if( ch._hitpoints > -3 )
+            if( ch.Hitpoints > -3 )
                 return "&+Rnearly&+L &n&+rdead&n";
-            if( ch._hitpoints > -5 )
+            if( ch.Hitpoints > -5 )
                 return "&+Lincapacitated, and &+Rbl&n&+re&+Re&n&+rdi&+Rn&n&+rg&+L to death&n";
-            if( ch._hitpoints >= -10 )
+            if( ch.Hitpoints >= -10 )
                 return "&+rmortally &+Rw&n&+rou&+Rnd&N&+re&+Rd&n";
             return "&+Wdead&n";
         }
@@ -1336,7 +1336,7 @@ namespace MUDEngine
             int percent;
 
             if( ch.GetMaxHit() > 0 )
-                percent = ( 100 * ch._hitpoints ) / ch.GetMaxHit();
+                percent = ( 100 * ch.Hitpoints ) / ch.GetMaxHit();
             else
                 percent = -1;
 
@@ -1374,7 +1374,7 @@ namespace MUDEngine
             int percent;
 
             if( ch.GetMaxHit() > 0 )
-                percent = ( 100 * ch._hitpoints ) / ch.GetMaxHit();
+                percent = ( 100 * ch.Hitpoints ) / ch.GetMaxHit();
             else
                 percent = -1;
 
@@ -1448,14 +1448,14 @@ namespace MUDEngine
             // Find length.
             int length = txt.Length;
 
-            if (!Character || (length > 77 && !Character.IsNPC() && _terminalType != TerminalType.TERMINAL_ENHANCED &&
+            if (!Character || (length > 77 && !Character.IsNPC() && Terminal != TerminalType.TERMINAL_ENHANCED &&
                 Character.HasActionBit(PC.PLAYER_AUTOWRAP)))
             {
                 txt = MUDString.InsertLineBreaks(txt, 78);
             }
 
             // Initial \r\n if needed.
-            if( Outbuf.Length == 0 && !Fcommand )
+            if( Outbuf.Length == 0 && !IsCommand )
             {
                 Outbuf += "\r\n";
             }
@@ -1465,7 +1465,7 @@ namespace MUDEngine
             {
                 /* empty buffer */
                 Outbuf = String.Empty;
-                string bugbuf = "Buffer overflow. Closing (" + ( Character ? Character._name : "???" ) + "{0}).";
+                string bugbuf = "Buffer overflow. Closing (" + ( Character ? Character.Name : "???" ) + "{0}).";
                 Log.Error( bugbuf, 0 );
                 WriteToSocket("\r\n*** BUFFER OVERFLOW!!! ***\r\n", false);
                 CloseSocket();
@@ -1569,9 +1569,9 @@ namespace MUDEngine
         {
             foreach( SocketConnection socket in Database.SocketList )
             {
-                if (socket._connectionState == ConnectionState.playing)
+                if (socket.ConnectionStatus == ConnectionState.playing)
                 {
-                    if (socket.Character._position == Position.fighting)
+                    if (socket.Character.CurrentPosition == Position.fighting)
                     {
                         CommandType.Interpret(socket.Character, "save");
                     }
@@ -1621,11 +1621,11 @@ namespace MUDEngine
             argument = argument.Trim();
             argument = ProcessTerminalChars(argument);
 
-            switch( _connectionState )
+            switch( ConnectionStatus )
             {
 
                 default:
-                    Log.Error( "ConnectionStateManager: bad connection state {0}.", _connectionState );
+                    Log.Error( "ConnectionStateManager: bad connection state {0}.", ConnectionStatus );
                     CloseSocket();
                     return;
                 case ConnectionState.choose_name:
@@ -1719,7 +1719,7 @@ namespace MUDEngine
 
             ((PC)Character).Password = argument;
             WriteToBuffer("\r\nPlease retype your password: ");
-            _connectionState = ConnectionState.confirm_new_password;
+            ConnectionStatus = ConnectionState.confirm_new_password;
         }
 
         /// <summary>
@@ -1732,7 +1732,7 @@ namespace MUDEngine
             {
                 WriteToBuffer("Retire aborted.\r\n");
                 ShowScreen(Screen.MainMenuScreen);
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
                 return;
             }
 
@@ -1740,12 +1740,12 @@ namespace MUDEngine
             {
                 WriteToBuffer("Incorrect password.\r\n");
                 ShowScreen(Screen.MainMenuScreen);
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
                 return;
             }
 
             WriteToBuffer("Are you sure (Y/N)? ");
-            _connectionState = ConnectionState.retire_character_confirm;
+            ConnectionStatus = ConnectionState.retire_character_confirm;
         }
 
         /// <summary>
@@ -1757,7 +1757,7 @@ namespace MUDEngine
             if (String.IsNullOrEmpty(argument))
             {
                 WriteToBuffer("Which stat do you want to put your first of three bonuses into? ");
-                _connectionState = ConnectionState.apply_first_bonus;
+                ConnectionStatus = ConnectionState.apply_first_bonus;
                 return;
             }
 
@@ -1770,11 +1770,11 @@ namespace MUDEngine
                     RerollStats(Character);
                     SendAbilityScores(Character);
                     WriteToBuffer("Do you want to keep these stats? ");
-                    _connectionState = ConnectionState.roll_stats;
+                    ConnectionStatus = ConnectionState.roll_stats;
                     return;
             }
             WriteToBuffer("Which stat do you want to put your first of three bonuses into? ");
-            _connectionState = ConnectionState.apply_first_bonus;
+            ConnectionStatus = ConnectionState.apply_first_bonus;
         }
 
         /// <summary>
@@ -1786,12 +1786,12 @@ namespace MUDEngine
             if (!ApplyAbilityBonus(Character, argument))
             {
                 WriteToBuffer("I didn't quite understand you.  Which stat do you want your first bonus in? ");
-                _connectionState = ConnectionState.apply_first_bonus;
+                ConnectionStatus = ConnectionState.apply_first_bonus;
                 return;
             }
             SendAbilityScores(Character);
             WriteToBuffer("Which stat do you want to put your second of three bonuses into? ");
-            _connectionState = ConnectionState.apply_second_bonus;
+            ConnectionStatus = ConnectionState.apply_second_bonus;
         }
 
         /// <summary>
@@ -1803,12 +1803,12 @@ namespace MUDEngine
             if (!ApplyAbilityBonus(Character, argument))
             {
                 WriteToBuffer("I didn't quite understand you.  Which stat do you want your second bonus in? ");
-                _connectionState = ConnectionState.apply_second_bonus;
+                ConnectionStatus = ConnectionState.apply_second_bonus;
                 return;
             }
             SendAbilityScores(Character);
             WriteToBuffer("Which stat do you want to put your third of three bonuses into? ");
-            _connectionState = ConnectionState.apply_third_bonus;
+            ConnectionStatus = ConnectionState.apply_third_bonus;
         }
 
         /// <summary>
@@ -1820,7 +1820,7 @@ namespace MUDEngine
             if (!ApplyAbilityBonus(Character, argument))
             {
                 WriteToBuffer("I didn't quite understand you.  Which stat do you want your third bonus in? ");
-                _connectionState = ConnectionState.apply_third_bonus;
+                ConnectionStatus = ConnectionState.apply_third_bonus;
                 return;
             }
             SendAbilityScores(Character);
@@ -1836,7 +1836,7 @@ namespace MUDEngine
                 string logbuf = "Assigned new player a start room of " + StaticRooms.GetRoomNumber("ROOM_NUMBER_START") + " because there was no available home.";
                 Log.Trace(logbuf);
                 ShowScreen(Screen.MainMenuScreen);
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
             }
             else if (repoplist.Count == 1)
             {
@@ -1854,7 +1854,7 @@ namespace MUDEngine
                 string logbuf = "Assigned new player a start room of " + place + ".";
                 Log.Trace(logbuf);
                 ShowScreen(Screen.MainMenuScreen);
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
             }
             else
             {
@@ -1871,7 +1871,7 @@ namespace MUDEngine
                     ++count;
                 }
             }
-            _connectionState = ConnectionState.choose_new_hometown;
+            ConnectionStatus = ConnectionState.choose_new_hometown;
         }
 
         /// <summary>
@@ -1887,7 +1887,7 @@ namespace MUDEngine
             if ((argument[0] == '0'))
             {
                 Character.SendText("Goodbye.\r\n");
-                ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_LOGINS, Character.GetTrust(), String.Format("{0} has left the game.", Character._name));
+                ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_LOGINS, Character.GetTrust(), String.Format("{0} has left the game.", Character.Name));
                 CharData.SavePlayer(Character);
                 CharData.ExtractChar(Character, true);
 
@@ -1898,33 +1898,33 @@ namespace MUDEngine
             {
                 Character.ResetStats();
                 Log.Trace(String.Format("Character {0} ({1} {2}) entering the realm from the menu.",
-                    Character._name,  SocketConnection.RemoveANSICodes(Character.RaceName()), 
-                    SocketConnection.RemoveANSICodes(Character._charClass.Name)));
+                    Character.Name,  SocketConnection.RemoveANSICodes(Character.RaceName()), 
+                    SocketConnection.RemoveANSICodes(Character.CharacterClass.Name)));
             }
             else if ((argument[0] == '2'))
             {
-                Character._socket.WriteToBuffer("Enter Old Password: ");
-                Character._socket._connectionState = ConnectionState.change_password_get_old;
+                Character.Socket.WriteToBuffer("Enter Old Password: ");
+                Character.Socket.ConnectionStatus = ConnectionState.change_password_get_old;
                 return;
             }
             else if ((argument[0] == '6'))
             {
-                Character._socket.WriteToBuffer("Enter Password to Retire: ");
-                Character._socket._connectionState = ConnectionState.retire_character_get_password;
+                Character.Socket.WriteToBuffer("Enter Password to Retire: ");
+                Character.Socket.ConnectionStatus = ConnectionState.retire_character_get_password;
                 return;
             }
             else
             {
                 Character.SendText("Invalid selection.\r\n");
                 Character.SendText("\r\n");
-                Character._socket.ShowScreen(Screen.MainMenuScreen);
+                Character.Socket.ShowScreen(Screen.MainMenuScreen);
                 return;
             }
 
             // After this point we only have people who selected "enter the game".
 
             // Initialize newbie chars.
-            if (Character._level == 0)
+            if (Character.Level == 0)
             {
                 SetupNewCharacter();
             }
@@ -1932,7 +1932,7 @@ namespace MUDEngine
             // Get them in the game.
             PlaceCharacterInGame();
             Database.CharList.Add(Character);
-            _connectionState = ConnectionState.playing;
+            ConnectionStatus = ConnectionState.playing;
 
             Character.SendText("\r\n&nWelcome to " + Database.SystemData.MudAnsiName + ".  May your visit here be... Eventful.\r\n");
 
@@ -1942,7 +1942,7 @@ namespace MUDEngine
             }
 
             ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_LOGINS, Character.GetTrust(),
-                String.Format("{0} has entered the realm.", Character._name));
+                String.Format("{0} has entered the realm.", Character.Name));
             // Check the character's position on the fraglist.  This ensures proper
             // updates.  No immortals allowed on the fraglist.
             if (!Character.IsImmortal())
@@ -1951,14 +1951,14 @@ namespace MUDEngine
                 {
                     FraglistData.SortFraglist(Character, FraglistData.Fraglist.TopFrags);
                     FraglistData.SortFraglist(Character, FraglistData.Fraglist.TopRaceFrags[Character.GetOrigRace()]);
-                    FraglistData.SortFraglist(Character, FraglistData.Fraglist.TopClassFrags[(int)Character._charClass.ClassNumber]);
+                    FraglistData.SortFraglist(Character, FraglistData.Fraglist.TopClassFrags[(int)Character.CharacterClass.ClassNumber]);
                     FraglistData.Fraglist.Save();
                 }
                 else if (((PC)Character).Frags < 0)
                 {
                     FraglistData.SortFraglist(Character, FraglistData.Fraglist.BottomFrags);
                     FraglistData.SortFraglist(Character, FraglistData.Fraglist.BottomRaceFrags[Character.GetOrigRace()]);
-                    FraglistData.SortFraglist(Character, FraglistData.Fraglist.BottomClassFrags[(int)Character._charClass.ClassNumber]);
+                    FraglistData.SortFraglist(Character, FraglistData.Fraglist.BottomClassFrags[(int)Character.CharacterClass.ClassNumber]);
                     FraglistData.Fraglist.Save();
                 }
             }
@@ -1968,9 +1968,9 @@ namespace MUDEngine
                 Character.RemoveActionBit(PC.PLAYER_JUST_DIED);
             }
 
-            if (Character._hitpoints < 1)
+            if (Character.Hitpoints < 1)
             {
-                Character._hitpoints = Character.GetMaxHit() / 3;
+                Character.Hitpoints = Character.GetMaxHit() / 3;
             }
             Character.ResetStats();
             CommandType.Interpret(Character, "look auto");
@@ -1986,14 +1986,14 @@ namespace MUDEngine
             if (String.IsNullOrEmpty(argument))
             {
                 WriteToBuffer("\r\nBlank passwords are not allowed.\r\nRetype your password: ");
-                _connectionState = ConnectionState.choose_new_password;
+                ConnectionStatus = ConnectionState.choose_new_password;
                 return;
             }
 
             if (MUDString.StringsNotEqual(argument, ((PC)Character).Password))
             {
                 WriteToBuffer("\r\nThe passwords do not match.\r\nRetype your password: ");
-                _connectionState = ConnectionState.choose_new_password;
+                ConnectionStatus = ConnectionState.choose_new_password;
                 return;
             }
 
@@ -2018,7 +2018,7 @@ namespace MUDEngine
                 }
                 WriteToBuffer(races);
             }
-            _connectionState = ConnectionState.choose_new_race;
+            ConnectionStatus = ConnectionState.choose_new_race;
         }
 
         /// <summary>
@@ -2031,14 +2031,14 @@ namespace MUDEngine
             {
                 case 'y':
                 case 'Y':
-                    WriteToBuffer(String.Format("Creating a new character.\r\nGive me a password for {0}: ", Character._name));
-                    _connectionState = ConnectionState.choose_new_password;
+                    WriteToBuffer(String.Format("Creating a new character.\r\nGive me a password for {0}: ", Character.Name));
+                    ConnectionStatus = ConnectionState.choose_new_password;
                     break;
                 case 'n':
                 case 'N':
                     WriteToBuffer("Ok, what *is* your name, then? ");
                     Character = null;
-                    _connectionState = ConnectionState.choose_name;
+                    ConnectionStatus = ConnectionState.choose_name;
                     break;
                 default:
                     WriteToBuffer("Please enter Yes or No? ");
@@ -2061,21 +2061,21 @@ namespace MUDEngine
                 default:
                     WriteToBuffer("Retire aborted.\r\n");
                     ShowScreen(Screen.MainMenuScreen);
-                    _connectionState = ConnectionState.menu;
+                    ConnectionStatus = ConnectionState.menu;
                     return;
             }
 
             WriteToBuffer("Hope you return soon brave adventurer!\r\n");
 
             Act("$n&n has retired from the realm.", Character, null, null, MessageTarget.room);
-            Log.Trace(String.Format("{0} has retired from the realm.", Character._name));
+            Log.Trace(String.Format("{0} has retired from the realm.", Character.Name));
             ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_LOGINS, Character.GetTrust(),
-                String.Format("{0} has retired from the realm.", Character._name));
+                String.Format("{0} has retired from the realm.", Character.Name));
 
             CharData.SavePlayer(Character);
             CharData.DeletePlayer(Character);
             CharData.ExtractChar(Character, true);
-            Character._socket._closeThisSocket = true;
+            Character.Socket._closeThisSocket = true;
         }
 
         /// <summary>
@@ -2087,13 +2087,13 @@ namespace MUDEngine
             if (MUDString.StringsNotEqual(argument, ((PC)Character).NewPassword))
             {
                 WriteToBuffer("\r\nPasswords do not match.\r\nEnter a new password: ");
-                _connectionState = ConnectionState.change_password_get_new;
+                ConnectionStatus = ConnectionState.change_password_get_new;
                 return;
             }
 
             ((PC)Character).NewPassword = String.Empty;
             ((PC)Character).Password = argument;
-            Character._socket._connectionState = ConnectionState.menu;
+            Character.Socket.ConnectionStatus = ConnectionState.menu;
             WriteToBuffer("Password successfully changed.\r\n");
             ShowScreen(Screen.MainMenuScreen);
         }
@@ -2107,7 +2107,7 @@ namespace MUDEngine
             {
                 WriteToBuffer( "Password change aborted.\r\n" );
                 //WriteToBuffer( ECHO_ON_STRING );
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
                 return;
             }
 
@@ -2115,12 +2115,12 @@ namespace MUDEngine
             {
                 WriteToBuffer( "Incorrect password.\r\n");
                 ShowScreen(Screen.MainMenuScreen);
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
                 return;
             }
 
             WriteToBuffer( "New password: " );
-            _connectionState = ConnectionState.change_password_get_new;
+            ConnectionStatus = ConnectionState.change_password_get_new;
         }
 
         /// <summary>
@@ -2147,13 +2147,13 @@ namespace MUDEngine
             else if (!oldPlayer)
             {
                 Character = new PC();
-                Character._socket = this;
-                Character._name = argument;
+                Character.Socket = this;
+                Character.Name = argument;
             }
 
             if (Character.HasActionBit(PC.PLAYER_DENY))
             {
-                string logbuf = String.Format("Denying access to {0}@{1}.", argument, _host);
+                string logbuf = String.Format("Denying access to {0}@{1}.", argument, Host);
                 Log.Trace(logbuf);
                 WriteToBuffer("You are denied access.\r\n");
                 CloseSocket();
@@ -2173,14 +2173,14 @@ namespace MUDEngine
                     CloseSocket();
                     return;
                 }
-                if (Character._level == 0 && Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.newlock))
+                if (Character.Level == 0 && Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.newlock))
                 {
                     WriteToBuffer("\r\n\r\nThis is a private port.  If you want to play ");
                     WriteToBuffer(Database.SystemData.MudName + ", please contact the administrators for access.\r\n");
                     CloseSocket();
                     return;
                 }
-                if (Character._level < Database.SystemData.NumlockLevel && !Character.HasActionBit(PC.PLAYER_WIZBIT))
+                if (Character.Level < Database.SystemData.NumlockLevel && !Character.HasActionBit(PC.PLAYER_WIZBIT))
                 {
                     WriteToBuffer("The game is locked to your level character.\r\nTry contacting the admins for assitance.\r\n\r\n");
                     CloseSocket();
@@ -2199,13 +2199,13 @@ namespace MUDEngine
                 {
                     WriteToBuffer("Password: ");
                 }
-                _connectionState = ConnectionState.get_existing_password;
+                ConnectionStatus = ConnectionState.get_existing_password;
             }
             else
             {
                 /* New player */
                 WriteToBuffer(String.Format("Do ye wish to be called {0} (Y/N)? ", argument));
-                _connectionState = ConnectionState.confirm_new_name;
+                ConnectionStatus = ConnectionState.confirm_new_name;
                 return;
             }
         }
@@ -2220,11 +2220,11 @@ namespace MUDEngine
             {
                 case 'm':
                 case 'M':
-                    Character._sex = MobTemplate.Sex.male;
+                    Character.Gender = MobTemplate.Sex.male;
                     break;
                 case 'f':
                 case 'F':
-                    Character._sex = MobTemplate.Sex.female;
+                    Character.Gender = MobTemplate.Sex.female;
                     break;
                 default:
                     WriteToBuffer("\r\nThat is not a valid sex.\r\nWhat is your sex? ");
@@ -2233,7 +2233,7 @@ namespace MUDEngine
 
             // Eliminated the extra return during character creation.
             WriteToBuffer("Select a class [" + Race.RaceList[Character.GetOrigRace()].ClassesAvailable + "]:");
-            _connectionState = ConnectionState.choose_new_class;
+            ConnectionStatus = ConnectionState.choose_new_class;
         }
 
         /// <summary>
@@ -2256,19 +2256,19 @@ namespace MUDEngine
             switch (argument[0])
             {
                 case '1':
-                    _terminalType = TerminalType.TERMINAL_ANSI;
+                    Terminal = TerminalType.TERMINAL_ANSI;
                     break;
                 case '0':
-                    _terminalType = TerminalType.TERMINAL_ASCII;
+                    Terminal = TerminalType.TERMINAL_ASCII;
                     break;
                 case '5':
                     // Hidden option #5 automatically entered by the Basternae client.
-                    _terminalType = TerminalType.TERMINAL_ENHANCED;
+                    Terminal = TerminalType.TERMINAL_ENHANCED;
                     break;
                 case '9':
-                    _terminalType = TerminalType.TERMINAL_ANSI;
+                    Terminal = TerminalType.TERMINAL_ANSI;
                     WriteToBuffer("Enter character name: ");
-                    _connectionState = ConnectionState.choose_name;
+                    ConnectionStatus = ConnectionState.choose_name;
                     return;
                 default:
                     WriteToBuffer("Invalid terminal type.  0 for ASCII, 1 for ANSI.  Enter your terminal type: ");
@@ -2287,7 +2287,7 @@ namespace MUDEngine
             {
                 ShowScreen(Screen.IntroScreenMonochrome);
             }
-            _connectionState = ConnectionState.choose_name;
+            ConnectionStatus = ConnectionState.choose_name;
             return;
         }
 
@@ -2320,8 +2320,8 @@ namespace MUDEngine
                     WriteToBuffer(outbuf);
                 }
             }
-            Log.Trace(String.Format("{0}@{1} new character.", Character._name, _host));
-            ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_NEWBIE, 0, String.Format("{0}@{1} new character.", Character._name, _host));
+            Log.Trace(String.Format("{0}@{1} new character.", Character.Name, Host));
+            ImmortalChat.SendImmortalChat(Character, ImmortalChat.IMMTALK_NEWBIE, 0, String.Format("{0}@{1} new character.", Character.Name, Host));
             WriteToBuffer("\r\n");
 
             if (HasColor())
@@ -2338,7 +2338,7 @@ namespace MUDEngine
             WriteToBuffer("\r\n");
             ((PC)Character).PageLength = lines;
             ShowScreen(Screen.MainMenuScreen);
-            _connectionState = ConnectionState.menu;
+            ConnectionStatus = ConnectionState.menu;
         }
 
         /// <summary>
@@ -2353,10 +2353,10 @@ namespace MUDEngine
                 WriteToBuffer("\r\nThat's not a valid class name.\r\nWhat is your class? ");
                 return;
             }
-            Character._charClass = CharClass.ClassList[classnum];
+            Character.CharacterClass = CharClass.ClassList[classnum];
 
-            WriteToBuffer("\r\nAre you sure you want to be a(n) " + Character._charClass.Name + " (Y/N)? ");
-            _connectionState = ConnectionState.confirm_new_class;
+            WriteToBuffer("\r\nAre you sure you want to be a(n) " + Character.CharacterClass.Name + " (Y/N)? ");
+            ConnectionStatus = ConnectionState.confirm_new_class;
         }
 
         /// <summary>
@@ -2369,7 +2369,7 @@ namespace MUDEngine
             {
                 // Bad input, try again.
                 WriteToBuffer("Do you want to keep these stats? ");
-                _connectionState = ConnectionState.roll_stats;
+                ConnectionStatus = ConnectionState.roll_stats;
                 return;
             }
 
@@ -2382,13 +2382,13 @@ namespace MUDEngine
                     // Eliminated the extra return - Xangis
                     WriteToBuffer("\r\nPress Return to continue:\r\n");
                     WriteToBuffer("Select a class [" + Race.RaceList[Character.GetOrigRace()].ClassesAvailable + "]: ");
-                    _connectionState = ConnectionState.choose_new_class;
+                    ConnectionStatus = ConnectionState.choose_new_class;
                     return;
             }
             RerollStats(Character);
             SendAbilityScores(Character);
             WriteToBuffer("Do you want to keep these stats? ");
-            _connectionState = ConnectionState.roll_stats;
+            ConnectionStatus = ConnectionState.roll_stats;
         }
 
         /// <summary>
@@ -2423,7 +2423,7 @@ namespace MUDEngine
             Character.RemoveActionBit(PC.PLAYER_PAGER);
             CommandType.Interpret(Character, "help " + Race.RaceList[Character.GetOrigRace()].Name);
             WriteToBuffer( "Are you sure you want to be a(n) " + Race.RaceList[Character.GetOrigRace()].Name + " (Y/N)? ");
-            _connectionState = ConnectionState.confirm_new_race;
+            ConnectionStatus = ConnectionState.confirm_new_race;
         }
 
         /// <summary>
@@ -2435,7 +2435,7 @@ namespace MUDEngine
             if (argument[0] == 'y' || argument[0] == 'Y')
             {
                 WriteToBuffer("\r\nWhat is your sex (M/F)? ");
-                _connectionState = ConnectionState.choose_new_sex;
+                ConnectionStatus = ConnectionState.choose_new_sex;
             }
             else
             {
@@ -2447,7 +2447,7 @@ namespace MUDEngine
                 {
                     ShowScreen(Screen.RaceSelectionScreenMonochrome);
                 }
-                _connectionState = ConnectionState.choose_new_race;
+                ConnectionStatus = ConnectionState.choose_new_race;
             }
         }
 
@@ -2465,18 +2465,18 @@ namespace MUDEngine
                 return;
             }
 
-            if (CheckForReconnect(Character._name, true))
+            if (CheckForReconnect(Character.Name, true))
             {
                 return;
             }
 
-            if (CheckForReconnect(Character._name))
+            if (CheckForReconnect(Character.Name))
             {
-                Log.Trace(String.Format("A connection has just been overridden for {0}.", Character._name));
+                Log.Trace(String.Format("A connection has just been overridden for {0}.", Character.Name));
                 return;
             }
 
-            Log.Trace(String.Format("{0}@{1} has logged in.", Character._name, _host));
+            Log.Trace(String.Format("{0}@{1} has logged in.", Character.Name, Host));
 
             WriteToBuffer("\r\n");
 
@@ -2496,7 +2496,7 @@ namespace MUDEngine
             ((PC)Character).PageLength = lines;
             Log.Trace("Showing login menu");
             ShowScreen(Screen.MainMenuScreen);
-            _connectionState = ConnectionState.menu;
+            ConnectionStatus = ConnectionState.menu;
         }
 
         /// <summary>
@@ -2508,7 +2508,7 @@ namespace MUDEngine
             if (String.IsNullOrEmpty(argument))
             {
                 WriteToBuffer("Password change aborted.\r\n");
-                _connectionState = ConnectionState.menu;
+                ConnectionStatus = ConnectionState.menu;
                 return;
             }
 
@@ -2527,7 +2527,7 @@ namespace MUDEngine
 
             ((PC)Character).NewPassword = argument;
             WriteToBuffer("\r\nPlease enter your password again: ");
-            _connectionState = ConnectionState.change_password_confirm_new;
+            ConnectionStatus = ConnectionState.change_password_confirm_new;
         }
 
         /// <summary>
@@ -2620,8 +2620,8 @@ namespace MUDEngine
                 {
                     ch = Database.CharList[j];
 
-                    if (!ch.IsNPC() && (!conn || !ch._socket)
-                            && !MUDString.StringsNotEqual(Character._name, ch._name))
+                    if (!ch.IsNPC() && (!conn || !ch.Socket)
+                            && !MUDString.StringsNotEqual(Character.Name, ch.Name))
                     {
                         if (conn == false)
                         {
@@ -2630,12 +2630,12 @@ namespace MUDEngine
                         else
                         {
                             Character = ch;
-                            ch._socket = this;
-                            ch._timer = 0;
-                            _connectionState = ConnectionState.playing;
+                            ch.Socket = this;
+                            ch.Timer = 0;
+                            ConnectionStatus = ConnectionState.playing;
                             ch.SendText("Reconnecting.\r\n");
                             Act("$n&+L has returned from the &+RA&n&+rb&+Rys&n&+rs&+L.&n", ch, null, null, MessageTarget.room);
-                            string logBuf = String.Format("{0}@{1} reconnected.", ch._name, _host);
+                            string logBuf = String.Format("{0}@{1} reconnected.", ch.Name, Host);
                             Log.Trace(logBuf);
                             /* Strip void events from char to prevent crashes. */
                             Event eventdata;
@@ -2686,23 +2686,23 @@ namespace MUDEngine
                     /* That desc. has a char. */
                     && oldSocket.Character
                     /* The desc. is not in the process of getting a _name */
-                    && oldSocket._connectionState != ConnectionState.choose_name
+                    && oldSocket.ConnectionStatus != ConnectionState.choose_name
                     /* The desc.'s _name matches the char we're loading. */
                     && !MUDString.StringsNotEqual( name, oldSocket.Original
-                                ? oldSocket.Original._name : oldSocket.Character._name ) )
+                                ? oldSocket.Original.Name : oldSocket.Character.Name ) )
                 {
                     /* Tell the new char that we're loading up the old player. */
                     WriteToBuffer( "Navigating the Abyss...\r\n" );
                     /* Handle switched chars. */
                     ch = ( oldSocket.Original ? oldSocket.Original : oldSocket.Character );
                     /* Verify that the old character has a room. */
-                    if( !ch._inRoom )
+                    if( !ch.InRoom )
                     {
                         Log.Trace( "Character has no ch.in_room in CheckForReconnect" );
-                        ch._inRoom = Room.GetRoom( StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO") );
+                        ch.InRoom = Room.GetRoom( StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO") );
                     }
 
-                    string logBuf = String.Format( "Overriding connection for {0}.", ch._name );
+                    string logBuf = String.Format( "Overriding connection for {0}.", ch.Name );
                     ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), logBuf );
 
                     /* Swap characters and destroy dold. */
@@ -2711,30 +2711,30 @@ namespace MUDEngine
                     /* Set d's characters to dold's. */
                     Original = oldSocket.Original;
                     Character = oldSocket.Character;
-                    ch._socket = this;
+                    ch.Socket = this;
                     /* Set dold's characters. (loading chars can't be switched. ) */
                     oldSocket.Original = null;
                     oldSocket.Character = newCh;
-                    newCh._socket = oldSocket;
+                    newCh.Socket = oldSocket;
                     /* Set the connection status. */
-                    if( oldSocket._connectionState == ConnectionState.playing )
+                    if( oldSocket.ConnectionStatus == ConnectionState.playing )
                     {
-                        _connectionState = ConnectionState.playing;
+                        ConnectionStatus = ConnectionState.playing;
                     }
                     else
                     {
-                        _connectionState = ConnectionState.menu;
+                        ConnectionStatus = ConnectionState.menu;
                         ShowScreen(Screen.MainMenuScreen);
                     }
                     /* Get rid of dold. */
                     Log.Trace( "Closing old socket" );
-                    if( _connectionState == ConnectionState.playing )
+                    if( ConnectionStatus == ConnectionState.playing )
                     {
-                        room = ch._inRoom;
+                        room = ch.InRoom;
                         ch.RemoveFromRoom();
                     }
                     oldSocket.CloseSocket();
-                    if( _connectionState == ConnectionState.playing )
+                    if( ConnectionStatus == ConnectionState.playing )
                     {
                         ch.AddToRoom( room );
                         Act( "$n&+L has returned from the &+RA&n&+rb&+Rys&n&+rs&+L.&n", ch, null, null, MessageTarget.room );
@@ -2753,17 +2753,17 @@ namespace MUDEngine
         /// <param name="ch"></param>
         private static void StopIdling( CharData ch )
         {
-            if (!ch || !ch._socket || ch._socket._connectionState != ConnectionState.playing
-                || !ch._wasInRoom || ch._inRoom != Room.GetRoom(StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO")))
+            if (!ch || !ch.Socket || ch.Socket.ConnectionStatus != ConnectionState.playing
+                || !ch.WasInRoom || ch.InRoom != Room.GetRoom(StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO")))
             {
                 return;
             }
 
-            ch._timer = 0;
+            ch.Timer = 0;
             ch.RemoveFromRoom();
-            ch.AddToRoom( ch._wasInRoom );
+            ch.AddToRoom( ch.WasInRoom );
             
-            ch._wasInRoom = null;
+            ch.WasInRoom = null;
             Act( "$n&+L has returned from the &+RA&n&+rb&+Rys&n&+rs&+L.&n", ch, null, null, MessageTarget.room );
             return;
         }
@@ -2779,7 +2779,7 @@ namespace MUDEngine
             {
                 if (socket.Character != null)
                 {
-                    if (socket.Character._inRoom == room)
+                    if (socket.Character.InRoom == room)
                     {
                         Act(txt, socket.Character, null, null, MessageTarget.character);
                     }
@@ -2820,7 +2820,7 @@ namespace MUDEngine
             {
                 return;
             }
-            if( txt == null || ch._socket == null )
+            if( txt == null || ch.Socket == null )
             {
                 return;
             }
@@ -2828,13 +2828,13 @@ namespace MUDEngine
             // Bypass the paging procedure if the text output is small
             if( txt.Length < 600 || !ch.HasActionBit(PC.PLAYER_PAGER ) )
             {
-                ch._socket.WriteToBuffer( txt );
+                ch.Socket.WriteToBuffer( txt );
             }
             else
             {
-                ch._socket._showstringHead = txt;
-                ch._socket.ShowstringPoint = 0;
-                ch._socket.ShowPagedString( String.Empty );
+                ch.Socket.ShowStringText = txt;
+                ch.Socket.ShowstringPoint = 0;
+                ch.Socket.ShowPagedString( String.Empty );
             }
             return;
         }
@@ -2974,7 +2974,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( ch._socket && ch.HasActionBit(PC.PLAYER_COLOR ) )
+            if( ch.Socket && ch.HasActionBit(PC.PLAYER_COLOR ) )
             {
                 for( position = 0; position < txt.Length; position++ )
                 {
@@ -3049,7 +3049,7 @@ namespace MUDEngine
                     toggle = 2;
                     break;
                 default: /*otherwise, stop the text viewing */
-                    _showstringHead = String.Empty;
+                    ShowStringText = String.Empty;
                     ShowstringPoint = 0;
                     return;
             }
@@ -3077,7 +3077,7 @@ namespace MUDEngine
                 }
                 do
                 {
-                    if( _showstringHead[ ShowstringPoint ] == '\n' )
+                    if( ShowStringText[ ShowstringPoint ] == '\n' )
                     {
                         if( ( line++ ) == ( pagelines * toggle ) )
                             break;
@@ -3090,12 +3090,12 @@ namespace MUDEngine
             // Buffer the text we want to print.
             line = 0;
             string buffer = String.Empty;
-            if( ShowstringPoint < _showstringHead.Length )
+            if( ShowstringPoint < ShowStringText.Length )
             {
                 do
                 {
-                    buffer += _showstringHead[ ShowstringPoint ];
-                    if( _showstringHead[ ShowstringPoint ] == '\n' )
+                    buffer += ShowStringText[ ShowstringPoint ];
+                    if( ShowStringText[ ShowstringPoint ] == '\n' )
                     {
                         if( ( line++ ) == pagelines )
                         {
@@ -3104,13 +3104,13 @@ namespace MUDEngine
                     }
                     ++ShowstringPoint;
                 }
-                while( ShowstringPoint < _showstringHead.Length );
+                while( ShowstringPoint < ShowStringText.Length );
             }
 
             // Write it.
             WriteToBuffer( buffer );
             // Clear it.
-            _showstringHead = String.Empty;
+            ShowStringText = String.Empty;
             ShowstringPoint = 0;
 
             return;
@@ -3188,13 +3188,13 @@ namespace MUDEngine
             }
 
             // To prevent crashes
-            if( !actor._inRoom )
+            if( !actor.InRoom )
             {
-                Log.Error( "Act: Actor CharData (" + actor._name + ") is not in a room!" );
+                Log.Error( "Act: Actor CharData (" + actor.Name + ") is not in a room!" );
                 return;
             }
 
-            List<CharData> to = actor._inRoom.People;
+            List<CharData> to = actor.InRoom.People;
             if( type == MessageTarget.victim || type == MessageTarget.room_vict )
             {
                 if( !victimChar )
@@ -3203,18 +3203,18 @@ namespace MUDEngine
                     Log.Error(String.Format("Bad act string: {0}", format));
                     return;
                 }
-                to = victimChar._inRoom.People;
+                to = victimChar.InRoom.People;
             }
 
             string outputBuffer;
 
             foreach (CharData roomChar in to)
             {
-                if( !roomChar._socket && roomChar.IsNPC() || !roomChar.IsAwake() )
+                if( !roomChar.Socket && roomChar.IsNPC() || !roomChar.IsAwake() )
                     continue;
-                if( type == MessageTarget.room_vict && victimChar._flyLevel != roomChar._flyLevel )
+                if( type == MessageTarget.room_vict && victimChar.FlightLevel != roomChar.FlightLevel )
                     continue;
-                if( ( type == MessageTarget.room_vict || type == MessageTarget.room || type == MessageTarget.everyone_but_victim ) && actor._flyLevel != roomChar._flyLevel )
+                if( ( type == MessageTarget.room_vict || type == MessageTarget.room || type == MessageTarget.everyone_but_victim ) && actor.FlightLevel != roomChar.FlightLevel )
                     continue;
                 if( type == MessageTarget.room_vict && ( roomChar == actor || roomChar == victimChar ) )
                     continue;
@@ -3226,9 +3226,9 @@ namespace MUDEngine
                     continue;
                 if( type == MessageTarget.everyone_but_victim && ( roomChar == victimChar ) )
                     continue;
-                if( type == MessageTarget.room_above && ( roomChar._flyLevel <= actor._flyLevel ) )
+                if( type == MessageTarget.room_above && ( roomChar.FlightLevel <= actor.FlightLevel ) )
                     continue;
-                if( type == MessageTarget.room_below && ( roomChar._flyLevel >= actor._flyLevel ) )
+                if( type == MessageTarget.room_below && ( roomChar.FlightLevel >= actor.FlightLevel ) )
                     continue;
 
                 str = format;
@@ -3246,13 +3246,13 @@ namespace MUDEngine
                 if (str.Contains("$E") && victimChar != null)
                     str = str.Replace("$E", victimChar.GetSexPronoun());
                 if (str.Contains("$m") && actor != null)
-                    str = str.Replace("$m", himHer[Macros.Range(0, (int)actor._sex, 2)]);
+                    str = str.Replace("$m", himHer[Macros.Range(0, (int)actor.Gender, 2)]);
                 if (str.Contains("$M") && victimChar != null)
-                    str = str.Replace("$M", himHer[Macros.Range(0, (int)victimChar._sex, 2)]);
+                    str = str.Replace("$M", himHer[Macros.Range(0, (int)victimChar.Gender, 2)]);
                 if (str.Contains("$s") && actor != null)
-                    str = str.Replace("$s", hisHer[Macros.Range(0, (int)actor._sex, 2)]);
+                    str = str.Replace("$s", hisHer[Macros.Range(0, (int)actor.Gender, 2)]);
                 if (str.Contains("$S") && victimChar != null)
-                    str = str.Replace("$S", hisHer[Macros.Range(0, (int)victimChar._sex, 2)]);
+                    str = str.Replace("$S", hisHer[Macros.Range(0, (int)victimChar.Gender, 2)]);
                 if (str.Contains("$p") && obj1 != null)
                     str = str.Replace("$p", CharData.CanSeeObj(roomChar, obj1) ? obj1.ShortDescription : "something");
                 if (str.Contains("$P") && obj1 != null)
@@ -3278,9 +3278,9 @@ namespace MUDEngine
                     outputBuffer = MUDString.CapitalizeANSIString(outputBuffer);
                 }
 
-                if (roomChar._socket)
+                if (roomChar.Socket)
                 {
-                    roomChar._socket.WriteToBuffer(outputBuffer);
+                    roomChar.Socket.WriteToBuffer(outputBuffer);
                 }
             }
             return;
@@ -3310,19 +3310,19 @@ namespace MUDEngine
         /// </summary>
         private void MultipleCommands()
         {
-            _commandQueue = _commandQueuePointer;
+            CommandQueue = CommandQueuePointer;
 
-            int index = _commandQueue.IndexOf( ';' );
+            int index = CommandQueue.IndexOf( ';' );
 
             if( index == -1 )
             {
-                _incomm = _commandQueue;
+                InputCommunication = CommandQueue;
             }
             else
             {
-                _incomm = _commandQueue.Substring(0,index);
-                _commandQueue = _commandQueue.Substring(index + 1);
-                Log.Trace("Dequeueing command '" + _incomm + "', queue still contains '" + _commandQueue + "'.");
+                InputCommunication = CommandQueue.Substring(0,index);
+                CommandQueue = CommandQueue.Substring(index + 1);
+                Log.Trace("Dequeueing command '" + InputCommunication + "', queue still contains '" + CommandQueue + "'.");
             }
             return;
         }
@@ -3423,7 +3423,7 @@ namespace MUDEngine
         /// <returns>true if playing, false if not in a playing state (at menu or creating character).</returns>
         public bool IsPlaying()
         {
-            return ( _connectionState <= ConnectionState.playing );
+            return ( ConnectionStatus <= ConnectionState.playing );
         }
 
         /// <summary>
@@ -3443,14 +3443,14 @@ namespace MUDEngine
                 {
                     ch.RemoveActionBit(PC.PLAYER_CAMPING);
                     Act("You climb into your bedroll and leave the realm.", ch, null, null, MessageTarget.character);
-                    if (ch._sex == MobTemplate.Sex.male)
+                    if (ch.Gender == MobTemplate.Sex.male)
                         Act("$n&n climbs into his bedroll and leaves the realm.", ch, null, null, MessageTarget.room);
-                    else if (ch._sex == MobTemplate.Sex.female)
+                    else if (ch.Gender == MobTemplate.Sex.female)
                         Act("$n&n climbs into her bedroll and leaves the realm.", ch, null, null, MessageTarget.room);
                     else
                         Act("$n&n climbs into its bedroll and leaves the realm.", ch, null, null, MessageTarget.room);
 
-                    string text = String.Format("{0} has camped out.", ch._name);
+                    string text = String.Format("{0} has camped out.", ch.Name);
                     Log.Trace(text);
                     ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), text);
                 }
@@ -3458,33 +3458,33 @@ namespace MUDEngine
                 {
                     ch.SendText("You leave the realm.\r\n\r\n");
                     Act("$n&n has left the realm.", ch, null, null, MessageTarget.room);
-                    Log.Trace(String.Format("{0} has camped out.", ch._name));
-                    ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), String.Format("{0} has camped out.", ch._name));
+                    Log.Trace(String.Format("{0} has camped out.", ch.Name));
+                    ImmortalChat.SendImmortalChat(ch, ImmortalChat.IMMTALK_LOGINS, ch.GetTrust(), String.Format("{0} has camped out.", ch.Name));
                 }
 
                 // I know we checked for position fighting, but I'm paranoid...
-                if (ch._fighting)
+                if (ch.Fighting)
                 {
                     Combat.StopFighting(ch, true);
                 }
 
-                ch.DieFollower(ch._name);
+                ch.DieFollower(ch.Name);
 
                 Room room = null;
-                if (ch._inRoom)
+                if (ch.InRoom)
                 {
-                    room = ch._inRoom;
+                    room = ch.InRoom;
                 }
 
                 ch.RemoveFromRoom();
                 if (room != null)
                 {
-                    ch._inRoom = room;
-                    ((PC)ch).LastRentLocation = ch._inRoom.IndexNumber;
+                    ch.InRoom = room;
+                    ((PC)ch).LastRentLocation = ch.InRoom.IndexNumber;
                 }
 
                 // Put them in the correct body
-                if (ch && ch._socket && ch._socket.Original)
+                if (ch && ch.Socket && ch.Socket.Original)
                 {
                     CommandType.Interpret(ch, "return");
                 }
@@ -3493,10 +3493,10 @@ namespace MUDEngine
 
                 Database.CharList.Remove(ch);
 
-                if (ch && ch._socket)
+                if (ch && ch.Socket)
                 {
-                    ch._socket.ShowScreen(Screen.MainMenuScreen); 
-                    ch._socket._connectionState = ConnectionState.menu;
+                    ch.Socket.ShowScreen(Screen.MainMenuScreen); 
+                    ch.Socket.ConnectionStatus = ConnectionState.menu;
                 }
             }
             catch (Exception ex)
@@ -3518,73 +3518,73 @@ namespace MUDEngine
             if (ch == null) return false;
             if( "strength".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permStrength += MUDMath.Dice( 2, 8 );
-                if (ch._permStrength > 100)
+                ch.PermStrength += MUDMath.Dice( 2, 8 );
+                if (ch.PermStrength > 100)
                 {
-                    ch._permStrength = 100;
+                    ch.PermStrength = 100;
                 }
                 return true;
             }
             if( "intelligence".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permIntelligence += MUDMath.Dice( 2, 8 );
-                if (ch._permIntelligence > 100)
+                ch.PermIntelligence += MUDMath.Dice( 2, 8 );
+                if (ch.PermIntelligence > 100)
                 {
-                    ch._permIntelligence = 100;
+                    ch.PermIntelligence = 100;
                 }
                 return true;
             }
             if( "wisdom".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permWisdom += MUDMath.Dice( 2, 8 );
-                if (ch._permWisdom > 100)
+                ch.PermWisdom += MUDMath.Dice( 2, 8 );
+                if (ch.PermWisdom > 100)
                 {
-                    ch._permWisdom = 100;
+                    ch.PermWisdom = 100;
                 }
                 return true;
             }
             if( "dexterity".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permDexterity += MUDMath.Dice( 2, 8 );
-                if (ch._permDexterity > 100)
+                ch.PermDexterity += MUDMath.Dice( 2, 8 );
+                if (ch.PermDexterity > 100)
                 {
-                    ch._permStrength = 100;
+                    ch.PermStrength = 100;
                 }
                 return true;
             }
             if( "constitution".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permConstitution += MUDMath.Dice( 2, 8 );
-                if (ch._permConstitution > 100)
+                ch.PermConstitution += MUDMath.Dice( 2, 8 );
+                if (ch.PermConstitution > 100)
                 {
-                    ch._permConstitution = 100;
+                    ch.PermConstitution = 100;
                 }
                 return true;
             }
             if( "agility".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permAgility += MUDMath.Dice( 2, 8 );
-                if (ch._permAgility > 100)
+                ch.PermAgility += MUDMath.Dice( 2, 8 );
+                if (ch.PermAgility > 100)
                 {
-                    ch._permAgility = 100;
+                    ch.PermAgility = 100;
                 }
                 return true;
             }
             if( "charisma".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permCharisma += MUDMath.Dice( 2, 8 );
-                if (ch._permCharisma > 100)
+                ch.PermCharisma += MUDMath.Dice( 2, 8 );
+                if (ch.PermCharisma > 100)
                 {
-                    ch._permCharisma = 100;
+                    ch.PermCharisma = 100;
                 }
                 return true;
             }
             if( "power".StartsWith( argument, StringComparison.CurrentCultureIgnoreCase ) )
             {
-                ch._permPower += MUDMath.Dice( 2, 8 );
-                if (ch._permPower > 100)
+                ch.PermPower += MUDMath.Dice( 2, 8 );
+                if (ch.PermPower > 100)
                 {
-                    ch._permPower = 100;
+                    ch.PermPower = 100;
                 }
                 return true;
             }
@@ -3618,73 +3618,73 @@ namespace MUDEngine
         {
             ((PC)Character).CreationTime = Database.SystemData.CurrentTime;
             ((PC)Character).Birthdate = Database.SystemData.CurrentTime;
-            Character._level = 1;
-            Character._experiencePoints = 1;
+            Character.Level = 1;
+            Character.ExperiencePoints = 1;
             Character.SetCoins( 0, 0, 0, 0 );
             // Con mod to newbie hitpoints for greater variation
             // keep in mind we're *still* using _character.GetMaxHit() on top of this
-            Character._maxHitpoints += ( Character.GetCurrCon() / 30 );
-            Character._hitpoints = Character.GetMaxHit();
-            if (Character._charClass.GainsMana)
+            Character.MaxHitpoints += ( Character.GetCurrCon() / 30 );
+            Character.Hitpoints = Character.GetMaxHit();
+            if (Character.CharacterClass.GainsMana)
             {
                 // Mana bonuses for newbies.
-                Character._maxMana += (Character.GetCurrInt() / 10);
-                Character._maxMana += (Character.GetCurrWis() / 14);
-                Character._maxMana += (Character.GetCurrPow() / 7);
+                Character.MaxMana += (Character.GetCurrInt() / 10);
+                Character.MaxMana += (Character.GetCurrWis() / 14);
+                Character.MaxMana += (Character.GetCurrPow() / 7);
             }
             else
             {
-                Character._maxMana = 0;
+                Character.MaxMana = 0;
             }
-            Character._currentMana = Character._maxMana;
+            Character.CurrentMana = Character.MaxMana;
             if (Character.GetOrigRace() == Race.RACE_CENTAUR)
             {
-                Character._maxMoves += 80;
+                Character.MaxMoves += 80;
             }
-            Character._currentMoves = Character._maxMoves;
-            Character._size = Race.RaceList[ Character.GetOrigRace() ].DefaultSize;
-            Character._alignment = Race.RaceList[ Character.GetOrigRace() ].BaseAlignment;
+            Character.CurrentMoves = Character.MaxMoves;
+            Character.CurrentSize = Race.RaceList[ Character.GetOrigRace() ].DefaultSize;
+            Character.Alignment = Race.RaceList[ Character.GetOrigRace() ].BaseAlignment;
             ((PC)Character).GuildRank = Guild.Rank.normal;
             if( Character.IsClass( CharClass.Names.paladin ) )
             {
-                Character._alignment = 1000;
+                Character.Alignment = 1000;
             }
             else if( Character.IsClass( CharClass.Names.antipaladin ) )
             {
-                Character._alignment = -1000;
+                Character.Alignment = -1000;
             }
             else if( Character.IsClass( CharClass.Names.ranger ) )
             {
-                Character._alignment += 250;
+                Character.Alignment += 250;
             }
             else if( Character.IsClass( CharClass.Names.assassin ) )
             {
-                Character._alignment -= 100;
+                Character.Alignment -= 100;
             }
             else if( Character.IsClass( CharClass.Names.cleric ) )
             {
-                if (Character._alignment < 0)
+                if (Character.Alignment < 0)
                 {
-                    Character._alignment -= 250;
+                    Character.Alignment -= 250;
                 }
-                else if (Character._alignment > 0)
+                else if (Character.Alignment > 0)
                 {
-                    Character._alignment += 250;
+                    Character.Alignment += 250;
                 }
             }
 
-            if (Character._alignment < -1000)
+            if (Character.Alignment < -1000)
             {
-                Character._alignment = -1000;
+                Character.Alignment = -1000;
             }
-            else if (Character._alignment > 1000)
+            else if (Character.Alignment > 1000)
             {
-                Character._alignment = 1000;
+                Character.Alignment = 1000;
             }
 
             if( Character.IsClass( CharClass.Names.psionicist ) )
             {
-                Character._currentMana = 45 + ( Character.GetCurrPow() / 10 );
+                Character.CurrentMana = 45 + ( Character.GetCurrPow() / 10 );
             }
 
             // Set character's height and weight based on their race
@@ -3790,44 +3790,44 @@ namespace MUDEngine
         /// <param name="ch"></param>
         private static void RerollStats( CharData ch )
         {
-            ch._permStrength = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permIntelligence = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permWisdom = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permDexterity = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permConstitution = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permAgility = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permCharisma = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permPower = MUDMath.Dice( 3, 31 ) + 7;
-            ch._permLuck = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermStrength = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermIntelligence = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermWisdom = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermDexterity = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermConstitution = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermAgility = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermCharisma = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermPower = MUDMath.Dice( 3, 31 ) + 7;
+            ch.PermLuck = MUDMath.Dice( 3, 31 ) + 7;
 
-            switch( ch._charClass.PrimeAttribute )
+            switch( ch.CharacterClass.PrimeAttribute )
             {
                 case Affect.Apply.strength:
-                    ch._permStrength = MUDMath.NumberRange( 70, 100 );
+                    ch.PermStrength = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.intelligence:
-                    ch._permIntelligence = MUDMath.NumberRange( 70, 100 );
+                    ch.PermIntelligence = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.wisdom:
-                    ch._permWisdom = MUDMath.NumberRange( 70, 100 );
+                    ch.PermWisdom = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.dexterity:
-                    ch._permDexterity = MUDMath.NumberRange( 70, 100 );
+                    ch.PermDexterity = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.constitution:
-                    ch._permConstitution = MUDMath.NumberRange( 70, 100 );
+                    ch.PermConstitution = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.agility:
-                    ch._permAgility = MUDMath.NumberRange( 70, 100 );
+                    ch.PermAgility = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.charisma:
-                    ch._permPower = MUDMath.NumberRange( 70, 100 );
+                    ch.PermPower = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.power:
-                    ch._permCharisma = MUDMath.NumberRange( 70, 100 );
+                    ch.PermCharisma = MUDMath.NumberRange( 70, 100 );
                     break;
                 case Affect.Apply.luck:
-                    ch._permLuck = MUDMath.NumberRange( 70, 100 );
+                    ch.PermLuck = MUDMath.NumberRange( 70, 100 );
                     break;
             }
         }
@@ -3842,13 +3842,13 @@ namespace MUDEngine
             for (int i = (Database.SocketList.Count - 1); i >= 0; i--)
             {
                 sock = Database.SocketList[i]; // Just to save space and make this more readable.
-                if (sock.Character && sock.Character._wait > 0)
+                if (sock.Character && sock.Character.Wait > 0)
                 {
-                    --sock.Character._wait;
+                    --sock.Character.Wait;
                     continue;
                 }
 
-                if (sock._commandQueuePointer.Length > 0)
+                if (sock.CommandQueuePointer.Length > 0)
                 {
                     sock.MultipleCommands();
                 }
@@ -3857,45 +3857,45 @@ namespace MUDEngine
                     sock.ReadFromBuffer();
                 }
 
-                if (sock._incomm.Length > 0 || sock._commandQueue.Length > 0)
+                if (sock.InputCommunication.Length > 0 || sock.CommandQueue.Length > 0)
                 {
-                    sock.Fcommand = true;
+                    sock.IsCommand = true;
                     StopIdling(sock.Character);
 
                     string intcomm;
-                    if (sock._commandQueuePointer.Length > 0)
+                    if (sock.CommandQueuePointer.Length > 0)
                     {
-                        intcomm = sock._commandQueue;
+                        intcomm = sock.CommandQueue;
                     }
                     else
                     {
-                        intcomm = sock._incomm;
+                        intcomm = sock.InputCommunication;
                     }
 
-                    if (sock.ShowstringPoint < sock._showstringHead.Length)
+                    if (sock.ShowstringPoint < sock.ShowStringText.Length)
                     {
-                        sock.ShowPagedString(sock._incomm);
+                        sock.ShowPagedString(sock.InputCommunication);
                     }
-                    else if (sock._stringEditing.Length > 0)
+                    else if (sock.EditingString.Length > 0)
                     {
-                        MUDString.StringAdd(sock.Character, sock._incomm);
+                        MUDString.StringAdd(sock.Character, sock.InputCommunication);
                     }
                     else
                     {
-                        switch (sock._connectionState)
+                        switch (sock.ConnectionStatus)
                         {
                             case ConnectionState.playing:
                                 if (sock.Character != null)
                                 {
-                                    if (sock.Character._inRoom != null)
+                                    if (sock.Character.InRoom != null)
                                     {
                                         Log.Trace("Interpreting command: '" + intcomm + "'" + " by " +
-                                           sock.Character._name + " in room " + sock.Character._inRoom.IndexNumber);
+                                           sock.Character.Name + " in room " + sock.Character.InRoom.IndexNumber);
                                     }
                                     else
                                     {
                                         Log.Trace("Interpreting command: '" + intcomm + "'" + " by " +
-                                           sock.Character._name + " not in any valid room.");
+                                           sock.Character.Name + " not in any valid room.");
                                     }
                                 }
                                 else
@@ -3911,7 +3911,7 @@ namespace MUDEngine
                                 break;
                         }
                     }
-                    sock._incomm = String.Empty;
+                    sock.InputCommunication = String.Empty;
                 }
             }
         }
@@ -3958,13 +3958,13 @@ namespace MUDEngine
             {
                 for (int counter = (Database.SocketList.Count - 1); counter >= 0; counter--)
                 {
-                    Database.SocketList[counter].Fcommand = false;
+                    Database.SocketList[counter].IsCommand = false;
 
                     if (listenList[i] != Database.SocketList[counter]._socket)
                         continue;
 
                     if (Database.SocketList[counter].Character)
-                        Database.SocketList[counter].Character._timer = 0;
+                        Database.SocketList[counter].Character.Timer = 0;
                     // If we can't read from the socket, we save the character and close the socket.
                     if (!Database.SocketList[counter].ReadFromSocket())
                     {
@@ -4002,7 +4002,7 @@ namespace MUDEngine
                 {
                     if (writeList[i] == Database.SocketList[d]._socket)
                     {
-                        if ((Database.SocketList[d].Fcommand || Database.SocketList[d].Outbuf.Length > 0))
+                        if ((Database.SocketList[d].IsCommand || Database.SocketList[d].Outbuf.Length > 0))
                         {
                             // If we can't send to the socket, save the character and close the socket.
                             if (!Database.SocketList[d].ProcessOutput(true))

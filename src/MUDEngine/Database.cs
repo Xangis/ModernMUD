@@ -244,11 +244,20 @@ namespace MUDEngine
                 return;
             }
 
-            string strsave = FileLocation.AreaDirectory + FileLocation.AreaLoadList;
-
+            string filename = FileLocation.AreaDirectory + FileLocation.AreaLoadList;
+            string emptyFilename = FileLocation.BlankAreaFileDirectory + FileLocation.AreaLoadList;
+            FileStream fp = null;
             try
             {
-                FileStream fp = File.OpenRead( strsave );
+                try
+                {
+                    fp = File.OpenRead(filename);
+                }
+                catch (FileNotFoundException)
+                {
+                    File.Copy(emptyFilename, filename);
+                    fp = File.OpenRead(emptyFilename);
+                }
                 StreamReader sr = new StreamReader( fp );
 
                 while( !sr.EndOfStream )
@@ -559,7 +568,7 @@ namespace MUDEngine
                 foreach( CharData cd in CharList )
                 {
                     roomChar = cd;
-                    if( !roomChar.IsNPC() && roomChar._inRoom != null && roomChar._inRoom.Area == area )
+                    if( !roomChar.IsNPC() && roomChar.InRoom != null && roomChar.InRoom.Area == area )
                         numPlayers++;
                 }
 
@@ -569,8 +578,8 @@ namespace MUDEngine
                     foreach( CharData chd in CharList )
                     {
                         roomChar = chd;
-                        if( !roomChar.IsNPC() && roomChar.IsAwake() && roomChar._inRoom
-                                && roomChar._inRoom.Area == area &&
+                        if( !roomChar.IsNPC() && roomChar.IsAwake() && roomChar.InRoom
+                                && roomChar.InRoom.Area == area &&
                                 !String.IsNullOrEmpty(area.ResetMessage))
                         {
                             roomChar.SendText( String.Format( "{0}\r\n", area.ResetMessage ) );
@@ -632,59 +641,59 @@ namespace MUDEngine
 
             CharData mob = new CharData();
 
-            mob._mobTemplate = mobTemplate;
-            mob._followers = null;
-            mob._name = mobTemplate.PlayerName;
-            mob._shortDescription = mobTemplate.ShortDescription;
-            mob._fullDescription = mobTemplate.FullDescription;
-            mob._description = mobTemplate.Description;
-            mob._specFun = mobTemplate.SpecFun;
-            mob._specFunNames = mobTemplate.SpecFunNames;
-            mob._charClass = mobTemplate.CharacterClass;
-            mob._level = MUDMath.FuzzyNumber( mobTemplate.Level );
-            mob._actionFlags = mobTemplate.ActionFlags;
-            mob._position = mobTemplate.DefaultPosition;
-            mob._chatterBotName = mobTemplate.ChatterBotName;
+            mob.MobileTemplate = mobTemplate;
+            mob.Followers = null;
+            mob.Name = mobTemplate.PlayerName;
+            mob.ShortDescription = mobTemplate.ShortDescription;
+            mob.FullDescription = mobTemplate.FullDescription;
+            mob.Description = mobTemplate.Description;
+            mob.SpecialFunction = mobTemplate.SpecFun;
+            mob.SpecialFunctionNames = mobTemplate.SpecFunNames;
+            mob.CharacterClass = mobTemplate.CharacterClass;
+            mob.Level = MUDMath.FuzzyNumber( mobTemplate.Level );
+            mob.ActionFlags = mobTemplate.ActionFlags;
+            mob.CurrentPosition = mobTemplate.DefaultPosition;
+            mob.ChatterBotName = mobTemplate.ChatterBotName;
             // TODO: Look up the chatter bot name and load a runtime bot into the variable.
-            mob._chatterBot = null;
+            mob.ChatBot = null;
             for( count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count )
             {
-                mob._affectedBy[ count ] = mobTemplate.AffectedBy[ count ];
+                mob.AffectedBy[ count ] = mobTemplate.AffectedBy[ count ];
             }
-            mob._alignment = mobTemplate.Alignment;
-            mob._sex = mobTemplate.Gender;
+            mob.Alignment = mobTemplate.Alignment;
+            mob.Gender = mobTemplate.Gender;
             mob.SetPermRace( mobTemplate.Race );
-            mob._size = Race.RaceList[ mob.GetRace() ].DefaultSize;
+            mob.CurrentSize = Race.RaceList[ mob.GetRace() ].DefaultSize;
             if (mob.HasActionBit(MobTemplate.ACT_SIZEMINUS))
-                mob._size--;
+                mob.CurrentSize--;
             if (mob.HasActionBit(MobTemplate.ACT_SIZEPLUS))
-                mob._size++;
+                mob.CurrentSize++;
 
-            mob._castingSpell = 0;
-            mob._castingTime = 0;
-            mob._permStrength = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permIntelligence = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permWisdom = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permDexterity = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permConstitution = MUDMath.Dice( 2, 46 ) + 7;
-            mob._permAgility = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permCharisma = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permPower = MUDMath.Dice( 2, 46 ) + 8;
-            mob._permLuck = MUDMath.Dice( 2, 46 ) + 8;
-            mob._modifiedStrength = 0;
-            mob._modifiedIntelligence = 0;
-            mob._modifiedWisdom = 0;
-            mob._modifiedDexterity = 0;
-            mob._modifiedConstitution = 0;
-            mob._modifiedAgility = 0;
-            mob._modifiedCharisma = 0;
-            mob._modifiedPower = 0;
-            mob._modifiedLuck = 0;
-            mob._resistant = mobTemplate.Resistant;
-            mob._immune = mobTemplate.Immune;
-            mob._susceptible = mobTemplate.Susceptible;
-            mob._vulnerable = mobTemplate.Vulnerable;
-            mob._maxMana = mob._level * 10;
+            mob.CastingSpell = 0;
+            mob.CastingTime = 0;
+            mob.PermStrength = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermIntelligence = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermWisdom = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermDexterity = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermConstitution = MUDMath.Dice( 2, 46 ) + 7;
+            mob.PermAgility = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermCharisma = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermPower = MUDMath.Dice( 2, 46 ) + 8;
+            mob.PermLuck = MUDMath.Dice( 2, 46 ) + 8;
+            mob.ModifiedStrength = 0;
+            mob.ModifiedIntelligence = 0;
+            mob.ModifiedWisdom = 0;
+            mob.ModifiedDexterity = 0;
+            mob.ModifiedConstitution = 0;
+            mob.ModifiedAgility = 0;
+            mob.ModifiedCharisma = 0;
+            mob.ModifiedPower = 0;
+            mob.ModifiedLuck = 0;
+            mob.Resistant = mobTemplate.Resistant;
+            mob.Immune = mobTemplate.Immune;
+            mob.Susceptible = mobTemplate.Susceptible;
+            mob.Vulnerable = mobTemplate.Vulnerable;
+            mob.MaxMana = mob.Level * 10;
             if( Race.RaceList[mobTemplate.Race].Coins )
             {
                 int level = mobTemplate.Level;
@@ -697,7 +706,7 @@ namespace MUDEngine
             {
                 mob.SetCoins( 0, 0, 0, 0 );
             }
-            mob._armorPoints = MUDMath.Interpolate( mob._level, 100, -100 );
+            mob.ArmorPoints = MUDMath.Interpolate( mob.Level, 100, -100 );
 
             // * MOB HITPOINTS *
             //
@@ -719,34 +728,34 @@ namespace MUDEngine
             //      50        16528
             //      55        35207
             //      60        75000
-            mob._maxHitpoints = MUDMath.Dice( mob._level, 13 ) + 1;
+            mob.MaxHitpoints = MUDMath.Dice( mob.Level, 13 ) + 1;
             // Mob hps are non-linear above level 10.
-            if( mob._level > 20 )
+            if( mob.Level > 20 )
             {
-                int upper = (int)Math.Exp( 1.85 + mob._level * 0.151231 );
-                int lower = (int)Math.Exp( 1.80 + mob._level * 0.151231 );
-                mob._maxHitpoints += MUDMath.NumberRange( lower, upper );
+                int upper = (int)Math.Exp( 1.85 + mob.Level * 0.151231 );
+                int lower = (int)Math.Exp( 1.80 + mob.Level * 0.151231 );
+                mob.MaxHitpoints += MUDMath.NumberRange( lower, upper );
             }
-            else if (mob._level > 10)
+            else if (mob.Level > 10)
             {
-                mob._maxHitpoints += MUDMath.NumberRange(mob._level * 2, ((mob._level - 8) ^ 2 * mob._level) / 2);
+                mob.MaxHitpoints += MUDMath.NumberRange(mob.Level * 2, ((mob.Level - 8) ^ 2 * mob.Level) / 2);
             }
 
             // Demons/devils/dragons gain an extra 30 hitpoints per level (+1500 at lvl 50).
             if (mob.GetRace() == Race.RACE_DEMON || mob.GetRace() == Race.RACE_DEVIL || mob.GetRace() == Race.RACE_DRAGON)
             {
-                mob._maxHitpoints += (mob._level * 30);
+                mob.MaxHitpoints += (mob.Level * 30);
             }
 
-            mob._hitpoints = mob.GetMaxHit();
+            mob.Hitpoints = mob.GetMaxHit();
 
             // Horses get more moves, necessary for mounts.
             if(Race.RaceList[ mob.GetRace() ].Name.Equals( "Horse", StringComparison.CurrentCultureIgnoreCase ))
             {
-                mob._maxMoves = 290 + MUDMath.Dice( 4, 5 );
-                mob._currentMoves = mob._maxMoves;
+                mob.MaxMoves = 290 + MUDMath.Dice( 4, 5 );
+                mob.CurrentMoves = mob.MaxMoves;
             }
-            mob._loadRoomIndexNumber = 0;
+            mob.LoadRoomIndexNumber = 0;
 
             // Insert in list.
             CharList.Add( mob );
@@ -768,70 +777,70 @@ namespace MUDEngine
                 return;
 
             // Fix values.
-            clone._name = parent._name;
-            clone._shortDescription = parent._shortDescription;
-            clone._fullDescription = parent._fullDescription;
-            clone._description = parent._description;
-            clone._sex = parent._sex;
-            clone._charClass = parent._charClass;
+            clone.Name = parent.Name;
+            clone.ShortDescription = parent.ShortDescription;
+            clone.FullDescription = parent.FullDescription;
+            clone.Description = parent.Description;
+            clone.Gender = parent.Gender;
+            clone.CharacterClass = parent.CharacterClass;
             clone.SetPermRace( parent.GetRace() );
-            clone._level = parent._level;
-            clone._trustLevel = 0;
-            clone._specFun = parent._specFun;
-            clone._specFunNames = parent._specFunNames;
-            clone._timer = parent._timer;
-            clone._wait = parent._wait;
-            clone._hitpoints = parent._hitpoints;
-            clone._maxHitpoints = parent._maxHitpoints;
-            clone._currentMana = parent._currentMana;
-            clone._maxMana = parent._maxMana;
-            clone._currentMoves = parent._currentMoves;
-            clone._maxMoves = parent._maxMoves;
+            clone.Level = parent.Level;
+            clone.TrustLevel = 0;
+            clone.SpecialFunction = parent.SpecialFunction;
+            clone.SpecialFunctionNames = parent.SpecialFunctionNames;
+            clone.Timer = parent.Timer;
+            clone.Wait = parent.Wait;
+            clone.Hitpoints = parent.Hitpoints;
+            clone.MaxHitpoints = parent.MaxHitpoints;
+            clone.CurrentMana = parent.CurrentMana;
+            clone.MaxMana = parent.MaxMana;
+            clone.CurrentMoves = parent.CurrentMoves;
+            clone.MaxMoves = parent.MaxMoves;
             clone.SetCoins( parent.GetCopper(), parent.GetSilver(), parent.GetGold(), parent.GetPlatinum() );
-            clone._experiencePoints = parent._experiencePoints;
-            clone._actionFlags = parent._actionFlags;
-            clone._affected = parent._affected;
-            clone._position = parent._position;
-            clone._alignment = parent._alignment;
-            clone._hitroll = parent._hitroll;
-            clone._damroll = parent._damroll;
-            clone._wimpy = parent._wimpy;
-            clone._deaf = parent._deaf;
-            clone._hunting = parent._hunting;
-            clone._hating = parent._hating;
-            clone._fearing = parent._fearing;
-            clone._resistant = parent._resistant;
-            clone._immune = parent._immune;
-            clone._susceptible = parent._susceptible;
-            clone._size = parent._size;
-            clone._permStrength = parent._permStrength;
-            clone._permIntelligence = parent._permIntelligence;
-            clone._permWisdom = parent._permWisdom;
-            clone._permDexterity = parent._permDexterity;
-            clone._permConstitution = parent._permConstitution;
-            clone._permAgility = parent._permAgility;
-            clone._permCharisma = parent._permCharisma;
-            clone._permPower = parent._permPower;
-            clone._permLuck = parent._permLuck;
-            clone._modifiedStrength = parent._modifiedStrength;
-            clone._modifiedIntelligence = parent._modifiedIntelligence;
-            clone._modifiedWisdom = parent._modifiedWisdom;
-            clone._modifiedDexterity = parent._modifiedDexterity;
-            clone._modifiedConstitution = parent._modifiedConstitution;
-            clone._modifiedAgility = parent._modifiedAgility;
-            clone._modifiedCharisma = parent._modifiedCharisma;
-            clone._modifiedPower = parent._modifiedPower;
-            clone._modifiedLuck = parent._modifiedLuck;
-            clone._armorPoints = parent._armorPoints;
-            clone._mpactnum = parent._mpactnum;
+            clone.ExperiencePoints = parent.ExperiencePoints;
+            clone.ActionFlags = parent.ActionFlags;
+            clone.Affected = parent.Affected;
+            clone.CurrentPosition = parent.CurrentPosition;
+            clone.Alignment = parent.Alignment;
+            clone.Hitroll = parent.Hitroll;
+            clone.Damroll = parent.Damroll;
+            clone.Wimpy = parent.Wimpy;
+            clone.Deaf = parent.Deaf;
+            clone.Hunting = parent.Hunting;
+            clone.Hating = parent.Hating;
+            clone.Fearing = parent.Fearing;
+            clone.Resistant = parent.Resistant;
+            clone.Immune = parent.Immune;
+            clone.Susceptible = parent.Susceptible;
+            clone.CurrentSize = parent.CurrentSize;
+            clone.PermStrength = parent.PermStrength;
+            clone.PermIntelligence = parent.PermIntelligence;
+            clone.PermWisdom = parent.PermWisdom;
+            clone.PermDexterity = parent.PermDexterity;
+            clone.PermConstitution = parent.PermConstitution;
+            clone.PermAgility = parent.PermAgility;
+            clone.PermCharisma = parent.PermCharisma;
+            clone.PermPower = parent.PermPower;
+            clone.PermLuck = parent.PermLuck;
+            clone.ModifiedStrength = parent.ModifiedStrength;
+            clone.ModifiedIntelligence = parent.ModifiedIntelligence;
+            clone.ModifiedWisdom = parent.ModifiedWisdom;
+            clone.ModifiedDexterity = parent.ModifiedDexterity;
+            clone.ModifiedConstitution = parent.ModifiedConstitution;
+            clone.ModifiedAgility = parent.ModifiedAgility;
+            clone.ModifiedCharisma = parent.ModifiedCharisma;
+            clone.ModifiedPower = parent.ModifiedPower;
+            clone.ModifiedLuck = parent.ModifiedLuck;
+            clone.ArmorPoints = parent.ArmorPoints;
+            //clone._mpactnum = parent._mpactnum;
 
             for (i = 0; i < 6; i++)
             {
-                clone._savingThrows[i] = parent._savingThrows[i];
+                clone.SavingThrows[i] = parent.SavingThrows[i];
             }
 
             // Now add the affects.
-            foreach (Affect affect in parent._affected)
+            foreach (Affect affect in parent.Affected)
             {
                 clone.AddAffect(affect);
             }
@@ -1030,8 +1039,8 @@ namespace MUDEngine
             }
             FileStream fp = File.OpenWrite( file );
             StreamWriter sw = new StreamWriter( fp );
-            sw.WriteLine( "[{0}] {1}: {2}\n", ch._inRoom ? MUDString.PadInt(ch._inRoom.IndexNumber,5) : MUDString.PadInt(0,5),
-                ch._name, str );
+            sw.WriteLine( "[{0}] {1}: {2}\n", ch.InRoom ? MUDString.PadInt(ch.InRoom.IndexNumber,5) : MUDString.PadInt(0,5),
+                ch.Name, str );
             sw.Flush();
             sw.Close();
             return;

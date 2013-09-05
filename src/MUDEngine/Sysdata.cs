@@ -742,9 +742,9 @@ namespace MUDEngine
             {
                 foreach( SocketConnection socket in Database.SocketList )
                 {
-                    if (socket._connectionState == SocketConnection.ConnectionState.playing
+                    if (socket.ConnectionStatus == SocketConnection.ConnectionState.playing
                         && socket.Character.IsOutside() && !socket.Character.IsUnderground()
-                        && socket.Character.IsAwake() && !socket.Character._inRoom.HasFlag(RoomTemplate.ROOM_NO_PRECIP))
+                        && socket.Character.IsAwake() && !socket.Character.InRoom.HasFlag(RoomTemplate.ROOM_NO_PRECIP))
                     {
                         socket.Character.SendText(text);
                     }
@@ -753,7 +753,7 @@ namespace MUDEngine
 
             foreach( SocketConnection playerSocket in Database.SocketList )
             {
-                if ((playerSocket._connectionState == SocketConnection.ConnectionState.playing) &&
+                if ((playerSocket.ConnectionStatus == SocketConnection.ConnectionState.playing) &&
                     !playerSocket.Character.IsNPC())
                 {
                     if (((PC)playerSocket.Character).FirstaidTimer > 0)
