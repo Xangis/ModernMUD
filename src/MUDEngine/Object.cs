@@ -1219,6 +1219,9 @@ namespace MUDEngine
         /// <summary>
         /// Wear an object with optional replacement of existing worn object in
         /// the same location.
+        /// 
+        /// TODO: Finish NewWearObject, update the wear table with the strings in this
+        /// function, and remove this function.
         /// </summary>
         /// <param name="ch"></param>
         /// <param name="obj"></param>
@@ -1775,12 +1778,26 @@ namespace MUDEngine
             }
 
             if (obj._itemType == ObjTemplate.ObjectType.staff || obj._itemType == ObjTemplate.ObjectType.wand)
+            {
                 cost = cost * obj._values[2] / obj._values[1];
+            }
 
+            // Modify for charisma. Base 80% / 120%, with 1% bonus per 5 charisma. Capped at 100% to
+            // prevent using buy-sell repetition to generate cash from the same item repeatedly.
             if (!isBuyTransaction)
-                cost = (cost * (80 + customer.GetCurrCha() / 5)) / 100;
+            {
+                if (customer.GetCurrCha() < 100)
+                {
+                    cost = (cost * (80 + customer.GetCurrCha() / 5)) / 100;
+                }
+            }
             else
-                cost = (cost * (120 - customer.GetCurrCha() / 5)) / 100;
+            {
+                if (customer.GetCurrCha() < 100)
+                {
+                    cost = (cost * (120 - customer.GetCurrCha() / 5)) / 100;
+                }
+            }
 
             return cost;
         }
@@ -1792,7 +1809,8 @@ namespace MUDEngine
         /// 
         /// (not enabled)
         /// 
-        /// TODO: Enable/finish this or remove it.
+        /// TODO: Enable/finish this or remove it. See WearObject for what it is intended
+        /// to replace.
         /// </summary>
         /// <param name="ch"></param>
         /// <param name="obj"></param>
@@ -1801,24 +1819,36 @@ namespace MUDEngine
         {
             int count;
 
-            for (count = 0; count < 30; ++count)
+            for (count = 0; count < WearData.Table.Length; ++count)
             {
                 if (obj.HasWearFlag(new Bitvector(0, (1 << count))))
                 {
-                    if (WearData.Table[(1 << count)]._bodyPartNeeded == 0 ||
-                            Macros.IsSet((int)Race.RaceList[ch.GetRace()].BodyParts, WearData.Table[(1 << count)]._bodyPartNeeded))
+                    if (WearData.Table[count].BodyPartNeeded == 0 ||
+                            Macros.IsSet((int)Race.RaceList[ch.GetRace()].BodyParts, WearData.Table[count].BodyPartNeeded))
                     {
-                        if (WearData.Table[(1 << count)]._racesNotAllowed == -1 ||
-                                ch.GetRace() != WearData.Table[(1 << count)]._racesNotAllowed)
+                        if (WearData.Table[count].RacesNotAllowed == -1 ||
+                                ch.GetRace() != WearData.Table[(1 << count)].RacesNotAllowed)
                         {
-                            if ((WearData.Table[(1 << count)]._wearLocation != 0 && !ch.RemoveObject((ObjTemplate.WearLocation)WearData.Table[(1 << count)]._wearLocation, replaceExisting)) &&
-                                    (WearData.Table[(1 << count)]._wearLocation2 != 0 && !ch.RemoveObject((ObjTemplate.WearLocation)WearData.Table[(1 << count)]._wearLocation2, replaceExisting)) &&
-                                    (WearData.Table[(1 << count)]._wearLocation3 != 0 && !ch.RemoveObject((ObjTemplate.WearLocation)WearData.Table[(1 << count)]._wearLocation3, replaceExisting)))
+                            bool found = false;
+                            int wearLoc = 0;
+                            foreach (int wear in WearData.Table[count].WearLocations)
+                            {
+                                if (wear != 0 && !ch.RemoveObject((ObjTemplate.WearLocation)wear, replaceExisting))
+                                {
+                                    continue;
+                                }
+                                wearLoc = wear;
+                                found = true;
+                                break;
+                            }
+                            if (!found)
+                            {
                                 return;
-                            SocketConnection.Act(WearData.Table[(1 << count)]._wearMessage, ch, obj, null, SocketConnection.MessageTarget.character);
-                            SocketConnection.Act(WearData.Table[(1 << count)]._wearMessage2, ch, obj, null, SocketConnection.MessageTarget.room);
-                            // need to allow for multiple wear locations
-                            ch.EquipObject(ref obj, (ObjTemplate.WearLocation)WearData.Table[(1 << count)]._wearLocation);
+                            }
+                            SocketConnection.Act(WearData.Table[(1 << count)].WearMessageToWearer, ch, obj, null, SocketConnection.MessageTarget.character);
+                            SocketConnection.Act(WearData.Table[(1 << count)].WearMessageToRoom, ch, obj, null, SocketConnection.MessageTarget.room);
+                            // Need to allow for multiple wear locations rather than just picking the first one.
+                            ch.EquipObject(ref obj, (ObjTemplate.WearLocation)wearLoc);
                             return;
 
                         }
