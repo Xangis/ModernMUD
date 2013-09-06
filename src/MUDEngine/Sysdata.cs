@@ -406,7 +406,7 @@ namespace MUDEngine
 
             string filename = FileLocation.SystemDirectory + FileLocation.SysdataFile;
             string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.SysdataFile;
-            XmlSerializer serializer = new XmlSerializer(typeof(CorpseData));
+            XmlSerializer serializer = new XmlSerializer(typeof(Sysdata));
             Log.Trace("Loading sysdata file: " + filename);
             Stream stream = null;
             try
