@@ -8,28 +8,82 @@ namespace MUDEngine
     /// </summary>
     public class ImmortalChat
     {
-        public const int IMMTALK_ON = Bitvector.BV00; /* On|Off switch */
-        public const int IMMTALK_TICKS = Bitvector.BV01; /* Tick's. */
-        public const int IMMTALK_LOGINS = Bitvector.BV02; /* Login|Logoff. */
-        public const int IMMTALK_DEATHS = Bitvector.BV03; /* Plr death's. */
-        public const int IMMTALK_RESETS = Bitvector.BV04; /* Area Reset's. */
-        public const int IMMTALK_CRIME = Bitvector.BV05; /* KILLER & THIEF flag. */
+        /// <summary>
+        /// On|Off switch
+        /// </summary>
+        public const int IMMTALK_ON = Bitvector.BV00;
+        /// <summary>
+        /// Tick notices.
+        /// </summary>
+        public const int IMMTALK_TICKS = Bitvector.BV01;
+        /// <summary>
+        /// Logins and logouts.
+        /// </summary>
+        public const int IMMTALK_LOGINS = Bitvector.BV02;
+        /// <summary>
+        /// Player deaths.
+        /// </summary>
+        public const int IMMTALK_DEATHS = Bitvector.BV03;
+        /// <summary>
+        /// Zone resets.
+        /// </summary>
+        public const int IMMTALK_RESETS = Bitvector.BV04;
+        /// <summary>
+        /// Justice info.
+        /// </summary>
+        public const int IMMTALK_CRIME = Bitvector.BV05;
         // BV06 Unused
-        public const int IMMTALK_LEVELS = Bitvector.BV07; /* Level's advancing. */
+        /// <summary>
+        /// Level advancement.
+        /// </summary>
+        public const int IMMTALK_LEVELS = Bitvector.BV07;
         public const int IMMTALK_SECURE = Bitvector.BV08; /* log . screen. */
-        public const int IMMTALK_SWITCHES = Bitvector.BV09; /* Switch. */
-        public const int IMMTALK_SNOOPS = Bitvector.BV10; /* Snoops. */
-        public const int IMMTALK_RESTORE = Bitvector.BV11; /* Restores. */
-        public const int IMMTALK_LOAD = Bitvector.BV12; /* oload, mload. */
-        public const int IMMTALK_NEWBIE = Bitvector.BV13; /* Newbie's. */
+        /// <summary>
+        /// Immortal mob switching.
+        /// </summary>
+        public const int IMMTALK_SWITCHES = Bitvector.BV09;
+        /// <summary>
+        /// Snooping.
+        /// </summary>
+        public const int IMMTALK_SNOOPS = Bitvector.BV10;
+        /// <summary>
+        /// Use of the restore command.
+        /// </summary>
+        public const int IMMTALK_RESTORE = Bitvector.BV11;
+        /// <summary>
+        /// Loading mobs, objects, etc. by immortals.
+        /// </summary>
+        public const int IMMTALK_LOAD = Bitvector.BV12;
+        /// <summary>
+        /// New players.
+        /// </summary>
+        public const int IMMTALK_NEWBIE = Bitvector.BV13;
         // BV14 Unused
         // BV14 Unused
-        public const int IMMTALK_DEBUG = Bitvector.BV16; /* Debug info. */
-        public const int IMMTALK_PETITION = Bitvector.BV17; /* Petitions */
-        public const int IMMTALK_QUESTS = Bitvector.BV18; /* Quests. */
-        public const int IMMTALK_HUNTING = Bitvector.BV19; /* Hunter actions. */
-        public const int IMMTALK_SPAM = Bitvector.BV20; /* Spam channel - excessive info. */
-        public const int IMMTALK_HATING = Bitvector.BV21; /* Hater actions. */
+        /// <summary>
+        /// Debugging spam.
+        /// </summary>
+        public const int IMMTALK_DEBUG = Bitvector.BV16;
+        /// <summary>
+        /// Player petitions.
+        /// </summary>
+        public const int IMMTALK_PETITION = Bitvector.BV17;
+        /// <summary>
+        /// Quest info / completion.
+        /// </summary>
+        public const int IMMTALK_QUESTS = Bitvector.BV18;
+        /// <summary>
+        /// Hunter actions.
+        /// </summary>
+        public const int IMMTALK_HUNTING = Bitvector.BV19;
+        /// <summary>
+        /// Spam channel - excessive info.
+        /// </summary>
+        public const int IMMTALK_SPAM = Bitvector.BV20;
+        /// <summary>
+        /// Hater (mob memory) actions.
+        /// </summary>
+        public const int IMMTALK_HATING = Bitvector.BV21;
 
         /// <summary>
         /// Send a message to the immortal chat channel.

@@ -680,11 +680,11 @@ namespace ModernMUD
             {
                 return null;
             }
-
+            XmlTextReader xtr = null;
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Area));
-                XmlTextReader xtr = new XmlTextReader(new StreamReader(filename));
+                xtr = new XmlTextReader(new StreamReader(filename));
                 Area newarea = (Area)serializer.Deserialize(xtr);
                 xtr.Close();
                 // Add area flags if they don't exist.
@@ -763,9 +763,9 @@ namespace ModernMUD
                 newarea.RebuildIndexes();
                 return newarea;
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
-                Console.WriteLine("File NotFound loading area " + filename + ":" + ex);
+                // Don't bother reporting file not found error, just return null.
                 return null;
             }
             catch (Exception ex)

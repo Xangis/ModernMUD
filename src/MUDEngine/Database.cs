@@ -270,7 +270,22 @@ namespace MUDEngine
                     }
 
                     Log.Trace(String.Format("Loading area: {0}", line));
-                    Area area = Area.Load(FileLocation.AreaDirectory + line);
+                    String areaFilename = FileLocation.AreaDirectory + line;
+                    Area area = Area.Load(areaFilename);
+
+                    if (area == null)
+                    {
+                        Log.Error("Could not find area file " + line + ". Trying to copy from EmptyFiles directory.");
+                        String backupFilename = FileLocation.BlankAreaFileDirectory + line;
+                        try
+                        {
+                            File.Copy(backupFilename, areaFilename);
+                            area = Area.Load(areaFilename);
+                        }
+                        catch(Exception)
+                        {
+                        }
+                    }
 
                     if( area != null )
                     {

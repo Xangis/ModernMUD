@@ -55,10 +55,21 @@ namespace MUDEngine
         public static bool Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.StaticRoomFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.StaticRoomFile;
+            Stream stream = null;
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(SerializableDictionary<string,int>));
-                Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                try
+                {
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Could not load static room file. Using blank version.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
                 _staticRooms = (SerializableDictionary<string, int>)serializer.Deserialize(stream);
                 stream.Close();
                 return true;
