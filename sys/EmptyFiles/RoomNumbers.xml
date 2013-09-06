@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dictionary>
+  <item>
+    <key>
+      <string>ROOM_NUMBER_LIMBO</string>
+    </key>
+    <value>
+      <int>200</int>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>ROOM_NUMBER_START</string>
+    </key>
+    <value>
+      <int>200</int>
+    </value>
+  </item>
+</dictionary>
