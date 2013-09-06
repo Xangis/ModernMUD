@@ -120,7 +120,7 @@ namespace MUDEngine
                 return;
 
             // Check for justice.  Suicide is ok.  Make sure areas are there.
-            if( ch._inRoom == null || ch._inRoom.Area == null || ch._inRoom.Area.JusticeType == 0 )
+            if( ch.InRoom == null || ch.InRoom.Area == null || ch.InRoom.Area.JusticeType == 0 )
                 return;
 
             // NPC's are fair game.
@@ -130,7 +130,7 @@ namespace MUDEngine
             // NPC's are cool of course
             // Hitting yourself is cool too (bleeding).
             // Hitting immortals are fine.
-            if (ch.IsNPC() || ch == victim || victim._level > Limits.LEVEL_HERO)
+            if (ch.IsNPC() || ch == victim || victim.Level > Limits.LEVEL_HERO)
             {
                 return;
             }
@@ -142,12 +142,12 @@ namespace MUDEngine
             }
 
             // Defending yourself once you're already attacked is okay.
-            if (victim._fighting != null && victim._fighting == ch)
+            if (victim.Fighting != null && victim.Fighting == ch)
             {
                 return;
             }
 
-            foreach( CharData roomChar in ch._inRoom.People )
+            foreach( CharData roomChar in ch.InRoom.People )
             {
                 if( roomChar.IsNPC() && roomChar.HasActionBit( MobTemplate.ACT_WITNESS ) )
                 {
@@ -179,7 +179,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (ch._inRoom.Area.JusticeType == 0)
+            if (ch.InRoom.Area.JusticeType == 0)
             {
                 return;
             }
@@ -193,7 +193,7 @@ namespace MUDEngine
             // NPC's are cool of course
             // Hitting yourself is cool too (bleeding).
             // Hitting immortals are fine.
-            if (ch.IsNPC() || ch == victim || victim._level > Limits.LEVEL_HERO)
+            if (ch.IsNPC() || ch == victim || victim.Level > Limits.LEVEL_HERO)
             {
                 return;
             }
@@ -204,7 +204,7 @@ namespace MUDEngine
                 return;
             }
 
-            foreach( CharData roomChar in ch._inRoom.People )
+            foreach( CharData roomChar in ch.InRoom.People )
             {
                 if( roomChar.IsNPC() && roomChar.HasActionBit(MobTemplate.ACT_WITNESS ) )
                 {
@@ -235,11 +235,11 @@ namespace MUDEngine
 
             Database.CrimeList.Add( crime );
 
-            crime.Criminal = ch._name;
-            crime.Victim = victim._name;
+            crime.Criminal = ch.Name;
+            crime.Victim = victim.Name;
             crime.Time = Database.SystemData.CurrentTime;
             crime.CrimeType = type;
-            crime.Zone = ch._inRoom.Area.Filename;
+            crime.Zone = ch.InRoom.Area.Filename;
 
             return crime;
         }
@@ -311,45 +311,45 @@ namespace MUDEngine
             if (ch == null || ch.IsNPC() || ch.IsImmortal())
                 return;
 
-            if( ch._inRoom == null || ch._inRoom.Area == null ||
-                    ch._inRoom.Area.JusticeType == 0 )
+            if( ch.InRoom == null || ch.InRoom.Area == null ||
+                    ch.InRoom.Area.JusticeType == 0 )
                 return;
 
             switch( ch.GetRacewarSide() )
             {
                 case Race.RacewarSide.good:
-                    if( ch._inRoom.Area.JusticeType == JusticeType.chaotic_evil
-                            || ch._inRoom.Area.JusticeType == JusticeType.chaotic_evil_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.chaotic_neutral_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.evil_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.neutral_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.evil )
+                    if( ch.InRoom.Area.JusticeType == JusticeType.chaotic_evil
+                            || ch.InRoom.Area.JusticeType == JusticeType.chaotic_evil_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.chaotic_neutral_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.evil_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.neutral_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.evil )
                     {
-                        lbuf = String.Format( "Check_invader: {0} invading !good justice", ch._name );
+                        lbuf = String.Format( "Check_invader: {0} invading !good justice", ch.Name );
                         ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                         StartInvasion( ch );
                     }
                     return;
                 case Race.RacewarSide.evil:
-                    if( ch._inRoom.Area.JusticeType == JusticeType.chaotic_good
-                            || ch._inRoom.Area.JusticeType == JusticeType.chaotic_good_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.chaotic_neutral_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.good_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.neutral_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.good )
+                    if( ch.InRoom.Area.JusticeType == JusticeType.chaotic_good
+                            || ch.InRoom.Area.JusticeType == JusticeType.chaotic_good_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.chaotic_neutral_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.good_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.neutral_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.good )
                     {
-                        lbuf = String.Format( "Check_invader: {0} invading !evil justice", ch._name );
+                        lbuf = String.Format( "Check_invader: {0} invading !evil justice", ch.Name );
                         ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                         StartInvasion( ch );
                     }
                     return;
                 case Race.RacewarSide.neutral:
-                    if( ch._inRoom.Area.JusticeType == JusticeType.chaotic_good_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.chaotic_evil_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.evil_only
-                            || ch._inRoom.Area.JusticeType == JusticeType.good_only)
+                    if( ch.InRoom.Area.JusticeType == JusticeType.chaotic_good_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.chaotic_evil_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.evil_only
+                            || ch.InRoom.Area.JusticeType == JusticeType.good_only)
                     {
-                        lbuf = String.Format( "Check_invader: {0} invading !neutral justice", ch._name );
+                        lbuf = String.Format( "Check_invader: {0} invading !neutral justice", ch.Name );
                         ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
                         StartInvasion( ch );
                     }
@@ -371,7 +371,7 @@ namespace MUDEngine
             string lbuf;
 
             // if there are no protector mobs, who cares if someone walks in.
-            if( ch._inRoom.Area.DefenderTemplateNumber == 0 || ch._inRoom.Area.DefendersPerSquad == 0)
+            if( ch.InRoom.Area.DefenderTemplateNumber == 0 || ch.InRoom.Area.DefendersPerSquad == 0)
             {
                 lbuf = String.Format( "Start_invasion: no defender mobs" );
                 ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
@@ -379,7 +379,7 @@ namespace MUDEngine
             }
 
             // any town can only dispatch 5 batches of guards.
-            if( ch._inRoom.Area.NumDefendersDispatched >= ( ch._inRoom.Area.DefendersPerSquad * 5 ) )
+            if( ch.InRoom.Area.NumDefendersDispatched >= ( ch.InRoom.Area.DefendersPerSquad * 5 ) )
             {
                 //    if( ch.in_room.area.dispatched >= (ch.in_room.area.defender_num *
                 //        ch.in_room.area.squads )) {
@@ -392,33 +392,33 @@ namespace MUDEngine
             foreach( SocketConnection it in Database.SocketList )
             {
                 socket = it;
-                if( socket._connectionState == SocketConnection.ConnectionState.playing
-                        && socket.Character._inRoom.Area == ch._inRoom.Area )
+                if( socket.ConnectionStatus == SocketConnection.ConnectionState.playing
+                        && socket.Character.InRoom.Area == ch.InRoom.Area )
                 {
                     socket.Character.SendText( "&+RYou hear the guards sound the invasion alarm!\r\n" );
                 }
             }
 
             // create and dispatch defenders
-            for( count = 0; count < ch._inRoom.Area.DefendersPerSquad; ++count )
+            for( count = 0; count < ch.InRoom.Area.DefendersPerSquad; ++count )
             {
-                if( ch._inRoom.Area.NumDefendersDispatched >= ch._inRoom.Area.DefendersPerSquad * 5 )
+                if( ch.InRoom.Area.NumDefendersDispatched >= ch.InRoom.Area.DefendersPerSquad * 5 )
                 {
                     break;
                 }
-                mob = Database.CreateMobile( Database.GetMobTemplate( ch._inRoom.Area.DefenderTemplateNumber ) );
-                mob.AddToRoom( Room.GetRoom( ch._inRoom.Area.BarracksRoom ) );
+                mob = Database.CreateMobile( Database.GetMobTemplate( ch.InRoom.Area.DefenderTemplateNumber ) );
+                mob.AddToRoom( Room.GetRoom( ch.InRoom.Area.BarracksRoom ) );
                 if (!mob.HasActionBit(MobTemplate.ACT_MEMORY))
                     mob.SetActionBit( MobTemplate.ACT_MEMORY );
                 if (!mob.HasActionBit(MobTemplate.ACT_HUNTER))
                     mob.SetActionBit( MobTemplate.ACT_HUNTER );
                 if (mob.HasActionBit(MobTemplate.ACT_SENTINEL))
                     mob.RemoveActionBit(MobTemplate.ACT_SENTINEL);
-                mob._mobTemplate.AddSpecFun( "spec_justice_guard" );
+                mob.MobileTemplate.AddSpecFun( "spec_justice_guard" );
                 Combat.StartGrudge( mob, ch, false );
-                ch._inRoom.Area.NumDefendersDispatched++;
+                ch.InRoom.Area.NumDefendersDispatched++;
             }
-            ch._inRoom.Area.DefenderSquads++;
+            ch.InRoom.Area.DefenderSquads++;
 
             return;
         }
@@ -427,15 +427,15 @@ namespace MUDEngine
         // has the guard capture them.
         static void DispatchGuard( CharData ch )
         {
-            CharData mob = Database.CreateMobile( Database.GetMobTemplate( ch._inRoom.Area.DefenderTemplateNumber ) );
-            mob.AddToRoom( Room.GetRoom( ch._inRoom.Area.BarracksRoom ) );
+            CharData mob = Database.CreateMobile( Database.GetMobTemplate( ch.InRoom.Area.DefenderTemplateNumber ) );
+            mob.AddToRoom( Room.GetRoom( ch.InRoom.Area.BarracksRoom ) );
             if (!mob.HasActionBit(MobTemplate.ACT_MEMORY))
                 mob.SetActionBit( MobTemplate.ACT_MEMORY );
             if (!mob.HasActionBit(MobTemplate.ACT_HUNTER))
                 if (mob.HasActionBit(MobTemplate.ACT_SENTINEL))
                     mob.RemoveActionBit(MobTemplate.ACT_SENTINEL);
             mob.SetAffectBit( Affect.AFFECT_JUSTICE_TRACKER );
-            mob._mobTemplate.AddSpecFun( "spec_justice_guard" );
+            mob.MobileTemplate.AddSpecFun( "spec_justice_guard" );
             Combat.StartGrudge( mob, ch, false );
 
             return;

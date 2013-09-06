@@ -79,8 +79,8 @@ namespace MUDEngine
                 Log.Error( "SetFlyLevel: level out of range", 0 );
                 return;
             }
-            ch._flyLevel = new_level;
-            foreach( Object obj in ch._carrying )
+            ch.FlightLevel = new_level;
+            foreach( Object obj in ch.Carrying )
             {
                 obj.FlyLevel = new_level;
             }
@@ -147,7 +147,7 @@ namespace MUDEngine
 
             foreach( CharData target in room.People )
             {
-                if( ch._flyLevel == target._flyLevel )
+                if( ch.FlightLevel == target.FlightLevel )
                 {
                     Visibility visibility = Look.HowSee(ch, target);
                     switch( visibility )
@@ -181,12 +181,12 @@ namespace MUDEngine
         {
             // TODO: Verify that this works correctly since it was rewritten.
             
-            int index = ch._name.IndexOf( "guild_" );
+            int index = ch.Name.IndexOf( "guild_" );
             if (index == -1)
             {
                 return Exit.Direction.invalid;
             }
-            string tmp = ch._name.Substring( index + 6 );
+            string tmp = ch.Name.Substring( index + 6 );
             index = tmp.IndexOf( "_" );
             if (index == -1)
             {
@@ -297,7 +297,7 @@ namespace MUDEngine
             int numberFound = 0;
             string levelMsg;
 
-            int diff = flyLevel - ch._flyLevel;
+            int diff = flyLevel - ch.FlightLevel;
             switch( diff )
             {
                 case -3:
@@ -325,7 +325,7 @@ namespace MUDEngine
 
             foreach( CharData target in room.People )
             {
-                if( target._flyLevel == flyLevel )
+                if( target.FlightLevel == flyLevel )
                 {
                     Visibility visibility = Look.HowSee(ch, target);
                     switch( visibility )
@@ -367,9 +367,9 @@ namespace MUDEngine
                 SocketConnection.Act( "I see no door $T here.", ch, null, argument, SocketConnection.MessageTarget.character );
                 return null;
             }
-            if( ch._inRoom.ExitData[ (int)dir ] )
+            if( ch.InRoom.ExitData[ (int)dir ] )
             {
-                Room room = Room.GetRoom(ch._inRoom.ExitData[ (int)dir ].IndexNumber);
+                Room room = Room.GetRoom(ch.InRoom.ExitData[ (int)dir ].IndexNumber);
                 return room;
             }
             return null;
@@ -390,8 +390,8 @@ namespace MUDEngine
             {
                 for( int doornum = 0; doornum < Limits.MAX_DIRECTION; doornum++ )
                 {
-                    if ((exit = ch._inRoom.ExitData[doornum]) && exit.HasFlag(Exit.ExitFlag.is_door)
-                        && !(ch._level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
+                    if ((exit = ch.InRoom.ExitData[doornum]) && exit.HasFlag(Exit.ExitFlag.is_door)
+                        && !(ch.Level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
                         && (exit.HasFlag(Exit.ExitFlag.secret) || exit.HasFlag(Exit.ExitFlag.blocked)))
                         && exit.Keyword.Length != 0 && ("door".Equals(arg, StringComparison.CurrentCultureIgnoreCase)
                         || MUDString.NameContainedIn(arg, exit.Keyword)))
@@ -402,7 +402,7 @@ namespace MUDEngine
                 return Exit.Direction.invalid;
             }
 
-            exit = ch._inRoom.GetExit(door);
+            exit = ch.InRoom.GetExit(door);
             if( !exit )
             {
                 return Exit.Direction.invalid;
@@ -430,8 +430,8 @@ namespace MUDEngine
             {
                 for (int doornum = 0; doornum < Limits.MAX_DIRECTION; doornum++)
                 {
-                    if ((exit = ch._inRoom.ExitData[doornum]) && exit.HasFlag(Exit.ExitFlag.is_door)
-                         && !(ch._level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
+                    if ((exit = ch.InRoom.ExitData[doornum]) && exit.HasFlag(Exit.ExitFlag.is_door)
+                         && !(ch.Level < Limits.LEVEL_AVATAR && exit.ExitFlags != 0
                          && (exit.HasFlag(Exit.ExitFlag.secret) || exit.HasFlag(Exit.ExitFlag.blocked)))
                          && exit.Keyword.Length != 0 && ("door".Equals(arg, StringComparison.CurrentCultureIgnoreCase)
                          || MUDString.NameContainedIn(arg, exit.Keyword)))
@@ -443,7 +443,7 @@ namespace MUDEngine
                 return Exit.Direction.invalid;
             }
 
-            if( !( exit = ch._inRoom.ExitData[ (int)door ] ) )
+            if( !( exit = ch.InRoom.ExitData[ (int)door ] ) )
             {
                 SocketConnection.Act( "I see no door $T here.", ch, null, arg, SocketConnection.MessageTarget.character );
                 return Exit.Direction.invalid;

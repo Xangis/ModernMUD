@@ -551,7 +551,7 @@ namespace MUDEngine
         {
             foreach (KeyValuePair<String, Song> kvp in Database.SongList)
             {
-                if (kvp.Value._name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase))
+                if (kvp.Value.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return kvp.Value;
                 }

@@ -14,12 +14,30 @@ namespace MUDEngine
     [Serializable]
     public class ChatterBot
     {
-        public List<ChatterResponse> _responses;
-        public String _name; // Name of the chatterbot, i.e. "grumpy orc".
-        public String _duplicateResponse;
-        public String _dontUnderstandResponse;
-        public bool _complainAboutDuplicates;
-        public bool _complainAboutNotUnderstanding;
+        /// <summary>
+        /// The bot's collection of conversational responses.
+        /// </summary>
+        public List<ChatterResponse> Responses { get; set; }
+        /// <summary>
+        /// Name of the chatterbot, i.e. "grumpy orc".
+        /// </summary>
+        public String Name; 
+        /// <summary>
+        /// What the bot says when someone repeats what they just said.
+        /// </summary>
+        public String DuplicateResponse { get; set; }
+        /// <summary>
+        /// What the bot says when it has no clue about what was said.
+        /// </summary>
+        public String DontUnderstandResponse { get; set; }
+        /// <summary>
+        /// Does the bot complain about repetition?
+        /// </summary>
+        public bool ComplainAboutDuplicates { get; set; }
+        /// <summary>
+        /// Does the bot complain about not understanding?
+        /// </summary>
+        public bool ComplainAboutNotUnderstanding { get; set; }
         [XmlIgnore]
         private String _lastMessageHeard;
         [XmlIgnore]
@@ -35,11 +53,11 @@ namespace MUDEngine
         public ChatterBot()
         {
             _aimlDatabase = new aiml();
-            _responses = new List<ChatterResponse>();
-            _complainAboutDuplicates = false;
-            _complainAboutNotUnderstanding = false;
-            _duplicateResponse = String.Empty;
-            _dontUnderstandResponse = String.Empty;
+            Responses = new List<ChatterResponse>();
+            ComplainAboutDuplicates = false;
+            ComplainAboutNotUnderstanding = false;
+            DuplicateResponse = String.Empty;
+            DontUnderstandResponse = String.Empty;
             ++_numChatterBots;
         }
 
@@ -122,11 +140,11 @@ namespace MUDEngine
         /// <returns></returns>
         public bool CheckConversation( CharData bot, CharData speaker, string argument )
         {
-            if( _complainAboutDuplicates && argument == _lastMessageHeard )
+            if( ComplainAboutDuplicates && argument == _lastMessageHeard )
             {
-                if( !string.IsNullOrEmpty( _duplicateResponse ) )
+                if( !string.IsNullOrEmpty( DuplicateResponse ) )
                 {
-                    CommandType.Interpret( bot, "say" + _duplicateResponse );
+                    CommandType.Interpret( bot, "say" + DuplicateResponse );
                     return true;
                 }
                 else
@@ -136,21 +154,21 @@ namespace MUDEngine
                 }
             }
 
-            foreach( ChatterResponse chat in _responses )
+            foreach( ChatterResponse chat in Responses )
             {
                 if( argument.Contains( chat.Keyphrase ) )
                 {
                     CommandType.Interpret( bot, "say" + chat.Response );
-                    bot._rageFactor += chat.RageModifier;
+                    bot.RageFactor += chat.RageModifier;
                     return true;
                 }
             }
 
-            if( _complainAboutNotUnderstanding )
+            if( ComplainAboutNotUnderstanding )
             {
-                if( !string.IsNullOrEmpty( _dontUnderstandResponse ) )
+                if( !string.IsNullOrEmpty( DontUnderstandResponse ) )
                 {
-                    CommandType.Interpret( bot, "say" + _dontUnderstandResponse );
+                    CommandType.Interpret( bot, "say" + DontUnderstandResponse );
                     return true;
                 }
                 else

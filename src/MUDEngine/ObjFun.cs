@@ -20,7 +20,7 @@ namespace MUDEngine
                 return false;
             }
 
-            if( !keeper || !keeper._inRoom )
+            if( !keeper || !keeper.InRoom )
                 return false;
 
             if( MUDMath.NumberPercent() < 5 )
@@ -41,7 +41,7 @@ namespace MUDEngine
             if( hit )
                 return false;
 
-            if( !keeper || !keeper._inRoom )
+            if( !keeper || !keeper.InRoom )
                 return false;
 
             if( MUDMath.NumberPercent() < 9 )
@@ -63,7 +63,7 @@ namespace MUDEngine
             if( hit )
                 return false;
 
-            if( !keeper || !keeper._inRoom )
+            if( !keeper || !keeper.InRoom )
                 return false;
 
             if( MUDMath.NumberPercent() < 3 )
@@ -131,15 +131,15 @@ namespace MUDEngine
         static bool SpecWpChill(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 Spell spell = Spell.SpellList["chill touch"];
                 if (spell != null)
                 {
-                    spell.Invoke(keeper, keeper._level, keeper._fighting);
+                    spell.Invoke(keeper, keeper.Level, keeper.Fighting);
                 }
                 return true;
             }
@@ -150,12 +150,12 @@ namespace MUDEngine
         static bool SpecWpBurn(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
-                Spell.SpellList["burning hands"].Invoke(keeper, keeper._level, keeper._fighting);
+                Spell.SpellList["burning hands"].Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -165,15 +165,15 @@ namespace MUDEngine
         static bool SpecWpFireball(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 Spell spell = Spell.SpellList["fireball"];
                 if (spell != null)
                 {
-                    spell.Invoke(keeper, keeper._level, keeper._fighting);
+                    spell.Invoke(keeper, keeper.Level, keeper.Fighting);
                 }
                 return true;
             }
@@ -184,12 +184,12 @@ namespace MUDEngine
         static bool SpecWpLightning(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
-                Spell.SpellList["lightning bolt"].Invoke(keeper, keeper._level, keeper._fighting);
+                Spell.SpellList["lightning bolt"].Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -199,12 +199,12 @@ namespace MUDEngine
         static bool SpecWpHarm(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
-                Spell.SpellList["harm"].Invoke(keeper, keeper._level, keeper._fighting);
+                Spell.SpellList["harm"].Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -215,15 +215,15 @@ namespace MUDEngine
         {
             CharData keeper = (CharData)owner;
 
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( keeper._fighting.IsUndead() )
+            if( keeper.Fighting.IsUndead() )
             {
 
-                if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+                if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
                 {
-                    Spell.SpellList["destroy undead"].Invoke(keeper, 1, keeper._fighting );
+                    Spell.SpellList["destroy undead"].Invoke(keeper, 1, keeper.Fighting );
                     return true;
                 }
             }
@@ -233,15 +233,15 @@ namespace MUDEngine
         static bool SpecWpMagicMissile(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 Spell spl = Spell.SpellList["magic missile"];
                 if (spl != null)
                 {
-                    spl.Invoke(keeper, keeper._level, keeper._fighting);
+                    spl.Invoke(keeper, keeper.Level, keeper.Fighting);
                 }
                 return true;
             }
@@ -252,12 +252,12 @@ namespace MUDEngine
         static bool SpecWpCuttingBreeze(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
-                Spell.SpellList["cutting breeze"].Invoke(keeper, keeper._level, keeper._fighting);
+                Spell.SpellList["cutting breeze"].Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -267,15 +267,15 @@ namespace MUDEngine
         static bool SpecWpWither(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;            
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 Spell spl = Spell.SpellList["wither"];
                 if (spl != null)
                 {
-                    spl.Invoke(keeper, keeper._level, keeper._fighting);
+                    spl.Invoke(keeper, keeper.Level, keeper.Fighting);
                 }
 
                 return true;
@@ -296,7 +296,7 @@ namespace MUDEngine
             CharData keeper = (CharData)owner;
             /* check to make sure the object has an owner and he's in the room */
 
-            if( !keeper || !keeper._inRoom )
+            if( !keeper || !keeper.InRoom )
                 return false;
 
             if( MUDMath.NumberPercent() < 20 )
@@ -330,15 +330,15 @@ namespace MUDEngine
 
             /* check to see if the weapon is in combat */
 
-            if( !keeper._fighting || !hit )
+            if( !keeper.Fighting || !hit )
                 return false;
 
             /* harm proc - note that there has to be a spec_wp_harm above before this
             will work */
 
-            if( MUDMath.NumberPercent() < 20 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 20 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
-                Spell.SpellList["harm"].Invoke(keeper, keeper._level, keeper._fighting);
+                Spell.SpellList["harm"].Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -348,22 +348,22 @@ namespace MUDEngine
         static bool SpecAutumndecay(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 )
-                    && !keeper._fighting.IsAffected(Affect.AFFECT_WITHER))
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 )
+                    && !keeper.Fighting.IsAffected(Affect.AFFECT_WITHER))
             {
                 SocketConnection.Act( "&+y$n's&n $p&n &+ydives into &n$N&n&+y, and a &+Lblack m&N&+wis&+Lt&n&+y flows into the &+rwound!&N",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.everyone_but_victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act( "&+yYour&n $p&n &+ydives into &n$N&n&+y, and a &+Lblack m&N&+wis&+Lt&n&+y flows into the &+rwound!&N",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.character);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.character);
                 SocketConnection.Act( "&+y$n's&n $p&n &+ydives into you, and a &+Lblack m&N&+wis&+Lt&n&+y flows into the &+rwound!&N",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.victim);
                 Spell spl = Spell.SpellList["wither"];
                 if (spl != null)
                 {
-                    spl.Invoke(keeper, keeper._level, keeper._fighting);
+                    spl.Invoke(keeper, keeper.Level, keeper.Fighting);
                 }
                 return true;
             }
@@ -374,21 +374,21 @@ namespace MUDEngine
         static bool SpecCelestial(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 SocketConnection.Act( "&+b$n's&n $p&n &+bs&+Bp&+ca&+Wr&n&+Ck&n&+cl&N&+Be&n&+bs with a &+csoft &+Bblue &n&+wg&+Wl&n&+wi&+Wtt&N&+we&+Wr&n&+b...&N",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.everyone_but_victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act( "&+bYour&n $p&n &+bs&+Bp&N&+ca&+Cr&+Wk&+Cl&+Be&n&+bs at &n$N&n&+b, &+Bglowing&N&+b with a&+c soft &+Bblue &N&+wg&+Wl&n&+wi&+Wtt&n&+we&+Wr&n&+b!&N ",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.character);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.character);
                 SocketConnection.Act( "&+b$n's&n $p&n &+bs&+Bp&N&+ca&+Cr&+Wk&+Cl&+Be&n&+bs at you, &+Bglowing&N&+b with a&+c soft &+Bblue &N&+wg&+Wl&n&+wi&+Wtt&n&+we&+Wr&n&+b!&N ",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.victim);
                 Spell spl = Spell.SpellList["magic missile"];
                 if (spl != null)
                 {
-                    spl.Invoke(keeper, keeper._level, keeper._fighting);
+                    spl.Invoke(keeper, keeper.Level, keeper.Fighting);
                 }
                 return true;
             }
@@ -399,21 +399,21 @@ namespace MUDEngine
         static bool SpecWindsabre(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 + keeper._level / 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 + keeper.Level / 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 SocketConnection.Act( "&+c$n's&n $p&n &+csummons forth a &+Cgust&n&+c of &+Wstrong winds!&N",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.everyone_but_victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act( "&+cYour&n $p&n &+csummons forth a &+Cgust&n&+c of &+Wstrong winds&N&+c, cutting into &n$N&n&+c!&N ",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.character);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.character);
                 SocketConnection.Act( "&+c$n's&n $p&n &+csummons forth a &+Cgust&n&+c of &+Wstrong winds&N&+c, cutting into you!&N ",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.victim);
                 Spell spell = Spell.SpellList["chill touch"];
                 if (spell != null)
                 {
-                    spell.Invoke(keeper, keeper._level, keeper._fighting);
+                    spell.Invoke(keeper, keeper.Level, keeper.Fighting);
                 } 
                 return true;
             }
@@ -427,7 +427,7 @@ namespace MUDEngine
             CharData keeper = (CharData)owner;
             /* check to make sure the object has an owner and he's in the room */
 
-            if( !keeper || !keeper._inRoom )
+            if( !keeper || !keeper.InRoom )
                 return false;
 
             if( MUDMath.NumberPercent() < 2 )
@@ -450,7 +450,7 @@ namespace MUDEngine
                 SocketConnection.Act( "&+yYour&n $p&n &+mglows&n&+y softly.&n",
                      keeper, (Object)obj, null, SocketConnection.MessageTarget.character);
 
-                foreach( CharData victim in keeper._inRoom.People )
+                foreach( CharData victim in keeper.InRoom.People )
                 {
                     if( victim.IsNPC() )
                         continue;
@@ -477,23 +477,23 @@ namespace MUDEngine
         static bool SpecGhoulbane(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
-            CharData victim = keeper._fighting;
+            CharData victim = keeper.Fighting;
 
             if( victim.IsUndead() )
             {
 
-                if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+                if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
                 {
                     SocketConnection.Act( "&+w$n's&n $p&n &+Wglows&n &+wwith a powerful light!&N",
-                         keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.everyone_but_victim);
+                         keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.everyone_but_victim);
                     SocketConnection.Act( "&+wYour&n $p&n &+Wglows&n &+was it bites into its victim!&n", keeper,
-                         (Object)obj, keeper._fighting, SocketConnection.MessageTarget.character);
+                         (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.character);
                     SocketConnection.Act( "&+w$n's&n $p&n &+Wglows&n &+win an angry light as it burns you horribly!&N", keeper,
-                         (Object)obj, keeper._fighting, SocketConnection.MessageTarget.victim);
-                    Spell.SpellList["destroy undead"].Invoke(keeper, 1, keeper._fighting);
+                         (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.victim);
+                    Spell.SpellList["destroy undead"].Invoke(keeper, 1, keeper.Fighting);
                     return true;
                 }
             }
@@ -504,10 +504,10 @@ namespace MUDEngine
         {
             CharData keeper = (CharData)owner;
             
-            if( keeper == null || keeper._fighting == null || !hit )
+            if( keeper == null || keeper.Fighting == null || !hit )
                 return false;
 
-            if( MUDMath.NumberPercent() < 10 && ( keeper._fighting._hitpoints >= -9 ) )
+            if( MUDMath.NumberPercent() < 10 && ( keeper.Fighting.Hitpoints >= -9 ) )
             {
                 Spell spell = StringLookup.SpellLookup("bonethunder");
                 if (!spell)
@@ -516,12 +516,12 @@ namespace MUDEngine
                     return false;
                 }
                 SocketConnection.Act("&+w$n's&n $p&n &+wemits a horrible &+WCRACKING&n &+wnoise and&n $N&n &+wshreaks in agony!&N",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.everyone_but_victim);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.everyone_but_victim);
                 SocketConnection.Act("&+wYour&n $p&n &+wmakes a horrible&n &+WCRACKING&n &+wnoise and&n $N&n &+wshreaks in pain!", keeper,
-                     (Object)obj, keeper._fighting, SocketConnection.MessageTarget.character);
+                     (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("&+w$n's&n $p&n &+wmakes a horrible&n &+WCRACKING&n &+wnoise and you feel your bones breaking!&N", keeper,
-                     (Object)obj, keeper._fighting, SocketConnection.MessageTarget.victim);
-                spell.Invoke(keeper, keeper._level, keeper._fighting);
+                     (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.victim);
+                spell.Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -533,7 +533,7 @@ namespace MUDEngine
             CharData keeper = (CharData)owner;            
             /* check to make sure the object has an owner and he's in the room */
 
-            if( !keeper || !keeper._inRoom )
+            if( !keeper || !keeper.InRoom )
                 return false;
 
             if( MUDMath.NumberPercent() < 10 )
@@ -546,24 +546,24 @@ namespace MUDEngine
             }
 
             /* check to see if the weapon is in combat */
-            if( !keeper._fighting || !hit )
+            if( !keeper.Fighting || !hit )
                 return false;
 
 
-            if( keeper._fighting && keeper._inRoom && MUDMath.NumberPercent() < 10
-                    && keeper._fighting._hitpoints >= -9 )
+            if( keeper.Fighting && keeper.InRoom && MUDMath.NumberPercent() < 10
+                    && keeper.Fighting.Hitpoints >= -9 )
             {
                 SocketConnection.Act( "&+r$n&+r's $p&+r glows brightly and emits a storm of fire!&n",
                      keeper, (Object)obj, null, SocketConnection.MessageTarget.room);
                 SocketConnection.Act( "Your $p&+r glows brightly and emits a storm of fire!&n",
                      keeper, (Object)obj, null, SocketConnection.MessageTarget.character);
                 int dam = MUDMath.Dice( 10, 10 ) + 150;
-                foreach( CharData victim in keeper._inRoom.People )
+                foreach( CharData victim in keeper.InRoom.People )
                 {
                     if( victim.IsSameGroup( keeper )
-                            || victim == keeper || victim._hitpoints < -9 )
+                            || victim == keeper || victim.Hitpoints < -9 )
                         continue;
-                    if( victim._flyLevel != keeper._flyLevel )
+                    if( victim.FlightLevel != keeper.FlightLevel )
                         continue;
                     if (Magic.SpellSavingThrow(((Object)obj).Level, victim, AttackType.DamageType.fire))
                         Combat.InflictSpellDamage( keeper, victim, dam / 2, "inferno", AttackType.DamageType.fire );
@@ -578,7 +578,7 @@ namespace MUDEngine
         static bool SpecLightanddark(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;            
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
             //Hum
@@ -592,7 +592,7 @@ namespace MUDEngine
             }
 
             // Weapon proc
-            if( keeper._fighting && MUDMath.NumberPercent() < 15 )
+            if( keeper.Fighting && MUDMath.NumberPercent() < 15 )
             {
                 Spell spell = StringLookup.SpellLookup("lightanddark");
                 if (!spell)
@@ -601,8 +601,8 @@ namespace MUDEngine
                     return false;
                 }
                 SocketConnection.Act("&n$n&+L's sword fulgurates fiercely as a &+Csearing &+clight &+Lcollects at the blade's end. ",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.room);
-                spell.Invoke(keeper, keeper._level, keeper._fighting);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.room);
+                spell.Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -612,7 +612,7 @@ namespace MUDEngine
         static bool SpecTrident(System.Object obj, System.Object owner, bool hit)
         {
             CharData keeper = (CharData)owner;
-            if( !keeper || !keeper._fighting || !hit )
+            if( !keeper || !keeper.Fighting || !hit )
                 return false;
 
             // Hum
@@ -626,7 +626,7 @@ namespace MUDEngine
             }
 
             // Weapon proc
-            if( keeper._fighting && MUDMath.NumberPercent() < 15 )
+            if( keeper.Fighting && MUDMath.NumberPercent() < 15 )
             {
                 Spell spell = StringLookup.SpellLookup("lightanddark");
                 if (!spell)
@@ -636,8 +636,8 @@ namespace MUDEngine
                 }
                 SocketConnection.Act("&n$n&+c's &n&+Ctr&n&+cident &n&+bglows &+Bblue&n&+c as &n&+Csur&n&+crea&n&+Cl &n&+Bwat&n&+bers " +
                      "&n&+Bbeg&n&+bin &n&+cto &n&+Cg&n&+cath&n&+Cer &n&+bat i&n&+Bt&n&+bs &n&+Cti&n&+cp.&n",
-                     keeper, (Object)obj, keeper._fighting, SocketConnection.MessageTarget.room);
-                spell.Invoke(keeper, keeper._level, keeper._fighting);
+                     keeper, (Object)obj, keeper.Fighting, SocketConnection.MessageTarget.room);
+                spell.Invoke(keeper, keeper.Level, keeper.Fighting);
                 return true;
             }
 
@@ -653,8 +653,8 @@ namespace MUDEngine
                 return false;
 
             //Hum
-            if( ( !keeper._fighting && MUDMath.NumberPercent() < 10 ) ||
-                    ( keeper._fighting && MUDMath.NumberPercent() < 2 ) )
+            if( ( !keeper.Fighting && MUDMath.NumberPercent() < 10 ) ||
+                    ( keeper.Fighting && MUDMath.NumberPercent() < 2 ) )
             {
                 SocketConnection.Act( "&+LA faint hum can be heard from&n $p&n &+Lcarried by&n $n&n.",
                      keeper, (Object)obj, null, SocketConnection.MessageTarget.room);
@@ -671,7 +671,7 @@ namespace MUDEngine
                 retval = true;
             }
 
-            if( !keeper._fighting )
+            if( !keeper.Fighting )
                 return retval;
 
             // it fires off 1 in 12 times
@@ -683,7 +683,7 @@ namespace MUDEngine
                 return false;
 
             // grumbar's hammer needs to be grounded to work
-            if( keeper._flyLevel != 0 )
+            if( keeper.FlightLevel != 0 )
                 return false;
 
             // need to have some earthly elements around
@@ -692,14 +692,14 @@ namespace MUDEngine
             //         keeper.in_room.sector == RoomIndex.TerrainType.plane_of_fire )
             //        return false;
 
-            CharData vict = keeper._fighting;
+            CharData vict = keeper.Fighting;
 
             switch( MUDMath.NumberRange( 1, 3 ) )
             {
                 case 1:
                     //throw a wall
                     int dir = MUDMath.NumberRange( 0, Limits.MAX_DIRECTION - 1 );
-                    if (keeper._inRoom.ExitData[dir])
+                    if (keeper.InRoom.ExitData[dir])
                     {
                         Spell spl = Spell.SpellList["wall of stone"];
                         if (spl != null)
@@ -734,7 +734,7 @@ namespace MUDEngine
                         keeper, (Object)obj, vict, SocketConnection.MessageTarget.character);
                     SocketConnection.Act( "$n's $p blasts the ground with a &+yshockwave&N!",
                         keeper, (Object)obj, null, SocketConnection.MessageTarget.room);
-                    foreach( CharData targetChar in keeper._inRoom.People )
+                    foreach( CharData targetChar in keeper.InRoom.People )
                     {
                         if( ( targetChar == keeper ) || targetChar.IsImmortal() )
                             continue;
@@ -755,7 +755,7 @@ namespace MUDEngine
                             SocketConnection.Act( "You are knocked to the ground!",
                                 keeper, null, targetChar, SocketConnection.MessageTarget.victim );
                             SocketConnection.Act( "$n&n is knocked to the ground!", targetChar, null, null, SocketConnection.MessageTarget.room );
-                            targetChar._position = Position.kneeling;
+                            targetChar.CurrentPosition = Position.kneeling;
                             targetChar.WaitState( Event.TICK_COMBAT );
                         }
                     } // end for

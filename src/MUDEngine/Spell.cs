@@ -554,7 +554,7 @@ namespace MUDEngine
                                 opponent.RemoveAffect(new Bitvector(n, Negates[n]));
                             }
                             Affect af = new Affect();
-                            af.Level = ch._level;
+                            af.Level = ch.Level;
                             af.BitVectors = Provides;
                             af.Value = Name;
                             af.Type = Affect.AffectType.spell;
@@ -647,7 +647,7 @@ namespace MUDEngine
                         }
 
                         Affect af = new Affect();
-                        af.Level = ch._level;
+                        af.Level = ch.Level;
                         af.BitVectors = Provides;
                         af.Value = Name;
                         af.Type = Affect.AffectType.spell;
@@ -911,14 +911,14 @@ namespace MUDEngine
             int numpets = 0;
             foreach (CharData petChar in Database.CharList)
             {
-                if (petChar != ch && petChar._master == ch &&
+                if (petChar != ch && petChar.Master == ch &&
                         petChar.IsNPC() && petChar.HasActionBit(MobTemplate.ACT_PET))
                     numpets++;
             }
 
             //just a WAG as far as number...check for some consistency with necro
-            int maxpets = ch._level / 20 + ch.GetCurrCha() / 35;
-            if (ch._level >= Limits.LEVEL_AVATAR)
+            int maxpets = ch.Level / 20 + ch.GetCurrCha() / 35;
+            if (ch.Level >= Limits.LEVEL_AVATAR)
             {
                 string text = String.Format("You can summon at most {0} pets.\r\n", maxpets);
                 ch.SendText(text);
@@ -929,13 +929,13 @@ namespace MUDEngine
                 return;
             }
             CharData elemental = Database.CreateMobile(Database.GetMobTemplate(indexNumber));
-            elemental.AddToRoom(ch._inRoom);
+            elemental.AddToRoom(ch.InRoom);
 
             elemental.SetCoins(0, 0, 0, 0);
-            elemental._level = 27 + MUDMath.Dice(2, 5);
-            elemental._maxHitpoints = 150 + MUDMath.Dice(16, level / 2);
-            elemental._hitpoints = elemental._maxHitpoints;
-            elemental._armorPoints -= (ch._level * 3 / 2);
+            elemental.Level = 27 + MUDMath.Dice(2, 5);
+            elemental.MaxHitpoints = 150 + MUDMath.Dice(16, level / 2);
+            elemental.Hitpoints = elemental.MaxHitpoints;
+            elemental.ArmorPoints -= (ch.Level * 3 / 2);
             elemental.SetActionBit(MobTemplate.ACT_NOEXP);
 
             switch (indexNumber)
@@ -945,8 +945,8 @@ namespace MUDEngine
                          null, null, SocketConnection.MessageTarget.room);
                     break;
                 case StaticMobs.MOB_NUMBER_AIR_SLYPH:
-                    elemental._armorPoints = -130;
-                    elemental._permAgility = 100;
+                    elemental.ArmorPoints = -130;
+                    elemental.PermAgility = 100;
                     SocketConnection.Act("$n&n appears out of thin air.", elemental, null, null, SocketConnection.MessageTarget.room);
                     break;
                 case StaticMobs.MOB_NUMBER_FIRE_SERPENT:
@@ -955,8 +955,8 @@ namespace MUDEngine
                     break;
                 case StaticMobs.MOB_NUMBER_WATER_NEREID:
                     SocketConnection.Act("$n&n coalesces into existence.", elemental, null, null, SocketConnection.MessageTarget.room);
-                    elemental._maxHitpoints += 100;
-                    elemental._hitpoints = elemental._maxHitpoints;
+                    elemental.MaxHitpoints += 100;
+                    elemental.Hitpoints = elemental.MaxHitpoints;
                     break;
                 default:
                     Log.Error("SummonElem: bad indexNumber in switch: " + indexNumber);
@@ -966,15 +966,15 @@ namespace MUDEngine
             SocketConnection.Act("$N&n says 'Your wish is my command $n&n.'", ch, null, elemental, SocketConnection.MessageTarget.room);
             SocketConnection.Act("$N&n tells you 'Your wish is my command.'", ch, null, elemental, SocketConnection.MessageTarget.character);
             CharData.AddFollower(elemental, ch);
-            elemental._master = ch;
+            elemental.Master = ch;
             Affect af = new Affect(Affect.AffectType.spell, spell.Name, level / 2 + MUDMath.Dice(4, level / 2), Affect.Apply.none, 0, Affect.AFFECT_CHARM);
             elemental.AddAffect(af);
             // Set the MobIndex.ACT_PET bit as well
             elemental.SetActionBit(MobTemplate.ACT_PET);
-            elemental._flyLevel = ch._flyLevel;
-            if (ch._fighting)
+            elemental.FlightLevel = ch.FlightLevel;
+            if (ch.Fighting)
             {
-                Combat.SetFighting(elemental, ch._fighting);
+                Combat.SetFighting(elemental, ch.Fighting);
             }
 
             return;
@@ -992,7 +992,7 @@ namespace MUDEngine
         {
             Room location;
             CharData victim = (CharData)target;
-            Room original = ch._inRoom;
+            Room original = ch.InRoom;
 
             if (ch.IsNPC())
                 return;
@@ -1009,16 +1009,16 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim == ch || ch._inRoom == victim._inRoom)
+            if (victim == ch || ch.InRoom == victim.InRoom)
             {
                 ch.SendText("Seems like a waste of time.\r\n");
                 return;
             }
 
-            if (!(location = victim._inRoom)
-                    || victim._inRoom.HasFlag(RoomTemplate.ROOM_SAFE)
-                    || victim._inRoom.HasFlag(RoomTemplate.ROOM_PRIVATE)
-                    || victim._inRoom.HasFlag(RoomTemplate.ROOM_SOLITARY))
+            if (!(location = victim.InRoom)
+                    || victim.InRoom.HasFlag(RoomTemplate.ROOM_SAFE)
+                    || victim.InRoom.HasFlag(RoomTemplate.ROOM_PRIVATE)
+                    || victim.InRoom.HasFlag(RoomTemplate.ROOM_SOLITARY))
             {
                 ch.SendText("You can't seem to get a fix their location.\r\n");
                 return;
@@ -1031,8 +1031,8 @@ namespace MUDEngine
 
             Object portal = Database.CreateObject(Database.GetObjTemplate(indexNumber), 0);
 
-            if (victim._inRoom.HasFlag(RoomTemplate.ROOM_NO_GATE)
-                    || ch._inRoom.HasFlag(RoomTemplate.ROOM_NO_GATE))
+            if (victim.InRoom.HasFlag(RoomTemplate.ROOM_NO_GATE)
+                    || ch.InRoom.HasFlag(RoomTemplate.ROOM_NO_GATE))
             {
                 SocketConnection.Act("$p opens for a brief instant and then collapses.&n", ch, portal, null, SocketConnection.MessageTarget.character);
                 SocketConnection.Act("$p opens for a brief instant and then collapses.&n", ch, portal, null, SocketConnection.MessageTarget.room);

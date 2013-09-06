@@ -311,7 +311,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static string AlignmentString( CharData ch )
         {
-            return AlignmentString(ch._alignment);
+            return AlignmentString(ch.Alignment);
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static string WeightString( CharData ch )
         {
-            int value = ( ch._carryWeight * 100 ) / ch.MaxCarryWeight();
+            int value = ( ch.CarryWeight * 100 ) / ch.MaxCarryWeight();
 
             if( value > 100 )
                 return "&+ROVERLOADED&n";
@@ -546,7 +546,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static string ExperienceString( CharData ch )
         {
-            int exp = ( 100 * ch._experiencePoints ) / ExperienceTable.Table[ ch._level ].LevelExperience;
+            int exp = ( 100 * ch.ExperiencePoints ) / ExperienceTable.Table[ ch.Level ].LevelExperience;
 
             if( exp < 10 )
                 return "You have just begun the trek to your next level!";
@@ -744,7 +744,7 @@ namespace MUDEngine
             if (inObj.CarriedBy != null)
             {
                 text = String.Format("StringConversion.ItemTypeString: Unknown type {0} from {1} owned by {2}.",
-                          obj.ItemType, obj.Name, obj.CarriedBy._name);
+                          obj.ItemType, obj.Name, obj.CarriedBy.Name);
             }
             else
             {

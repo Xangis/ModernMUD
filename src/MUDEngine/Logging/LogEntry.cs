@@ -122,7 +122,7 @@ namespace MUDEngine
             _subType = subType;
             _name = name;
             // Generate a _name if one is not provided
-            if (name == string.Empty || name == null)
+            if (String.IsNullOrEmpty(name))
             {
                 _name = GenerateName();
             }
@@ -137,7 +137,7 @@ namespace MUDEngine
             _subType = subType;
             _name = name;
             // Generate a _name if one is not provided
-            if (name == string.Empty || name == null)
+            if (String.IsNullOrEmpty(name))
             {
                 _name = GenerateName();
             }
@@ -152,7 +152,7 @@ namespace MUDEngine
             _subType = "";
             _name = name;
             // Generate a _name if one is not provided
-            if (name == string.Empty || name == null)
+            if (String.IsNullOrEmpty(name))
             {
                 _name = GenerateName();
             }
@@ -167,7 +167,7 @@ namespace MUDEngine
             _subType = "";
             _name = name;
             // Generate a _name if one is not provided
-            if (name == string.Empty || name == null)
+            if (String.IsNullOrEmpty(name))
             {
                 _name = GenerateName();
             }
@@ -182,7 +182,7 @@ namespace MUDEngine
             _subType = "";
             _name = name;
             // Generate a _name if one is not provided
-            if (name == string.Empty || name == null)
+            if (String.IsNullOrEmpty(name))
             {
                 _name = GenerateName();
             }
@@ -243,7 +243,6 @@ namespace MUDEngine
             MethodBase stackFrameMethod;
             int frameCount = 0;
             string typeName;
-            bool isServiceBase;
             do
             {
                 frameCount++;

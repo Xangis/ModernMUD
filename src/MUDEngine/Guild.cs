@@ -322,13 +322,13 @@ namespace MUDEngine
         /// <returns></returns>
         public static int GolemGuildID( CharData ch )
         {
-            int pos = ch._name.IndexOf( "guild_" );
+            int pos = ch.Name.IndexOf( "guild_" );
             if( pos == -1 )
             {
                 return 0;
             }
             int val;
-            Int32.TryParse( ch._name.Substring(pos), out val);
+            Int32.TryParse( ch.Name.Substring(pos), out val);
             return val;
         }
     };

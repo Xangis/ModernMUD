@@ -23,130 +23,128 @@ namespace MUDEngine
 
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public CharData _master;
+        public CharData Master { get; set; }
         // List, not saved.
         [XmlIgnore]
-        public CharData _groupLeader;
+        public CharData GroupLeader { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public CharData _fighting;
+        public CharData Fighting { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public CharData _replyTo;
+        public CharData ReplyTo { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public CharData _riding;
+        public CharData Riding { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public CharData _rider;
+        public CharData Rider { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public CharData _nextInGroup;
+        public CharData NextInGroup { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public List<CharData> _followers;
+        public List<CharData> Followers { get; set; }
         // Special function is saved as a string.
         [XmlIgnore]
-        public List<MobSpecial> _specFun;
-        public string _specFunNames;
+        public List<MobSpecial> SpecialFunction { get; set; }
+        public string SpecialFunctionNames { get; set; }
         // Death function is saved as a string.
         [XmlIgnore]
-        public MobSpecial _deathFun;
-        public string _deathFunName;
+        public MobSpecial DeathFunction { get; set; }
+        public string DeathFunctionName { get; set; }
         // TODO: Save this as an index number so we can reconnect at load.
-        public MobTemplate _mobTemplate;
+        public MobTemplate MobileTemplate { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public ChatterBot _chatterBot;
+        public ChatterBot ChatBot { get; set; }
         // Not saved, handled at runtime.
         [XmlIgnore]
-        public SocketConnection _socket;
-        public List<Affect> _affected = new List<Affect>();
-        public List<Object> _carrying = new List<Object>();
+        public SocketConnection Socket { get; set; }
+        public List<Affect> Affected = new List<Affect>();
+        public List<Object> Carrying = new List<Object>();
         [XmlIgnore]
-        public Room _inRoom;
+        public Room InRoom { get; set; }
         // Don't need to persist this variable.
         [XmlIgnore]
-        public Room _wasInRoom;
-        public string _name;
-        public string _shortDescription;
-        public string _fullDescription;
-        public string _description;
-        public int _maxHitpoints;
-        public MobTemplate.Sex _sex;
+        public Room WasInRoom { get; set; }
+        public string Name { get; set; }
+        public string ShortDescription { get; set; }
+        public string FullDescription { get; set; }
+        public string Description { get; set; }
+        public int MaxHitpoints { get; set; }
+        public MobTemplate.Sex Gender { get; set; }
         // Not saving the whole class, just the number.
         [XmlIgnore]
-        public CharClass _charClass;
-        public int _charClassNum;
-        public int _level;
-        public int _trustLevel;
-        public Race.Size _size;
-        public TimeSpan _played;
-        public int _castingSpell;
-        public int _castingTime;
-        public int _permStrength;
-        public int _permIntelligence;
-        public int _permWisdom;
-        public int _permDexterity;
-        public int _permConstitution;
-        public int _permAgility;
-        public int _permCharisma;
-        public int _permPower;
-        public int _permLuck;
-        public int _modifiedStrength;
-        public int _modifiedIntelligence;
-        public int _modifiedWisdom;
-        public int _modifiedDexterity;
-        public int _modifiedConstitution;
-        public int _modifiedAgility;
-        public int _modifiedCharisma;
-        public int _modifiedPower;
-        public int _modifiedLuck;
-        public string _chatterBotName;
-        public DateTime _logon;
-        public DateTime _saveTime;
-        public DateTime _lastNote;
-        public int _timer;
-        public int _wait;
-        public int _hitpoints;
-        public int _currentMana;
-        public int _maxMana;
-        public int _currentMoves;
-        public int _maxMoves;
-        public int _experiencePoints;
-        // Action flags are multi-purpose: for players they're PLAYER_ bits, for mobs they're
-        // ACT_ bits,
-        public int[] _actionFlags = new int[ Limits.NUM_ACTION_VECTORS ];
-        public int[] _affectedBy = new int[ Limits.NUM_AFFECT_VECTORS ];
-        public int _position;
-        public int _carryWeight;
-        public int _carryNumber;
-        public int[] _savingThrows = new int[ 5 ];	// added by Xangis
-        public int _alignment;
-        public int _hitroll;
-        public int _damroll;
-        public int _armorPoints;
-        public int _wimpy;
-        public TalkChannel _deaf;
+        public CharClass CharacterClass { get; set; }
+        public int CharClassNumber { get; set; }
+        public int Level { get; set; }
+        public int TrustLevel { get; set; }
+        public Race.Size CurrentSize { get; set; }
+        public TimeSpan TimePlayed { get; set; }
+        public int CastingSpell { get; set; }
+        public int CastingTime { get; set; }
+        public int PermStrength { get; set; }
+        public int PermIntelligence { get; set; }
+        public int PermWisdom { get; set; }
+        public int PermDexterity { get; set; }
+        public int PermConstitution { get; set; }
+        public int PermAgility { get; set; }
+        public int PermCharisma { get; set; }
+        public int PermPower { get; set; }
+        public int PermLuck { get; set; }
+        public int ModifiedStrength { get; set; }
+        public int ModifiedIntelligence { get; set; }
+        public int ModifiedWisdom { get; set; }
+        public int ModifiedDexterity { get; set; }
+        public int ModifiedConstitution { get; set; }
+        public int ModifiedAgility { get; set; }
+        public int ModifiedCharisma { get; set; }
+        public int ModifiedPower { get; set; }
+        public int ModifiedLuck { get; set; }
+        public string ChatterBotName { get; set; }
+        public DateTime LogonTime { get; set; }
+        public DateTime SaveTime { get; set; }
+        public DateTime LastNoteTime { get; set; }
+        public int Timer { get; set; }
+        public int Wait { get; set; }
+        public int Hitpoints { get; set; }
+        public int CurrentMana { get; set; }
+        public int MaxMana { get; set; }
+        public int CurrentMoves { get; set; }
+        public int MaxMoves { get; set; }
+        public int ExperiencePoints { get; set; }
+        public int[] ActionFlags = new int[ Limits.NUM_ACTION_VECTORS ];
+        public int[] AffectedBy = new int[ Limits.NUM_AFFECT_VECTORS ];
+        public int CurrentPosition { get; set; }
+        public int CarryWeight { get; set; }
+        public int CarryNumber { get; set; }
+        public int[] SavingThrows = new int[ 5 ];
+        public int Alignment { get; set; }
+        public int Hitroll { get; set; }
+        public int Damroll { get; set; }
+        public int ArmorPoints { get; set; }
+        public int Wimpy { get; set; }
+        public TalkChannel Deaf { get; set; }
         // MobProgActList *	mpDescriptor._actFlags;
-        public int _mpactnum;
+        //public int _mpactnum;
         // Handled at runtime, does not persist.
         [XmlIgnore]
-        public EnemyData _hunting;
+        public EnemyData Hunting { get; set; }
         // Handled at runtime, does not persist.
         [XmlIgnore]
-        public List<EnemyData> _hating;
+        public List<EnemyData> Hating { get; set; }
         // Handled at runtime, does not persist.
         [XmlIgnore]
-        public EnemyData _fearing;
-        public Race.DamageType _resistant;
-        public Race.DamageType _immune;
-        public Race.DamageType _susceptible;
-        public Race.DamageType _vulnerable;
-        public FlyLevel _flyLevel;
-        public int _loadRoomIndexNumber;
+        public EnemyData Fearing { get; set; }
+        public Race.DamageType Resistant { get; set; }
+        public Race.DamageType Immune { get; set; }
+        public Race.DamageType Susceptible { get; set; }
+        public Race.DamageType Vulnerable { get; set; }
+        public FlyLevel FlightLevel { get; set; }
+        public int LoadRoomIndexNumber { get; set; }
         private int _race;
-        protected Coins _money = new Coins();
+        protected Coins Money = new Coins();
         private static int _numCharData;
         // Handled at runtime.  Rage factor is the current mood of the mobile.  It is typically 
         // modified due to friendly or unfriendly socials, chat conversation, and other factors
@@ -154,80 +152,80 @@ namespace MUDEngine
         // aggressive.  It's essentially "that's the last straw" factor -- no mob is going to
         // tolerate constant abuse.
         [XmlIgnore]
-        public int _rageFactor;
+        public int RageFactor { get; set; }
         // Should this object be deleted next time around?
         [XmlIgnore]
-        public bool _deleteMe;
+        public bool DeleteMe { get; set; }
 
         public CharData()
         {
             ++_numCharData;
-            _followers = new List<CharData>();
-            _specFun = new List<MobSpecial>();
-            _hating = new List<EnemyData>();
-            _lastNote = new DateTime();
-            _sex = 0;
-            _chatterBot = null;
-            _chatterBotName = String.Empty;
-            _charClass = CharClass.ClassList[0];
-            _trustLevel = 0;
-            _played = new TimeSpan();
-            _permStrength = MUDMath.Dice( 3, 31 ) + 7;
-            _permIntelligence = MUDMath.Dice( 3, 31 ) + 7;
-            _permWisdom = MUDMath.Dice( 3, 31 ) + 7;
-            _permDexterity = MUDMath.Dice( 3, 31 ) + 7;
-            _permConstitution = MUDMath.Dice( 3, 31 ) + 7;
-            _permAgility = MUDMath.Dice( 3, 31 ) + 7;
-            _permCharisma = MUDMath.Dice( 3, 31 ) + 7;
-            _permPower = MUDMath.Dice( 3, 31 ) + 7;
-            _permLuck = MUDMath.Dice( 3, 31 ) + 7;
-            _modifiedStrength = 0;
-            _modifiedIntelligence = 0;
-            _modifiedWisdom = 0;
-            _modifiedCharisma = 0;
-            _modifiedAgility = 0;
-            _modifiedDexterity = 0;
-            _modifiedLuck = 0;
-            _modifiedConstitution = 0;
-            _modifiedPower = 0;
-            _timer = 0;
-            _wait = 0;
-            _rageFactor = 0;
-            _experiencePoints = 0;
-            _mpactnum = 0;;
-            _loadRoomIndexNumber = StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO");
-            _carryWeight = 0;
-            _carryNumber = 0;
-            _alignment = 0;
-            _hitroll = 0;
-            _damroll = 0;
-            _wimpy = 0;
-            _deaf = 0;
-            _logon = DateTime.Now;
-            _armorPoints = 100;
-            _position = Position.standing;
-            _level = 0;
+            Followers = new List<CharData>();
+            SpecialFunction = new List<MobSpecial>();
+            Hating = new List<EnemyData>();
+            LastNoteTime = new DateTime();
+            Gender = 0;
+            ChatBot = null;
+            ChatterBotName = String.Empty;
+            CharacterClass = CharClass.ClassList[0];
+            TrustLevel = 0;
+            TimePlayed = new TimeSpan();
+            PermStrength = MUDMath.Dice( 3, 31 ) + 7;
+            PermIntelligence = MUDMath.Dice( 3, 31 ) + 7;
+            PermWisdom = MUDMath.Dice( 3, 31 ) + 7;
+            PermDexterity = MUDMath.Dice( 3, 31 ) + 7;
+            PermConstitution = MUDMath.Dice( 3, 31 ) + 7;
+            PermAgility = MUDMath.Dice( 3, 31 ) + 7;
+            PermCharisma = MUDMath.Dice( 3, 31 ) + 7;
+            PermPower = MUDMath.Dice( 3, 31 ) + 7;
+            PermLuck = MUDMath.Dice( 3, 31 ) + 7;
+            ModifiedStrength = 0;
+            ModifiedIntelligence = 0;
+            ModifiedWisdom = 0;
+            ModifiedCharisma = 0;
+            ModifiedAgility = 0;
+            ModifiedDexterity = 0;
+            ModifiedLuck = 0;
+            ModifiedConstitution = 0;
+            ModifiedPower = 0;
+            Timer = 0;
+            Wait = 0;
+            RageFactor = 0;
+            ExperiencePoints = 0;
+            //_mpactnum = 0;;
+            LoadRoomIndexNumber = StaticRooms.GetRoomNumber("ROOM_NUMBER_LIMBO");
+            CarryWeight = 0;
+            CarryNumber = 0;
+            Alignment = 0;
+            Hitroll = 0;
+            Damroll = 0;
+            Wimpy = 0;
+            Deaf = 0;
+            LogonTime = DateTime.Now;
+            ArmorPoints = 100;
+            CurrentPosition = Position.standing;
+            Level = 0;
             _race = 0;
-            _hitpoints = 20;
-            _maxHitpoints = 20;
-            _currentMana = 100;
-            _maxMana = 0;
-            _currentMoves = 150;
-            _maxMoves = 150;
-            _money.Copper = 0;
-            _money.Silver = 0;
-            _money.Gold = 0;
-            _money.Platinum = 0;
-            _resistant = Race.DamageType.none;
-            _immune = Race.DamageType.none;
-            _susceptible = Race.DamageType.none;
-            _vulnerable = Race.DamageType.none;
-            _flyLevel = 0;
-            _size = Race.Size.medium;
+            Hitpoints = 20;
+            MaxHitpoints = 20;
+            CurrentMana = 100;
+            MaxMana = 0;
+            CurrentMoves = 150;
+            MaxMoves = 150;
+            Money.Copper = 0;
+            Money.Silver = 0;
+            Money.Gold = 0;
+            Money.Platinum = 0;
+            Resistant = Race.DamageType.none;
+            Immune = Race.DamageType.none;
+            Susceptible = Race.DamageType.none;
+            Vulnerable = Race.DamageType.none;
+            FlightLevel = 0;
+            CurrentSize = Race.Size.medium;
             int count;
             for( count = 0; count < Limits.NUM_ACTION_VECTORS; count++ )
             {
-                _actionFlags[ count ] = 0;
+                ActionFlags[ count ] = 0;
             }
             return;
         }
@@ -245,53 +243,53 @@ namespace MUDEngine
                     // We're doing this to be sure that nobody is pointing to us that shouldn't
                     // be.  It doesn't hurt to check things again, and this is our last line of
                     // defense.
-                    if (worldChar._replyTo == this)
+                    if (worldChar.ReplyTo == this)
                     {
-                        worldChar._replyTo = null;
+                        worldChar.ReplyTo = null;
                     }
-                    if (worldChar._fighting == this)
+                    if (worldChar.Fighting == this)
                     {
-                        worldChar._fighting = null;
+                        worldChar.Fighting = null;
                     }
-                    if (worldChar._rider == this)
+                    if (worldChar.Rider == this)
                     {
-                        worldChar._rider = null;
+                        worldChar.Rider = null;
                     }
-                    if (worldChar._riding == this)
+                    if (worldChar.Riding == this)
                     {
-                        worldChar._riding = null;
+                        worldChar.Riding = null;
                     }
-                    if (worldChar._hunting && worldChar._hunting.Who == this)
+                    if (worldChar.Hunting && worldChar.Hunting.Who == this)
                     {
-                        worldChar._hunting.Name = String.Empty;
+                        worldChar.Hunting.Name = String.Empty;
                     }
-                    if (worldChar._fearing && worldChar._fearing.Who == this)
+                    if (worldChar.Fearing && worldChar.Fearing.Who == this)
                     {
-                        worldChar._fearing.Who = null;
-                        worldChar._fearing.Name = String.Empty;
+                        worldChar.Fearing.Who = null;
+                        worldChar.Fearing.Name = String.Empty;
                     }
-                    foreach (EnemyData hhf in worldChar._hating)
+                    foreach (EnemyData hhf in worldChar.Hating)
                     {
                         if (hhf.Who == this)
                         {
-                            worldChar._hating.Remove(hhf);
+                            worldChar.Hating.Remove(hhf);
                         }
                     }
-                    if (worldChar._master == this)
+                    if (worldChar.Master == this)
                     {
-                        worldChar._master = null;
+                        worldChar.Master = null;
                     }
-                    if (worldChar._nextInGroup == this)
+                    if (worldChar.NextInGroup == this)
                     {
-                        worldChar._nextInGroup = _nextInGroup;
+                        worldChar.NextInGroup = NextInGroup;
                     }
-                    if (worldChar._groupLeader == this)
+                    if (worldChar.GroupLeader == this)
                     {
-                        worldChar._groupLeader = null;
+                        worldChar.GroupLeader = null;
                     }
-                    if (worldChar._followers != null)
+                    if (worldChar.Followers != null)
                     {
-                        worldChar._followers.Clear();
+                        worldChar.Followers.Clear();
                     }
                     // If it's us, it's time to leave the CharList.
                     if (worldChar == this)
@@ -300,11 +298,11 @@ namespace MUDEngine
                     }
                 }
 
-                _carrying.Clear();
+                Carrying.Clear();
 
-                for (int i = (_affected.Count - 1); i >= 0; i-- )
+                for (int i = (Affected.Count - 1); i >= 0; i-- )
                 {
-                    RemoveAffect(_affected[i]);
+                    RemoveAffect(Affected[i]);
                 }
             }
             catch (Exception ex)
@@ -330,12 +328,12 @@ namespace MUDEngine
             if( IsAffected( Affect.AFFECT_POISON ) )
                 retval = true;
             RemoveAffect(Affect.AFFECT_POISON);
-            for (int i = (_affected.Count - 1); i >= 0; i--)
+            for (int i = (Affected.Count - 1); i >= 0; i--)
             {
-                if (_affected[i].HasBitvector(Affect.AFFECT_POISON))
+                if (Affected[i].HasBitvector(Affect.AFFECT_POISON))
                 {
                     // strip the affect
-                    RemoveAffect( _affected[i] );
+                    RemoveAffect( Affected[i] );
                 }
             }
             return retval;
@@ -361,7 +359,7 @@ namespace MUDEngine
 
             int number = MUDString.NumberArgument( argument, ref arg );
             int count = 0;
-            foreach( Object obj in _carrying )
+            foreach( Object obj in Carrying )
             {
                 if( obj.WearLocation != ObjTemplate.WearLocation.none
                         && CanSeeObj( ch, obj )
@@ -375,7 +373,7 @@ namespace MUDEngine
             }
 
             count = 0;
-            foreach( Object obj in ch._carrying )
+            foreach( Object obj in ch.Carrying )
             {
                 if( obj.WearLocation != ObjTemplate.WearLocation.none
                         && CanSeeObj( ch, obj )
@@ -400,7 +398,7 @@ namespace MUDEngine
 
             if( IsNPC() )
             {
-                age = new TimeSpan(((Database.SystemData.CurrentTime - _logon + _played ).Ticks /
+                age = new TimeSpan(((Database.SystemData.CurrentTime - LogonTime + TimePlayed ).Ticks /
                         Limits.TIMESPAN_GAME_YEAR.Ticks));
             }
             else
@@ -417,7 +415,7 @@ namespace MUDEngine
         public int GetCurrStr()
         {
             int mod = Race.RaceList[ _race ].StrModifier;
-            int plus = _modifiedStrength;
+            int plus = ModifiedStrength;
             int max = Race.RaceList[ _race ].StrModifier;
 
             if( !IsNPC() )
@@ -428,7 +426,7 @@ namespace MUDEngine
                 max += ( pc.RaceStrMod + pc.MaxStrMod );
             }
 
-            return Macros.Range( 1, ( _permStrength * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermStrength * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -452,7 +450,7 @@ namespace MUDEngine
         public int GetCurrInt()
         {
             int mod = Race.RaceList[ _race ].IntModifier;
-            int plus = _modifiedIntelligence;
+            int plus = ModifiedIntelligence;
             int max = Race.RaceList[ _race ].IntModifier;
 
             if( !IsNPC() )
@@ -463,7 +461,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceIntMod + pcdata.MaxIntMod );
             }
 
-            return Macros.Range( 1, ( _permIntelligence * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermIntelligence * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -487,7 +485,7 @@ namespace MUDEngine
         public int GetCurrWis()
         {
             int mod = Race.RaceList[ _race ].WisModifier;
-            int plus = _modifiedWisdom;
+            int plus = ModifiedWisdom;
             int max = Race.RaceList[ _race ].WisModifier;
 
             if( !IsNPC() )
@@ -498,7 +496,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceWisMod + pcdata.MaxWisMod );
             }
 
-            return Macros.Range( 1, ( _permWisdom * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermWisdom * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -529,7 +527,7 @@ namespace MUDEngine
         public int GetCurrDex()
         {
             int mod = Race.RaceList[ _race ].DexModifier;
-            int plus = _modifiedDexterity;
+            int plus = ModifiedDexterity;
             int max = Race.RaceList[ _race ].DexModifier;
 
             if( !IsNPC() )
@@ -540,7 +538,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceDexMod + pcdata.MaxDexMod );
             }
 
-            return Macros.Range( 1, ( _permDexterity * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermDexterity * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -564,7 +562,7 @@ namespace MUDEngine
         public int GetCurrCon()
         {
             int mod = Race.RaceList[ _race ].ConModifier;
-            int plus = _modifiedConstitution;
+            int plus = ModifiedConstitution;
             int max = Race.RaceList[ _race ].ConModifier;
 
             if( !IsNPC() )
@@ -575,7 +573,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceConMod + pcdata.MaxConMod );
             }
 
-            return Macros.Range( 1, ( _permConstitution * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermConstitution * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -597,7 +595,7 @@ namespace MUDEngine
         public int GetCurrAgi()
         {
             int mod = Race.RaceList[ _race ].AgiModifier;
-            int plus = _modifiedAgility;
+            int plus = ModifiedAgility;
             int max = Race.RaceList[ _race ].AgiModifier;
 
             if( !IsNPC() )
@@ -608,7 +606,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceAgiMod + pcdata.MaxAgiMod );
             }
 
-            return Macros.Range( 1, ( _permAgility * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermAgility * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -632,7 +630,7 @@ namespace MUDEngine
         public int GetCurrCha()
         {
             int mod = Race.RaceList[ _race ].ChaModifier;
-            int plus = _modifiedCharisma;
+            int plus = ModifiedCharisma;
             int max = Race.RaceList[ _race ].ChaModifier;
 
             if( !IsNPC() )
@@ -643,7 +641,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceChaMod + pcdata.MaxChaMod );
             }
 
-            return Macros.Range( 1, ( _permCharisma * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermCharisma * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -667,7 +665,7 @@ namespace MUDEngine
         public int GetCurrPow()
         {
             int mod = Race.RaceList[ _race ].PowModifier;
-            int plus = _modifiedPower;
+            int plus = ModifiedPower;
             int max = Race.RaceList[ _race ].PowModifier;
 
             if( !IsNPC() )
@@ -678,7 +676,7 @@ namespace MUDEngine
                 max += ( pcdata.RacePowMod + pcdata.MaxPowMod );
             }
 
-            return Macros.Range( 1, ( _permPower * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermPower * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -702,7 +700,7 @@ namespace MUDEngine
         public int GetCurrLuck()
         {
             int mod = Race.RaceList[ _race ].LukModifier;
-            int plus = _modifiedLuck;
+            int plus = ModifiedLuck;
             int max = Race.RaceList[ _race ].LukModifier;
 
             if( !IsNPC() )
@@ -713,7 +711,7 @@ namespace MUDEngine
                 max += ( pcdata.RaceLukMod + pcdata.MaxLukMod );
             }
 
-            return Macros.Range( 1, ( _permLuck * mod / 100 ) + plus, max );
+            return Macros.Range( 1, ( PermLuck * mod / 100 ) + plus, max );
         }
 
         /// <summary>
@@ -740,7 +738,7 @@ namespace MUDEngine
         {
             int mod = 0;
 
-            foreach (Affect affect in _affected)
+            foreach (Affect affect in Affected)
             {
                 foreach (AffectApplyType apply in affect.Modifiers)
                 {
@@ -763,11 +761,11 @@ namespace MUDEngine
             int value;
 
             if( !IsNPC() )
-                value = ( ( _maxHitpoints * GetCurrCon() ) / 100 ) + ( (PC)this ).HitpointModifier;
-            else if( _modifiedConstitution == 0 )
-                value = _maxHitpoints;
+                value = ( ( MaxHitpoints * GetCurrCon() ) / 100 ) + ( (PC)this ).HitpointModifier;
+            else if( ModifiedConstitution == 0 )
+                value = MaxHitpoints;
             else
-                value = _maxHitpoints * ( 100 + _modifiedConstitution ) / 100;
+                value = MaxHitpoints * ( 100 + ModifiedConstitution ) / 100;
 
             if( value < 1 )
                 value = 1;
@@ -789,7 +787,7 @@ namespace MUDEngine
             }
 
             // Check for change self
-            foreach (Affect affect in _affected)
+            foreach (Affect affect in Affected)
             {
                 if (affect.HasBitvector(Affect.AFFECT_CHANGE_SELF) || affect.HasBitvector(Affect.AFFECT_POLYMORPH))
                 {
@@ -877,8 +875,8 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetCash()
         {
-            return ( _money.Copper + ( _money.Silver * 10 ) +
-                    ( _money.Gold * 100 ) + ( _money.Platinum * 1000 ) );
+            return ( Money.Copper + ( Money.Silver * 10 ) +
+                    ( Money.Gold * 100 ) + ( Money.Platinum * 1000 ) );
         }
 
         /// <summary>
@@ -890,19 +888,19 @@ namespace MUDEngine
             if( GetCash() < amount )
             {
                 Log.Error( "SpendCash(): Spending more money than player has.", 0 );
-                _money.Copper = 0;
-                _money.Silver = 0;
-                _money.Gold = 0;
-                _money.Platinum = 0;
+                Money.Copper = 0;
+                Money.Silver = 0;
+                Money.Gold = 0;
+                Money.Platinum = 0;
             }
 
             // Note that this will automatically convert a player's coins
             // to the most efficient type to carry.
             int value = GetCash();
-            _money.Copper = 0;
-            _money.Silver = 0;
-            _money.Gold = 0;
-            _money.Platinum = 0;
+            Money.Copper = 0;
+            Money.Silver = 0;
+            Money.Gold = 0;
+            Money.Platinum = 0;
             ReceiveCash( value - amount );
         }
 
@@ -913,15 +911,15 @@ namespace MUDEngine
         public void ReceiveCash( int amount )
         {
             int number = amount / 1000;
-            _money.Platinum += number;
+            Money.Platinum += number;
             amount -= number * 1000;
             number = amount / 100;
-            _money.Gold += number;
+            Money.Gold += number;
             amount -= number * 100;
             number = amount / 10;
-            _money.Silver += number;
+            Money.Silver += number;
             amount -= number * 10;
-            _money.Copper += amount;
+            Money.Copper += amount;
 
             return;
         }
@@ -932,7 +930,7 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetCopper()
         {
-            return _money.Copper;
+            return Money.Copper;
         }
 
         /// <summary>
@@ -941,7 +939,7 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetSilver()
         {
-            return _money.Silver;
+            return Money.Silver;
         }
 
         /// <summary>
@@ -950,7 +948,7 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetGold()
         {
-            return _money.Gold;
+            return Money.Gold;
         }
 
         /// <summary>
@@ -959,7 +957,7 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetPlatinum()
         {
-            return _money.Platinum;
+            return Money.Platinum;
         }
 
         /// <summary>
@@ -972,10 +970,10 @@ namespace MUDEngine
         /// <param name="platinum"></param>
         public void SetCoins( int copper, int silver, int gold, int platinum )
         {
-            _money.Copper = copper;
-            _money.Silver = silver;
-            _money.Gold = gold;
-            _money.Platinum = platinum;
+            Money.Copper = copper;
+            Money.Silver = silver;
+            Money.Gold = gold;
+            Money.Platinum = platinum;
         }
 
         /// <summary>
@@ -984,7 +982,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of copper to add.</param>
         public void ReceiveCopper( int amount )
         {
-            _money.Copper += amount;
+            Money.Copper += amount;
         }
 
         /// <summary>
@@ -993,7 +991,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of silver to add.</param>
         public void ReceiveSilver( int amount )
         {
-            _money.Silver += amount;
+            Money.Silver += amount;
         }
 
         /// <summary>
@@ -1002,7 +1000,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of gold to add.</param>
         public void ReceiveGold( int amount )
         {
-            _money.Gold += amount;
+            Money.Gold += amount;
         }
 
         /// <summary>
@@ -1011,7 +1009,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of platinum to add.</param>
         public void ReceivePlatinum( int amount )
         {
-            _money.Platinum += amount;
+            Money.Platinum += amount;
         }
 
         /// <summary>
@@ -1020,7 +1018,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of copper to remove.</param>
         public void SpendCopper( int amount )
         {
-            _money.Copper -= amount;
+            Money.Copper -= amount;
         }
 
         /// <summary>
@@ -1029,7 +1027,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of silver to remove.</param>
         public void SpendSilver(int amount)
         {
-            _money.Silver -= amount;
+            Money.Silver -= amount;
         }
 
         /// <summary>
@@ -1038,7 +1036,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of gold to remove.</param>
         public void SpendGold(int amount)
         {
-            _money.Gold -= amount;
+            Money.Gold -= amount;
         }
 
         /// <summary>
@@ -1047,7 +1045,7 @@ namespace MUDEngine
         /// <param name="amount">The amount of platinum to remove.</param>
         public void SpendPlatinum(int amount)
         {
-            _money.Platinum -= amount;
+            Money.Platinum -= amount;
         }
 
         /// <summary>
@@ -1066,7 +1064,7 @@ namespace MUDEngine
                 // Perform any necessary data repair.
                 //
                 // Extend affect vectors if the number has been increased.
-                if (data._affectedBy.Length < Limits.NUM_AFFECT_VECTORS)
+                if (data.AffectedBy.Length < Limits.NUM_AFFECT_VECTORS)
                 {
                     data.ExtendAffectData();
                 }
@@ -1085,17 +1083,17 @@ namespace MUDEngine
         /// </summary>
         protected void ExtendAffectData()
         {
-            if (_affectedBy.Length < Limits.NUM_AFFECT_VECTORS)
+            if (AffectedBy.Length < Limits.NUM_AFFECT_VECTORS)
             {
-                int[] oldData = _affectedBy;
-                _affectedBy = new int[Limits.NUM_AFFECT_VECTORS];
+                int[] oldData = AffectedBy;
+                AffectedBy = new int[Limits.NUM_AFFECT_VECTORS];
                 for (int i = 0; i < oldData.Length; i++)
                 {
-                    _affectedBy[i] = oldData[i];
+                    AffectedBy[i] = oldData[i];
                 }
                 // Objects also need to be extended if the number of affect vectors
                 // has been extended.
-                foreach (Object obj in _carrying)
+                foreach (Object obj in Carrying)
                 {
                     if (obj.AffectedBy.Length < Limits.NUM_AFFECT_VECTORS)
                     {
@@ -1144,7 +1142,7 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         public void SetAffectBit(Bitvector bvect)
         {
-            _affectedBy[ bvect.Group ] |= bvect.Vector;
+            AffectedBy[ bvect.Group ] |= bvect.Vector;
             return;
         }
 
@@ -1155,7 +1153,7 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         private void RemoveAffectBit( Bitvector bvect )
         {
-            _affectedBy[ bvect.Group ] &= ~( bvect.Vector );
+            AffectedBy[ bvect.Group ] &= ~( bvect.Vector );
             return;
         }
 
@@ -1165,7 +1163,7 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         public void ToggleAffectBit( Bitvector bvect )
         {
-            _affectedBy[ bvect.Group ] ^= bvect.Vector;
+            AffectedBy[ bvect.Group ] ^= bvect.Vector;
             return;
         }
             
@@ -1175,7 +1173,7 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         public void SetActionBit(Bitvector bvect)
         {
-            _actionFlags[bvect.Group] |= bvect.Vector;
+            ActionFlags[bvect.Group] |= bvect.Vector;
             return;
         }
 
@@ -1185,7 +1183,7 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         public void RemoveActionBit(Bitvector bvect)
         {
-            _actionFlags[bvect.Group] &= ~(bvect.Vector);
+            ActionFlags[bvect.Group] &= ~(bvect.Vector);
             return;
         }
 
@@ -1195,7 +1193,7 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         public void ToggleActionBit(Bitvector bvect)
         {
-            _actionFlags[bvect.Group] ^= bvect.Vector;
+            ActionFlags[bvect.Group] ^= bvect.Vector;
             return;
         }
 
@@ -1206,7 +1204,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool HasActionBit(Bitvector bvect)
         {
-            if( Macros.IsSet( _actionFlags[ bvect.Group ], bvect.Vector ) )
+            if( Macros.IsSet( ActionFlags[ bvect.Group ], bvect.Vector ) )
             {
                 return true;
             }
@@ -1219,7 +1217,7 @@ namespace MUDEngine
         /// <returns></returns>
         public string GetSexString()
         {
-            return _sex.ToString();
+            return Gender.ToString();
         }
 
         /// <summary>
@@ -1228,11 +1226,11 @@ namespace MUDEngine
         /// <returns></returns>
         public string GetSexPronoun()
         {
-            if (_sex == MobTemplate.Sex.female)
+            if (Gender == MobTemplate.Sex.female)
             {
                 return "she";
             }
-            else if (_sex == MobTemplate.Sex.male)
+            else if (Gender == MobTemplate.Sex.male)
             {
                 return "he";
             }
@@ -1283,7 +1281,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsGood()
         {
-            return ( _alignment >= 350 );
+            return ( Alignment >= 350 );
         }
 
         /// <summary>
@@ -1301,7 +1299,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsEvil()
         {
-            return ( _alignment <= -350 );
+            return ( Alignment <= -350 );
         }
 
         /// <summary>
@@ -1311,7 +1309,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsHating( CharData victim )
         {
-            foreach( EnemyData enemy in _hating )
+            foreach( EnemyData enemy in Hating )
             {
                 if (enemy.Who == victim)
                 {
@@ -1327,7 +1325,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsAwake()
         {
-            return ( _position > Position.sleeping );
+            return (CurrentPosition > Position.sleeping);
         }
 
         /// <summary>
@@ -1336,13 +1334,13 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsOutside()
         {
-            if (!_inRoom)
+            if (!InRoom)
             {
                 return false;
             }
 
-            if (_inRoom.HasFlag(RoomTemplate.ROOM_INDOORS) || _inRoom.TerrainType == TerrainType.inside ||
-                _inRoom.TerrainType == TerrainType.underground_indoors)
+            if (InRoom.HasFlag(RoomTemplate.ROOM_INDOORS) || InRoom.TerrainType == TerrainType.inside ||
+                InRoom.TerrainType == TerrainType.underground_indoors)
             {
                 return false;
             }
@@ -1413,17 +1411,17 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsUnderground()
         {
-            if( !_inRoom )
+            if( !InRoom )
             {
                 return false;
             }
 
-            if( _inRoom.TerrainType == TerrainType.underground_wild
-                || _inRoom.TerrainType == TerrainType.underground_city
-                || _inRoom.TerrainType == TerrainType.underground_indoors
-                || _inRoom.TerrainType == TerrainType.underground_swimmable_water
-                || _inRoom.TerrainType == TerrainType.underground_unswimmable_water
-                || _inRoom.TerrainType == TerrainType.underground_no_ground )
+            if( InRoom.TerrainType == TerrainType.underground_wild
+                || InRoom.TerrainType == TerrainType.underground_city
+                || InRoom.TerrainType == TerrainType.underground_indoors
+                || InRoom.TerrainType == TerrainType.underground_swimmable_water
+                || InRoom.TerrainType == TerrainType.underground_unswimmable_water
+                || InRoom.TerrainType == TerrainType.underground_no_ground )
             {
                 return true;
             }
@@ -1459,7 +1457,7 @@ namespace MUDEngine
             {
                 return false;
             }
-            if( _inRoom != null && _inRoom.HasFlag( RoomTemplate.ROOM_SILENT ))
+            if( InRoom != null && InRoom.HasFlag( RoomTemplate.ROOM_SILENT ))
             {
                 return false;
             }
@@ -1579,7 +1577,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsFreewilled()
         {
-            if (HasActionBit(MobTemplate.ACT_PET) && _master)
+            if (HasActionBit(MobTemplate.ACT_PET) && Master)
             {
                 return false;
             }
@@ -1596,21 +1594,21 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetTrust()
         {
-            if( _socket && _socket.Original )
+            if( Socket && Socket.Original )
             {
-                return _socket.Original.GetTrust();
+                return Socket.Original.GetTrust();
             }
 
-            if( _trustLevel != 0 )
+            if( TrustLevel != 0 )
             {
-                return _trustLevel;
+                return TrustLevel;
             }
 
-            if( IsNPC() && _level >= Limits.LEVEL_HERO )
+            if( IsNPC() && Level >= Limits.LEVEL_HERO )
             {
                 return Limits.LEVEL_HERO - 1;
             }
-            return _level;
+            return Level;
         }
 
         /// <summary>
@@ -1632,20 +1630,20 @@ namespace MUDEngine
                 otherWeapon = ObjTemplate.WearLocation.hand_one;
             else
             {
-                string buf = "GetHitroll(): Invalid weapon location " + weapon + " on " + _name + ".";
+                string buf = "GetHitroll(): Invalid weapon location " + weapon + " on " + Name + ".";
                 Log.Error( buf, 0 );
                 return 0;
             }
 
-            int hitr = _hitroll + StrengthModifier.Table[ GetCurrStr() ].HitModifier;
+            int hitr = Hitroll + StrengthModifier.Table[ GetCurrStr() ].HitModifier;
 
-            if (_charClass.ClassNumber == CharClass.Names.monk || _charClass.ClassNumber == CharClass.Names.mystic)
+            if (CharacterClass.ClassNumber == CharClass.Names.monk || CharacterClass.ClassNumber == CharClass.Names.mystic)
             {
                 int count;
                 hitr += MonkStance.GetMonkStance(( (PC)this ).Stance ).HitrollModifier;
                 for( count = 0; count < 5; ++count )
                 {
-                    if (_level >= MonkStance.GetMonkStance(((PC)this).Stance).HitPlus[count])
+                    if (Level >= MonkStance.GetMonkStance(((PC)this).Stance).HitPlus[count])
                         hitr++;
                 }
             }
@@ -1653,27 +1651,27 @@ namespace MUDEngine
             Object wield = Object.GetEquipmentOnCharacter( this, weapon );
             Object otherWield = Object.GetEquipmentOnCharacter( this, otherWeapon );
 
-            if (_charClass.ClassNumber == CharClass.Names.antipaladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
+            if (CharacterClass.ClassNumber == CharClass.Names.antipaladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
                     && wield.HasFlag( ObjTemplate.ITEM_TWOHANDED ) )
-                hitr += _level / 9;
+                hitr += Level / 9;
 
-            if (_charClass.ClassNumber == CharClass.Names.paladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
+            if (CharacterClass.ClassNumber == CharClass.Names.paladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
                     && wield.HasFlag( ObjTemplate.ITEM_TWOHANDED ) )
-                hitr += _level / 9;
+                hitr += Level / 9;
 
-            if (_charClass.ClassNumber == CharClass.Names.ranger && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
+            if (CharacterClass.ClassNumber == CharClass.Names.ranger && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
                     && otherWield && otherWield.ItemType == ObjTemplate.ObjectType.weapon )
-                hitr += _level / 9;
+                hitr += Level / 9;
 
             otherWield = Object.GetEquipmentOnCharacter( this, otherWeapon );
             if( !otherWield )
             {
-                return Math.Min( hitr, _level );
+                return Math.Min( hitr, Level );
             }
 
             if( otherWield.ItemType != ObjTemplate.ObjectType.weapon )
             {
-                return Math.Min( hitr, _level );
+                return Math.Min( hitr, Level );
             }
 
             foreach( Affect aff in otherWield.ObjIndexData.Affected )
@@ -1697,7 +1695,7 @@ namespace MUDEngine
                 }
             }
 
-            return Math.Min( hitr, _level );
+            return Math.Min( hitr, Level );
         }
 
         /// <summary>
@@ -1719,20 +1717,20 @@ namespace MUDEngine
                 otherWeapon = ObjTemplate.WearLocation.hand_one;
             else
             {
-                string buf = "GetDamroll(): Invalid weapon location " + weapon + " on " + _name + ".";
+                string buf = "GetDamroll(): Invalid weapon location " + weapon + " on " + Name + ".";
                 Log.Error( buf, 0 );
                 return 0;
             }
 
-            int damr = _damroll + StrengthModifier.Table[ GetCurrStr() ].DamageModifier;
+            int damr = Damroll + StrengthModifier.Table[ GetCurrStr() ].DamageModifier;
 
-            if (_charClass.ClassNumber == CharClass.Names.monk || _charClass.ClassNumber == CharClass.Names.mystic)
+            if (CharacterClass.ClassNumber == CharClass.Names.monk || CharacterClass.ClassNumber == CharClass.Names.mystic)
             {
                 int count;
                 damr += MonkStance.GetMonkStance(((PC)this).Stance).DamrollModifier;
                 for( count = 0; count < 5; ++count )
                 {
-                    if (_level >= MonkStance.GetMonkStance(((PC)this).Stance).DamPlus[count])
+                    if (Level >= MonkStance.GetMonkStance(((PC)this).Stance).DamPlus[count])
                         damr++;
                 }
             }
@@ -1740,23 +1738,23 @@ namespace MUDEngine
             Object wield = Object.GetEquipmentOnCharacter( this, weapon );
 
             // TODO: FIXME: BUG: Don't just cast the AttackType.DamageType.  Fix the object format so this is valid info.
-            if (_charClass.ClassNumber == CharClass.Names.antipaladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
+            if (CharacterClass.ClassNumber == CharClass.Names.antipaladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
                     && wield.HasFlag( ObjTemplate.ITEM_TWOHANDED ) && wield.Values[ 3 ] == (int)AttackType.DamageType.slash )
-                damr += _level / 9;
+                damr += Level / 9;
 
             // TODO: FIXME: BUG: Don't just cast the AttackType.DamageType.  Fix the object format so this is valid info.
-            if (_charClass.ClassNumber == CharClass.Names.paladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
+            if (CharacterClass.ClassNumber == CharClass.Names.paladin && wield && wield.ItemType == ObjTemplate.ObjectType.weapon
                     && wield.HasFlag( ObjTemplate.ITEM_TWOHANDED ) && wield.Values[ 3 ] == (int)AttackType.DamageType.slash )
-                damr += _level / 9;
+                damr += Level / 9;
 
             Object otherWield = Object.GetEquipmentOnCharacter( this, otherWeapon );
             if( !otherWield )
             {
-                return Math.Min( damr, _level );
+                return Math.Min( damr, Level );
             }
             if( otherWield.ItemType != ObjTemplate.ObjectType.weapon )
             {
-                return Math.Min( damr, _level );
+                return Math.Min( damr, Level );
             }
             foreach( Affect aff in otherWield.ObjIndexData.Affected )
             {
@@ -1774,7 +1772,7 @@ namespace MUDEngine
                         damr -= apply.Amount;
                 }
             }
-            return Math.Min( damr, _level );
+            return Math.Min( damr, Level );
         }
 
         /// <summary>
@@ -1783,7 +1781,7 @@ namespace MUDEngine
         /// <returns></returns>
         public int MaxCarryNumber()
         {
-            if( !IsNPC() && _level >= Limits.LEVEL_AVATAR )
+            if( !IsNPC() && Level >= Limits.LEVEL_AVATAR )
             {
                 return 1000;
             }
@@ -1805,7 +1803,7 @@ namespace MUDEngine
         /// </summary>
         public void RemoveFromRoom()
         {
-            if( !_inRoom )
+            if( !InRoom )
             {
                 Log.Error( "RemoveFromRoom(): null.", 0 );
                 return;
@@ -1813,18 +1811,18 @@ namespace MUDEngine
 
             if( !IsNPC() )
             {
-                --_inRoom.Area.NumPlayers;
+                --InRoom.Area.NumPlayers;
             }
 
             MoveLight( false );
 
-            _inRoom.People.Remove( this );
+            InRoom.People.Remove( this );
 
-            if( _riding != null )
+            if( Riding != null )
             {
-                _riding.RemoveFromRoom();
+                Riding.RemoveFromRoom();
             }
-            _inRoom = null;
+            InRoom = null;
             return;
         }
 
@@ -1840,7 +1838,7 @@ namespace MUDEngine
                 return;
             }
 
-            _inRoom = targetRoom;
+            InRoom = targetRoom;
             targetRoom.People.Insert(0,this);
 
             if( targetRoom.Area == null )
@@ -1856,9 +1854,9 @@ namespace MUDEngine
 
             MoveLight( true );
 
-            if( _riding )
+            if( Riding )
             {
-                _riding.AddToRoom( targetRoom );
+                Riding.AddToRoom( targetRoom );
             }
             return;
         }
@@ -1869,9 +1867,9 @@ namespace MUDEngine
         /// <returns></returns>
         public int GetAC()
         {
-            int ac = _armorPoints;
+            int ac = ArmorPoints;
 
-            if (!IsNPC() && _charClass.ClassNumber == CharClass.Names.monk)
+            if (!IsNPC() && CharacterClass.ClassNumber == CharClass.Names.monk)
             {
                 ac -= ( 100 - MonkStance.GetMonkStance( ( (PC)this ).Stance ).ArmorModifier );
             }
@@ -1884,7 +1882,7 @@ namespace MUDEngine
                 ac += AgiModifier.Table[ GetCurrAgi() ].ACModifier;
             }
 
-            switch( _position )
+            switch( CurrentPosition )
             {
                 case Position.sleeping:
                 case Position.incapacitated:
@@ -1934,7 +1932,7 @@ namespace MUDEngine
             {
                 if( HasLevelForSkill(kvp.Value) )
                 {
-                    if (_level > 20 && !Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.capturetheflag))
+                    if (Level > 20 && !Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.capturetheflag))
                     {
                         // Grant skill the first time.
                         if (!HasSkill(kvp.Key) || ((PC)this).SkillAptitude[kvp.Key] < 25)
@@ -1946,14 +1944,14 @@ namespace MUDEngine
                     // Auto-advance skills.
                     if(((PC)this).SkillAptitude.ContainsKey(kvp.Key))
                     {
-                        if (((PC)this).SkillAptitude[kvp.Key] <= 24 + _level)
-                            ((PC)this).SkillAptitude[kvp.Key] = 24 + _level;
+                        if (((PC)this).SkillAptitude[kvp.Key] <= 24 + Level)
+                            ((PC)this).SkillAptitude[kvp.Key] = 24 + Level;
                         else if (((PC)this).SkillAptitude[kvp.Key] < Limits.MAX_SKILL_ADEPT)
                             ((PC)this).SkillAptitude[kvp.Key] += 1;
                     }
                     else
                     {
-                        ((PC)this).SkillAptitude[kvp.Key] = 24 + _level;
+                        ((PC)this).SkillAptitude[kvp.Key] = 24 + Level;
                     }
 
                 }
@@ -2022,7 +2020,7 @@ namespace MUDEngine
             if (HasLevelForSkill(skill)
                     && (aptitude < Limits.MAX_SKILL_ADEPT)
                     // Cap skill gains at 26 + 2x the number of levels the char is past gaining the skill.
-                    && aptitude < (26 + (2 * _level - skill.ClassAvailability[(int)_charClass.ClassNumber]))
+                    && aptitude < (26 + (2 * Level - skill.ClassAvailability[(int)CharacterClass.ClassNumber]))
                     && MUDMath.NumberRange( 1, 1000 ) <= ( 5 + ( GetCurrInt() / 10 ) ) )
             {
                 ((PC)this).SkillAptitude[skill.Name] = aptitude + 1;
@@ -2053,7 +2051,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( _inRoom == null )
+            if( InRoom == null )
             {
                 Log.Trace( "Null from room in CharData.Move" );
                 SendText("There's nowhere for you to move from - you aren't anywhere!");
@@ -2073,8 +2071,8 @@ namespace MUDEngine
                 return;
             }
 
-            if (_riding && (_riding.IsAffected(Affect.AFFECT_BOUND) || _riding.IsAffected(Affect.AFFECT_HOLD) ||
-                _riding.IsAffected(Affect.AFFECT_MINOR_PARA)))
+            if (Riding && (Riding.IsAffected(Affect.AFFECT_BOUND) || Riding.IsAffected(Affect.AFFECT_HOLD) ||
+                Riding.IsAffected(Affect.AFFECT_MINOR_PARA)))
             {
                 SendText( "Your ride can't move.\r\n" );
                 return;
@@ -2093,35 +2091,35 @@ namespace MUDEngine
                 }
             }
 
-            Room inRoom = _inRoom;
+            Room inRoom = InRoom;
 
             RemoveAffect(Affect.AFFECT_HIDE);
 
             if( !( exit = inRoom.GetExit(door)) || !( toRoom = Room.GetRoom(exit.IndexNumber) )
                 || ( toRoom.TerrainType == TerrainType.underground_impassable )
                 || ( toRoom.WorldmapTerrainType == ExtendedTerrain.EXT_ZONEMARKER )
-                || ( _level < Limits.LEVEL_AVATAR
+                || ( Level < Limits.LEVEL_AVATAR
                 && ( exit.HasFlag( Exit.ExitFlag.secret ) || exit.HasFlag(Exit.ExitFlag.blocked))))
             {
                 SendText( "Alas, you cannot go that way.\r\n" );
                 return;
             }
 
-            if( _flyLevel != 0 && !toRoom.IsFlyable() )
+            if( FlightLevel != 0 && !toRoom.IsFlyable() )
             {
                 SendText( "Alas, you cannot fly there.\r\n" );
                 return;
             }
 
             // For trapped objects in the room that trigger on certain actions
-            foreach( Object obj in _inRoom.Contents )
+            foreach( Object obj in InRoom.Contents )
             {
                 if( obj.Trap == null )
                     continue;
                 if( obj.Trap.CheckTrigger( Trap.TriggerType.move ) )
                 {
                     SetOffTrap( obj );
-                    if (_position == Position.dead)
+                    if (CurrentPosition == Position.dead)
                     {
                         return;
                     }
@@ -2131,7 +2129,7 @@ namespace MUDEngine
                     if (obj.Trap.CheckTrigger(Movement.TrapDirectionFlag[(int)door]))
                     {
                         SetOffTrap( obj );
-                        if (_position == Position.dead)
+                        if (CurrentPosition == Position.dead)
                         {
                             return;
                         }
@@ -2143,7 +2141,7 @@ namespace MUDEngine
             // need to check for wall functions.
             if (!IsAffected(Affect.AFFECT_CLIMBING) && inRoom.ExitData[(int)door].HasFlag(Exit.ExitFlag.walled))
             {
-                foreach( Object wall in _inRoom.Contents )
+                foreach( Object wall in InRoom.Contents )
                 {
                     if( wall.ItemType != ObjTemplate.ObjectType.wall || wall.Values[ 0 ] != (int)door )
                         continue;
@@ -2151,8 +2149,8 @@ namespace MUDEngine
                     {
                         illusion = true;
                         // Test for disbelief
-                        int dchance = GetCurrInt() / 2 + _level - wall.Values[ 2 ];
-                        if( _fighting )
+                        int dchance = GetCurrInt() / 2 + Level - wall.Values[ 2 ];
+                        if( Fighting )
                             dchance /= 2;
                         if( GetRace() == Race.RACE_OGRE || GetRace() == Race.RACE_CENTAUR )
                             dchance /= 4;
@@ -2173,15 +2171,15 @@ namespace MUDEngine
                             if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_WALL_ICE )
                             {
                                 Combat.InflictSpellDamage(this, this, MUDMath.Dice(2, (wall.Values[2] / 2)), "wall of ice", AttackType.DamageType.cold);
-                                if( _position == Position.dead )
+                                if (CurrentPosition == Position.dead)
                                     return;
                             }
                             else if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_WALL_FORCE )
                             {
-                                _currentMoves -= MUDMath.Dice( 2, 15 );
+                                CurrentMoves -= MUDMath.Dice( 2, 15 );
                                 SendText( "You feel drained of energy!\r\n" );
                                 SendText( "The force of the wall knocks you down!\r\n" );
-                                _position = Position.sitting;
+                                CurrentPosition = Position.sitting;
                                 WaitState( MUDMath.Dice( 2, 9 ) );
                             }
                         } //end if !illusion
@@ -2204,19 +2202,19 @@ namespace MUDEngine
                         if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_WALL_FIRE )
                         {
                             Combat.InflictSpellDamage(this, this, MUDMath.Dice(wall.Values[2], 5), "wall of fire", AttackType.DamageType.fire);
-                            if( _position == Position.dead )
+                            if (CurrentPosition == Position.dead)
                                 return;
                         }
                         else if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_WALL_SPARKS )
                         {
                             Combat.InflictSpellDamage(this, this, MUDMath.Dice(3, wall.Values[2]), "wall of sparks", AttackType.DamageType.fire);
-                            if( _position == Position.dead )
+                            if (CurrentPosition == Position.dead)
                                 return;
                         }
                         else if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_LIGHTNING_CURTAIN )
                         {
                             Combat.InflictSpellDamage(this, this, MUDMath.Dice(wall.Values[2], 5), "lightning curtain", AttackType.DamageType.electricity);
-                            if( _position == Position.dead )
+                            if (CurrentPosition == Position.dead)
                                 return;
                         }
                         if( wall.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_WALL_MIST )
@@ -2228,7 +2226,7 @@ namespace MUDEngine
                                 SendText( "&+GYou don't feel very well.&n\r\n" );
                             }
                             Combat.InflictSpellDamage(this, this, MUDMath.Dice(4, wall.Values[2]), "wall of mist", AttackType.DamageType.poison);
-                            if( _position == Position.dead )
+                            if (CurrentPosition == Position.dead)
                                 return;
                         }
                     }
@@ -2237,18 +2235,18 @@ namespace MUDEngine
 
             if( exit.HasFlag( Exit.ExitFlag.closed ) )
             {
-                if( _riding )
+                if( Riding )
                 {
-                    if( !_riding.IsAffected( Affect.AFFECT_PASS_DOOR )
+                    if( !Riding.IsAffected( Affect.AFFECT_PASS_DOOR )
                             && !HasInnate( Race.RACE_PASSDOOR )
-                            && !_riding.IsImmortal() )
+                            && !Riding.IsImmortal() )
                     {
                         SocketConnection.Act("The $d is closed so your mount is unable to pass.", this, null, exit.Keyword, SocketConnection.MessageTarget.character);
                         return;
                     }
 
                     if( exit.HasFlag( Exit.ExitFlag.passproof )
-                            && !_riding.IsImmortal() )
+                            && !Riding.IsImmortal() )
                     {
                         SocketConnection.Act( "Your mount is unable to pass through the $d.  Ouch!",
                              this, null, exit.Keyword, SocketConnection.MessageTarget.character);
@@ -2275,7 +2273,7 @@ namespace MUDEngine
                 }
             }
 
-            if( _riding && _riding._position < Position.standing )
+            if (Riding && Riding.CurrentPosition < Position.standing)
             {
                 SendText( "Your ride doesn't want to move right now.\r\n" );
                 return;
@@ -2288,9 +2286,9 @@ namespace MUDEngine
             }
 
             // Race.RACE_SWIM means you're an aquatic race... and fish can't walk on land.
-            if( _riding )
+            if( Riding )
             {
-                if( !toRoom.IsWater() && _riding.HasInnate( Race.RACE_SWIM ) )
+                if( !toRoom.IsWater() && Riding.HasInnate( Race.RACE_SWIM ) )
                 {
                     SendText( "Your mount flaps around but can't move!\r\n" );
                     return;
@@ -2310,16 +2308,16 @@ namespace MUDEngine
             if( !IsNPC() )
             {
 
-                if( ( _inRoom.IsMidair() && _inRoom.FallChance == 0 ) ||
+                if( ( InRoom.IsMidair() && InRoom.FallChance == 0 ) ||
                     ( toRoom.IsMidair() && toRoom.FallChance == 0 ) )
                 {
-                    if( _inRoom.FallChance != 0 )
+                    if( InRoom.FallChance != 0 )
                     {
-                        Event.CheckFall(_inRoom, toRoom, this);
+                        Event.CheckFall(InRoom, toRoom, this);
                     }
-                    if( _riding )
+                    if( Riding )
                     {
-                        if( !_riding.CanFly() && door != Exit.Direction.down )
+                        if( !Riding.CanFly() && door != Exit.Direction.down )
                         {
                             SendText( "Your mount can't fly.\r\n" );
                             return;
@@ -2337,17 +2335,17 @@ namespace MUDEngine
                 }
 
                 // Water terrain code, check for boats and swimming.  Flyers don't need to swim
-                if( ( ( _riding && !_riding.CanFly() ) || ( !_riding && !CanFly() ) )
+                if( ( ( Riding && !Riding.CanFly() ) || ( !Riding && !CanFly() ) )
                         && ( toRoom.IsWater() || inRoom.IsWater() ) )
                 {
                     bool found = false;
 
-                    if( _riding && !_riding.IsNPC() )
+                    if( Riding && !Riding.IsNPC() )
                     {
-                        if( ( (PC)_riding ).SkillAptitude[ "swim" ] != 0 )
+                        if( ( (PC)Riding ).SkillAptitude[ "swim" ] != 0 )
                         {
                             found = true;
-                            _riding.PracticeSkill( "swim" );
+                            Riding.PracticeSkill( "swim" );
                         }
                     }
                     else if( !IsNPC() )
@@ -2360,7 +2358,7 @@ namespace MUDEngine
                     }
 
                     // Check for a boat first, uses less effort than swimming.
-                    foreach( Object obj in _carrying )
+                    foreach( Object obj in Carrying )
                     {
                         if( obj.ItemType == ObjTemplate.ObjectType.boat )
                         {
@@ -2369,8 +2367,8 @@ namespace MUDEngine
                         }
                     }
 
-                    if( _riding != null && ( _riding.HasInnate( Race.RACE_WATERWALK )
-                        || _riding.HasInnate( Race.RACE_SWIM ) ) )
+                    if( Riding != null && ( Riding.HasInnate( Race.RACE_WATERWALK )
+                        || Riding.HasInnate( Race.RACE_SWIM ) ) )
                     {
                         found = true;
                     }
@@ -2387,12 +2385,12 @@ namespace MUDEngine
                     }
                 }
 
-                if( _riding != null )
+                if( Riding != null )
                 {
                     if( ( inRoom.TerrainType == TerrainType.underwater_has_ground
                             || toRoom.TerrainType == TerrainType.underwater_has_ground )
-                            && !_riding.HasInnate( Race.RACE_SWIM )
-                            && ( !_riding.IsNPC() && ((PC)this).SkillAptitude["swim"] == 0))
+                            && !Riding.HasInnate( Race.RACE_SWIM )
+                            && ( !Riding.IsNPC() && ((PC)this).SkillAptitude["swim"] == 0))
                     {
                         SendText( "Your mount needs to be able to swim better to go there.\r\n" );
                         return;
@@ -2423,7 +2421,7 @@ namespace MUDEngine
                 if ((int)inRoom.TerrainType < RoomTemplate.TERRAIN_MAX && (int)toRoom.TerrainType < RoomTemplate.TERRAIN_MAX )
                 {
                     move = ( Movement.MovementLoss[ inRoom.TerrainType ] + Movement.MovementLoss[ toRoom.TerrainType ] ) / 2;
-                    int swimAbility = _level * 2 + 15;
+                    int swimAbility = Level * 2 + 15;
                     if( !IsNPC() && HasSkill("swim"))
                     {
                         swimAbility = ((PC)this).SkillAptitude["swim"];
@@ -2433,7 +2431,7 @@ namespace MUDEngine
                         // Movement loss can increase by up to 95% based on swim skill.
                         move += (move * ((Limits.MAX_SKILL_ADEPT - swimAbility)) / 100);
                     }
-                    if (_inRoom.IsWater())
+                    if (InRoom.IsWater())
                     {
                         // Movement loss can increase by up to 95% based on swim skill.
                         move += (move * ((Limits.MAX_SKILL_ADEPT - swimAbility)) / 100);
@@ -2450,11 +2448,11 @@ namespace MUDEngine
                     move = 1;
                 }
 
-                if ((_riding))
+                if ((Riding))
                 {
-                    if (this != _riding._rider)
+                    if (this != Riding.Rider)
                     {
-                        Log.Error(String.Format( "{0} riding {1}, who is not mounted!", _name, _riding._name ) );
+                        Log.Error(String.Format( "{0} riding {1}, who is not mounted!", Name, Riding.Name ) );
                     }
                     else
                     {
@@ -2462,20 +2460,20 @@ namespace MUDEngine
                     }
                 }
 
-                if( ( _currentMoves < move ) && ( !IsImmortal() ) )
+                if( ( CurrentMoves < move ) && ( !IsImmortal() ) )
                 {
                     SendText( "You are too tired to move another step.\r\n" );
-                    if( ( _rider ) && riding )
+                    if( ( Rider ) && riding )
                     {
-                        _rider.SendText( "Your mount is too tired to carry you there.\r\n" );
+                        Rider.SendText( "Your mount is too tired to carry you there.\r\n" );
                     }
                     return;
                 }
 
                 WaitState( 1 );
-                _currentMoves -= move;
+                CurrentMoves -= move;
 
-                if( ( _rider ) && riding )
+                if( ( Rider ) && riding )
                 {
                 }
             }
@@ -2491,25 +2489,25 @@ namespace MUDEngine
                 }
                 else
                 {
-                    foreach( CharData watchCh in _inRoom.People )
+                    foreach( CharData watchCh in InRoom.People )
                     {
-                        if (watchCh == this || watchCh._flyLevel != _flyLevel)
+                        if (watchCh == this || watchCh.FlightLevel != FlightLevel)
                             continue;
                         Visibility visibility = Look.HowSee(watchCh, this);
                         switch( visibility )
                         {
                             case Visibility.visible:
-                                if( !_riding )
+                                if( !Riding )
                                 {
                                     text2 = String.Format( "{0}&n {1} {2}.\r\n", ShowNameTo( watchCh, true ),
-                                            ( _flyLevel != 0 ) ? "flies" :
+                                            ( FlightLevel != 0 ) ? "flies" :
                                             Race.RaceList[ GetRace() ].WalkMessage, door.ToString() );
                                     watchCh.SendText( text2 );
                                 }
                                 else
                                 {
                                     text2 = String.Format( "{0}&n rides {1}&n {2}.\r\n", ShowNameTo( watchCh, true ),
-                                            _riding.ShowNameTo(watchCh, false), door.ToString() );
+                                            Riding.ShowNameTo(watchCh, false), door.ToString() );
                                     watchCh.SendText( text2 );
                                 }
                                 break;
@@ -2519,13 +2517,13 @@ namespace MUDEngine
                                 watchCh.SendText( text2 );
                                 break;
                             case Visibility.invisible:
-                                if( _riding )
+                                if( Riding )
                                 {
-                                    if (Look.HowSee(watchCh, _riding) == Visibility.visible)
+                                    if (Look.HowSee(watchCh, Riding) == Visibility.visible)
                                     {
                                         text2 = String.Format( "{0}&n {1} {2}.\r\n",
-                                                  _riding.ShowNameTo(watchCh, true),
-                                                  ( _flyLevel != 0 ) ? "flies" :
+                                                  Riding.ShowNameTo(watchCh, true),
+                                                  ( FlightLevel != 0 ) ? "flies" :
                                       Race.RaceList[ GetRace() ].WalkMessage,
                                                   door.ToString() );
                                         watchCh.SendText( text2 );
@@ -2545,9 +2543,9 @@ namespace MUDEngine
                 int chId = 0;
                 Guild.Rank chRank = 0;
                 // Find a golem
-                foreach( CharData roomCharacter in _inRoom.People )
+                foreach( CharData roomCharacter in InRoom.People )
                 {
-                    if( !roomCharacter.IsNPC() && !MUDString.NameContainedIn( "_guildgolem_", roomCharacter._name ) )
+                    if( !roomCharacter.IsNPC() && !MUDString.NameContainedIn( "_guildgolem_", roomCharacter.Name ) )
                         continue;
                     int id = Guild.GolemGuildID( roomCharacter );
                     Exit.Direction dir = Movement.GolemGuardDirection( roomCharacter );
@@ -2559,11 +2557,11 @@ namespace MUDEngine
                             chId = ((PC)this).GuildMembership.ID;
                             chRank = ((PC)this).GuildRank;
                         }
-                        if( dir == door && ( id != chId || chRank < Guild.Rank.parole ) && _position > Position.reclining )
+                        if (dir == door && (id != chId || chRank < Guild.Rank.parole) && CurrentPosition > Position.reclining)
                         {
                             SocketConnection.Act("$N&n roughly shoves you to the floor as you attempt to pass.", this, null, roomCharacter, SocketConnection.MessageTarget.character);
                             SocketConnection.Act("$N&n shoves $n&n to the floor.", this, null, roomCharacter, SocketConnection.MessageTarget.room);
-                            _position = Position.reclining;
+                            CurrentPosition = Position.reclining;
                             return;
                         }
                         if (dir == door && ((PC)this).GuildRank >= Guild.Rank.officer)
@@ -2585,32 +2583,32 @@ namespace MUDEngine
 
             if( IsAffected( Affect.AFFECT_IS_FLEEING ) )
             {
-                text = String.Format( "move_char: {0} has fled to room {1}.", _name, _inRoom.IndexNumber );
+                text = String.Format( "move_char: {0} has fled to room {1}.", Name, InRoom.IndexNumber );
                 ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, text );
             }
 
             if( !CheckSneak() )
             {
-                if( _riding )
+                if( Riding )
                 {
                     text = String.Format( "$n&n enters from {0}, riding $N&n.", Exit.ReverseDirectionName[ (int)door ] );
-                    SocketConnection.Act(text, this, null, _riding, SocketConnection.MessageTarget.room);
+                    SocketConnection.Act(text, this, null, Riding, SocketConnection.MessageTarget.room);
                 }
-                else if( !_rider )
+                else if( !Rider )
                 {
                     // Changed: Don't show invis people entering room.
-                    foreach( CharData watchCh in _inRoom.People )
+                    foreach( CharData watchCh in InRoom.People )
                     {
                         Visibility sight;
                         if ((sight = Look.HowSee(watchCh, this)) != 0 && watchCh != this
-                                && watchCh._flyLevel == _flyLevel )
+                                && watchCh.FlightLevel == FlightLevel )
                         {
                             // If visible to char (& not char), show msg.
                             if( sight == Visibility.visible )
                             {
                                 // If they can see the person enter clearly..
                                 text2 = String.Format( "{0}&n {1} in from {2}.\r\n", ShowNameTo( watchCh, true ),
-                                        ( _flyLevel != 0 ) ? "flies" : Race.RaceList[ GetRace() ].WalkMessage,
+                                        ( FlightLevel != 0 ) ? "flies" : Race.RaceList[ GetRace() ].WalkMessage,
                                         Exit.ReverseDirectionName[(int)door]);
                                 watchCh.SendText( text2 );
                             }
@@ -2645,7 +2643,7 @@ namespace MUDEngine
             }
 
             //* Why have mobiles see the room? 
-            if( _socket != null )
+            if( Socket != null )
             {
                 CommandType.Interpret(this, "look auto");
             }
@@ -2653,16 +2651,16 @@ namespace MUDEngine
             SetActionBit(moved );
 
             // Handle following.
-            for( int i = _inRoom.People.Count -1; i >= 0; i--)
+            for( int i = InRoom.People.Count -1; i >= 0; i--)
             {
-                CharData followChar = _inRoom.People[i];
-                if (followChar._master == this && followChar._position == Position.standing && followChar._wait == 0
-                        && followChar._flyLevel == _flyLevel && CanSee(followChar, this))
+                CharData followChar = InRoom.People[i];
+                if (followChar.Master == this && followChar.CurrentPosition == Position.standing && followChar.Wait == 0
+                        && followChar.FlightLevel == FlightLevel && CanSee(followChar, this))
                 {
                     SocketConnection.Act("You follow $N&n.", followChar, null, this, SocketConnection.MessageTarget.character);
                     followChar.Move(door);
                 }
-                else if (followChar == _rider)
+                else if (followChar == Rider)
                 {
                     followChar.Move(door);
                 }
@@ -2675,13 +2673,13 @@ namespace MUDEngine
             Crime.CheckInvader(this);
 
             // Check to see if a person falls out of this room
-            if( _inRoom.ExitData[ 5 ] && ( target = Room.GetRoom(_inRoom.ExitData[ 5 ].IndexNumber) ) )
+            if( InRoom.ExitData[ 5 ] && ( target = Room.GetRoom(InRoom.ExitData[ 5 ].IndexNumber) ) )
             {
-                if( _inRoom.TerrainType == TerrainType.air ||
-                        _inRoom.TerrainType == TerrainType.plane_of_air ||
-                        _inRoom.TerrainType == TerrainType.underground_no_ground ||
-                        _inRoom.FallChance != 0 )
-                    Event.CheckFall(_inRoom, target, this);
+                if( InRoom.TerrainType == TerrainType.air ||
+                        InRoom.TerrainType == TerrainType.plane_of_air ||
+                        InRoom.TerrainType == TerrainType.underground_no_ground ||
+                        InRoom.FallChance != 0 )
+                    Event.CheckFall(InRoom, target, this);
             }
 
             //    prog_entry_trigger( ch );
@@ -2730,14 +2728,14 @@ namespace MUDEngine
             if( obj.WearLocation == ObjTemplate.WearLocation.none )
             {
                 string buf = String.Format( "Unequip_char: {0} already unequipped with {1}.",
-                                            _name, obj.ObjIndexData.IndexNumber );
+                                            Name, obj.ObjIndexData.IndexNumber );
                 Log.Error( buf, 0 );
                 return;
             }
 
-            _armorPoints += Object.GetArmorClassModifer( obj, obj.WearLocation );
+            ArmorPoints += Object.GetArmorClassModifer( obj, obj.WearLocation );
             obj.WearLocation = ObjTemplate.WearLocation.none;
-            _carryNumber++;
+            CarryNumber++;
 
             foreach (Affect affect in obj.ObjIndexData.Affected)
             {
@@ -2749,27 +2747,27 @@ namespace MUDEngine
             }
 
             if (obj.ItemType == ObjTemplate.ObjectType.light
-                    && obj.Values[2] != 0 && _inRoom && _inRoom.Light > 0)
+                    && obj.Values[2] != 0 && InRoom && InRoom.Light > 0)
             {
-                --_inRoom.Light;
+                --InRoom.Light;
             }
 
             for( aff = 0; aff < Limits.NUM_AFFECT_VECTORS; aff++ )
             {
                 /* Remove all affects of object being removed. */
-                _affectedBy[ aff ] = _affectedBy[ aff ] & ~obj.AffectedBy[ aff ];
+                AffectedBy[ aff ] = AffectedBy[ aff ] & ~obj.AffectedBy[ aff ];
                 /* Add any affects that are on the object being removed and
                 another object that is worn. */
-                foreach( Object carryObject in _carrying )
+                foreach( Object carryObject in Carrying )
                 {
                     if (carryObject.WearLocation != ObjTemplate.WearLocation.none)
                     {
-                        _affectedBy[aff] = _affectedBy[aff] | carryObject.AffectedBy[aff];
+                        AffectedBy[aff] = AffectedBy[aff] | carryObject.AffectedBy[aff];
                     }
                 }
             }
 
-            if (!IsNPC() && _socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if (!IsNPC() && Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 Command.Equipment(this, new string[] { "" });
             }
@@ -2789,7 +2787,7 @@ namespace MUDEngine
 
             foreach (KeyValuePair<String, Spell> kvp in Spell.SpellList)
             {
-                if (kvp.Value.SpellCircle[(int)_charClass.ClassNumber] == 1
+                if (kvp.Value.SpellCircle[(int)CharacterClass.ClassNumber] == 1
                         && (!((PC)this).SpellAptitude.ContainsKey(kvp.Key) ||
                            ((PC)this).SpellAptitude[kvp.Key] < (Limits.BASE_SPELL_ADEPT + 5)))
                 {
@@ -2834,7 +2832,7 @@ namespace MUDEngine
 
             foreach (KeyValuePair<String, Song> kvp in Database.SongList)
             {
-                if (kvp.Value._spellCircle[(int)_charClass.ClassNumber] == 1
+                if (kvp.Value.SongCircle[(int)CharacterClass.ClassNumber] == 1
                         && ((PC)this).SongAptitude[kvp.Key] < (Limits.BASE_SPELL_ADEPT + 5))
                     ((PC)this).SongAptitude[kvp.Key] = (Limits.BASE_SPELL_ADEPT + 5);
             }
@@ -2906,7 +2904,7 @@ namespace MUDEngine
         /// <returns></returns>
         private bool HasLevelForSkill( string name )
         {
-            if (_level >= GetLevelForSkill(name))
+            if (Level >= GetLevelForSkill(name))
             {
                 return true;
             }
@@ -2921,7 +2919,7 @@ namespace MUDEngine
         /// <returns></returns>
         private int GetLevelForSkill(string name)
         {
-            foreach (SkillEntry se in _charClass.Skills)
+            foreach (SkillEntry se in CharacterClass.Skills)
             {
                 if (se.Name == name)
                 {
@@ -2989,11 +2987,11 @@ namespace MUDEngine
         /// <returns></returns>
         private bool HasLevelForSpell(Spell spell)
         {
-            foreach (SpellEntry se in _charClass.Spells)
+            foreach (SpellEntry se in CharacterClass.Spells)
             {
                 if( se.Name == spell.Name )
                 {
-                    if( _level >= (se.Circle * 4 - 3) )
+                    if( Level >= (se.Circle * 4 - 3) )
                     {
                         return true;
                     }
@@ -3147,7 +3145,7 @@ namespace MUDEngine
         {
             if( IsNPC() )
             {
-                return _socket.Original;
+                return Socket.Original;
             }
             return this;
         }
@@ -3172,10 +3170,10 @@ namespace MUDEngine
             if( damType == AttackType.DamageType.none )
                 return ris;
 
-            resistant = _resistant | Race.RaceList[ GetRace() ].Resistant;
-            immune = _immune | Race.RaceList[ GetRace() ].Immune;
-            susceptible = _susceptible | Race.RaceList[ GetRace() ].Susceptible;
-            vulnerable = _vulnerable | Race.RaceList[ GetRace() ].Vulnerable;
+            resistant = Resistant | Race.RaceList[ GetRace() ].Resistant;
+            immune = Immune | Race.RaceList[ GetRace() ].Immune;
+            susceptible = Susceptible | Race.RaceList[ GetRace() ].Susceptible;
+            vulnerable = Vulnerable | Race.RaceList[ GetRace() ].Vulnerable;
 
             if( damType < AttackType.DamageType.magic_other )
             {
@@ -3306,7 +3304,7 @@ namespace MUDEngine
 
             for( icount = 0; icount < Limits.MAX_GUILD_MEMBERS; ++icount )
             {
-                if( !MUDString.StringsNotEqual( guild.Members[ icount ].Name, _name ) )
+                if( !MUDString.StringsNotEqual( guild.Members[ icount ].Name, Name ) )
                 {
                     guild.Members[ icount ].Filled = false;
                 }
@@ -3340,12 +3338,12 @@ namespace MUDEngine
             ch.SendText( "&+WYou gain a level!&n\r\n" );
 
             /* Knock down a level of exp so they don't spamlevel. */
-            ch._experiencePoints -= ExperienceTable.Table[ ch._level ].LevelExperience;
-            if (ch._experiencePoints < 0)
+            ch.ExperiencePoints -= ExperienceTable.Table[ ch.Level ].LevelExperience;
+            if (ch.ExperiencePoints < 0)
             {
-                ch._experiencePoints = 0;
+                ch.ExperiencePoints = 0;
             }
-            ch._level += 1;
+            ch.Level += 1;
 
             if( !ch.IsNPC() && ( (PC)ch ).LostHp != 0 )
             {
@@ -3357,10 +3355,10 @@ namespace MUDEngine
             }
             else
             {
-                addHp = MUDMath.NumberRange( ch._charClass.MinHpGain, ch._charClass.MaxHpGain );
+                addHp = MUDMath.NumberRange( ch.CharacterClass.MinHpGain, ch.CharacterClass.MaxHpGain );
             }
 
-            int addMana = ch._charClass.GainsMana
+            int addMana = ch.CharacterClass.GainsMana
                                ? MUDMath.Dice( 2, ( ( 2 * ch.GetCurrInt() + ch.GetCurrWis() ) / 30 ) )
                                : 0;
 
@@ -3379,39 +3377,39 @@ namespace MUDEngine
             addMana = Math.Max( 0, addMana );
 
             // Don't touch _maxHitpoints except for PERMANENT changes.
-            ch._maxHitpoints += addHp;
+            ch.MaxHitpoints += addHp;
 
-            ch._hitpoints += addHp;
+            ch.Hitpoints += addHp;
 
-            ch._maxMana += addMana;
-            ch._currentMana += addMana;
+            ch.MaxMana += addMana;
+            ch.CurrentMana += addMana;
 
             // People getting hits rerolled shouldn't get automatic skill increases.
             if( skills )
             {
                 if( ch.IsClass(CharClass.Names.monk) || ch.IsClass(CharClass.Names.mystic ))
                 {
-                    ( (PC)ch ).Train += ( 1 + ch._level / 10 );
+                    ( (PC)ch ).Train += ( 1 + ch.Level / 10 );
                 }
                 ch.InitializeSkills();
             }
 
-            if( ( (PC)ch ).LostHp == 0 && ( ch.IsClass(CharClass.Names.monk) && ch._charClass.ClassNumber == CharClass.Names.mystic ) )
+            if( ( (PC)ch ).LostHp == 0 && ( ch.IsClass(CharClass.Names.monk) && ch.CharacterClass.ClassNumber == CharClass.Names.mystic ) )
             {
-                if( ch._level <= 8 )
+                if( ch.Level <= 8 )
                     ( (PC)ch ).SkillPoints += 1;
-                else if( ch._level <= 16 )
+                else if( ch.Level <= 16 )
                     ( (PC)ch ).SkillPoints += 2;
-                else if( ch._level <= 24 )
+                else if( ch.Level <= 24 )
                     ( (PC)ch ).SkillPoints += 3;
-                else if( ch._level <= 32 )
+                else if( ch.Level <= 32 )
                     ( (PC)ch ).SkillPoints += 4;
-                else if( ch._level <= 36 )
+                else if( ch.Level <= 36 )
                     ( (PC)ch ).SkillPoints += 5;
-                else if( ch._level <= 40 )
+                else if( ch.Level <= 40 )
                     ( (PC)ch ).SkillPoints += 6;
                 else
-                    ( (PC)ch ).SkillPoints += ch._level - 34;
+                    ( (PC)ch ).SkillPoints += ch.Level - 34;
             }
             /* Clerics and psionicists should automatically get new spells
             *  every five levels and be notified what they learned. And shamans too.
@@ -3420,13 +3418,13 @@ namespace MUDEngine
                     || ch.IsClass(CharClass.Names.shaman) || ch.IsClass(CharClass.Names.paladin)
                     || ch.IsClass(CharClass.Names.antipaladin) || ch.IsClass(CharClass.Names.druid ))
             {
-                if( ch._level % 4 == 1 )
+                if( ch.Level % 4 == 1 )
                 {
                     ch.SendText( "You learn new spells!\r\n" );
                     foreach (KeyValuePair<String, Spell> kvp in Spell.SpellList)
                     {
-                        if ((kvp.Value.SpellCircle[(int)ch._charClass.ClassNumber] <=
-                                ( ( ch._level + 3 ) / 4 ) )
+                        if ((kvp.Value.SpellCircle[(int)ch.CharacterClass.ClassNumber] <=
+                                ( ( ch.Level + 3 ) / 4 ) )
                                 && (!ch.HasSpell(kvp.Key) || ( ( (PC)ch ).SpellAptitude[ kvp.Key ] < Limits.BASE_SPELL_ADEPT + ch.GetCurrWis() / 9 ))
                                 && kvp.Value.CanBeScribed )
                         {
@@ -3441,7 +3439,7 @@ namespace MUDEngine
             if( ch.IsClass(CharClass.Names.psionicist) || ch.IsClass(CharClass.Names.bard) )
             {
                 buf = String.Format( "Your gain is: {0}/{1} hp, {2}/{3} mana.\r\n", ( addHp * ch.GetCurrCon() / 100 ), ch.GetMaxHit(),
-                          addMana, ch._maxMana );
+                          addMana, ch.MaxMana );
                 ch.SendText( buf );
             }
             else
@@ -3482,14 +3480,14 @@ namespace MUDEngine
             CharData ch = this;
             string text;
 
-            if (ch._level == 1)
+            if (ch.Level == 1)
             {
                 return;
             }
 
-            int addHp = ch._charClass.MaxHpGain;
+            int addHp = ch.CharacterClass.MaxHpGain;
 
-            int addMana = ch._charClass.GainsMana
+            int addMana = ch.CharacterClass.GainsMana
                                ? MUDMath.NumberRange( 2, ( ( 2 * ch.GetCurrInt() + ch.GetCurrWis() ) / 16 ) )
                                : 0;
 
@@ -3507,21 +3505,21 @@ namespace MUDEngine
             addHp = Math.Max( 1, addHp );
             addMana = Math.Max( 0, addMana );
 
-            ch._maxHitpoints -= addHp;
-            ch._hitpoints -= addHp;
-            ch._maxMana -= addMana;
-            ch._currentMana -= addMana;
+            ch.MaxHitpoints -= addHp;
+            ch.Hitpoints -= addHp;
+            ch.MaxMana -= addMana;
+            ch.CurrentMana -= addMana;
 
             if (!ch.IsNPC())
             {
                 ((PC)ch).LostHp = addHp;
             }
 
-            ch._level -= 1;
+            ch.Level -= 1;
             if( ch.IsClass( CharClass.Names.psionicist) || ch.IsClass(CharClass.Names.bard ))
             {
                 text = String.Format("Your loss is: {0}/{1} hp, {2}/{3} mana.\r\n",
-                          ( addHp * ch.GetCurrCon() / 100 ), ch.GetMaxHit(), addMana, ch._maxMana );
+                          ( addHp * ch.GetCurrCon() / 100 ), ch.GetMaxHit(), addMana, ch.MaxMana );
             }
             else
             {
@@ -3542,9 +3540,9 @@ namespace MUDEngine
             }
 
             /* Cap for exp on any kill. Equivalent of ress exp.  */
-            if (gain > ((50 + ch._level) * ExperienceTable.Table[ch._level].LevelExperience) / 500)
+            if (gain > ((50 + ch.Level) * ExperienceTable.Table[ch.Level].LevelExperience) / 500)
             {
-                gain = ((50 + ch._level) * ExperienceTable.Table[ch._level].LevelExperience) / 500;
+                gain = ((50 + ch.Level) * ExperienceTable.Table[ch.Level].LevelExperience) / 500;
             }
 
             // Human experience bonus of 10% as a Human innate 
@@ -3553,34 +3551,34 @@ namespace MUDEngine
                 gain = ( gain * 11 ) / 10;
             }
 
-            ch._experiencePoints += gain;
+            ch.ExperiencePoints += gain;
 
             /* Allow MAX_ADVANCE_LEVEL chars to continue gaining exp, but do not let them gain
             *  any levels.  That's the job of 51/52/etc. potions. */
-            if( ( ch._experiencePoints >= ExperienceTable.Table[ ch._level ].LevelExperience ) && ( ch._level < Limits.MAX_ADVANCE_LEVEL ) )
+            if( ( ch.ExperiencePoints >= ExperienceTable.Table[ ch.Level ].LevelExperience ) && ( ch.Level < Limits.MAX_ADVANCE_LEVEL ) )
             {
                 /* Increase a level. Better than just stealing all their exp
                 * past 1 level; allows someone needing 1 exp to level to get more
                 * than two exp.  Also allows them to only get 1.
                 */
                 ch.AdvanceLevel( true );
-                text = String.Format( "{0} has levelled and is now level {1}.", ch._name, ch._level );
+                text = String.Format( "{0} has levelled and is now level {1}.", ch.Name, ch.Level );
                 ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_LEVELS, ch.GetTrust(), text );
                 if( Macros.IsSet( (int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.turbolevel ) )
                 {
-                    while( ch._level % 10 != 0 )
+                    while( ch.Level % 10 != 0 )
                     {
-                        ch.GainExperience( ExperienceTable.Table[ ch._level ].LevelExperience );
+                        ch.GainExperience( ExperienceTable.Table[ ch.Level ].LevelExperience );
                     }
                 }
             }
             /* Lvl 1 chars can't lose lvl. */
-            else if( ch._experiencePoints < 0 && ch._level > 1 && !ch.IsImmortal() )
+            else if( ch.ExperiencePoints < 0 && ch.Level > 1 && !ch.IsImmortal() )
             {
-                ch._experiencePoints = ExperienceTable.Table[ ( ch._level - 1 ) ].LevelExperience + ch._experiencePoints;
+                ch.ExperiencePoints = ExperienceTable.Table[ ( ch.Level - 1 ) ].LevelExperience + ch.ExperiencePoints;
                 ch.SendText( "&+RYou lose a level!&n\r\n" );
                 ch.DemoteLevel();
-                text = String.Format( "{0} has de-levelled and is now level {1}.", ch._name, ch._level );
+                text = String.Format( "{0} has de-levelled and is now level {1}.", ch.Name, ch.Level );
                 ImmortalChat.SendImmortalChat( ch, ImmortalChat.IMMTALK_LEVELS, ch.GetTrust(), text );
             }
             return;
@@ -3598,16 +3596,16 @@ namespace MUDEngine
                 return true;
             }
 
-            if (_groupLeader == null || ch._groupLeader == null)
+            if (GroupLeader == null || ch.GroupLeader == null)
             {
                 return false;
             }
 
-            if (ch._groupLeader)
+            if (ch.GroupLeader)
             {
-                ch = ch._groupLeader;
+                ch = ch.GroupLeader;
             }
-            return _groupLeader == ch;
+            return GroupLeader == ch;
         }
 
         /// <summary>
@@ -3631,7 +3629,7 @@ namespace MUDEngine
         bool CheckGroup( )
         {
             // No char/leader => not in group
-            if (_groupLeader == null)
+            if (GroupLeader == null)
             {
                 return false;
             }
@@ -3654,21 +3652,21 @@ namespace MUDEngine
             CharData ch = this;
             int door;
 
-            if( ch._inRoom == null )
+            if( ch.InRoom == null )
             {
                 return;
             }
 
             for( door = 0; door < Limits.MAX_DIRECTION; door++ )
             {
-                if (ch._inRoom.ExitData[door] && ch._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.closed)
-                        && !ch._inRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)
-                        && ch._inRoom.ExitData[ door ].Key < 0 )
+                if (ch.InRoom.ExitData[door] && ch.InRoom.ExitData[door].HasFlag(Exit.ExitFlag.closed)
+                        && !ch.InRoom.ExitData[door].HasFlag(Exit.ExitFlag.secret)
+                        && ch.InRoom.ExitData[ door ].Key < 0 )
                 {
                     /* get last argument from door keywords */
                     //            buf1 = MUDString.one_argument( ch.in_room.exit[door].keyword, buf);
                     int i = 0;
-                    string text = ch._inRoom.ExitData[ door ].Keyword;
+                    string text = ch.InRoom.ExitData[ door ].Keyword;
                     string buffer = text;
                     while( !String.IsNullOrEmpty(buffer) && i < 9 )
                     {
@@ -3677,12 +3675,12 @@ namespace MUDEngine
                     }
                     string lbuf = String.Format( "Comparing {0} against word said: {1}", text, arg );
                     ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
-                    if( !MUDString.StringsNotEqual( MUDString.LastArgument( ch._inRoom.ExitData[ door ].Keyword ), arg ) )
+                    if( !MUDString.StringsNotEqual( MUDString.LastArgument( ch.InRoom.ExitData[ door ].Keyword ), arg ) )
                     {
-                        Exit exit = ch._inRoom.ExitData[door].TargetRoom.ExitData[(int)Exit.ReverseDirection((Exit.Direction)door)];
-                        MUDString.OneArgument( ch._inRoom.ExitData[ door ].Keyword, ref text );
+                        Exit exit = ch.InRoom.ExitData[door].TargetRoom.ExitData[(int)Exit.ReverseDirection((Exit.Direction)door)];
+                        MUDString.OneArgument( ch.InRoom.ExitData[ door ].Keyword, ref text );
                         string outputText = String.Format( "The {0} hums briefly and opens.", text );
-                        ch._inRoom.ExitData[door].RemoveFlag(Exit.ExitFlag.closed);
+                        ch.InRoom.ExitData[door].RemoveFlag(Exit.ExitFlag.closed);
                         exit.RemoveFlag(Exit.ExitFlag.closed);
                         SocketConnection.Act( outputText, ch, null, null, SocketConnection.MessageTarget.room );
                         SocketConnection.Act( outputText, ch, null, null, SocketConnection.MessageTarget.character );
@@ -3702,25 +3700,25 @@ namespace MUDEngine
                 return;
             }
 
-            if( ch._groupLeader == null )
+            if( ch.GroupLeader == null )
             {
                 Log.Error( "CharData.RemoveFromGroup: ch not grouped.", 0 );
-                ch._nextInGroup = null;
+                ch.NextInGroup = null;
                 return;
             }
-            if( victim._groupLeader == null )
+            if( victim.GroupLeader == null )
             {
                 Log.Error( "CharData.RemoveFromGroup: victim not grouped.", 0 );
-                victim._nextInGroup = null;
+                victim.NextInGroup = null;
                 return;
             }
 
             if( ch == victim )
             {
                 victim.SendText( "You leave the group.\r\n" );
-                if (victim != victim._groupLeader)
+                if (victim != victim.GroupLeader)
                 {
-                    SocketConnection.Act("$N&n leaves your group.", victim._groupLeader, null, victim, SocketConnection.MessageTarget.character);
+                    SocketConnection.Act("$N&n leaves your group.", victim.GroupLeader, null, victim, SocketConnection.MessageTarget.character);
                 }
             }
             else
@@ -3729,41 +3727,41 @@ namespace MUDEngine
                 SocketConnection.Act( "$n&n removes you from $s group.", ch, null, victim, SocketConnection.MessageTarget.victim );
             }
 
-            if( victim._groupLeader != victim )
+            if( victim.GroupLeader != victim )
             {   
                 /* Remove group member from group. */
-                CharData prevGmember = victim._groupLeader;
+                CharData prevGmember = victim.GroupLeader;
 
                 /* Find previous group member. */
-                while (prevGmember != null && prevGmember._nextInGroup != victim)
+                while (prevGmember != null && prevGmember.NextInGroup != victim)
                 {
-                    prevGmember = prevGmember._nextInGroup;
+                    prevGmember = prevGmember.NextInGroup;
                 }
                 if( prevGmember == null )
                 {
                     Log.Error( "CharData.RemoveFromGroup: ch has leader but not on group list.", 0 );
-                    victim._groupLeader = null;
-                    victim._nextInGroup = null;
+                    victim.GroupLeader = null;
+                    victim.NextInGroup = null;
                     return;
                 }
                 /* remove ch from group */
-                prevGmember._nextInGroup = victim._nextInGroup;
+                prevGmember.NextInGroup = victim.NextInGroup;
                 /* remove group from ch */
-                victim._groupLeader = null;
-                victim._nextInGroup = null;
+                victim.GroupLeader = null;
+                victim.NextInGroup = null;
                 /* Member of a group of 2. */
-                if( prevGmember == prevGmember._groupLeader &&
-                        prevGmember._nextInGroup == null )
+                if( prevGmember == prevGmember.GroupLeader &&
+                        prevGmember.NextInGroup == null )
                 {
                     prevGmember.SendText( "Your group has been disbanded.\r\n" );
-                    prevGmember._groupLeader = null;
+                    prevGmember.GroupLeader = null;
                     return;
                 }
             }
             else
             {   
                 /* Remove leader from group. */
-                CharData newLeader = victim._nextInGroup;
+                CharData newLeader = victim.NextInGroup;
                 CharData gmembers;
 
                 /* Leader of a group of 1 ?! */
@@ -3774,16 +3772,16 @@ namespace MUDEngine
                 }
 
                 /* Leader of a group of 2. */
-                if( ( gmembers = newLeader._nextInGroup ) == null )
+                if( ( gmembers = newLeader.NextInGroup ) == null )
                 {
                     newLeader.SendText( "Your group has been disbanded.\r\n" );
                     return;
                 }
-                newLeader._groupLeader = newLeader;
+                newLeader.GroupLeader = newLeader;
                 while( gmembers != null )
                 {
-                    gmembers._groupLeader = newLeader;
-                    gmembers = gmembers._nextInGroup;
+                    gmembers.GroupLeader = newLeader;
+                    gmembers = gmembers.NextInGroup;
                 }
             }
         }
@@ -3797,14 +3795,14 @@ namespace MUDEngine
             }
 
             /* Only the leader can add to group. */
-            if( this != _groupLeader )
+            if( this != GroupLeader )
             {
-                if( _groupLeader != null )
+                if( GroupLeader != null )
                 {
                     Log.Error( "AddGroupMember: this not group leader!", 0 );
                     return;
                 }
-                _groupLeader = this;
+                GroupLeader = this;
             }
 
             SocketConnection.Act( "$N&n joins your group.", this, null, victim, SocketConnection.MessageTarget.character );
@@ -3812,16 +3810,16 @@ namespace MUDEngine
 
             /* Move to last char in group. */
             CharData ch = this;
-            while( ch._nextInGroup != null )
+            while( ch.NextInGroup != null )
             {
-                ch._nextInGroup._groupLeader = ch._groupLeader;
-                ch = ch._nextInGroup;
+                ch.NextInGroup.GroupLeader = ch.GroupLeader;
+                ch = ch.NextInGroup;
             }
             /* Add char to group. */
-            ch._nextInGroup = victim;
-            victim._nextInGroup = null;
+            ch.NextInGroup = victim;
+            victim.NextInGroup = null;
             /* Add group to char. */
-            victim._groupLeader = ch._groupLeader;
+            victim.GroupLeader = ch.GroupLeader;
         }
 
         /// <summary>
@@ -3839,7 +3837,7 @@ namespace MUDEngine
 
             try
             {
-                if (ch._fighting)
+                if (ch.Fighting)
                 {
                     Combat.StopFighting(ch, true);
                 }
@@ -3859,15 +3857,15 @@ namespace MUDEngine
 
                     if (ch.IsNPC())
                     {
-                        name = ch._shortDescription;
+                        name = ch.ShortDescription;
                     }
                     else
                     {
-                        name = ch._name;
+                        name = ch.Name;
                     }
 
                     ch.DieFollower(name);
-                    if (ch._groupLeader || ch._nextInGroup)
+                    if (ch.GroupLeader || ch.NextInGroup)
                     {
                         ch.RemoveFromGroup(ch);
                     }
@@ -3890,9 +3888,9 @@ namespace MUDEngine
                         }
                     }
 
-                    for (int i = ch._carrying.Count - 1; i >= 0; --i)
+                    for (int i = ch.Carrying.Count - 1; i >= 0; --i)
                     {
-                        ch._carrying[i].RemoveFromWorld();
+                        ch.Carrying[i].RemoveFromWorld();
                     }
                 }
 
@@ -3900,9 +3898,9 @@ namespace MUDEngine
                 for (int xx = Database.CharList.Count - 1; xx >= 0; xx--)
                 {
                     worldChar = Database.CharList[xx];
-                    if (worldChar._replyTo == ch)
+                    if (worldChar.ReplyTo == ch)
                     {
-                        worldChar._replyTo = null;
+                        worldChar.ReplyTo = null;
                     }
                     if (worldChar.IsConsenting(ch))
                     {
@@ -3921,9 +3919,9 @@ namespace MUDEngine
                     }
                     if (worldChar.IsHating(ch))
                         worldChar.StopHating(ch);
-                    if (worldChar._hunting && worldChar._hunting.Who == ch)
+                    if (worldChar.Hunting && worldChar.Hunting.Who == ch)
                         Combat.StopHunting(worldChar);
-                    if (worldChar._fearing && worldChar._fearing.Who == ch)
+                    if (worldChar.Fearing && worldChar.Fearing.Who == ch)
                         Combat.StopFearing(worldChar);
                     // Remove from the active character list.
                     // BUG: TODO: FIXME: This invalidates the list for anyone iterating through
@@ -3931,12 +3929,12 @@ namespace MUDEngine
                     // it = CharList.erase( it );
                 }
 
-                if (ch._inRoom)
+                if (ch.InRoom)
                 {
                     // This was placed *after* the act strings to be safe.
-                    for (int iwch = ch._inRoom.People.Count - 1; iwch >= 0; iwch--)
+                    for (int iwch = ch.InRoom.People.Count - 1; iwch >= 0; iwch--)
                     {
-                        if (ch._inRoom.People[iwch] == ch)
+                        if (ch.InRoom.People[iwch] == ch)
                         {
                             ch.RemoveFromRoom();
                             break;
@@ -3949,10 +3947,10 @@ namespace MUDEngine
                 {
                     Room location;
 
-                    if (ch._level < 5 || Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.alwaysequip))
+                    if (ch.Level < 5 || Macros.IsSet((int)Database.SystemData.ActFlags, (int)Sysdata.MudFlags.alwaysequip))
                         ch.ReceiveNewbieEquipment();
 
-                    if (!ch.IsNPC() && (ch.GetOrigRace() < Limits.MAX_PC_RACE) && ((int)ch._charClass.ClassNumber < CharClass.ClassList.Length))
+                    if (!ch.IsNPC() && (ch.GetOrigRace() < Limits.MAX_PC_RACE) && ((int)ch.CharacterClass.ClassNumber < CharClass.ClassList.Length))
                     {
                         // Get the default respawn location based on currhome, then race/class default.
                         location = Room.GetRoom(((PC)ch).CurrentHome);
@@ -3971,7 +3969,7 @@ namespace MUDEngine
                             location = Room.GetRoom(place);
                             if (location == null)
                             {
-                                Log.Error("Starting room does not exist for class {0} of player's race!  Calling ch.AddToRoom() for altar.", (int)ch._charClass.ClassNumber);
+                                Log.Error("Starting room does not exist for class {0} of player's race!  Calling ch.AddToRoom() for altar.", (int)ch.CharacterClass.ClassNumber);
                                 ch.AddToRoom(Room.GetRoom(StaticRooms.GetRoomNumber("ROOM_NUMBER_ALTAR")));
                             }
                         }
@@ -3999,7 +3997,7 @@ namespace MUDEngine
                 // Clear modifiers.
                 if (ch.IsNPC())
                 {
-                    --ch._mobTemplate.NumActive;
+                    --ch.MobileTemplate.NumActive;
                 }
                 else
                 {
@@ -4007,28 +4005,28 @@ namespace MUDEngine
                     ((PC)ch).Thirst = 48;
                     ((PC)ch).Drunk = 0;
                     ((PC)ch).LastRentLocation = 0;
-                    ch._armorPoints = 100;
-                    ch._position = Position.standing;
-                    ch._hitpoints = Math.Max(1, ch._hitpoints);
-                    ch._currentMana = Math.Max(1, ch._currentMana);
-                    ch._currentMoves = Math.Max(1, ch._currentMoves);
+                    ch.ArmorPoints = 100;
+                    ch.CurrentPosition = Position.standing;
+                    ch.Hitpoints = Math.Max(1, ch.Hitpoints);
+                    ch.CurrentMana = Math.Max(1, ch.CurrentMana);
+                    ch.CurrentMoves = Math.Max(1, ch.CurrentMoves);
                     ((PC)ch).HitpointModifier = 0;
-                    ch._hitroll = 0;
-                    ch._damroll = 0;
-                    ch._savingThrows[0] = 0;
-                    ch._savingThrows[1] = 0;
-                    ch._savingThrows[2] = 0;
-                    ch._savingThrows[3] = 0;
-                    ch._savingThrows[4] = 0;
-                    ch._modifiedStrength = 0;
-                    ch._modifiedIntelligence = 0;
-                    ch._modifiedWisdom = 0;
-                    ch._modifiedDexterity = 0;
-                    ch._modifiedConstitution = 0;
-                    ch._modifiedAgility = 0;
-                    ch._modifiedCharisma = 0;
-                    ch._modifiedPower = 0;
-                    ch._modifiedLuck = 0;
+                    ch.Hitroll = 0;
+                    ch.Damroll = 0;
+                    ch.SavingThrows[0] = 0;
+                    ch.SavingThrows[1] = 0;
+                    ch.SavingThrows[2] = 0;
+                    ch.SavingThrows[3] = 0;
+                    ch.SavingThrows[4] = 0;
+                    ch.ModifiedStrength = 0;
+                    ch.ModifiedIntelligence = 0;
+                    ch.ModifiedWisdom = 0;
+                    ch.ModifiedDexterity = 0;
+                    ch.ModifiedConstitution = 0;
+                    ch.ModifiedAgility = 0;
+                    ch.ModifiedCharisma = 0;
+                    ch.ModifiedPower = 0;
+                    ch.ModifiedLuck = 0;
                     ((PC)ch).MaxStrMod = 0;
                     ((PC)ch).MaxIntMod = 0;
                     ((PC)ch).MaxWisMod = 0;
@@ -4040,12 +4038,12 @@ namespace MUDEngine
                     ((PC)ch).MaxLukMod = 0;
                 }
 
-                if (ch._socket && ch._socket.Original)
+                if (ch.Socket && ch.Socket.Original)
                 {
                     CommandType.Interpret(ch, "return");
                 }
 
-                ch._deleteMe = true;
+                ch.DeleteMe = true;
             }
             catch (Exception ex)
             { 
@@ -4062,14 +4060,14 @@ namespace MUDEngine
         public bool CheckConcentration(Spell spell)
         {
             // Some spells can't be cast in combat.
-            if( !IsClass( CharClass.Names.bard ) && _position == Position.fighting &&
+            if (!IsClass(CharClass.Names.bard) && CurrentPosition == Position.fighting &&
                 !( spell.CanCastInCombat ) )
             {
                 SendText( "You can't concentrate enough.\r\n" );
                 return false;
             }
             // Can't concentrate if you've been bashed.
-            if( _position != Position.standing && _position != Position.fighting )
+            if (CurrentPosition != Position.standing && CurrentPosition != Position.fighting)
             {
                 if (IsClass(CharClass.Names.bard))
                 {
@@ -4090,7 +4088,7 @@ namespace MUDEngine
         public void ShowGroup()
         {
             CharData groupChar;
-            bool bastTerm = (!IsNPC() && _socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED);
+            bool bastTerm = (!IsNPC() && Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED);
 
             // No arguments, no leader, no chance.
             if( !CheckGroup() )
@@ -4108,7 +4106,7 @@ namespace MUDEngine
 
             if (!bastTerm)
             {
-                SendText( String.Format("&+R{0}&+L's group:&n\r\n", _groupLeader.ShowNameTo(this, true)) );
+                SendText( String.Format("&+R{0}&+L's group:&n\r\n", GroupLeader.ShowNameTo(this, true)) );
             }
             else
             {
@@ -4116,27 +4114,27 @@ namespace MUDEngine
             }
             String text = String.Empty;
             int num = 0;
-            for( groupChar = _groupLeader; groupChar; groupChar = groupChar._nextInGroup )
+            for( groupChar = GroupLeader; groupChar; groupChar = groupChar.NextInGroup )
             {
                 // Won't show stats of a groupmember not in the room
-                if( _inRoom == groupChar._inRoom )
+                if( InRoom == groupChar.InRoom )
                 {
                     if (!bastTerm)
                     {
                         text = String.Format(
                             "&+L[&n{0} {1}&+L]&n {2}&n {3}&+L/&n{4}&+L hp&n {5}&+L/&n{6} &+Lmana&n {7}&+L/&n{8}&+L mv&n\r\n",
-                            MUDString.PadInt(groupChar._level, 2), groupChar.IsNPC() ? "Mob         " : groupChar._charClass.WholistName,
+                            MUDString.PadInt(groupChar.Level, 2), groupChar.IsNPC() ? "Mob         " : groupChar.CharacterClass.WholistName,
                             MUDString.PadStr(groupChar.ShowNameTo(this, true), 16),
-                            MUDString.PadInt(groupChar._hitpoints, 4), MUDString.PadInt(groupChar.GetMaxHit(), 4),
-                            MUDString.PadInt(groupChar._currentMana, 4), MUDString.PadInt(groupChar._maxMana, 4),
-                            MUDString.PadInt(groupChar._currentMoves, 4), MUDString.PadInt(groupChar._maxMoves, 4));
+                            MUDString.PadInt(groupChar.Hitpoints, 4), MUDString.PadInt(groupChar.GetMaxHit(), 4),
+                            MUDString.PadInt(groupChar.CurrentMana, 4), MUDString.PadInt(groupChar.MaxMana, 4),
+                            MUDString.PadInt(groupChar.CurrentMoves, 4), MUDString.PadInt(groupChar.MaxMoves, 4));
                     }
                     else
                     {
                         text = String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}:",
-                            num, groupChar._level, groupChar.IsNPC() ? "Mob" : groupChar._charClass.Name, groupChar.ShowNameTo(this,true),
-                              groupChar._hitpoints, groupChar.GetMaxHit(), groupChar._currentMana, groupChar._maxMana,
-                              groupChar._currentMoves, groupChar._maxMoves );
+                            num, groupChar.Level, groupChar.IsNPC() ? "Mob" : groupChar.CharacterClass.Name, groupChar.ShowNameTo(this,true),
+                              groupChar.Hitpoints, groupChar.GetMaxHit(), groupChar.CurrentMana, groupChar.MaxMana,
+                              groupChar.CurrentMoves, groupChar.MaxMoves );
                         ++num;
                     }
                     SendText( text );
@@ -4146,14 +4144,14 @@ namespace MUDEngine
                     if (!bastTerm)
                     {
                         text = String.Format("&+L[&n{0} {1}&+L]&n {2}&n\r\n",
-                                  MUDString.PadInt(groupChar._level, 2),
-                                  groupChar.IsNPC() ? "Mob         " : groupChar._charClass.WholistName,
+                                  MUDString.PadInt(groupChar.Level, 2),
+                                  groupChar.IsNPC() ? "Mob         " : groupChar.CharacterClass.WholistName,
                                   MUDString.PadStr(groupChar.ShowNameTo(this, true), 16));
                     }
                     else
                     {
                         text = String.Format("{0},{1},{2},{3},,,,,,:",
-                            num, groupChar._level, groupChar.IsNPC() ? "Mob" : groupChar._charClass.Name, groupChar.ShowNameTo(this, true));
+                            num, groupChar.Level, groupChar.IsNPC() ? "Mob" : groupChar.CharacterClass.Name, groupChar.ShowNameTo(this, true));
                         ++num;
                     }
                     SendText( text );
@@ -4182,7 +4180,7 @@ namespace MUDEngine
             }
 
             // They aren't going to gain hits in a no heal room...
-            if (ch._inRoom.HasFlag(RoomTemplate.ROOM_NO_HEAL))
+            if (ch.InRoom.HasFlag(RoomTemplate.ROOM_NO_HEAL))
             {
                 return 0;
             }
@@ -4199,7 +4197,7 @@ namespace MUDEngine
                 ch.PracticeSkill("fast healing");
             }
 
-            switch( ch._position )
+            switch( ch.CurrentPosition )
             {
                 case Position.sleeping:
                     gain += 3;
@@ -4218,9 +4216,9 @@ namespace MUDEngine
             if( ch.HasInnate( Race.RACE_REGENERATE ) )
             {
                 // Automatically one extra hp, two at level 30.
-                gain += 1 + (ch._level / 30);
+                gain += 1 + (ch.Level / 30);
                 // One percent chance of gaining another per level.
-                percent += (ch._level);
+                percent += (ch.Level);
             }
 
             // Hunger and thirst for PCs.
@@ -4254,23 +4252,23 @@ namespace MUDEngine
                     gain = 1;
 
             // Heal rooms heal you a little quicker
-            if (ch._inRoom.HasFlag(RoomTemplate.ROOM_HEAL))
+            if (ch.InRoom.HasFlag(RoomTemplate.ROOM_HEAL))
             {
                 gain += Math.Max(1, gain / 2);
             }
 
-            if( ( ch._inRoom.TerrainType != TerrainType.underwater_has_ground
-                    && ch._inRoom.TerrainType != TerrainType.unswimmable_water
-                    && ch._inRoom.TerrainType != TerrainType.swimmable_water
+            if( ( ch.InRoom.TerrainType != TerrainType.underwater_has_ground
+                    && ch.InRoom.TerrainType != TerrainType.unswimmable_water
+                    && ch.InRoom.TerrainType != TerrainType.swimmable_water
                     && ch.HasInnate( Race.RACE_WATERBREATH )
                     && MUDString.StringsNotEqual( Race.RaceList[ ch.GetRace() ].Name, "Object" )
                     && ch.GetRace() != Race.RACE_GOD )
-                    || ( ch._inRoom.TerrainType == TerrainType.underwater_has_ground
+                    || ( ch.InRoom.TerrainType == TerrainType.underwater_has_ground
                          && ( !ch.IsImmortal() && !ch.IsAffected( Affect.AFFECT_BREATHE_UNDERWATER )
                               && !ch.HasInnate( Race.RACE_WATERBREATH ) ) ) )
                 gain = 0;
 
-            return Math.Min( gain, ch.GetMaxHit() - ch._hitpoints );
+            return Math.Min( gain, ch.GetMaxHit() - ch.Hitpoints );
         }
 
         /// <summary>
@@ -4291,15 +4289,15 @@ namespace MUDEngine
 
             if( ch.IsNPC() )
             {
-                gain = 4 + ch._level / 10;
+                gain = 4 + ch.Level / 10;
             }
             else
             {
                 /* at 17 gain == base 5, at 34 gain == base 6, at 51 gain == base 7 */
-                gain = 4 + ch._level / 17;
+                gain = 4 + ch.Level / 17;
                 percent = 100;
 
-                switch( ch._position )
+                switch( ch.CurrentPosition )
                 {
                     case Position.sleeping:
                         percent += 100;
@@ -4337,7 +4335,7 @@ namespace MUDEngine
             else
                 gain = ( gain * ch.GetCurrCha() ) / 100;
 
-            return Math.Min( gain, ch._maxMana - ch._currentMana );
+            return Math.Min( gain, ch.MaxMana - ch.CurrentMana );
         }
 
         /// <summary>
@@ -4365,7 +4363,7 @@ namespace MUDEngine
                 // People like fast move regen, but 10 is too fast.
                 gain = 6;
 
-                switch( ch._position )
+                switch( ch.CurrentPosition )
                 {
                     case Position.sleeping:
                         gain += 4;
@@ -4395,13 +4393,13 @@ namespace MUDEngine
                     if( MUDMath.NumberPercent() < percent )
                         gain = 1;
             }
-            return Math.Min( gain, ch._maxMoves - ch._currentMoves );
+            return Math.Min( gain, ch.MaxMoves - ch.CurrentMoves );
         }
 
 
         public Object GetKey( int key )
         {
-            foreach( Object obj in _carrying )
+            foreach( Object obj in Carrying )
             {
                 if( obj.ObjIndexData.IndexNumber == key )
                     return obj;
@@ -4417,7 +4415,7 @@ namespace MUDEngine
         public void AdjustHunger(int value)
         {
             PC ch = (PC)this;
-            if (ch == null || value == 0 || ch._level >= Limits.LEVEL_HERO)
+            if (ch == null || value == 0 || ch.Level >= Limits.LEVEL_HERO)
                 return;
 
             ch.Hunger = Macros.Range(0, ch.Hunger + value, 48);
@@ -4445,7 +4443,7 @@ namespace MUDEngine
         public void AdjustThirst(int value)
         {
             PC ch = (PC)this;
-            if (ch == null || value == 0 || ch._level >= Limits.LEVEL_HERO)
+            if (ch == null || value == 0 || ch.Level >= Limits.LEVEL_HERO)
             {
                 return;
             }
@@ -4480,14 +4478,14 @@ namespace MUDEngine
         public void AdjustDrunk( int value )
         {
             PC ch = (PC)this;
-            if (value == 0 || ch._level >= Limits.LEVEL_HERO)
+            if (value == 0 || ch.Level >= Limits.LEVEL_HERO)
             {
                 return;
             }
 
             // Giving bards 3 mana per drunken unit
             if( ch.IsClass(CharClass.Names.bard ))
-                ch._currentMana += value * 3;
+                ch.CurrentMana += value * 3;
 
             if( ch.HasSkill( "alcohol tolerance" ) )
             {
@@ -4532,9 +4530,9 @@ namespace MUDEngine
                 return;
             }
 
-            if( _position == Position.fighting || _fighting )
+            if (CurrentPosition == Position.fighting || Fighting)
             {
-                if( victim == _fighting )
+                if( victim == Fighting )
                 {
                     SendText( "You're doing the best you can!\r\n" );
                     return;
@@ -4542,7 +4540,7 @@ namespace MUDEngine
                 int chance;
                 if( IsNPC() )
                 {
-                    chance = ( _level * 3 / 2 + 15 );
+                    chance = ( Level * 3 / 2 + 15 );
                 }
                 else if( HasSkill( "switch opponents" ) )
                 {
@@ -4551,14 +4549,14 @@ namespace MUDEngine
                 }
                 else
                 {
-                    chance = _level / 2;
+                    chance = Level / 2;
                 }
                 if( MUDMath.NumberPercent() < chance )
                 {
                     SendText( "You switch opponents!\r\n" );
                     SocketConnection.Act( "$n&n switches targets...", this, null, victim, SocketConnection.MessageTarget.character );
                     SocketConnection.Act( "$n&n switches targets...", this, null, victim, SocketConnection.MessageTarget.room_vict );
-                    _fighting = victim;
+                    Fighting = victim;
                     WaitState(Skill.SkillList["switch opponents"].Delay);
                     return;
                 }
@@ -4587,7 +4585,7 @@ namespace MUDEngine
 
             if (IsNPC())
             {
-                int chance = (((GetLevelForSkill(skill) + 1 - _level) * 2) + 15);
+                int chance = (((GetLevelForSkill(skill) + 1 - Level) * 2) + 15);
                 if (chance > 95) chance = 95;
                 return chance;
             }
@@ -4617,7 +4615,7 @@ namespace MUDEngine
 
             if( Object.GetEquipmentOnCharacter( this, iWear ) )
             {
-                string buf = String.Format( "CharData.EquipObject(): {0} already equipped at slot {1}.", _name, iWear );
+                string buf = String.Format( "CharData.EquipObject(): {0} already equipped at slot {1}.", Name, iWear );
                 Log.Error( buf, 0 );
                 return;
             }
@@ -4629,13 +4627,13 @@ namespace MUDEngine
                 SocketConnection.Act( "You are zapped by $p&n and drop it.", this, obj, null, SocketConnection.MessageTarget.character );
                 SocketConnection.Act( "$n&n is zapped by $p&n and drops it.", this, obj, null, SocketConnection.MessageTarget.room );
                 obj.RemoveFromChar();
-                obj.AddToRoom( _inRoom );
+                obj.AddToRoom( InRoom );
                 return;
             }
 
-            _armorPoints -= Object.GetArmorClassModifer( obj, iWear );
+            ArmorPoints -= Object.GetArmorClassModifer( obj, iWear );
             obj.WearLocation = iWear;
-            _carryNumber--;
+            CarryNumber--;
 
             foreach (Affect affect in obj.ObjIndexData.Affected)
             {
@@ -4647,15 +4645,15 @@ namespace MUDEngine
             }
 
             if (obj.ItemType == ObjTemplate.ObjectType.light
-                    && obj.Values[2] != 0 && _inRoom)
+                    && obj.Values[2] != 0 && InRoom)
             {
-                ++_inRoom.Light;
+                ++InRoom.Light;
             }
 
             for( aff = 0; aff < Limits.NUM_AFFECT_VECTORS; aff++ )
-                _affectedBy[ aff ] = _affectedBy[ aff ] | obj.AffectedBy[ aff ];
+                AffectedBy[ aff ] = AffectedBy[ aff ] | obj.AffectedBy[ aff ];
 
-            if (!IsNPC() && _socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if (!IsNPC() && Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 Command.Equipment(this, new string[] { "" } );
             }
@@ -4700,7 +4698,7 @@ namespace MUDEngine
                                 ( StaticObjects.OBJECT_NUMBER_NEWBIE_CLOAK + StaticObjects.NUM_NEWBIE_CLOAK - 1 ) );
             NewbieObjToChar( indexNumber, ObjTemplate.WearLocation.about_body );
 
-            NewbieObjToChar(_charClass.FirstWeapon, ObjTemplate.WearLocation.hand_one );
+            NewbieObjToChar(CharacterClass.FirstWeapon, ObjTemplate.WearLocation.hand_one );
 
             for( count = 0; count < 5; ++count )
             {
@@ -4745,29 +4743,29 @@ namespace MUDEngine
         /// </summary>
         public void ResetStats()
         {
-            _groupLeader = null;
-            _nextInGroup = null;
-            _hitroll = 0;
-            _damroll = 0;
-            _armorPoints = 100;
-            _savingThrows[0] = 0;
-            _savingThrows[1] = 0;
-            _savingThrows[2] = 0;
-            _savingThrows[3] = 0;
-            _savingThrows[4] = 0;
-            _modifiedStrength = 0;
-            _modifiedIntelligence = 0;
-            _modifiedWisdom = 0;
-            _modifiedDexterity = 0;
-            _modifiedConstitution = 0;
-            _modifiedAgility = 0;
-            _modifiedCharisma = 0;
-            _modifiedPower = 0;
-            _modifiedLuck = 0;
-            _resistant = Race.DamageType.none;
-            _immune = Race.DamageType.none;
-            _susceptible = Race.DamageType.none;
-            _vulnerable = Race.DamageType.none;
+            GroupLeader = null;
+            NextInGroup = null;
+            Hitroll = 0;
+            Damroll = 0;
+            ArmorPoints = 100;
+            SavingThrows[0] = 0;
+            SavingThrows[1] = 0;
+            SavingThrows[2] = 0;
+            SavingThrows[3] = 0;
+            SavingThrows[4] = 0;
+            ModifiedStrength = 0;
+            ModifiedIntelligence = 0;
+            ModifiedWisdom = 0;
+            ModifiedDexterity = 0;
+            ModifiedConstitution = 0;
+            ModifiedAgility = 0;
+            ModifiedCharisma = 0;
+            ModifiedPower = 0;
+            ModifiedLuck = 0;
+            Resistant = Race.DamageType.none;
+            Immune = Race.DamageType.none;
+            Susceptible = Race.DamageType.none;
+            Vulnerable = Race.DamageType.none;
             if (!IsNPC())
             {
                 ((PC)this).MaxStrMod = 0;
@@ -4781,23 +4779,23 @@ namespace MUDEngine
                 ((PC)this).MaxLukMod = 0;
                 ((PC)this).HitpointModifier = 0;
             }
-            _affectedBy = new int[Limits.NUM_AFFECT_VECTORS];
-            _carryNumber = 0;
-            foreach (Object obj3 in _carrying)
+            AffectedBy = new int[Limits.NUM_AFFECT_VECTORS];
+            CarryNumber = 0;
+            foreach (Object obj3 in Carrying)
             {
                 if (obj3.WearLocation == ObjTemplate.WearLocation.none)
-                    _carryNumber++;
+                    CarryNumber++;
             }
             foreach (ObjTemplate.WearLocation pos in Enum.GetValues(typeof(ObjTemplate.WearLocation)))
             {
                 Object obj = Object.GetEquipmentOnCharacter(this, pos);
                 if (!obj)
                     continue;
-                _armorPoints -= Object.GetArmorClassModifer(obj, pos);
+                ArmorPoints -= Object.GetArmorClassModifer(obj, pos);
                 int count; 
                 for (count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count)
                 {
-                    Macros.SetBit(ref _affectedBy[count], obj.AffectedBy[count]);
+                    Macros.SetBit(ref AffectedBy[count], obj.AffectedBy[count]);
                 }
                 if (obj.ObjIndexData)
                 {
@@ -4805,7 +4803,7 @@ namespace MUDEngine
                     {
                         for (count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count)
                         {
-                            Macros.SetBit(ref _affectedBy[count], affect.BitVectors[count]);
+                            Macros.SetBit(ref AffectedBy[count], affect.BitVectors[count]);
                         }
                         ApplyAffectModifiers(affect);
                     }
@@ -4818,12 +4816,12 @@ namespace MUDEngine
                 {
                     for (count = 0; count < Limits.NUM_AFFECT_VECTORS; ++count)
                     {
-                        Macros.SetBit(ref _affectedBy[count], affect.BitVectors[count]);
+                        Macros.SetBit(ref AffectedBy[count], affect.BitVectors[count]);
                     }
                     ApplyAffectModifiers(affect);
                 }
             }
-            foreach (Affect affect in _affected)
+            foreach (Affect affect in Affected)
             {
                 ApplyAffectModifiers(affect);
             } //end for
@@ -4841,33 +4839,33 @@ namespace MUDEngine
                     case Affect.Apply.none:
                         break;
                     case Affect.Apply.strength:
-                        _modifiedStrength += mod;
+                        ModifiedStrength += mod;
                         break;
                     case Affect.Apply.dexterity:
-                        _modifiedDexterity += mod;
+                        ModifiedDexterity += mod;
                         break;
                     case Affect.Apply.intelligence:
-                        _modifiedIntelligence += mod;
+                        ModifiedIntelligence += mod;
                         break;
                     case Affect.Apply.wisdom:
-                        _modifiedWisdom += mod;
+                        ModifiedWisdom += mod;
                         break;
                     case Affect.Apply.constitution:
                         {
-                            _modifiedConstitution += mod;
+                            ModifiedConstitution += mod;
                             break;
                         }
                     case Affect.Apply.agility:
-                        _modifiedAgility += mod;
+                        ModifiedAgility += mod;
                         break;
                     case Affect.Apply.charisma:
-                        _modifiedCharisma += mod;
+                        ModifiedCharisma += mod;
                         break;
                     case Affect.Apply.power:
-                        _modifiedPower += mod;
+                        ModifiedPower += mod;
                         break;
                     case Affect.Apply.luck:
-                        _modifiedLuck += mod;
+                        ModifiedLuck += mod;
                         break;
                     case Affect.Apply.age:
                         break;
@@ -4882,32 +4880,32 @@ namespace MUDEngine
                         }
                         else
                         {
-                            _maxHitpoints += mod;
+                            MaxHitpoints += mod;
                         }
                         break;
                     case Affect.Apply.ac:
-                        _armorPoints += mod;
+                        ArmorPoints += mod;
                         break;
                     case Affect.Apply.hitroll:
-                        _hitroll += mod;
+                        Hitroll += mod;
                         break;
                     case Affect.Apply.damroll:
-                        _damroll += mod;
+                        Damroll += mod;
                         break;
                     case Affect.Apply.save_paralysis:
-                        _savingThrows[0] += mod;
+                        SavingThrows[0] += mod;
                         break;
                     case Affect.Apply.save_poison:
-                        _savingThrows[1] += mod;
+                        SavingThrows[1] += mod;
                         break;
                     case Affect.Apply.save_petrification:
-                        _savingThrows[2] += mod;
+                        SavingThrows[2] += mod;
                         break;
                     case Affect.Apply.save_breath:
-                        _savingThrows[3] += mod;
+                        SavingThrows[3] += mod;
                         break;
                     case Affect.Apply.save_spell:
-                        _savingThrows[4] += mod;
+                        SavingThrows[4] += mod;
                         break;
                     case Affect.Apply.fire_protection:
                         break;
@@ -4915,25 +4913,25 @@ namespace MUDEngine
                         if (!IsNPC())
                             ((PC)this).MaxStrMod += mod;
                         else
-                            _modifiedStrength += mod;
+                            ModifiedStrength += mod;
                         break;
                     case Affect.Apply.max_dexterity:
                         if (!IsNPC())
                             ((PC)this).MaxDexMod += mod;
                         else
-                            _modifiedDexterity += mod;
+                            ModifiedDexterity += mod;
                         break;
                     case Affect.Apply.max_intelligence:
                         if (!IsNPC())
                             ((PC)this).MaxIntMod += mod;
                         else
-                            _modifiedIntelligence += mod;
+                            ModifiedIntelligence += mod;
                         break;
                     case Affect.Apply.max_wisdom:
                         if (!IsNPC())
                             ((PC)this).MaxWisMod += mod;
                         else
-                            _modifiedWisdom += mod;
+                            ModifiedWisdom += mod;
                         break;
                     case Affect.Apply.max_constitution:
                         if (!IsNPC())
@@ -4942,7 +4940,7 @@ namespace MUDEngine
                         }
                         else
                         {
-                            _modifiedConstitution += mod;
+                            ModifiedConstitution += mod;
                             break;
                         }
                         break;
@@ -4950,25 +4948,25 @@ namespace MUDEngine
                         if (!IsNPC())
                             ((PC)this).MaxAgiMod += mod;
                         else
-                            _modifiedAgility += mod;
+                            ModifiedAgility += mod;
                         break;
                     case Affect.Apply.max_power:
                         if (!IsNPC())
                             ((PC)this).MaxPowMod += mod;
                         else
-                            _modifiedPower += mod;
+                            ModifiedPower += mod;
                         break;
                     case Affect.Apply.max_charisma:
                         if (!IsNPC())
                             ((PC)this).MaxChaMod += mod;
                         else
-                            _modifiedCharisma += mod;
+                            ModifiedCharisma += mod;
                         break;
                     case Affect.Apply.max_luck:
                         if (!IsNPC())
                             ((PC)this).MaxLukMod += mod;
                         else
-                            _modifiedLuck += mod;
+                            ModifiedLuck += mod;
                         break;
                     case Affect.Apply.race_strength:
                     case Affect.Apply.race_dexterity:
@@ -4983,38 +4981,38 @@ namespace MUDEngine
                         break;
                     case Affect.Apply.resistant:
                         {
-                            int val = (int)_resistant;
+                            int val = (int)Resistant;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _resistant = (Race.DamageType)val;
+                            Resistant = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.immune:
                         {
-                            int val = (int)_immune;
+                            int val = (int)Immune;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _immune = (Race.DamageType)val;
+                            Immune = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.susceptible:
                         {
-                            int val = (int)_susceptible;
+                            int val = (int)Susceptible;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _susceptible = (Race.DamageType)val;
+                            Susceptible = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.vulnerable:
                         {
-                            int val = (int)_vulnerable;
+                            int val = (int)Vulnerable;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _vulnerable = (Race.DamageType)val;
+                            Vulnerable = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.race:
@@ -5022,7 +5020,7 @@ namespace MUDEngine
                         // you are adjusted proportionally.  We don't just set the race to default
                         // size because the person may be enlarged or reduced and will be hosed when
                         // the enlarge or reduce affect wears off.
-                        _size -= (Race.RaceList[GetOrigRace()].DefaultSize - Race.RaceList[(GetOrigRace() + mod)].DefaultSize);
+                        CurrentSize -= (Race.RaceList[GetOrigRace()].DefaultSize - Race.RaceList[(GetOrigRace() + mod)].DefaultSize);
                         SetPermRace(GetRace() + mod);
                         break;
                 } // End switch.
@@ -5159,23 +5157,23 @@ namespace MUDEngine
                 return;
             }
 
-            if( ch._master != null )
+            if( ch.Master != null )
             {
-                Log.Error( "AddFollower: Follower character " + ch._name + " already has non-null master.", 0 );
+                Log.Error( "AddFollower: Follower character " + ch.Name + " already has non-null master.", 0 );
                 return;
             }
 
             CharData follower = new CharData();
 
-            ch._master = master;
+            ch.Master = master;
 
             // Put the follower at the top of the list and set the
             // previous of the old one to point to it
-            if (master._followers == null)
+            if (master.Followers == null)
             {
-                master._followers = new List<CharData>();
+                master.Followers = new List<CharData>();
             }
-            master._followers.Add( follower );
+            master.Followers.Add( follower );
 
             if( CanSee( master, ch ) )
                 SocketConnection.Act( "$n&n now follows you.", ch, null, master, SocketConnection.MessageTarget.victim );
@@ -5198,7 +5196,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( ch._master )
+            if( ch.Master )
             {
                 Log.Error("AddFollowerWithoutMessage: non-null master.", 0);
                 return;
@@ -5206,14 +5204,14 @@ namespace MUDEngine
 
             CharData follower = new CharData();
 
-            ch._master = master;
-            ch._groupLeader = null;
+            ch.Master = master;
+            ch.GroupLeader = null;
 
             // Put the follower at the top of the list and set the
             // previous of the old one to point to it
-            if (master._followers == null)
-                master._followers = new List<CharData>();
-            master._followers.Add( follower );
+            if (master.Followers == null)
+                master.Followers = new List<CharData>();
+            master.Followers.Add( follower );
 
             return;
         }
@@ -5226,7 +5224,7 @@ namespace MUDEngine
                 return;
             }
 
-            if( !ch._master )
+            if( !ch.Master )
             {
                 Log.Error("StopFollower: null master.", 0);
                 return;
@@ -5238,21 +5236,21 @@ namespace MUDEngine
                 ch.AffectStrip( Affect.AffectType.spell, "domination");
             }
 
-            if( ch._master != ch && CanSee( ch._master, ch ) && ch._master._inRoom )
-                SocketConnection.Act( "$n&n stops following you.", ch, null, ch._master, SocketConnection.MessageTarget.victim );
-            if( ch._inRoom )
-                SocketConnection.Act( "You stop following $N&n.", ch, null, ch._master, SocketConnection.MessageTarget.character );
+            if( ch.Master != ch && CanSee( ch.Master, ch ) && ch.Master.InRoom )
+                SocketConnection.Act( "$n&n stops following you.", ch, null, ch.Master, SocketConnection.MessageTarget.victim );
+            if( ch.InRoom )
+                SocketConnection.Act( "You stop following $N&n.", ch, null, ch.Master, SocketConnection.MessageTarget.character );
 
             // Remove the follower from the list of followers
-            foreach( CharData follower in ch._master._followers )
+            foreach( CharData follower in ch.Master.Followers )
             {
                 if( follower == ch )
                 {
-                    ch._master._followers.Remove( follower );
+                    ch.Master.Followers.Remove( follower );
                 }
             }
 
-            ch._master = null;
+            ch.Master = null;
 
             return;
         }
@@ -5264,11 +5262,11 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsAffected(Bitvector bvect)
         {
-            if (Macros.IsSet(_affectedBy[bvect.Group], bvect.Vector))
+            if (Macros.IsSet(AffectedBy[bvect.Group], bvect.Vector))
             {
                 return true;
             }
-            foreach (Affect affect in _affected)
+            foreach (Affect affect in Affected)
             {
                 if (affect.HasBitvector(bvect))
                 {
@@ -5335,22 +5333,22 @@ namespace MUDEngine
         {
             CharData ch = this;
 
-            if (ch._master)
+            if (ch.Master)
             {
                 Combat.StopFighting(ch, true);
             }
 
-            if( ch._groupLeader )
+            if( ch.GroupLeader )
             {
                 ch.RemoveFromGroup( ch );
             }
 
             foreach (CharData listChar in Database.CharList)
             {
-                if( listChar._master == ch )
+                if( listChar.Master == ch )
                     Combat.StopFighting( listChar, true );
-                if( listChar._groupLeader == ch )
-                    listChar._groupLeader = null;
+                if( listChar.GroupLeader == ch )
+                    listChar.GroupLeader = null;
             }
 
             return;
@@ -5391,7 +5389,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if (!MUDString.NameContainedIn(arg, worldChar._name))
+                    if (!MUDString.NameContainedIn(arg, worldChar.Name))
                         continue;
                 }
 
@@ -5406,7 +5404,7 @@ namespace MUDEngine
                     continue;
                 if (!CanSee(this, worldChar))
                     continue;
-                if (MUDString.NameContainedIn(arg, worldChar._name))
+                if (MUDString.NameContainedIn(arg, worldChar.Name))
                     return worldChar;
             }
 
@@ -5426,7 +5424,7 @@ namespace MUDEngine
                 return this;
             }
 
-            if( _inRoom == null )
+            if( InRoom == null )
             {
                 return null;
             }
@@ -5435,9 +5433,9 @@ namespace MUDEngine
             int number = MUDString.NumberArgument(argument, ref arg);
             int count = 0;
 
-            foreach( CharData roomChar in _inRoom.People )
+            foreach( CharData roomChar in InRoom.People )
             {
-                if( !CanSee( this, roomChar ) || _flyLevel != roomChar._flyLevel )
+                if( !CanSee( this, roomChar ) || FlightLevel != roomChar.FlightLevel )
                     continue;
 
                 if( !roomChar.IsNPC() && IsRacewar( roomChar ) && !IsImmortal()
@@ -5448,7 +5446,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if( !MUDString.NameContainedIn( arg, roomChar._name ) )
+                    if( !MUDString.NameContainedIn( arg, roomChar.Name ) )
                         continue;
                 }
 
@@ -5472,7 +5470,7 @@ namespace MUDEngine
                 return roomChar;
             }
 
-            if (!_inRoom || _inRoom.Area == null)
+            if (!InRoom || InRoom.Area == null)
             {
                 return null;
             }
@@ -5482,7 +5480,7 @@ namespace MUDEngine
             int count = 0;
             foreach( CharData ach in Database.CharList )
             {
-                if( !ach._inRoom || ach._inRoom.Area != _inRoom.Area || !CanSee( this, ach ) )
+                if( !ach.InRoom || ach.InRoom.Area != InRoom.Area || !CanSee( this, ach ) )
                     continue;
 
                 if( !ach.IsNPC() && ( IsRacewar( ach ) ) && !IsImmortal() )
@@ -5493,7 +5491,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if( !MUDString.NameContainedIn( arg, ach._name ) )
+                    if( !MUDString.NameContainedIn( arg, ach.Name ) )
                         continue;
                 }
                 if( ++count == number )
@@ -5519,7 +5517,7 @@ namespace MUDEngine
 
             int number = MUDString.NumberArgument( argument, ref arg );
             int count = 0;
-            foreach( Object obj in _carrying )
+            foreach( Object obj in Carrying )
             {
                 if( obj.WearLocation == ObjTemplate.WearLocation.none && CanSeeObj( this, obj ) && ( MUDString.NameContainedIn( arg, obj.Name )
                    || !String.IsNullOrEmpty(Database.GetExtraDescription( arg, obj.ExtraDescription ))
@@ -5533,7 +5531,7 @@ namespace MUDEngine
             }
 
             count = 0;
-            foreach( Object obj in _carrying )
+            foreach( Object obj in Carrying )
             {
                 if( obj.WearLocation == ObjTemplate.WearLocation.none && CanSeeObj( this, obj ) && MUDString.NameIsPrefixOfContents( arg, obj.Name ) )
                 {
@@ -5580,39 +5578,39 @@ namespace MUDEngine
         /// </summary>
         public void UpdatePosition()
         {
-            if( _hitpoints < -10 && _inRoom != null )
+            if( Hitpoints < -10 && InRoom != null )
             {
-                if( _riding != null && _inRoom == _riding._inRoom )
+                if( Riding != null && InRoom == Riding.InRoom )
                 {
-                    SocketConnection.Act( "$n&n unceremoniously falls from $N&n.", this, null, _riding, SocketConnection.MessageTarget.room );
-                    _riding._rider = null;
-                    _riding = null;
+                    SocketConnection.Act( "$n&n unceremoniously falls from $N&n.", this, null, Riding, SocketConnection.MessageTarget.room );
+                    Riding.Rider = null;
+                    Riding = null;
                 }
 
-                _position = Position.dead;
+                CurrentPosition = Position.dead;
                 
                 return;
             }
 
-            if( _hitpoints > 0 )
+            if( Hitpoints > 0 )
             {
-                if( _position <= Position.stunned )
-                    _position = Position.resting;
+                if (CurrentPosition <= Position.stunned)
+                    CurrentPosition = Position.resting;
             }
             else
             {
-                if( _hitpoints <= -6 )
-                    _position = Position.mortally_wounded;
-                else if( _hitpoints <= -3 )
-                    _position = Position.incapacitated;
+                if( Hitpoints <= -6 )
+                    CurrentPosition = Position.mortally_wounded;
+                else if( Hitpoints <= -3 )
+                    CurrentPosition = Position.incapacitated;
                 else
-                    _position = Position.stunned;
+                    CurrentPosition = Position.stunned;
 
-                if( _riding != null )
+                if( Riding != null )
                 {
-                    SocketConnection.Act( "$n&n falls unconscious from $N&n.", this, null, this._riding, SocketConnection.MessageTarget.room );
-                    _riding._rider = null;
-                    _riding = null;
+                    SocketConnection.Act( "$n&n falls unconscious from $N&n.", this, null, this.Riding, SocketConnection.MessageTarget.room );
+                    Riding.Rider = null;
+                    Riding = null;
                 }
             }
             // If is an NPC just return now.
@@ -5627,22 +5625,22 @@ namespace MUDEngine
             {
                 WaitState( 5 * Event.TICK_PER_SECOND );
                 ( (PC)this ).Drunk -= 3;
-                if( _position > Position.sleeping )
+                if (CurrentPosition > Position.sleeping)
                 {
                     SendText( "&+WOh, you &n&+wfeel &+Lreally&N&+l bad...&n\r\n" );
-                    _position = Position.sleeping;
+                    CurrentPosition = Position.sleeping;
                     SocketConnection.Act( "$n&n falls flat on $s face, immobile&n.",
                          this, null, null, SocketConnection.MessageTarget.room );
                 }
             }
-            if( !IsNPC() && !IsImmortal() && _currentMana < 0 )
+            if( !IsNPC() && !IsImmortal() && CurrentMana < 0 )
             {
                 WaitState( 5 * Event.TICK_PER_SECOND );
-                if( _position > Position.sleeping )
+                if (CurrentPosition > Position.sleeping)
                 {
                     SendText( "&+WYou &n&+wfeel &+Lexhau&n&+lsted...&n\r\n" );
-                    _position = Position.standing;
-                    _fighting = null;
+                    CurrentPosition = Position.standing;
+                    Fighting = null;
                     SocketConnection.Act( "$n&n collapses from exhaustion&n.",
                          this, null, null, SocketConnection.MessageTarget.room );
                     Command.Sleep( this, null );
@@ -5658,12 +5656,12 @@ namespace MUDEngine
         /// <returns></returns>
         public override string ToString()
         {
-            return _name;
+            return Name;
         }
 
         public bool IsClass(CharClass.Names name)
         {
-            if (_charClass.ClassNumber == name)
+            if (CharacterClass.ClassNumber == name)
             {
                 return true;
             }
@@ -5706,7 +5704,7 @@ namespace MUDEngine
                 return false;
             }
 
-            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < ch._level)
+            if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < ch.Level)
             {
                 return false;
             }
@@ -5721,20 +5719,20 @@ namespace MUDEngine
                 return false;
             }
 
-            if (ch._inRoom == null)
+            if (ch.InRoom == null)
             {
-                Log.Error("CanSee called by player " + ch._name + " with null room.");
+                Log.Error("CanSee called by player " + ch.Name + " with null room.");
                 return false;
             }
 
-            if( ch._inRoom.IsDark() && !ch.HasInnate( Race.RACE_ULTRAVISION )
+            if( ch.InRoom.IsDark() && !ch.HasInnate( Race.RACE_ULTRAVISION )
                     && !ch.IsAffected( Affect.AFFECT_ULTRAVISION ) && !ch.HasInnate( Race.RACE_INFRAVISION )
                     && !ch.IsAffected(Affect.AFFECT_INFRAVISION ) )
             {
                 return false;
             }
 
-            if( ch._position == Position.dead )
+            if (ch.CurrentPosition == Position.dead)
             {
                 return true;
             }
@@ -5749,7 +5747,7 @@ namespace MUDEngine
             }
 
             if( victim.IsAffected( Affect.AFFECT_HIDE ) && !ch.HasInnate( Race.RACE_DETECT_HIDDEN )
-                    && !ch.IsAffected( Affect.AFFECT_DETECT_HIDDEN ) && !ch._fighting )
+                    && !ch.IsAffected( Affect.AFFECT_DETECT_HIDDEN ) && !ch.Fighting )
             {
                 return false;
             }
@@ -5780,7 +5778,7 @@ namespace MUDEngine
             if (!ch.IsNPC() && ch.HasActionBit(PC.PLAYER_GODMODE))
                 return true;
 
-            if( ch.IsAffected( Affect.AFFECT_BLIND ) || ch._position <= Position.sleeping )
+            if (ch.IsAffected(Affect.AFFECT_BLIND) || ch.CurrentPosition <= Position.sleeping)
                 return false;
 
             if( obj.ItemType == ObjTemplate.ObjectType.light && obj.Values[ 2 ] != 0 )
@@ -5799,7 +5797,7 @@ namespace MUDEngine
             if( obj.HasFlag( ObjTemplate.ITEM_LIT ) )
                 return true;
 
-            if( ch._inRoom && ch._inRoom.IsDark() && !( ch.HasInnate( Race.RACE_ULTRAVISION )
+            if( ch.InRoom && ch.InRoom.IsDark() && !( ch.HasInnate( Race.RACE_ULTRAVISION )
                          || ch.IsAffected( Affect.AFFECT_ULTRAVISION ) ) )
                 return false;
 
@@ -5817,7 +5815,7 @@ namespace MUDEngine
             if( !obj.HasFlag( ObjTemplate.ITEM_NODROP ) )
                 return true;
 
-            if( !IsNPC() && _level >= Limits.LEVEL_AVATAR )
+            if( !IsNPC() && Level >= Limits.LEVEL_AVATAR )
                 return true;
 
             return false;
@@ -5877,7 +5875,7 @@ namespace MUDEngine
             foreach( CharData it in Database.CharList )
             {
                 fol = it;
-                if( fol._master == this && fol.IsNPC() )
+                if( fol.Master == this && fol.IsNPC() )
                 {
                     numPets++;
                 }
@@ -5903,9 +5901,9 @@ namespace MUDEngine
 
             int number = MUDString.NumberArgument( argument, ref arg );
             int count = 0;
-            foreach( CharData roomChar in ch._inRoom.People )
+            foreach( CharData roomChar in ch.InRoom.People )
             {
-                if( ch._flyLevel != roomChar._flyLevel )
+                if( ch.FlightLevel != roomChar.FlightLevel )
                     continue;
 
                 if( !roomChar.IsNPC() && ( ch.IsRacewar( roomChar ) ) && !ch.IsImmortal() )
@@ -5915,7 +5913,7 @@ namespace MUDEngine
                 }
                 else
                 {
-                    if( !MUDString.NameContainedIn( arg, roomChar._name ) )
+                    if( !MUDString.NameContainedIn( arg, roomChar.Name ) )
                         continue;
                 }
                 if (++count == number)
@@ -5934,21 +5932,21 @@ namespace MUDEngine
         /// <param name="entering">True if the player is entering the room, false if they are leaving it.</param>
         void MoveLight( bool entering )
         {
-            if( !entering && _inRoom == null )
+            if( !entering && InRoom == null )
             {
                 // Not a problem - there's just no need to subtract the char's light from a room
                 // if they're not leaving a room.
                 return;
             }
 
-            foreach( Object carryObj in _carrying )
+            foreach( Object carryObj in Carrying )
             {
                 if( carryObj.HasFlag( ObjTemplate.ITEM_LIT ) )
                 {
                     if( entering )
-                        _inRoom.Light++;
+                        InRoom.Light++;
                     else
-                        _inRoom.Light--;
+                        InRoom.Light--;
                 }
             }
 
@@ -5958,17 +5956,17 @@ namespace MUDEngine
             {
                 if( entering )
                 {
-                    _inRoom.Light++;
+                    InRoom.Light++;
                 }
                 else
                 {
-                    if( _inRoom.Light > 0 )
+                    if( InRoom.Light > 0 )
                     {
-                        --_inRoom.Light;
+                        --InRoom.Light;
                     }
                     else
                     {
-                        string error = "Trying to decrement 0-value light in room " + _inRoom.IndexNumber + ".";
+                        string error = "Trying to decrement 0-value light in room " + InRoom.IndexNumber + ".";
                         Log.Error( error, 0 );
                     }
                 }
@@ -5979,14 +5977,14 @@ namespace MUDEngine
             if( obj4 && obj4.ItemType == ObjTemplate.ObjectType.light && obj4.Values[ 2 ] != 0 )
             {
                 if( entering )
-                    _inRoom.Light++;
+                    InRoom.Light++;
                 else
                 {
-                    if( _inRoom.Light > 0 )
-                        --_inRoom.Light;
+                    if( InRoom.Light > 0 )
+                        --InRoom.Light;
                     else
                     {
-                        string error = "Trying to decrement 0-value light in room " + _inRoom.IndexNumber + ".";
+                        string error = "Trying to decrement 0-value light in room " + InRoom.IndexNumber + ".";
                         Log.Error( error, 0 );
                     }
                 }
@@ -5999,11 +5997,11 @@ namespace MUDEngine
         /// <param name="bvect"></param>
         public void RemoveAffect( Bitvector bvect )
         {
-            for (int i = (_affected.Count - 1); i >= 0; i--)
+            for (int i = (Affected.Count - 1); i >= 0; i--)
             {
-                if( _affected[i].HasBitvector( bvect ) )
+                if( Affected[i].HasBitvector( bvect ) )
                 {
-                    RemoveAffect( _affected[i] );
+                    RemoveAffect( Affected[i] );
                 }
             }
             RemoveAffectBit(bvect);
@@ -6030,7 +6028,7 @@ namespace MUDEngine
 
             string output = "!!SOUND(" + txt + ")\r\n";
 
-            _socket.WriteToBuffer(output);
+            Socket.WriteToBuffer(output);
 
             return;
         }
@@ -6054,7 +6052,7 @@ namespace MUDEngine
 
             string output = "!!MUSIC(" + txt + ")\r\n";
 
-            _socket.WriteToBuffer(output);
+            Socket.WriteToBuffer(output);
 
             return;
         }
@@ -6075,7 +6073,7 @@ namespace MUDEngine
             }
 
             // Not sending to descriptorless mobs.
-            if( _socket == null )
+            if( Socket == null )
                 return;
 
             for( point = 0; point < input.Length; point++ )
@@ -6125,12 +6123,12 @@ namespace MUDEngine
             // Saves process time.
             if (output.Length < 500 || !HasActionBit(PC.PLAYER_PAGER))
             {
-                _socket.WriteToBuffer( output );
+                Socket.WriteToBuffer( output );
             }
             else
             {
                 // TODO: FIX THIS SO WE CAN USE THE PAGER AGAIN.
-                _socket.WriteToBuffer(output);
+                Socket.WriteToBuffer(output);
             }
 
             return;
@@ -6179,7 +6177,7 @@ namespace MUDEngine
                 return obj;
             }
 
-            obj = Object.GetObjFromList( _inRoom.Contents, this, argument );
+            obj = Object.GetObjFromList( InRoom.Contents, this, argument );
 
             if( obj != null )
             {
@@ -6197,7 +6195,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool CheckResistant( CharData ch, Race.DamageType bit )
         {
-            return ( Macros.IsSet( (int)ch._resistant | (int)Race.RaceList[ ch.GetRace() ].Resistant, (int)bit ) );
+            return ( Macros.IsSet( (int)ch.Resistant | (int)Race.RaceList[ ch.GetRace() ].Resistant, (int)bit ) );
         }
 
         /// <summary>
@@ -6208,7 +6206,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool CheckImmune( CharData ch, Race.DamageType bit )
         {
-            return ( Macros.IsSet( (int)ch._immune | (int)Race.RaceList[ ch.GetRace() ].Immune, (int)bit ) );
+            return ( Macros.IsSet( (int)ch.Immune | (int)Race.RaceList[ ch.GetRace() ].Immune, (int)bit ) );
         }
 
         /// <summary>
@@ -6219,7 +6217,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool CheckSusceptible( CharData ch, Race.DamageType bit )
         {
-            return ( Macros.IsSet( (int)ch._susceptible | (int)Race.RaceList[ ch.GetRace() ].Susceptible, (int)bit ) );
+            return ( Macros.IsSet( (int)ch.Susceptible | (int)Race.RaceList[ ch.GetRace() ].Susceptible, (int)bit ) );
         }
 
         /// <summary>
@@ -6230,12 +6228,12 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool CheckVulnerable(CharData ch, Race.DamageType bit)
         {
-            return (Macros.IsSet((int)ch._vulnerable | (int)Race.RaceList[ch.GetRace()].Vulnerable, (int)bit));
+            return (Macros.IsSet((int)ch.Vulnerable | (int)Race.RaceList[ch.GetRace()].Vulnerable, (int)bit));
         }
 
         public void WaitState( int pulse )
         {
-            _wait += pulse;
+            Wait += pulse;
         }
 
         public bool IsSwitched { get; set; }
@@ -6336,14 +6334,14 @@ namespace MUDEngine
         /// <param name="victim"></param>
         public void StopHating( CharData victim )
         {
-            for (int i = (_hating.Count - 1); i >= 0; i-- )
+            for (int i = (Hating.Count - 1); i >= 0; i-- )
             {
-                EnemyData enemy = _hating[i];
+                EnemyData enemy = Hating[i];
                 if (enemy.Who == victim)
                 {
-                    String text = String.Format("{0}&n has stopped hating {1}.", victim._shortDescription, victim._name);
+                    String text = String.Format("{0}&n has stopped hating {1}.", victim.ShortDescription, victim.Name);
                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_HATING, 0, text);
-                    _hating.Remove(enemy);
+                    Hating.Remove(enemy);
                 }
             }
             return;
@@ -6377,7 +6375,7 @@ namespace MUDEngine
             //
             // Chance = 1.33 x level + 20.  At level 1 it's 24%, at level 21 it's 51%,
             // and at level 39 it's 75%.
-            int chance = Math.Min(95, ((_level * 4 / 3) + 23));
+            int chance = Math.Min(95, ((Level * 4 / 3) + 23));
             if (!IsNPC() && MUDMath.NumberPercent() < chance)
             {
                 return true;
@@ -6388,28 +6386,28 @@ namespace MUDEngine
 
         public void StopHatingAll()
         {
-            _hating.Clear();
+            Hating.Clear();
             return;
         }
 
         public CharData GetRandomHateTarget(bool restrictToRoom)
         {
-            if( _hating.Count == 0 )
+            if( Hating.Count == 0 )
                 return null;
 
             if( !restrictToRoom )
             {
                 // Get a random _targetType from the hate list.
-                int num = MUDMath.NumberRange( 0, ( _hating.Count - 1 ) );
-                return _hating[ num ].Who;
+                int num = MUDMath.NumberRange( 0, ( Hating.Count - 1 ) );
+                return Hating[ num ].Who;
             }
             else
             {
                 List<CharData> selections = new List<CharData>();
                 // Build a list of who's in the room and on the hate list.
-                foreach( EnemyData enemy in _hating )
+                foreach( EnemyData enemy in Hating )
                 {
-                    if( enemy.Who._inRoom == _inRoom )
+                    if( enemy.Who.InRoom == InRoom )
                     {
                         selections.Add( enemy.Who );
                     }
@@ -6434,8 +6432,8 @@ namespace MUDEngine
                 return String.Empty;
             }
 
-            string retstr = ((CanSee(looker, (this)) ? (IsNPC() ? (this)._shortDescription :
-                ((!IsRacewar(looker) || ((IsImmortal()) || (looker.IsImmortal()))) ? _name :
+            string retstr = ((CanSee(looker, (this)) ? (IsNPC() ? (this).ShortDescription :
+                ((!IsRacewar(looker) || ((IsImmortal()) || (looker.IsImmortal()))) ? Name :
                 RaceName())) : "someone"));
 
             if (capitalize)
@@ -6464,7 +6462,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsInSameRoom(CharData target)
         {
-            if (_inRoom == target._inRoom && _flyLevel == target._flyLevel)
+            if (InRoom == target.InRoom && FlightLevel == target.FlightLevel)
                 return true;
             return false;
         }
@@ -6490,7 +6488,7 @@ namespace MUDEngine
                 return false;
             }
 
-            if (MUDString.NameContainedIn("_guildgolem_", ch._name))
+            if (MUDString.NameContainedIn("_guildgolem_", ch.Name))
             {
                 foreach (Guild it in Database.GuildList)
                 {
@@ -6500,7 +6498,7 @@ namespace MUDEngine
                 }
                 if (guild != null && guild.Ostracized.Length != 0)
                 {
-                    if (MUDString.NameContainedIn(victim._name, guild.Ostracized))
+                    if (MUDString.NameContainedIn(victim.Name, guild.Ostracized))
                         return true;
                 }
             }
@@ -6547,10 +6545,10 @@ namespace MUDEngine
         {
             if (victim == null) return;
 
-            if (victim._hitpoints < victim.GetMaxHit())
-                victim._hitpoints = victim.GetMaxHit();
-            victim._currentMana = victim._maxMana;
-            victim._currentMoves = victim._maxMoves;
+            if (victim.Hitpoints < victim.GetMaxHit())
+                victim.Hitpoints = victim.GetMaxHit();
+            victim.CurrentMana = victim.MaxMana;
+            victim.CurrentMoves = victim.MaxMoves;
             if (!victim.IsNPC())
             {
                 ((PC)victim).Hunger = 48;
@@ -6578,11 +6576,11 @@ namespace MUDEngine
         /// <param name="ch">The character to be backed up.</param>
         public static void BackupPlayer(CharData ch)
         {
-            string strsave = FileLocation.BackupDirectory + ch._name.ToUpper();
+            string strsave = FileLocation.BackupDirectory + ch.Name.ToUpper();
 
             if (!ch.SaveFile(strsave))
             {
-                Log.Error("CharData.BackupPlayer(): Unable to backup character file for " + ch._name + ".");
+                Log.Error("CharData.BackupPlayer(): Unable to backup character file for " + ch.Name + ".");
             }
 
             return;
@@ -6595,10 +6593,10 @@ namespace MUDEngine
         /// <param name="ch">The character to delete.</param>
         public static void DeletePlayer(CharData ch)
         {
-            if (ch.IsNPC() || ch._level < 1)
+            if (ch.IsNPC() || ch.Level < 1)
                 return;
 
-            string strsave = FileLocation.PlayerDirectory + (ch._name[0]).ToString().ToLower() + Path.DirectorySeparatorChar + ch._name.ToUpper() + ".xml";
+            string strsave = FileLocation.PlayerDirectory + (ch.Name[0]).ToString().ToLower() + Path.DirectorySeparatorChar + ch.Name.ToUpper() + ".xml";
 
             if (File.Exists(strsave))
             {
@@ -6625,18 +6623,18 @@ namespace MUDEngine
                 return false;
             }
 
-            if (ch.IsNPC() || ch._level < 1)
+            if (ch.IsNPC() || ch.Level < 1)
                 return false;
 
-            if (ch._socket && ch._socket.Original)
-                ch = ch._socket.Original;
+            if (ch.Socket && ch.Socket.Original)
+                ch = ch.Socket.Original;
 
-            ch._charClassNum = (int)ch._charClass.ClassNumber;
-            ch._saveTime = Database.SystemData.CurrentTime;
+            ch.CharClassNumber = (int)ch.CharacterClass.ClassNumber;
+            ch.SaveTime = Database.SystemData.CurrentTime;
 
             //Log.Trace("Saving character: " + ch._name.ToUpper() + ".");
 
-            string strsave = FileLocation.PlayerDirectory + MUDString.LowercaseInitial(ch._name) + "/" + ch._name.ToUpper() + ".xml";
+            string strsave = FileLocation.PlayerDirectory + MUDString.LowercaseInitial(ch.Name) + "/" + ch.Name.ToUpper() + ".xml";
 
             if (!ch.SaveFile(strsave))
             {
@@ -6677,22 +6675,22 @@ namespace MUDEngine
 
             int mana = 4 * Macros.ManaCost(this, spell);
 
-            if (!IsNPC() && _currentMana < mana)
+            if (!IsNPC() && CurrentMana < mana)
             {
                 SendText("You don't have enough mana.\r\n");
                 return;
             }
 
             if (MUDMath.NumberPercent() > ((PC)this).SpellAptitude[spell.Name]
-                    && (_level <= (spell.SpellCircle[(int)this._charClass.ClassNumber] * 4 + 1)))
+                    && (Level <= (spell.SpellCircle[(int)this.CharacterClass.ClassNumber] * 4 + 1)))
             {
                 SendText("You lost your concentration.\r\n");
                 SocketConnection.Act("&+r$n&n&+r stops chanting abruptly.&n", this, null, null, SocketConnection.MessageTarget.room);
-                _currentMana -= mana / 2;
+                CurrentMana -= mana / 2;
                 return;
             }
 
-            _currentMana -= mana;
+            CurrentMana -= mana;
             // TODO: FIXME: BUG: Can't cram a string into a integer value inside an object.
             // This is a problem because it makes it impossible for objects to contain spells.
             //obj._values[free_slots] = spell;
@@ -6747,10 +6745,10 @@ namespace MUDEngine
             CharData keeper = null;
             Shop pShop = null;
 
-            foreach (CharData ikeeper in _inRoom.People)
+            foreach (CharData ikeeper in InRoom.People)
             {
-                if (ikeeper.IsNPC() && (pShop = ikeeper._mobTemplate.ShopData)
-                        && (String.IsNullOrEmpty(argument) || MUDString.NameContainedIn(argument, ikeeper._name)))
+                if (ikeeper.IsNPC() && (pShop = ikeeper.MobileTemplate.ShopData)
+                        && (String.IsNullOrEmpty(argument) || MUDString.NameContainedIn(argument, ikeeper.Name)))
                 {
                     keeper = ikeeper;
                     break;
@@ -6810,7 +6808,7 @@ namespace MUDEngine
                         }
                         else
                         {
-                            chance = ((_level - Skill.SkillList["second attack"].ClassAvailability[(int)_charClass.ClassNumber]) * 2 + 25) * 3 / 4;
+                            chance = ((Level - Skill.SkillList["second attack"].ClassAvailability[(int)CharacterClass.ClassNumber]) * 2 + 25) * 3 / 4;
                         }
                         break;
                     case 3:
@@ -6820,7 +6818,7 @@ namespace MUDEngine
                         }
                         else
                         {
-                            chance = ((_level - Skill.SkillList["third attack"].ClassAvailability[(int)_charClass.ClassNumber]) * 2 + 25) * 3 / 8;
+                            chance = ((Level - Skill.SkillList["third attack"].ClassAvailability[(int)CharacterClass.ClassNumber]) * 2 + 25) * 3 / 8;
                         }
                         break;
                     case 4:
@@ -6830,7 +6828,7 @@ namespace MUDEngine
                         }
                         else
                         {
-                            chance = ((_level - Skill.SkillList["fourth attack"].ClassAvailability[(int)_charClass.ClassNumber]) * 2 + 25) / 4;
+                            chance = ((Level - Skill.SkillList["fourth attack"].ClassAvailability[(int)CharacterClass.ClassNumber]) * 2 + 25) / 4;
                         }
                         break;
                 }
@@ -6901,11 +6899,11 @@ namespace MUDEngine
             if (socket)
             {
                 socket.Character = ch;
-                ch._socket = socket;
+                ch.Socket = socket;
             }
-            ch._castingTime = 0;
-            ch._castingSpell = 0;
-            ch._charClass = CharClass.ClassList[ch._charClassNum];
+            ch.CastingTime = 0;
+            ch.CastingSpell = 0;
+            ch.CharacterClass = CharClass.ClassList[ch.CharClassNumber];
 
             Log.Trace("CharData.LoadPlayer(): Successfully loaded " + name + ".");
             return true;
@@ -6918,7 +6916,7 @@ namespace MUDEngine
         /// <returns></returns>
         public bool IsListening(TalkChannel channel)
         {
-            if (Macros.IsSet((int)_deaf, (int)channel))
+            if (Macros.IsSet((int)Deaf, (int)channel))
             {
                 // If they're deaf to the channel, listening = false.
                 return false;
@@ -6937,7 +6935,7 @@ namespace MUDEngine
 
             foreach (RepopulationPoint repop in RepopulationPoint.RepopList)
             {
-                if (repop.CharacterClass == _charClass && repop.Race == Race.RaceList[GetOrigRace()])
+                if (repop.CharacterClass == CharacterClass && repop.Race == Race.RaceList[GetOrigRace()])
                 {
                     list.Add(repop);
                 }
@@ -6983,9 +6981,9 @@ namespace MUDEngine
             foreach (QuestTemplate it in QuestTemplate.QuestList)
             {
                 quest = it;
-                if (quest.IndexNumber == victim._mobTemplate.IndexNumber)
+                if (quest.IndexNumber == victim.MobileTemplate.IndexNumber)
                 {
-                    string buf = String.Format("{0}&n has quest data.", victim._shortDescription);
+                    string buf = String.Format("{0}&n has quest data.", victim.ShortDescription);
                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);
 
                     /* let's just check all the quests first, then test for completion afterward */
@@ -7002,7 +7000,7 @@ namespace MUDEngine
                         foreach (QuestItem questitem in quests.Receive)
                         {
                             buf = String.Format("  {0}&n receives item type {1}, value {2}.",
-                                      victim._shortDescription, questitem.Type, questitem.Value);
+                                      victim.ShortDescription, questitem.Type, questitem.Value);
                             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);
                             if (questitem.Completed)
                             {
@@ -7016,7 +7014,7 @@ namespace MUDEngine
                                     questitem.Completed = true;
                                     value = true;
                                     buf = String.Format("{0} has given quest item {1} to {2}&n.",
-                                              ch._name, questitem.Value, victim._shortDescription);
+                                              ch.Name, questitem.Value, victim.ShortDescription);
                                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);
                                 }
                                 /* //this type is money, dont need to process this here
@@ -7036,7 +7034,7 @@ namespace MUDEngine
                                     questitem.Completed = true;
                                     value = true;
                                     buf = String.Format("  &n{0}&n has given {1} copper to {2}&n.",
-                                              ch._name, questitem.Value, victim._shortDescription);
+                                              ch.Name, questitem.Value, victim.ShortDescription);
                                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);
                                 }
                             }
@@ -7065,7 +7063,7 @@ namespace MUDEngine
                         }
                         if (qcomplete)
                         {
-                            buf = String.Format("{0}&n completed a quest for {1}&n.", ch._name, victim._shortDescription);
+                            buf = String.Format("{0}&n completed a quest for {1}&n.", ch.Name, victim.ShortDescription);
                             ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);
                             Log.Trace(buf);
                             if (quests.Complete.Length > 0)
@@ -7141,7 +7139,7 @@ namespace MUDEngine
                             }
                         }
                     }
-                    buf = String.Format("Done processing {0} quests for {1}&n.", qcount, victim._shortDescription);
+                    buf = String.Format("Done processing {0} quests for {1}&n.", qcount, victim.ShortDescription);
                     ImmortalChat.SendImmortalChat(null, ImmortalChat.IMMTALK_QUESTS, 0, buf);
                     return value; //we matched the one mob, why cycle through the rest?
                 } // end if(index number) statement
@@ -7159,14 +7157,14 @@ namespace MUDEngine
             if (!state)
             {
                 // Set Listening = False: Turn the deaf channel on.
-                int value = (int)_deaf | (int)channel;
-                _deaf = (TalkChannel)value;
+                int value = (int)Deaf | (int)channel;
+                Deaf = (TalkChannel)value;
             }
             else
             {
                 // Set Listening = True: Turn the deaf channel off.
-                int value = (int)_deaf & ~((int)channel);
-                _deaf = (TalkChannel)value;
+                int value = (int)Deaf & ~((int)channel);
+                Deaf = (TalkChannel)value;
             }
         }
 
@@ -7197,7 +7195,7 @@ namespace MUDEngine
                 obj.Trap.Charges--;
             }
 
-            string text = String.Format("{0} set off trap {1} in room {2}.", _name, obj.Name, obj.InRoom.IndexNumber);
+            string text = String.Format("{0} set off trap {1} in room {2}.", Name, obj.Name, obj.InRoom.IndexNumber);
             Log.Trace(text);
 
             Spell spell = null;
@@ -7311,50 +7309,50 @@ namespace MUDEngine
                 switch (apply.Location)
                 {
                     default:
-                        string buf = "ApplyAffectModifiers: unknown location " + apply.Location + " on " + _name;
+                        string buf = "ApplyAffectModifiers: unknown location " + apply.Location + " on " + Name;
                         Log.Error(buf, 0);
                         /* Changed this to break from return. */
                         break;
                     case Affect.Apply.none:
                         break;
                     case Affect.Apply.strength:
-                        _modifiedStrength += mod;
+                        ModifiedStrength += mod;
                         break;
                     case Affect.Apply.dexterity:
-                        _modifiedDexterity += mod;
+                        ModifiedDexterity += mod;
                         break;
                     case Affect.Apply.intelligence:
-                        _modifiedIntelligence += mod;
+                        ModifiedIntelligence += mod;
                         break;
                     case Affect.Apply.wisdom:
-                        _modifiedWisdom += mod;
+                        ModifiedWisdom += mod;
                         break;
                     case Affect.Apply.constitution:
                         {
                             int hit = GetMaxHit();
-                            _modifiedConstitution += mod;
-                            _hitpoints += GetMaxHit() - hit;
-                            if (_hitpoints > GetMaxHit())
-                                _hitpoints = GetMaxHit();
+                            ModifiedConstitution += mod;
+                            Hitpoints += GetMaxHit() - hit;
+                            if (Hitpoints > GetMaxHit())
+                                Hitpoints = GetMaxHit();
                             break;
                         }
                     case Affect.Apply.agility:
-                        _modifiedAgility += mod;
+                        ModifiedAgility += mod;
                         break;
                     case Affect.Apply.charisma:
-                        _modifiedCharisma += mod;
+                        ModifiedCharisma += mod;
                         break;
                     case Affect.Apply.power:
-                        _modifiedPower += mod;
+                        ModifiedPower += mod;
                         break;
                     case Affect.Apply.luck:
-                        _modifiedLuck += mod;
+                        ModifiedLuck += mod;
                         break;
                     case Affect.Apply.size:
-                        _size += mod;
+                        CurrentSize += mod;
                         break;
                     case Affect.Apply.sex:
-                        _sex += mod;
+                        Gender += mod;
                         break;
                     case Affect.Apply.age:
                         break;
@@ -7363,7 +7361,7 @@ namespace MUDEngine
                     case Affect.Apply.weight:
                         break;
                     case Affect.Apply.mana:
-                        _maxMana += mod;
+                        MaxMana += mod;
                         break;
                     case Affect.Apply.hitpoints:
                         if (!IsNPC())
@@ -7372,36 +7370,36 @@ namespace MUDEngine
                         }
                         else
                         {
-                            _maxHitpoints += mod;
+                            MaxHitpoints += mod;
                         }
-                        _hitpoints += mod;
+                        Hitpoints += mod;
                         break;
                     case Affect.Apply.move:
-                        _maxMoves += mod;
+                        MaxMoves += mod;
                         break;
                     case Affect.Apply.ac:
-                        _armorPoints += mod;
+                        ArmorPoints += mod;
                         break;
                     case Affect.Apply.hitroll:
-                        _hitroll += mod;
+                        Hitroll += mod;
                         break;
                     case Affect.Apply.damroll:
-                        _damroll += mod;
+                        Damroll += mod;
                         break;
                     case Affect.Apply.save_paralysis:
-                        _savingThrows[0] += mod;
+                        SavingThrows[0] += mod;
                         break;
                     case Affect.Apply.save_poison:
-                        _savingThrows[1] += mod;
+                        SavingThrows[1] += mod;
                         break;
                     case Affect.Apply.save_petrification:
-                        _savingThrows[2] += mod;
+                        SavingThrows[2] += mod;
                         break;
                     case Affect.Apply.save_breath:
-                        _savingThrows[3] += mod;
+                        SavingThrows[3] += mod;
                         break;
                     case Affect.Apply.save_spell:
-                        _savingThrows[4] += mod;
+                        SavingThrows[4] += mod;
                         break;
                     case Affect.Apply.fire_protection:
                         break;
@@ -7409,42 +7407,42 @@ namespace MUDEngine
                         if (!IsNPC())
                             ((PC)this).MaxStrMod += mod;
                         else
-                            _modifiedStrength += mod;
+                            ModifiedStrength += mod;
                         break;
                     case Affect.Apply.max_dexterity:
                         if (!IsNPC())
                             ((PC)this).MaxDexMod += mod;
                         else
-                            _modifiedDexterity += mod;
+                            ModifiedDexterity += mod;
                         break;
                     case Affect.Apply.max_intelligence:
                         if (!IsNPC())
                             ((PC)this).MaxIntMod += mod;
                         else
-                            _modifiedIntelligence += mod;
+                            ModifiedIntelligence += mod;
                         break;
                     case Affect.Apply.max_wisdom:
                         if (!IsNPC())
                             ((PC)this).MaxWisMod += mod;
                         else
-                            _modifiedWisdom += mod;
+                            ModifiedWisdom += mod;
                         break;
                     case Affect.Apply.max_constitution:
                         if (!IsNPC())
                         {
                             int hit = GetMaxHit();
                             ((PC)this).MaxConMod += mod;
-                            _hitpoints += GetMaxHit() - hit;
-                            if (_hitpoints > GetMaxHit())
-                                _hitpoints = GetMaxHit();
+                            Hitpoints += GetMaxHit() - hit;
+                            if (Hitpoints > GetMaxHit())
+                                Hitpoints = GetMaxHit();
                         }
                         else
                         {
                             int hit = GetMaxHit();
-                            _modifiedConstitution += mod;
-                            _hitpoints += GetMaxHit() - hit;
-                            if (_hitpoints > GetMaxHit())
-                                _hitpoints = GetMaxHit();
+                            ModifiedConstitution += mod;
+                            Hitpoints += GetMaxHit() - hit;
+                            if (Hitpoints > GetMaxHit())
+                                Hitpoints = GetMaxHit();
                             break;
                         }
                         break;
@@ -7452,25 +7450,25 @@ namespace MUDEngine
                         if (!IsNPC())
                             ((PC)this).MaxAgiMod += mod;
                         else
-                            _modifiedAgility += mod;
+                            ModifiedAgility += mod;
                         break;
                     case Affect.Apply.max_power:
                         if (!IsNPC())
                             ((PC)this).MaxPowMod += mod;
                         else
-                            _modifiedPower += mod;
+                            ModifiedPower += mod;
                         break;
                     case Affect.Apply.max_charisma:
                         if (!IsNPC())
                             ((PC)this).MaxChaMod += mod;
                         else
-                            _modifiedCharisma += mod;
+                            ModifiedCharisma += mod;
                         break;
                     case Affect.Apply.max_luck:
                         if (!IsNPC())
                             ((PC)this).MaxLukMod += mod;
                         else
-                            _modifiedLuck += mod;
+                            ModifiedLuck += mod;
                         break;
                     case Affect.Apply.race_strength:
                     case Affect.Apply.race_dexterity:
@@ -7485,38 +7483,38 @@ namespace MUDEngine
                         break;
                     case Affect.Apply.resistant:
                         {
-                            int val = (int)_resistant;
+                            int val = (int)Resistant;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _resistant = (Race.DamageType)val;
+                            Resistant = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.immune:
                         {
-                            int val = (int)_immune;
+                            int val = (int)Immune;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _immune = (Race.DamageType)val;
+                            Immune = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.susceptible:
                         {
-                            int val = (int)_susceptible;
+                            int val = (int)Susceptible;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _susceptible = (Race.DamageType)val;
+                            Susceptible = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.vulnerable:
                         {
-                            int val = (int)_vulnerable;
+                            int val = (int)Vulnerable;
                             Macros.SetBit(ref val, mod);
                             if (val < 0)
                                 break;
-                            _vulnerable = (Race.DamageType)val;
+                            Vulnerable = (Race.DamageType)val;
                             break;
                         }
                     case Affect.Apply.race:
@@ -7524,16 +7522,16 @@ namespace MUDEngine
                         // you are adjusted proportionally.  We don't just set the race to default
                         // size because the person may be enlarged or reduced and will be hosed when
                         // the enlarge or reduce affect wears off.
-                        _size -= (Race.RaceList[GetOrigRace()].DefaultSize - Race.RaceList[(GetOrigRace() + mod)].DefaultSize);
+                        CurrentSize -= (Race.RaceList[GetOrigRace()].DefaultSize - Race.RaceList[(GetOrigRace() + mod)].DefaultSize);
                         SetPermRace(GetRace() + mod);
                         break;
                 }
 
                 /* Remove the excess general stats */
                 // took out class check, because evryone can go over max with Holy Sacrifice
-                _hitpoints = Math.Min(_hitpoints, (GetMaxHit() * 3 / 2));
-                _currentMana = Math.Min(_currentMana, _maxMana);
-                _currentMoves = Math.Min(_currentMoves, _maxMoves);
+                Hitpoints = Math.Min(Hitpoints, (GetMaxHit() * 3 / 2));
+                CurrentMana = Math.Min(CurrentMana, MaxMana);
+                CurrentMoves = Math.Min(CurrentMoves, MaxMoves);
 
                 if (IsNPC())
                     return;
@@ -7550,7 +7548,7 @@ namespace MUDEngine
                             SocketConnection.Act("You drop $p&n because it is too heavy.", this, wield2, null, SocketConnection.MessageTarget.character);
                             SocketConnection.Act("$n&n drops $p&n.", this, wield2, null, SocketConnection.MessageTarget.room);
                             wield2.RemoveFromChar();
-                            wield2.AddToRoom(_inRoom);
+                            wield2.AddToRoom(InRoom);
                         }
                     }
                     else
@@ -7560,7 +7558,7 @@ namespace MUDEngine
                             SocketConnection.Act("You drop $p&n because it is too heavy.", this, wield, null, SocketConnection.MessageTarget.character);
                             SocketConnection.Act("$n&N drops $p&n.", this, wield, null, SocketConnection.MessageTarget.room);
                             wield.RemoveFromChar();
-                            wield.AddToRoom(_inRoom);
+                            wield.AddToRoom(InRoom);
                         }
                 }
                 else if ((wield2 = Object.GetEquipmentOnCharacter(this, ObjTemplate.WearLocation.hand_two)) && (wield2.GetWeight() > StrengthModifier.Table[GetCurrStr()].WieldWeight
@@ -7569,7 +7567,7 @@ namespace MUDEngine
                     SocketConnection.Act("You drop $p&n because it is too heavy.", this, wield2, null, SocketConnection.MessageTarget.character);
                     SocketConnection.Act("$n&n drops $p&n.", this, wield2, null, SocketConnection.MessageTarget.room);
                     wield2.RemoveFromChar();
-                    wield2.AddToRoom(_inRoom);
+                    wield2.AddToRoom(InRoom);
                 }
             }
             return;
@@ -7590,19 +7588,19 @@ namespace MUDEngine
                 return;
             }
 
-            for (int i = (_affected.Count - 1); i >= 0; i--)
+            for (int i = (Affected.Count - 1); i >= 0; i--)
             {
-                if (_affected[i].Type == af.Type && _affected[i].Value == af.Value)
+                if (Affected[i].Type == af.Type && Affected[i].Value == af.Value)
                 {
-                    _affected[i].Duration += _affected[i].Duration;
-                    _affected[i].Level = Math.Max(af.Level, _affected[i].Level);
-                    for(int j = 0; j < _affected[i].Modifiers.Count; j++ )
+                    Affected[i].Duration += Affected[i].Duration;
+                    Affected[i].Level = Math.Max(af.Level, Affected[i].Level);
+                    for(int j = 0; j < Affected[i].Modifiers.Count; j++ )
                     {
                         foreach(AffectApplyType newapply in af.Modifiers )
                         {
-                            if (newapply.Location == _affected[i].Modifiers[j].Location)
+                            if (newapply.Location == Affected[i].Modifiers[j].Location)
                             {
-                                _affected[i].Modifiers[j].Amount = Math.Max(newapply.Amount, _affected[i].Modifiers[j].Amount);
+                                Affected[i].Modifiers[j].Amount = Math.Max(newapply.Amount, Affected[i].Modifiers[j].Amount);
                             }
                         }
                     }
@@ -7619,14 +7617,14 @@ namespace MUDEngine
         /// </summary>
         public void RemoveAffect(Affect af)
         {
-            if (_affected == null)
+            if (Affected == null)
             {
                 Log.Error("RemoveAffect: Trying to remove NULL affect.", 0);
                 return;
             }
 
             ApplyAffectModifiers(af, false);
-            _affected.Remove(af);
+            Affected.Remove(af);
             return;
         }
 
@@ -7643,7 +7641,7 @@ namespace MUDEngine
             if (String.IsNullOrEmpty(value))
                 return;
 
-            foreach (Affect aff in _affected)
+            foreach (Affect aff in Affected)
             {
                 if (aff.Type == type && aff.Value == value)
                 {
@@ -7681,11 +7679,11 @@ namespace MUDEngine
                 return;
             }
 
-            for (int i = (_affected.Count - 1); i >= 0; i--)
+            for (int i = (Affected.Count - 1); i >= 0; i--)
             {
-                if (_affected[i].Type == type && _affected[i].Value == value)
+                if (Affected[i].Type == type && Affected[i].Value == value)
                 {
-                    RemoveAffect(_affected[i]);
+                    RemoveAffect(Affected[i]);
                 }
             }
 
@@ -7699,7 +7697,7 @@ namespace MUDEngine
         /// <param name="ch">The character to add the affect to.</param>
         public void AddAffect(Affect af)
         {
-            _affected.Add(af);
+            Affected.Add(af);
             ApplyAffectModifiers(af, true);
             return;
         }
@@ -7734,7 +7732,7 @@ namespace MUDEngine
                 return false;
             }
 
-            foreach (Affect aff in _affected)
+            foreach (Affect aff in Affected)
             {
                 if (aff.Type == type && aff.Value == value)
                     return true;

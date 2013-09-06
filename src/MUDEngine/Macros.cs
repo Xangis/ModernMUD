@@ -55,7 +55,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static int ManaBase( CharData ch, Spell spell )
         {
-            return (30 + 15 * (spell.SpellCircle[(int)ch._charClass.ClassNumber]));
+            return (30 + 15 * (spell.SpellCircle[(int)ch.CharacterClass.ClassNumber]));
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static int ManaScale( CharData ch, Spell spell )
         {
-            return (spell.SpellCircle[(int)ch._charClass.ClassNumber] + 9);
+            return (spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] + 9);
         }
 
         /// <summary>
@@ -77,8 +77,8 @@ namespace MUDEngine
         /// <returns></returns>
         public static int ManaLevel( CharData ch, Spell spell )
         {
-            return ( ( ch._level - 1 ) - 5 * (
-                                    spell.SpellCircle[(int)ch._charClass.ClassNumber] - 1));
+            return ( ( ch.Level - 1 ) - 5 * (
+                                    spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] - 1));
         }
 
         /// <summary>

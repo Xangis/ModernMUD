@@ -20,7 +20,7 @@ namespace MUDEngine
         {
             ch.SendText( "You Sing a song of protection.\r\n" );
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsAffected( Affect.AFFECT_ARMOR))
                     continue;
@@ -44,7 +44,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongFlight( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsAffected(Affect.AFFECT_FLYING))
                     return true;
@@ -68,7 +68,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongBabble( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -84,7 +84,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongCalming( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 Combat.StopFighting( victim, false );
                 victim.WaitState( 2 );
@@ -102,7 +102,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongChaos( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -118,7 +118,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongClumsiness( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -134,7 +134,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongCorruption( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -150,7 +150,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongCowardice( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if( !victim.IsSameGroup( ch ) )
                 {
@@ -174,7 +174,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongDragons( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -190,7 +190,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongFeasting( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if( victim.IsNPC() )
                     continue;
@@ -217,7 +217,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongForgetfulness( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -233,7 +233,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongHarming( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -249,15 +249,15 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongHealing( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if( !ch.IsSameGroup( victim ) )
                     continue;
 
                 int heal = MUDMath.Dice( 4, ( level / 3 ) ) + 1;
 
-                if( victim._hitpoints < victim.GetMaxHit() )
-                    victim._hitpoints = Math.Min( victim._hitpoints + heal, victim.GetMaxHit() );
+                if( victim.Hitpoints < victim.GetMaxHit() )
+                    victim.Hitpoints = Math.Min( victim.Hitpoints + heal, victim.GetMaxHit() );
                 victim.UpdatePosition();
 
                 victim.SendText( "&+WYour wounds begin to heal.&n\r\n" );
@@ -275,7 +275,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongHeroism( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 Affect af = new Affect(Affect.AffectType.song, spell.Name, (level / 8), Affect.Apply.hitroll, (level / 6 + 1), Affect.AFFECT_NONE);
                 victim.AddAffect(af);
@@ -302,7 +302,7 @@ namespace MUDEngine
 
             int max = level / 8;
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if( !victim.IsSameGroup( ch ) || victim.IsAffected( Affect.AFFECT_INVISIBLE ) )
                     continue;
@@ -317,7 +317,7 @@ namespace MUDEngine
                 victim.AddAffect(af);
                 total++;
             }
-            foreach( Object obj in ch._inRoom.Contents )
+            foreach( Object obj in ch.InRoom.Contents )
             {
                 if( obj.HasFlag( ObjTemplate.ITEM_INVIS ) )
                     continue;
@@ -345,7 +345,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsAffected(Affect.AFFECT_FEEBLEMIND)
                         || Magic.SpellSavingThrow( level, victim, AttackType.DamageType.black_magic ) )
@@ -379,7 +379,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsAffected(Affect.AFFECT_FEAR) || Magic.SpellSavingThrow(level, victim,
                         AttackType.DamageType.black_magic ) )
@@ -418,7 +418,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if( victim.IsAffected( Affect.AFFECT_MINOR_INVIS ) || victim.IsAffected( Affect.AFFECT_INVISIBLE ) )
                     return true;
@@ -445,7 +445,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongPurity( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -461,15 +461,15 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongQuagmire( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
-                if( victim._currentMoves < 0 )
+                if( victim.CurrentMoves < 0 )
                     continue;
 
-                victim._currentMoves -= MUDMath.Dice( 2, ( level / 2 ) ) + 5;
+                victim.CurrentMoves -= MUDMath.Dice( 2, ( level / 2 ) ) + 5;
 
-                if( victim._currentMoves < 0 )
-                    victim._currentMoves = 0;
+                if( victim.CurrentMoves < 0 )
+                    victim.CurrentMoves = 0;
 
                 victim.SendText( "Your feet feel mired to the ground.\r\n" );
             }
@@ -486,7 +486,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongRevelation( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 victim.AffectStrip( Affect.AffectType.skill, "shadow form");
                 victim.RemoveAffect(Affect.AFFECT_HIDE);
@@ -507,7 +507,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongSkylark( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
             }
             return true;
@@ -523,7 +523,7 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool SongSleep( CharData ch, Spell spell, int level, Target target )
         {
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsAffected(Affect.AFFECT_SLEEP)
                         || Magic.SpellSavingThrow( level, victim, AttackType.DamageType.charm )
@@ -539,7 +539,7 @@ namespace MUDEngine
                 if( victim.IsAwake() )
                 {
                     victim.SendText( "You feel very sleepy... zzzzz.\r\n" );
-                    if (ch._fighting || victim._position == Position.fighting)
+                    if (ch.Fighting || victim.CurrentPosition == Position.fighting)
                     {
                         Combat.StopFighting(victim, false);
                     }
@@ -563,7 +563,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.magic_other ) )
                 {
@@ -606,7 +606,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 af.Type = Affect.AffectType.song;
                 af.Value = spell.Name;
@@ -634,7 +634,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 af.Type = Affect.AffectType.song;
                 af.Value = spell.Name;
@@ -662,7 +662,7 @@ namespace MUDEngine
         {
             Affect af = new Affect();
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsAffected( Affect.AFFECT_STRENGTH_REDUCED)
                         || Magic.SpellSavingThrow( level, victim, AttackType.DamageType.black_magic ) )

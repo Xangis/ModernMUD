@@ -320,11 +320,11 @@ namespace MUDEngine
             string buf2 = "$n&n utters the words, '" + text + "'.";
             text = "$n&n utters the words, '" + spell.Name + "'.";
 
-            foreach( CharData roomChar in ch._inRoom.People )
+            foreach( CharData roomChar in ch.InRoom.People )
             {
-                if( roomChar._flyLevel != ch._flyLevel )
+                if( roomChar.FlightLevel != ch.FlightLevel )
                     continue;
-                if( roomChar != ch && ( ( roomChar._charClass == ch._charClass ) || ch.IsImmortal() || ch.IsAffected( Affect.AFFECT_COMP_LANG ) ) )
+                if( roomChar != ch && ( ( roomChar.CharacterClass == ch.CharacterClass ) || ch.IsImmortal() || ch.IsAffected( Affect.AFFECT_COMP_LANG ) ) )
                 {
                     SocketConnection.Act(text, ch, null, roomChar, SocketConnection.MessageTarget.victim);
                 }
@@ -368,9 +368,9 @@ namespace MUDEngine
             /* Thus, we want a - save to increase the save chance, not decrease
             * it.  So, we subtract the saving throw.
             */
-            int save = ibase + ( victim._level - level - victim._savingThrows[ 4 ] ) * 2;
+            int save = ibase + ( victim.Level - level - victim.SavingThrows[ 4 ] ) * 2;
 
-            if( victim.IsNPC() && victim._level > 55 )
+            if( victim.IsNPC() && victim.Level > 55 )
                 ibase += 20;
 
             // We aren't too harsh on our save penalties because the victim is already
@@ -438,7 +438,7 @@ namespace MUDEngine
                 return false;
             }
 
-            int save = ibase + ( victim._level - level - victim._savingThrows[ 3 ] ) * 2;
+            int save = ibase + ( victim.Level - level - victim.SavingThrows[ 3 ] ) * 2;
 
             switch( victim.CheckRIS( damType ) )
             {
@@ -501,14 +501,14 @@ namespace MUDEngine
             }
 
             // Level has an effect on illusions.
-            int save = ibase + ( victim._level - level ) * 2;
+            int save = ibase + ( victim.Level - level ) * 2;
 
             // Will cause a 100 int player to get a 5% bonus against a 50 int mob.
             save += ( victim.GetCurrInt() / 5 );
             save -= ( ch.GetCurrInt() / 5 );
 
             // Figure in spell saving throw adjustment.
-            save -= victim._savingThrows[4];
+            save -= victim.SavingThrows[4];
 
             // Even though we already figured in intelligence, also take into account mental
             // damage type resistance and susceptibility.
@@ -543,7 +543,7 @@ namespace MUDEngine
             {
                 return false;
             }
-            if (target._flyLevel != ch._flyLevel)
+            if (target.FlightLevel != ch.FlightLevel)
             {
                 return false;
             }
@@ -556,7 +556,7 @@ namespace MUDEngine
             int temp = 0;
             int firstTarget;
 
-            foreach( CharData targetChar in ch._inRoom.People )
+            foreach( CharData targetChar in ch.InRoom.People )
             {
                 if( IsValidAreaTarget( ch, targetChar ) )
                     numInRoom++;
@@ -565,7 +565,7 @@ namespace MUDEngine
                 firstTarget = MUDMath.Dice( 1, numInRoom - numTargets );
             else
                 firstTarget = MUDMath.Dice( 1, numInRoom );
-            foreach( CharData targetChar in ch._inRoom.People )
+            foreach( CharData targetChar in ch.InRoom.People )
             {
                 if( IsValidAreaTarget( ch, targetChar ) )
                 {
@@ -592,12 +592,12 @@ namespace MUDEngine
             int count = 0;
 
             // TODO: Start with either a random or a targeted character instead of picking the first.
-            foreach( CharData targetChar in ch._inRoom.People )
+            foreach( CharData targetChar in ch.InRoom.People )
             {
                 if (++count > numTargets)
                     break;
 
-                if( !ch.IsSameGroup( targetChar ) && ch != targetChar && ch._flyLevel == targetChar._flyLevel )
+                if( !ch.IsSameGroup( targetChar ) && ch != targetChar && ch.FlightLevel == targetChar.FlightLevel )
                 {
                     int tmpDam = damage;
                     /* handle special damage types (chain lightning, quake, etc) here */
@@ -642,7 +642,7 @@ namespace MUDEngine
 
                 case TargetType.singleCharacterOffensive:
                     if( !victim )
-                        victim = ch._fighting;
+                        victim = ch.Fighting;
                     if( !victim )
                     {
                         ch.SendText( "You can't do that.\r\n" );
@@ -697,11 +697,11 @@ namespace MUDEngine
             spell.Invoke(ch, level, target);
 
             if( spell.ValidTargets == TargetType.singleCharacterOffensive
-                    && victim._master != ch && ch != victim )
+                    && victim.Master != ch && ch != victim )
             {
-                foreach( CharData roomChar in ch._inRoom.People )
+                foreach( CharData roomChar in ch.InRoom.People )
                 {
-                    if( victim == roomChar && !victim._fighting )
+                    if( victim == roomChar && !victim.Fighting )
                     {
                         victim.AttackCharacter( ch );
                         break;
@@ -731,7 +731,7 @@ namespace MUDEngine
             if( !String.IsNullOrEmpty(argument) )
             {
                 // Must be in the proper position
-                if( ch._position != Position.resting )
+                if( ch.CurrentPosition != Position.resting )
                 {
                     if( pray )
                         ch.SendText( "You can only pray for spells while resting.\r\n" );
@@ -772,17 +772,17 @@ namespace MUDEngine
                     int lvltotal = 0;
                     foreach( MemorizeData mem in ((PC)ch).Memorized )
                     {
-                        if (mem.Circle == spell.SpellCircle[(int)ch._charClass.ClassNumber])
+                        if (mem.Circle == spell.SpellCircle[(int)ch.CharacterClass.ClassNumber])
                             lvltotal += 1;
                     }
                     int numMemmable = 0;
-                    if (ch._charClass.MemType == CharClass.MemorizationType.Lesser)
+                    if (ch.CharacterClass.MemType == CharClass.MemorizationType.Lesser)
                     {
-                        numMemmable = LesserMemchart[(ch._level - 1), (spell.SpellCircle[(int)ch._charClass.ClassNumber] - 1)];
+                        numMemmable = LesserMemchart[(ch.Level - 1), (spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] - 1)];
                     }
                     else
                     {
-                        numMemmable = Memchart[(ch._level - 1), (spell.SpellCircle[(int)ch._charClass.ClassNumber] - 1)];
+                        numMemmable = Memchart[(ch.Level - 1), (spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] - 1)];
                     }
                     if (lvltotal >= numMemmable )
                     {
@@ -849,13 +849,13 @@ namespace MUDEngine
                 {
                     foreach (KeyValuePair<String, Spell> kvp in Spell.SpellList)
                     {
-                        if (kvp.Value.SpellCircle[(int)ch._charClass.ClassNumber] != circleIndex)
+                        if (kvp.Value.SpellCircle[(int)ch.CharacterClass.ClassNumber] != circleIndex)
                             continue;
                         if( memmed.ContainsKey(kvp.Key) && memmed[ kvp.Key ] > 0 && kvp.Value.Name != null )
                         {
                             text = String.Format( "({0,2}{1} circle)  {2} - {3}\r\n",
-                                                 kvp.Value.SpellCircle[(int)ch._charClass.ClassNumber],
-                                                 MUDString.NumberSuffix(kvp.Value.SpellCircle[(int)ch._charClass.ClassNumber]),
+                                                 kvp.Value.SpellCircle[(int)ch.CharacterClass.ClassNumber],
+                                                 MUDString.NumberSuffix(kvp.Value.SpellCircle[(int)ch.CharacterClass.ClassNumber]),
                                                  memmed[ kvp.Key ],
                                                  kvp.Value.Name );
                             ch.SendText( text );
@@ -880,8 +880,8 @@ namespace MUDEngine
                     found = true;
                     text = String.Format( "    {0} seconds:  ({1}{2}) {3}\r\n",
                                          ( ( totalMem + mem.Memtime ) / Event.TICK_PER_SECOND ),
-                                         Spell.SpellList[mem.Name].SpellCircle[(int)ch._charClass.ClassNumber],
-                                         MUDString.NumberSuffix(Spell.SpellList[mem.Name].SpellCircle[(int)ch._charClass.ClassNumber]),
+                                         Spell.SpellList[mem.Name].SpellCircle[(int)ch.CharacterClass.ClassNumber],
+                                         MUDString.NumberSuffix(Spell.SpellList[mem.Name].SpellCircle[(int)ch.CharacterClass.ClassNumber]),
                                          mem.Name );
                     ch.SendText( text );
                     totalMem += mem.Memtime;
@@ -900,13 +900,13 @@ namespace MUDEngine
             for( count = 0; count < Limits.MAX_CIRCLE; ++count )
             {
                 int numMemmable = 0;
-                if (ch._charClass.MemType == CharClass.MemorizationType.Lesser)
+                if (ch.CharacterClass.MemType == CharClass.MemorizationType.Lesser)
                 {
-                    numMemmable = LesserMemchart[(ch._level - 1), count];
+                    numMemmable = LesserMemchart[(ch.Level - 1), count];
                 }
                 else
                 {
-                    numMemmable = Memchart[(ch._level - 1), count];
+                    numMemmable = Memchart[(ch.Level - 1), count];
                 }
                 circfree[ count ] = numMemmable - circle[ count ];
                 if( circfree[ count ] > 0 )
@@ -939,7 +939,7 @@ namespace MUDEngine
 
             // If they aren't memming and they should be, start 'em up.
             if( found && !ch.HasActionBit(PC.PLAYER_MEMORIZING )
-                && ch._position == Position.resting )
+                && ch.CurrentPosition == Position.resting )
             {
                 ch.SetActionBit(PC.PLAYER_MEMORIZING );
                 if( ( (PC)ch ).Hunger > 0
@@ -966,7 +966,7 @@ namespace MUDEngine
             mem.Name = spell.Name;
             mem.Memtime = CalculateMemorizationTime( ch, spell );
             mem.FullMemtime = CalculateMemorizationTime( ch, spell );
-            mem.Circle = spell.SpellCircle[(int)ch._charClass.ClassNumber];
+            mem.Circle = spell.SpellCircle[(int)ch.CharacterClass.ClassNumber];
             mem.Memmed = false;
 
             // TODO: Make sure that this is added in the right order.
@@ -987,8 +987,8 @@ namespace MUDEngine
             else
                 attribute = ch.GetCurrInt();
 
-            int memtime = 220 - attribute - ( ch._level * 3 )
-                          + (spell.SpellCircle[(int)ch._charClass.ClassNumber] * 8);
+            int memtime = 220 - attribute - ( ch.Level * 3 )
+                          + (spell.SpellCircle[(int)ch.CharacterClass.ClassNumber] * 8);
             if( memtime < 4 )
                 memtime = 4;
             return memtime;
@@ -1140,7 +1140,7 @@ namespace MUDEngine
             int chance = 0;
             bool found = false;
 
-            string lbuf = String.Format("Magic.FinishSpell: {0} by {1}", spell.Name, ch._name);
+            string lbuf = String.Format("Magic.FinishSpell: {0} by {1}", spell.Name, ch.Name);
             Log.Trace( lbuf );
 
             for( int i = Database.CastList.Count - 1; i >= 0; i--)
@@ -1171,10 +1171,10 @@ namespace MUDEngine
             }
 
             // Make sure the room is still castable.
-            if( !ch._inRoom.CheckCastable( ch, false, false ) )
+            if( !ch.InRoom.CheckCastable( ch, false, false ) )
                 return;
 
-            if( ch._inRoom.CheckStarshell( ch ) )
+            if( ch.InRoom.CheckStarshell( ch ) )
                 return;
 
             MemorizeData memorized = null;
@@ -1236,7 +1236,7 @@ namespace MUDEngine
                     if( ch.IsAffected( Affect.AFFECT_BLIND ) )
                     {
                         //allow casting if in combat and no _targetType specified
-                        if( !( ch._fighting && victim == ch._fighting ) )
+                        if( !( ch.Fighting && victim == ch.Fighting ) )
                         {
                             ch.SendText( "You cannot see to cast that spell.\r\n" );
                             return;
@@ -1247,7 +1247,7 @@ namespace MUDEngine
                         ch.SendText( "They aren't here.\r\n" );
                         return;
                     }
-                    if( !victim._inRoom || victim._inRoom != ch._inRoom )
+                    if( !victim.InRoom || victim.InRoom != ch.InRoom )
                     {
                         ch.SendText( "They are not here.\r\n" );
                         return;
@@ -1321,7 +1321,7 @@ namespace MUDEngine
                         ch.SendText( "You cannot see to cast that spell.\r\n" );
                         return;
                     }
-                    if( !victim || victim._inRoom != ch._inRoom )
+                    if( !victim || victim.InRoom != ch.InRoom )
                     {
                         ch.SendText( "They aren't here.\r\n" );
                         return;
@@ -1351,7 +1351,7 @@ namespace MUDEngine
                         ch.SendText( "You cannot see to cast that spell.\r\n" );
                         return;
                     }
-                    if( !obj || ( obj.CarriedBy != ch && obj.InRoom != ch._inRoom ) )
+                    if( !obj || ( obj.CarriedBy != ch && obj.InRoom != ch.InRoom ) )
                     {
                         ch.SendText( "You do not see that here.\r\n" );
                         return;
@@ -1367,14 +1367,14 @@ namespace MUDEngine
                         return;
                     }
                     if( !victim
-                            || victim._flyLevel != ch._flyLevel
+                            || victim.FlightLevel != ch.FlightLevel
                             || !CharData.CanSee( ch, victim ) )
                     {
                         ch.SendText( "Your prey has disappeared.\r\n" );
                         return;
                     }
                     //check that _targetType is still within the spell range
-                    if( ch._inRoom == victim._inRoom )
+                    if( ch.InRoom == victim.InRoom )
                     {
                         break;
                     }
@@ -1382,21 +1382,21 @@ namespace MUDEngine
                     int dir;
                     for( dir = 0; dir < Limits.MAX_DIRECTION; dir++ )
                     {
-                        if( !ch._inRoom.ExitData[ dir ]
-                                || ch._inRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.secret )
-                                || ch._inRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.closed )
-                                || ch._inRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.blocked )
-                                || ch._inRoom.ExitData[dir].HasFlag(Exit.ExitFlag.walled))
+                        if( !ch.InRoom.ExitData[ dir ]
+                                || ch.InRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.secret )
+                                || ch.InRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.closed )
+                                || ch.InRoom.ExitData[ dir ].HasFlag( Exit.ExitFlag.blocked )
+                                || ch.InRoom.ExitData[dir].HasFlag(Exit.ExitFlag.walled))
                             continue;
-                        if( ch._inRoom.ExitData[ dir ].TargetRoom == victim._inRoom )
+                        if( ch.InRoom.ExitData[ dir ].TargetRoom == victim.InRoom )
                         {
                             targetInRange = true;
                             break;
                         }
                         // for fireball we check two rooms away
-                        if( ch._inRoom.ExitData[ dir ].TargetRoom &&
-                                ch._inRoom.ExitData[ dir ].TargetRoom.ExitData[ dir ]
-                                && ch._inRoom.ExitData[ dir ].TargetRoom.ExitData[ dir ].TargetRoom == victim._inRoom )
+                        if( ch.InRoom.ExitData[ dir ].TargetRoom &&
+                                ch.InRoom.ExitData[ dir ].TargetRoom.ExitData[ dir ]
+                                && ch.InRoom.ExitData[ dir ].TargetRoom.ExitData[ dir ].TargetRoom == victim.InRoom )
                         {
                             targetInRange = true;
                             break;
@@ -1448,11 +1448,11 @@ namespace MUDEngine
                 }
                 if( !ch.IsNPC() )
                 {
-                    string buf = String.Format( "Spell ({0}) being cast by {1}", spell.Name, ch._name );
+                    string buf = String.Format( "Spell ({0}) being cast by {1}", spell.Name, ch.Name );
                     Log.Trace( buf );
                 }
 
-                int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+                int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
                 spell.Invoke(ch, level, target);
 
                 if( memorized && !ch.IsNPC() && !ch.IsImmortal() )
@@ -1464,22 +1464,22 @@ namespace MUDEngine
 
             if( ( spell.ValidTargets == TargetType.singleCharacterOffensive
                     || spell.ValidTargets == TargetType.singleCharacterRanged )
-                    && victim && victim._master != ch && victim != ch && victim.IsAwake() )
+                    && victim && victim.Master != ch && victim != ch && victim.IsAwake() )
             {
-                if( ch._inRoom == victim._inRoom )
+                if( ch.InRoom == victim.InRoom )
                 {
-                    if( !victim._fighting && CharData.CanSee( victim, ch ) )
+                    if( !victim.Fighting && CharData.CanSee( victim, ch ) )
                         victim.AttackCharacter( ch );
                 }
                 else
                 {
                     // Range spell presumably, since different rooms
                     Combat.StartGrudge( victim, ch, true );
-                    foreach( CharData roomChar in ch._inRoom.People )
+                    foreach( CharData roomChar in ch.InRoom.People )
                     {
                         if( roomChar == victim )
                             continue;
-                        if( roomChar._flyLevel != ch._flyLevel )
+                        if( roomChar.FlightLevel != ch.FlightLevel )
                             continue;
                         //protectors will be aggro'd
                         if (roomChar.HasActionBit(MobTemplate.ACT_PROTECTOR) && (roomChar.GetRace() == victim.GetRace()))
@@ -1563,10 +1563,10 @@ namespace MUDEngine
                 return;
             }
 
-            if( !ch._inRoom.CheckCastable( ch, ch.IsClass( CharClass.Names.bard ), true) )
+            if( !ch.InRoom.CheckCastable( ch, ch.IsClass( CharClass.Names.bard ), true) )
                 return;
 
-            if( ch._inRoom.CheckStarshell( ch ) )
+            if( ch.InRoom.CheckStarshell( ch ) )
                 return;
 
             int manaUsed = 0;
@@ -1583,7 +1583,7 @@ namespace MUDEngine
             // Locate targets.
             if( ch.IsNPC() )
             {
-                ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, "Magic.Cast: Attempting to find _targetType for " + ch._shortDescription + "&n." );
+                ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, "Magic.Cast: Attempting to find _targetType for " + ch.ShortDescription + "&n." );
             }
 
             if (pieces.Length > 1)
@@ -1632,7 +1632,7 @@ namespace MUDEngine
                     case TargetType.singleCharacterOffensive:
                         if (String.IsNullOrEmpty(argument))
                         {
-                            victim = ch._fighting;
+                            victim = ch.Fighting;
                             if (victim == null)
                             {
                                 if (ch.IsClass(CharClass.Names.psionicist))
@@ -1652,7 +1652,7 @@ namespace MUDEngine
                             }
                         }
 
-                        if (ch.IsAffected( Affect.AFFECT_CHARM) && ch._master == victim)
+                        if (ch.IsAffected( Affect.AFFECT_CHARM) && ch.Master == victim)
                         {
                             ch.SendText("You can't do that to your master!.\r\n");
                             return;
@@ -1689,7 +1689,7 @@ namespace MUDEngine
                         break;
 
                     case TargetType.self:
-                        if (!String.IsNullOrEmpty(argument) && !MUDString.NameContainedIn(argument, ch._name) &&
+                        if (!String.IsNullOrEmpty(argument) && !MUDString.NameContainedIn(argument, ch.Name) &&
                                 "me".Equals(argument, StringComparison.CurrentCultureIgnoreCase) &&
                                 "self".Equals(argument, StringComparison.CurrentCultureIgnoreCase))
                         {
@@ -1740,8 +1740,8 @@ namespace MUDEngine
                     case TargetType.objectOrCharacter:
                         if (String.IsNullOrEmpty(argument))
                         {
-                            if (ch._fighting != null)
-                                victim = ch._fighting;
+                            if (ch.Fighting != null)
+                                victim = ch.Fighting;
                             else
                             {
                                 ch.SendText("Cast upon what?\r\n");
@@ -1771,7 +1771,7 @@ namespace MUDEngine
                     case TargetType.singleCharacterRanged:
                         if (String.IsNullOrEmpty(argument))
                         {
-                            victim = ch._fighting;
+                            victim = ch.Fighting;
                             if (victim == null)
                             {
                                 ch.SendText("Cast the spell on whom?\r\n");
@@ -1828,7 +1828,7 @@ namespace MUDEngine
                             //}
                             //} //end else
                         } //end else
-                        if (ch.IsAffected(Affect.AFFECT_CHARM) && ch._master == victim)
+                        if (ch.IsAffected(Affect.AFFECT_CHARM) && ch.Master == victim)
                         {
                             ch.SendText("You can't do that to your master!.\r\n");
                             return;
@@ -1932,39 +1932,39 @@ namespace MUDEngine
 
                 int mana = 0;
                 if( !ch.IsImmortal() && !ch.IsNPC()
-                        && ch._level < ( spell.SpellCircle[ (int)ch._charClass.ClassNumber ] * 4 + 1 )
+                        && ch.Level < ( spell.SpellCircle[ (int)ch.CharacterClass.ClassNumber ] * 4 + 1 )
                         && MUDMath.NumberPercent() > ((PC)ch).SpellAptitude[spell.Name])
                 {
                     ch.SendText( "You lost your concentration.\r\n" );
                     SocketConnection.Act( "&+r$n&n&+r's face flushes white for a moment.&n", ch, null, null, SocketConnection.MessageTarget.room );
-                    ch._currentMana -= mana / 2;
+                    ch.CurrentMana -= mana / 2;
                 }
                 else
                 {
-                    ch._currentMana -= mana;
+                    ch.CurrentMana -= mana;
                     string buf = String.Format( "Spell {0} ({1}) being willed by {2}", spell,
-                                                spell.Name, ch._name );
+                                                spell.Name, ch.Name );
                     Log.Trace( buf );
                     ch.SetAffectBit( Affect.AFFECT_CASTING );
                     FinishSpell( ch, spell, target );
                 }
-                if( ch._position > Position.sleeping && ch._currentMana < 0 )
+                if( ch.CurrentPosition > Position.sleeping && ch.CurrentMana < 0 )
                 {
                     ch.WaitState( 2 * Event.TICK_PER_SECOND );
                     ch.SendText( "&+WThat last spe&+wll w&+Las a _bitvector&+l much...&n\r\n" );
-                    ch._position = Position.standing;
-                    ch._fighting = null;
+                    ch.CurrentPosition = Position.standing;
+                    ch.Fighting = null;
                     SocketConnection.Act( "$n&n collapses from exhaustion&n.",
                          ch, null, null, SocketConnection.MessageTarget.room );
-                    ch._position = Position.sleeping;
+                    ch.CurrentPosition = Position.sleeping;
                 }
 
                 if( spell.ValidTargets == TargetType.singleCharacterOffensive
-                        && victim && victim._master != ch && victim != ch && victim.IsAwake() )
+                        && victim && victim.Master != ch && victim != ch && victim.IsAwake() )
                 {
-                    foreach( CharData roomChar in ch._inRoom.People )
+                    foreach( CharData roomChar in ch.InRoom.People )
                     {
-                        if( victim == roomChar && !victim._fighting )
+                        if( victim == roomChar && !victim.Fighting )
                         {
                             victim.AttackCharacter( ch );
                             break;
@@ -2026,7 +2026,7 @@ namespace MUDEngine
             if( !ch || ch.IsClass(CharClass.Names.psionicist) || ch.IsNPC() )
                 return false;
 
-            foreach( Object obj in ch._inRoom.Contents)
+            foreach( Object obj in ch.InRoom.Contents)
             {
                 if( obj.ObjIndexData.IndexNumber == StaticObjects.OBJECT_NUMBER_HYPNOTIC_PATTERN )
                 {
@@ -2038,7 +2038,7 @@ namespace MUDEngine
                         return false;
                     if( owner != null && owner.IsSameGroup( ch ) )
                         continue;
-                    if( MUDMath.NumberPercent() < ch._level / 3 + ch.GetCurrInt() / 5 )
+                    if( MUDMath.NumberPercent() < ch.Level / 3 + ch.GetCurrInt() / 5 )
                         continue;
                     SocketConnection.Act( "Your concentration is disrupted by $p&n!", ch, obj, null, SocketConnection.MessageTarget.character );
                     return true;
@@ -2086,7 +2086,7 @@ namespace MUDEngine
                     ch.SendText( "This spell has an invalid sphere setting for a shaman.  Please report this as a bug.\r\n" );
                     return false;
                 case SCHOOL_SPIRITUAL:
-                    if( spell.SpellCircle[ (int)ch._charClass.ClassNumber ] <= 5 )
+                    if( spell.SpellCircle[ (int)ch.CharacterClass.ClassNumber ] <= 5 )
                     {
                         if (!totem || !Macros.IsSet(totem.Values[0], ObjTemplate.TOTEM_L_SPIRIT.Vector))
                         {
@@ -2110,7 +2110,7 @@ namespace MUDEngine
                     }
                     break;
                 case SCHOOL_ANIMAL:
-                    if( spell.SpellCircle[ (int)ch._charClass.ClassNumber ] <= 5 )
+                    if( spell.SpellCircle[ (int)ch.CharacterClass.ClassNumber ] <= 5 )
                     {
                         if (!totem || !Macros.IsSet(totem.Values[0], ObjTemplate.TOTEM_L_ANIMAL.Vector))
                         {
@@ -2134,7 +2134,7 @@ namespace MUDEngine
                     }
                     break;
                 case SCHOOL_ELEMENTAL:
-                    if( spell.SpellCircle[ (int)ch._charClass.ClassNumber ] <= 5 )
+                    if( spell.SpellCircle[ (int)ch.CharacterClass.ClassNumber ] <= 5 )
                     {
                         if (!totem || !Macros.IsSet(totem.Values[0], ObjTemplate.TOTEM_L_ELEMENTAL.Vector))
                         {

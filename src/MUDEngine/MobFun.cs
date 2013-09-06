@@ -31,17 +31,17 @@ namespace MUDEngine
             string name = String.Empty;
             string buf = String.Empty;
  
-            if( ch._fighting || ch._fearing || ch._hating.Count == 0 || ch._inRoom.HasFlag( RoomTemplate.ROOM_SAFE ) )
+            if( ch.Fighting || ch.Fearing || ch.Hating.Count == 0 || ch.InRoom.HasFlag( RoomTemplate.ROOM_SAFE ) )
                 return;
 
             /* If summoner is busy hunting someone aleady, don't summon. */
-            if( ch._hunting )
+            if( ch.Hunting )
                 return;
 
             CharData victim = ch.GetRandomHateTarget( false );
 
             // Pretty stupid to summon someone who's in the same room.
-            if( !victim || ch._inRoom == victim._inRoom )
+            if( !victim || ch.InRoom == victim.InRoom )
                 return;
 
             if( ( ch.HasSpell( "relocate" ) ))
@@ -58,7 +58,7 @@ namespace MUDEngine
                 else
                     buf += "summon " + name;
             }
-            else if ((ch._level * 4 - 3) >= Spell.SpellList["spirit jump"].SpellCircle[(int)ch._charClass.ClassNumber])
+            else if ((ch.Level * 4 - 3) >= Spell.SpellList["spirit jump"].SpellCircle[(int)ch.CharacterClass.ClassNumber])
             {
                 if( !victim.IsNPC() )
                     buf += "'spirit jump' 0." + name;
@@ -80,12 +80,12 @@ namespace MUDEngine
         {
             if (mob == null) return false;
             CharData ch = (CharData)mob;
-            if (!ch._fighting)
+            if (!ch.Fighting)
             {
                 return false;
             }
 
-            if( ch._position < Position.fighting )
+            if( ch.CurrentPosition < Position.fighting )
                 return false;
 
             // Only performing an action half the time.
@@ -98,17 +98,17 @@ namespace MUDEngine
                 ch.SendText( "You roar like the enraged beast you are.\r\n" );
                 SocketConnection.Act( "$n&n &+WROARS&n, sending you into a panic!",
                      ch, null, null, SocketConnection.MessageTarget.room );
-                foreach( CharData victim in ch._inRoom.People )
+                foreach( CharData victim in ch.InRoom.People )
                 {
                     if( victim == ch )
                         continue;
-                    if( victim._flyLevel != ch._flyLevel )
+                    if( victim.FlightLevel != ch.FlightLevel )
                         continue;
                     if( victim.IsNPC() )
                         continue;
-                    if( Magic.SavesBreath( ch._level, victim, AttackType.DamageType.sound ) )
+                    if( Magic.SavesBreath( ch.Level, victim, AttackType.DamageType.sound ) )
                     {
-                        if( Magic.SavesBreath( ch._level, victim, AttackType.DamageType.sound ) )
+                        if( Magic.SavesBreath( ch.Level, victim, AttackType.DamageType.sound ) )
                         {
                             victim.SendText( "You control the urge to flee and stand your ground.\r\n" );
                         }
@@ -116,7 +116,7 @@ namespace MUDEngine
                         {
                             victim.SendText( "You are bowled over by the powerful blast!\r\n" );
                             SocketConnection.Act( "$N&n is floored by $n&n's roar.", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim );
-                            victim._position = Position.sitting;
+                            victim.CurrentPosition = Position.sitting;
                         }
                     }
                     else
@@ -135,12 +135,12 @@ namespace MUDEngine
 
             if( spell != null )
             {
-                string lbuf = String.Format( "Dragon ({0}) breathing {1}.", ch._shortDescription, spell.Name );
+                string lbuf = String.Format( "Dragon ({0}) breathing {1}.", ch.ShortDescription, spell.Name );
                 ImmortalChat.SendImmortalChat( null, ImmortalChat.IMMTALK_SPAM, 0, lbuf );
             }
 
             if( spell != null )
-                foreach( CharData victim in ch._inRoom.People )
+                foreach( CharData victim in ch.InRoom.People )
                 {
                     if( victim == ch )
                         continue;
@@ -149,7 +149,7 @@ namespace MUDEngine
                     if( victim.IsNPC() && ch.IsNPC() )
                         continue;
 
-                    int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+                    int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
                     spell.Invoke(ch, level, victim);
                 }
 
@@ -169,7 +169,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( !ch._fighting )
+            if( !ch.Fighting )
                 return false;
 
             switch( MUDMath.NumberRange( 0, 7 ) )
@@ -269,17 +269,17 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
 
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
-            if( !ch.IsAwake() || ch._fighting )
+            if( !ch.IsAwake() || ch.Fighting )
                 return false;
 
             if( !ch.CanSpeak() )
                 return false;
 
             CharData victim = null;
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
                 if (ivictim != ch && CharData.CanSee(ch, ivictim) && MUDMath.NumberBits(1) == 0)
                 {
@@ -291,7 +291,7 @@ namespace MUDEngine
             if( !victim || victim.IsNPC() )
                 return false;
 
-            if( victim._level > 10 )
+            if( victim.Level > 10 )
             {
                 return false;
             }
@@ -304,7 +304,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["armor"];
                         if (spl != null)
                         {
-                            spl.Invoke(ch, ch._level, victim);
+                            spl.Invoke(ch, ch.Level, victim);
                         }
                         return true;
                     }
@@ -314,7 +314,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["bless"];
                         if (spl != null)
                         {
-                            spl.Invoke(ch, ch._level, victim);
+                            spl.Invoke(ch, ch.Level, victim);
                         }
                         return true;
                     }
@@ -324,7 +324,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["cure blindness"];
                         if (spl != null)
                         {
-                            spl.Invoke(ch, ch._level, victim);
+                            spl.Invoke(ch, ch.Level, victim);
                         }
                         return true;
                     }
@@ -334,7 +334,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["cure light"];
                         if (spl != null)
                         {
-                            spl.Invoke(ch, ch._level, victim);
+                            spl.Invoke(ch, ch.Level, victim);
                         }
                         return true;
                     }
@@ -344,7 +344,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["remove poison"];
                         if (spl != null)
                         {
-                            spl.Invoke(ch, ch._level, victim);
+                            spl.Invoke(ch, ch.Level, victim);
                         }
                         return true;
                     }
@@ -354,7 +354,7 @@ namespace MUDEngine
                         Spell spl = Spell.SpellList["vigorize light"];
                         if (spl != null)
                         {
-                            spl.Invoke(ch, ch._level, victim);
+                            spl.Invoke(ch, ch.Level, victim);
                         }
                         return true;
                     }
@@ -370,7 +370,7 @@ namespace MUDEngine
                 return false;
 
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -378,13 +378,13 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
-                    if( ch._hitpoints < ( ch.GetMaxHit() - 10 ) )
+                    if( ch.Hitpoints < ( ch.GetMaxHit() - 10 ) )
                         if( HealSelf( ch ) )
                             return true;
                     if( CheckVigorize( ch ) )
@@ -395,7 +395,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -429,7 +429,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -437,13 +437,13 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
-                    if( ch._hitpoints < ( ch.GetMaxHit() - 10 ) )
+                    if( ch.Hitpoints < ( ch.GetMaxHit() - 10 ) )
                         if( HealSelf( ch ) )
                             return true;
                     if( CheckVigorize( ch ) )
@@ -454,7 +454,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -486,19 +486,19 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
-                    if( ch._hitpoints < ( ch.GetMaxHit() - 10 ) )
+                    if( ch.Hitpoints < ( ch.GetMaxHit() - 10 ) )
                         if( HealSelf( ch ) )
                             return true;
                     if( CheckVigorize( ch ) )
@@ -509,7 +509,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -541,10 +541,10 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
                 return false;
 
             if( !ch.CanSpeak() )
@@ -562,7 +562,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -570,9 +570,9 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                     if( Spellup( ch ) )
                         return true;
                 if( SpellupOthers( ch ) )
@@ -581,9 +581,9 @@ namespace MUDEngine
             }
 
             CharData victim = null;
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
-                if (ivictim._fighting == ch && CharData.CanSee(ch, ivictim)
+                if (ivictim.Fighting == ch && CharData.CanSee(ch, ivictim)
                         && MUDMath.NumberBits(5) == 0)
                 {
                     victim = ivictim;
@@ -651,14 +651,14 @@ namespace MUDEngine
                         break;
                 }
 
-                if( ch._level >= minLevel )
+                if( ch.Level >= minLevel )
                     break;
             }
 
             if( ( spell = StringLookup.SpellLookup( spellname ) ) == null )
                 return false;
 
-            int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+            int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
             spell.Invoke(ch, level, victim);
             return true;
         }
@@ -674,15 +674,15 @@ namespace MUDEngine
                 return false;
             }
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                     if( Spellup( ch ) )
                         return true;
                 if( SpellupOthers( ch ) )
@@ -691,9 +691,9 @@ namespace MUDEngine
             }
 
             CharData victim = null;
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
-                if (ivictim._fighting == ch && CharData.CanSee(ch, ivictim)
+                if (ivictim.Fighting == ch && CharData.CanSee(ch, ivictim)
                         && MUDMath.NumberBits(5) == 0)
                 {
                     victim = ivictim;
@@ -758,14 +758,14 @@ namespace MUDEngine
                         break;
                 }
 
-                if( ch._level >= minLevel )
+                if( ch.Level >= minLevel )
                     break;
             }
 
             if( ( spell = StringLookup.SpellLookup( spellname ) ) == null )
                 return false;
 
-            int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+            int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
             spell.Invoke(ch, level, victim);
             return true;
         }
@@ -776,7 +776,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -784,9 +784,9 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -796,7 +796,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -828,7 +828,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -836,9 +836,9 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -848,7 +848,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -882,7 +882,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -890,9 +890,9 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -902,7 +902,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -936,7 +936,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -944,9 +944,9 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -956,7 +956,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -990,7 +990,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
@@ -998,9 +998,9 @@ namespace MUDEngine
             if( !ch.CanSpeak() )
                 return false;
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -1010,7 +1010,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -1044,13 +1044,13 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
             }
 
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             if( !ch.CanSpeak() )
@@ -1058,13 +1058,13 @@ namespace MUDEngine
 
             SummonIfHating( ch );
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
-                    if( ch._hitpoints < ( ch.GetMaxHit() - 10 ) )
+                    if( ch.Hitpoints < ( ch.GetMaxHit() - 10 ) )
                         if( HealSelf( ch ) )
                             return true;
                     if( SpellupOthers( ch ) )
@@ -1073,7 +1073,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -1107,13 +1107,13 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
             }
 
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             if( !ch.CanSpeak() )
@@ -1121,9 +1121,9 @@ namespace MUDEngine
 
             SummonIfHating( ch );
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -1133,7 +1133,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -1167,13 +1167,13 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
             }
 
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
 
@@ -1182,13 +1182,13 @@ namespace MUDEngine
 
             SummonIfHating( ch );
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
-                    if( ch._hitpoints < ( ch.GetMaxHit() - 10 ) )
+                    if( ch.Hitpoints < ( ch.GetMaxHit() - 10 ) )
                         if( HealSelf( ch ) )
                             return true;
                     if( CheckVigorize( ch ) )
@@ -1199,7 +1199,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -1233,13 +1233,13 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
             }
 
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             if( !ch.CanSpeak() )
@@ -1249,9 +1249,9 @@ namespace MUDEngine
 
             SummonIfHating( ch );
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -1263,7 +1263,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -1297,7 +1297,7 @@ namespace MUDEngine
             if (cmd == PROC_DEATH)
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             if( !ch.CanSpeak() )
@@ -1305,9 +1305,9 @@ namespace MUDEngine
 
             SummonIfHating( ch );
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -1317,7 +1317,7 @@ namespace MUDEngine
                 return false;
             }
 
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
 
             if( !victim )
                 return false;
@@ -1352,12 +1352,12 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._position != Position.standing )
+            if( ch.CurrentPosition != Position.standing )
             {
-                if( ch._position == Position.fighting && ch._fighting
-                        && ch._fighting._fighting == ch )
+                if( ch.CurrentPosition == Position.fighting && ch.Fighting
+                        && ch.Fighting.Fighting == ch )
                 {
-                    Combat.StartGrudge( ch, ch._fighting, false );
+                    Combat.StartGrudge( ch, ch.Fighting, false );
                     CommandType.Interpret(ch, "flee");
                     CommandType.Interpret(ch, "hide");
                 }
@@ -1365,9 +1365,9 @@ namespace MUDEngine
             }
 
             // Backstab a random hate _targetType if one is in the room and we're not already busy.
-            if( ch._hating.Count > 0 )
+            if( ch.Hating.Count > 0 )
             {
-                if( !ch._fighting && ch._position != Position.fighting )
+                if( !ch.Fighting && ch.CurrentPosition != Position.fighting )
                 {
                     CharData vict = ch.GetRandomHateTarget(true);
                     if( vict != null )
@@ -1378,7 +1378,7 @@ namespace MUDEngine
                 }
             }
 
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1394,7 +1394,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1410,7 +1410,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1426,7 +1426,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1442,7 +1442,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1458,7 +1458,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1474,7 +1474,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1490,16 +1490,16 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
             }
 
             // Backstab a random hate _targetType if one is in the room and we're not already busy.
-            if( ch._hating.Count > 0 )
+            if( ch.Hating.Count > 0 )
             {
-                if( !ch._fighting && ch._position != Position.fighting )
+                if( !ch.Fighting && ch.CurrentPosition != Position.fighting )
                 {
                     CharData vict = ch.GetRandomHateTarget( true );
                     if( vict != null )
@@ -1520,7 +1520,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
@@ -1538,12 +1538,12 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._inRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
+            if( ch.InRoom.HasFlag( RoomTemplate.ROOM_NO_MAGIC ) )
                 return false;
 
             SummonIfHating( ch );
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
                 return false;
             }
@@ -1554,9 +1554,9 @@ namespace MUDEngine
             }
 
             CharData victim = null;
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
-                if (ivictim._fighting == ch && CharData.CanSee(ch, ivictim)
+                if (ivictim.Fighting == ch && CharData.CanSee(ch, ivictim)
                         && MUDMath.NumberBits(4) == 0)
                 {
                     victim = ivictim;
@@ -1619,14 +1619,14 @@ namespace MUDEngine
                         break;
                 }
 
-                if( ch._level >= minLevel )
+                if( ch.Level >= minLevel )
                     break;
             }
 
             if ((spell = StringLookup.SpellLookup(spellname)) == null)
                 return false;
 
-            int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+            int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
             spell.Invoke(ch, level, victim);
             return true;
         }
@@ -1635,7 +1635,7 @@ namespace MUDEngine
         {
             if (mob == null) return false;
             CharData ch = (CharData)mob;
-            CharData victim = ch._fighting;
+            CharData victim = ch.Fighting;
             if( !victim )
             {
                 return false;
@@ -1644,14 +1644,14 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
 
-            if( ch._position >= Position.fighting )
+            if( ch.CurrentPosition >= Position.fighting )
             {
                 // Allow a vampire to gaze in addition to its other abilities.
                 if( MUDMath.NumberPercent() < 40 )
                 {
                     SocketConnection.Act( "$n&n  turns $s gaze upon you.", ch, null, victim, SocketConnection.MessageTarget.victim );
                     Combat.StopFighting( ch, false );
-                    foreach( CharData groupChar in ch._inRoom.People )
+                    foreach( CharData groupChar in ch.InRoom.People )
                     {
                         if( ch.IsSameGroup( groupChar ) && groupChar != ch )
                         {
@@ -1675,7 +1675,7 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( !ch.IsAwake() || ch._fighting )
+            if( !ch.IsAwake() || ch.Fighting )
                 return false;
 
             //crime = "pretty annoying person";
@@ -1701,7 +1701,7 @@ namespace MUDEngine
             if( !ch.IsAwake() )
                 return false;
 
-            foreach( Object corpse in ch._inRoom.Contents )
+            foreach( Object corpse in ch.InRoom.Contents )
             {
                  if( corpse.ItemType != ObjTemplate.ObjectType.npc_corpse )
                     continue;
@@ -1710,7 +1710,7 @@ namespace MUDEngine
                 foreach( Object obj in corpse.Contains )
                 {
                     obj.RemoveFromObject();
-                    obj.AddToRoom( ch._inRoom );
+                    obj.AddToRoom( ch.InRoom );
                 }
                 corpse.RemoveFromWorld();
                 return true;
@@ -1735,19 +1735,19 @@ namespace MUDEngine
                 return false;
             }
             CharData ch = (CharData)mob;
-            if (!ch.IsAwake() || ch._fighting)
+            if (!ch.IsAwake() || ch.Fighting)
             {
                 return false;
             }
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
                 if (victim.IsNPC() && victim.GetRace() == ch.GetRace())
                 {
                     continue;
                 }
 
-                if( victim._fighting && ( victim._fighting != ch ) && ( victim._fighting.GetRace() == ch.GetRace() ) && ( MUDMath.NumberPercent() < 90 ) )
+                if( victim.Fighting && ( victim.Fighting != ch ) && ( victim.Fighting.GetRace() == ch.GetRace() ) && ( MUDMath.NumberPercent() < 90 ) )
                 {
                     target = victim;
                     continue;
@@ -1785,7 +1785,7 @@ namespace MUDEngine
             if( !ch.IsAwake() )
                 return false;
 
-            foreach( Object trash in ch._inRoom.Contents )
+            foreach( Object trash in ch.InRoom.Contents )
             {
                 if( !trash.HasWearFlag( ObjTemplate.WEARABLE_CARRY ) )
                     continue;
@@ -1813,7 +1813,7 @@ namespace MUDEngine
                 return false;
             }
             CharData ch = (CharData)mob;
-            if( !ch._fighting || !( victim = ch._fighting ) || MUDMath.NumberPercent() > 2 * ch._level )
+            if( !ch.Fighting || !( victim = ch.Fighting ) || MUDMath.NumberPercent() > 2 * ch.Level )
             {
                 return false;
             }
@@ -1824,7 +1824,7 @@ namespace MUDEngine
             Spell spl = Spell.SpellList["poison"];
             if (spl != null)
             {
-                spl.Invoke(ch, ch._level, victim);
+                spl.Invoke(ch, ch.Level, victim);
             }
             return true;
         }
@@ -1837,11 +1837,11 @@ namespace MUDEngine
                 return false;
             }
             CharData ch = (CharData)mob;
-            if( ch._position != Position.standing )
+            if( ch.CurrentPosition != Position.standing )
             {
-                if( ch._position == Position.fighting && ch._fighting && ch._fighting._fighting == ch )
+                if( ch.CurrentPosition == Position.fighting && ch.Fighting && ch.Fighting.Fighting == ch )
                 {
-                    Combat.StartGrudge( ch, ch._fighting, false );
+                    Combat.StartGrudge( ch, ch.Fighting, false );
                     CommandType.Interpret( ch, "flee" );
                     CommandType.Interpret(ch, "hide");
                 }
@@ -1849,9 +1849,9 @@ namespace MUDEngine
             }
 
             // Backstab a random hate _targetType if one is in the room and we're not already busy.
-            if( ch._hating.Count > 0 )
+            if( ch.Hating.Count > 0 )
             {
-                if( !ch._fighting && ch._position != Position.fighting )
+                if( !ch.Fighting && ch.CurrentPosition != Position.fighting )
                 {
                     CharData vict = ch.GetRandomHateTarget( true );
                     if( vict != null )
@@ -1862,22 +1862,22 @@ namespace MUDEngine
                 }
             }
 
-            if( ch._fighting && ch._position == Position.fighting )
+            if( ch.Fighting && ch.CurrentPosition == Position.fighting )
             {
                 if( CombatSkillCheck( ch ) )
                     return true;
             }
 
-            foreach( CharData victim in ch._inRoom.People )
+            foreach( CharData victim in ch.InRoom.People )
             {
-                if (victim.IsNPC() || victim._level >= Limits.LEVEL_AVATAR
-                    || victim._flyLevel != ch._flyLevel || MUDMath.NumberBits(3) != 0
+                if (victim.IsNPC() || victim.Level >= Limits.LEVEL_AVATAR
+                    || victim.FlightLevel != ch.FlightLevel || MUDMath.NumberBits(3) != 0
                     || !CharData.CanSee(ch, victim))
                 {
                     continue;
                 }
 
-                if( victim.IsAwake() && victim._level > 5 && MUDMath.NumberPercent() + ch._level - victim._level >= 33 )
+                if( victim.IsAwake() && victim.Level > 5 && MUDMath.NumberPercent() + ch.Level - victim.Level >= 33 )
                 {
                     SocketConnection.Act( "You discover $n&n's hands in your purse!",
                          ch, null, victim, SocketConnection.MessageTarget.victim );
@@ -1913,9 +1913,9 @@ namespace MUDEngine
                 return false;
             }
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
             {
-                if( ch._position == Position.standing )
+                if( ch.CurrentPosition == Position.standing )
                 {
                     if( Spellup( ch ) )
                         return true;
@@ -1926,9 +1926,9 @@ namespace MUDEngine
             }
 
             CharData victim = null;
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
-                if (ivictim._fighting == ch && CharData.CanSee(ch, ivictim)
+                if (ivictim.Fighting == ch && CharData.CanSee(ch, ivictim)
                         && MUDMath.NumberBits(2) == 0)
                 {
                     victim = ivictim;
@@ -2000,14 +2000,14 @@ namespace MUDEngine
                         break;
                 }
 
-                if( ch._level >= minLevel )
+                if( ch.Level >= minLevel )
                     break;
             }
 
             if ((spell = StringLookup.SpellLookup(spellname)) == null)
                 return false;
 
-            int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+            int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
             spell.Invoke(ch, level, victim);
             return true;
         }
@@ -2029,13 +2029,13 @@ namespace MUDEngine
             if( Database.SystemData.WeatherData.Sunlight == SunType.daytime )
             {
 
-                if( !ch._inRoom )
+                if( !ch.InRoom )
                 {
                     Log.Error( "Spec_cast_ghost: null in_room.", 0 );
                     return false;
                 }
 
-                if( ch._fighting != null )
+                if( ch.Fighting != null )
                     Combat.StopFighting( ch, true );
 
                 SocketConnection.Act( "A beam of sunlight strikes $n&n, destroying $m.", ch, null, null, SocketConnection.MessageTarget.room );
@@ -2046,15 +2046,15 @@ namespace MUDEngine
 
             }
 
-            if( ch._position != Position.fighting )
+            if( ch.CurrentPosition != Position.fighting )
                 return false;
 
             if( !ch.CanSpeak() )
                 return false;
 
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
-                if (ivictim._fighting == ch && CharData.CanSee(ch, ivictim)
+                if (ivictim.Fighting == ch && CharData.CanSee(ch, ivictim)
                         && MUDMath.NumberBits(2) == 0)
                 {
                     victim = ivictim;
@@ -2106,7 +2106,7 @@ namespace MUDEngine
                         break;
                 }
 
-                if( ch._level >= minLevel )
+                if( ch.Level >= minLevel )
                     break;
             }
 
@@ -2115,7 +2115,7 @@ namespace MUDEngine
                 return false;
             }
 
-            int level = Macros.Range(1, ch._level, Limits.LEVEL_HERO);
+            int level = Macros.Range(1, ch.Level, Limits.LEVEL_HERO);
             spell.Invoke(ch, level, victim);
             return true;
         }
@@ -2142,7 +2142,7 @@ namespace MUDEngine
             *   too boring.  Instead, just check one direction at a time.  There's
             *   a 51% chance they'll find the door within 4 tries anyway.
             */
-            Exit exit = ch._inRoom.GetExit(door);
+            Exit exit = ch.InRoom.GetExit(door);
             if( !exit )
             {
                 return false;
@@ -2156,7 +2156,7 @@ namespace MUDEngine
 
                 /* Don't forget the other side! */
                 if ((toRoom = Room.GetRoom(exit.IndexNumber)) && (reverseExit = toRoom.GetExit(Exit.ReverseDirection(door)))
-                        && reverseExit.TargetRoom == ch._inRoom )
+                        && reverseExit.TargetRoom == ch.InRoom )
                 {
                     reverseExit.RemoveFlag(Exit.ExitFlag.bashed);
 
@@ -2181,10 +2181,10 @@ namespace MUDEngine
                 return false;
             CharData ch = (CharData)mob;
             // if the victim is gone or dead, then get rid of the guard.
-            if( !ch._hunting && ch._hating.Count == 0 )
+            if( !ch.Hunting && ch.Hating.Count == 0 )
             {
-                if( ch._inRoom && ch._inRoom.Area.NumDefendersDispatched > 0 )
-                    ch._inRoom.Area.NumDefendersDispatched--;
+                if( ch.InRoom && ch.InRoom.Area.NumDefendersDispatched > 0 )
+                    ch.InRoom.Area.NumDefendersDispatched--;
                 {
                     SocketConnection.Act( "$n&n returns to the barracks.", ch, null, null, SocketConnection.MessageTarget.room );
                     CharData.ExtractChar( ch, true );
@@ -2200,11 +2200,11 @@ namespace MUDEngine
             // hating them in order to dissipate.  To keep someone from popping in and
             // out to distractFlags the guards, it should take a _bitvector for them to dissipate.
             // this can be done by using a random chance of rehunting or stop hating
-            if( ch._hating.Count > 0 )
+            if( ch.Hating.Count > 0 )
             {
                 if( MUDMath.NumberPercent() < 50 )
                 {
-                    ch._hating.Clear();
+                    ch.Hating.Clear();
                     return true;
                 }
                 CharData vict = ch.GetRandomHateTarget(false);
@@ -2215,7 +2215,7 @@ namespace MUDEngine
                 return true;
             }
 
-            if( !ch.IsAwake() || ch._fighting )
+            if( !ch.IsAwake() || ch.Fighting )
                 return false;
 
             return false;
@@ -2230,14 +2230,14 @@ namespace MUDEngine
                 return false;
             CharData ch = (CharData)mob;
             // if the victim is gone or dead, then get rid of the guard.
-            if( !ch._hunting )
+            if( !ch.Hunting )
             {
                 CharData.ExtractChar( ch, true );
                 
                 return true;
             }
 
-            if( !ch.IsAwake() || ch._fighting )
+            if( !ch.IsAwake() || ch.Fighting )
                 return false;
 
             return false;
@@ -2322,7 +2322,7 @@ namespace MUDEngine
         public static bool CheckVigorize( CharData ch )
         {
             if (ch == null) return false;
-            if (ch._currentMoves > 30)
+            if (ch.CurrentMoves > 30)
                 return false;
             if( CheckSpellup( ch, "stamina", 35 ) )
                 return true;
@@ -2488,8 +2488,8 @@ namespace MUDEngine
             }
 
             if( ch.HasSkill( "bash" ) && MUDMath.NumberPercent() < 40
-                    && ( ch._fighting != null )
-                    && ( ch._size >= ch._fighting._size && ch._size - 2 <= ch._fighting._size ) )
+                    && ( ch.Fighting != null )
+                    && ( ch.CurrentSize >= ch.Fighting.CurrentSize && ch.CurrentSize - 2 <= ch.Fighting.CurrentSize ) )
             {
                 CommandType.Interpret(ch, "bash");
                 return true;
@@ -2531,17 +2531,17 @@ namespace MUDEngine
         static bool SpellupOthers( CharData ch )
         {
             if (ch == null) return false;
-            if (ch._inRoom.HasFlag(RoomTemplate.ROOM_NO_MAGIC))
+            if (ch.InRoom.HasFlag(RoomTemplate.ROOM_NO_MAGIC))
                 return false;
 
-            if( !ch.IsAwake() || ch._fighting )
+            if( !ch.IsAwake() || ch.Fighting )
                 return false;
 
             if( !ch.CanSpeak() )
                 return false;
 
             CharData victim = null;
-            foreach( CharData ivictim in ch._inRoom.People )
+            foreach( CharData ivictim in ch.InRoom.People )
             {
                 if (ivictim != ch && CharData.CanSee(ch, ivictim) && MUDMath.NumberBits(1) == 0 && ivictim.IsNPC())
                 {
@@ -2553,7 +2553,7 @@ namespace MUDEngine
             if( !victim )
                 return false;
 
-            if( victim._hitpoints < ( victim.GetMaxHit() - 10 ) )
+            if( victim.Hitpoints < ( victim.GetMaxHit() - 10 ) )
             {
                 if( CheckDefensive( ch, victim, "full heal", 75 ) )
                     return true;
@@ -2582,7 +2582,7 @@ namespace MUDEngine
             if( !ch || !ch.IsAwake() )
                 return false;
 
-            if( ch._fighting )
+            if( ch.Fighting )
             {
                 CommandType.Interpret(ch, "say I would not do such things if I were you!");
 
@@ -2601,15 +2601,15 @@ namespace MUDEngine
                 foreach( CharData it in Database.CharList )
                 {
                     i = it;
-                    if( !i._mobTemplate )
+                    if( !i.MobileTemplate )
                         continue;
-                    if( i.IsNPC() && ( ( i._mobTemplate.IndexNumber == 20524 ) ||
-                                      ( i._mobTemplate.IndexNumber == 20525 ) ||
-                                      ( i._mobTemplate.IndexNumber == 20526 ) )
-                            && i._inRoom && i._inRoom.Area == ch._inRoom.Area )
+                    if( i.IsNPC() && ( ( i.MobileTemplate.IndexNumber == 20524 ) ||
+                                      ( i.MobileTemplate.IndexNumber == 20525 ) ||
+                                      ( i.MobileTemplate.IndexNumber == 20526 ) )
+                            && i.InRoom && i.InRoom.Area == ch.InRoom.Area )
                     {
                         SocketConnection.Act( "$n shivers.", i, null, null, SocketConnection.MessageTarget.room );
-                        i._hitpoints = i._maxHitpoints = 5000;
+                        i.Hitpoints = i.MaxHitpoints = 5000;
                         i.SetActionBit(MobTemplate.ACT_AGGRESSIVE);
                     } //end if
                 }   //end for
@@ -2617,9 +2617,9 @@ namespace MUDEngine
                 foreach( CharData it in Database.CharList )
                 {
                     i = it;
-                    if( i.IsNPC() && ( ( i._mobTemplate.IndexNumber == 20528 ) ||
-                                      ( i._mobTemplate.IndexNumber == 20529 ) ) &&
-                            i._inRoom && i._inRoom.Area == ch._inRoom.Area )
+                    if( i.IsNPC() && ( ( i.MobileTemplate.IndexNumber == 20528 ) ||
+                                      ( i.MobileTemplate.IndexNumber == 20529 ) ) &&
+                            i.InRoom && i.InRoom.Area == ch.InRoom.Area )
                     {
                         SocketConnection.Act( "$n shivers.", i, null, null, SocketConnection.MessageTarget.room );
                         i.SetActionBit(MobTemplate.ACT_AGGRESSIVE );
@@ -2646,7 +2646,7 @@ namespace MUDEngine
             int count = 0;
             CharData ch = (CharData)mob;
             // Send the shout message
-            string buf = String.Format( msg, victim._name );
+            string buf = String.Format( msg, victim.Name );
             CommandType.Interpret(ch, "shout " + buf);
 
             if (helpers[0] == 0)
@@ -2656,17 +2656,17 @@ namespace MUDEngine
             // Loop through all chars
             foreach (CharData worldChar in Database.CharList)
             {
-                if( !worldChar._inRoom )
+                if( !worldChar.InRoom )
                     continue;
-                if( !worldChar._mobTemplate )
+                if( !worldChar.MobileTemplate )
                     continue;
-                if( !worldChar.IsNPC() || worldChar._inRoom.Area != ch._inRoom.Area )
+                if( !worldChar.IsNPC() || worldChar.InRoom.Area != ch.InRoom.Area )
                     continue;
                 bool isHelper = false;
                 int i;
                 for( i = 0; helpers[ i ] > 0; i++ )
                 {
-                    if (worldChar._mobTemplate.IndexNumber == helpers[i])
+                    if (worldChar.MobileTemplate.IndexNumber == helpers[i])
                     {
                         isHelper = true;
                     }
@@ -2699,17 +2699,17 @@ namespace MUDEngine
             if( !ch || !ch.IsAwake() )
                 return false;
 
-            if( !ch._fighting )
+            if( !ch.Fighting )
             {
                 _wasFighting = null;
                 return false;
             }
 
-            if( ch._fighting == _wasFighting )
+            if( ch.Fighting == _wasFighting )
                 return false;
 
-            _wasFighting = ch._fighting;
-            return ShoutAndHunt( ch, ch._fighting, "&+LDenizens of the Earth plane, {0} has trespassed upon us!", helpers );
+            _wasFighting = ch.Fighting;
+            return ShoutAndHunt( ch, ch.Fighting, "&+LDenizens of the Earth plane, {0} has trespassed upon us!", helpers );
         }
 
         static bool SpecXorn( System.Object mob, int cmd )
@@ -2720,24 +2720,24 @@ namespace MUDEngine
             if( cmd == PROC_DEATH )
                 return false;
             CharData ch = (CharData)mob;
-            if( ch._fighting )
+            if( ch.Fighting )
             {
                 if( MUDMath.NumberPercent() < 50 )
                 {
                     // make sure they are pissed off
-                    Combat.StartGrudge( ch, ch._fighting, true );
+                    Combat.StartGrudge( ch, ch.Fighting, true );
                     // teleport  out
-                    ch._fighting._fighting = null;
-                    ch._fighting = null;
+                    ch.Fighting.Fighting = null;
+                    ch.Fighting = null;
                     MoveXorn( ch, Room.GetRoom( 9676 ), XORN_MOVE_EARTH );
                     return true;
                 }
                 return false;
             }
-            if( ch._hating.Count > 0 || ch._hunting )
+            if( ch.Hating.Count > 0 || ch.Hunting )
             {
                 //        if ( MUDMath.NumberPercent() > 50 ) return false;
-                vict = ch._hunting.Who;
+                vict = ch.Hunting.Who;
                 if( !vict )
                     vict = ch.GetRandomHateTarget(false);
                 if( !vict )
@@ -2745,12 +2745,12 @@ namespace MUDEngine
                     Log.Error( "SpecXorn: mob is hating or hunting, but who is null", 0 );
                     return false;
                 }
-                if( !vict._inRoom || vict._inRoom.Area != ch._inRoom.Area )
+                if( !vict.InRoom || vict.InRoom.Area != ch.InRoom.Area )
                 {
                     // vict not in EP
                     return false;
                 }
-                MoveXorn( ch, vict._inRoom, XORN_MOVE_EARTH );
+                MoveXorn( ch, vict.InRoom, XORN_MOVE_EARTH );
                 ch.AttackCharacter( vict );
                 return true;
             }
@@ -2758,7 +2758,7 @@ namespace MUDEngine
             if( MUDMath.NumberPercent() < 15 )
             {
                 // phase in/out of existance
-                if( ch._inRoom && ch._inRoom.IndexNumber == 9676 )
+                if( ch.InRoom && ch.InRoom.IndexNumber == 9676 )
                 {
                     MoveXorn( ch, null, XORN_MOVE_PHASE );
                 }
@@ -2778,8 +2778,8 @@ namespace MUDEngine
             CharData ch = (CharData)mob;
             if( room == null )
             {
-                int min = ch._inRoom.Area.LowRoomIndexNumber;
-                int max = ch._inRoom.Area.HighRoomIndexNumber;
+                int min = ch.InRoom.Area.LowRoomIndexNumber;
+                int max = ch.InRoom.Area.HighRoomIndexNumber;
                 while( !room )
                 {
                     room = Room.GetRoom( MUDMath.NumberRange( min, max ) );
@@ -2805,9 +2805,9 @@ namespace MUDEngine
         {
             CharData wasFighting = null;
 
-            if( ch._fighting )
+            if( ch.Fighting )
             {
-                wasFighting = ch._fighting;
+                wasFighting = ch.Fighting;
                 Combat.StopFighting( ch, false );
             }
 
@@ -2818,9 +2818,9 @@ namespace MUDEngine
                 Log.Trace( "assert: mob load failed in TransformMob()" );
                 return null;
             }
-            newCh.AddToRoom( ch._inRoom );
+            newCh.AddToRoom( ch.InRoom );
 
-            foreach( Object item in ch._carrying )
+            foreach( Object item in ch.Carrying )
             {
                 item.RemoveFromChar();
                 item.ObjToChar( newCh );
@@ -2836,15 +2836,15 @@ namespace MUDEngine
                 item.ObjToChar( newCh );
                 newCh.EquipObject( ref item, pos );
             }
-            newCh._position = ch._position;
-            newCh._actionFlags = ch._actionFlags;
+            newCh.CurrentPosition = ch.CurrentPosition;
+            newCh.ActionFlags = ch.ActionFlags;
             newCh.RemoveActionBit(PC.PLAYER_WIZINVIS);
-            newCh._hating = ch._hating;
-            ch._hating = null;
-            newCh._hunting = ch._hunting;
-            ch._hunting = null;
-            newCh._fearing = ch._fearing;
-            ch._fearing = null;
+            newCh.Hating = ch.Hating;
+            ch.Hating = null;
+            newCh.Hunting = ch.Hunting;
+            ch.Hunting = null;
+            newCh.Fearing = ch.Fearing;
+            ch.Fearing = null;
 
             if( msg.Length > 0 )
                 SocketConnection.Act( msg, ch, null, newCh, SocketConnection.MessageTarget.room );
@@ -2867,18 +2867,18 @@ namespace MUDEngine
             {
                 SocketConnection.Act( "The corpse of $n&n &+Wglows&n with a strange light.",
                      ch, null, null, SocketConnection.MessageTarget.room );
-                newCh = Database.CreateMobile( Database.GetMobTemplate( ch._mobTemplate.IndexNumber ) );
-                newCh.AddToRoom( ch._inRoom );
-                newCh._actionFlags = ch._actionFlags;
+                newCh = Database.CreateMobile( Database.GetMobTemplate( ch.MobileTemplate.IndexNumber ) );
+                newCh.AddToRoom( ch.InRoom );
+                newCh.ActionFlags = ch.ActionFlags;
                 newCh.RemoveActionBit(PC.PLAYER_WIZINVIS);
                 SocketConnection.Act( "$p&n comes back to life!", ch, null, null, SocketConnection.MessageTarget.room );
                 if( ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE ) )
                 {
-                    ch._hitpoints = ch._maxHitpoints = 5000;
+                    ch.Hitpoints = ch.MaxHitpoints = 5000;
                 }
                 return true; //make no corpse
             }
-            if( ch._fighting && ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE ) )
+            if( ch.Fighting && ch.HasActionBit(MobTemplate.ACT_AGGRESSIVE ) )
             {
                 // transform into a demon
                 CharData demon = TransformMob( ch, indexNumber, null );

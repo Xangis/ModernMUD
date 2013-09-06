@@ -110,7 +110,7 @@ namespace MUDEngine
 
             foreach( SocketConnection socket in Database.SocketList )
             {
-                if( socket._connectionState == SocketConnection.ConnectionState.playing && !socket.Original && socket.Character.IsImmortal()
+                if( socket.ConnectionStatus == SocketConnection.ConnectionState.playing && !socket.Original && socket.Character.IsImmortal()
                         && socket.Character.GetTrust() >= level && Macros.IsSet( ( (PC)socket.Character ).ImmortalData.ImmtalkFlags, chan )
                         && Macros.IsSet(((PC)socket.Character).ImmortalData.ImmtalkFlags, IMMTALK_ON) && socket.Character != ch
                         && ( ch ? CharData.CanSee( socket.Character, ch ) : true ) )

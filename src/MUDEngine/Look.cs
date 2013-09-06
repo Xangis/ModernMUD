@@ -23,7 +23,7 @@ namespace MUDEngine
             }
             if (target.IsAffected(Affect.AFFECT_SOULSHIELD))
             {
-                if (target._alignment > 0)
+                if (target.Alignment > 0)
                 {
                     SocketConnection.Act("&+W$E is surrounded by a holy aura.&n", ch, null, target, SocketConnection.MessageTarget.character);
                 }
@@ -183,7 +183,7 @@ namespace MUDEngine
         public static void ShowListToCharacter(List<Object> list, CharData ch, bool shortDisplay, bool showNothing)
         {
             // This is called every time someone looks at the room.  If there are no mobs, objects, etc. we skip out.
-            if (!ch || ch._socket == null)
+            if (!ch || ch.Socket == null)
             {
                 return;
             }
@@ -199,7 +199,7 @@ namespace MUDEngine
             {
                 if (!obj.CarriedBy && !obj.InObject)
                 {
-                    if (ch._flyLevel != obj.FlyLevel && obj.ItemType != ObjTemplate.ObjectType.wall)
+                    if (ch.FlightLevel != obj.FlyLevel && obj.ItemType != ObjTemplate.ObjectType.wall)
                     {
                         continue;
                     }
@@ -279,7 +279,7 @@ namespace MUDEngine
                 return;
             }
 
-            if (victim._rider && victim._rider._inRoom == ch._inRoom)
+            if (victim.Rider && victim.Rider.InRoom == ch.InRoom)
             {
                 return;
             }
@@ -291,13 +291,13 @@ namespace MUDEngine
             }
 
             // Show the player's description.
-            if (((!ch.IsNPC() && victim._position == Position.standing)
-                    || (victim.IsNPC() && victim._mobTemplate != null
-                        && victim._position == victim._mobTemplate.DefaultPosition))
-                    && (!String.IsNullOrEmpty(victim._fullDescription)) && !victim._riding)
+            if (((!ch.IsNPC() && victim.CurrentPosition == Position.standing)
+                    || (victim.IsNPC() && victim.MobileTemplate != null
+                        && victim.CurrentPosition == victim.MobileTemplate.DefaultPosition))
+                    && (!String.IsNullOrEmpty(victim.FullDescription)) && !victim.Riding)
             {
                 // Added long description does not have \r\n removed.  We may want to.
-                text += victim._description + "&n";
+                text += victim.Description + "&n";
             }
             else
             {
@@ -325,25 +325,25 @@ namespace MUDEngine
 
                 // Show the player's condition.
                 text += " is ";
-                if (victim._position == Position.standing && victim.CanFly())
+                if (victim.CurrentPosition == Position.standing && victim.CanFly())
                 {
                     text += "flying";
                 }
                 else
                 {
-                    text += Position.PositionString(victim._position);
+                    text += Position.PositionString(victim.CurrentPosition);
                 }
                 text += " here";
-                if (victim._fighting != null)
+                if (victim.Fighting != null)
                 {
                     text += "&n fighting ";
-                    if (victim._fighting == ch)
+                    if (victim.Fighting == ch)
                     {
                         text += "&nyou!";
                     }
-                    else if (victim._inRoom == victim._fighting._inRoom)
+                    else if (victim.InRoom == victim.Fighting.InRoom)
                     {
-                        text += victim._fighting.ShowNameTo(ch, false);
+                        text += victim.Fighting.ShowNameTo(ch, false);
                     }
                     else
                     {
@@ -351,9 +351,9 @@ namespace MUDEngine
                     }
                 }
 
-                if (victim._riding && victim._riding._inRoom == victim._inRoom)
+                if (victim.Riding && victim.Riding.InRoom == victim.InRoom)
                 {
-                    text += "&n, mounted on " + victim._riding.ShowNameTo(ch, false);
+                    text += "&n, mounted on " + victim.Riding.ShowNameTo(ch, false);
                 }
                 text += "&n.";
             }
@@ -450,13 +450,13 @@ namespace MUDEngine
                 }
             }
 
-            if (victim._riding != null)
+            if (victim.Riding != null)
             {
-                text += String.Format("&nMounted on {0}, ", victim._riding.ShowNameTo(ch, false));
+                text += String.Format("&nMounted on {0}, ", victim.Riding.ShowNameTo(ch, false));
             }
-            else if (victim._rider != null)
+            else if (victim.Rider != null)
             {
-                text += String.Format("&nRidden by {0}, ", victim._rider.ShowNameTo(ch, false));
+                text += String.Format("&nRidden by {0}, ", victim.Rider.ShowNameTo(ch, false));
             }
 
             if (!victim.IsNPC() && victim.IsGuild())
@@ -467,9 +467,9 @@ namespace MUDEngine
 
             SocketConnection.Act(text, ch, null, victim, SocketConnection.MessageTarget.character);
 
-            if (!String.IsNullOrEmpty(victim._description))
+            if (!String.IsNullOrEmpty(victim.Description))
             {
-                ch.SendText(victim._description);
+                ch.SendText(victim.Description);
             }
             else
             {
@@ -478,7 +478,7 @@ namespace MUDEngine
 
             if (victim.GetMaxHit() > 0)
             {
-                percent = (100 * victim._hitpoints) / victim.GetMaxHit();
+                percent = (100 * victim.Hitpoints) / victim.GetMaxHit();
             }
             else
             {
@@ -514,7 +514,7 @@ namespace MUDEngine
 
             // Show size on look at someone.
             text = MUDString.CapitalizeANSIString(String.Format("{0}&n is a {1} of {2} size.\r\n", victim.GetSexPronoun(),
-                Race.RaceList[victim.GetRace()].ColorName, Race.SizeString(victim._size)));
+                Race.RaceList[victim.GetRace()].ColorName, Race.SizeString(victim.CurrentSize)));
             ch.SendText(text);
 
             ShowAffectLines(ch, victim);
@@ -573,11 +573,11 @@ namespace MUDEngine
             // to increase their skill in peek - this will need to be fixed.
             if ((victim != ch && !ch.IsNPC()
                 && ((((PC)ch).SkillAptitude.ContainsKey("peek") && MUDMath.NumberPercent() < ((PC)ch).SkillAptitude["peek"])
-                || ch._level >= Limits.LEVEL_AVATAR)) || ch._riding == victim || ch._rider == victim)
+                || ch.Level >= Limits.LEVEL_AVATAR)) || ch.Riding == victim || ch.Rider == victim)
             {
                 ch.SendText("\r\n&nYou peek at the inventory:\r\n");
                 ch.PracticeSkill("peek");
-                ShowListToCharacter(victim._carrying, ch, true, true);
+                ShowListToCharacter(victim.Carrying, ch, true, true);
             }
 
             return;
@@ -599,7 +599,7 @@ namespace MUDEngine
             {
                 if (listChar == ch)
                     continue;
-                if (listChar._flyLevel != ch._flyLevel)
+                if (listChar.FlightLevel != ch.FlightLevel)
                     continue;
 
                 if (!listChar.IsNPC() && listChar.HasActionBit(PC.PLAYER_WIZINVIS) && ch.GetTrust() < listChar.GetTrust())
@@ -613,18 +613,18 @@ namespace MUDEngine
                 }
                 else if (sight == Visibility.sense_infravision)
                 {
-                    ch.SendText(String.Format("&+rYou see the red shape of a {0} living being here.&n\r\n", Race.SizeString(listChar._size)));
+                    ch.SendText(String.Format("&+rYou see the red shape of a {0} living being here.&n\r\n", Race.SizeString(listChar.CurrentSize)));
                 }
                 else if (sight == Visibility.sense_hidden)
                 {
                     ch.SendText("&+LYou sense a lifeform nearby.&n\r\n");
                 }
-                else if (sight == Visibility.invisible && (listChar._riding)
-                    && HowSee(ch, listChar._riding) != Visibility.invisible)
+                else if (sight == Visibility.invisible && (listChar.Riding)
+                    && HowSee(ch, listChar.Riding) != Visibility.invisible)
                 {
-                    listChar._riding._rider = null;
-                    ShowCharacterToCharacterAbbreviated(listChar._riding, ch);
-                    listChar._riding._rider = listChar._riding;
+                    listChar.Riding.Rider = null;
+                    ShowCharacterToCharacterAbbreviated(listChar.Riding, ch);
+                    listChar.Riding.Rider = listChar.Riding;
                 }
             }
         }
@@ -643,7 +643,7 @@ namespace MUDEngine
 
             String roomOpen = String.Empty;
             String roomClose = String.Empty;
-            if( !ch.IsNPC() && ch._socket._terminalType == SocketConnection.TerminalType.TERMINAL_ENHANCED)
+            if( !ch.IsNPC() && ch.Socket.Terminal == SocketConnection.TerminalType.TERMINAL_ENHANCED)
             {
                 roomOpen = "<room>";
                 roomClose = "</room>";
@@ -676,7 +676,7 @@ namespace MUDEngine
             }
 
             // Char almost dead, or asleep.
-            if (ch._position <= Position.sleeping)
+            if (ch.CurrentPosition <= Position.sleeping)
             {
                 return Visibility.invisible;
             }
@@ -689,7 +689,7 @@ namespace MUDEngine
 
             // Handles Immortal Invis.
             if (!victim.IsNPC() && victim.HasActionBit(PC.PLAYER_WIZINVIS)
-                    && ch.GetTrust() < victim._level)
+                    && ch.GetTrust() < victim.Level)
             {
                 return Visibility.invisible;
             }
@@ -732,14 +732,14 @@ namespace MUDEngine
             }
 
             // Handles dark rooms. Added ultracheck.
-            if (victim._inRoom.IsDark())
+            if (victim.InRoom.IsDark())
             {
                 if (ch.HasInnate(Race.RACE_ULTRAVISION) || ch.IsAffected(Affect.AFFECT_ULTRAVISION))
                 {
                     return Visibility.visible;
                 }
                 if ((ch.HasInnate(Race.RACE_INFRAVISION) || ch.IsAffected(Affect.AFFECT_INFRAVISION))
-                    && !victim._inRoom.HasFlag(RoomTemplate.ROOM_UNDERWATER))
+                    && !victim.InRoom.HasFlag(RoomTemplate.ROOM_UNDERWATER))
                 {
                     return Visibility.sense_infravision;
                 }
