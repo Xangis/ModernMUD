@@ -144,7 +144,7 @@ namespace MUDEngine
         public FlyLevel FlightLevel { get; set; }
         public int LoadRoomIndexNumber { get; set; }
         private int _race;
-        protected Coins Money = new Coins();
+        protected Coins _money = new Coins();
         private static int _numCharData;
         // Handled at runtime.  Rage factor is the current mood of the mobile.  It is typically 
         // modified due to friendly or unfriendly socials, chat conversation, and other factors
@@ -339,12 +339,24 @@ namespace MUDEngine
             return retval;
         }
 
+        /// <summary>
+        /// Gets the total number of CharData currently in memory.
+        /// </summary>
         public static int Count
         {
             get
             {
                 return _numCharData;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the coin data for the PC.
+        /// </summary>
+        public Coins Money
+        {
+            get { return _money; }
+            set { _money = value; }
         }
 
         /// <summary>

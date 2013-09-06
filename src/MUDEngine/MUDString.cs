@@ -15,7 +15,11 @@ namespace MUDEngine
         /// <returns></returns>
         public static char LowercaseInitial( string str )
         {
-            return Char.ToLower( str[ 0 ] );
+            if (!String.IsNullOrEmpty(str))
+            {
+                return Char.ToLower(str[0]);
+            }
+            return Char.MinValue;
         }
 
         /// <summary>

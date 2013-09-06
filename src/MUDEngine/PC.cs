@@ -271,15 +271,6 @@ namespace MUDEngine
         }
 
         /// <summary>
-        /// Gets or sets the coin data for the PC.
-        /// </summary>
-        public Coins Money
-        {
-            get { return Money; }
-            set { Money = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the PC's spell memorization list.
         /// </summary>
         public List<MemorizeData> Memorized
@@ -435,13 +426,18 @@ namespace MUDEngine
                 PC data = (PC)serializer.Deserialize(stream);
                 stream.Close();
                 // Fix up any data references that can't be saved.
-                foreach (Object obj in data.Carrying)
+                for( int i = data.Carrying.Count - 1; i >= 0; i-- )
                 {
-                    obj.CarriedBy = data;
-                    if((obj.ObjIndexData = Database.GetObjTemplate(obj.ObjIndexNumber)) == null)
+                    if((data.Carrying[i].ObjIndexData = Database.GetObjTemplate(data.Carrying[i].ObjIndexNumber)) == null)
                     {
-                        Log.Error("Object index data not found for object " + obj.ObjIndexNumber + " (" + obj.Name + ") on player " + filename + ".");
+                        // If the object can't be found, the player loses it. Items can be removed from the game by removing
+                        // a zone.
+                        Log.Error("Object index data not found for object " + data.Carrying[i].ObjIndexNumber + " (" + 
+                            data.Carrying[i].ShortDescription + ") on player " + filename + ". Removing from player.");
+                        data.Carrying.RemoveAt(i);
+                        continue;
                     }
+                    data.Carrying[i].CarriedBy = data;
                 }
                 data.RemoveActionBit(PLAYER_CAMPING);
                 if (data.Level >= Limits.LEVEL_AVATAR && data.ImmortalData == null)
