@@ -344,10 +344,21 @@ namespace MUDEngine
         /// <returns></returns>
         public static bool LoadSpells()
         {
-            string spellList = String.Format("{0}{1}", FileLocation.SpellDirectory, FileLocation.SpellLoadList);
+            string spellList = FileLocation.SpellFileDirectory + FileLocation.SpellLoadList;
+            string blankSpellList = FileLocation.BlankSpellFileDirectory + FileLocation.SpellLoadList;
+            FileStream fpList = null;
             try
             {
-                FileStream fpList = File.OpenRead(spellList);
+                try
+                {
+                    fpList = File.OpenRead(spellList);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Could not load spell list. Using blank spell file.");
+                    File.Copy(blankSpellList, spellList);
+                    fpList = File.OpenRead(spellList);
+                }
                 StreamReader sr = new StreamReader(fpList);
 
                 while (!sr.EndOfStream)
@@ -359,7 +370,7 @@ namespace MUDEngine
                         break;
                     }
 
-                    if (!Load(FileLocation.SpellDirectory + filename))
+                    if (!Load(FileLocation.SpellFileDirectory + filename))
                     {
                         string bugbuf = "Cannot load spell file: " + filename;
                         Log.Error(bugbuf, 0);
@@ -388,7 +399,7 @@ namespace MUDEngine
                 spellList += kvp.Value.FileName + "\n";
             }
             spellList += "$";
-            FileStream fpList = File.OpenWrite(FileLocation.SpellDirectory + FileLocation.SpellLoadList);
+            FileStream fpList = File.OpenWrite(FileLocation.SpellFileDirectory + FileLocation.SpellLoadList);
             StreamWriter sw = new StreamWriter(fpList);
             sw.Write(spellList);
             sw.Flush();
@@ -455,7 +466,7 @@ namespace MUDEngine
             XmlWriterSettings ws = new XmlWriterSettings();
             ws.NewLineHandling = NewLineHandling.Entitize;
             XmlSerializer serializer = new XmlSerializer(GetType());
-            Stream stream = new FileStream(FileLocation.SpellDirectory + FileName, FileMode.Create,
+            Stream stream = new FileStream(FileLocation.SpellFileDirectory + FileName, FileMode.Create,
                 FileAccess.Write, FileShare.None);
             XmlWriter writer = XmlWriter.Create(stream, ws);
             serializer.Serialize(writer, this);

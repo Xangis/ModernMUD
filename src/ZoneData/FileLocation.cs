@@ -60,8 +60,13 @@ namespace ModernMUD
         /// <summary>
         /// Spell files.
         /// </summary>
-        public static string SpellDirectory = ".." + Path.DirectorySeparatorChar + "spells" +
+        public static string SpellFileDirectory = ".." + Path.DirectorySeparatorChar + "spells" +
             Path.DirectorySeparatorChar;
+        /// <summary>
+        /// Blank spell file directory.
+        /// </summary>
+        public static string BlankSpellFileDirectory = ".." + Path.DirectorySeparatorChar + "spells"  +
+            Path.DirectorySeparatorChar + "EmptyFiles" + Path.DirectorySeparatorChar;
         /// <summary>
         /// Skill files.
         /// </summary>
