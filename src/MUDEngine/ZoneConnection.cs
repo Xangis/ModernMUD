@@ -35,7 +35,7 @@ namespace MUDEngine
             }
             catch( Exception ex )
             {
-                Log.Error( "Exception in Socials.Load(): " + ex );
+                Log.Error("Exception in ZoneConnection.Load(): " + ex);
                 return new List<ZoneConnection>();
             }
         }

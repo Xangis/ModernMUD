@@ -1127,22 +1127,25 @@ namespace MUDEngine
         /// <returns></returns>
         public virtual bool SaveFile( string filename )
         {
-            XmlTextWriter xtw = null;
+            XmlWriter writer = null;
             try
             {
+                XmlWriterSettings ws = new XmlWriterSettings();
+                ws.NewLineHandling = NewLineHandling.Entitize;
                 XmlSerializer serializer = new XmlSerializer(GetType());
-                xtw = new XmlTextWriter(new StreamWriter(filename));
-                serializer.Serialize(xtw, this);
-                xtw.Flush();
-                xtw.Close();
+                Stream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
+                writer = XmlWriter.Create(stream, ws);
+                serializer.Serialize(writer, this);
+                writer.Flush();
+                writer.Close();
                 return true;
             }
             catch( Exception ex )
             {
                 Log.Error( "Error saving player file " + filename + " exception: " + ex );
-                if (xtw != null)
+                if (writer != null)
                 {
-                    xtw.Close();
+                    writer.Close();
                 }
                 return false;
             }

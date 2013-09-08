@@ -117,7 +117,6 @@
     <Compile Include="VerbType.cs" />
     <Compile Include="Visibility.cs" />
     <Compile Include="WearData.cs" />
-    <Compile Include="WearInfo.cs" />
     <Compile Include="Weather.cs" />
     <Compile Include="WisModifier.cs" />
   </ItemGroup>

@@ -197,10 +197,21 @@ namespace MUDEngine
         public static Socials Load()
         {
             string filename = FileLocation.SystemDirectory + FileLocation.SocialFile;
+            string blankFilename = FileLocation.BlankSystemFileDirectory + FileLocation.SocialFile;
+            XmlSerializer serializer = new XmlSerializer(typeof(Socials));
+            Stream stream = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Socials));
-                Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                try
+                {
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Socials file not found. Loading blank socials file.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
                 Socials socials = (Socials)serializer.Deserialize(stream);
                 stream.Close();
                 return socials;

@@ -3,7 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5F4B0A0-2A91-4DBD-85FD-A17B4A214D23}"
 	ProjectSection(SolutionItems) = preProject
-		TODO.txt = TODO.txt
+		BasternaeTODO.txt = BasternaeTODO.txt
+		TODO.md = TODO.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MUDScreenEditor", "MUDScreenEditor\MUDScreenEditor.csproj", "{FD0866D2-577A-4DB9-90F2-BA386BD946C0}"
