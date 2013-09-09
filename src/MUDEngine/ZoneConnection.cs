@@ -25,10 +25,21 @@ namespace MUDEngine
         public static List<ZoneConnection> Load()
         {
             string filename = FileLocation.AreaDirectory + FileLocation.ZoneConnectionFile;
+            string blankFilename = FileLocation.BlankAreaFileDirectory + FileLocation.ZoneConnectionFile;
+            Stream stream = null;
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<ZoneConnection>));
-                Stream stream = new FileStream( filename, FileMode.Open, FileAccess.Read, FileShare.None );
+                try
+                {
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Info("Zone connection file not found. Using empty version.");
+                    File.Copy(blankFilename, filename);
+                    stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.None);
+                }
                 List<ZoneConnection> connections = (List<ZoneConnection>)serializer.Deserialize(stream);
                 stream.Close();
                 return connections;
