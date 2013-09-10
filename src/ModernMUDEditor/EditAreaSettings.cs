@@ -45,7 +45,14 @@ namespace ModernMUDEditor
                 txtAuthor.Text = area.Author;
                 txtBuilders.Text = area.Builders;
                 txtName.Text = area.Name;
-                cbMinLevel.SelectedIndex = area.MinRecommendedLevel;
+                if (area.MinRecommendedLevel < cbMinLevel.Items.Count)
+                {
+                    cbMinLevel.SelectedIndex = area.MinRecommendedLevel;
+                }
+                else
+                {
+                    cbMinLevel.SelectedIndex = cbMinLevel.Items.Count - 1;
+                }
                 txtResetMsg.Text = area.ResetMessage;
                 txtVersion.Text = area.Version.ToString();
                 txtRecall.Text = area.Recall.ToString();
