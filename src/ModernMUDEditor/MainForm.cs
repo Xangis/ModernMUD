@@ -162,7 +162,7 @@ namespace ModernMUDEditor
                 baseDate.ToShortDateString() +
                 ".\nThis application is " +
                 copyright.Copyright +
-                "\nWritten by Jason Champion (Xangis).\nFor the latest version, visit http://www.basternae.org.";
+                "\nWritten by Jason Champion (Xangis).\nFor the latest version, visit http://basternae.org.";
             return version;
         }
 

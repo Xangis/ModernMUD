@@ -41,7 +41,7 @@ namespace MUDScreenEditor
 
             MessageBox.Show("MUD Screen Editor version " + GetType().Assembly.GetName().Version + " (" +
                 date.ToShortDateString() + ").\n\n" + copyright.Copyright + "\nWritten by Jason Champion.\n(jchampion@zetacentauri.com)\n" +
-                "\nBasternae MUD is at http://www.basternae.org\n\nThis application is freeware and may be distributed freely.",
+                "\nBasternae MUD is at http://basternae.org\n\nThis application is freeware and may be distributed freely.",
                 "About The MUD Screen Editor");
         }
 
