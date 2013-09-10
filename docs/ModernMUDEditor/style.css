@@ -1,0 +1,32 @@
+body {
+font-family: Trebuchet MS, Verdana, Monaco, sans-serif;
+background-color: #111111;
+color: #CCCCCC;
+}
+
+a:link {
+color: #aa6633;
+}
+
+a:visited {
+color: #aa6633;
+}
+
+h1 {
+margin: 6px 6px 2px 0px;
+}
+
+h3 {
+color: #ffdd55;
+}
+
+img {
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+padding: 3px;
+}
+
+p {
+padding: 3px;
+}
