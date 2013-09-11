@@ -1,0 +1,86 @@
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="style.css">
+</head>
+</body>
+<h1>Creating Ships and Vehicles (version 1) by Xangis</h1>
+<h4><a href="index.htm">Back to the index</a></h4>
+<pre>
+
+With the addition of the ship/vehicle values to DE should come some form
+of explanation.  Here's my first attempt.  As always, if you're not clear
+on how something works, or whether it will fit into the game theme, ask!
+
+Ship code is not finalized and things are subject to change, so always
+make sure you have the most recent version of this guide.  It can be found
+at http://basternae.venom.org/builders.htm
+
+The ship and vehicle values mean the following:
+
+Vnum of Key:  		This is the vnum of the key required to be
+			considered the "owner" of the boat.  This should
+			correspond the the vnum of any keys needed to
+			get into the ship (i.e. a locked door in the entry
+                        room if any)  Leave zero if no key is required to
+                        board and operate the ship.  If you want nobody to be
+                        able to operate the ship, just create a key that doesn't
+                        load and set the value to that key.
+Vnum of Boarding Room:  This is the room that someone will end up in when they
+                        board the ship or vehicle.  Essentially the starting
+                        room and the room from which they can disembark.
+Vnum of Control Room:   This is the vnum of the room where the control panel
+                        displaying things like hull points, speed, direction,
+                        and firepower is located, and also the only room from
+                        which the room can be controlled.  If you don't want
+                        anyone to be able to look at a control panel, leave this
+                        set to zero.
+Maximum Occupants:	The maximum number of people that can be on the ship at
+                        the same time.
+Max Speed:		The maximum speed of the ship in a range of 1 to 100.
+                        If set at zero the ship cannot move.  Your average
+                        frigate should move at about 40-50.  Canoe-caliber boats
+                        should be 10-20 and fast galleons should be 60-80.
+Hull Points:		Essentially the hitpoints of the ship.  A standard canoe
+                        or raft has 100, a sloop has 500, a frigate 1000, a
+                        galleon 1500.  Things with 10000 should be the size of
+                        small planets.
+Firepower:		The maximum number of hull points damage that can be
+                        done in a round of ship combat (if everything hits for
+                        full damage).  Set depending upon how heavily armed the
+                        ship should be.  Some good values are 50 for sloops,
+                        100 for frigates, and 150 for galleons.  Things with
+                        500 should be able to take out small planets.
+Movement Script Number: This corresponds to the movement script for the ship.
+                        If you want automated ship movement (usually used when
+                        the "vnum of key" value is set to a key that doesen't load),
+                        you assign it here.  Just make it a nonzero number so we
+                        know there is a script assigned.  If you were really
+                        smooth you'd ask veygoth what the next available ship
+                        script number was before filling this out.
+
+Creating Movement Scripts:
+--------------------------
+
+Basically you just create a text file in notepad that looks something like this:
+
+nnn...eeeeeesssesese........swswswswswswswwwwwww...neeeeeennneee
+
+The characters usable in the script:
+n	Move ship north
+w	Move ship west
+e	Move ship east
+s	Move ship south
+u	Move ship up     (I would suggest not using unless you have a very good reason)
+d	Move ship down   (I would suggest not using unless you have a very good reason)
+.	Pause until next game hour
+
+Save it as something like Movement_Script_1.txt (the kind of name that would tell us
+what the heck it is) and include it when you send your zone.
+
+The mud will read this file when it boots and move the ship according to the pattern.
+
+-----------------------------
+Questions to veygoth@stax.net
+</pre>
+</body>
+</html>

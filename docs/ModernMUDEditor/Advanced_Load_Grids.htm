@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Advanced Load Grids</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+<p><i>From "Advanced Load Grids v1" originally written by Thendar</i></p>
+<h4><a href="index.htm">Back to the index</a></h4>
+<pre>I've been meaning to compile an "advanced zone writing strategies" guide
+but got about 3-4 pages into it and figured people wouldn't be interested.
+In this guide, I covered like a whole bunch of different types of grids,
+among other things. Now that I've long lost what I've written, here are a
+few things from existing zones to give you guys some examples of zone
+grids. Maybe when I get around to it, I'll put up a guide for advanced
+strategies on the webpage.<p>
+
+Example 1: Rare load equipment and random load location. (Vecna's)
+
+    6 
+    | 1: The initial load room Ali loads in.
+    4 2: Ali's exit path for item #1
+    | 3: Ali's exit path for item #2
+    6 - 5 - 1 - 3 - 6 4: Ali's exit path for item #3
+    | 5: Ali's exit path for item #4
+            2 6: Ali's loading grid, one way out...
+    | 7: Exit to crypt #1
+    6 8: Exit to crypt #2
+9: Exit to crypt #3
+    7 11 10: Exit to crypt #4
+    |/ 11: Exit to load location #5
+8 - 6 - 9 12: Exit to load location #6
+    |\
+   10 12
+
+This is actually the best load method I've seen to do random equipment
+with. The mod starts at 1, and has 4 one-way exits to the equipment (the
+mob is !sentinel and scavenger). From those equipment rooms, it goes to
+room 6, which has exits out into the zone. There are 6 different places in
+the zone for it to load. 
+
+This grid is basically 25% chance of loading different equipment, and 100%
+chance of loading the mob. If you added dead ends from room 6, you would
+get less than 100% load for the mobs. If you only had eq in room 2, but
+not 3, 4, or 5, you'd have a 25% load for eq.
+
+Example 2: A simple rare load mob grid.
+1: The mob starts here, and is !sentinel.
+    5 2: Mob trap room, has no exits.
+    | 3: Mob load out to zone.
+2 - 1 - 4 4: Mob trap room, has no exits.
+    | 5: Mob trap room, has no exits.
+    3
+    |
+  zone 
+
+This is a very simple grid, it can be elaborated on I just made it easy
+for the sake of explanation. Basically the more chances of the mob being
+trapped, the more rare the mob is. This is a common technique not just
+for big equipment (gag), but for more inventive stuff such as pieces of a
+quest, etc.
+
+Example 3: Hack n' Slash Loads 
+
+Basically, from one mob load room, you have the one way exits: u, d, n,
+ne, e, se, s, sw, w, nw. From these, there are trap rooms, or more grids
+(or a loop back to the grid). Mobs in this grid will load very rarely, but
+always have the equipment they are known for (ie, "Jalharoth, Angel of
+Death" in Mansion would always load with the blade of heaven).
+
+Example 4: Quests over many different zones (cause Xueqin rules...)
+
+                1: The mob starts here, and is !sentinel.
+            5           2: Mob loads in zone #1.
+            |           3: Mob loads in zone #2.
+        2 - 1 - 4       4: Mob loads in zone #3.
+            |           5: Mob loads in zone #4.
+            3
+            
+
+This is a very simplified grid that I've seen Xueqin use, cause he rules.
+Never really thought of it. Basically, if you want items or mobs in zones
+other than your own, for a quest in your zone, you can have them load in
+other zones while still very much a part of your zone. This grid would
+have a lot of trap rooms, to make the occurances of these rare mobs very
+rare.
+
+Some things to keep in mind are that I'd rather not have people just
+randomly tossing mobs into other people's zones, that's just plain rude.
+Such as you wrote a beholder mob type thing and want it to load in
+Shabboath. That would very much be fair to the writer of Shab, who
+intended his zone to be one very specific design. If you have 2 zones of
+your own, and want to do quests between them, it will be easiest to keep
+all of the quest items in your zone (just how the mud loads items, it
+freaks out if the item isn't in your zone but needed for a quest in that
+zone).
+____________________________________________________________________
+
+NOTE:
+
+When you make these, you need to make sure that all of the rooms are
+!portal, !gate, !summon, and that the players basically have ABSOLUTELY no
+way of getting into the grids.
+
+Remember, no zone justies crack-pipe equipment. I have the final say on
+balance, regardless of load chance. Basically, Bast1 was ruined because of
+the insane eq, including some that were 'rare loads' to justify a 2h 7d7
++7/7 perm_soulshield wickedness (ie, blade of heaven...), etc. This just
+won't happen here.
+
+What do I mean by no zone justifies the equipment? Because once it is
+gotten, albeit by a 20-man death squad or a necromancer, it comes into the
+general mainstream equipment of the mud. The guy who spent 18 hours on his
+necro gets it, gets fragged, and in a week it's on a level 20 secondary
+somewhere. I'm not being cynical, it's just what happens. I don't mean
+that zones shouldn't have some good equipment, that's why players do them,
+but I definately want no more stone eq in the game, or soulshield items,
+etc.
+
+I really like items being unique and can go along with *anything* being
+unique, I just really don't want uniqueness to be an excuse for
+opium-induced stats. To make it unique, however, you'll need to flag it
+artifact.
+
+If you have an further questions, feel free to ask.
+
+Thendar</pre>
+</body>
+</html>
+

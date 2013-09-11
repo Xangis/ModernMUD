@@ -1,0 +1,786 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Review Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+<p><i>From "Review Information v1" originally written by Thendar</i></p>
+<pre>---+-o0-A Guide for Proofreading and Reviewing Zones, V1 -0o-+---
+<h4><a href="index.htm">Back to the index</a></h4>
+TYPOS/SPELLING/GRAMMAR/SPACING:
+	This is probably the FIRST thing you want to do. It is easiest to do by
+Editing the <zone>.wld, <zone>.obj, <zone>.qst and <zone>.mob manually. After you do this, you will want to walk through every single room to make sure that the spacing is still the same and no room descriptions wrap around. This is very important because there are a few mudders out there that do not use ZMUD, thus it won't wrap and will show incomplete sentences. No symbols, letters, abbreviations, or shortcuts should be used instead of the proper word.	
+
+ANSI:
+	Make sure the ansi is compensated for in the room description. Remember that ansi takes up space in the editor, but not in the actual room descriptions. A lot of zone writers miss this, which lends to oddly spaced zones.
+	Blinking ansi is really annoying and should be used sparingly.
+
+DOCUMENTATION:
+	Take their <zone>.txt file, place a line at the beginning of it. Write all your changes, comments, etc. above this line. No need to document minor spelling fixes, or ansi fixes. Anything that changes a mob, a stat, a bit/flag, a full description on anything, a shop, a quest, stats/ etc. MUST be documented. Save this file as <zone>_review1.txt, and toss it in with the zip you send back to me.
+
+BALANCE:
+	Keep in CAREFUL consideration what level is meant to visit the zone. If they mobs do not fit the theme, or the equipment does not, it will most likely need to be changed. Potions and staves are a very borderline issue here concerning the types they use. Balance is best left up to me, because I know what needs to be changed and what does not to keep almost all of the zones in check. If you think something is absurd please note it in the <zone>_review1.txt.
+
+ZONE EXITS:
+	If there is no zone exit try to discern what room in the zone would be the best point of entry and make this exit -1.
+
+PROCS:
+	These will most likley not be added right away to the high level zones, thus newbie zones will rarely get them unless we somehow find a surplus of time on our hands. The approval of special procedures on objects and mobs will be at my discretion.
+
+REPOP/BANKS/INNS/SHOPS:
+	Please make note of what VNUMS these are in if not noted in the text file. You may have to guess at a good repop place, if there none given, suggest a room that would be suitable in your documentation.
+
+QUESTS:
+	This is something I tend to miss overall. If the quest is blatantly easy, or meant for a particular person, odds are it is meant for that writer's character and his/her friends to benefit solely from. If you happen to notice an odd quest that like no one would ever find a way to guess at, please note it.
+
+AGGR_GOOD/AGGRO_EVIL:
+	This is something that we have to watch out for too. Goodie writers often write zones so that evils cannot raid them (Classic example: Air plane). Make note if this seems really suspicious.
+
+ALIGNMENT:
+	Another thing you have to watch for. Often goodies write zones that have evil mobs at -1000 and good-themed mobs at - align, so that they can cheese their alignment to 1000 easily, and so that paladins and rangers have no problem with their experience. If you find something suspicious alignment-wise, change it and note it.
+
+TAIL EQ/HORN EQ/SADDLES/Special slots:
+	These are novelty items, at best. They should not have any major stats unless they are an artifact.
+
+NOMOB ROOMS:
+	These are often set by players so that those in the know will have a way to cheese mobs and hide from their tracking. Make sure this flag is not used just to be gratuitous, but serves its purpose zone-wise. Note if you changed these.
+
+MATRIXES/RARE LOAD PLACES:
+	These need to be no teleport, no summon, no gate. Preferably a magic room so that the mobs can spellup. No player should be able to reach these rooms. Make sure there are trap rooms for rare loads. 
+
+RARE LOAD MOBS:
+	Make sure these are made no summon.
+
+DESCRIPTIONS:
+	Make sure all mobs, objects, and rooms have descriptions (mandatory), extra descriptions are optional. Make sure all objects have long descriptions. Make sure there is little to no vulgar language used. Material and craftsmanship on objects needs to be set or the zone can be sent back - note if this was neglected. Room descriptions as a genereal rule need to be over 3 lines.
+
+NORENT:
+	This flag should be used only for quest items and keys unless otherwise stated in the .txt file.
+
+WEAR FLAG ON OBJECTS:
+	Check to make sure all objects meant to be taken (especially keys) are takeable. Often writers put objects on mobs, in rooms, or in objects and don't notice they forgot this flag. Very important flag.
+
+PORTALS/TELEPORT ITEMS:
+	Unless otherwise noted in their .txt, make sure portals are not takeable, have -1 uses (infinite), and are allow_all (anyone can use).	
+
+HEAL ROOMS:
+	Note these if setbit in peculiar places.
+
+If I left out anything I will add it in the next version of this.
+I've included the most recent zone guide. You may want to periodically check the webpage for more recent guides and version of Dikuedit.
+
+Thendar.
+--------------------------------------------------------------------------------
+
+ ---+-o0-  A General Guide for Reviewing Zones, Version 8 -0o-+---
+		 "How to Make Basternae2 Glow in the Dark."
+	             Last updated: August 5, 1999
+EMAILS:
+	Thendar@idleminds.org		zones (and important admin questions)
+	Ski@idleminds.org			general stuff
+		Please make note that basternae.idleminds.org doesn't work
+		Anymore, use idleminds.org.
+	Xangis@yahoo.com			coding inquires.
+		Watch out, Xangis may bite if emailed too much. :)
+
+THE WEBPAGE FOR REBUILDING:
+	http://basternae.org
+Check this page out for our new codebase (Magma), recent versions of this
+guide, and other various stuff about the rebuilding. Also, the version
+of DikuEdit (by Tavril) we prefer is on this page. We will, of course,
+take zones written in any version of DE.
+
+EDITOR (See the Webpage note for a version):
+	Dikuedit (written by Tavril of Duris) is our current editor.
+Eventually, we will have our own editor when Xangis has time (right
+now I'm more concerned with getting a stable codebase). The DOS version
+of the latest DE is slightly bugged, you cannot look at mobs or objects
+in it. The Linux and other variations of it work just fine, and older
+versions of the editor are fine too. 
+***Update on the Editor, 3.00c was fixed by Timken, with a few extra
+bits added by Xangis. Thus you can look at stuff in the DOS version
+now, but I'm sure a few new bugs are going to show up. Keep checking
+the Magma site for new versions of Dikuedit, and email Xangis any
+bugs in the new DEs.
+***Update: Get version 3.00d. It has craftsmanship, and added are some
+new class numbers for mobs, and the bank/inn room flags for the
+hometown writers.
+
+OLC (Online creation):
+	Is NOT used by us. It's a waste of time, and frankly, gets 
+little accomplished other than chilling with people while you write.
+Also uses memory that could be better used elsewhere. Besides, our
+editor, Dikuedit, is an off-line editor. :) 
+
+THE CHANGES IN REBUILDING:
+	A lot is still open. There will be some changes, but overall
+we will stay similar to Basternae race and class wise. In regards to
+player races, we are initially adding the races we receive hometowns
+for. Minotaur will return. Conjurers will be re-designed into Elementalists,
+and Clerics will have racial specializations/quirks. Vey, Ski, and I have
+also discussed some more fun stuff that we may just save for a rainy
+day. :)
+
+A NOTE FOR OUR OLDER ZONE WRITERS:
+	If you have an older (pre-Basternae zone) that you would like to
+donate to our rebuilding, get in contact with me. I'll need a copy of
+your zone and a letter of consent from its original writer for us to
+use it.
+
+A NOTE ABOUT OUR CODEBASE:
+	The code is still very young at this point. We aren't going
+to take the time out of making something important for players to make
+a proc for your zone right away. If it is in the .txt file, whenever we
+get time, we will get to it. We had to start from complete scratch with
+Ultra Envy, and Xangis's been doing insane ammounts of work each night
+to make this thing happen. Patience guys, and we'll have something you
+guys will simply love to play. :) If you have ideas about things to code,
+send them to Xangis.
+
+THIS GUIDE:
+	I realize a lot of this guide won't apply to some of our more
+experienced zone writers who have been with us through the years. Some
+of it will. Since I'm going to be proofreading each one of these, I
+figured it would be a good idea to at least level with each other on
+balance so I don't need to change eq stats, mobs, etc for balancing.
+In regards to your zone theme, I won't change a thing. Just keep it
+within taste (not too obscene, perverted, etc. or I'll send it back).
+
+SUBMITTING YOUR ZONE:
+	Send finished zones to Thendar@idleminds.org. Please zip this
+when you send it. I do not need your *.dwd. What I will need are your 
+*.set, *.mob, *.obj, *.zon, *.wld, *.qst, *.shp, and *.txt (important!).
+You may not have all of these, as not every zone has shops (.shp) or 
+quests (.qst), but send what you have.
+
+NAMING YOUR ZONE - IMPORTANT!
+	Please do not send me your zone named forest.zip, ruins.zip,
+caves.zip, dungeon.zip, etc. There are so many forest/ruins etc zones
+in the mud, it doesn't help me one bit when I try to go back for your
+zone and can't remember which of the forest.* it is. Try to name the
+files for your zone something easily understandable, like HumanHt or 
+something if it's the human hometown, or something unique that will
+make it easy to discern it in a directory of 60+ other zones.
+
+		---+-o0- Item Stats -0o-+---
+
+At this time, we won't be adding more stoneskin eq, a buttload of
+max_con eq, etc. Please keep this in mind. I'd like to go back to
+pre-Shabboath equipment balance in the game. If you are using the
+newer editor please be conservative with the special bits.
+
+ATTRIBUTE BONUSES/PENALTIES:
+	I'd like items to not boost a stat more than 1-4 for lower
+level equipment, 5-8 for higher. With very few exceptions, go over
+that with your own judgment. And remember, offsetting stuff with
+negatives doesn't necessarily make an item a bad piece of eq.
+I don't want any max_con, max_anything really in lowbie-mid level 
+zones, unless there is a very special reason. Include this in your
+.txt if it is _necessary_.
+
+ARMOR VALUES:
+	Below is a list of some standard ranges of AC values for the
+various equipment wear locations (that Xangis wrote up). It's not
+really a rule that I'm going to check on each and every piece of 
+equipment, but I don't want some mage having the wicked AC from hell
+either. 
+	"AC is based on the 100 to -100 point system. With a full
+suit of adamantine equipment of high quality, a player would have an
+unmodified AC of about -60. When dexterity bonuses, spellups, and 
+silly magic earrings/rings are added, a player can easily get to
+-100."
+   	        cloth  leather  steel  mithril/adamantium/duralithite
+badge			0	0	1	1
+head			1	3-4	7	9
+earrings/tail	0	0	1	1
+eyes			1	1-2	3	4
+face			1	2-3	6	7-8
+neck			1	2	3	4
+body			2-8	5-12	15-22	25-27
+about body/cloak  1-3	4-6	10	11-13
+on back		1-2	2-3	5	6-7
+arms			1-3	4-6	10	11-14
+wrist/horn		1-2	3-5	7	8-9
+gloves		1	2-3	5	6-7
+finger		0	0	1	1
+waist			1-2	2-3	5	6-7
+legs			1-3	4-6	10	11-14
+feet			1	2-3	5	6-7
+shield		1-3	4-6	10	12-15
+Total averages:	17-35	45-71	120	143-161
+"If you don't like these numbers, remember that magic changes 
+everything."
+
+WEAPONS/DAMAGE/HIT:
+	I'd like to keep the weapons, hit, and dam all relatively
+low on easy to obtain items. I don't see a need for an _earring_ to
+give +3 dam unless it's magic, but I can see a spiked bracer inflicting
+some combat pain. I don't see any difference on these unless it's an
+artifact, in which case 1) talk to me about it, and 2) I don't think
+Xangis has the time yet to work on them. These are the _maximum_
+stats on these items (unless it's an arti).
+
+			dice	hit	dam	notes
+1h sword		4d5	5	4	sword/whip/whatever
+1h sword, !dual   5d6	5	5	(add weight to the object)	
+2h sword		6d6	6	6	lance/battleaxe/etc.
+dagger		4d4	4	4	remember, stab hurts.
+
+An example with a 2-handed sword would be:
+Newbie swords:	1d4 - 1d6
+Okay swords:	2d6 - 3d4
+Good swords:	4d4 - 4d7
+Badass swords:	5d6 - 6d6
+An example with a dagger would be:
+Newbie dagger:	1d3 - 1d5
+Okay dagger:	2d4 - 3d3
+Good dagger:	3d4 - 4d4
+Badass dagger:	4d5 - 4d6
+Etc.
+For weighting the one-handed sword so that it isn't dualable, I'd give the
+example of the artifact 'light and darkness', which has a weight of 20. 
+
+SIZE/QUALITY/MATERIALS:
+	See the frequently asked questions section for the item flags,
+Xangis details what he wants done with this.
+
+WEIGHT:
+	This does matter. It makes a sword not dualable, for instance.
+It makes players encumbered when they carry 32 sets of adamantite 
+platemail, or not able to move at all!
+
+EXTRA BITS/FLAGS:
+	At risk of repeating myself, please don't add stoneskin eq,
+etc. If you absolutely think your zone *needs* this item, explain
+why in the .txt file about your zone.
+
+TAKEABLE:
+	Make sure that all items meant to be taken by a pc are takeable.
+Quite often people will put items, which aren't worm by mobs but meant for
+player characters, in an inventory and forget to flag it takeable. People
+often forget to make keys takeable as well. 
+
+ARTIFACTS:
+	At this time, we still have the artifacts from EP, AP, FP, 
+ethereal plane, Shaboath, Vecnas, and TT. It will be a while for
+us to add these procs, let alone new ones for new artifacts. If you
+absolutely must have an artifact in your zone, give me a good reason
+in your .txt file.
+
+ITEM DESCRIPTIONS:
+	Please make sure your objects have a main description (mandatory),
+you can add extra item descriptions if you like (optional). All descriptions
+for objects are made under the 'extra object description' menu, in the main
+edit object menu. 
+
+COST/MATERIAL/CRAFTSMANSHIP:
+	The mud now ignores what value you set for the cost of the object. Yeah, 
+I know, no more making your object 666 plat, etc. The shops now calculate 
+price based on the material and how well it has been crafted. Please keep 
+your objects true to this, don't make a leather eyepatch material emerald just
+to make it cost more. Also, if it was crafted like a two-year-old made it,
+it will be worth less than a one-of-a-kind quality craftsman.
+
+		---+-o0- The Zone Itself -0o-+---
+
+THE .TXT FILE ABOUT YOUR ZONE
+	When you submit your zone, include a .txt file about your
+zone's theme, the intended level of players/how many it takes for
+your zone, your Email, your player name, and any extra things you
+want me to know about your zone. I don't want your real name for
+the credits, more appropriate would be your player name.
+
+formal name of your zone:
+name for credits:
+your player name:
+your email:
+room number that connects to the map:
+theme/story:
+notes:
+
+If it is a hometown, also include the following:
+Repop room vnums (and which classes repop at what room):
+Bank room vnums (even if you flagged yourself already):
+Inn room vnums (even if you flagged it yourself already):
+Shop room vnums:
+Deity information about your race you've included:
+	Example: 
+	Lloth, wicked goddess of chaos. Likes spiders and finds males inferior.
+Any additional notes:
+
+THEMES:
+	I'd really like zones to have a purpose. Even if it's as
+generic as a sacred temple overrun by some demon, try to make a 
+reason for mobs to be there rather than a random grouping of mobs.
+Also keep in mind the level of your intended players. Level 1s 
+shouldn't be fighting demons/ethereal bossmobs. Level 50s shouldn't
+be fighting killer squirrels. Please keep zones within Medieval 
+fantasy (like AD&D). Please include your theme idea in the .txt.
+
+TIPS ON THEMES (for those who lack inspiration):
+	If you have a problem making a purpose for your zone, and are
+simply uncreative, pick up a newspaper and flip through the stories.
+Watch some television, or read a magazine. Even looking at some fantasy
+art on the net can give inspiration to a story. I _do_ however want
+to keep this based loosely on Medieval fantasy (like AD&D). I'm not
+however an AD&D "Dungeon Master" nazi for rules/themes/expansions. 
+Use your imagination and if it works, run with it. Please do not use
+names, places, items, etc straight out of D&D, White Wolf, Games 
+Workshop, FASA, etc. Be creative!
+
+TILDAS:
+	You know, that little ~ symbol. While it looks really spiffy,
+it's used in the code, and if you even think about using it in your
+zone descriptions, the mud will spit your zone back out and throw an
+awful temper tantrum. Don't use this please!
+
+COPY DEFAULT ROOM (duping rooms):
+	I'd really prefer that you use this command minimally, to prevent
+repetitive rooms in a zone. There's nothing more boring than being in a
+zone with a whole bunch of rooms that are the same. Alter the room name,
+or change the room description noticeably, etc, if you absolutely have to 
+use this. If you submit a zone with a lot of copied rooms, I'll send 
+it back to you to fix the rooms.
+
+SPELLING/GRAMMAR/Things that annoy Thendar:
+	If you would briefly look over your zone before you send it to
+me, and catch any obvious spelling or grammar errors, that would make
+my life much much easier. Oh, and please nothing too profane. Thanks.
+Do not use abbreviations, such as & for and, or 'btw' when you want to
+say 'by the way'. If you want to say 3, please write out the full 
+'three' instead of using the number. Please CAPITALIZE room titles, no
+need for punctuation in the room title. Refrain from using _underlines_
+and *asterisks* to emphasize... if it is really necessary, use ansi to
+draw attention to this.
+
+DIAGONAL EXITS:
+	Xangis asked me to ask you folks to use as few diagonal exits
+as possible.
+
+INDENTING THE ROOM DESCRIPTION:
+	...is a good idea. Write the room description like it is a formal
+paragraph. I'd like three spaces on your first line to start the
+room off. As a guideline, try to write about three lines as a minimum for
+each room, unless there is a reason. Feel free to make rooms as long as
+you like, but really short room descriptions make it look as though the
+zone was either not finished or hastily thrown together.
+
+PORTALS:
+	Make these ALLOW_ALL if everyone is to use them. If you want
+to limit this for some reason (like the necromancer portal), make it
+ALLOW_WHATEVER. This should be a very rare instance that it is not
+ALLOW_ALL. Make sure the portal is not takeable, and that it has -1 
+charges to enter. 
+
+SECRET EXITS:
+	Make sure you hint these in the room descriptions well, or
+somehow give hints to the average player.
+
+DOORS:
+	Make sure there is a key if you make the door locked and not
+pickable. Make sure that key is takeable. If the "key" is a word, make
+sure there is a way to discover that word, by quest or extra room
+description of some sort.
+
+QUESTS:
+	Please make this something the average player can figure out.
+I don't want quests to turn into an elitist thing that 5 people on a
+mud of 300 know. Mobs that are aggressive cannot give the quest messages.
+
+AGGRO_EVIL/AGGRO_GOOD mobs:
+	Remember when making quests, that if a mob is aggro_evil an
+evil player cannot complete this. If this is the case, there had better
+be a really good reason in the .txt file. Like I said, I don't want this
+to be an elitist thing, but rather something any *good* or skilled
+player can do. Please don't use the aggro_one-side-of-the-racewar on
+every mob in your zone. Even if it may be a hometown, I'm looking for
+playability not necessarily reality.
+
+USING EXTENDED ANSI/ASCII IN YOUR ZONE:
+	I would highly suggest to not do this. There's a lot of folks who
+use term programs that can't handle this, and it will turn out as a
+garbled mess. If you absolutely can't resist, make sure it is used on
+nothing essential, and only in extra descriptions.
+
+INTERESTING ARTICLE FROM A NEWSGROUP CONCERNING ROOM DESCRIPTIONS:
+"> >In article <933356503.5583@www.remarq.com>, sthrngypsy
+> >Brief is useful for one thing: Speedwalking.  That's the only time I'd
+> >use it as a player, or encourage it as an Imp.  I guarantee that when
+> >I'm building, I include things in the Long that are critical to the
+> >game.
+> 
+> Brief is invaluable when logging rp. I don't need dozens of copies
+> of the same room descriptions sitting on my hard drive, especially
+> if they're as long and detailed.
+
+Brief can be made less "appealing" by encouraging builders to continue
+working on their areas. Suppose you've got an outdoorsy area -- natural
+disasters and the weather are likely to shape the terrain, so why not
+drop a creek in the middle of what was once just rolling hills? A flood
+could do that :)
+
+Keep the area fresh, and players will be FORCED to keep their eyes open,
+so to speak, unless they enjoy going on autopilot, and not knowing where
+they'll wind up ;)"
+
+
+		    ---+-o0- The Mobs -0o-+---
+
+MOB BITS:
+	Remember, a hasted mob can waste a newbie. A hasted mob in the
+astral plane doesn't mean squat. Keep the location and the players you
+aim to cater your zone to in mind. Stoneskined mobs in newbie zones is
+kinda silly.
+
+SHOPKEEPERS: 
+	Good idea to flag them sentinel. Shops are made by editing the
+mob that will be the shopkeeper, and where it says Q/S will be the
+options for quest/shop info.
+
+MOB HOMETOWNS:
+	This is actually ignored by the MUD, since it is a waste of
+memory and serves no purpose.  Don't bother setting this value.  If we need
+to know a hometown we will just be stereotypical and assume their hometown
+is the race's hometown (if one exists).
+
+MOB MONEY/EXPERIENCE/THACO/AC/HPs/DAMAGE:
+	Don't waste your time setting *any* of this. The MUD completely
+ignores this information, and sets it itself. Besides, most zone writers
+really shouldn't have access to setting these anyway.
+
+MOB CLASSES:
+	There are some classes that aren't added to Dikuedit yet that we
+will still use from Basternae. This will used under the menu where you
+choose the mob's class. 
+Class # 17 - Illusionist.
+      # 18 - Fire Elementalist (Mobs can still be conjurers too.)
+	# 19 - Earth Elementalist
+	# 20 - Air Elementalist
+	# 21 - Water Elementalist
+
+ADDITIONAL MOB RACES AND MOB AI:
+	Here's a list of the new mob races supported by us. It will say
+unrecognized. No biggie. In addition, we support MobProg 2.1 for the 
+advanced and rather masochistic zone writers to create mob artificial 
+intelligence. If you have questions about MobProg, ask Xangis. 
+Though DikuEdit will not recognize them (They will show up as unrecognized
+species), the following mob races have been added and will be recognized
+by the MUD:
+Werewolf                LW
+Half-Dwarf              D2
+Half-Kobold             K2
+Flind 			FL
+Kobold	            K
+Hobgoblin               HB
+Rat                     AR
+Object          		O 
+Mist                    M
+Worm                    AW
+Hydra                   DH
+God                     GD (for planar zones. use discreetly)
+Harpy                   HP
+Bear                    AB
+Neogi				NE
+Bat                     BB
+Plant                   VP
+If you would like to have a mob race added to the MUD, email me -- adding a
+race is a fairly easy task. Send inquiries to Xangis (xangis@yahoo.com)
+
+DRAGON BREATH:
+	This is relatively easy to set. Let me know in the .txt file which mobs
+are badass dragons that breathe. Also, set their mob keyword to _BR_S_ (for shadow breath), _BR_F_ (fire breath), etc. Options for breath: Shadow, Cold, Fire, Poison, Ice, etc. (Yet again, use this discreetly, newbies shouldn't be
+fighting mobs that breath shadow and kill them instantly.)
+
+		---+-o0- Writing a Hometown -+-0o---
+
+There are a lot of considerations in making a hometown that differ from
+making any other zone. For instance, how high a level should a player
+be able to get in a hometown? What equipment can be in a hometown? What
+zones might be related or near the hometown? How 'safe' should a 
+hometown be? Should it be completely unraidable? These are all things
+you have to keep in mind. I don't want people sitting in their hometowns
+for most of their time on the mud because it is the best place to be.
+I'd prefer players maybe getting up to level 20 by mobs, then after that
+it get much harder or leave for other zones. I'd like the equipment to 
+stay basic to some extent, so people have desire to do the other zones
+whose purpose is equipment. If it helps, think in terms of AD&D. If a
+race seems chaotic, odds are they would have some agros. If it's lawful
+there would generally be a reason for a mob to rip your head off. Just
+because a hometown is 'evil' doesn't justify agros. Make a reason for
+mobs to want to eat the players who live there if it is agro. I'd like,
+however, the goodie hometowns to have fewer agros.
+
+SHOPS:
+	Players need a place to buy the basics as a newbie. I want the
+equipment in the shops to stay simple and geared to the lowbie player.
+Things a player would need to buy: water, food, spellbook, quill (use
+pen in the objects), sword, dagger, basic armor, totems (if there are
+shamans in your race or hometown). Other things that could be bought:
+rope, disguise kits, torches/lanterns, backpacks, bags, *newbie* magic
+items. Keep this within reason, and prices in reason. Keep the basic
+food at like 1-5 copper, spellbook at 1-5 plat, sword at 5-20 plat,
+armor 15-25 plat. 
+
+INNS/FOUNTAINS/BANKS:
+	Inns are cool, make one. :) If you add a fountain make it basic
+water. Sell other stuff if you want, but the free drink is just water.
+Oh, and add a bank. Put the vnum for banks and inns in your .txt file,
+those will need to be added by a coder.
+******UPDATE!:
+	Dikuedit now has inn and bank flags in the program, that you can 
+Set these with. If you do not have the new dikuedit, I can set this, but
+It can save me some time. Please still note where these rooms are for me.
+
+JUSTICE MOBS:
+	I'm not sure what Xangis has planned for justice at this time,
+but if you want to add the mobs, and then describe how you want justice
+to work in your .txt file, go ahead. Remember a Justice clerk to report
+to, a few mobs that are flagged witness, a jail area, etc. Remember to
+lock the jail, !bash, !pick. Put the key on the High Justice Clerk type.
+
+SHOPKEEPERS:
+	This should be the options Q/P on Dikuedit for mobs. You make 
+the room then the actual shopkeeper has the shop information. Make these
+all a relatively high level, but not something people will take out all
+the time for experience. I'm still toying with the idea of making all
+HT mobs over level 25 !exp. Good idea to make them sentinel as well, so
+they stay in their shops.
+
+REPOP PLACES:
+	Remember to add areas for the players to repop, be it the inn or
+an actual guild area for that class. I would prefer not in the inn, 
+because it will make players learn their hometowns faster, and will
+keep some of the spamkilling that occurs to a minimum. 
+
+TEACHERS:
+	Make some mobs teachers that the players can get spells, skills,
+etc. Like the arch-mage in the proverbial tower. These are also good 
+mobs to run a quest from.
+
+EXPERIENCE:
+	I would like some mobs that a level 1-10 can kill for experience.
+Those are the levels players learn their hometowns at, so you misadwell
+add some experience to invite them to learn it. I'd prefer players not use
+the hometown for over level 25 experience, for the most part.
+
+A NOTE ON RELIGION:
+	If you are planning a particular deity for your race, let me know.
+We are working on specializing clerics for racial quirks, and if you have
+something planned for you zone, I can certainly take that into 
+consideration.
+
+	   ---+-o0- Frequently Asked Questions -0o-+---
+
+"HOW MANY ROOMS SHOULD A ZONE BE?":
+	This applies to other zones too. Don't make zones big for the 
+sake of making them big. Make zones as many rooms as you need to make
+your theme/environment. There is no limit, but I don't really want to
+proofread a 500 room zone :) I'd prefer less than 300 rooms max, if it
+goes over there should be a really good reason why. Players can get
+bored and very lost in a large zone. It's awfully frustrating for
+everyone. Here's the rule of thumb for you: use as many rooms as you
+need to make a quality zone, without duplicating too many rooms, and
+making it a unique environment people will have fun in.
+
+"HOW MUCH OF THE ITEM FLAGS ARE NOT USED BECAUSE THEY WERE GEARED
+TOWARDS DURIS'S SILLY COMBAT SYSTEM?"
+	This was a damned good question I had to forward to Xangis.
+He replied:	
+"Pretty much all of the extra, wear, anti, anti2 flags are used.  The main
+wear location/coverage location/thickness/misc flags for armor under the
+miscellaneous stuff will not be used.  The apply stuff under the
+miscellaneous stuff will be.  Armor class is used.  Size, material, and
+craftsmanship will also be used in the future, but are not used now.  You
+can safely leave the size and craftsmanship at the default value, but I
+would prefer if you set a material.  It is not a requirement and zones
+without materials set will not be turned down, but it'll make life alot
+easier for me if you set the material type.  Damage resistance bonus will
+not be used.  Volume may be used, but it will default to be the same as the
+weight.  If you have oddly-shaped or large but not heavy objects you may
+wish to set the volume.  It is not really important and zones without volume
+will not be turned down, but it'll make life alot easier for me if you set
+the volume.  Condition will be used, but that can always be left at the
+default, unless for some reason you need to have damaged equipment in your
+zone.  For now, you should set the worth.... eventually the MUD should be
+able to calculate the worth of an item based on the material and the flags
+and abilities and level of craftsmanship of the item, but it will be a while
+before I get all of that worked out."
+
+"ARE THERE ANY ASPECTS OF DIKUEDIT THAT AREN'T REALLY WORTH THE TIME?"
+	Yes. No need to add things like extra room descriptions unless
+there's really a reason. Extra Object descriptions aren't necessary,
+but this is a great tool for quests and special objects! Feel free to 
+add these if you have the time. 
+
+"CAN YOU CONNECT ZONES TO THIS ZONE AFTER I SUBMIT IT?"
+	If you want something added in a zone, please add it. I don't
+really like making one zone marker several zones, it gets sloppy like
+Arachdrathos was. I would prefer to add it near that zone marker, but
+not attached if possible, but attaching can be done if there is really
+a need.
+
+"I'M NEW, AND HAVE NEVER WRITTEN A ZONE BEFORE."
+	It's easy. Dikuedit is surprisingly user-friendly. It works like
+you are in the zone, walking around in it, looking at rooms, mobs, items,
+etc. The help command will give you a list of commands, as will DE.doc.
+If you are new, it may be best to try to write a small 50 room low-exp
+zone first, to get the hang of writing with Dikuedit.
+
+"HOW DO I DO COLORS?"
+	Ansi code is easy to do. Here's from the basic ansi guide on
+the mud:
+First things first.  The main thing to understand when using our version of
+ansi color is:  you can SET things, or CLEAR ALL (back to white on black), but
+you cannot just turn off bold, or blink.
+
+There are 4 types of ansi control sequences:
+&<N>|<n> -   reset everything, back to 'n'ormal (white on black).  This is also
+             done for every newline, to eliminate 'bleed-through' colors.
+&+<color> -  set foreground color.  If the color letter is uppercase, the BOLD
+             (bright/light) bit is also set (and will STAY set) until either
+             a newline, or &<N> is done.
+&-<color> -  set background color.  If the color letter is uppercase, the BLINK
+             bit will be set (same as for &+ above).
+&=<bg><fg> - set both background <bg> and foreground <fg> color, exactly the
+             same restrictions as for setting foreground and background
+             separately.
+
+w - white    l - black    r - red    b - blue    g - green
+y - yellow   c - cyan     m - magenta
+(+w is normal text, +W is bold text)
+
+So basically &n&+r makes dark red, &+R makes bright red. If you did &+Rcrim&+rson, the second red wouldn't show up, because the bright would 'bleed'. You need the &n before the darker (lower case) colors when this happens.
+
+"HOW DO I MAKE A DOOR LOCKED WITH A KEY?"
+	This is actually pretty easy. First, create object, and make that
+your key. (Go to option I from the edit object menu, From there, option
+A is object type. Select A, and type ?. You will see that 18 is the code
+for a key, select 18 for object type. It will then give you things like
+percent chance to break, etc.) Then edit your room. Edit room, and go to
+Option F, Edit room exits, and choose the direction you want the door.
+Option C will toggle the door open, closed, lock, !bash, whatever. Option
+D will let you choose the key (type ? if you don't remember the object
+number, it will give you a list). You need to do this on both sides of
+the door if you want it lockable from both sides. Now when you look in
+that direction in Dikuedit (as if you had farsee), it will show what
+the door flags are, as well as what key opens a door.
+
+"HOW DO I MAKE A PASSWORD FOR A DOOR INSTEAD OF A KEY?"
+	This is easy too, but impossible to figure out in Dikuedit.
+Basically, you set the door to locked, no key, not pickable. Set the
+key object to -2. Make sure the door is closed and locked. Make the
+_last_ keyword in the door keywords the password. Make sure this is
+something the average player can figure out. 
+
+"WILL YOU CHANGE MY ZONE AFTER I SUBMIT IT?" (BALANCE...)
+	Most likely. Will I change theme? Nope. The main thing that 
+is usually changed are spelling errors, grammar errors, and equipment
+stats may get tweaked. I don't mind every mob being clothed, but if all 
+the mobs have equipment with awesome stats, I'll have a problem with 
+it :) A few considerations to think about would be: Is this zone for 
+experience for equipment, quests, or a potion level? What level are the 
+expected players, and what level equipment would be appropriate for them? Do
+you really need 20+ pieces of equipment in all the high level zones so
+that everyone gets something? No, but if you do, make sure not all of
+it kicks ass. Negative stats can balance items nicely, too.
+
+"WHAT DO YOU MEAN INDENT, AND CAPITALIZE TITLES?"
+	I know this must be hard to understand, it's basic grammar :P
+Basically, imagine the room title is a proper title, and the room
+description is a paragraph. There is no need to capitalize 'a' 'the' 'and'
+'of' 'in', etc unless it starts the title. Here's an example:
+
+In the Northwest Corner of Shaboath
+   As much as the flowing, smooth architecture of the aboleth has any corners
+in it, this is the northwestern edge of the city.  The walls curve to
+the east and south around you, with the constant flow of water beneath
+your tenta...er...feet.
+
+The description is indented, the title capitalized. The room descriptions is 
+over three lines long, spelled correctly, with decent grammar.
+
+"WHAT DO YOU CONSIDER BALANCED?"
+	Well, I try to keep things relatively balanced overall for all zones
+on the mud. Thus, if your zone is meant for levels 20-30, and you have a ring
+that is +2 hit, +2 dam, and Kelek's Cavrerns's 'crystalline ring' is also +2/2
+but a more difficult zone, people will always choose the easier route. And
+there would be little reason to do Kelek's for that ring. So, things get balanced to make sure most zones have a fair chance of getting players. I don't
+want one zone to be the badass zone of all equipment so players don't need to 
+go anywhere else. That gets awfully boring and defeats the work of all the
+other writers. The zones I tend to use as guidelines for balance are: Keleks,
+Du'Maathe, Kuo-toas, Clawed Caverns, Fire Plane, Obsidian Citadel, Yuan-ti, and/or Ice Tower. Also, location of the zone, agros, raidability, player level, etc. play a factor in what justifies balance. If the zone is mainly for exp, let the players find bigger equipment elsewhere, while getting minor eq as a diversion to long exp runs. If the zone is for equipment, think about balance pretty heavy, how raidable it is, and what level of players you are catering to. If the zone is for quests, potion levels, etc, there really isn't a reason to add heavy equipment or a ton of awesome exp, because players have to be there anyway.
+	The best way to think about it, is to remember back to when you were a 
+complete newbie. I remember that the dumb flower faerie robe and flower
+wreath was like the coolest equipment to me, because it had colorful ansi and
+I originally came from a mud with little to no ansi. Low levels aren't really
+about kickass equipment. Even as high levels, players will wear stuff if it
+looks too darn cool (despite mediocre stats) and they have a spare slot.
+
+		---+-o0- Zones we need -0o-+---
+June 1999
+We have to replace all of the old 'Duris/Sojourn' zones, but we can keep
+the Basternae zones. Thus we have all the planes, Shabboath, Vecnas, 
+Mansion, Oasis, etc. We also get to keep Xueqin's zones, so Transparent
+Towers, WS, and Grey Hometown can stay. What we do not have are hometowns, 
+and lowbie zones like Moria/Bugbears/AKO/Teka/Braddinstock. We also can
+use people to proofread zones, if you are interested in this, talk to me.
+If you are working on a zone for us that you fully intend to finish, let
+me know what you are making so we don't have 3 hometowns for this race
+but none of the others.
+
+July 1999
+At this point, all the hometowns are more or less taken, _but_ if I get
+2 hometowns of a race, I will either 1) take the better of the two, or
+2) add both and give the players an option in their original home. Most
+likely the latter, since I'm a softie and don't want to turn down anyone's
+hard work.
+
+July 1999
+We still need Ogre and Duergar hometown, and I'd like a second Centaur
+hometown. High level zones are not priority, nor really needed badly.
+See the builder's meeting on the webpage! This answers a lot of quest-
+ions for both the beginner and the experienced zone writer. It also
+gives a sneak preview of things to come! :)
+
+July 1999
+Cool, we got Duergar and Ogre taken care of like that. Still could use
+a second Centaur. Cy was kind enough to give us permission to keep
+Du'Maathe. If you have any older zones you'd like us to keep up for the
+players, send me an email of permission for that zone.
+
+July 1999
+I've gotten a few zones from people who've said 'I wrote this like 6 
+years ago and it needs tweaking and isn't finished, feel free to go
+ahead and change em.' If anyone wants to revamp one of these zones (I
+have 2), feel free.
+
+August 1999
+All is good. Any zones now are fine. Pre-Alpha is ready to rock at
+209.57.123.19, port 4001. Email registration only - it is not yet open 
+to the public.
+
+		---+-o0- DISCLAIMER -0o-+---
+
+When a zone is submitted, it becomes 'property' if you will of that
+Mud. I don't mean in a sense that you can't do whatever you want with
+The zone, but we need the ability to change and tweak things as the 
+Mud goes on. We reserve the right to any or none of the following:
+balance your zone via equipment, balance experience, add equipment,
+remove equipment, run quests in your zone, or add quests that point
+to your zone, add your zone to the map or another zone where we feel
+it is best, add or remove inns/shops/banks, move repop places, etc.
+
+I'm not saying this to be mean. I don't make a habit of re-writing
+what folks send me. But in the past there have been zone writers who
+whine and cry to this day over a ring that was changed by one dam
+point, a mob made agro that was not before, etc. Seriously guys, this
+is supposed to be fun. :)
+
+
+If I forgot something, let me know, I'll add it in the next version.
+-Thendar, Lord of Illusions.
+</pre>
+</body>
+</html>

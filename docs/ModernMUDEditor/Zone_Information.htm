@@ -1,0 +1,908 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Zone Writing Overview</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+<font face="Arial, Helvetica, sans-serif"> 
+<div align="center"><strong><font face="Courier New, Courier, mono">---+-o0- A 
+  General Guide for Zone Writers, Version 12 -0o-+---<br />
+  &quot;How to Make Basternae 3 Glow in the Dark.&quot;</font><br />
+<h4><a href="index.htm">Back to the index</a></h4>
+  </strong><em><font size="-1">Last updated: April 11, 2010</font></em></div>
+<br />
+<strong>Email:</strong><br />
+Xangis: xangis@yahoo.com<br />
+<p><strong>The Basternae Website:</strong><br />
+  http://basternae.org.<br />
+  <strong>The Basternae Blog:</strong><br />
+  http://basternae.org/blog.</p>
+<p><strong>Editor:</strong></p>
+<p> The Basternae 3 Editor (written by Xangis) is our current editor. It runs 
+  natively on Windows using the .NET framework, and can also be used on Linux 
+  and MacOS with the Mono framework.</p>
+<p> DikuEdit (written by Tavril of Duris and modified by Xangis) was our previous 
+  editor. It can be used to create zones, but does not have all the features of 
+  the new editor.</p>
+<p><strong>Our Codebase:</strong></p>
+<p> Magma, the original codebase, was written in C and based on UltraEnvy (a Diku 
+  derivative). The new codebase has been written from the ground up using C#. 
+  We have been able to re-use some of our fancy custom code from Basternae 2, 
+  but we do not use any of the original Diku/Envy code.</p>
+<p> We will be releasing a Basternae-specific client that runs in Windows, Linux, 
+  and MacOS. So far it works best on Windows. Your old standbys of Zmud, Wintin, 
+  Tintin, and telnet will work, but the new client will have some added graphical 
+  elements. Note that we're not saying that this is going to be a graphical MUD.</p>
+<p><strong>This Guide:</strong></p>
+<p> I realize a lot of this guide won't apply to some of our more experienced 
+  zone writers who have been with us through the years. Some of it will. Since 
+  we're going to be proofreading each one of these, I figured it would be a good 
+  idea to at least level with each other on balance so I don't need to change 
+  eq stats, mobs, etc for balancing. In regards to your zone theme, I won't change 
+  a thing. Just keep it within taste (not too obscene, perverted, etc. or I'll 
+  send it back).</p>
+<p><strong>Submitting Your Zone:</strong></p>
+<p> Send finished zones to xangis@yahoo.com. It's probably a good idea to zip 
+  them, since the files can be quite large.</p>
+<p><strong>Naming Your Zone:</strong></p>
+<p> Please do not send me your zone named forest.are.xml, ruins.are.xml, caves.are.xml, 
+  dungeon.are.xml, etc. There are soo many forest/ruins etc zones in the mud, 
+  it doesn't help me one bit when I try to go back for your zone and can't remember 
+  which of the forest.* it is. Try to name the files for your zone something easily 
+  understandable, like HumanHometown.are.xml or something similar if it's the 
+  human hometown. We're not on DOS anymore -- we can use long filenames. </p>
+<p> <strong>---+-o0- Item Stats -0o-+---</strong></p>
+<p>We don't need supremely powerful equipment like perm-stoneskin or +30 max-strength 
+  swords. Please keep this in mind.</p>
+<p><strong>Attribute Bonuses / Penalties:</strong></p>
+<p> I'd like items to not boost a stat more than 1-4 for lower level equipment, 
+  5-8 for higher. And remember, offsetting stuff with negatives doesn't necessarily 
+  make an item a bad piece of eq. I don't want any max_con, max_anything really 
+  in low-level zones, unless there is a very special reason.</p>
+<p><strong>Armor Values:</strong></p>
+<p> Below is a list of some standard ranges of AC values for the various equipment 
+  wear locations (that Xangis wrote up). It's not really a rule that I'm going 
+  to check on each and every piece of equipment, but I don't want some mage having 
+  the wicked armor class from hell either. AC is based on the 100 to -100 point 
+  system. With a full suit of adamantine equipment of high quality, a player would 
+  have an unmodified AC of about -60. When dexterity bonuses, spellups, and silly 
+  magic earrings/rings are added, a player can easily get to -100.</p>
+<p>
+<table width="85%">
+  <tr> 
+    <th><font face="Courier New, Courier, mono"></font></th>
+    <th><font face="Courier New, Courier, mono">cloth</font></th>
+    <th><font face="Courier New, Courier, mono">leather</font></th>
+    <th><font face="Courier New, Courier, mono">metal</font></th>
+    <th><font face="Courier New, Courier, mono">mithril/adamantium/duralithite</font></th>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">badge</font></td>
+    <td><font face="Courier New, Courier, mono">0</font></td>
+    <td><font face="Courier New, Courier, mono">0</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">head</font></td>
+    <td><font face="Courier New, Courier, mono">1-3</font></td>
+    <td><font face="Courier New, Courier, mono">3-4</font></td>
+    <td><font face="Courier New, Courier, mono">7</font></td>
+    <td><font face="Courier New, Courier, mono">9</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">earrings/tail</font></td>
+    <td><font face="Courier New, Courier, mono">0</font></td>
+    <td><font face="Courier New, Courier, mono">0</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">eyes</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+    <td><font face="Courier New, Courier, mono">1-2</font></td>
+    <td><font face="Courier New, Courier, mono">3</font></td>
+    <td><font face="Courier New, Courier, mono">4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">face</font></td>
+    <td><font face="Courier New, Courier, mono">1-2</font></td>
+    <td><font face="Courier New, Courier, mono">2-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-5</font></td>
+    <td><font face="Courier New, Courier, mono">6-7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">neck</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+    <td><font face="Courier New, Courier, mono">2</font></td>
+    <td><font face="Courier New, Courier, mono">3</font></td>
+    <td><font face="Courier New, Courier, mono">4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">body</font></td>
+    <td><font face="Courier New, Courier, mono">2-8</font></td>
+    <td><font face="Courier New, Courier, mono">5-13</font></td>
+    <td><font face="Courier New, Courier, mono">12-22</font></td>
+    <td><font face="Courier New, Courier, mono">20-28</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">about body/cloak</font></td>
+    <td><font face="Courier New, Courier, mono">1-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-6</font></td>
+    <td><font face="Courier New, Courier, mono">7-9</font></td>
+    <td><font face="Courier New, Courier, mono">10-12</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">on back</font></td>
+    <td><font face="Courier New, Courier, mono">1-2</font></td>
+    <td><font face="Courier New, Courier, mono">2-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-5</font></td>
+    <td><font face="Courier New, Courier, mono">6-7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">arms</font></td>
+    <td><font face="Courier New, Courier, mono">1-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-6</font></td>
+    <td><font face="Courier New, Courier, mono">7-9</font></td>
+    <td><font face="Courier New, Courier, mono">10-13</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">wrist/horn</font></td>
+    <td><font face="Courier New, Courier, mono">1-2</font></td>
+    <td><font face="Courier New, Courier, mono">3-5</font></td>
+    <td><font face="Courier New, Courier, mono">6-7</font></td>
+    <td><font face="Courier New, Courier, mono">8-9</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">gloves</font></td>
+    <td><font face="Courier New, Courier, mono">1-2</font></td>
+    <td><font face="Courier New, Courier, mono">2-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-5</font></td>
+    <td><font face="Courier New, Courier, mono">6-7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">finger</font></td>
+    <td><font face="Courier New, Courier, mono">0</font></td>
+    <td><font face="Courier New, Courier, mono">0</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+    <td><font face="Courier New, Courier, mono">1</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">waist</font></td>
+    <td><font face="Courier New, Courier, mono">1-2</font></td>
+    <td><font face="Courier New, Courier, mono">2-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-5</font></td>
+    <td><font face="Courier New, Courier, mono">6-7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">legs</font></td>
+    <td><font face="Courier New, Courier, mono">1-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-6</font></td>
+    <td><font face="Courier New, Courier, mono">7-9</font></td>
+    <td><font face="Courier New, Courier, mono">10-13</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">feet</font></td>
+    <td><font face="Courier New, Courier, mono">1-3</font></td>
+    <td><font face="Courier New, Courier, mono">2-4</font></td>
+    <td><font face="Courier New, Courier, mono">5-6</font></td>
+    <td><font face="Courier New, Courier, mono">7-8</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">shield</font></td>
+    <td><font face="Courier New, Courier, mono">1-3</font></td>
+    <td><font face="Courier New, Courier, mono">4-7</font></td>
+    <td><font face="Courier New, Courier, mono">8-11</font></td>
+    <td><font face="Courier New, Courier, mono">12-16</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">Total averages:</font></td>
+    <td><font face="Courier New, Courier, mono">17-41</font></td>
+    <td><font face="Courier New, Courier, mono">45-74</font></td>
+    <td><font face="Courier New, Courier, mono">95-121</font></td>
+    <td><font face="Courier New, Courier, mono">136-162</font></td>
+  </tr>
+</table>
+<p><strong>Weapons / +Hitroll and +Damroll:</strong></p>
+<p> I'd like to keep the weapons, hitroll, and damroll bonuses all relatively 
+  low on easy to obtain items. I don't see a need for an _earring_ to give +2 
+  dam unless it's magic, but I can see a spiked bracer inflicting some combat 
+  pain. These are the _maximum_ stats on these items.</p>
+<table width="95%">
+  <tr> 
+    <th><font face="Courier New, Courier, mono"></font></th>
+    <th><font face="Courier New, Courier, mono">Newbie</font></th>
+    <th><font face="Courier New, Courier, mono">Lowbie</font></th>
+    <th><font face="Courier New, Courier, mono">Midlevel</font></th>
+    <th><font face="Courier New, Courier, mono">Highlevel</font></th>
+    <th><font face="Courier New, Courier, mono">Epic</font></th>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono">&nbsp;</font> </td>
+    <td><font face="Courier New, Courier, mono">(&lt; L10)</font></td>
+    <td><font face="Courier New, Courier, mono">(&lt; L25)</font></td>
+    <td><font face="Courier New, Courier, mono">(&lt; L40)</font></td>
+    <td><font face="Courier New, Courier, mono">(&gt; L40)</font></td>
+    <td><font face="Courier New, Courier, mono">(51+ quest items)</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Axe</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Battleaxe</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">4d5 </font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Great Axe (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d13</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Dagger</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Parrying Dagger</font></td>
+    <td><font face="Courier New, Courier, mono">1d3</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">2d3</font></td>
+    <td><font face="Courier New, Courier, mono">3d3</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Knife</font></td>
+    <td><font face="Courier New, Courier, mono">1d3</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">2d3</font></td>
+    <td><font face="Courier New, Courier, mono">3d3</font></td>
+    <td><font face="Courier New, Courier, mono">4d3</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Dirk</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Kris</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Stiletto</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Pick</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Flail</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Morningstar</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Hammer</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Warhammer (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Longsword</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">4d5 </font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Katana</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Bastard Sword</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">1d12</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Rapier</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Scimitar</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">4d5</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Khopesh</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d11</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Falchion</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d12</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Two-Handed Sword (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d12</font></td>
+    <td><font face="Courier New, Courier, mono">3d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Claymore (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d7</font></td>
+    <td><font face="Courier New, Courier, mono">5d5</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Flamberge (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d14</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Mace</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Spikedmace</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Spear</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Spear/Pike (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d8</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Polearm (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">1d12</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">4d5</font></td>
+    <td><font face="Courier New, Courier, mono">5d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Halberd (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">1d13</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">4d6</font></td>
+    <td><font face="Courier New, Courier, mono">4d8</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Glaive (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">3d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Naginata (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">3d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Shortsword</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Cutlass</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Sabre</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Wakizashi</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Club</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Spikedclub</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d9</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Staff</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d6</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Scepter</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d9</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Quarterstaff (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">3d7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Whip</font></td>
+    <td><font face="Courier New, Courier, mono">1d3</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">2d3</font></td>
+    <td><font face="Courier New, Courier, mono">3d3</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Lance (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d10</font></td>
+    <td><font face="Courier New, Courier, mono">1d12</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">3d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Sickle</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d8</font></td>
+    <td><font face="Courier New, Courier, mono">3d7</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Scythe (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">3d10</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Fork</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d5</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Trident (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">3d9</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Horn</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Claw</font></td>
+    <td><font face="Courier New, Courier, mono">1d4</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">4d4</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Fang</font></td>
+    <td><font face="Courier New, Courier, mono">1d3</font></td>
+    <td><font face="Courier New, Courier, mono">1d5</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">2d6</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Nunchaku</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d4</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Gythka (2h)</font></td>
+    <td><font face="Courier New, Courier, mono">1d9</font></td>
+    <td><font face="Courier New, Courier, mono">1d11</font></td>
+    <td><font face="Courier New, Courier, mono">2d7</font></td>
+    <td><font face="Courier New, Courier, mono">2d10</font></td>
+    <td><font face="Courier New, Courier, mono">3d9</font></td>
+  </tr>
+  <tr> 
+    <td><font face="Courier New, Courier, mono"> Chatkcha</font></td>
+    <td><font face="Courier New, Courier, mono">1d6</font></td>
+    <td><font face="Courier New, Courier, mono">1d8</font></td>
+    <td><font face="Courier New, Courier, mono">2d5</font></td>
+    <td><font face="Courier New, Courier, mono">3d5</font></td>
+    <td><font face="Courier New, Courier, mono">4d5</p> </font>
+</table>
+<p>For weighting a one-handed sword so that it isn't dualable, I'd use a weight 
+  of 15-25 pounds. </p>
+<p>A pretty safe guideline on +hitroll/+damroll on weapons is that it should never 
+  be more than one point for every 10 levels, and that's only if it was very hard 
+  to obtain. Don't be too henerous with hitroll and damroll. Just because that's 
+  the maximum doesn't mean you should go that high.</p>
+<p><strong>Weight:</strong></p>
+<p> This does matter. It makes a sword not dualable, for instance. It makes players 
+  encumbered when they carry 32 sets of adamantite platemail, or not able to move 
+  at all!</p>
+<p><strong>Extra Bits and Flags:</strong></p>
+<p> At risk of repeating myself, please don't add stoneskin eq, etc.</p>
+<p><strong>Takeable:</strong></p>
+<p> Make sure that all items meant to be taken by a pc are takeable. Quite often 
+  people will put items, which aren't worm by mobs but meant for player characters, 
+  in an inventory and forget to flag it takeable. People often forget to make 
+  keys takeable as well. </p>
+<p><strong>Artifacts:</strong></p>
+<p> Basternae 3 does not use artifacts. Do not add godlike items to your zone.</p>
+<p><strong>Item Descriptions:</strong></p>
+<p> Please make sure your objects have a main description (mandatory). You can 
+  add extra item descriptions if you like (optional). All descriptions for objects 
+  are made under the 'extra object description' menu, in the main edit object 
+  menu. </p>
+<p> <strong><font face="Courier New, Courier, mono">---+-o0- The Zone Itself -0o-+---</font></strong></p>
+<p><strong>Themes:</strong></p>
+<p> I'd really like zones to have a purpose. Even if it's as generic as a sacred 
+  temple overrun by some demon, try to make a reason for mobs to be there rather 
+  than a random grouping of mobs. Also keep in mind the level of your intended 
+  players. Level 1s shouldn't be fighting demons/ethereal bossmobs. Level 50s 
+  shouldn't be fighting killer squirrels. Please keep zones within Medieval fantasy 
+  -- no smurfs, tanks, or space aliens. </p>
+<p><strong>Tips on Themes </strong>(for those who lack inspiration):</p>
+<p> If you have a problem making a purpose for your zone, and are simply uncreative, 
+  pick up a newspaper and flip through the stories. Watch some television, or 
+  read a magazine. Even looking at some fantasy art on the net can give inspiration 
+  to a story. I _do_ however want to keep this based loosely on Medieval fantasy. 
+  Use your imagination and if it works, run with it. Please do not use names, 
+  places, items, etc straight out of D&amp;D, White Wolf, Games Workshop, FASA, 
+  novels by Robert Jordan, Ed Greenwood, Margaret Weis, etc. Be creative!</p>
+<p><strong>Duplicate Rooms:</strong></p>
+<p> I'd really prefer that do this command minimally, to prevent repetitive rooms 
+  in a zone. There's nothing more boring than being in a zone with a whole bunch 
+  of rooms that are the same. Alter the room name, or change the room description 
+  noticeably, etc, if you absolutely have to do this. If you submit a zone with 
+  a lot of copied rooms, we'll send it back to you to fix the rooms.</p>
+<p><strong>Spelling/Grammar:</strong></p>
+<p> If you would briefly look over your zone before you send it to me, and catch 
+  any obvious spelling or grammar errors, that would make our lives much much 
+  easier. Oh, and please nothing too profane. Do not use abbreviations, such as 
+  &amp; for and, or 'btw' when you want to say 'by the way'. If you want to say 
+  3, please write out the full 'three' instead of using the number. Please Capitalize 
+  Room Titles, with no punctuation in the room title. Refrain from using _underlines_ 
+  and *asterisks* to emphasize... if it is really necessary, use ANSI color codes 
+  to draw attention.</p>
+<p><strong>Indenting the Room Description:</strong></p>
+<p> Is not necessary. The MUD will do this automatically. As a guideline, try 
+  to write about three lines as a minimum for each room, unless there is a reason. 
+  Feel free to make rooms as long as you like, but really short room descriptions 
+  make it look as though the zone was either not finished or hastily thrown together.</p>
+<p><strong>Portals:</strong></p>
+<p> Make these ALLOW_ALL if everyone is to use them. If you want to limit this 
+  for some reason (like the necromancer portal), make it ALLOW_WHATEVER_CLASS. 
+  This should be a very rare instance that it is not ALLOW_ALL. Make sure the 
+  portal is not takeable, and that it has -1 charges to enter. </p>
+<p><strong>Secret Exits:</strong></p>
+<p> Make sure you hint these in the room descriptions well, or somehow give hints 
+  to the average player somewhere in the zone.</p>
+<p><strong>Doors:</strong></p>
+<p> Make sure there is a key if you make the door locked and not pickable/bashable. 
+  Make sure that key is takeable. If the &quot;key&quot; is a word, make sure 
+  there is a way to discover that word, by quest or extra room description of 
+  some sort.</p>
+<p><strong>Quests:</strong></p>
+<p> Please make this something the average player can figure out. I don't want 
+  quests to turn into an elitist thing that 5 people on a</td></tr><tr><td>
+  mud of 300 know. Mobs that are aggressive cannot give the quest messages.</p>
+<p><strong>AGGRO_EVIL/AGGRO_GOOD mobs:</strong></p>
+<p> Remember when making quests, that if a mob is aggro_evil an evil player cannot 
+  complete this. If this is the case, there had better be a really good reason. 
+  Like I said, I don't want this to be an elitist thing, but rather something 
+  any *good* or skilled player can do. Please don't use the aggro_one-side-of-the-racewar 
+  on every mob in your zone. Even if it may be a hometown, I'm looking for playability 
+  not necessarily reality.</p>
+<p><strong>Brief Mode:</strong></p>
+<p>Brief mode can be made less &quot;appealing&quot; by encouraging builders to 
+  continue working on their areas. Suppose you've got an outdoorsy area -- natural 
+  disasters and the weather are likely to shape the terrain, so why not drop a 
+  creek in the middle of what was once just rolling hills? A flood could do that 
+  :)</p>
+<p>Keep the area fresh, and players will be FORCED to keep their eyes open, so 
+  to speak, unless they enjoy going on autopilot, and not knowing where they'll 
+  wind up ;)&quot;</p>
+    <p> <strong><font face="Courier New, Courier, mono">---+-o0- The Mobs -0o-+---</font></strong></p>
+<p><strong>Mob Bits and Flags:</strong></p>
+<p> Remember, a hasted mob can waste a newbie. A hasted mob in the astral plane 
+  doesn't mean squat. Keep the location and the players you aim to cater your 
+  zone to in mind. Stoneskined mobs in newbie zones is kinda silly.</p>
+<p><strong>Shopkeepers:</strong></p>
+<p> Good idea to flag them sentinel. Shops are made by editing the mob that will 
+  be the shopkeeper, and where it says Q/S will be the options for quest/shop 
+  info.</p>
+    <p> <strong><font face="Courier New, Courier, mono">---+-o0- Writing a Hometown 
+      -+-0o---</font></strong></p>
+<p>There are a lot of considerations in making a hometown that differ from making 
+  any other zone. For instance, how high a level should a player be able to get 
+  in a hometown? What equipment can be in a hometown? What zones might be related 
+  or near the hometown? How 'safe' should a hometown be? Should it be completely 
+  unraidable? These are all things you have to keep in mind. I don't want people 
+  sitting in their hometowns for most of their time on the mud because it is the 
+  best place to be. I'd prefer players maybe getting up to level 20 by mobs, then 
+  after that it get much harder or leave for other zones. I'd like the equipment 
+  to stay basic to some extent, so people have desire to do the other zones whose 
+  purpose is equipment.</p>
+<p>Just because a hometown is 'evil' doesn't justify aggros. Make a reason for 
+  mobs to want to eat the players who live there if it is aggro. I'd like, however, 
+  the goodie hometowns to have fewer aggros.</p>
+<p><strong>Shops:</strong></p>
+<p> Players need a place to buy the basics as a newbie. I want the equipment in 
+  the shops to stay simple and geared to the lowbie player. Things a player would 
+  need to buy: water, food, spellbook, quill (use pen for the type), sword, dagger, 
+  basic armor, totems (if there are shamans in your race or hometown). Other things 
+  that could be bought: rope, disguise kits, torches/lanterns, backpacks, bags, 
+  *newbie* magic items. Keep this within reason, and prices in reason. Keep the 
+  basic food at like 1-5 copper, spellbook at 1-5 plat, sword at 1-10 plat, armor 
+  1-15 plat.</p>
+<p>Note on shop messages:</p>
+<p> As of version 3.00f of DikuEdit, the shop messages have been reformatted to 
+  use $N for the player's name and $t for the amount of coins in a transaction. 
+  The editor will not accept %s any longer. Use the default messages of a new 
+  shop as an example of how the messages should be.</p>
+<p><strong>Inns, Fountains, and Banks:</strong></p>
+<p> Inns are cool, make one. :) If you add a fountain make it basic water. Sell 
+  other stuff if you want, but the free drink is just water. Oh, and add a bank.</p>
+<p><strong>Justice Mobs:</strong></p>
+<p> Justice is still under development, but you can add the mobs and set the justice 
+  flags and justice mob numbers on the area settings screen. Remember a Justice 
+  clerk to report to, a few mobs that are flagged witness, a jail area, etc. Remember 
+  to lock the jail, !bash, !pick. Put the key on the High Justice Clerk type.</p>
+<p><strong>Shopkeepers:</strong></p>
+<p> Make these all a relatively high level, but not something people will take 
+  out all the time for experience. I'm still toying with the idea of making all 
+  shopkeepers !exp. Good idea to make them sentinel as well, so they stay in their 
+  shops.</p>
+<p><strong>Repopulation Points:</strong></p>
+<p> Remember to add areas for the players to repop, be it the inn or an actual 
+  guild area for that class. I would prefer not in the inn, because it will make 
+  players learn their hometowns faster, and will keep some of the spamkilling 
+  that can occur to a minimum. </p>
+<p><strong>Teachers:</strong></p>
+<p> Make some mobs teachers that the players can get spells, skills, etc. Like 
+  the arch-mage in the proverbial tower. These are also good mobs to run a quest 
+  from. Teachers don't need to be unkillable or higher than mid-level, just something 
+  that players can learn from up to midlevel or so.</p>
+<p><strong>Experience:</strong></p>
+<p> I would like some mobs that a level 1-10 can kill for experience. Those are 
+  the levels players learn their hometowns at, so you might as well add some experience 
+  to invite them to learn it. I'd prefer players not use the hometown for over 
+  level 20 experience, for the most part.</p>
+<p><strong>A Note on Religion:</strong></p>
+<p> If you are planning a particular deity for your race, let me know. We are 
+  considering specializing clerics for racial quirks, and if you have something 
+  planned for your zone, we can certainly take that into consideration.</p>
+    <p> <strong><font face="Courier New, Courier, mono">---+-o0- Frequently Asked 
+      Questions -0o-+---</font></strong></p>
+<p><strong>&quot;HOW MANY ROOMS SHOULD A ZONE BE?&quot;</strong>:</td></tr><tr><td>
+  This applies to other zones too. Don't make zones big for the sake of making 
+  them big. Make zones as many rooms as you need to make your theme/environment. 
+  There is no limit, but I don't really want to proofread a 1400 room zone :) 
+  I'd prefer less than 500 rooms max, if it goes over there should be a really 
+  good reason why. Players can get bored and very lost in a large zone, or it 
+  could be an amazing palace of entertainment where everyone wants to go. Here's 
+  the rule of thumb for you: use as many rooms as you need to make a quality zone, 
+  without duplicating too many rooms, and making it a unique environment people 
+  will have fun in.</p>
+<p><strong>&quot;CAN YOU CONNECT ZONES TO THIS ZONE AFTER I SUBMIT IT?&quot;</strong></td></tr><tr><td>
+  Sure can. If you want to build a hometown then a year later feel like adding 
+  a sewer catacombs add-on zone, go right ahead. It's better to build the add-on 
+  as a separate zone because we will have already proofread the original (then 
+  again, you can always ask for a current copy).</p>
+<p><strong>&quot;I'M NEW, AND HAVE NEVER WRITTEN A ZONE BEFORE.&quot;</strong></td></tr><tr><td>
+  It's pretty easy. The editor is fairly user-friendly. Writing a zone is pretty 
+  time-consuming, but it's not all that technical. If you are new, it may be best 
+  to try to write a small 50 room low-exp zone first, to get the hang of writing 
+  with Dikuedit.</p>
+<p><strong>&quot;HOW DO I MAKE A DOOR LOCKED WITH A KEY?&quot;</strong></td></tr><tr><td>
+  This is actually pretty easy. First, create object, and make that your key by 
+  setting the object type to &quot;key&quot;. It will then give you things in 
+  the value edit screen like percent chance to break, etc.) Then edit your room. 
+  Edit room, create an exit in the direction you want the door. In the exit editing 
+  screen you can set it as locked and specify the key needed to open it.</p>
+<p><strong>&quot;HOW DO I MAKE A PASSWORD FOR A DOOR INSTEAD OF A KEY?&quot;</strong></td></tr><tr><td>
+  Basically, you set the door to locked, no key, not pickable. Set the key object 
+  to -2. Make sure the door is closed and locked. Make the _last_ keyword in the 
+  door keywords the password. Make sure this is something the average player can 
+  figure out. </p>
+<p><strong>&quot;WILL YOU CHANGE MY ZONE AFTER I SUBMIT IT?&quot; (BALANCE...)</strong></td></tr><tr><td>
+  Most likely. Will I change theme? Nope. The main thing that is usually changed 
+  are spelling errors, grammar errors, and equipment</td></tr><tr><td>
+  stats may get tweaked. I don't mind every mob being clothed, but if all the 
+  mobs have equipment with awesome stats, I'll have a problem with it :) A few 
+  considerations to think about would be: Is this zone for experience for equipment, 
+  quests, or a potion level? What level are the expected players, and what level 
+  equipment would be appropriate for them? Do you really need 20+ pieces of equipment 
+  in all the high level zones so that everyone gets something? No, but if you 
+  do, make sure not all of it kicks ass. Negative stats can balance items nicely, 
+  too.</p>
+<p><strong>&quot;WHAT DO YOU CONSIDER BALANCED?&quot;</strong></td></tr><tr><td>
+  Well, I try to keep things relatively balanced overall for all zones on the 
+  mud. Thus, if your zone is meant for levels 20-30, and you have a ring that 
+  is +2 hit, +2 dam, and Kelek's Caverns's 'crystalline ring' is also +2/2 but 
+  a more difficult level 40 zone, people will always choose the easier route. 
+  And there would be little reason to do Kelek's for that ring. So, things get 
+  balanced to make sure most zones have a fair chance of getting players. I don't 
+  want one zone to be the badass zone of all equipment so players don't need to 
+  go anywhere else. That gets awfully boring and defeats the work of all the other 
+  writers. The zones I tend to use as guidelines for balance are: Keleks, Du'Maathe, 
+  Kuo-toas, Clawed Caverns, Fire Plane, Obsidian Citadel, Yuan-ti, and/or Ice 
+  Tower. Also, location of the zone, agros, raidability, player level, etc. play 
+  a factor in what justifies balance. If the zone is mainly for exp, let the players 
+  find bigger equipment elsewhere, while getting minor eq as a diversion to long 
+  exp runs. If the zone is for equipment, think about balance pretty heavy, how 
+  raidable it is, and what level of players you are catering to. If the zone is 
+  for quests, potion levels, etc, there really isn't a reason to add heavy equipment 
+  or a ton of awesome exp, because players have to be there anyway.</p>
+<p> The best way to think about it, is to remember back to when you were a complete 
+  newbie. I remember that the dumb flower faerie robe and flower wreath was like 
+  the coolest equipment to me, because it had colorful ansi and I originally came 
+  from a mud with little to no ansi. Low levels aren't really about kickass equipment. 
+  Even as high levels, players will sometimes wear stuff if it looks too darn 
+  cool (despite mediocre stats) and they have a spare slot.</p>
+    <p> <strong><font face="Courier New, Courier, mono">---+-o0- Zones we need -0o-+---</font></strong></p>
+<p> Hometowns are most necesssary. We'd like to have at least one hometown for 
+  each race. We'd also love to have permission to use zones that were on Basternae 
+  2 that we don't have yet. All types of zones are pretty welcome at this point.</p>
+<p><font size="-1">Revision History:</font></p>
+<p><font size="-1">All versions have most likely been authored by a combination 
+  of Thendar<br />
+  and Xangis. Others may have contributed, but the<br />
+  records have not survived.</font></p>
+<p><font size="-1">Version 1 June 1999<br />
+  Version 2 July 1999<br />
+  Version 3 July 1999<br />
+  Version 4 July 1999<br />
+  Version 5 July 1999<br />
+  Version 6 July 1999<br />
+  Version 7 July 27, 1999<br />
+  Version 8 August 5, 1999<br />
+  Version 9 September 19, 1999<br />
+  Version 10 October 27, 2003<br />
+  Version 11 May 7, 2007<br />
+  Version 12 April 11, 2010</font></p>
+</font> 
+</body>
+</html>

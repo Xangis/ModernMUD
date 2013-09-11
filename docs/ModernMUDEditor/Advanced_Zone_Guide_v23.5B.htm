@@ -1,0 +1,1979 @@
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>The Advanced Basternae II Zone Writers Guide:</h1>
+<pre>
+                    or How To Hug A Child With Nuclear Arms
+                           Version: Virus_110.76.9239
+         Partial Writer/Editor/Compiler/Masochist: Sniktiorg Blackhaven
+                        Started: 11.22.54p on 11.23.99ev
+                        Revision v23.5B on 5.2.02ev
+<h4><a href="index.htm">Back to the index</a></h4>
+
+   ________________________________________________________________________
+ .'                           The Anteface                                 `.
+
+        Ok, it seems to me that Thendar's Zone_Information_9.Txt is a most
+  splendid introduction and explanation to the lifesucking process of zone
+  writing.  A little pseudo-three-dimensional book that seems to live of its
+  own freedom and set socio-tribal behaviors.  I might quote parts of her
+  guide within this, so as to reiterate their significance.  But for the
+  most part, this monstrosity has the distinct intention of teaching little
+  tricks, cheats, and secrets that I (and possibly some others) have gathered
+  like dusty jewels over the years.  Oh a few things, an advanced zone writer
+  needs to absolutely try to follow these rules to attain mastery of his skill
+  (the rank of Wizard [as earned by Inigo Montoya in William Goldman's action
+  packed and extremely excellent book, "The Princess Bride", for swordsmanship]
+  is near impossible to attain, and those that have would not call themselves
+  Wizard Area Writers anyhow.  Though Xueqin comes damn close with his
+  intricate multi-zone loads and quests.
+
+         o  Five (ok, sometimes 4) to thirteen line room descriptions.
+            Over thirteen and the screen totally just scrolls.
+         o  Avoid Duping, or bury them enough so that they are
+            not noticeable.
+         o  Always have a plot/storyline or fantastic geography.
+         o  Forever have a rational explanation for mobs/items/or
+            traps (which are awesome).
+         o  Attempt to use Mob_Distribution Rooms to make zones slightly
+            different each repop.
+         o  Avoid using the same word within like a sentence of each
+            other.
+         o  Always study others' zones, searching for their mistakes
+            and/or things you can use to improve your own zones.
+         o  NEVER, except under extreme circumstances, use non-cardinal
+            exits (ie. nw, sw, ne, se) as they annoy players.
+         o  Always place your color code (if using one) before the mandatory
+            THREE-space indent before all Descriptions except room titles,
+            which do not get indented (By now, you should know this).
+         o  Never use "I", "You", etc, in room descriptions, or mob/obj
+            long descriptions.  However, they can be used in Extra Room
+            Descriptions, or obj/mob descriptions (The ones you see when
+            you look at the mob/obj, not at the room).
+
+
+
+
+
+
+
+
+
+
+                                      XXIII
+   ________________________________________________________________________
+ .'                       The Table of Contents                            `.
+    The Anteface (Sniktiorg) ....................................... XXIII
+    Item Statistics and Guidelines (Thendar and Minimal Snikt) .......  1
+    DIKU/Magma Color Codes (Thendar and Sniktiorg) ...................  4
+    Creating Ships/Vehicles (Version I by Xangis) ...................   7
+    The Secret of Room Descriptions (Sniktiorg) ......................  9
+    Improved !Show and Teleport Uses (Sniktiorg) ..................... 12
+    Tricks on Hindering Player Cheese-abuse (Sniktiorg) .............. 14
+    The Makings of a Portal  (Sniktiorg)  ............................ 15
+    The Basics of Random/Rare Load Grids (Amassed by Thendar/Snikt) .. 16
+    Adding a Pet Shop (Sniktiorg) .................................... 18
+    The Monsterous Compendium (Sniktiorg) ............................ 19
+ ---
+ (The Following  chapters, between these lines, are Unfinished)
+    Maze Tricks and Techniques (Sniktiorg) ...........................
+    Zone Creation Assistant (Sniktiorg) ..............................
+    Hometowns and Small Waystation Hamlets (Thendar and Sniktiorg) ...
+    Sample Traps for the Unwary (Sniktiorg) ..........................
+    Creating Purely Life or Death Challenge Zones (Sniktiorg) ........
+ ---
+    Ascii Art Templates (Sniktiorg) ..................................
+    List of Commands Supported by DikuEdit (Tavril; edit by Snikt) ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ________________________________________________________________________
+ .'Item Statistics and Guidelines (Originally by Thendar, Altered by Snikt)`.
+
+   At this time, we won't be adding more stoneskin eq, a buttload of
+  max_con eq, etc. Please keep this in mind. I'd like to go back to
+  pre-Shabboath equipment balance in the game. If you are using the
+  newer editor please be conservative with the special bits.
+
+ ATTRIBUTE BONUSES/PENALTIES:
+   I'd like items to not boost a stat more than 1-3 for lower level
+  equipment, 4-7 for higher. With very few exceptions, go over that
+  with your own judgment. And remember, offsetting stuff with negatives
+  doesn't necessarily make an item a bad piece of eq.  I don't want any
+  max_con, max_anything really in lowbie-mid level zones, unless there
+  is a very special reason (explanation to be included within your
+  <Zone_name>.Txt file which should be included in zone submission).
+
+ ARMOR VALUES:
+  Below is a list of some standard ranges of AC values for the various
+ equipment wear locations (that Xangis wrote up).  It's not really a rule
+ that I'm going to check on each and every piece of equipment, but I don't
+ want some magi having the wicked AC from hell either.
+
+       "AC is based on the 100 to -100 point system. With a full
+        suit of adamantine equipment of high quality, a player
+        would have an unmodified AC of about -60. When dexterity
+        bonuses, spell-ups, and silly magic earrings/rings are
+        added, a player can easily get to -100."
+         ______________________________________________________
+        | Location        | Cloth | Leather | Steel | Mithril+ |
+        |------------------------------------------------------|
+        |Badge            |   0   |    0    |   1   |    1     |
+        |Headwear         |   1   |   3-4   |   7   |    9     |
+        |Earrings/Tail    |   0   |    0    |   1   |    1     |
+        |Eyes             |   1   |   1-2   |   3   |    4     |
+        |Face             |   1   |   2-3   |   6   |   7-8    |
+        |Neck             |   1   |    2    |   3   |    4     |
+        |Body             |  2-8  |   5-12  | 15-22 |  25-27   |
+        |About Body/Cloak |  1-3  |   4-6   |  10   |  11-13   |
+        |On Back          |  1-2  |   2-3   |   5   |   6-7    |
+        |Arms             |  1-3  |   4-6   |  10   |  11-14   |
+        |Wrist/Horn       |  1-2  |   3-5   |   7   |   8-9    |
+        |Gloves           |   1   |   2-3   |   5   |   6-7    |
+        |Finger           |   0   |    0    |   1   |    1     |
+        |Waist            |  1-2  |   2-3   |   5   |   6-7    |
+        |Legs             |  1-3  |   4-6   |  10   |  11-14   |
+        |Feet             |   1   |   2-3   |   5   |   6-7    |
+        |Shield           |  1-3  |   4-6   |  10   |  12-15   |
+        `.----------------------------------------------------.'
+         | Total Averages | 17-35 |  45-71  | 120   | 143-161 |
+         `----------------------------------------------------'
+
+  <Sniktiorg - Ok, I added the boxes, but all the I's in the
+   following paragraphs are in reference to Thendar, not I, that
+   is me, Sniktiorg.  Grok?  Well, if I totally wrote it, you will
+   be able to tell by my sarcasm.  Snicker.>
+
+ WEAPONS/DAMAGE/HIT:
+  I'd like to keep the weapons, hit, and damage all relatively
+ low on easy to obtain items. I don't see a need for an earring to
+ give +3 dam unless it's magic, but I can see a spiked bracer
+ inflicting some combat pain. I don't see any difference on these
+ unless it's an artifact, in which case:
+              .o. Talk to an Overlord about it.
+              .o. Speak to Sniktiorg or Sarim, 
+                  as they head the artifact 
+                  research and development 
+                  department. 
+  _________________________________________________________________________
+ |                     | Dice |  Hit |   Dam  |  Notes                     |
+ |---------------------+------+------+--------+----------------------------|
+ | 2h Sword, w/Proc    |  5d5 |   6  |    6   |   (Use the new !Dual flag) |
+ | 2h Sword, !Proc     |  6d6 |   6  |    6   |   Lance/battleaxe/etc.     |
+ | 1h Sword            |  4d5 |   5  |    4   |   Sword/whip/whatever      |
+ | 1h Sword, !Dual     |  5d6 |   5  |    5   |   (Use the new !Dual flag) |
+ | Piercing Shortsword |  3d6 |   4  |    5   |   Remember, stab hurts.    |
+ | Dagger              |  4d4 |   4  |    4   |   (even with daggers)      |
+ `-------------------------------------------------------------------------'
+
+                An example with a 2-handed sword would be:
+                     Newbie swords:  1d4 - 1d6
+                     Okay swords:    2d6 - 3d4
+                     Good swords:    4d4 - 4d7
+                     Badass swords:  5d6 - 6d6
+
+                  An example with a dagger would be:
+                     Newbie dagger:  1d3 - 1d5
+                     Okay dagger:    2d4 - 3d3
+                     Good dagger:    3d4 - 4d4
+                     Badass dagger:  4d5 - 4d6
+
+ ARTIFACTS/UNIQUES:  
+  A unique is any weapon that has a perm_affect flag above 4th 
+ circle, procs (one or more; though rareload/quest items may also proc), and has 
+ hit dice that fall within the regular damage ranges for an item of that type.  
+  An artifact is an item that has all of the above and has stats that are greater
+ than the maximum stats allowed normally for an item of that type.  
+  * Note: The more Perm_Affects or Procs an item has, the more chance it has of 
+ becoming an Artifact.  Players may only wield one Artifact at a time, whereas 
+ they may have a few uniques at a time.
+
+
+ SIZE/QUALITY/MATERIALS:
+  Basically these all affect the price of an item when it is bought or sold.
+ Perhaps, in the future, these things may change their usage.
+
+ WEIGHT:
+  This does matter. It makes a sword not dualable (about 20 Lbs, though the
+ use of the !dual flag makes this nonessential), for instance.  It makes
+ players encumbered when they carry 32 sets of adamantine platemail, or not
+ able to move at all!
+
+ EXTRA BITS/FLAGS:
+  At the risk of repeating myself, please don't add stoneskin eq, etc. If
+ you absolutely think your zone NEEDS this item, explain why in the *.Txt
+ file about your zone.  However, it would be wise to consult an Overlord
+ beforehand.
+
+ TAKEABILITY OF OBJECTS:
+  Make sure that all items meant to be taken by a PC are takeable.  Quite
+ often people will put items, which aren't worn by the mob but meant for
+ PCs, in an inventory and forget to flag it takeable.  People often forget
+ to make keys takeable as well.
+
+  <Snikt - Ok, I'm rewriting what Thendar said about arti's, item descripts,
+   and extra descriptions, as I feel the following to be more suitable.  But,
+   do remember, I am just a writer, I have no true say in matters.>
+
+ ARTIFACTS:
+  Artifacts should be hard to get, possibly through quest or some crack-maze
+ zone filled with rabid demons from unmentionable planes of hell; well, the
+ artifacts that contain flags such as haste, detect invis, mass invis, or any
+ other crazy effects.  A good idea for the artifact flag is use with named
+ objects, such as A dagger named 'Silencer'.  Hell, perhaps an item in a quest
+ could be flagged as an artifact, making it all the harder to complete the
+ quest as the first group would quickly find itself hunted by another group
+ of would-be adventurers.  Generally, big artifacts are most likely to be
+ refused by the Overlords, as artifacts have a heavy effect on game balance.
+
+ ITEM DESCRIPTIONS:
+  Make sure that the objects' keywords match all signifiers in the objects'
+ long description (the one shown to the room when the item is on the floor).
+ All objects are to have a main description (mandatory of at least three to
+ four lines of text), you can add extra item descriptions if you like
+ (though optional it can cause a nifty effect, such as a rope and bucket in
+ a well, all three can have their own descriptions improving the zone's look
+ overall.  Or, to cite an example from my Kyderach Province, there is an herb
+ found in the northern forests.  You can look at the plant itself, and then
+ at the buds that grow upon it).
+
+ INDENTING AND CAPITALIZATION:
+  Ok, listen well, cause most people really FUBAR this one.  Indent all your
+ descriptions by three spaces on the first line.  Not one space, not four, nor
+ even more.  Exactly three.  Also, place the Diku/Magma color codes before the
+ indent or you will negate it.  Proper names are to be capitalized.
+
+  Titles are a bit different, only the words with any real significance get
+ capitalized, the linking words (such as the, with, by, near, in, a, or, etc)
+ remain in lowercase.  Also, you do not indent titles.  Please for the love of
+ Gawd, if you respect yourself and your art, don't forget this lesson.
+
+
+   ________________________________________________________________________
+ .'               DIKU/Magma Color Code (by Thendar and Sniktiorg)         `.
+
+ DIKU/MAGMA COLOR CODES:
+  With the exception of black, the color code system is simple to understand.
+ In a nutshell; the case of the first letter of the color preceded by &+ will
+ dictate the color printed on the screen.  &+R would be bright red, while the
+ &n&+r (&n turns off the color's high-bit, basically returning it to the darker
+ shades of the spectrum.  Xangis has assured me that it is no longer required,
+ however using the &n before a dark color prevents any chance of color bleed,
+ through code or some other such crapola.  Actually, aside from being a habit
+ from my Duris days, its sort of a signature.  The mark of an artist, the
+ small touch that differentiates a master from a journeyman.
+
+  There are 4 types of ANSI control sequences: (Thendar Briefly)
+   &<N>|<n>  - Reset everything, back to 'n'ormal (PC default color on black).
+               This can also be done for every newline, to eliminate 'bleed-
+               through' colors, though its only truly needed if the last color
+               on the preceding line has its High Bit engaged.
+   &+<color> - Set foreground color.  If the color letter is uppercase, the
+               high-bit (bright/light) is also set (and will STAY set) until
+               an &n is done.
+   &-<color> - Set background color.  If the color letter is uppercase, the
+               BLINK bit will be set (same as for &+ above).
+  &=<bg><fg> - set both background <bg> and foreground <fg> color, exactly
+               the same restrictions as for setting foreground and background
+               separately.
+     ____________________________________________________________________
+    | Current Color Code Seqences, For Some Reason Pre-Win ANSI Only Has |
+    |  but 8 or 15 Colors.  Most Programmers are Very short-sighted.     |
+    |____________________________________________________________________|
+    | &n&+r D. Red   |&n&+b D. Blue   |&n&+c D. Cyan  |&n&+y Brown       |
+    | &+R   B. Red   |&+B   B. Blue   |&+C   B. Cyan  |&+Y   Yellow      |
+    | &n&+g D. Green |&n&+m D. Purple |&n&+w L. Grey  |&n&+l Invis_Black |
+    | &+G   B. Green |&+M   B. Purple |&+W   White    |&+L   Dark Grey   |
+    `--------------------------------------------------------------------'
+
+
+ COLORATION AND MOOD CONSTRUCTION:
+  Color can have an intense affect on a zone's overall mood.  Generally each
+ person develops their own palette ideas, however, I will explain a few
+ techniques that I (as well as Beretorn and some others) use or have used that
+ seem to look pretty decent.  Well to my poor eyes, anyhows.
+
+  Room descriptions can come in any available color, obviously, however in the
+ short time I have been doing this, I have found but a few suitable base tints
+ which seem to hold the best effects.
+
+  First, one has to decide the amount of light that illuminates the room, as
+ well as the type of terrain you are using.  I prefer to use Black (Pardon,
+ Dark Grey) as my principle color, being that it allows me to use the remaining
+ colors to better accent my descriptions.  This is not to say black is the end
+ all, be all, of choices.
+
+  Mountains, hills, and such, I ussually color with a brown base (as well as
+ those forests that are lit by some sort of light or that are meant to lend a
+ feeling of calm or serenity).
+
+  Prairies, grasslands, and some forests I will use either dark or light green
+ (dark green works best) as my description background color, to give the feel
+ of being at one of these spots.
+
+  In the Underdark, it is prevelent to see rooms and their titles done complete
+ with dark maroon tones.  This is a vestigial remain from Duris and the more
+ primitive muds.  I tend to keep the purple when highlighting words such as
+ tunnel, wall, stalactite, stalagmite, etc.  For the rest I rely on my trusty
+ black.  Afterall, it is the underdark, and without sun, blackness would seem
+ to be a major factor.  That and the fact that large amounts of magenta tends
+ toward a guady 1973-1977ev appearance.
+
+  Again, this is my technique.  Don't take this as law.  I never mixed cyans
+ and magentas until I met Thendar, now I find the combination to be useful in
+ certain situations.  Steal with your eyes, taking what you can use and leaving
+ what you cannot; learn whatever you can to improve your skills.  Unfortunately
+ to writers, until the players map a zone or discover some crazy EXP/EQ they
+ will generally enter zones they are dragged to or that look amazing.  So in
+ the beginning, any areas you write will be mostly for yourself and the friends
+ you bring there.  I say this for but one reason (and I am damn guilty of doing
+ it in my Duris days), cranking out mediocrity for the sake of having your name
+ in the list of Writers just lowers your reputation, and will eventually begin
+ to bother you as you realize how much better you could have done.
+
+ COLOR BLENDING TECHNIQUES:
+  Being there are but fifteen actual colors to choose from, one finds oneself
+ often at a loss for which hue to use on which word, etc.  That's where the
+ following systems come in handy.
+
+  Two-tone schemes are the most used, as they tend not to look too overdone.
+ One can do this a few ways, here are but two:  Divide the colors by the
+ syllables within the word, or by arbitrarily choosing a place which seems
+ most pleasing to the eye.
+
+  This can be improved upon to form such things as my Rakropolis Forest, or
+ the colors of my newer water supplies.  Simply, before I attempt to define
+ it, all one does is pick two colors (for now we shall call them 1 an 2,
+ while letters shall be represented by X's) and follow this procedure:
+ 1XX2X1X2XX1X2X1XX, etc.  or  1X2XX1X2X1XX2X1X2XX, etc.  Improv, be creative
+ and discover you might be a hidden Van Gogh.  Below, I give an example of
+ how I do my forest (Note - Cut and Paste helps sometimes with this).
+
+            &n&+gFo&+Gr&n&+ge&+Gst&n (note the color-reset &n)
+
+  That would show up as the word forest written as if the leaves of the trees
+ were casting shadows as you looked upon them.  I do this simply.  I start out
+ with one color, use that color for 2 letters, then the second color for one
+ letter.  Back to the first color, but this time but one letter while the
+ other color is promoted to two letters.  I repeat this pattern until the end
+ of the word.  Experiment, you will find some neat color combinations, such
+ as white and either cyan (or bright blue for that matter) which forms a nice
+ ice/glacial pattern.
+
+  Typically I use an alternation between dark and light cyan for words that
+ signify water, and I build most of my zones on a dark grey lettering, unless
+ in a forest (during daylight or when I want a safer looking feeling) or desert
+ (brown), air (bright cyan), or in water (bright blue; sometimes dark blue to
+ denote deeper waters).  I'm not suggesting this for everyone, I just find it
+ gives the area an eerie look.
+
+  Oh, one last thing, unless used in an ascii image (such as some of those to
+ be found in this guide later), try not to change the background colors, it
+ really makes a zone look poor.  Another good idea is to look at the color DE
+ uses for your obj's material when making one, so that a mithril sword is the
+ same color as mithril.  Though I admit some-times its best to go with one's
+ own judgement.  Also, when possible use the same color for certain words within
+ your zone (ie. all the words 'female' could be light cyan, or whatever.  This
+ lends your zone an overall appearance of unity.  Again, maybe only drow females
+ are done in light cyan, while duergar females are done in dark cyan.  The
+ possibilities are endless).
+
+ COLORATION WARNINGS/ADVICE:
+  Unless you are very talented, the combination of red and green lends a heavy
+ atmosphere of Christ-Mass, which if yer into that, cool, otherwise it can look
+ sorta silly, IMHO.  Another, miniscule point, try not to abuse yellow, white,
+ or dark blue, as they strain the eyes.
+
+  Generally I'll only use yellow to represent gold, blonde hair, or objects
+ like straw.  White on the other hand, I'll use on such things as books,
+ paper, or creatures that you're constantly scanning for either because they
+ are guards or beings like Euronymous from The Domain of Lost Souls Castle.
+
+   ________________________________________________________________________
+ .'  Creating Ships and Vehicles (Version I) by Xangis (Almost Verbatim)   `.
+
+  With the addition of the ship/vehicle values to DE should come some form
+ of explanation.  Here's my first attempt.  As always, if you're not clear
+ on how something works, or whether it will fit into the game theme, ask!
+
+  Ship code is not finalized and things are subject to change, so always
+ make sure you have the most recent version of this guide.  It can be found
+ at http://basternae.venom.org/builders.html
+
+  <Snikt - I've still haven't tried to create one of these yet, so you're on
+   your own; I'm just passing on information.>
+ ____________________________________________________________________________
+|               The ship and vehicle values mean the following:              |
+|----------------------------------------------------------------------------|
+| Vnum of Key:         This is the vnum of the key required to be            |
+|                      considered the "owner" of the boat.  This should      |
+|                      correspond the the vnum of any keys needed to         |
+|                      get into the ship (i.e. a locked door in the entry    |
+|                      room if any)  Leave zero if no key is required to     |
+|                      board and operate the ship.  If you want nobody to    |
+|                      be able to operate the ship, just create a key that   |
+|                      doesn't load and set the value to that key.           |
+| Vnum of Boarding Rm: This is the room that someone will end up in when     |
+|                      they board the ship or vehicle.  Essentially the      |
+|                      starting room and the room from which they can dis-   |
+|                      embark.                                               |
+| Vnum of Control Rm:  This is the vnum of the room where the control panel  |
+|                      displaying things like hull points, speed, direction, |
+|                      and firepower is located, and also the only room from |
+|                      which the room can be controlled.  If you don't want  |
+|                      anyone to be able to look at a control panel, leave   |
+|                      this set to zero.                                     |
+| Maximum Occupants:   The maximum number of people that can be on the ship  |
+|                      at the same time.                                     |
+| Max Speed:           The maximum speed of the ship in a range of 1 to 100. |
+|                      If set at zero the ship cannot move.  Your average    |
+|                      frigate should move at about 40-50.  Canoe-caliber    |
+|                      boats should be 10-20 and fast galleons should be 60- |
+|                      80.                                                   |
+| Hull Points:         Essentially the hitpoints of the ship.  A standard    |
+|                      canoe or raft has 100, a sloop has 500, a frigate has |
+|                      1000, and a galleon 1500.  Things with 10000 should   |
+|                      be the size of small planets.                         |
+| Firepower:           The maximum number of hull points damage that can be  |
+|                      done in a round of ship combat (if everything hits    |
+|                      for full damage).  Set depending upon how heavily     |
+|                      armed the ship should be.  Some good values are 50    |
+|                      for sloops, 100 for frigates, and 150 for galleons.   |
+|                      Things with 500 should be able to take out small      |
+|                      planets. <Snikt - Repetative, aint he?  Perhaps he    |
+|                      was watching Star Wars.>                              |
+| Mv Script Number:    This corresponds to the movement script for the ship. |
+|                      If you want automated ship movement (usually used     |
+|                      when the "vnum of key" value is set to a key that     |
+|                      doesn't load), you assign it here.  Just make it a    |
+|                      non-zero number so we know there is a script writ.    |
+|                      If you are really smooth you'd ask Xangis what the    |
+|                      next available ship script number was before filling  |
+|                      this out.                                             |
+`----------------------------------------------------------------------------'
+
+                           Creating Movement Scripts:
+                           --------------------------
+  Basically, create a text file in notepad (Eeew!  Damn Microsoft!) that
+ looks something like this:
+    nnn...eeeeeesssesese........swswswswswswswwwwwww...neeeeeennneee
+
+ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+ ³ The characters usable in the script:                                  ³
+ ÃÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+ ³  n   ³   Move ship north                                              ³
+ ³  w   ³   Move ship west                                               ³
+ ³  e   ³   Move ship east                                               ³
+ ³  s   ³   Move ship south                                              ³
+ ³  u   ³   Move ship up     (Probably only good for vehicles, as water  ³
+ ³  d   ³   Move ship down    tends to be rough, true, but flat.)        ³
+ ³  .   ³   Pause until next game hour                                   ³
+ ÀÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+  Save it as something like Movement_Script_1.txt (or <AreaName>_MvS1.TXT,
+ something that would indicate just what the hell it is) and include the
+ file when you send your zone.  The mud will read this file when it boots
+ and move the ship according to the pattern.
+
+  <Sniktiorg, again.  Ships probably would refer to boats or spelljammers,
+   while vehicles would be rafts, ferries, stagecoaches, etc.  However,
+   this code may be subject to mad alterations before completion.  At
+   which time I shall update this small novella of information.>
+
+
+   ________________________________________________________________________
+ .'              The Secret of Room Descriptions (Sniktiorg)               `.
+
+   As a writer I know the doldrums of trying to come up with distinct room
+  descriptions for every room in my zones.  Finding myself relying on silly
+  cop-outs such as dripping water, messages scrawled on walls, a pool of red
+  or yellow liquid, a pile of bones, scratches in the walls, collapsed tunnel
+  shafts, algae, fungi, slime, and all sorts of stuff that just keeps popping
+  up in different sentences throughout my zones  Let's face it, a tunnel has
+  much the same features (except perhaps to a geologist) throughout its entire
+  course.  How many ways can you describe the same thing.  I wrote like 150
+  forest rooms, all individual, within my Kyderach Province, and let me tell
+  you, it was no cherry of a virgin.  So, here's a little trick I developed
+  way back in my Duris days, though I have improved upon it some.  Its a very
+  simple principle really, just try and grok.
+
+  HIDING DUPED ROOMS:
+   Put to case you have a tunnel that is 20 rooms long, all writhen and lined
+  with various underdark-cave crapola.  Now, take 20 and divide that by let's
+  say 5.  So, you need write but 4 room descriptions instead of 20.
+
+   Now, write your first room description, leaving out all color codes and
+  avoiding mention of exits.  If you can, put a return between each of the
+  sentences.  Save this file as Diku.tmp then assemble the sentences into a
+  normal paragraph and add in the color codes (however, don't yet mention any
+  exits).  Save this version to the file Dikux.tmp for use later.
+
+   This done, add in the references to where the exits lie, etc.  Save this
+  file as Dikued.tmp so as to replace your current room (this is important).
+  Walk 4 rooms down the tunnel, edit the room description, load Dikux.tmp and
+  add this room's exits to the text.  Once again, save this as Dikued.tmp to
+  replace your current room descript.  Do this until five of the twenty rooms
+  are complete.
+
+   Repeat this process 3 more times, for the remaining rooms, with but one
+  alteration.  Remember Diku.Tmp?  Well, load her up and alter some words,
+  sentence placement, and now u have your second/third/or fourth room descrip-
+  tion.  As the room descriptions are not bunched too close to each other, it
+  should give the illusion of actual writing.
+
+   You can theoretically use this technique in a few variations, such as
+  increasing number of different descriptions or even attempting to create all
+  20 rooms from the sentences in Diku.tmp.  Either way, though it detracts
+  slightly from zone quality it most definately speeds up production.  For
+  added spunk, change the colors of the words you choose to highlight, or even
+  color different words.
+
+   (Sidebar - A stalagmite climbs up from the floor, and a stalactite hangs
+  from the ceiling.  It takes about one-hundred years for a single inch of
+  limestone to add to the size of these formations.  This is a good thing to
+  know when you are telling the age of a cavern covered with either of these
+  stone knives).
+
+  GRIDS AND DUPING:
+   In grids, there are two ways of duping I have developed.  If the grid is of
+  a circular/square shape, you would use the above technique in concentric
+  loops toward the grid's center.  Each loop should describe the grid from its
+  placement in the cavern/chamber/etc.
+   If the grid is longer in one direction than the other, just divide the
+  overall grid into 3 to X times and use the G-14 Classified Dupe technique to
+  define each section from its position as you move down the cavern.  Honestly,
+  grids are about the only time I dupe any more. As is a 5 by 5 grid is some 25
+  rooms.  Screw that.  Bad enough doing a hundred forestal paths.  At least the
+  path turns and has trees, ivy, roots, stones, dirt, ferns, etc.  A 25-foot
+  cubed room looks much the same from all over the place.
+
+   (Oh yes, another sidebar - Though duped rooms are considered in poor taste,
+  they can be used to your advantage.  For example, in mazes, duped rooms can
+  be used to confuse players and keep them lost for hours.  Cackle.  Also,
+  one could create 3 duped mobs all of different levels and abilities, so as
+  to make players think twice about who they attack, while helping trophy.)
+
+  EXTRA ROOM DESCRIPTIONS:
+   Though Thendar is quite right that these are really not needed, they can be
+  used to great benefit for the writer.  Why write all these room descriptions
+  if every Jobu, Dauwod, and Grizzl is gunna run around with brief on?  Well,
+  use extra room descriptions.  Describe statues that hold secret quest words,
+  or draw maps on walls in mazes (nice trick, as unless you read the room you
+  will remain lost in the maze and you dont waste a noshow obj doing the same
+  thing).  Run out of things to say in your standard room description?  Hell,
+  put the phrase "Someone has scribbled a &+Cmessage&n upon the wall." within
+  the room description, then make an extra description with all the codes to
+  Rouge Squadron(tm) like I did in the caves of the Kyderach Province.  Shite,
+  quote a song, ramble at the player, tell a joke, who cares, you just filled
+  a line in your room's long descript.  Aside from items, this is the only
+  place one is allowed to directly address the PC, as to do so in a normal
+  room description would make it look odd when someone casts a spell like
+  clair or wizard eye, or whatever farseeing spells we have now.
+
+  GENERAL ROOM IDEAS:
+   The easiest way to write a room description is to close yer eyes and just
+  think about what you imagine there.  What do you see?  Is the skull on the
+  mantle or the desk?  What's it smell like?  Is the air moist, dusty, moldy,
+  dry, hot, etc?  What furniture is in the room?  Well, that can very much
+  depend on who's room it is.  Firb Derstl for instance, Burrow Warden of the
+  Dirk'nspire Stronghold, has a desk, some maps, a duty roster, chair, strong-
+  box, etc.  While one of my ogryn homes in my Kardis mini-zone has but a head-
+  less corpse, some bloodstains, cracked plaster, and wood rafters under a
+  leaking thatch roof.  Use your five senses!  Sight, Scent, Hearing (Oh,
+  shite was that the roar of the enigmatic Jade Monkey?), touch, taste (if
+  you can work it in somehow, without using "I" or "you", which can be done
+  easily by substituting the words "one" or "someone").
+
+
+  DEFAULT ROOMS AND EXITS:
+   Tired of having to add those exit messages to every room?  Most area penmen
+  know about the command 'edit defroom', a feature which allows you to walk
+  and create your zone with very duped room names, though its nice for quickly
+  setting an area with the proper flags, etc.  It is advisable that afterwards,
+  you walk your newly plotted area and edit room titles here and there to
+  include turns, cliffs, or any other such landmarks.
+   However, not many know about the command 'Edit Defexit', which is basically
+  the same as 'edit defroom' designed to work for exits.  Look how you can set
+  that exit message and not have to worry about doing it manually or, as I used
+  to, go through the *.Wld file and add them that way.  You can use this to set
+  doors, arches, and standard passages.  Nice time saver, and it lends the zone
+  more class.  I mean hey, the more effort you put into a zone the better it
+  will look and be recieved by the players.  You might also want to use the
+  'alias' command as you will find yerself using these funtions a lot.  I
+  ussually set my alias' as:
+
+                            Alias co Createedit Obj
+                            Alias cm Createedit Mob
+                            Alias edr Edit Defroom
+                            Alias edx Edit Defexit
+
+   Remember, default rooms and exits create files in your zone directory, so
+  delete them before sending it all up to Thendar, as she surely doesn't need
+  them.
+
+   ________________________________________________________________________
+ .'            Improved !Show and Teleport Uses (Sniktiorg)                `.
+
+   One great improvement that Basternae has made over Duris lies within the
+  code of the !show and Teleport Obj/Functions.
+
+  !SHOW OBJECTS:
+   On Duris (If you never heard of it, you aren't missing much) when one were
+  to pull an item from a !show obj, it would say "Juboo gets a bone from some-
+  thing.", while Basternae actually says "Tarlith grabs a tome from the case."
+  This allows for a more realistic look, as I'm sure if I grab something from
+  someplace I should damn well know what I'm reaching into.
+   One can use this for crevices in rockfaces, bookshelves, lockers, small
+  tables, iceboxes, secluded hiding places in a thieves den, etc.  A grand
+  tool for use in long quests, or short ones.  A word to the wise, once a PC
+  learns to complete a mini-quest, they tend to abuse it for its simplicity
+  and easier access to whatever items may be involved, thus its better for
+  use in longer quests.
+
+  TELEPORTATION OBJECTS:
+   Items set as Teleport have too been changed.  When you type 'Climb Rope' it
+  now says 'You climb <obj short name>'.  What this means to you as a writer
+  is this: obj's that use words like climb or cut or something similar, it
+  would be wise to make the obj short name fit the phrase.  For example, name
+  the rope 'up the &n&+yrope&n through the &n&+mceiling&n' so as the player
+  sees 'You climb up the rope through the ceiling.'  This is better than the
+  older 'Soder disappears.' or the stupid 'Soder enters from somewhere.'
+  messages that would appear upon this object_type's use.
+
+  ENTERABLE/DRINKABLE WATERFALLS:
+   Ok, how do you set an item to be two different items, both a fountain and a
+  teleporter?  Well, quite honestly you can't.  But you can cheat a little.
+  Create two objs, one of which is !show.  Make the waterfall a teleporter,
+  set to teleport to the room directly behind the falls (which should be set
+  to silent as the echo of the descending water would drown out the room in
+  noise), and [if it is !show, make its long descript say something like "Type
+  'Enter Waterfall' to pass by." or whatever] make its keywords simply falls,
+  waterfall, and maybe like cave, crevice, or tunnel depending.  There's half
+  the project.
+   Next make your second obj, the fountain, into a pool.  This item should be
+  visible, and its long description should read "A waterfall collects in a
+  small pool, here." or something to that effect.  Set the pool's keywords to
+  water pond pool (as long as niether obj shares keywords).  This effectively
+  creates a drinking pool at the base of a waterfall, and both items appear as
+  one, so unless you read the room (or this guide) you will think that it is a
+  simple pool for adventurers to drink.
+   As an aside, the reason you set the first keyword of a Drink Container to
+  its liquid, is that the code does this often: Gilgarus fills his <skin item>
+  with <first keyword of drink container> from the <drink container>.  So if my
+  fountain's first keyword is fountain, it would say: Gilgarus fills his skin
+  with fountain from the ivory fountain.  Grok?  Maybe Xangis altered it so
+  that it just uses the liquid type assigned instead of the first keyword, but
+  never hurts to be on the side of caution.  By the way, this waterfall trick
+  can be converted to wells and other such things.
+
+
+   ________________________________________________________________________
+ .'         Tips on Hindering Player Cheese-abuse (Sniktiorg)              `.
+
+   As is human nature (when unmastered by self-will), most players will
+  abuse anything they can.  Partially because it either gives them a false
+  sense of self-importance, or because they get tired sitting around killing
+  the same mobs.  Even different mobs can feel like every other spider or
+  troll, myconid, etc.  So, here are some tips on preventing PC's from
+  abusing an oversight on your part, turning your big bad creature into a
+  rather simple mob to kill.  (Some of this you may already know, but for
+  the benefit of those who don't, here it is.)
+
+  NO LURE/RANGE/GANG-SLAUGHTER DESIGN:
+   Okay, lets say you make a Guardian Ice Giant that holds the key to
+  Valhala, but you don't want the mob cheesed by casters or four tanks,
+  etc.  Well, you can do this two ways, even combining the two will work;
+  though you should keep in mind not to make the ice giant into superman.
+
+   First, you can set the mob's affect flags (well in an ice giant's case
+  fireshield or any other heat generating affect would not fit the mob
+  so should be avoided).  Giants are anywhere from normal speed to slow,
+  because of their heights and dimwits they can/don't need the slowness
+  flag).  This is one way to make hir tougher, aside from adding +1 to
+  hir size.  However, this doesn't make it too dangerous for the group
+  who is adventuring his lair.  What else, you ask?  Try this:
+
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿                      | <- Entrance to
+  ³ Key to Ambush Grid  ³   Door to    ,----#--+       Death Zone
+  ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´    Cellar #--|  @<- Giant
+  ³ +   Junction        ³              |__;    with
+  ³ |   North/South Hall³                       Key
+  ³ --  East/West Hall  ³
+  ³ #   Door            ³     Note: This is a simplistic map designed
+  ³ @   Mob             ³           to demonstrate the following area
+  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ           design principles.
+
+   Ok, here's the *.WLD file portion of this obstacle (this can be combined
+  with the mob statting that precedes this for an even harsher effect).  DE
+  allows many room flags that, when used correctly, can make life trying
+  for players and thusly increases the rush of reward when the trial is
+  complete.
+
+   Down to the nitty-gritty.  First thing you need to decide is how tough
+  do you want the mob to be to kill.  The tougher you want it, the more
+  room flags you will use.  Just as a reminder, these are some (not all) of
+  the qualities of the room flags vital to this project.
+
+   ÚÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+   ³ Tunnel  ÃÄ Cannot enter room while mounted.  This also happens with  Ä´
+   ÃÄÄÄÄÄÄÄÄÄ´ the Inside flag as well, I believe.  Sucks for Anti's.      ³
+   ³ Single- ÃÄ Only one creature can move at a time, depending on there  Ä´
+   ³ File    ³ position in the room.  This is useful when you want to      ³
+   ³         ³ limit possible PC tanks to two at most (one on each side    ³
+   ÃÄÄÄÄÄÄÄÄÄ´ of the mob) as well as inhibit casting by mages.            ³
+   ³ Block   ÃÄ Self-explanatory.  Prevents PCs from looking ahead a room Ä´
+   ³ Farsee/ ³ at a time to prepare themselves.  Basternae also now has    ³
+   ³ Scan    ³ a block scan feature which not only blocks scanning but,    ³
+   ÃÄÄÄÄÄÄÄÄÄ´ I think, it also prevents luring with ranged items/spells.  ³
+   ³ Dark,   ÃÄ Useful in different circumstances.  Twilight is nice to   Ä´
+   ³ Light,  ³ use for an area where you would like both sides of the race ³
+   ³ Twilight³ wars to hold small battles with each other.  Light and      ³
+   ³ (Magic &³ Dark (both magical or non-magical) can hinder races that    ³
+   ³  Normal)³ do not see under either condition, effectively blinding     ³
+   ÃÄÄÄÄÄÄÄÄÄ´ them and decreasing their chance to hit their target.       ³
+   ³ !Summon ÃÄ Keeps PCs from summoning mobs or other PCs from the room. Ä´
+   ÃÄÄÄÄÄÄÄÄÄ´                                                             ³
+   ³ !Magic  ÃÄ Prevents all forms of magic, except I believe psionics,   Ä´
+   ÃÄÄÄÄÄÄÄÄÄ´ which has its own flag.                                     ³
+   ³ !Heal/  ÃÄ Either promotes or hinders healing, this can be used to   Ä´
+   ³  Heal   ³ your advantage well.  (See Below)                           ³
+   ÃÄÄÄÄÄÄÄÄÄ´                                                             ³
+   ³ !Well,  ÃÄ Prevents unwanted visitors, friend or foe.  This is used  Ä´
+   ³ !Portal,³ mostly in High Level Zones, or those zones that have some   ³
+   ³ !Rift   ³ sort of explanation why they are set.                       ³
+   ÃÄÄÄÄÄÄÄÄÄ´                                                             ³
+   ³!Precip- ÃÄ Stops all weather messages no matter the terrain setting, Ä´
+   ³ itation ³ good for niches beneath trees, caves, rock overhangs, etc.  ³
+   ÀÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+   Okay, to begin with (using the map above) everything left of the northern
+  door is flagged !Magic, Dark, !Heal, Tunnel, !Farsee, !Scan, Single-File,
+  !Magic (Don't need healers making things easy), !Summon/Well/Portal, and
+  perhaps the northern door needs another key to get out of the death hall.
+  Place the Giant well at the back of the tunnel and make him sentinal, so
+  he wont track the players to an easier terrain.  Also, set his room, and
+  only his room to heal.  This gives him a hell of an advantage, especially
+  if he is a warrior or rogue, as the area is no magic, so only healing
+  potions will be of use.
+
+   To be extremely rude, you can make a few portals in the hallway, one which
+  leads to the giant (2 or so uses before it cakes) while the other portals
+  take the splintering group to differnt places, from which they must search
+  out the giant's chamber again.  This trick forces larger parties to split
+  for a bit so that they can't just all bum rush him (though with single-
+  file and tunnel set, they can't really jump him at once).  Hell, you can
+  even use MOBProgs (explained by Ski, elsewhere) to add some neat little
+  surprise.  Let your imagination run wild.
+
+   ________________________________________________________________________
+.'            Makings of a Portal (Coded and Written by Sniktiorg)         `.
+
+   When defining a portal in DikuEdit, set Value4 to the following to get
+  the desired results:
+
+       0 -- Standard Portal (No Frills)
+       1 -- Wormhole Effect (Plus Stumble)
+       2 -- Moonwell Effect (Wades & Flash)
+  
+   To add a message which the players see when going through the portal, add an extra
+  description with _portal_ as its keyword.   
+
+   ________________________________________________________________________
+ .'    The Basics of Random/Rare Load Grids (Amassed by Thendar/Snikt)     `.
+
+   <Snikt - Thendar basically took the time to write this all out, I just
+    went through it and made it a bit more efficient and lined up the grids
+    for better ease of use.  Though don't forget to make the Distribution
+    Grids flagged: !Recall, !Teleport, !Well, ect.  This prevents PCs from
+    entering restricted Areas.>
+
+
+  Example 1: Rare Load Equipment and Random Load Location. (Vecna's)
+
+            6
+     Grid   |           1: The initial load room Ali loads in.
+       I    4           2: Ali's exit path for item #1
+            |           3: Ali's exit path for item #2
+    6 - 5 - 1 - 3 - 6   4: Ali's exit path for item #3
+            |           5: Ali's exit path for item #4
+            2           6: Ali's loading grid, one way out...
+            |           7: Exit to crypt #1
+            6           8: Exit to crypt #2
+                        9: Exit to crypt #3
+   Grid     7 11       10: Exit to crypt #4
+    II      |/         11: Exit to load location #5
+        8 - 6 - 9      12: Exit to load location #6
+            |\
+           10 12       <Snikt - Exits 11 and 12 are up and down, not
+                        the ridiculous ne and se that they appear to
+                        be; ascii does have limits.>
+
+   This is actually the best load method I've seen to do random equipment
+  with. The mob starts at 1, and has 4 one-way exits to the equipment (the mob
+  is !sentinel and scavenger).  From those equipment rooms, it goes to room 6,
+  which has exits out into the zone.  There are 6 different places in the zone
+  for it to load.
+
+   This grid is basically 25% chance of loading different equipment, and 100%
+  chance of loading the mob. If you added dead ends from room 6, you would get
+  less than 100% load for the mobs. If you only had eq in room 2, but not 3,
+  4, or 5, you'd have a 25% load for eq.
+
+
+   Example 2: A Simple Rare Load Mob Grid.
+
+         2
+         |              1: The mob starts here, and is !sentinel.
+      2--1--2           2: Mob trap room, has no exits.
+         |              3: Mob load out to zone.
+         3
+         |
+        zone
+
+   This is a very simple grid, it can be elaborated on I just made it easy for
+  the sake of explanation.  Basically the more chances of the mob being
+  trapped, the more rare the mob is.  This is a common technique not just for
+  big equip, but for more inventive stuff such as pieces of a quest, etc.
+
+
+   Example 3: Hack n' Slash Loads
+
+   Basically, from one mob load room, you have the one way exits: u, d, n, ne,
+  e, se, s, sw, w, nw. From these, there are trap rooms, or more grids (or a
+  loop back to the grid). Mobs in this grid will load very rarely, but always
+  have the equipment they are known for (ie, "Jalharoth, Angel of Death" in
+  Mansion would always load with the blade of heaven).
+
+    <Snikt - Non-cardinal directions are fine in mob distribution rooms
+     as if u flag them correctly no one can get into them.>
+
+
+   Example 4: Quests Over Many Different Zones
+              (Xueqin Created this if I am correct. Snikt.)
+
+            5            1: The mob starts here, and is !sentinel.
+            |            2: Mob loads in zone #1.
+        2 - 1 - 4        3: Mob loads in zone #2.
+            |            4: Mob loads in zone #3.
+            3            5: Mob loads in zone #4.
+
+
+   This is a very simplified grid that I've seen Xueqin use, cause he rules.
+  Never really thought of it.  Basically, if you want items or mobs in zones
+  other than your own, for a quest in your zone, you can have them load in
+  zones, beside the zone they belong to, while still very much a part of your
+  area.  This grid would have a lot of trap rooms, to make the occurances of
+  these rare mobs very uncommon.
+
+   <Snikt, again.  These are basic distribution rooms, most of which date
+    back before the Sojourn Dissolution into Toril and Duris.  They are not
+    The end all be all of distro technology.  For instance you can place
+    guards, aggros, animals of somekind, or whatever else fits yer zone,
+    into these sort of grids (as well as a few in the actual zone), in
+    order to make your zone population different everytime.  Why is that
+    you ask?  Simple, the mobs in the zone will automatically pop at zone
+    reset, however those who find themselves in a trap room of the
+    distribution chamber, won't enter the actual zone until reboot.  Grok?
+    This means there will be times when rabid two-headed gerbils are
+    roaming your abandoned village of sedate tabloid robots, but at other
+    times you might only encounter one as the rest are trapped in a
+    deadzone.>
+
+   ________________________________________________________________________
+ .'                     Adding a Pet Shop (Sniktiorg)                      `.
+   
+   Ever been playing in those early hours of the night and wished you could
+  buy a slave to tank for you?  Or perhaps yer running across the continent
+  trying to get from Stormport to the Phoenix River and you can't find a good
+  mount shop anywhere?  Here's how to add one to your zones.
+
+   First set up two rooms, their vnums must run consecutively (ie. rm 1 and
+  rm 2).  Flag the first room as a petshop, put in a mob for your shopkeep
+  (though the shop is based on a rm flag, not on the mob like an obj shop),
+  and delete the exit from this room into room 2.
+
+   Room 2 is the, for lack of a better term, corral.  This room holds the
+  animals, slaves, mounts, et al that the shop will be selling.  You can
+  leave the exit connecting this room with the shop as it doesn't matter,
+  you only deleted the other side as you don't want players wandering into
+  this room and fubaring your operation.  This room you flag as !Summon,
+  !Teleport, and !Well/Portal/Etc; this is to ensure, once again, that nobody
+  wanders onto your premises and fiddles with the farm animals.
+
+   Its a good idea to flag the pets as Sentinal, so they don't wander out of
+  the corral and into the shop.  If a mob leaves the corral, the shop ceases
+  to carry that animal.  You can use this to your advantage if you want, by
+  making a room off the corral.  Then delete the exit into the main shop and
+  leave off the sentinal flags on the mobs.  As the mobs wander back and
+  forth between the rooms, the shops inventory will change.
+
+   While a mob is in the corral room, the shop will carry an infinite supply
+  of said mob.  The price of the animals is set by the code; which takes into
+  account the level of the mob and what flags you have set on it.  Needless to
+  say, the more you add, the more the code will add.
+
+   ________________________________________________________________________
+ .'              The Monsterous Compendium (Xangis/Sniktiorg)              `.
+
+   Though DikuEdit will not recognize them (They will show up as unrecognized
+  species), the following mob races have been added and will be recognized
+  by the MUD:
+
+       Werewolf        LW       Half-Dwarf      D2       Half-Kobold     K2
+       Kobold          K        Hobgoblin       HG       Rat             AR
+       Goblin          GO       Faerie          FF       Object          O
+       Mist            M        Worm            AW       Hydra           DH
+       God             GD       Harpy           HP       Bear            AB
+       Bat             BB       Plant           VP       Neogi           NE
+       Flind           FL       Rust Monster    RM
+
+   If you would like more races added, just talk to an Immortal and we can work
+  something out.  (As a side note, our current Dikuedit doesn't handle making
+  quests very well.  If you want to add a quest to your zone, just put the mob
+  and obj vnums and the explanation of the quest in the *.txt file that you 
+  submit along with your completed zone.
+
+   ________________________________________________________________________
+ .'                    Ascii Art Templates (Sniktiorg)                     `.
+
+   Edict-Contract --..
+                       ______________________________
+                      |                              |
+                      |                              |
+                      |                              |
+                      >                              |
+                      |                              |
+                      |                              |
+                      )                              |
+                      |                              <
+                      |                              |
+                      >   ____                       |
+                      |  |    |                      |
+                      |  |    |                      |
+                      >  |    |                      |
+                      >  |    |                      |
+                      |__|    |______/\____________/\|
+                         | /\ |
+                         |/  \|
+
+
+   Book Cover --..
+    (Make Keywords at least: Book, Cover, Tome, <Title>)
+                         __ _______________________
+                        |==|                       |
+                        |  :                       |
+                        |==.                       |
+                        |         Book Title       |
+                        |                          |
+                        |  .                       |
+                        |  :                       |
+                        |  |                       |
+                        |==|-=-=-=-=-=-=-=-=-=-=-=-|
+                        |  .        Author         |
+                        |==:=-=-=-=-=-=-=-=-=-=-=-=|
+                        |  |  Type Read <p# or #>  |
+                        |__|_______________________|
+
+   Book Inside --..
+    (Extra Descript Keywords should be p# and #; # being the page #)
+           __________________________ __________________________
+          | ,-----------------------.|,-----------------------. |
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||                        |                        |||
+          |||          -#-           |           -#-          |||
+          |||_______________________.|._______________________|||
+          |__________________________|__________________________|
+
+   Crossroad Sign --..
+    (You can shift the palnks left or right for a different effect)
+                                    __
+                                   |##|
+                              ,---------------------.
+                              |  This Way or    --> |
+                              `---------------------'
+                                   |##|
+                          ,-----------------.
+                          | <-- That Way!   |
+                          `-----------------'
+                                   |##|,--._
+                      __,--.__,".__|#/"     "---._______
+
+   Posted Sign --..
+    (Fiddle with it for some more shapes of posted signs.)
+                       ,--.  __________
+                       |- `-' ---..  - `-----.
+                       |.  ---..   .-  -.--- |
+                       `-.   -----        .. |
+                         | -.. .   ----  .---'
+                         | --- ---.. ,---'
+                         `--.__  --- |
+                               `-----'
+
+   Dual Post Sign --..
+    (The holes in the wood can be moved around for better effects.)
+                                             _
+                                   _        |#|
+                                  |#|    ,-----._
+                          ,---------.____;       `-.
+                          ) o _                    |
+                          |  (_)                   |
+                          `\_.-,                  ,'
+                               |               ,--'
+                              ,'               (
+                              |                |
+                              |            /---'
+                              `-----------'|#|
+                                  |#|      |#|
+                                  |#|      |#|
+
+   Single Post Sign --..
+                          ______________  _________
+                         |              `'         |
+                         |                        ,'
+                         `-.                      |_
+                           | (Use SOME Creativity)  |
+                           |                        (
+                           )                       _,
+                           |        ___________,--'
+                           `-------' |###|
+                                     |###|
+
+
+
+   Shop Shingles (East or West/Left or Right, your choice, same thing.) --..
+
+      |___________==_____________________________==______
+      |___________||_____________________________||______|
+      |           ==                             ==
+      |           ||                             ||
+      |           ==                             ==
+      |         ,-||-----------------------------||---.
+      |         | ==                             ==   |
+      |         |                                     |
+      |         |                                     |
+      |         |   <Draw picture here, or write up   |
+      |         |    an all word sign.>               |
+      |         |                                     |
+      |         `-------------------------------------'
+
+          ________==_____________________________==____________|
+         |________||_____________________________||____________|
+                  ==                             ==            |
+                  ||                             ||            |
+                  ==                             ==            |
+                ,-||-----------------------------||---.        |
+                | ==                             ==   |        |
+                |                                     |        |
+                |                                     |        |
+                |                                     |        |
+                |                                     |        |
+                |                                     |        |
+                `-------------------------------------'        |
+
+
+   Map --..
+    (NOTE: I left the map as it appears in my zone so you can figure out how
+     to draw your own maps.  DO NOT use this particular map in any of your
+     zones, only the paper outline and general map key. - Sniktiorg)
+                _____  ________________ ________________   ___
+               |     `'         .-> U  "  | <--- To Cave`~'   `.,--.
+               | Mappe by       |   |  .--|  .--{}<-.              |
+               |  Nute Fude   Brash |  |  `--'  {}  |-- Ravine     |
+               |                    `--'     ,--{}<-'              |
+               )  W. Tower ---> U-#--.       |_     U Staircase    |
+               |               .--'  `-#-.  _| |_   0 Entrance to  <
+               |   Pagan  ---> `.___,-U' | (0____)      Sewers     |
+               |    Garden               `--#-U  |  # Door/Obstacle|
+               `.   ___      .              |    |                 (
+                |  (  _)    /|\      .-U   ,--.  # <--- Hobbled    |
+                |  (_)       +       |  |  |  #  |       Wagon     |
+               .'     O    North     `--#--'  |--'                 |
+               |    o        +                |  .--.              |
+               |             |                `--'  |<--- To Kyder |
+                `.________,^.___________________,----^--.__________|
+
+
+Simple Stone Signs --..
+                  _______________________________________________
+                 | .   .___________________________________.   . |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                 | .   .___________________________________.   . |
+                 `-----------------------------------------------'
+                      __________________________________
+                     |  . ..______________________.. .  |
+                     |      Pick and Piddle Portal      |
+                     |          East --------->         |
+                     |                                  |
+                     |      The Eat and Go Washroom     |
+                     |          <--------- West         |
+                     |  . ..______________________.. .  |
+                     `----------------------------------'
+
+               (If you can't use these as building blocks for
+                greater things in your own zones, then you
+                should resign zone creation and pick up some-
+                thing more your speed, like knitting. Sniktiorg)
+
+ 
+   ________________________________________________________________________
+ .'                List of Commands Supported By DikuEdit                  `.
+
+  GENERAL COMMANDS:
+
+        Create      - takes at least one argument, with the format
+                      "create <room|object|mob|exit> [vnum/exit direction]"
+                      - creates one of the specified entity.  Vnum can be
+                      specified, as can exit direction for exits.
+
+        Edit        - takes at least one argument, with the format
+                      "edit <room|object|mob|quest|shop|exit|zone|defroom|
+                             defobj|defmob|defexit|desc|keyword>
+                             [vnum/exit dir]" -
+                      edits an entity specified by vnum (or keyword for objs/
+                      mobs in the room, direction for exits).
+                      Default rooms/objs/mobs/exits detailed below
+
+        CreateEdit  - takes at least one argument, with the format
+                      "createedit <room|object|mob|exit> [vnum/exit direction]"
+                      (exit direction required for exits) - creates an entity
+                      and edits it in one command
+
+        Check       - takes no arguments - checks entities for common mistakes,
+                      such as missing descs, doors with no keywords, etc.  all
+                      check settings are toggleable from CHECKCONFIG.
+
+        Delete      - takes at least one argument, with the format
+                      "delete <room|exit|object|mob|quest|shop|objhere/oh|
+                               mobhere/mh|defroom|defobj|defmob|defexit>
+                               [vnum/exit direction]"
+                      (exit direction required for exits, no vnum for default
+                       room/obj/mob/exit) - deletes an entity of the specified
+                       type
+
+        Load        - takes two arguments, with the format
+                      "load <object|mob> <vnum>" - creates an object/mobHere
+                      in the current room with the specified vnum
+
+        Clone       - takes three arguments, with the format
+                      "clone <room|object|mob> <vnum> [# to clone]" - clones
+                      room/objtype/mobtypes <# to clone> times, copying all
+                      attributes of the cloned entity - if the last argument
+                      is left out, one clone is made
+
+        Purge       - takes up to one argument, with the format
+                      "purge <vnum|keyword|all|allobj|allmob|inv>" - purges
+                      obj/mobHeres when a vnum or keyword is specified, "all"
+                      deletes all objects and mobs in the zone, "allobj" and
+                      "allmob" delete all objects/mobs, "inv" deletes
+                      everything in your inventory - if no argument is
+                      specified, deletes all objects and mobs in current
+                      room
+
+        Copy        - takes at least three arguments, with the format
+                      "copy desc <room|mob> <source vnum> [dest vnum]" or
+                      "copy default <room|object|mob|exit> [source vnum/exit]"
+
+                      "desc" copies the description of a room/mob to a target
+                      room/mob.  When copying roomdescs and leaving out
+                      dest vnum, the current room is assumed as the
+                      destination.
+
+                      "default" copies the attributes of a room/object/mob/exit
+                      to the target default room/object/mob/exit.  Leaving out
+                      the vnum for a source room copies the current room,
+                      and exits require a source direction, not a source
+                      vnum.
+
+                      For instance, typing 'copy def object 1453' would
+                      copy the attributes of object 1453 into the default
+                      object (defaults covered below).
+
+        MassSet     - takes three arguments, with the format "massset
+                      <room|obj|mob> <flagname> <on/1|off/0>"
+
+                      this command turns a particular flag on or off
+                      for every room, obj, or mob.  for instance,
+                      typing "massset room safe off" would turn the
+                      SAFE bit off in every room in the zone.
+
+        SetRandom/  - takes two arguments, with the format "random
+        Random        <keyword of mob/obj to change> <random %age>"
+
+                      this command sets the percentage a particular
+                      object or mob has to load into the zone, from 1-100%.
+                      this can only be used on object/mobHeres, and not
+                      types themselves
+
+
+  ZONE-RELATED COMMANDS:
+
+        SetZoneNumber/  - takes one argument, with the format
+        SZN               "szn <zonenumb>" - sets all the internal zone
+                          flags in .WLD and zone number flag in the
+                          .ZON to number specified in zonenumb (note
+                          that this can also be done from the "edit zone"
+                          menu)
+
+        ReNumber        - can take one argument, with the format
+                          "ren [start vnum]" - if no argument is specified,
+                          rooms/objs/mobs are renumbered from lowest vnum in
+                          list, and gaps in numbering are removed.  if an
+                          argument is specified, rooms/objs/mobs are
+                          renumbered starting at number specified.
+
+        ReNumberRooms/  - exactly like the 'RENUMBER' command, except that
+        ReNRooms          only rooms are renumbered
+
+        ReNumberObjects/- exactly like the 'RENUMBER' command, except that
+        ReNObjects        only objects are renumbered
+
+        ReNumberMobs/   - exactly like the 'RENUMBER' command, except that
+        ReNMobs           only mobs are renumbered (imagine that)
+
+        Limit           - takes three arguments, with the format
+                          "limit <obj|mob> <vnum> <limit>" - use this command
+                          to override the limit dikuEdit automatically
+                          writes to the .ZON file for an object/mob type -
+                          can also be used for objects/mobs not in the
+                          .OBJ/.MOB file, btw
+
+
+  ROOM/EXIT COMMAND(S):
+
+        Grid        - takes up to three arguments, with the format
+                      "grid <x size> <y size> [z size]" - creates a grid of
+                      rooms, all interconnected, with the specified size.  if
+                      a default room and/or default exit are defined, they
+                      are copied in, so that you can make a large forest
+                      with a simple grid command, or hey, even a large
+                      desert.  it's all up to you, the zone creator.
+
+        LinkRooms   - takes up to two arguments, with the format
+                      "linkrooms <room1> [room2] <exit dir>" - creates
+                      an exit leading from room1 to room2 in the direction
+                      specified and an exit leading from room2 to room1
+                      in the opposite direction.  if the room2 argument
+                      is left out, room1 is assumed to be the current room
+                      and the number entered as the first argument is
+                      assumed to be the destination room.  (i.e. typing
+                      'linkrooms 3993 nw' from room #3990 would create
+                      an exit in room #3990 to the northwest leading to
+                      3993, and an exit in #3993 leading southeast to
+                      room #3990.  simple eh?)
+
+        CheckMap    - checks a map for 'mapness'..  if you know how maps
+                      are set up, it makes sense
+
+        SwapExits   - takes two arguments, with the format
+                      "swapexits <exit dir1> <exit dir2>" - this command
+                      simply swaps the two exits specified (can also swap
+                      exits that don't exist with those that do)
+
+        SwapNS      - takes no arguments - swaps all north and south exits
+                      (hey, it's kinda neat)
+
+        SwapWE      - takes no arguments - swaps all west and east exits
+
+        SwapUD      - takes no arguments - swaps all up and down exits
+
+
+  OBJECT COMMANDS:
+
+        FixCond  - takes no arguments, sets all object types with
+                   conditions less than 100 to 100.  added because I kept
+                   getting zones where all the conditions are 0...  :)
+
+
+  MOB COMMANDS:
+
+        Give     - same as PUT, but makes more sense conceptually when giving
+                   objects to mobs
+
+                   alternatively, if you specify a vnum, the object will be
+                   loaded and put into the mob's inventory list automatically.
+
+        GiveC    - same as PUTC (gives a copy of obj|mob to target.
+
+        Equip    - takes at least one argument, with the format
+                   "equip <mob keyword|mob vnum> [keyword]" - equips a mob
+                   in the current room with an object being carried by the
+                   mob.  Wear flags are checked against what mob is currently
+                   equipping, and leaving out the second argument attempts to
+                   equip everything carried by mob.  Alternatively, if you
+                   specify a vnum, the object will be loaded and put into
+                   the mob's eq list automatically.
+
+        UnEquip  - takes at least one argument, with the format
+                   "unequip <mob keyword|mob vnum> [keyword]" - exactly
+                   the same as EQUIP, but unequips stuff, sticking it in
+                   the mob's carried list.
+
+        Mount    - takes two arguments, with the format
+                   "mount <mounting> <mount>" - mounts one mob atop another.
+                   for example, "mount man horse"
+
+        UnMount  - takes one argument, with the format
+                   "unmount <mounting>" - unmounts a rider.  for example,
+                   "unmount man"
+
+        Follow   - takes two arguments, with the format
+                   "follow <follower> <leader>" - makes one mob follow
+                   another.  for example, "follow soldier general"
+
+        UnFollow - takes one argument, with the format
+                   "unfollow <follower>" - makes a mob stop following
+                   another.  for example, "unfollow soldier"
+
+
+  ZONE CONFIGURATION COMMANDS:
+
+        Config        - miscellaneous configuration options, takes no
+                        arguments
+
+         DisplayConfig - configures display options, takes no arguments
+
+         CheckConfig   - configures check options, takes no arguments
+
+         Alias         - takes two arguments, with the format
+                         "alias <alias> [aliased string]" - typing
+                         'alias' by itself lists all the defined aliases,
+                         typing 'alias <alias name>' displays the
+                         definition of the alias (if any), and typing
+                         'alias <alias name> <string>' (re)defines the
+                         alias as that string.  For more information on
+                         aliases/variables, see the section below.
+
+         UnAlias       - takes one argument, with the format
+                         "unalias <alias>" - removes the alias specified
+
+         Set           - takes two arguments, with the format
+                         "set <variable name> <variable value>" - for
+                         instance, typing 'set textedit edit' would create
+                         a variable named 'textedit' with the value 'edit'.
+                         Typing "set" with no args causes a list of current
+                         variables to be displayed.
+
+         UnSet         - takes one argument, with the format
+                         "unset <variable name>" - removes the variable
+                          specified.
+
+         Toggle        - takes one argument, with the format
+                         "toggle <variable name>" - toggles a boolean
+                         variable to the opposite value of what it is now.
+                         boolean variables are considered variables
+                         containing the text 'true', 'false', 'on', 'off',
+                         '1', or '0'.  As with "set", typing "toggle" by
+                         itself lists all boolean variables currently
+                         defined.
+
+         SetTemp       - takes three arguments, with the format
+                         "settemp <flagname> <temp #> <value>" - basically,
+                         this sets a certain flag in a certain template to
+                         a certain value.  For more information, see the
+                         section below on flag templates.  Typing "settemp"
+                         by itself shows a list of non-zero flags defined
+                         in all the templates.
+
+         Guild         - this command simply toggles special guild checking
+
+         Height        - takes up to one argument, with the format
+                         "height [new height]" - if no argument is specified,
+                         the current screen height setting is displayed
+
+         Width         - takes up to one argument, with the format
+                         "width [new width]" - if no argument is specified,
+                         the current screen width setting is displayed
+
+
+  MISCELLANEOUS COMMANDS:
+
+      West/W, East/E,      - moves you in that direction (see also info
+      North/N, South/S,      on WALKCREATE variable)
+      Up/U, Down/D,
+
+      Goto                 - takes one argument, with the format
+                             "goto <vnum|keyword>" - if a vnum is
+                             specified, jumps you to the room with that
+                             vnum.  If a keyword is specified, jumps you
+                             to the first object/mob/room title found that
+                             contains that keyword.
+
+      At                   - takes two arguments, with the format
+                             "at <what> <command to exec>" - exactly like
+                             the Diku equivalent, this command finds the
+                             first object/mob that matches the first
+                             argument and executes the command in that
+                             room.  for instance, "at shaman l shaman".
+
+      FixFlags             - sets all uneditable flags that are not set to
+                             "default" values to their default values - i.e.
+                             if the IS_NPC bit is not set on a mob, it will be
+                             set
+
+      FixGuildStuff        - turns off object noshow and mob aggro/hunter
+                             flags - if the 'CHECKGUILDSTUFF' variable is
+                             not set, you are prompted if you really want
+                             to execute the command, since it would tend
+                             to screw up your zone if it wasn't a guildhall
+
+      DumpText             - dumps the text file specified in the first
+                             argument to the screen (i.e. 'dumptext de.doc')
+
+      DTC/                 - same as DUMPTEXT, but interprets Duris color codes
+      DumpTextColor
+
+      Shell                - only available under DOS, loads an instance
+                             of the command shell (as determined by the
+                             COMSPEC variable).  Type 'exit' to return
+                             to DikuEdit.
+
+      Save/                - saves all changes made to zone.
+      Write
+
+      Quit/                - exits editor - prompts you if changes have been
+      Exit                   made.
+
+
+  INFORMATIONAL COMMANDS:
+
+        Help/?   - takes no arguments, displays a help file - HELP displays
+                   the long version, ? displays a short list of all commands
+
+        Commands - takes no arguments, shows the internal list of commands
+                   in dikuEdit, three per line
+
+        List     - takes up to two arguments, with the format
+                   "list <room|exit|obj|mob|objhere/oh|mobhere/mh|quest|shop>
+                    [keyword]" - does what you would expect.  if a keyword is
+                   specified, operates like 'lookup' command - for exits,
+                   a vnum shows only exits that lead to/from that room
+
+        Look     - takes one argument - this command can also be used to
+                   "look in" objects
+
+        Exits    - takes no arguments, this command (much like that of
+                   dikuMud) shows the titles/vnums of all the exits' destrooms
+                   from the current room
+
+        LookUp   - takes up to two arguments, with the format
+                   "lookup <room|obj|mob|keyword|vnum> [keyword]" -
+                   if room, obj, or mob are specified, the appropriate
+                   entity type is listed - if keyword is also specified
+                   in the second arg, matching is done against it.  if
+                   a keyword is specified, matching rooms, objs, and
+                   mobs are listed.  if a vnum is specified, ditto.
+
+        Where    - takes one argument, with the format
+                   "where <keyword|vnum>" - finds all instances of objs/
+                   mobs in zone that match keyword/vnum, displaying them
+                   onscreen - checks for quests that give the item and
+                   shops that sell the item as well
+
+        Stat     - takes at least one argument, with the format
+                   "stat <room|obj|mob|zone> [vnum/keyword]" - shows info on
+                   specified entity.  for room, if vnum is left out,
+                   info on current room is shown.  for zone, second
+                   argument is ignored.
+
+        Which    - takes at least one argument, with the format
+                   "which <room|obj|mob|flagname> [flagname]" - shows which
+                   entities have the specified flagname set.  if room, obj,
+                   or mob is specified as the first arg, only those entities
+                   are checked for the flagname in the second arg.  if a
+                   flagname is specified as the first arg, all rooms, objects,
+                   and mobs are checked that match that flagname.
+
+                   if an exclamation mark is placed before the flagname, all
+                   entities that don't have that flag set are checked for
+                   (i.e. "which m !isnpc")
+
+        Key      - takes one argument, with the format "key [keyword/vnum]" -
+                   looks for doors/objects that need the specified key.
+                   if keyword is specified, object must exist in zone,
+                   otherwise vnum is searched for.  if no argument is
+                   specified, all objects with the keyword "key" are
+                   listed.
+
+        ZoneExits- takes no arguments, displays all exits that lead out of
+                   zone.  if 'exit dests of -1 are out of zone?' variable
+                   is set, includes exit dests of -1 (go figure, eh).
+
+        Version  - displays version info on DikuEdit
+
+        Info     - probably named too vaguely, but shows the values of
+                   several internal values used for the vnum tables
+
+
+  INVENTORY-RELATED COMMANDS:
+
+       Note --.. all inventory commands can use "all" as an argument where
+                 appropriate, operating on all objects in appropriate
+                 location.
+
+        Inv     - takes no arguments, displays objs/mobs in your inventory
+
+        Get     - takes at least one argument, with the format
+                  "get <keyword|vnum> [keyword|vnum]" - picks up a mob/obj in
+                  the current room (or a mob/container object if second
+                  keyword/vnum is specified), placing it in your inventory and
+                  deleting the original - note that when picking up objects/
+                  mobs, all objects inside the obj/mob are also copied.
+
+        GetC    - same as GET, but keeps original in room/container/mob
+
+        Drop    - takes at least one argument, with the format
+                  "drop <keyword|vnum>" - drops mob/obj, placing it in current
+                  room and removing it from your inventory.
+
+        DropC   - same as DROP, but keeps original in inventory.
+
+        Put     - takes two arguments, with the format
+                  "put <keyword|vnum> <keyword|vnum>" - first argument is
+                  object in inventory to put in obj/mob in room specified
+                  in second argument.  Alternatively, if a vnum is specified,
+                  the object is loaded and put into the container auto-
+                  matically.
+
+        PutC    - same as PUT, but keeps original in inventory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     Some interface stuff -
+
+
+
+
+        Basically, when editing object types, mob types, rooms, etc etc,
+        it's all menu-driven.  It's useless to explain it, because it's
+        easy to understand.
+
+        One semi-unnoticable feature is the '<', '>', and '/' key stuff in
+        the edit room/obj/mob menus - hit < (or ,) and go back an entity, hit
+        > (or .) and go forward an entity.  The settings for the entity you
+        are "moving away from" are saved.  Hitting '/' allows you to jump to
+        a specific entity via a prompt.
+
+        As far as flags, there are some unlisted control keys that do nifty
+        stuff.  Control-F/comma (,) turns all flags off, Control-N/period (.)
+        turns all flags on, and Control-T/forward slash (/) toggles all flags.
+
+        About the command-line itself - there is a command-line history, so
+        up-arrow scrolls through last commands, etc..  Home, end, delete,
+        backspace, etc. all work as well (in the DOS version).
+
+
+    Some display stuff -
+
+        If you're running with a "non-standard" screen size (standard
+        in this case being 80x25), you should set the "screenheight" and
+        "screenwidth" variables appropriately.  This will cause lists
+        to pause at the proper time, instead of pausing too early or
+        too late.  Alas, screen width and height are still not truly
+        properly implemented (the edit quest and shop screens and a
+        few other choice places still assume 25 lines and 80 columns),
+        but it doesn't hurt.
+
+
+        And now the prompt - here is how it may appear onscreen -
+
+            < 23r 32e 43ot 54ol 65mt 76ml >
+            <>
+
+        23r means 23 rooms in the zone, 32e = 32 exits, 43ot = 43 obj types,
+        54ol = 54 objs loaded, 65mt = 65 mob types, 76ml = 76 mobs loaded
+
+
+        Exits have two flags displayed after them, separated by a pipe (|) -
+        the first flag is the door type, the second is the door state.
+
+        For the door type flag, C means the door is closable, L means the
+        door is closable/lockable, and U means the door is closable, lockable,
+        and unpickable.  S/B mean the door is secret/blocked.
+
+        For the door state flag, O means the door is loaded open, C means
+        the door is loaded closed, and L means the door is loaded closed and
+        locked.  S/B mean the door is loaded secret/blocked.
+
+
+        If an object has the glowing, hum, noshow, buried, invis, transient,
+        magic, secret, lit and/or float bits set, corresponding letters will
+        be shown before the name of the object when it is lying on the ground
+        in a room.  G = glowing, etc.
+
+
+        Similarly, mobs with the invis, hidden, memory, sentinel, stay zone,
+        protector, hunter, scavenger, teacher, wimpy, and/or aggro bits set
+        will have I, H, M, S, Z, P, Hu, Sc, T, W, A (aggr all), aE (aggr evil),
+        aG (aggr good), aN (aggr neut), aEr (aggr evil races), aGr (aggr
+        good races), and/or aO (aggr outcasts) before their name.  Mobs with
+        quest/shop info will have Q/Sh before their name.
+
+        Also, after a mob name will be shown a bracketed letter or series of
+        letters, which indicate the mob position.  Sl = sleeping, R = resting,
+        Si = sitting, St = standing, L = levitated, F = flying, Sw = swimming,
+        and if the pos is unrecognized, XX.  Note that the default position is
+        shown.
+
+
+        And finally, all these display options can be toggled on/off from the
+        display config menu (detailed below).
+
+
+  DEFAULT SETTINGS FILES/ZONE SPECIFIC SETTINGS FILES:
+
+        All alias/variable/limit/template commands are written/read from
+        the .SET file.
+
+        DikuEdit handles settings files like this - first, it reads DE.SET,
+        then <zonename>.SET, replacing any redundant variables, aliases, etc
+        read from DE.SET.  When saving, <zonename>.SET is written with all the
+        current aliases/etc.  In this manner, you can have a 'default settings'
+        file and one specific to each of your zones.
+
+        About settings file themselves - .SET files contain one command per
+        line, each with the exact same format as their "inside editor"
+        counterparts.  When saving, all aliases, variables, etc. are
+        automatically written to a file named <zonename>.SET, and when loading,
+        this file is read if existant.
+
+        And now, a bit about the default room/object/mob files.  In the same
+        manner as the .SET files, first the DE.<extension> default files
+        are read, and then <zonename>.<extension>, if existant.  Thus, you
+        can have a "default default room", and a default room/obj/mob/exit
+        specific to each of your zones.  The extension for default rooms is
+        .DWD, default objects .DOB, default mobs .DMB, and default exits .DEX.
+
+
+  SETTING/USING ALIASES:
+
+     Aliases are basically used to make life easier - basically, you define
+    an alias (i.e. by typing 'alias er edit room' or having that line in
+    one of your .SET files), then use it by typing 'er 1459' or 'er', etc.
+
+     Input at the prompt is checked against aliases before the 'main'
+    commands, and input must match exactly (unlike 'main' commands, which
+    can be left-matched).
+
+     And, in case it isn't completely clear, any arguments passed to the
+    alias are automatically appended, so that 'er 1459' above is expanded
+    to 'edit room 1459'.
+
+     In addition, you can stick specific arguments in specific places by
+    inserting "%<number>" into the alias.  For instance, suppose there is
+    an alias called 'doit' defined as "edit %1 %2 23".  "doit obj blah"
+    would thus be "edit obj blah 23".  If it was defined as "edit %2 %1 23",
+    we'd get "edit blah obj 23".  You can use %0 to have all the arguments
+    inserted.
+
+     You can also reference variables within aliases.  Suppose you have
+    'favoriteobj' set to '493'.  An alias defined as 'edit obj $favoriteobj'
+    would become 'edit obj 493'.  You can mix and match variables and the
+    '%<number>' stuff all you want.  Enjoy.
+
+     Typing 'alias' by itself will show a list of currently defined aliases.
+    To delete an alias, type 'unalias <aliasname>'.
+
+
+  SETTING/USING VARIABLES:
+
+     Setting variables is much like setting aliases.  Typing 'set showcolor
+    true' would set the value of the variable 'showcolor' to 'true'.
+
+     Variables can be referenced from within aliases; how is detailed
+    above.
+
+     In addition to being referencable within aliases, variables are used
+    to set various internal configurable options, which are listed below
+    (all/most of these variables can be set from the 'config', 'check-
+    config', and 'displayconfig' menus, by the way):
+
+      Boolean variables (set to either 'true' or 'false')
+
+        VNumCheck      - if true, checks all vnums on input (default true)
+
+        CheckLimits    - if true, checks all limits on obj/mob load commands
+                         in .ZON (default true)
+
+        CheckZoneFlags - if true, checks that room zone flags are all set
+                         equal to zone number (default true)
+
+      FirstObjEDescKey - if true, first edesc created for an object type will
+                         have the same keywords as the object itself.
+                         (default true)
+
+             IsMapZone - if true, displays zone as though it is a map
+                         (exactly as it shows on Duris) (default false, is
+                         set automatically on map zones [based on vnums])
+
+          ShowObjFlags - if true, shows certain object flags next to object
+                         names when they are lying about in rooms.
+                         (default true)
+
+          ShowMobFlags - if true, shows certain mob flags next to mob names
+                         when they are milling about in rooms (default true)
+
+            ShowMobPos - if true, shows mob's default position after the mob
+                         name (default true)
+
+           ShowObjVNum - if true, shows object vnums in various places (note
+                         that vnums are always shown next to objects that
+                         are not in the zone's .OBJ file) (default true)
+
+           ShowMobVNum - if true, shows mob vnums in various places (note
+                         that vnums are always shown next to mobs that
+                         are not in the zone's .MOB file) (default true)
+
+      ShowMobRideFollow - if true, shows (following ...) and (riding ...)
+                          after mob names when looking in rooms.  may be
+                          useful for reducing spam (default true)
+
+          ShowRoomExtra - if true, shows "extra" info below room title -
+                          room sector and flag info (default true)
+
+           ShowRoomVNum - if true, shows room vnum next to room title
+                          (default true)
+
+            InterpColor - if true, interprets dikuMud color codes (&+Y and
+                          the like) (default true)
+
+              ShowColor - if true, shows dikuMud color codes instead of
+                          removing them (default false)
+
+             WalkCreate - toggles "create room walkabout" function - if true,
+                          trying to go an invalid direction creates a default
+                          room in that direction with default exits leading
+                          to and from the current room (default false)
+
+           ShowExitDest - if true, shows destination room vnum next to exit
+                          direction (default false)
+
+          ShowExitFlags - if true, shows exit flags (as detailed above) next
+                          to exit direction (default true)
+
+          SaveStartRoom - if true, saves vnum of room you last saved zone
+                          from in STARTROOM.  when loading, dikuEdit then
+                          sticks you in this room (default true)
+
+           ShowMenuInfo - if true, shows all sorts of useful info in the
+                          editing menus for rooms, objs, mobs, and exits
+                          (default true)
+
+       NegDestOutOfZone - if true, 'zoneexits' command lists exits with
+                          a destination less than 0 as exits leading out
+                          of the zone (default true)
+
+     SaveEveryXCommands - if true, enables autosaving every SAVEHOWOFTEN
+                          (another variable, described below) commands
+                          (including invalid commands, aliases should
+                          always be considered one command) (default false)
+
+      Check-related boolean variables:
+
+              CheckSave - if true, runs the check command on each save.
+
+       NoSaveOnCheckErr - if true, only saves all files if no errors found
+                          with check command.
+
+           SaveCheckLog - if true, writes all errors to CHECK.LOG.
+
+    PauseCheckScreenful - if true, pauses every screenful of check errors
+                          displayed (default true).
+
+          CheckLoneRoom - if true, checks for rooms with no exits leading to
+                          them and rooms with no exits leading out of them
+                          (the same room may have both errors).
+
+       CheckMissingKeys - if true, checks for exits/objects that require keys
+                          that aren't loaded into the zone (or given in
+                          a quest, or sold in a shop) at least once.
+
+            CheckLoaded - if true, checks for object/mob types that aren't
+                          loaded into the zone at least once.
+
+              CheckRoom - if true, checks for rooms with a misset SINGLE_FILE
+                          bit and rooms without descs and some other key
+                          stuff.
+
+              CheckExit - if true, checks for exits with a door type but no
+                          keywords.
+
+          CheckExitDesc - if true, checks for exits with no descs.
+
+               CheckObj - if true, checks for objects of type container that
+                          have "closed" bit set but not "closeable" (seems
+                          to be a common error) and for objects without
+                          keywords and some other key stuff.
+
+           CheckObjDesc - if true, checks for objects without extra descs.
+
+       CheckObjMaterial - if true, makes sure armor/worn items have the
+                          material value set within valid bounds.
+
+               CheckMob - if true, checks for mobs without keywords and some
+                          other key stuff.
+
+           CheckMobDesc - if true, checks for mobs without descs.
+
+             CheckEDesc - if true, checks all extra descs for no descrips
+                          or keywords.
+
+             CheckFlags - if true, checks all room/obj/mob flags for unedit-
+                          able flags that are set to their non-default set-
+                          ting.
+
+        CheckGuildStuff - if true, checks various object/mob settings to
+                          make sure they are not improperly set for
+                          guildhalls.
+
+
+      Non-boolean variables:
+
+            MainZoneName - contains the "main" name of your zone - extensions
+                           are added to this when saving/loading (.wld, etc).
+                           this is automatically set when calling dikuEdit,
+                           but can be changed inside the editor in case you
+                           want to make backups, make massive changes but
+                           want to save the pre-changed version, etc.
+
+                TextEdit - contains name of external ASCII editor used for
+                           editing descs/extra descs (default 'edit' ['pico'
+                           for Linux]).
+
+              MenuPrompt - contains text shown as menu prompt:
+                           (default '&+CYour choice, sir? &n')
+
+                           <Snikt - I prefer &+LSilandria whimpers, '&+RYour
+                            wish, Lord Sniktiorg?&+L'&n, but I am a bit
+                            twisted =).>
+
+              MainPrompt - contains text shown as first line of main prompt -
+                           if value is 'default' (which is, by the way, the
+                           default), then the prompt described above is shown.
+
+               StartRoom - contains vnum of room you were in when you last
+                           saved (see SAVESTARTROOM above for more info)
+                           (no default)
+
+            ScreenHeight - contains the height of the screen (used for
+                           determining when to pause when displaying
+                           lists) (default is 25)
+
+             ScreenWidth - contains the width of the screen (used for
+                           determining when to pause when displaying
+                           lists) (default is 80)
+
+            SaveHowOften - determines how often zone files are autosaved
+                           if SAVEEVERYXCOMMANDS variable is set to true.
+                           (default is 10)
+
+      Setting/using flag templates:
+
+         To make setting certain flag values on certain rooms/objects/mobs
+        easier, "flag templates" are available.
+
+         Basically, there are five different templates, numbered 0 through
+        4, each containing ROOMFLAG, OBJEXTRA, OBJWEAR, OBJAFF1, OBJAFF2,
+        MOBACT, MOBAFF1, and MOBAFF2 flags.
+
+         When editing, say, room flags, you can hit one of F1-F5 ('!' through
+        '%' for Linux) to set the flags to the values contained in one of the
+        templates (F1/! = template 0, F2/@ = 1, etc).  Hitting one of Shift-F1
+        through Shift-F5 ('^' through ')' for Linux) sets the template flag for
+        the corresponding template to the value currently in the room flag.
+
+         All that you need to know is that each template contains one of each
+        flags, so that the keys work on any of the flag editing menus (well,
+        okay, not the zone flag menus...  damn).
+
+         You can define the various template flag values from the command-
+        line (as detailed in the SETTEMP command above), but it's probably
+        much easier to just hit Shift-[Fkey] when you have the flags you
+        like.
+
+      Default room/object/mob/exit:
+
+         How exactly DikuEdit reads the default info is described above under
+        the heading "Default settings files...".
+
+         If default room/object/mob/exit info exists, then new rooms/objects/
+        mobs/exits are automatically set to the values of the default.  Thus,
+        you can set the default room and exit to a forest description, turn on
+        "WALKCREATE" mode, and create a forest with relative ease.
+
+        <Snikt - don't use defroom descriptions as this just causes mad duped
+         rooms, instead just set room name and flags, this way you can use the
+         above dupe cheats for a better result.>
+
+      Inventory:
+
+         You can pick up mobs and objects and drop them throughout the zone,
+        which is very handy for populating your zone.  Picking up a mob or
+        object also copies (when you use Dropc) whatever objects are in the
+        obj, or equipped and carried by the mob.
+
+         Thus, you can pick up a guard mob that is in several places in the
+        zone and that is equipping a sword and shield, drop copies about, and
+        have a guard force ready-made.
+
+        <Snikt, again.  At least make three different versions of the guard
+         so you don't have a billion clones running about.  This also helps
+         for trophy.>
+</pre>
+</body>
+</html>
