@@ -6,425 +6,101 @@
 <link type="text/css" rel="stylesheet" href="style.css">
 </head>
 <body>
-<p><b>Custom Actions</b></p>
+<h1>Custom Actions</h1>
 <h4><a href="index.htm">Back to the index</a></h4>
 <p>Custom actions allow you to add flavor and variety to your
-mobiles or objects.  They are a simple system of triggers and resulting
-actions.  </p>
-
-  <p>Each trigger has a percent chance of executing.  Each trigger 
+mobiles or objects.  They are a simple system of triggers and resulting actions.</p>
+<p>Each trigger has a percent chance of executing.  Each trigger 
     also has a data field that may or may not be used depending on the type.</p>
-  <p><img src="EditCustomActions.png" width="740" height="300"></p>
+  <p><img src="EditCustomActions.png"></p>
   <p>To add a custom action, select the &quot;when&quot; trigger 
     drop-down, set the value by either typing in the text box or clicking one 
     of the &quot;find&quot; boxes at the left, set the related action from the 
     drop-down, set the value by either typing in the box or clicking one of the 
     &quot;find&quot; boxes at the right, set the percentage chance of executing, 
     and then click the &quot;add&quot; button.</p>
-  <p>To remove a custom action, select it in the list and click 
+<p>To remove a custom action, select it in the list and click 
     &quot;remove&quot;.</p>
-  <p>To add more subactions to a custom action, select it in the 
+<p>To add more subactions to a custom action, select it in the 
     list, select the related action from the drop-down, set the value by either 
     typing in the box or clicking one of the &quot;find&quot; boxes at the right, 
     and then click &quot;add subaction&quot;.</p>
-
-<p><b>Trigger Types</b></p>
-
-<p>Action:
-<span style='color:#A31515'>When someone uses the command</p>
-
-<p><i>       
-Value contains the command name.</i></p>
-
-<p>&nbsp;</p>
-
-<p>Combat:
-<span style='color:#A31515'>When in combat</p>
-
-<p>
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is not used.</i></p>
-
-<p>&nbsp;</p>
-
-<p>Death:
-<span style='color:#A31515'>When killled or destroyed</p>
-
-<p>
-color:#A31515'>       <i>Value
-is not used.</i></p>
-
-<p>&nbsp;</p>
-
-<p>Engage:
-<span style='color:#A31515'>When combat is initiated</p>
-
-<p>
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is not used.</i></p>
-
-<p>&nbsp;</p>
-
-<p>Entry:
-<span style='color:#A31515'>When entering a room</p>
-
-<p>
-color:#A31515'>       <i>Value
-is not used.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Exit:
-<span style='color:#A31515'>When exiting a room</p>
-
-<p 
- >
-color:#A31515'>      <i>Value
-is not used.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >ObjectInRoom:
-<span style='color:#A31515'>When room contains the object</p>
-
-<p 
- >
-color:#A31515'>              <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is the index number of the object to react to.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >PlayerEntry:
-<span style='color:#A31515'>When a player enters the room</p>
-
-<p 
- >
-color:#A31515'>             <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is not used.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >PlayerExit:
-<span style='color:#A31515'>When a player leaves the room</p>
-
-<p 
- >
-color:#A31515'>            <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is optional and is the direction to pay attention to. 
+<h3>Trigger Types</h3>
+<p>Action: When someone uses the command</p>
+<p><i>Value contains the command name.</i></p>
+<p>Combat: When in combat</p>
+<p><i>Value is not used.</i></p>
+<p>Death: When killled or destroyed</p>
+<p><i>Value is not used.</i></p>
+<p>Engage: When combat is initiated</p>
+<p><i>Value is not used.</i></p>
+<p>Entry: When entering a room</p>
+<p><i>Value is not used.</i></p>
+<p>Exit: When exiting a room</p>
+<p><i>Value is not used.</i></p>
+<p>ObjectInRoom: When room contains the object</p>
+<p><i>Value is the index number of the object to react to.</i></p>
+<p>PlayerEntry: When a player enters the room</p>
+<p><i>Value is not used.</i></p>
+<p>PlayerExit: When a player leaves the room</p>
+<p><i>Value is optional and is the direction to pay attention to. 
 Blank means watch all directions.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Random:
-<span style='color:#A31515'>A random chance</p>
-
-<p>
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is not used.</i></p>
-
-<p>&nbsp;</p>
-
-<p>ReceiveItem:
-<span style='color:#A31515'>When receiving an item</p>
-
-<p>
-color:#A31515'>             <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is optional and is the index number of the object to react
-to.</i></p>
-
-<p>&nbsp;</p>
-
-<p>ReceiveMoney:
-<span style='color:#A31515'>When receiving money</p>
-
-<p>
-color:#A31515'>              <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is optional and is the minimum amount of money
-needed.</i></p>
-
-<p>&nbsp;</p>
-
-<p 
- >Speech:
-<span style='color:#A31515'>When someone says</p>
-
-  <p 
- >
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the word or phrase to react to.</i></p>
-  <p 
- >&nbsp;</p>
-
-  <p 
- ><span style='font-size:10.0pt;font-family:&quot;Courier New&quot;'>Hour: 
-    <span style='color:#A31515'>When the hour is</p>
-  <p 
- >
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the hour to react to. This happens only once when the 
+<p>Random: A random chance</p>
+<p><i>Value is not used.</i></p>
+<p>ReceiveItem: When receiving an item</p>
+<p><i>Value is optional and is the index number of the object to react to.</i></p>
+<p>ReceiveMoney: When receiving money</p>
+<p><i>Value is optional and is the minimum amount of money needed.</i></p>
+<p>Speech: When someone says</p>
+<p><i>Value is the word or phrase to react to.</i></p>
+<p>Hour: When the hour is</p>
+<p><i>Value is the hour to react to. This happens only once when the 
     clock strikes the hour. Values are 1-24.</i></p>
-  <p 
- >&nbsp;</p>
-  <p 
- ><span style='font-size:10.0pt;font-family:&quot;Courier New&quot;'>Day: 
-    <span style='color:#A31515'>When the day of the week is</p>
-  <p 
- >
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the day of the week to react to. This behaves as if it 
+<p>Day: When the day of the week is</p>
+<p><i>Value is the day of the week to react to. This behaves as if it 
     were a random trigger, but is only active on the specified day. Values are 
     1-7.</i></p>
-  <p 
- >&nbsp;</p>
-  <p 
- ><span style='font-size:10.0pt;font-family:&quot;Courier New&quot;'>Month: 
-    <span style='color:#A31515'>When the month is</p>
-  <p 
- >
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the month of the year to react to. This behaves as if 
-    it were a random trigger, but is only active during the specified month. Values 
-    are 1-30.</i></p>
-  <p 
- >&nbsp;</p>
-
-<p><b>Action Types</b></p>
-
-<p>Each action has a data field that may or may not be used
-depending on the type.</p>
-
-<p 
- >Attack:
-<span style='color:#A31515'>Attack the player who caused the trigger to fire.</p>
-
-<p 
- >
-color:#A31515'>        <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is not used.</i></p>
-
-<p 
- >
-color:#A31515'>&nbsp;</p>
-
-<p 
- >CastSpell:
-<span style='color:#A31515'>Cast the spell</p>
-
-<p 
- >
-color:#A31515'>           <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the name of the spell to cast.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >CreateMobile:
-<span style='color:#A31515'>Creates a mobile</p>
-
-<p 
- >
-color:#A31515'>              <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is the index number of the mobile to create.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >CreateObject:
-<span style='color:#A31515'>Creates an object</p>
-
-<p 
- >
-color:#A31515'>              <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is the index number of the object to create.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >DestroyObject:
-<span style='color:#A31515'>Destroys the object</p>
-
-<p 
- >
-color:#A31515'>               <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is the index number of the object to destroy. 
-First the room is checked, then the mobile’s inventory.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Delay:
-<span style='color:#A31515'>Wait for this many seconds</p>
-
-<p 
- >
-color:#A31515'>       <i>Value
-is the number of seconds to wait.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Echo:
-<span style='color:#A31515'>Echo text to the room</p>
-
-<p 
- >
-color:#A31515'>      <i>Value
-is the message to be printed to the room.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >GiveObject:
-<span style='color:#A31515'>Give player an object</p>
-
-<p 
- >
-color:#A31515'>            <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the object index number to give to the player who
-caused the trigger to fire.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >InterpretCommand:
-<span style='color:#A31515'>Interpret the command</p>
-
-<p 
- >
-color:#A31515'>                  <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is the command line to be interpreted, i.e.
-“kick troll” or “jump”.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Move:
-<span style='color:#A31515'>Move in direction</p>
-
-<p 
- >
-color:#A31515'>      <i>Value
-is the direction to move in.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >PreventAction:
-<span style='color:#A31515'>Prevent the action (only works with action and
-player exit triggers).</p>
-
-<p 
- >
-color:#A31515'>               <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is not used.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Say:
-<span style='color:#A31515'>Say something.</p>
-
-<p 
- >
-color:#A31515'>     <i>Value
-is the phrase to be said.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Teleport:
-<span style='color:#A31515'>Teleport to another room</p>
-
-<p 
- >
-color:#A31515'>          <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the room index number to teleport to.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >TeleportPlayer:
-<span style='color:#A31515'>Teleport the player who activated the trigger to
-another room</p>
-
-<p 
- >
-color:#A31515'>                 <i><span style='font-size:10.0pt;
-font-family:"Courier New"'>Value is the room index number to teleport the
-player to.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >TeleportAll:
-<span style='color:#A31515'>Teleport all players in the room to another room</p>
-
-<p 
- >
-color:#A31515'>             <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the room index number to teleport the player to.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >UseSkill:
-<span style='color:#A31515'>Use the skill</p>
-
-<p 
- >
-color:#A31515'>          <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the skill specified, i.e. “hide” or “kick”.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >ZoneEcho:
-<span style='color:#A31515'>Echo text to the zone</p>
-
-<p 
- >
-color:#A31515'>          <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is the text to be shown to everyone in the zone.</i></p>
-
-<p 
- >&nbsp;</p>
-
-<p 
- >Destroy:
-<span style='color:#A31515'>Destroy self</p>
-
-<p 
- >
-color:#A31515'>         <i><span style='font-size:10.0pt;font-family:
-"Courier New"'>Value is not used.</i></p>
-
+<p>Month: When the month is</p>
+<p><i>Value is the month of the year to react to. This behaves as if 
+    it were a random trigger, but is only active during the specified month. Values are 1-30.</i></p>
+<h3>Action Types</h3>
+<p>Each action has a data field that may or may not be used depending on the type.</p>
+<p>Attack: Attack the player who caused the trigger to fire.</p>
+<p><i>Value is not used.</i></p>
+<p>CastSpell: Cast the spell</p>
+<p><i>Value is the name of the spell to cast.</i></p>
+<p>CreateMobile: Creates a mobile</p>
+<p><i>Value is the index number of the mobile to create.</i></p>
+<p>CreateObject: Creates an object</p>
+<p><i>Value is the index number of the object to create.</i></p>
+<p>DestroyObject: Destroys the object</p>
+<p><i>Value is the index number of the object to destroy. First the room is checked, then the mobile’s inventory.</i></p>
+<p>Delay: Wait for this many seconds</p>
+<p><i>Value is the number of seconds to wait.</i></p>
+<p>Echo: Echo text to the room</p>
+<p><i>Value is the message to be printed to the room.</i></p>
+<p>GiveObject: Give player an object</p>
+<p><i>Value is the object index number to give to the player who caused the trigger to fire.</i></p>
+<p>InterpretCommand: Interpret the command</p>
+<p><i>Value is the command line to be interpreted, i.e. "kick troll" or "jump".</i></p>
+<p>Move: Move in direction</p>
+<p><i>Value is the direction to move in.</i></p>
+<p>PreventAction: Prevent the action (only works with action and player exit triggers).</p>
+<p><i>Value is not used.</i></p>
+<p>Say: Say something.</p>
+<p><i>Value is the phrase to be said.</i></p>
+<p>Teleport: Teleport to another room</p>
+<p><i>Value is the room index number to teleport to.</i></p>
+<p>TeleportPlayer: Teleport the player who activated the trigger to another room</p>
+<p><i>Value is the room index number to teleport the player to.</i></p>
+<p>TeleportAll: Teleport all players in the room to another room</p>
+<p><i>Value is the room index number to teleport the player to.</i></p>
+<p>UseSkill: Use the skill</p>
+<p><i>Value is the skill specified, i.e. “hide” or “kick”.</i></p>
+<p>ZoneEcho: Echo text to the zone</p>
+<p><i>Value is the text to be shown to everyone in the zone.</i></p>
+<p>Destroy: Destroy self</p>
+<p><i>Value is not used.</i></p>
 </div>
-
 </body>
-
 </html>
