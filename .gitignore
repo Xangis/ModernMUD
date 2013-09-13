@@ -108,13 +108,19 @@ _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
 
-# ModernMUD-specific files.
+# ModernMUD user/game data files that will be modified during normal operation of the MUD.
 Playercounts.csv
+src/HEARTBEAT
+b3log.txt
 sys/Ban.xml
 sys/Bounties.xml
 sys/Corpses.xml
 sys/Crimes.xml
 sys/Fraglist.xml
 sys/Chatterbots.xml
-src/HEARTBEAT
-b3log.txt
+sys/Issues.xml
+sys/RoomNumbers.xml
+sys/Screens.xml
+sys/Socials2.xml
+sys/Sysdata.xml
+
