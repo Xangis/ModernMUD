@@ -11,7 +11,10 @@ namespace ModernMUDEditor
     public partial class MainForm : Form
     {
         private Area _area;
-        private bool _isDirty; // Has the area been modified and needs to be saved?
+        /// <summary>
+        /// Has the area been modified and needs to be saved?
+        /// </summary>
+        private bool _isDirty = false;
         private EditAreaSettings _dlgArea;
         private EditMobs _dlgMobs;
         private EditObjects _dlgObjects;
@@ -214,6 +217,10 @@ namespace ModernMUDEditor
             // Clear the output window.
             txtOutputText.Text = "Loaded new area: " + filename + ".\r\n";
             txtOutputText.ScrollToCaret();
+            _xOffset = 0;
+            _yOffset = 0;
+            // Build the map graph and auto-position on map view.
+            BuildMapGraph(true);
             // Update dialogs.
             UpdateStatusBar();
             UpdateDialogs();
@@ -225,6 +232,7 @@ namespace ModernMUDEditor
             // Build a dictionary of rooms we can use to display the map.
             SerializableDictionary<int, Location> dict = MapBuilder.BuildMapGrid(_area.Rooms);
             int len = dict.Count;
+            _isDirty = false;
         }
 
         /// <summary>
@@ -241,6 +249,7 @@ namespace ModernMUDEditor
             }
             _area.EditorVersion = GetVersion();
             _area.Save();
+            _isDirty = false;
             txtOutputText.AppendText("Area saved as " + _area.Filename + "\r\n");
             txtOutputText.ScrollToCaret();
         }
@@ -252,19 +261,33 @@ namespace ModernMUDEditor
         /// <param name="e"></param>
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_isDirty)
+            {
+                PromptToSave();
+            }
             _area = null;
+            _xOffset = 0;
+            _yOffset = 0;
             UpdateStatusBar();
             UpdateDialogs();
             Refresh();
+            tabMapView.Refresh();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_isDirty)
+            {
+                PromptToSave();
+            }
+            _xOffset = 0;
+            _yOffset = 0;
             _area = new Area();
             _area.Filename = "newarea" + Area.Count + ".are.xml";
             UpdateStatusBar();
             UpdateDialogs();
             UpdateRoomMap();
+            _isDirty = true;
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -577,10 +600,8 @@ namespace ModernMUDEditor
             Help.ShowHelp(this, "editorhelp.chm");
         }
 
-        private void tabMapView_Paint(object sender, PaintEventArgs e)
+        void BuildMapGraph(bool autoPosition)
         {
-            if (_area == null || _area.Rooms.Count < 1)
-                return;
             int xpos = 320;
             int ypos = 190;
             int xmin = 10;
@@ -612,7 +633,7 @@ namespace ModernMUDEditor
 
                 for (int i = 0; i < room.ExitData.Length; i++)
                 {
-                    if (room.ExitData[i] != null )
+                    if (room.ExitData[i] != null)
                     {
                         if (!_roomLocations.ContainsKey(room.ExitData[i].IndexNumber))
                         {
@@ -714,7 +735,27 @@ namespace ModernMUDEditor
             }
             _maxRenderLevel = maxLevel;
             _minRenderLevel = minLevel;
+
+            // TODO: Calculate the maximum and minimum bounds of the area and try to fit
+            // as much of it as possible within the window.
+            //
+            // Probably a good idea to use the initial level as priority focus because
+            // lower/higher levels could skew the map strangely.
+            if (autoPosition)
+            {
+                //_xOffset = (xmax + xmin) / 2;
+                //_yOffset = (ymax + ymin) / 2;
+            }
+
             UpdateLevelText();
+        }
+
+        private void tabMapView_Paint(object sender, PaintEventArgs e)
+        {
+            if (_area == null || _area.Rooms.Count < 1)
+                return;
+            
+            BuildMapGraph(false);
 
             // Render all of the room locations that were found.
             foreach (KeyValuePair<int, RoomLocation> point in _roomLocations)
@@ -1824,6 +1865,7 @@ namespace ModernMUDEditor
                 _dlgRooms.UpdateData(_area);
             }
             _dlgRooms.Show();
+            _isDirty = true;
             return _dlgRooms.AddNewRoom(false);
         }
 
@@ -2110,6 +2152,36 @@ namespace ModernMUDEditor
 
             ErrorWindow errorDlg = new ErrorWindow(this, errors);
             errorDlg.Show();
+        }
+
+        /// <summary>
+        /// Prompt the user to save the area before exiting.
+        /// </summary>
+        private void PromptToSave()
+        {
+            if (MessageBox.Show("The area has been modified. Do you want to save the changes?", "Save Changes?",
+              MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                _area.Save();
+                _isDirty = false;
+            }
+        }
+
+        private void MainForm_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            if (this._isDirty)
+            {
+                PromptToSave();
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this._isDirty)
+            {
+                PromptToSave();
+            }
+            Close();
         }
     }
 }
