@@ -166,14 +166,23 @@ namespace MUDEngine
 
             // Only compile spells that have attached code.  Otherwise use default handlers.
             Log.Trace("Compiling spells.");
+            int good = 0;
+            int bad = 0;
             foreach (KeyValuePair<String, Spell> kvp in Spell.SpellList)
             {
                 if( !String.IsNullOrEmpty(kvp.Value.Code))
                 {
-                    SpellFunction.CompileSpell(kvp.Value);
+                    if (!SpellFunction.CompileSpell(kvp.Value))
+                    {
+                        ++bad;
+                    }
+                    else
+                    {
+                        ++good;
+                    }
                 }
             }
-            Log.Trace("Done compiling spells.");
+            Log.Trace("Done compiling spells. " + good + " were successful, " + bad + " failed.");
             
             // Links up exits and makes rooms runtime-ready so we can access them.
             Log.Trace( "Linking exits." );
