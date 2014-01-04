@@ -34,7 +34,7 @@ These are features we hope to have in ModernMUD one day.
   
 - Kickass documentation.
 
-  Better documentation is always a good idea. We want hood code documentation, 
+  Better documentation is always a good idea. We want good code documentation, 
   overview docs, tutorials and howtos, in-game player documentation (help), and
   builder instructions.
 
