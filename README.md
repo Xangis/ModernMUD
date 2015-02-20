@@ -1,6 +1,8 @@
 ModernMUD
 =========
 
+(Formerly Basternae 3)
+
 A modern multiplatform multi-user dungeon engine written in C# and .NET with a full toolset.
 
 By multiplatform, I mean that the compiled MUD runs on Windows and Linux, but I do not
@@ -23,10 +25,12 @@ parsing in all of them.
 Documentation is in the /docs folder. Starting with the README.md file in that folder is
 a good first step.
 
-ModernMUD is in production use for Basternae 3 MUD, which you can find here:
-
-http://basternae.org
+ModernMUD was in production use for Basternae 3 MUD, but Basternae has been discontinued.
 
 For a less-modern multiplatform MUD engine written in C, see Magma here:
 
 https://github.com/Xangis/magma
+
+For a tool to convert MUD zones in other formats (Magma, Basternae 2) to ModernMUD format:
+
+https://github.com/Xangis/ModernMUDConverter
