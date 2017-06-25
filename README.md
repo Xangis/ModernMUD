@@ -7,11 +7,13 @@ A modern multiplatform multi-user dungeon engine written in C# and .NET with a f
 By multiplatform, I mean that the compiled MUD runs on Windows and Linux, but I do not
 recommend compiling using any tool other than Visual Studio. There are subtle differences
 in the output binaries that can cause trouble (i.e. terminal glitches) if you build on
-Linux using xbuild/gmcs. This has not been tested on OSX, but would probably work about
-the same as on Linux.
+Linux using xbuild/gmcs and it's hard to get a good build environment working on Linux for
+this project. You're better off building on Windows, copying the executable to Linux, then
+running it (that's how Basternae 3 did it). This has not been tested on OSX, but would probably 
+work about the same as on Linux.
 
-In addition, some of the editing tools do not work fully under Mono, due to this RTF
-colored text rendering bug in Mono core:
+Some of the editing tools do not work fully under Mono, due to this RTF colored text rendering 
+bug in Mono core:
 
 https://bugzilla.novell.com/show_bug.cgi?id=593951
 
@@ -34,6 +36,12 @@ https://github.com/Xangis/magma
 For a tool to convert MUD zones in other formats (Magma, Basternae 2) to ModernMUD format:
 
 https://github.com/Xangis/ModernMUDConverter
+
+## Building on Linux
+
+At a minimum, you'll need to install xbuild and some other dependencies:
+
+sudo apt-get install xbuild libmono-microsoft-build-tasks-v4.0-4.0-cil mono-gmcs libmono-system-data2.0-cil libmono-system-windows-forms4.0
 
 ## Development Status
 
