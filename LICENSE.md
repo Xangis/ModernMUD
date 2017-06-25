@@ -1,7 +1,7 @@
 License (2-Clause BSD License)
 ------------------------------
 
-Copyright (c) 2007-2013 Jason Champion
+Copyright (c) 2007-2017 Jason Champion
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

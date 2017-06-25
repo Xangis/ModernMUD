@@ -1,5 +1,4 @@
-ModernMUD
-=========
+# ModernMUD
 
 (Formerly Basternae 3)
 
@@ -25,7 +24,8 @@ parsing in all of them.
 Documentation is in the /docs folder. Starting with the README.md file in that folder is
 a good first step.
 
-ModernMUD was in production use for Basternae 3 MUD, but Basternae has been discontinued.
+ModernMUD was in production use on a Linux server for Basternae 3 MUD, but Basternae has 
+been discontinued.
 
 For a less-modern multiplatform MUD engine written in C, see Magma here:
 
@@ -34,3 +34,8 @@ https://github.com/Xangis/magma
 For a tool to convert MUD zones in other formats (Magma, Basternae 2) to ModernMUD format:
 
 https://github.com/Xangis/ModernMUDConverter
+
+## Development Status
+
+ModernMUD is not under active development, but I do maintain it. I'll accept pull requests
+if you have changes that will make it more useful.
