@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Zeta Centauri" )]
 [assembly: AssemblyProduct( "ModernMUDHelpEditor" )]
-[assembly: AssemblyCopyright( "Copyright © 2008-2013 Zeta Centauri" )]
+[assembly: AssemblyCopyright( "Copyright © 2008-2017 Jason Champion" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion( "1.0.0.5" )]
-[assembly: AssemblyFileVersion( "1.0.0.5" )]
+[assembly: AssemblyVersion( "1.0.0.6" )]
+[assembly: AssemblyFileVersion( "1.0.0.6" )]

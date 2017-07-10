@@ -23,6 +23,18 @@ namespace HelpEditor
             {
                 cbLevel.Items.Add( count.ToString() );
             }
+            this.SizeChanged += new EventHandler(MainWindow_SizeChanged);
+        }
+
+        /// <summary>
+        /// Resize text area when window size changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MainWindow_SizeChanged(object sender, EventArgs e)
+        {
+            txtContents.Width = this.Width - 40;
+            txtContents.Height = this.Height - 185;
         }
 
         private void UpdateWindowContents( HelpData.Help help )
