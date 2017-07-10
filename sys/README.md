@@ -1,5 +1,4 @@
-The Sys Directory
------------------
+# The Sys Directory
 
 This directory contains configuration and data files related to the MUD.
 
@@ -26,7 +25,9 @@ Fraglist.xml: This file contains data related to the "frag list", a scoreboard
 of PvP wins and losses.
 
 Help.xml: Contains data used by the help system. Can be edited by the help
-editor.
+editor. The stock version of this file includes documentation for spells, 
+races, and classes that will not be present on your MUD, so please edit it 
+as much as you like to customize it to your game.
 
 Issues.xml: Contains bug reports, ideas, and other issues.
 
