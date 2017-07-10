@@ -49,7 +49,7 @@ These are features we hope to have in ModernMUD one day.
 
 - A way to implement a crafting system.
 
-  This is probably a bid project, but player crafting is a big draw for some
+  This is probably a big project, but player crafting is a big draw for some
   people. Getting it right in a way that doesn't throw off game balance is tough,
   but that can be left to game administrators as long as we design it in a way
   that is flexible and easy-to-configure.

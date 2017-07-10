@@ -1,5 +1,4 @@
-ModernMUD Architecture
-----------------------
+# ModernMUD Architecture
 
 ModernMUD is written in C# .NET 2.0 and uses XML files for configuration and 
 data storage.
@@ -35,8 +34,7 @@ enumerations defining the class ID numbers. Over time we plan to make the game
 configuration as independent of the game as possible so that you don't need to
 worry about predefined class lists in source code.
 
-Resource Usage
---------------
+## Resource Usage
 
 The MUD boots in 30 seconds on my Windows 8 virtual machine with 2000 mobs, 
 2000 objects, and 14000 rooms loaded. About half of that time is spent 
@@ -45,13 +43,12 @@ compiling spell code. It consumes 36MB of RAM and less than 5% of CPU.
 On an Ubuntu Server Linode instance, the same MUD boots in about 25 seconds and
 consumes about 70 MB of RAM when running via mono with CPU usage at about 5%.
 
-DLLs and Source Projects
-------------------------
+## DLLs and Source Projects
 
 The ModernMUD solution for Visual Studio has quite a few projects. Here's what
 they are:
 
-=== CORE LIBRARIES ===
+### CORE LIBRARIES
 
 HelpData - A DLL that contains the help entry class.
 
@@ -63,7 +60,7 @@ Screens - A DLL that contains the Screens class and color code definitions.
 ZoneData - Defines the zone (area) format for the game and the data types for
 all in-game entities (mobiles, objects, rooms, etc.)
 
-=== TOOLS ===
+### TOOLS
 
 HelpEditor - A standalone help file editor, depends on HelpData.
 
