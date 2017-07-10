@@ -1,5 +1,4 @@
-Area Directory
---------------
+# Area Directory
 
 This is where the MUD engine looks for area XML files.
 
@@ -13,3 +12,12 @@ creatures, and basic mobile templates. It's unfortunate that the code requires
 a base area, and that objects for spells that may or may not be implemented
 are required on every MUD, so hopefully we'll come up with something better
 at some point.
+
+Two sample areas are included:
+
+thri.are.xml - Thannik'Tzil, a hometown for the Thri-Kreen race.
+
+vkobolds.are.xml - A Kobold town.
+
+They are included in the Area.list file. To remove them, delete the lines from
+the Area.list file.
