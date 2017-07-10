@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>shadow magic</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+LYou blast $N&amp;n with your shadow magic.&amp;n</MessageDamage>
+  <MessageDamageToVictim>&amp;+L$n&amp;+L blasts you with $s spell.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+L$n&amp;n blasts $N&amp;n with &amp;+Lshadow magic.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>You hit yourself with &amp;+Lshadow magic&amp;n.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n hits $mself with &amp;+Lshadow magic&amp;n.</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff />
+  <School>16</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+
+    if( level > 35 )
+    level = 35;
+
+    int dam = MUDMath.Dice( ( 2 * level ), 4 ) - 20;
+
+    if( Magic.Disbelieve( level, victim, ch ) )
+    {
+        ch.SendText( "They disbelieve!\r\n" );
+        Combat.InflictSpellDamage( ch, victim, ( dam * 1 / 3 ), spell, AttackType.DamageType.light );
+    }
+    else
+    {
+        Combat.InflictSpellDamage( ch, victim, dam, spell, AttackType.DamageType.light );
+    }
+
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

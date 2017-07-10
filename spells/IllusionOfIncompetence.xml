@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>illusion of incompetence</Name>
+  <ValidTargets>singleCharacterDefensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>7</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>You no longer look quite so unassuming.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget>You appear less skillful than you really are.</MessageCompletedToTarget>
+  <MessageCompletedToRoom>$n&amp;n looks less intimidating.</MessageCompletedToRoom>
+  <School>16</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>67108864</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>16777216</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>ballistic attack</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You chuckle as a stone strikes $N&amp;n.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n creates a rock and strikes you with it!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n concentrates and creates a rock which then strikes $N solidly.</MessageDamageToRoom>
+  <MessageDamageToSelf>You use the awesome powers of your mind to create a rock, then use those same powers to hit yourself with it.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n uses his incredible mental powers to create a rock, then uses those powers to hit himself with it.</MessageDamageSelfToRoom>
+  <MessageKill>$N's head caves in.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

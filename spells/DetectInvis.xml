@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>detect invis</Name>
+  <ValidTargets>singleCharacterDefensive</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>You no longer see invisible objects.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget>Your eyes tingle.</MessageCompletedToTarget>
+  <MessageCompletedToRoom />
+  <School>1024</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>8</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

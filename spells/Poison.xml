@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>poison</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>10</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You smirk as $N&amp;n writhes in agony from the poison.</MessageDamage>
+  <MessageDamageToVictim>You feel a burning sensation in your blood.</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n has poisoned $N&amp;n!</MessageDamageToRoom>
+  <MessageDamageToSelf>Your poison coarses through your veins.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>You feel the poison in your body dissipate.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2048</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>16384</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+
+            if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.poison ) )
+
+            {
+                ch.SendText("Nothing happens.\r\n");
+                return;
+
+            
+            }
+            Affect af = new Affect( Affect.AffectType.spell, spell.Name, level, Affect.Apply.strength, -2, Affect.AFFECT_POISON );
+            victim.CombineAffect(af);
+
+            if( ch != victim )
+                ch.SendText( "You have poisoned your victim.\r\n" );
+            victim.SendText( "&amp;+GYou don't feel very well.&amp;n\r\n" );
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

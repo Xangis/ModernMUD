@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>burning hands</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You &amp;+Rbu&amp;+Yrn&amp;n $N&amp;n with your hot little hands.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n &amp;+Rbu&amp;+Yrns&amp;n you with $s spell.</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n &amp;+Rbu&amp;+Yrns&amp;n $N&amp;n with $s hands.</MessageDamageToRoom>
+  <MessageDamageToSelf>You touch yourself with your &amp;+Rbur&amp;+Yning &amp;Nhands&amp;n.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n's hands &amp;+Rbla&amp;+Yze&amp;n as $e touches $mself, setting &amp;+rf&amp;+Rir&amp;N&amp;+re&amp;N to $s clothing!</MessageDamageSelfToRoom>
+  <MessageKill>$n&amp;n's hands were a little too warm for $N&amp;n, who is now quite dead.</MessageKill>
+  <MessageWearOff />
+  <School>2</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>misdirection</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>15</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>You feel less disoriented.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>256</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+
+    if (victim.IsAffected(Affect.AFFECT_MISDIRECTION))
+    return;
+
+    if( !Magic.SpellSavingThrow( level, victim, AttackType.DamageType.mental ) )
+    {
+        Affect af = new Affect(Affect.AffectType.spell, spell.Name, 6 + level / 8, Affect.Apply.none, 0, Affect.AFFECT_MISDIRECTION);
+        victim.AddAffect(af);
+
+        SocketConnection.Act( "&amp;+R$n&amp;+R starts to move in an awkward and confused manner!&amp;n", victim, null, null, SocketConnection.MessageTarget.room );
+        victim.SendText( "&amp;+RYou're not very sure exactly where you're going.&amp;n\r\n" );
+    }
+    else
+    {
+        victim.SendText( "You feel disoriented for a moment, but it passes.\r\n" );
+        ch.SendText( "Nothing happens.\r\n" );
+    }
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

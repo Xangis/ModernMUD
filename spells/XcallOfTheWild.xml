@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>xcall of the wild</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <Sn>227</Sn>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>Your body feels familiar again.</MessageWearOff>
+  <School>524288</School>
+  <ManaType>-1</ManaType>
+  <CanBeScribed>true</CanBeScribed>
+  <Code />
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>fire bolt</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+rYou conjure a glowing bolt of fire and hurl it at &amp;n$N.&amp;n</MessageDamage>
+  <MessageDamageToVictim>$n &amp;+rconjures a bolt of fire and hurls it at YOU!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$N &amp;+rgrimaces when struck by a fire bolt thrown by &amp;n$n.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+rYou feel pretty damn stupid as you burn yourself.&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+rgrimaces as $e burns $mself with a bolt of fire.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>$n &amp;+rcackles as $e&amp;+r turns $N&amp;+r into an &amp;+Lextra crispy corpse.&amp;N</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

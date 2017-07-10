@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>call lightning</Name>
+  <ValidTargets>none</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You blast $N with &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n!</MessageDamage>
+  <MessageDamageToVictim>$n blasts you with &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n blasts $N with &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;N!</MessageDamageToRoom>
+  <MessageDamageToSelf>You blast yourself with &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n!</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n blasts $mself with &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n!</MessageDamageSelfToRoom>
+  <MessageKill>With a final surge from the storm, $N&amp;n has been &amp;N&amp;+rin&amp;+Rci&amp;N&amp;+rner&amp;+Rat&amp;N&amp;+re&amp;+Rd&amp;N by &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;N!&amp;N.</MessageKill>
+  <MessageWearOff />
+  <School>2</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

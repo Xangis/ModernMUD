@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>wierd</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <Sn>211</Sn>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>18</CastingTime>
+  <MessageDamage>&amp;+m$N&amp;+m's mind is warped and stretched to its limits.</MessageDamage>
+  <MessageDamageToVictim>&amp;+mAn invisible force grabs hold of your mind and begins to twist violently.&amp;n.</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+m$N&amp;+m's mind is twisted and stretched by $n&amp;n.</MessageDamageToRoom>
+  <MessageDamageToSelf>Your wierdness warps your mind.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n torments $mself with wierdness!</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff>!Wierd!</MessageWearOff>
+  <School>16</School>
+  <ManaType>8</ManaType>
+  <CanBeScribed>true</CanBeScribed>
+  <Code />
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>ravenous vines</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>17</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+gYou conjure ravenous vines to choke $N&amp;N.</MessageDamage>
+  <MessageDamageToVictim>&amp;+g$n&amp;+g conjures vines to choke and constrict you.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;+g is choked and constricted by vines conjured by $N&amp;+g.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+gYou strangle yourself with vines.&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>&amp;+g$n&amp;+g's face turns &amp;+Bblue&amp;+g as $e strangles $mself with conjured vines.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>Gasping and sputtering, $N&amp;n goes down!</MessageKill>
+  <MessageWearOff />
+  <School>2048</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

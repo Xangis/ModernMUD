@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>detonate</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>75</MinimumMana>
+  <CastingTime>20</CastingTime>
+  <MessageDamage>Tiny &amp;+rexplo&amp;+ysions&amp;n wrack $N&amp;n's body.</MessageDamage>
+  <MessageDamageToVictim>Tiny explosions from $n&amp;N wrack your body.</MessageDamageToVictim>
+  <MessageDamageToRoom>Tiny explosions from $n&amp;N wrack $N&amp;N's body.</MessageDamageToRoom>
+  <MessageDamageToSelf>You detonate yourself.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+
+    int dam = MUDMath.Dice( ( 7 * level ), 2 ) + 5 * level + 75;
+
+    // Mods for victim power.  +23 dam vs. ogre with 60% power, -6 dam vs.
+    // Githyanki with 100% power.
+    if( victim.GetCurrPow() &lt; 100 )
+    {
+        dam += victim.GetCurrPow() / 3;
+    }
+    else if( victim.GetCurrPow() > 100 )
+    {
+        dam -= ( ( victim.GetCurrPow() - 100 ) / 3 );
+    }
+
+    if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.energy ) )
+        dam /= 2;
+
+    Combat.InflictSpellDamage( ch, victim, dam, spell, AttackType.DamageType.energy );
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

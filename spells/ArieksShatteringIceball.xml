@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>arieks shattering iceball</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>18</CastingTime>
+  <MessageDamage>Your &amp;+Ciceball&amp;n shatters on impDescriptor.ActFlags, sending shards of ice flying into $N&amp;n!</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n's giant &amp;+Cball of ice&amp;n slams into you and shatters into tiny fragments.</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n's &amp;+Ciceball&amp;n shatters upon impacting $N&amp;n, sending shards of ice everywhere!</MessageDamageToRoom>
+  <MessageDamageToSelf>You just &amp;+Ciceballed&amp;n yourself, you dummy!.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n blasts $mself with a giant &amp;+Cball of ice&amp;n!</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n is smashed to frozen little bits.!</MessageKill>
+  <MessageWearOff />
+  <School>131072</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

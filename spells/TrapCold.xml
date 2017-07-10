@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>trap-cold</Name>
+  <ValidTargets>trap</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>0</MinimumMana>
+  <CastingTime>1</CastingTime>
+  <MessageDamage>Your &amp;+Ccone of cold&amp;n &amp;+bfreezes&amp;n $N&amp;n.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;+b hits you with a &amp;+Ccone of cold&amp;n!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;+b hits &amp;n$N&amp;+b with a &amp;+Ccone of cold&amp;n!</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+bYou &amp;+Cfreeze&amp;+b yourself&amp;n.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n blasts $mself with a cone of cold.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;+W falls to the ground, covered in icicles.&amp;n</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

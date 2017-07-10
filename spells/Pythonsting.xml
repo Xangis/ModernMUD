@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>pythonsting</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>10</MinimumMana>
+  <CastingTime>17</CastingTime>
+  <MessageDamage>&amp;+gA python suddenly appears and bites &amp;n$N&amp;n&amp;+g in the leg!&amp;n</MessageDamage>
+  <MessageDamageToVictim>&amp;+gA python suddenly appears and bites you in the leg!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+gA python suddenly appears and bites &amp;n$N&amp;n&amp;+g in the leg!&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+gYou conjure a python that starts gnawing on your arm.&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>&amp;+g$n&amp;n conjures a python which sinks its fangs deeply into $s arm.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>&amp;+gThe python disappears before taking the time to swallow $N&amp;n.</MessageKill>
+  <MessageWearOff>You feel less sick.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>524288</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if( !Magic.SpellSavingThrow( level, victim, AttackType.DamageType.poison ) )
+            {
+                new Affect( Affect.AffectType.spell, spell.Name, level / 2, Affect.Apply.strength, -4, Affect.AFFECT_POISON );
+
+                victim.AffectRefresh( Affect.AffectType.spell, spell, level / 2);
+                SocketConnection.Act( "$n&amp;n shivers slightly.", victim, null, null, SocketConnection.MessageTarget.room );
+                victim.SendText( "&amp;+GYou don't feel very well.\r\n" );
+                Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( 2, 8 ), spell, AttackType.DamageType.poison );
+            }
+            else
+                Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( 2, 4 ), spell, AttackType.DamageType.poison );
+
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

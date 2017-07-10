@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>agitation</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>10</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage>You agitate $N&amp;n's molecules.</MessageDamage>
+  <MessageDamageToVictim>The molecules in your body begin burning with intense pain!</MessageDamageToVictim>
+  <MessageDamageToRoom>$N bends over in pain as $S molecules burn!</MessageDamageToRoom>
+  <MessageDamageToSelf>You feel a painful burn in your skin as you use your powers on yourself.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n looks silly as $e uses $s own mental powers to agitate $s molecules.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n's &amp;+lbody &amp;+rbursts in&amp;+Rto flame!</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

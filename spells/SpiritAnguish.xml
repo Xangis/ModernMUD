@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>spirit anguish</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage>&amp;+WYour spirit attacks $N&amp;n viciously.&amp;N</MessageDamage>
+  <MessageDamageToVictim>&amp;+WYour spirit shudders at $n&amp;n's attack upon it.&amp;N</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+W$n&amp;n unleashes $s spirit venomously at $N!&amp;N</MessageDamageToRoom>
+  <MessageDamageToSelf>Your spirit shudders as it battles with your will.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n seems to be suffering from an inner turmoil.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n's body suddenly turns pale as it gives up the ghost.</MessageKill>
+  <MessageWearOff />
+  <School>262144</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

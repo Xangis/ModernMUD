@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>dust blast</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+yYou create a blast of dust and dirt that tears into &amp;n$N&amp;n.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;+y conjures a blast of dust and dirt that tears your &amp;+rflesh.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+yWith a gesture &amp;n$n&amp;+y creates a blast of dust engulfing &amp;n$N&amp;n.</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+yYou foolishly blast yourself with dirt and dust, how stupid!&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n &amp;+yblasts $mself with dust and dirt, what an idiot!</MessageDamageSelfToRoom>
+  <MessageKill>$n&amp;n &amp;+ytears $N&amp;n to shreds, ending $S life instantly.</MessageKill>
+  <MessageWearOff />
+  <School>4</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

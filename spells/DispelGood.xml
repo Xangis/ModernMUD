@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>dispel good</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+WYou fire a bolt of pure energy into $N&amp;N&amp;+W's soul.&amp;N</MessageDamage>
+  <MessageDamageToVictim>$n&amp;N &amp;+Wfires a bolt of pure energy into your soul.&amp;N</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;N &amp;+Wfires a bolt of pure energy into $N&amp;N&amp;+W's soul.&amp;N</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+WYou try to purge yourself of goodness.&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;N &amp;+Wtries to purge $s body of goodness.&amp;N</MessageDamageSelfToRoom>
+  <MessageKill>The good in $N&amp;n's soul has moved on to a higher plane.</MessageKill>
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>1</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if( level &gt; 30 )
+                level -= ( level - 30 ) / 2;
+
+            if( !ch.IsNPC() &amp;&amp; ch.IsGood() )
+            {
+                ch.SendText( "You are too GOOD to cast this.\r\n" );
+                return;
+            }
+
+            if( victim.IsEvil() )
+            {
+                SocketConnection.Act( "$N&amp;n is protected by $S evil.", ch, null, victim, SocketConnection.MessageTarget.room );
+                SocketConnection.Act( "$N&amp;n does not seem to be affected.", ch, null, victim, SocketConnection.MessageTarget.character );
+                return;
+            }
+
+            if( victim.IsNeutral() )
+            {
+                SocketConnection.Act( "$N&amp;n does not seem to be affected.", ch, null, victim, SocketConnection.MessageTarget.character );
+                return;
+            }
+
+            int dam = MUDMath.Dice( ( 2 * level ), 4 );
+            if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.black_magic ) )
+                dam /= 2;
+
+            Combat.InflictSpellDamage( ch, victim, dam, spell, AttackType.DamageType.black_magic );
+
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

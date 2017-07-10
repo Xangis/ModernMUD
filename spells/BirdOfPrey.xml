@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>bird of prey</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>11</CastingTime>
+  <MessageDamage>&amp;+wYou conjure a &amp;+yhawk&amp;N&amp;+w, which &amp;+rclaws&amp;N&amp;+w at $N&amp;n.</MessageDamage>
+  <MessageDamageToVictim>&amp;+wOut of nowhere, the &amp;+rcl&amp;+Raw&amp;n&amp;+rs&amp;+w of a &amp;+yhawk&amp;+w bury themselves deep into your &amp;+rflesh&amp;N&amp;+w.&amp;N</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n&amp;+w conjures a &amp;+yhawk&amp;N&amp;+w, which &amp;+rclaws&amp;+w at $N&amp;n.</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+wYou are &amp;+Rm&amp;N&amp;+rau&amp;+Lle&amp;N&amp;+rd&amp;+w by a &amp;+yhawk&amp;+w!&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n &amp;+wis &amp;+Rm&amp;N&amp;+rau&amp;+Lle&amp;N&amp;+rd&amp;+w by a &amp;+yhawk&amp;+w!&amp;N</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n&amp;+w is &amp;+rcl&amp;+Raw&amp;N&amp;+red&amp;+w to &amp;+Ldeath &amp;N&amp;+wby a &amp;+yhawk&amp;+w.&amp;N</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

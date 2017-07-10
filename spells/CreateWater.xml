@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>create water</Name>
+  <ValidTargets>objectInInventory</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    Object obj = (Object)target;
+
+    if( obj.ItemType != ObjTemplate.ObjectType.drink_container )
+    {
+        ch.SendText( "It is unable to hold water.\r\n" );
+        return;
+    }
+
+    if( obj.Values[ 2 ] != 0 &amp;&amp; obj.Values[ 1 ] != 0 )
+    {
+        ch.SendText( "It contains some other liquid.\r\n" );
+        return;
+    }
+
+    int water = Math.Min(level * (Database.SystemData.WeatherData.Sky >= Sysdata.SkyType.rain ? 4 : 2), obj.Values[0] - obj.Values[1]);
+
+    if( water > 0 )
+    {
+        obj.Values[ 2 ] = 0;
+        obj.Values[ 1 ] += water;
+        if( !MUDString.NameContainedIn( "water", obj.Name ) )
+        {
+            string buf = String.Format( "{0} water", obj.Name );
+            obj.Name = buf;
+        }
+
+        SocketConnection.Act( "$p&amp;n is filled.", ch, obj, null, SocketConnection.MessageTarget.character );
+    }
+
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>entangle</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage>&amp;+gYou conjure grasping &amp;+Gvines&amp;+g to restrain $N.&amp;n</MessageDamage>
+  <MessageDamageToVictim>&amp;+gGrasping &amp;+Gvines&amp;+g grab hold of your limbs and squeeze you tightly.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+g$n&amp;+g conjures grasping &amp;+Gvines&amp;n to restrain $N.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>You entangle yourself</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n entangles $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n is strangled to death by the &amp;+gvines&amp;n.</MessageKill>
+  <MessageWearOff>&amp;+gYou are no longer entangled.&amp;n</MessageWearOff>
+  <School>768</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

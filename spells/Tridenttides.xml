@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>tridenttides</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage>&amp;+BA tor&amp;+br&amp;+ge&amp;+Cn&amp;+Gt&amp;+cial s&amp;+Cp&amp;+cring of &amp;+Cseawater ri&amp;+cse&amp;+gs a&amp;n&amp;+cbo&amp;+Cut &amp;n$N leaving $M &amp;+Wgasping &amp;nfor &amp;+Cbreath!</MessageDamage>
+  <MessageDamageToVictim>&amp;+CYou &amp;+Wgasp &amp;+Cf&amp;+cor&amp;+C &amp;+Cair&amp;n&amp;+c a&amp;n&amp;+gs &amp;+ca &amp;+Ctorrent&amp;n&amp;+c of &amp;+Cwater&amp;n&amp;+c ri&amp;+gs&amp;n&amp;+ge&amp;n&amp;+cs about you!</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+BA tor&amp;+br&amp;+ge&amp;+Cn&amp;+Gt&amp;+cial s&amp;+Cp&amp;+cring of &amp;+Cseawater ri&amp;+cse&amp;+gs a&amp;n&amp;+cbo&amp;+Cut &amp;n$N leaving $M &amp;+Wgasping &amp;nfor &amp;+Cbreath!</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+MOUCH!&amp;+L That REALLY did hurt!&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n&amp;+B nearly drowns himself again.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n&amp;+L's body turn&amp;ns a pale livid white as he falls &amp;+Llifeless&amp;n to the ground.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>dirt cloud</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>&amp;+LYour vision returns.&amp;N</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>4</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            SocketConnection.Act( "&amp;+yYou conjure a cloud of dirt that swirls around &amp;n$N.&amp;n", ch, null, victim, SocketConnection.MessageTarget.character );
+            SocketConnection.Act( "$n &amp;+yconjures a cloud of &amp;+Lbillowing dirt&amp;n&amp;+y right in your face.&amp;N", ch, null, victim, SocketConnection.MessageTarget.victim );
+            SocketConnection.Act( "$N &amp;+yis engulfed by a cloud of &amp;+Ldirt&amp;N&amp;+y conjured by &amp;n$n.&amp;n", ch, null, victim, SocketConnection.MessageTarget.room );
+
+            if( victim.IsAffected( Affect.AFFECT_BLIND ) )
+            {
+                ch.SendText( "The cloud appears to have no affect on them.\r\n" );
+                return;
+            }
+
+            if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.light ) )
+            {
+                SocketConnection.Act( "$N&amp;n can see you through the swirling dirt.", ch, null, victim, SocketConnection.MessageTarget.character );
+                return;
+            }
+
+            Affect af = new Affect(Affect.AffectType.spell, spell.Name, MUDMath.NumberRange(1, 3), Affect.Apply.hitroll, -4, Affect.AFFECT_BLIND);
+
+            victim.AddAffect(af);
+
+            SocketConnection.Act( "$N&amp;n &amp;+Lis blinded by a cloud of dirt!&amp;n", ch, null, victim, SocketConnection.MessageTarget.character );
+            victim.SendText( "&amp;+LYou can't see through the swirling dirt!&amp;n\r\n" );
+            SocketConnection.Act( "$N&amp;n &amp;+Lis blinded by swirling dirt!&amp;n", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim );
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

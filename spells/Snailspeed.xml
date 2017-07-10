@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>snailspeed</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>50</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>&amp;+yYou feel less like the snail and more like yourself.&amp;n.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>524288</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+            int amount = ( level + 10 );
+
+            victim.RemoveAffect(Affect.AFFECT_MOVEMENT_INCREASED);
+
+            if (victim.IsAffected( Affect.AFFECT_MOVEMENT_REDUCED))
+            {
+                ch.SendText( "Nothing happens.\r\n" );
+                return;
+            }
+
+            Affect af = new Affect(Affect.AffectType.spell, spell.Name, 6 + level / 4, Affect.Apply.move, -amount, Affect.AFFECT_MOVEMENT_REDUCED);
+
+            victim.AddAffect(af);
+
+            victim.SendText( "&amp;+yYou feel the spirit of the snail enter your body.&amp;n\r\n" );
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

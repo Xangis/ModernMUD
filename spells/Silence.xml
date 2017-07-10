@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>silence</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>You are no longer muted.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2049</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>16</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+
+    if (victim.IsAffected(Affect.AFFECT_MUTE))
+    {
+        ch.SendText( "&amp;+CYou failed!\r\n" );
+        return;
+    }
+    if( Magic.SpellSavingThrow( level - 5, victim, AttackType.DamageType.black_magic ) )
+    {
+        ch.SendText( "You failed!\r\n" );
+        return;
+    }
+
+    Affect af = new Affect( Affect.AffectType.spell, spell.Name, 4 + level / 4, Affect.Apply.none, 0, Affect.AFFECT_MUTE );
+    victim.AddAffect(af);
+
+    SocketConnection.Act( "You have silenced $N&amp;n!", ch, null, victim, SocketConnection.MessageTarget.character );
+    SocketConnection.Act( "$n&amp;n has silenced you!", ch, null, victim, SocketConnection.MessageTarget.victim );
+    SocketConnection.Act( "$n has silenced $N!", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim );
+
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

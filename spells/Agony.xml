@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>agony</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>17</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>$N&amp;N's body is wracked with spasms of pain as you touch $M.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;N seriously injures you with $s touch.</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;N's body is wracked with spasms of pain as $n&amp;n touches $M.</MessageDamageToRoom>
+  <MessageDamageToSelf>You touch yourself, sending waves of pain through your body.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;N twitches as $e touches $mself.</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff />
+  <School>2048</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

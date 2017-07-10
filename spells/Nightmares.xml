@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>nightmares</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>16</CastingTime>
+  <MessageDamage>$N&amp;n is tormented with visions of unspeakable horror.</MessageDamage>
+  <MessageDamageToVictim>&amp;+LYou are tormented by visions of unspeakable horror.</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;n is tormented by visions of unspeakable horror.</MessageDamageToRoom>
+  <MessageDamageToSelf>Your nightmares torment you.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n torments $mself with nightmares!</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>16</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            // Nightmares makes the victim fall asleep on a failed save for each damage hit.
+            // Save reduces damage by 60% instaed of the usual half.
+            CharData victim = (CharData)target;
+
+            int dam = MUDMath.Dice( 8, ( level / 2 ) ) + 120;
+
+            //    if ( Magic.saves_spell( level, victim, AttackType.DamageType.mental ) )
+            //      dam = (dam * 4) / 10;
+
+            if( Magic.Disbelieve( level, victim, ch ) )
+            {
+                ch.SendText( "They disbelieve!\r\n" );
+                dam = dam / 4;
+            }
+
+            Event.CreateEvent(Event.EventType.spell_nightmares, 6, ch, victim, dam);
+            Event.CreateEvent(Event.EventType.spell_nightmares, (Event.TICK_COMBAT * 2), ch, victim, dam);
+            Event.CreateEvent(Event.EventType.spell_nightmares, (Event.TICK_COMBAT * 3 + 6), ch, victim, dam);
+
+            return;
+</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

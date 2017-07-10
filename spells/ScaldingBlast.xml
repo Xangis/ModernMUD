@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>scalding blast</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>19</CastingTime>
+  <MessageDamage>You &amp;+rscald&amp;n $N&amp;n with a burning column of water.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n &amp;+rburns&amp;n you with a boiling column of water.</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n &amp;+rburns&amp;n $N&amp;n with a scalding column of water.</MessageDamageToRoom>
+  <MessageDamageToSelf>You boil yourself in a bath of hot water.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n boils $mself in a bath of hot water.!</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n drops to the ground, $S flesh red and blistered!</MessageKill>
+  <MessageWearOff />
+  <School>131072</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>cutting breeze</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage>&amp;+WYou tear at &amp;n$N&amp;+W with a blast of &amp;N&amp;+cicy air.&amp;n</MessageDamage>
+  <MessageDamageToVictim>$n &amp;+Wcreates a blast of icy air that tears your flesh.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$N &amp;+Wwails in pain as &amp;n$n&amp;+W blasts $M with &amp;N&amp;+cicy air.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+WYou tear apart your very own flesh with a blast of &amp;N&amp;+cicy air.&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+Wspins on $s feet as $e is torn apart by $s own &amp;n&amp;+ccutting breeze.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>$n &amp;+Wshreds &amp;n$N&amp;+W to bits, killing $M with an &amp;+cicy breeze.&amp;n</MessageKill>
+  <MessageWearOff />
+  <School>4</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

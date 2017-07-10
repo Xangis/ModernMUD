@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>spark</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage>&amp;+rYou blast &amp;n$N&amp;+r with flaming sparks.&amp;N</MessageDamage>
+  <MessageDamageToVictim>$n &amp;+rscorches you with flaming sparks.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$n &amp;+rtries to set fire to &amp;n$N&amp;+r with flaming sparks.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+rYou attempt to set fire to yourself with your sparks.&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+rtries to set fire to $mself with some flaming sparks.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>$n cackles as $N bursts into &amp;+rflames&amp;N and dies.&amp;n</MessageKill>
+  <MessageWearOff />
+  <School>4</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

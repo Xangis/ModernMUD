@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>intellect fortress</Name>
+  <ValidTargets>self</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>50</MinimumMana>
+  <CastingTime>24</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>Your intellectual fortress crumbles.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>128</School>
+  <ManaType>-1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>noRefresh</StackingType>
+  <Code>            CharData gch = (CharData)target;
+
+if( gch.HasAffect(Affect.AffectType.spell, "intellect fortress"))
+{
+    gch.SendText("You already have that effect.  Wait untill it expires.\r\n");
+    return;
+}
+
+            gch.SendText( "A virtual fortress forms around you.\r\n" );
+            SocketConnection.Act( "A virtual fortress forms around $N&amp;n.", gch, null, gch, SocketConnection.MessageTarget.room );
+
+            Affect af = new Affect( Affect.AffectType.spell, spell.Name, 15 + level / 5, Affect.Apply.ac, -ch.GetCurrInt() / 5, Affect.AFFECT_NONE );
+
+            gch.AddAffect(af);
+
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

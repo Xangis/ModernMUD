@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>color spray</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+BYour &amp;+Gblast &amp;n&amp;+yof &amp;+Ycolors &amp;+Rstrikes $N &amp;+Msolidly!&amp;n</MessageDamage>
+  <MessageDamageToVictim>$n's &amp;+Gblast &amp;n&amp;+yof &amp;+Ycolors &amp;+Rstrikes you &amp;+Msolidly!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$n's &amp;+Gblast &amp;n&amp;+yof &amp;+Ycolors &amp;+Rstrikes $N &amp;+Msolidly!&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+BYour &amp;+Gblast &amp;n&amp;+yof &amp;+Ycolors &amp;+Rstrikes you &amp;+Msolidly!&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+Bsprays &amp;+Gcolors &amp;n&amp;+Yall &amp;+yover &amp;+R$mself.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

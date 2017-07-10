@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>gleam of dawn</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage>&amp;+LYou fire a bolt of &amp;+Wlight&amp;n into $N&amp;N&amp;+L's soul.&amp;N</MessageDamage>
+  <MessageDamageToVictim>$n&amp;N fires a bolt of &amp;+Wlight&amp;n into your soul.&amp;N</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;N fires a bolt of &amp;+Wlight&amp;n into $N&amp;N&amp;+L's soul.&amp;N</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+LYou try to purge yourself of darkness&amp;N.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;N&amp;+L tries to purge $s body of darkness&amp;N.</MessageDamageSelfToRoom>
+  <MessageKill>The evil in $N&amp;n's soul has been purged.</MessageKill>
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>1</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if( level &gt; 30 )
+                level -= ( level - 30 ) / 2;
+
+            if( !ch.IsNPC() &amp;&amp; ch.IsEvil() )
+            {
+                ch.SendText( "You are too EVIL to cast this.\r\n" );
+                return;
+            }
+
+            if( victim.IsGood() )
+            {
+                SocketConnection.Act( "$N is protected by $S goodness.", ch, null, victim, SocketConnection.MessageTarget.room );
+                SocketConnection.Act( "$N does not seem to be affected.", ch, null, victim, SocketConnection.MessageTarget.character );
+                return;
+            }
+
+            if( victim.IsNeutral() )
+            {
+                SocketConnection.Act( "$N does not seem to be affected.", ch, null, victim, SocketConnection.MessageTarget.character );
+                return;
+            }
+
+            int dam = MUDMath.Dice( ( 2 * level ), 4 );
+            if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.white_magic ) )
+                dam /= 2;
+
+            Combat.InflictSpellDamage( ch, victim, dam, spell, AttackType.DamageType.white_magic );
+
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

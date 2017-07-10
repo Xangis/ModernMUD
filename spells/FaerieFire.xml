@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>faerie fire</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>Your faerie fire surrounds $N&amp;n.</MessageDamage>
+  <MessageDamageToVictim>$n points at you and you start to emit a faint aura!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n points at $N, making $M glow with a faint aura!</MessageDamageToRoom>
+  <MessageDamageToSelf>You glow with a faint aura.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n points at $Mself and starts to glow with a faint aura.</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff>The pink aura around you fades away.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>32</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if (victim.IsAffected(Affect.AFFECT_FAERIE_FIRE))
+            {
+                ch.SendText("Nothing happens.\r\n");
+                return;
+            }
+
+            int effect = Math.Min( 2 * level, 35 );
+            if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.magic_other ) )
+                effect /= 2;
+
+            Affect af = new Affect( Affect.AffectType.spell, spell.Name, 4 + level / 4, Affect.Apply.ac, effect, Affect.AFFECT_FAERIE_FIRE );
+
+            victim.AddAffect(af);
+
+            victim.SendText( "&amp;+mYo&amp;+Mu a&amp;N&amp;+mre su&amp;+Mrr&amp;n&amp;+mou&amp;+Mnde&amp;N&amp;+md by a p&amp;+Min&amp;N&amp;+mk out&amp;+Mli&amp;N&amp;+mne.&amp;N\r\n" );
+            SocketConnection.Act( "$n&amp;n &amp;+mis &amp;+Msur&amp;n&amp;+mr&amp;+Mo&amp;N&amp;+mun&amp;+Mde&amp;N&amp;+md by a &amp;+Mpink &amp;N&amp;+mout&amp;+Mli&amp;N&amp;+mne.&amp;N", victim, null, null, SocketConnection.MessageTarget.room );
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

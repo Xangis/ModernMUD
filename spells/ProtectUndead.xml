@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>protect undead</Name>
+  <ValidTargets>singleCharacterDefensive</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff />
+  <School>2048</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+    Affect af = new Affect();
+
+    if( !( victim.IsUndead() ) )
+    {
+        ch.SendText( "You cannot work with living flesh.\r\n" );
+        return;
+    }
+
+    if( victim.HasAffect( Affect.AffectType.spell, spell ) )
+        return;
+
+    af.Type = Affect.AffectType.spell;
+    af.Value = spell.Name;
+    af.Duration = 6 + ( level / 10 );
+    // Value is number of hits skin can take.
+    af.AddModifier(Affect.Apply.none, ( level / 4 + MUDMath.NumberRange( 1, 4 ) ));
+    af.SetBitvector( Affect.AFFECT_STONESKIN );
+    victim.AddAffect(af);
+
+    victim.SendText( "You feel protected by powers from beyond the grave.\r\n" );
+    SocketConnection.Act( "A dark chill from beyond the grave seems to permeate the air around $n.",
+    victim, null, null, SocketConnection.MessageTarget.room );
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

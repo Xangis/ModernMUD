@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>trap-bash</Name>
+  <ValidTargets>trap</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>0</MinimumMana>
+  <CastingTime>1</CastingTime>
+  <MessageDamage>Your &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;N bolt&amp;n hits $N&amp;n, sending violent spasms through $S body.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n's &amp;+Ylig&amp;+Whtn&amp;+Ying bolt&amp;n slams into you!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n hits $N&amp;n with a &amp;+Ylig&amp;+Whtn&amp;+Ying bolt&amp;n!</MessageDamageToRoom>
+  <MessageDamageToSelf>You lightning bolt yourself like the fool that you are.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n shoots $mself in the arse with a bolt of lightning.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n crumples to the ground in a sizzling, blackened heap.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

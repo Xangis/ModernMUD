@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>full harm</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>35</MinimumMana>
+  <CastingTime>22</CastingTime>
+  <MessageDamage>You call upon the power of your god to rend $N&amp;n from the inside!</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n shreds your insides with the power of $s god!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n blasts $N&amp;n with a full harm spell!</MessageDamageToRoom>
+  <MessageDamageToSelf>You full harm yourself.  Ouch.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n performs a ritual of pain upon $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$n&amp;n has destroyed $N&amp;n.</MessageKill>
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2048</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>chain lightning</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>25</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>Your &amp;+Blightning bolt&amp;n hits $N, sending violent spasms through $s body.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n's &amp;+Blightning bolt&amp;n slams into you!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n hits $N&amp;n with a &amp;+Blightning bolt&amp;n!</MessageDamageToRoom>
+  <MessageDamageToSelf>You zap yourself.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n zaps $mself with lightning!</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n is burnt to a crisp.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

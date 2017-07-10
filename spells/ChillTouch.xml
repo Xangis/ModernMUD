@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>chill touch</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You &amp;+Bchill&amp;n $N&amp;n with your &amp;+cfreezing&amp;n touch.</MessageDamage>
+  <MessageDamageToVictim>$n &amp;+Bchills&amp;n you to the bone with $S freezing touch.</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;n shivers as $n&amp;n &amp;+Cchills&amp;n $M.</MessageDamageToRoom>
+  <MessageDamageToSelf>You &amp;+Bchill&amp;n yourself to the bone with your touch.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n shivers uncontrollably as $e touches $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$n&amp;N's &amp;+Bchilled&amp;N $N to death! Don't forget to put flowers on the grave.</MessageKill>
+  <MessageWearOff>You feel less cold.</MessageWearOff>
+  <School>2048</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>offensive</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>true</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+
+    if( level > 20 )
+    level = 20;
+
+    int dam = MUDMath.Dice( 4, 3 ) + ( level * 3 / 2 );
+
+    if( !Magic.SpellSavingThrow( level, victim, AttackType.DamageType.cold ) )
+    {
+      Affect af = new Affect( Affect.AffectType.spell, spell.Name, 2, Affect.Apply.strength, -5, Affect.AFFECT_NONE );
+      victim.CombineAffect(af);
+      victim.SendText( "The chill seems to sap some of the strength from your body.\r\n" );
+    }
+    else
+    {
+      dam /= 2;
+    }
+
+    Combat.InflictSpellDamage( ch, victim, dam, spell, AttackType.DamageType.cold );
+
+    return;
+  </Code>
+  <DamageInflicted>cold</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>16</LevelCap>
+  <BaseDamage>8</BaseDamage>
+  <DamageDicePerLevel>2</DamageDicePerLevel>
+</Spell>

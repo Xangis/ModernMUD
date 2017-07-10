@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>acid spray</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+bYou cackle insanely as you spray &amp;+Gacid&amp;N&amp;+b all over &amp;n$N!&amp;n</MessageDamage>
+  <MessageDamageToVictim>&amp;+bYou scream when &amp;n$n&amp;+b sprays you with &amp;+Gacid.&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$N &amp;+bscreams as &amp;n$n&amp;+b sprays $M with &amp;+Gacid.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+bYou curse yourself as &amp;+Gacid&amp;N&amp;+b sprays into your face.&amp;n</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+bbegins cursing as $e sprays $mself with &amp;+Gacid.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>$n &amp;+bcackles as $e dissolves &amp;n$N&amp;+b with &amp;+Gacid.&amp;n</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

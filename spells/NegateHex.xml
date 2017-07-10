@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>negate hex</Name>
+  <ValidTargets>singleCharacterDefensive</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>1</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            /* victim cursed. */
+            if (victim.IsAffected(Affect.AFFECT_CURSE) || victim.HasAffect(
+                    Affect.AffectType.spell, "hex") || victim.HasAffect( Affect.AffectType.spell, "malison" ) )
+            {
+                victim.RemoveAffect(Affect.AFFECT_CURSE);
+                victim.AffectStrip( Affect.AffectType.spell, "malison");
+                victim.AffectStrip( Affect.AffectType.spell, "hex");
+                victim.SendText( "&amp;+WYou no longer feel spirits wishing you ill.&amp;n\r\n" );
+            }
+
+            if( ch != victim )
+                ch.SendText( "Done.\r\n" );
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

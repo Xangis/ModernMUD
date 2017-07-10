@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>stonestrength</Name>
+  <ValidTargets>singleCharacterDefensive</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>&amp;+yYour added strength returns to the earth.&amp;n</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if (victim.IsAffected(Affect.AFFECT_STRENGTH_INCREASED))
+            {
+                ch.SendText("Nothing happens.\r\n");
+                return;
+            }
+
+
+            victim.RemoveAffect(Affect.AFFECT_STRENGTH_REDUCED);
+            Affect af = new Affect(Affect.AffectType.spell, spell.Name, level, Affect.Apply.strength, 10 + level / 6, Affect.AFFECT_STRENGTH_INCREASED);
+
+            victim.AddAffect(af);
+
+            if( ch != victim )
+                ch.SendText( "&amp;+yYou call upon the elements.&amp;n\r\n" );
+            victim.SendText( "&amp;+yYou feel strong and sturdy as a &amp;+Lrock.&amp;n\r\n" );
+
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

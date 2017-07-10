@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>neural fragmentation</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>105</MinimumMana>
+  <CastingTime>18</CastingTime>
+  <MessageDamage>$N&amp;n convulses wildly as tiny &amp;+rexplosions&amp;n wrack $N&amp;n's &amp;+Mbrain&amp;n.</MessageDamage>
+  <MessageDamageToVictim>You convulse wildly as tiny &amp;+rexplosions&amp;n from $n&amp;N wrack your &amp;+Mbrain&amp;n.</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;n convulses wildly.</MessageDamageToRoom>
+  <MessageDamageToSelf>You neurofrag yourself.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+
+    if( level > 50 )
+    level = 50;
+
+    int dam = MUDMath.Dice( 30, 10 ) + ( level * 6 );
+
+    dam -= victim.GetCurrInt();
+
+    if( Magic.SpellSavingThrow( level, victim, AttackType.DamageType.energy ) )
+    dam /= 2;
+
+    Combat.InflictSpellDamage( ch, victim, dam, spell, AttackType.DamageType.energy );
+    return;
+  </Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

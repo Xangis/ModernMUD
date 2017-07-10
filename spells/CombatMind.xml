@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>combat mind</Name>
+  <ValidTargets>singleCharacterDefensive</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>&amp;+wYour battle sense has faded.&amp;n</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>128</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>noRefresh</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if (victim.IsAffected(Affect.AFFECT_BRAVE))
+            {
+                if( victim == ch )
+                    victim.SendText( "You already understand battle tactics.\r\n" );
+                else
+                    SocketConnection.Act( "$N already understands battle tactics.", ch, null, victim, SocketConnection.MessageTarget.character );
+                return;
+            }
+
+            Affect af = new Affect(Affect.AffectType.spell, spell.Name, 6 + level, Affect.Apply.hitroll, 1 + level / 7, Affect.AFFECT_BRAVE);
+            af.AddModifier(Affect.Apply.damroll, 2 + level / 25);
+            victim.AddAffect(af);
+
+            if( victim != ch )
+                ch.SendText( "Done.\r\n" );
+            victim.SendText( "You gain a keen understanding of battle tactics.\r\n" );
+            return;
+</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>none</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

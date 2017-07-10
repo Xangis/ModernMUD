@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>ice bolt</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>&amp;+CYou blast $N&amp;+C with your &amp;+Wice bolt&amp;N.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;+C hurls an &amp;+Wice bolt&amp;n&amp;+C straight into your chest!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$n &amp;+Cblasts $N&amp;+C with a magical spear of &amp;+Wice.&amp;N</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+CYou blast yourself with your own &amp;+Wice bolt!&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+Clooks bewildered while blasting $mself with a &amp;+W bolt of ice.&amp;N</MessageDamageSelfToRoom>
+  <MessageKill>$N &amp;+Cdies an icy death, shredded by &amp;n$n's &amp;+Wice bolt.&amp;N</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

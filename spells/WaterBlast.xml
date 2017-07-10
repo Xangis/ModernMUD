@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>water blast</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>20</MinimumMana>
+  <CastingTime>13</CastingTime>
+  <MessageDamage>&amp;+BYou blast &amp;n$N&amp;+B with a powerful bolt of pure water.&amp;N</MessageDamage>
+  <MessageDamageToVictim>&amp;+BA powerful blast of pure water sent by &amp;n$n&amp;+B slams into you, knocking the wind from your lungs&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;+B chokes as &amp;n$n&amp;+B tries to drown $M with a large blast of water.&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+bYou try to drown yourself with a blast of water.&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n &amp;+btries to drown $mself with a blast of water.&amp;n</MessageDamageSelfToRoom>
+  <MessageKill>$n&amp;+B's &amp;+Bdrowns &amp;n$N&amp;+B with a blast of water.&amp;n</MessageKill>
+  <MessageWearOff>&amp;+BThe world about you isn't as slippery anymore.&amp;n</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>4</School>
+  <ManaType>8</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

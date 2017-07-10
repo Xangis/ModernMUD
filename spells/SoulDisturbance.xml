@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>soul disturbance</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>16</CastingTime>
+  <MessageDamage>You disturb $N&amp;n's soul.</MessageDamage>
+  <MessageDamageToVictim>Your soul feels really uncomfortable.</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n raises $s arms and $N&amp;n looks really uncomfortable.</MessageDamageToRoom>
+  <MessageDamageToSelf>You try to fold up your soul, but fail.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n tries to fold $s soul up and put it in $s pocket.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n drops to the ground, $S body half as battered as $S soul.</MessageKill>
+  <MessageWearOff />
+  <School>262144</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

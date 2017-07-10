@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>touch of nightshade</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage>Your &amp;+Ltouch of nightshade&amp;n hits $N&amp;n, sending pain through $S body.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n's &amp;+Ltouch of nighshade&amp;n causes you to writhe in pain!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n hits $N&amp;n with a &amp;+Ltouch of nighshade&amp;n!</MessageDamageToRoom>
+  <MessageDamageToSelf>You touch yourself with &amp;+Lnighshade&amp;n.  Duh.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n invoked a touch of &amp;+Lnightshade&amp;n upon $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n crumples to the ground writhing in pain.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

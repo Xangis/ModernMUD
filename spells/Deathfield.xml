@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>deathfield</Name>
+  <ValidTargets>none</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>150</MinimumMana>
+  <CastingTime>18</CastingTime>
+  <MessageDamage>&amp;+LYou send out a wave of psionic death!&amp;n</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n &amp;+Lsends out a wave of psionic death, engulfing YOU!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n &amp;+Lsends out a wave of psionic death, engulfing $N&amp;n!&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>Your deathfield nearly tears your brain out of your head.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff />
+  <School>2176</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

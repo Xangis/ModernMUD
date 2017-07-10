@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>mental barrier</Name>
+  <ValidTargets>self</ValidTargets>
+  <CanCastInCombat>false</CanCastInCombat>
+  <MinimumMana>100</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>Your mental barrier breaks down.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>4</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>noRefresh</StackingType>
+  <Code>            CharData victim = (CharData)target;
+
+            if (victim.HasAffect( Affect.AffectType.spell, spell ))
+            
+{
+
+                victim.SendText( "You already have that effect.  Wait until it expires.\r\n" );
+                return;
+}
+            else
+            {
+                victim.SendText( "You erect a mental barrier around yourself.\r\n" );
+            }
+
+            Affect af = new Affect( Affect.AffectType.spell, spell.Name, 24 + level / 5, Affect.Apply.none, 0, Affect.AFFECT_NONE );
+
+            af.SetBitvector( Affect.AFFECT_PROTECT_COLD );
+            if (!victim.IsAffected( Affect.AFFECT_PROTECT_COLD))
+                victim.AddAffect(af);
+
+            af.SetBitvector( Affect.AFFECT_PROTECT_FIRE );
+            if (!victim.IsAffected( Affect.AFFECT_PROTECT_FIRE))
+                victim.AddAffect(af);
+
+            af.SetBitvector( Affect.AFFECT_PROTECT_GAS );
+            if (!victim.IsAffected( Affect.AFFECT_PROTECT_GAS))
+                victim.AddAffect(af);
+
+            af.SetBitvector( Affect.AFFECT_PROTECT_ACID );
+            if (!victim.IsAffected( Affect.AFFECT_PROTECT_ACID))
+                victim.AddAffect(af);
+
+            af.SetBitvector( Affect.AFFECT_PROTECT_LIGHTNING );
+            if (!victim.IsAffected( Affect.AFFECT_PROTECT_LIGHTNING))
+                victim.AddAffect(af);
+
+            victim.SendText( "You erect a mental barrier around yourself.\r\n" );
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>word of thendar</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>21</CastingTime>
+  <MessageDamage>$n&amp;+W utters a word of power, and nearly tears &amp;N$N&amp;+W apart!&amp;N</MessageDamage>
+  <MessageDamageToVictim>&amp;+WYour soul is nearly rended from your body by the force of &amp;N$n&amp;+W's word! &amp;+ROUCH!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>$N&amp;+W reels in agony from &amp;N$n&amp;+W's word of power!&amp;N</MessageDamageToRoom>
+  <MessageDamageToSelf>&amp;+WPerhaps the power of such magic should not be in the hands on someone like yourself... &amp;+ROUCH!&amp;N</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n&amp;+W blasts $mself with a word of power. &amp;N&amp;+wWhat a twit.&amp;N</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

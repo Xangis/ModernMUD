@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>inertial barrier</Name>
+  <ValidTargets>self</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>150</MinimumMana>
+  <CastingTime>24</CastingTime>
+  <MessageDamage />
+  <MessageDamageToVictim />
+  <MessageDamageToRoom />
+  <MessageDamageToSelf />
+  <MessageDamageSelfToRoom />
+  <MessageKill />
+  <MessageWearOff>Your inertial barrier dissipates.</MessageWearOff>
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>4</School>
+  <ManaType>2</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>halfHourPerLevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>noRefresh</StackingType>
+  <Code>            if (ch.IsAffected(Affect.AFFECT_INERTIAL_BARRIER))
+                return;
+            ch.SendText( "An inertial barrier forms around you.\r\n" );
+
+            Affect af = new Affect(Affect.AffectType.spell, spell.Name, 24 + level / 6, Affect.Apply.none, 0, Affect.AFFECT_INERTIAL_BARRIER);
+
+            ch.AddAffect(af);
+            return;</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>fireball</Name>
+  <ValidTargets>singleCharacterRanged</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>15</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You smirk as your &amp;+rfi&amp;+Rre&amp;+Yba&amp;+Rll&amp;n explodes in $N&amp;n's face.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n blasts you with a &amp;+rfi&amp;+Rre&amp;+Yba&amp;+Rll&amp;n!  Ouch!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n smirks as $s &amp;+rfi&amp;+Rre&amp;+Yba&amp;+Rll&amp;n explodes in $N&amp;n's face.</MessageDamageToRoom>
+  <MessageDamageToSelf>You blast yourself with a &amp;+rfi&amp;+Rre&amp;+Yba&amp;+Rll&amp;n, melting the flesh from your bones.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n blasts $mself with a &amp;+rfi&amp;+Rre&amp;+Yba&amp;+Rll&amp;n, melting the flesh from $s bones.</MessageDamageSelfToRoom>
+  <MessageKill>The fireball from $n&amp;n turns $N&amp;n into a smoldering ash heap!</MessageKill>
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>offensive</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>true</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>fire</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>32</LevelCap>
+  <BaseDamage>0</BaseDamage>
+  <DamageDicePerLevel>16</DamageDicePerLevel>
+</Spell>

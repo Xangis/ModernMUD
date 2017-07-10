@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>harm</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>35</MinimumMana>
+  <CastingTime>16</CastingTime>
+  <MessageDamage>You tear $N&amp;n's insides apart with a mighty harm spell!</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n tears apart your insides with a mighty harm spell!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n hits $N&amp;n with a harm spell!</MessageDamageToRoom>
+  <MessageDamageToSelf>You harm yourself.  Ouch.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n performs a ritual of pain upon $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$n&amp;n has done $N&amp;n too much harm.</MessageKill>
+  <MessageWearOff />
+  <MessageCompleted />
+  <MessageCompletedToTarget />
+  <MessageCompletedToRoom />
+  <School>2048</School>
+  <ManaType>1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

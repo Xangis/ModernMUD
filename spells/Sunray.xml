@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>sunray</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>5</MinimumMana>
+  <CastingTime>14</CastingTime>
+  <MessageDamage>You blast $N&amp;N with a &amp;+Ysunray&amp;n!</MessageDamage>
+  <MessageDamageToVictim>&amp;+YYou are blasted by a blinding ray of light!&amp;n</MessageDamageToVictim>
+  <MessageDamageToRoom>&amp;+Y$n&amp;+Y hits $N&amp;+Y with a blinding ray of light!&amp;n</MessageDamageToRoom>
+  <MessageDamageToSelf>You sunray yourself.  Blink.  Blink.</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n looks dazed after blasting $mself with a ray of light.</MessageDamageSelfToRoom>
+  <MessageKill />
+  <MessageWearOff>You can see again.</MessageWearOff>
+  <School>1</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>true</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code>
+    CharData victim = (CharData)target;
+    Affect af;
+
+    if( level > 45 )
+    level = 45;
+
+    if (victim.IsAffected(Affect.AFFECT_BLIND) || Magic.SpellSavingThrow(level, victim, AttackType.DamageType.black_magic))
+    {
+        Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( ( 3 * level ), 3 ), spell, AttackType.DamageType.light );
+    }
+    else
+    {
+        af = new Affect( Affect.AffectType.spell, spell.Name, 2 + level / 5, Affect.Apply.hitroll, -4, Affect.AFFECT_BLIND );
+
+        if( victim.IsNPC() )
+        af.Duration = 4 + level / 4;
+
+        victim.AddAffect(af);
+
+        SocketConnection.Act( "$N&amp;+L has been blinded!&amp;n", ch, null, victim, SocketConnection.MessageTarget.character );
+        victim.SendText( "&amp;+LYou have been struck blind!&amp;n\r\n" );
+        SocketConnection.Act( "$N&amp;+L has been blinded!&amp;n", ch, null, victim, SocketConnection.MessageTarget.everyone_but_victim );
+
+        if( victim.IsUndead() )
+        {
+            Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( ( 8 * level ), 3 ), spell, AttackType.DamageType.light );
+        }
+        else if( victim.GetRacewarSide() == Race.RacewarSide.evil )
+        {
+            Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( ( 7 * level ), 3 ), spell, AttackType.DamageType.light );
+        }
+        else if( victim.GetRacewarSide() == Race.RacewarSide.good )
+        {
+            Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( ( 6 * level ), 3 ), spell, AttackType.DamageType.light );
+        }
+        else
+        {
+            Combat.InflictSpellDamage( ch, victim, MUDMath.Dice( ( 4 * level ), 3 ), spell, AttackType.DamageType.light );
+        }
+
+    }
+
+    return;
+</Code>
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

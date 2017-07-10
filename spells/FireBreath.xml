@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>fire breath</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>50</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You breathe $N&amp;n with &amp;+rfire&amp;n, burning flesh from $S body.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n breathes &amp;+rfire&amp;n on you!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n breathes &amp;+rfire&amp;n on $N&amp;n, burning flesh from $S body.</MessageDamageToRoom>
+  <MessageDamageToSelf>You breathe &amp;+rfire&amp;n on yourself!</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n screams out in agony as $e breathes &amp;+rfire&amp;n on $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n's body collapses into a pile of &amp;+lash&amp;n.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>4</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>false</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>

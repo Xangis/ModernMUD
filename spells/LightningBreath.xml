@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Spell xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>lightning breath</Name>
+  <ValidTargets>singleCharacterOffensive</ValidTargets>
+  <CanCastInCombat>true</CanCastInCombat>
+  <MinimumMana>50</MinimumMana>
+  <CastingTime>12</CastingTime>
+  <MessageDamage>You breathe &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n on $N&amp;n, &amp;+yshocking&amp;n $M&amp;N.</MessageDamage>
+  <MessageDamageToVictim>$n&amp;n breathes &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n on you!</MessageDamageToVictim>
+  <MessageDamageToRoom>$n&amp;n breathes &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n on $N&amp;n, &amp;+yshocking&amp;n $M&amp;N.</MessageDamageToRoom>
+  <MessageDamageToSelf>You breathe &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n on yourself!</MessageDamageToSelf>
+  <MessageDamageSelfToRoom>$n&amp;n screams out in agony as $e breathes &amp;+Ylig&amp;+Whtn&amp;+Ying&amp;n on $mself.</MessageDamageSelfToRoom>
+  <MessageKill>$N&amp;n's body &amp;+Yconv&amp;nulses o&amp;+Yn&amp;n the f&amp;+Ylo&amp;nor, and t&amp;+Yh&amp;nen is &amp;+lstill&amp;n.</MessageKill>
+  <MessageWearOff />
+  <School>128</School>
+  <ManaType>-1</ManaType>
+  <AIPower>10</AIPower>
+  <AIChance>10</AIChance>
+  <AICategoryType>none</AICategoryType>
+  <Provides>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Provides>
+  <Negates>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+    <int>0</int>
+  </Negates>
+  <Modifies />
+  <Duration>oneHourPerlevel</Duration>
+  <Detrimental>false</Detrimental>
+  <CanBeScribed>false</CanBeScribed>
+  <StackingType>addDuration</StackingType>
+  <Code />
+  <DamageInflicted>none</DamageInflicted>
+  <SavingThrowEffect>halfDamageNoAffects</SavingThrowEffect>
+  <LevelCap>41</LevelCap>
+  <BaseDamage>1</BaseDamage>
+  <DamageDicePerLevel>6</DamageDicePerLevel>
+</Spell>
