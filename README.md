@@ -37,13 +37,32 @@ For a tool to convert MUD zones in other formats (Magma, Basternae 2) to ModernM
 
 https://github.com/Xangis/ModernMUDConverter
 
+# Building
+
+## Building on Windows
+
+There is a solution file at src/ModernMUD.sln. It's in an older version of Visual Studio,
+so if you have a newer version, you'll be asked to convert it. It should convert fine.
+
+The project relies on the .NET framework 2.0 or newer, so you'll need to have that.
+It's very unlikely that you won't have that if you have Visual Studio.
+
 ## Building on Linux
 
 At a minimum, you'll need to install xbuild and some other dependencies:
 
 sudo apt-get install xbuild libmono-microsoft-build-tasks-v4.0-4.0-cil mono-gmcs libmono-system-data2.0-cil libmono-system-windows-forms4.0
 
-## Development Status
+# Running
+
+Just run ModernMUD.exe and the MUD should be running on port 4502. If 
+connecting from the same machine that the program is running from, you can run 
+"telnet localhost 4502" to connect.
+
+On Windows, you will probably be shown a Windows Firewall prompt asking whether
+to allow access to the program. You should allow it.
+
+# Development Status
 
 ModernMUD is not under active development, but I do maintain it. I'll accept pull requests
 if you have changes that will make it more useful.
