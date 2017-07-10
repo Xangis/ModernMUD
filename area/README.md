@@ -15,6 +15,10 @@ at some point.
 
 Two sample areas are included:
 
+elf_hometown.are.xml - Cherdwyn, a hometown for Grey Elves.
+
+mino_strong.are.xml - The Minotaur stronghold.
+
 thri.are.xml - Thannik'Tzil, a hometown for the Thri-Kreen race.
 
 vkobolds.are.xml - A Kobold town.
