@@ -13,7 +13,7 @@ a base area, and that objects for spells that may or may not be implemented
 are required on every MUD, so hopefully we'll come up with something better
 at some point.
 
-Two sample areas are included:
+Some sample areas are included:
 
 elf_hometown.are.xml - Cherdwyn, a hometown for Grey Elves.
 
