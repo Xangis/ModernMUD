@@ -14,6 +14,11 @@ but it does build and run on Linux, and builds on OSX (though it has not been te
 on OSX). It is written in C++ and uses the wxWidgets libraries, which are available at
 http://www.wxwidgets.org.
 
+As an alternative, there is another open source project called wxMUD, which might be
+a good starting point for a custom client:
+
+http://wxmud.sourceforge.net/
+
 ### SDLClient
 
 The SDLClient contains a basic SDL-based telnet client that was released for webOS as
